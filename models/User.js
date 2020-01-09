@@ -18,6 +18,13 @@ const UserSchema = new mongoose.Schema({
     createdAt: {
       type: Date,
       default: Date.now()
+    },
+    activationCode: {
+      type: String
+    },
+    active: {
+      type: Boolean,
+      default: false
     }
   }
 })

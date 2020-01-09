@@ -4,6 +4,8 @@ const jwtStrategy = require('passport-jwt').Strategy
 const bcrypt = require('bcryptjs')
 const extractJwt = require('passport-jwt').ExtractJwt
 const config = require('config')
+const randomstring = require('randomstring')
+const emailSender = require('../config/mailer/emailSender')
 
 const User = require('../models/User')
 
@@ -25,19 +27,33 @@ passport.use(
           })
         }
 
-        // Encrypt password & save user
+        // Encrypt password
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
+
+        // Generate activation code
+        const activationCode = randomstring.generate()
 
         user = new User({
           local: {
             displayName: req.body.displayName,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            activationCode
           }
         })
 
+        // Save user
         await user.save()
+
+        // Send verification email
+        await emailSender({
+          emailType: 'verification',
+          receivers: email,
+          context: {
+            activationCode
+          }
+        })
 
         return done(null, user)
       } catch (error) {
@@ -70,6 +86,13 @@ passport.use(
         if (!isMatch) {
           return done(null, false, {
             message: 'Invalid credentials'
+          })
+        }
+
+        // Check if user is activated
+        if (!user.active) {
+          return done(null, false, {
+            message: 'User email is not verified'
           })
         }
 
