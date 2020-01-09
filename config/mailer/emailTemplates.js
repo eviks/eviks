@@ -1,17 +1,19 @@
-const verificationHtml = context => {
-  return `
-<h1>Hello!</h1>
-<br/>
-Your verification code is ${context.activationCode}`
-}
+const handlebars = require('handlebars')
+const fs = require('fs')
+const path = require('path')
 
 module.exports = (emailType, context) => {
+  const filePath = path.join(__dirname, `./emails/${emailType}.html`)
+  const source = fs.readFileSync(filePath, 'utf-8').toString()
+  const template = handlebars.compile(source)
+  const html = template(context)
+
   switch (emailType) {
     case 'verification':
       return {
         subject: 'Email Verification',
         text: '',
-        html: verificationHtml(context)
+        html
       }
   }
 }

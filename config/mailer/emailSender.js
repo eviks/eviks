@@ -1,22 +1,18 @@
 const nodemailer = require('nodemailer')
+const mailgunTransport = require('nodemailer-mailgun-transport')
 const emailTemplates = require('./emailTemplates')
 const config = require('config')
-const emailConnection = config.get('emailConnection')
+const mailgunOptions = config.get('mailgunOptions')
 
 module.exports = async params => {
   try {
     const { emailType, receivers, context } = params
     const { subject, text, html } = emailTemplates(emailType, context)
-    const { host, port, secure, auth } = emailConnection
-    const transporter = nodemailer.createTransport({
-      host,
-      port,
-      secure,
-      auth
-    })
+    const mailgunTransporter = mailgunTransport(mailgunOptions)
+    const transporter = nodemailer.createTransport(mailgunTransporter)
 
     let info = await transporter.sendMail({
-      from: `Eviks <${emailConnection.auth.user}>`,
+      from: `Eviks <postmaster@sandboxb7e2acbe200e4d28b100fc8557f041d1.mailgun.org>`,
       to: receivers,
       subject,
       text,
