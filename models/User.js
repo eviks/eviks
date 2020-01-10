@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   local: {
@@ -19,14 +19,20 @@ const UserSchema = new mongoose.Schema({
       type: Date,
       default: Date.now()
     },
-    activationCode: {
+    activationToken: {
       type: String
     },
     active: {
       type: Boolean,
       default: false
+    },
+    resetPasswordToken: {
+      type: String
+    },
+    resetPasswordExpires: {
+      type: Date
     }
   }
-})
+});
 
-module.exports = User = mongoose.model('user', UserSchema)
+module.exports = User = mongoose.model('user', UserSchema);
