@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
       console.error(err);
       return res.status(500).send('Server error...');
     } else if (info) {
-      return res.status(400).json({ errors: [info] });
+      return res.status(400).json({ errors: [info.message] });
     }
     res.json(user);
   })(req, res, next);

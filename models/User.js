@@ -19,19 +19,13 @@ const UserSchema = new mongoose.Schema({
       type: Date,
       default: Date.now()
     },
-    activationToken: {
-      type: String
-    },
+    activationToken: String,
     active: {
       type: Boolean,
       default: false
     },
-    resetPasswordToken: {
-      type: String
-    },
-    resetPasswordExpires: {
-      type: Date
-    }
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
   }
 });
 
