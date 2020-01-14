@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const PostSchema = new mongoose.Schema({
   user: {
@@ -55,8 +55,8 @@ const PostSchema = new mongoose.Schema({
     bargain: Boolean,
     progressPayment: Boolean
   },
-  photos: [String], // todo
+  photos: [{ type: mongoose.Schema.ObjectId, ref: 'uploads.files' }],
   contact: String
-});
+})
 
-module.exports = Post = mongoose.model('post', PostSchema);
+module.exports = Post = mongoose.model('post', PostSchema)

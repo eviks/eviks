@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000
 connectDB()
 
 // Passport config
-require('./config/passport')
+require('./middleware/passport')
 
 // Init middlewares
 app.use(express.json({ extended: false }))

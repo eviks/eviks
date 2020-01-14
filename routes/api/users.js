@@ -26,10 +26,10 @@ router.post(
 
     passport.authenticate('local-signup', (err, user, info) => {
       if (err) {
-        console.error(err)
+        console.error(err.message)
         return res.status(500).send('Server error...')
       } else if (info) {
-        return res.status(400).json({ errors: [info] })
+        return res.status(400).json({ errors: [info.message] })
       }
       res.send('User created')
     })(req, res, next)

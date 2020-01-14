@@ -1,20 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
   local: {
-    displayName: {
-      type: String,
-      required: false
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true
-    },
-    password: {
-      type: String,
-      required: true
-    },
+    displayName: String,
+    email: String,
+    password: String,
     createdAt: {
       type: Date,
       default: Date.now()
@@ -27,6 +17,6 @@ const UserSchema = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpires: Date
   }
-});
+})
 
-module.exports = User = mongoose.model('user', UserSchema);
+module.exports = User = mongoose.model('user', UserSchema)
