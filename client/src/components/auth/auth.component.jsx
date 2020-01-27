@@ -1,9 +1,16 @@
 import React, { Fragment } from 'react'
+import styled, { keyframes } from 'styled-components'
+import { fadeIn } from 'react-animations'
 import './auth.styles.scss'
+
+const FadeInAnimation = keyframes`${fadeIn}`
+const FadeInDiv = styled.div`
+  animation: 0.5s ${FadeInAnimation};
+`
 
 const Auth = ({ handleCloseModal }) => {
   return (
-    <div className="popup">
+    <FadeInDiv className="popup">
       <div className="form-container">
         <form action="#">
           <h1>Create Account</h1>
@@ -33,7 +40,7 @@ const Auth = ({ handleCloseModal }) => {
       <div className="overlay-container">
         <div className="overlay"></div>
       </div>
-    </div>
+    </FadeInDiv>
   )
 }
 
