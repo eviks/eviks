@@ -27,7 +27,9 @@ const Navbar = () => {
         </h1>
         <ul>
           <li>
-            <Link onClick={() => handleOpenModal()}>Sign in or Join</Link>
+            <Link to="" onClick={() => handleOpenModal()}>
+              Sign in or Join
+            </Link>
           </li>
         </ul>
       </nav>

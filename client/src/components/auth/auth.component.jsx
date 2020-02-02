@@ -1,44 +1,59 @@
-import React, { Fragment } from 'react'
+import React, { useState } from 'react'
+import Register from './register/register.component'
+import Login from './login/login.component'
 import styled, { keyframes } from 'styled-components'
-import { fadeIn } from 'react-animations'
+import { fadeIn, fadeOut } from 'react-animations'
 import './auth.styles.scss'
 
 const FadeInAnimation = keyframes`${fadeIn}`
+const FadeOutAnimation = keyframes`${fadeOut}`
 const FadeInDiv = styled.div`
-  animation: 0.5s ${FadeInAnimation};
+  animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
 
 const Auth = ({ handleCloseModal }) => {
+  const [state, setState] = useState({ action: 'login' })
+  const { action } = state
+
   return (
     <FadeInDiv className="popup">
       <div className="form-container">
-        <form action="#">
-          <h1>Create Account</h1>
-          <div class="social-container">
-            <a href="#" class="social">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social">
-              <i class="fab fa-google-plus-g"></i>
-            </a>
-          </div>
-          <input className="input-field" type="text" placeholder="Name" />
-          <input className="input-field" type="email" placeholder="Email" />
+        <div className="button-box">
           <input
-            className="input-field"
-            type="password"
-            placeholder="Password"
+            id="login"
+            className="toggle toggle-left"
+            name="auth"
+            type="radio"
+            defaultChecked
+            onClick={() => setState({ action: 'login' })}
           />
+          <label htmlFor="login" className="btn btn-toggle">
+            Login
+          </label>
           <input
-            className="input-field"
-            type="submit"
-            className="btn btn-primary"
-            value="Sign Up"
+            id="register"
+            className="toggle toggle-right"
+            name="auth"
+            type="radio"
+            onClick={() => setState({ action: 'register' })}
           />
-        </form>
+          <label htmlFor="register" className="btn btn-toggle">
+            Register
+          </label>
+        </div>
+        {action === 'login' ? <Login /> : <Register />}
       </div>
       <div className="overlay-container">
-        <div className="overlay"></div>
+        <div className="overlay">
+          <span className="x-large">
+            Get
+            <br />
+            better
+            <br />
+            experience
+            <br />
+          </span>
+        </div>
       </div>
     </FadeInDiv>
   )
