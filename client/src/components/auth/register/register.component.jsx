@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { fadeInRight } from 'react-animations'
+import { useTranslation } from 'react-i18next'
 
 const FadeInRightAnimation = keyframes`${fadeInRight}`
 const FadeInRightForm = styled.form`
@@ -13,6 +14,7 @@ const Register = () => {
     email: '',
     password: ''
   })
+  const [t] = useTranslation()
   const { displayName, email, password } = formData
 
   const onChange = e =>
@@ -24,9 +26,9 @@ const Register = () => {
 
   return (
     <FadeInRightForm onSubmit={e => onSubmit(e)}>
-      <h1>Create Account</h1>
+      <h1>{t('registerTitle')}</h1>
       <label htmlFor="displayName">
-        <i className="fas fa-user"></i> Name
+        <i className="fas fa-user"></i> {t('displayName')}
       </label>
       <input
         className="input-field"
@@ -37,7 +39,7 @@ const Register = () => {
         onChange={e => onChange(e)}
       />
       <label htmlFor="email">
-        <i className="fas fa-at"></i> Email
+        <i className="fas fa-at"></i> {t('email')}
       </label>
       <input
         className="input-field"
@@ -48,7 +50,7 @@ const Register = () => {
         onChange={e => onChange(e)}
       />
       <label htmlFor="password">
-        <i className="fas fa-lock"></i> Password
+        <i className="fas fa-lock"></i> {t('password')}
       </label>
       <input
         className="input-field"
@@ -58,7 +60,7 @@ const Register = () => {
         required
         onChange={e => onChange(e)}
       />
-      <input className="btn btn-primary" type="submit" value="Sign Up" />
+      <input className="btn btn-primary" type="submit" value={t('signUp')} />
     </FadeInRightForm>
   )
 }

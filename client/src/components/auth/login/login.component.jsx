@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import { fadeInLeft } from 'react-animations'
+import { useTranslation } from 'react-i18next'
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`
 const FadeInLeftForm = styled.form`
@@ -10,6 +11,7 @@ const FadeInLeftForm = styled.form`
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' })
+  const [t] = useTranslation()
   const { email, password } = formData
 
   const onChange = e =>
@@ -21,7 +23,7 @@ const Login = () => {
 
   return (
     <FadeInLeftForm onSubmit={e => onSubmit(e)}>
-      <h1>Welcome back!</h1>
+      <h1>{t('loginTitle')}</h1>
       <div className="social-container">
         <Link to="#" className="social">
           <i className="fab fa-facebook-f"></i>
@@ -31,7 +33,7 @@ const Login = () => {
         </Link>
       </div>
       <label htmlFor="email">
-        <i className="fas fa-at"></i> Email
+        <i className="fas fa-at"></i> {t('email')}
       </label>
       <input
         className="input-field"
@@ -42,7 +44,7 @@ const Login = () => {
         onChange={e => onChange(e)}
       />
       <label htmlFor="password">
-        <i className="fas fa-lock"></i> Password
+        <i className="fas fa-lock"></i> {t('password')}
       </label>
       <input
         className="input-field"
@@ -52,8 +54,8 @@ const Login = () => {
         required
         onChange={e => onChange(e)}
       />
-      <input className="btn btn-primary" type="submit" value="Sign In" />
-      <a href="#">Oops! I forgot my password</a>
+      <input className="btn btn-primary" type="submit" value={t('signIn')} />
+      <a href="#">{t('forgotPassword')}</a>
     </FadeInLeftForm>
   )
 }

@@ -4,6 +4,7 @@ import Login from './login/login.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
 import './auth.styles.scss'
+import { useTranslation } from 'react-i18next'
 
 const FadeInAnimation = keyframes`${fadeIn}`
 const FadeOutAnimation = keyframes`${fadeOut}`
@@ -13,6 +14,7 @@ const FadeInDiv = styled.div`
 
 const Auth = ({ handleCloseModal }) => {
   const [state, setState] = useState({ action: 'login' })
+  const [t] = useTranslation()
   const { action } = state
 
   return (
@@ -28,7 +30,7 @@ const Auth = ({ handleCloseModal }) => {
             onClick={() => setState({ action: 'login' })}
           />
           <label htmlFor="login" className="btn btn-toggle">
-            Login
+            {t('login')}
           </label>
           <input
             id="register"
@@ -38,21 +40,14 @@ const Auth = ({ handleCloseModal }) => {
             onClick={() => setState({ action: 'register' })}
           />
           <label htmlFor="register" className="btn btn-toggle">
-            Register
+            {t('register')}
           </label>
         </div>
         {action === 'login' ? <Login /> : <Register />}
       </div>
       <div className="overlay-container">
         <div className="overlay">
-          <span className="x-large">
-            Get
-            <br />
-            better
-            <br />
-            experience
-            <br />
-          </span>
+          <span className="large">{t('authTitle')}</span>
         </div>
       </div>
     </FadeInDiv>

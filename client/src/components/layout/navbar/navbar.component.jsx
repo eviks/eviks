@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom'
 import Auth from '../../auth/auth.component'
 import ReactModal from 'react-modal'
 import './navbar.styles.scss'
+import { useTranslation } from 'react-i18next'
 
 const Navbar = () => {
   const [state, setState] = useState({ showAuthModal: false })
+  const [t, i18n] = useTranslation()
   const { showAuthModal } = state
 
   const handleOpenModal = () => {
@@ -14,6 +16,10 @@ const Navbar = () => {
 
   const handleCloseModal = () => {
     setState({ showAuthModal: false })
+  }
+
+  const changeLanguage = lng => {
+    i18n.changeLanguage(lng)
   }
 
   return (
@@ -28,9 +34,17 @@ const Navbar = () => {
         <ul>
           <li>
             <Link to="" onClick={() => handleOpenModal()}>
-              Sign in or Join
+              {t('joinOrSignIn')}
             </Link>
           </li>
+          <div className="lang">
+            <li>
+              <button onClick={() => changeLanguage('az')}>AZ</button>
+            </li>
+            <li>
+              <button onClick={() => changeLanguage('ru')}>RU</button>
+            </li>
+          </div>
         </ul>
       </nav>
       <ReactModal

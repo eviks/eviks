@@ -19,6 +19,7 @@
 
     .button-box {
       position: 'relative';
+      justify-self: center;
       height: 10%;
       width: 100%;
       padding-top: 1rem;
@@ -32,6 +33,10 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+
+      h1 {
+        margin: auto;
+      }
 
       input[type='submit'] {
         margin-top: 1.1rem;
@@ -82,5 +87,6 @@
     line-height: 1;
     bottom: 0;
     padding: 2rem 1rem;
+    margin-bottom: 2rem;
   }
 }

@@ -19,7 +19,7 @@
 
   ul {
     display: flex;
-
+    align-items: center;
     li {
       a {
         position: relative;
@@ -38,6 +38,30 @@
         }
         &:hover:after {
           width: 40px;
+        }
+      }
+    }
+
+    .lang {
+      display: flex;
+      margin-left: 3rem;
+      li {
+        button {
+          position: relative;
+          display: inline-block;
+          background: transparent;
+          border: none;
+          border: 1px solid transparent;
+          border-radius: 50%;
+          margin: 0 0.25rem;
+          padding: 0.5rem;
+          color: $light-color;
+          outline: none;
+          cursor: pointer;
+          transition: border 0.5s;
+          &:hover {
+            border: 1px solid $light-color;
+          }
         }
       }
     }
