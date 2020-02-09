@@ -6,17 +6,23 @@ import Modal from 'react-modal'
 import Auth from './components/auth/auth.component'
 import './sass/style.scss'
 
+// Redux
+import { Provider } from 'react-redux'
+import store from './store'
+
 Modal.setAppElement('body')
 
 const App = () => {
   return (
-    <Router>
-      <Fragment>
-        <Navbar />
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/auth" component={Auth} />
-      </Fragment>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Fragment>
+          <Navbar />
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/auth" component={Auth} />
+        </Fragment>
+      </Router>
+    </Provider>
   )
 }
 
