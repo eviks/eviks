@@ -19,7 +19,9 @@ const resources = {
       password: 'Şifrə',
       signIn: 'Daxil ol',
       signUp: 'Qeydiyyatdan keç',
-      forgotPassword: 'Ups! Şifrəni unutdum'
+      forgotPassword: 'Ups! Şifrəni unutdum',
+      checkEmailTitle: 'Sizə məktub!',
+      checkEmail: 'Təsdiqi ilə məktub göndərildi {{email}}'
     }
   },
   ru: {
@@ -39,7 +41,9 @@ const resources = {
       password: 'Пароль',
       signIn: 'Войти',
       signUp: 'Зарегистрироваться',
-      forgotPassword: 'Упс! Я забыл пароль'
+      forgotPassword: 'Упс! Я забыл пароль',
+      checkEmailTitle: 'Вам письмо!',
+      checkEmail: 'Письмо с подтверждением было отправлено на {{email}}'
     }
   }
 }

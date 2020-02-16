@@ -43,7 +43,11 @@ const Auth = ({ handleCloseModal }) => {
             {t('register')}
           </label>
         </div>
-        {action === 'login' ? <Login /> : <Register />}
+        {action === 'login' ? (
+          <Login />
+        ) : (
+          <Register handleCloseModal={handleCloseModal} />
+        )}
       </div>
       <div className="overlay-container">
         <div className="overlay">

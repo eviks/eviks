@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
       console.error(err.message)
       return res.status(500).send('Server error...')
     } else if (info) {
-      return res.status(400).json({ errors: [info.message] })
+      return res.status(400).json({ errors: [info] })
     }
     res.json(user)
   })(req, res, next)
@@ -48,7 +48,7 @@ router.post(
         console.error(err.message)
         return res.status(500).send('Server error...')
       } else if (info) {
-        return res.status(400).json({ errors: [info.message] })
+        return res.status(400).json({ errors: [info] })
       }
       const payload = {
         user: {
@@ -66,46 +66,43 @@ router.post(
 // @route POST api/auth/verification
 // @desc  Email verification
 // @acess Public
-router.post(
-  '/verification',
-  check('activationToken', 'Activation token is required').exists(),
+router.post('/verification/:activationToken', async (req, res, next) => {
+  try {
+    const { activationToken } = req.params
 
-  async (req, res, next) => {
-    // Validation
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
+    // Find user by activation token
+    let user = await User.findOne({
+      'local.active': false,
+      'local.activationToken': activationToken
+    })
+
+    // User not found
+    if (!user) {
       return res.status(400).json({
-        errors: errors.array()
+        errors: [{ message: 'Wrong activation token' }]
       })
     }
-    try {
-      const { activationToken } = req.body
 
-      // Find user by activation token
-      let user = await User.findOne({
-        'local.active': false,
-        'local.activationToken': activationToken
-      })
+    // Update user
+    user.local.active = true
+    user.local.activationToken = undefined
+    await user.save()
 
-      // User not found
-      if (!user) {
-        return res.status(400).json({
-          errors: [{ message: 'Wrong activation token' }]
-        })
+    // Login user
+    const payload = {
+      user: {
+        id: user.id
       }
-
-      // Update user
-      user.local.active = true
-      user.local.activationToken = undefined
-      await user.save()
-
-      return res.json({ user })
-    } catch (error) {
-      console.error(error.message)
-      return res.status(500).send('Server error...')
     }
+    const token = jwt.sign(payload, config.get('jwtSecret'), {
+      expiresIn: 360000
+    })
+    res.json({ token })
+  } catch (error) {
+    console.error(error.message)
+    return res.status(500).send('Server error...')
   }
-)
+})
 
 // @route POST api/auth/forgot
 // @desc  Forgot password

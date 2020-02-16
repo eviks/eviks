@@ -21,9 +21,9 @@ passport.use(
       try {
         // Check if user already exists
         let user = await User.findOne({ 'local.email': email })
-        if (user) {
+        if (user && user.active) {
           return done(null, false, {
-            message: 'This email is already taken'
+            msg: 'This email is already taken'
           })
         }
 
@@ -78,7 +78,7 @@ passport.use(
         let user = await User.findOne({ 'local.email': email })
         if (!user) {
           return done(null, false, {
-            message: 'Invalid credentials'
+            msg: 'Invalid credentials'
           })
         }
 
@@ -86,14 +86,14 @@ passport.use(
         const isMatch = await bcrypt.compare(password, user.local.password)
         if (!isMatch) {
           return done(null, false, {
-            message: 'Invalid credentials'
+            msg: 'Invalid credentials'
           })
         }
 
         // Check if user is activated
         if (!user.local.active) {
           return done(null, false, {
-            message: 'User email is not verified'
+            msg: 'User email is not verified'
           })
         }
 
@@ -117,7 +117,7 @@ passport.use(
         user = await User.findById(jwtPayload.user.id).select('-password')
         if (!user) {
           return done(null, false, {
-            message: 'Authorization denied'
+            msg: 'Authorization denied'
           })
         }
         return done(null, user)

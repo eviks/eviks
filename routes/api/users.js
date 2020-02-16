@@ -29,9 +29,9 @@ router.post(
         console.error(err.message)
         return res.status(500).send('Server error...')
       } else if (info) {
-        return res.status(400).json({ errors: [info.message] })
+        return res.status(400).json({ errors: [info] })
       }
-      res.send('User created')
+      res.json({ message: 'User created' })
     })(req, res, next)
   }
 )

@@ -5,14 +5,17 @@ import Alert from '../../layout/alert/alert.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInRight } from 'react-animations'
 import { useTranslation } from 'react-i18next'
+import { toastr } from 'react-redux-toastr'
+import MessageIcon from '../../layout/icons/messageIcon.component'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 
 const FadeInRightAnimation = keyframes`${fadeInRight}`
 const FadeInRightForm = styled.form`
   animation: 0.5s ${FadeInRightAnimation};
 `
 
-const Register = ({ setAlert }) => {
+const Register = ({ handleCloseModal, setAlert }) => {
   const [formData, setFormData] = useState({
     displayName: '',
     email: '',
@@ -24,9 +27,34 @@ const Register = ({ setAlert }) => {
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault()
-    setAlert('Error!', 'danger', 5000)
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      const body = JSON.stringify({ displayName, email, password })
+      await axios.post('/api/users/', body, config)
+
+      const toastrOptions = {
+        timeOut: 0,
+        icon: <MessageIcon />,
+        status: 'info'
+      }
+      toastr.light(
+        t('checkEmailTitle'),
+        t('checkEmail', { email }),
+        toastrOptions
+      )
+      handleCloseModal()
+    } catch (error) {
+      const errors = error.response.data.errors
+      if (errors) {
+        errors.forEach(error => setAlert(error.msg, 'danger'))
+      }
+    }
   }
 
   return (
