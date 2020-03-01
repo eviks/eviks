@@ -21,7 +21,7 @@ passport.use(
       try {
         // Check if user already exists
         let user = await User.findOne({ 'local.email': email })
-        if (user && user.active) {
+        if (user && user.local.active) {
           return done(null, false, {
             msg: 'This email is already taken'
           })
@@ -34,14 +34,23 @@ passport.use(
         // Generate activation token
         const activationToken = randomstring.generate()
 
-        user = new User({
-          local: {
+        if (user) {
+          user.local = {
+            ...user.local,
             displayName: req.body.displayName,
-            email,
             password: hashedPassword,
             activationToken
           }
-        })
+        } else {
+          user = new User({
+            local: {
+              displayName: req.body.displayName,
+              email,
+              password: hashedPassword,
+              activationToken
+            }
+          })
+        }
 
         // Save user
         await user.save()
@@ -114,7 +123,7 @@ passport.use(
     },
     async (jwtPayload, done) => {
       try {
-        user = await User.findById(jwtPayload.user.id).select('-password')
+        user = await User.findById(jwtPayload.user.id).select('-local.password')
         if (!user) {
           return done(null, false, {
             msg: 'Authorization denied'

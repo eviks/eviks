@@ -44,7 +44,7 @@ const Auth = ({ handleCloseModal }) => {
           </label>
         </div>
         {action === 'login' ? (
-          <Login />
+          <Login handleCloseModal={handleCloseModal} />
         ) : (
           <Register handleCloseModal={handleCloseModal} />
         )}

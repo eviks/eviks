@@ -59,7 +59,7 @@ const Register = ({ handleCloseModal, setAlert }) => {
 
   return (
     <FadeInRightForm onSubmit={e => onSubmit(e)}>
-      <h1>{t('registerTitle')}</h1>
+      <h3 className="lead">{t('registerTitle')}</h3>
       <Alert />
       <label htmlFor="displayName">
         <i className="fas fa-user"></i> {t('displayName')}

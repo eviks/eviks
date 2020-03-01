@@ -16,6 +16,16 @@
   background: rgba($dark-color, 0.2);
 }
 
+// Container
+.container {
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 6rem;
+  overflow: hidden;
+  padding: 0 2rem;
+  margin-bottom: 3rem;
+}
+
 // Buttons
 .btn {
   display: inline-block;

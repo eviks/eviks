@@ -63,7 +63,7 @@ router.post(
   }
 )
 
-// @route POST api/auth/verification
+// @route POST api/auth/verification/:activationToken
 // @desc  Email verification
 // @acess Public
 router.post('/verification/:activationToken', async (req, res, next) => {
@@ -79,7 +79,7 @@ router.post('/verification/:activationToken', async (req, res, next) => {
     // User not found
     if (!user) {
       return res.status(400).json({
-        errors: [{ message: 'Wrong activation token' }]
+        errors: [{ msg: 'Wrong activation token' }]
       })
     }
 
@@ -104,11 +104,11 @@ router.post('/verification/:activationToken', async (req, res, next) => {
   }
 })
 
-// @route POST api/auth/forgot
-// @desc  Forgot password
+// @route POST api/auth/reset_password
+// @desc  Reset password
 // @acess Public
 router.post(
-  '/forgot',
+  '/reset_password',
   [check('email', 'Please include a valid email').isEmail()],
   async (req, res, next) => {
     // Validation
@@ -130,7 +130,7 @@ router.post(
       // User not found
       if (!user) {
         return res.status(400).json({
-          errors: [{ message: 'No account with that email address exist' }]
+          errors: [{ msg: 'No account with that email address exist' }]
         })
       }
 
@@ -184,7 +184,7 @@ router.post(
 
       if (password !== confirm) {
         return res.status(400).json({
-          errors: [{ message: 'Passwords do not match' }]
+          errors: [{ msg: 'Passwords do not match' }]
         })
       }
 
@@ -199,7 +199,7 @@ router.post(
       // User not found
       if (!user) {
         return res.status(400).json({
-          errors: [{ message: 'Wrong reset password token' }]
+          errors: [{ msg: 'Wrong reset password token' }]
         })
       }
 

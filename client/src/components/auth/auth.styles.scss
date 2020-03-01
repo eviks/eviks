@@ -34,8 +34,9 @@
       align-items: center;
       text-align: center;
 
-      h1 {
+      h3 {
         margin: auto;
+        line-height: 1;
       }
 
       input[type='submit'] {
@@ -50,6 +51,7 @@
 
     .social-container {
       margin: 0.8rem 0;
+      // margin: auto;
       a {
         border: 1px solid #ddd;
         border-radius: 50%;
