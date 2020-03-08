@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import './landing.styles.scss'
 import { useTranslation } from 'react-i18next'
+
+import './landing.styles.scss'
 
 const Landing = () => {
   const [t] = useTranslation()
@@ -15,13 +16,9 @@ const Landing = () => {
             <Link to="search" className="btn btn-primary">
               {t('search')}
             </Link>
-            <Link to="create" className="btn btn-secondary">
+            <Link to="create" className="btn btn-ghost">
               {t('sell')}
             </Link>
-          </div>
-          <div className="scroll-down-icon">
-            <i className="fas fa-mouse fa-3x"></i>
-            <i className="fas fa-caret-down fa-3x"></i>
           </div>
         </div>
       </div>

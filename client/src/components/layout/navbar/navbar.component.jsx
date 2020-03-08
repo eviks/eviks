@@ -4,9 +4,10 @@ import { connect } from 'react-redux'
 import { logout } from '../../../actions/auth'
 import Auth from '../../auth/auth.component'
 import ReactModal from 'react-modal'
-import './navbar.styles.scss'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
+
+import './navbar.styles.scss'
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const [state, setState] = useState({ showAuthModal: false })
@@ -26,28 +27,43 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   }
 
   const authLinks = (
-    <li>
-      <a href="#!" onClick={logout}>
-        {t('logout')} <i className="fas fa-sign-out-alt"></i>
-      </a>
-    </li>
+    <Fragment>
+      <li>
+        <Link to="/">
+          <i className="fas fa-heart"></i> {t('favorites')}
+        </Link>
+      </li>
+      <li>
+        <Link to="/">
+          <i className="fas fa-user"></i> {t('myAccount')}
+        </Link>
+      </li>
+      <li>
+        <a href="#!" onClick={logout}>
+          <i className="fas fa-sign-out-alt"></i> {t('logout')}
+        </a>
+      </li>
+    </Fragment>
   )
 
   const guestLinks = (
     <li>
       <Link to="" onClick={() => handleOpenModal()}>
-        {t('joinOrSignIn')}
+        <i className="fas fa-sign-in-alt"></i> {t('joinOrSignIn')}
       </Link>
     </li>
   )
 
   return (
     <Fragment>
-      <nav className="navbar bg-gradient">
+      <nav className="navbar">
         <h1>
           <Link to="/">
             {' '}
-            <i className="fas fa-home"></i> Eviks{' '}
+            <span className="text-primary">
+              {' '}
+              <i className="fas fa-home"></i> Eviks{' '}
+            </span>
           </Link>
         </h1>
         <ul>

@@ -56,7 +56,11 @@ const PostSchema = new mongoose.Schema({
     progressPayment: Boolean
   },
   photos: [{ type: mongoose.Schema.ObjectId, ref: 'uploads.files' }],
-  contact: String
+  contact: String,
+  date: {
+    type: Date,
+    default: Date.now()
+  }
 })
 
 module.exports = Post = mongoose.model('post', PostSchema)

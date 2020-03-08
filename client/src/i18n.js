@@ -22,7 +22,10 @@ const resources = {
       logout: 'Çıxış',
       forgotPassword: 'Ups! Şifrəni unutdum',
       checkEmailTitle: 'Sizə məktub!',
-      checkEmail: 'Təsdiqi ilə məktub göndərildi {{email}}'
+      checkEmail: 'Təsdiqi ilə məktub göndərildi {{email}}',
+      favorites: 'Seçilmişlər',
+      myAccount: 'Mənim hesabım',
+      room: 'otaq'
     }
   },
   ru: {
@@ -45,7 +48,10 @@ const resources = {
       logout: 'Выйти',
       forgotPassword: 'Упс! Я забыл пароль',
       checkEmailTitle: 'Вам письмо!',
-      checkEmail: 'Письмо с подтверждением было отправлено на {{email}}'
+      checkEmail: 'Письмо с подтверждением было отправлено на {{email}}',
+      favorites: 'Избранное',
+      myAccount: 'Мой аккаунт',
+      room: 'комната'
     }
   }
 }

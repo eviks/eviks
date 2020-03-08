@@ -3,8 +3,9 @@ import Register from './register/register.component'
 import Login from './login/login.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
-import './auth.styles.scss'
 import { useTranslation } from 'react-i18next'
+
+import './auth.styles.scss'
 
 const FadeInAnimation = keyframes`${fadeIn}`
 const FadeOutAnimation = keyframes`${fadeOut}`

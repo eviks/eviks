@@ -3,7 +3,7 @@
 .landing {
   position: relative;
   background: url('../../../img/Showcase.jpg') no-repeat center center/cover;
-  height: 100vh;
+  height: 70vh;
 
   h1 {
     text-transform: uppercase;
@@ -27,12 +27,5 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-  }
-  .scroll-down-icon {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-    bottom: 0;
   }
 }

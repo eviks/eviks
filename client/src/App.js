@@ -9,6 +9,7 @@ import ReduxToastr from 'react-redux-toastr'
 import Auth from './components/auth/auth.component'
 import Verification from './components/auth/verification/verification.component'
 import ResetPassword from './components/auth/resetPassword/resetPassword.component'
+import Posts from './components/posts/posts.component'
 
 import './sass/style.scss'
 import './i18n'
@@ -44,6 +45,7 @@ const App = () => {
               component={Verification}
             />
             <Route exact path="/reset_password" component={ResetPassword} />
+            <Route exact path="/posts" component={Posts} />
           </Fragment>
         </Router>
         <ReduxToastr
