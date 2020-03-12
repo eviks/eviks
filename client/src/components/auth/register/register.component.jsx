@@ -61,33 +61,33 @@ const Register = ({ handleCloseModal, setAlert }) => {
     <FadeInRightForm onSubmit={e => onSubmit(e)}>
       <h3 className="lead">{t('registerTitle')}</h3>
       <Alert />
-      <label htmlFor="displayName">
+      <label htmlFor="displayName" className="label-flex">
         <i className="fas fa-user"></i> {t('displayName')}
       </label>
       <input
-        className="input-field"
+        className="input-field-radius"
         type="text"
         name="displayName"
         value={displayName}
         required
         onChange={e => onChange(e)}
       />
-      <label htmlFor="email">
+      <label htmlFor="email" className="label-flex">
         <i className="fas fa-at"></i> {t('email')}
       </label>
       <input
-        className="input-field"
+        className="input-field-radius"
         type="email"
         name="email"
         value={email}
         required
         onChange={e => onChange(e)}
       />
-      <label htmlFor="password">
+      <label htmlFor="password" className="label-flex">
         <i className="fas fa-lock"></i> {t('password')}
       </label>
       <input
-        className="input-field"
+        className="input-field-radius"
         type="password"
         name="password"
         value={password}

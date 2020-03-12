@@ -11,7 +11,8 @@ const PostItem = ({
     priceInfo: { price },
     estate: { sqm, rooms, floor, totalFloors },
     generalInfo: { city, district },
-    date
+    date,
+    _id
   }
 }) => {
   const [t] = useTranslation()
@@ -20,7 +21,7 @@ const PostItem = ({
     style: 'decimal'
   })
   return (
-    <Link class="card" to="/posts/:id">
+    <Link class="card" to={`/posts/${_id}`}>
       <div class="card-images">
         <img
           src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1873&q=80"

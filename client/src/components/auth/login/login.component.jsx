@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Alert from '../../layout/alert/alert.component'
 import styled, { keyframes } from 'styled-components'
@@ -27,7 +27,12 @@ const Login = ({ handleCloseModal, login, isAuthenticated }) => {
   }
 
   if (isAuthenticated) {
-    handleCloseModal()
+    if (handleCloseModal !== undefined) {
+      console.log(handleCloseModal)
+      handleCloseModal()
+    } else {
+      return <Redirect to="/" />
+    }
   }
 
   return (
@@ -42,22 +47,22 @@ const Login = ({ handleCloseModal, login, isAuthenticated }) => {
           <i className="fab fa-google-plus-g"></i>
         </Link>
       </div>
-      <label htmlFor="email">
+      <label htmlFor="email" className="label-flex">
         <i className="fas fa-at"></i> {t('email')}
       </label>
       <input
-        className="input-field"
+        className="input-field-radius"
         type="email"
         name="email"
         value={email}
         required
         onChange={e => onChange(e)}
       />
-      <label htmlFor="password">
+      <label htmlFor="password" className="label-flex">
         <i className="fas fa-lock"></i> {t('password')}
       </label>
       <input
-        className="input-field"
+        className="input-field-radius"
         type="password"
         name="password"
         value={password}

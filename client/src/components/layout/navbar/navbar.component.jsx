@@ -86,7 +86,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         className="modal"
         overlayClassName="modal-overlay"
       >
-        <Auth handleCloseModal={handleCloseModal} />
+        <Auth handleCloseModal={handleCloseModal} showOverlay={true} />
       </ReactModal>
     </Fragment>
   )

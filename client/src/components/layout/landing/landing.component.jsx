@@ -13,10 +13,10 @@ const Landing = () => {
           <h1 className="x-large">{t('welcome')}</h1>
           <p className="lead">{t('slogan')}</p>
           <div className="buttons">
-            <Link to="search" className="btn btn-primary">
+            <Link to="posts" className="btn btn-primary">
               {t('search')}
             </Link>
-            <Link to="create" className="btn btn-ghost">
+            <Link to="create_post" className="btn btn-ghost">
               {t('sell')}
             </Link>
           </div>

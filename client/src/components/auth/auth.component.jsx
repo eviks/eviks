@@ -13,14 +13,14 @@ const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
 
-const Auth = ({ handleCloseModal }) => {
+const Auth = ({ handleCloseModal, showOverlay }) => {
   const [state, setState] = useState({ action: 'login' })
   const [t] = useTranslation()
   const { action } = state
 
   return (
     <FadeInDiv className="popup">
-      <div className="form-container">
+      <div className="form-container" style={showOverlay && { width: '55%' }}>
         <div className="button-box">
           <input
             id="login"
@@ -50,11 +50,13 @@ const Auth = ({ handleCloseModal }) => {
           <Register handleCloseModal={handleCloseModal} />
         )}
       </div>
-      <div className="overlay-container">
-        <div className="overlay">
-          <span className="large">{t('authTitle')}</span>
+      {showOverlay && (
+        <div className="overlay-container">
+          <div className="overlay">
+            <span className="large">{t('authTitle')}</span>
+          </div>
         </div>
-      </div>
+      )}
     </FadeInDiv>
   )
 }
