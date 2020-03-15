@@ -1,0 +1,21 @@
+@import '../../../../sass/style.scss';
+
+.input-field {
+  border: 1px solid $grey-color;
+  border-radius: 8px;
+  background-clip: padding-box;
+  outline: none;
+  transition: all 0.3s ease-out;
+  display: block;
+  padding: 0.385rem 0.5rem;
+  width: 400px;
+  &:focus {
+    border: 1px solid $primary-color;
+  }
+}
+
+.input-field[type='number']::-webkit-inner-spin-button,
+.input-field[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

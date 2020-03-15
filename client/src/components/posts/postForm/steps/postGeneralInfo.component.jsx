@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react'
 import SwitchInput from '../../../layout/form/switch/switchInput.component'
 import SelectInput from '../../../layout/form/select/selectInput.component'
+import TextInput from '../../../layout/form/input/input.component'
 import PropTypes from 'prop-types'
 
-const PostGeneralInfo = ({ formData, setFormData }) => {
+const PostGeneralInfo = ({ formData, onChange }) => {
   const { city, district, address } = formData
-
-  const onChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value })
 
   const userTypeOptions = [
     {
@@ -70,7 +68,7 @@ const PostGeneralInfo = ({ formData, setFormData }) => {
 
   return (
     <Fragment>
-      <h3 className="my-1">General information</h3>
+      <h3 className="my-1">General Information</h3>
       {/* User type */}
       <SwitchInput
         fieldName={'Who are you?'}
@@ -98,24 +96,18 @@ const PostGeneralInfo = ({ formData, setFormData }) => {
         onChange={onChange}
       />
       {/* Address */}
-      <div className="field">
-        <div className="field-name">Address</div>
-        <input
-          className="input-field"
-          type="text"
-          name="address"
-          value={address}
-          onChange={e => onChange(e)}
-        />
-      </div>
+      <TextInput
+        fieldName={'Address'}
+        options={{ name: 'address', value: address }}
+        onChange={onChange}
+      />
     </Fragment>
   )
 }
 
 PostGeneralInfo.propTypes = {
-  generalInfo: PropTypes.object.isRequired,
   formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired
 }
 
 export default PostGeneralInfo

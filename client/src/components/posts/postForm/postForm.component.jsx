@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
+import PostEstateInfo from './steps/postEstateInfo.component'
+import PostAdditionalInfo from './steps/postAdditionalInfo.component'
 import { connect } from 'react-redux'
 import { addPost } from '../../../actions/post'
 import PropTypes from 'prop-types'
@@ -53,62 +55,27 @@ const PostForm = ({ addPost }) => {
     contact: ''
   })
 
-  const {
-    userType,
-    city,
-    district,
-    address,
-    estateType,
-    rooms,
-    sqm,
-    livingRoomsSqm,
-    kitchenSqm,
-    floor,
-    totalFloors,
-    maintenance,
-    redevelopment,
-    ceilingHeight,
-    yearBuild,
-    elevator,
-    parkingLot,
-    documented,
-    onKredit,
-    balcony,
-    bathroomType,
-    windows,
-    frontWindow,
-    rearWindow,
-    furniture,
-    kitchenFurniture,
-    cctv,
-    phone,
-    internet,
-    electricity,
-    gas,
-    water,
-    heating,
-    tv,
-    conditioner,
-    washingMachine,
-    dishwasher,
-    refrigerator,
-    description,
-    price,
-    bargain,
-    progressPayment,
-    contact
-  } = formData
-
   const onSubmit = e => {
     e.preventDefault()
     addPost(formData)
+  }
+
+  const onChange = e => {
+    const { name, type } = e.target
+    const value = type === 'checkbox' ? e.target.checked : e.target.value
+    setFormData({
+      ...formData,
+      [name]: type === 'number' ? parseInt(value, 10) : value
+    })
   }
 
   return (
     <div className="container px-4">
       <h1 className="text-primary">Create add</h1>
       <form onSubmit={e => onSubmit(e)}>
-        <PostGeneralInfo formData={formData} setFormData={setFormData} />
+        <PostGeneralInfo formData={formData} onChange={onChange} />
+        <PostEstateInfo formData={formData} onChange={onChange} />
+        <PostAdditionalInfo formData={formData} onChange={onChange} />
       </form>
     </div>
   )

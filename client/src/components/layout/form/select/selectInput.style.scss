@@ -8,35 +8,27 @@
   .options-container {
     background: $light-color;
     color: $dark-color;
-    max-height: 0;
-    width: 100%;
+    width: inherit;
+    margin-top: 2.5rem;
     opacity: 0;
     border-radius: 5px;
     overflow: hidden;
     order: 1;
     border: 1px solid $grey-color;
+    position: absolute;
+    z-index: 5;
+    display: none;
 
     &.active {
-      max-height: 240px;
+      display: block;
       opacity: 1;
-      margin-top: 8px;
-      overflow-y: scroll;
     }
 
-    &.active + .selected::after {
-      transform: rotate(180deg);
-      top: -6px;
-    }
-
-    &::-webkit-scrollbar {
-      width: 8px;
-      background: $grey-color;
-      border-radius: 0 8px 8px 0;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: $primary-color;
-      border-radius: 0 8px 8px 0;
+    &.active + .selected {
+      i {
+        transform: rotate(180deg);
+        top: -6px;
+      }
     }
   }
 
@@ -48,16 +40,15 @@
     position: relative;
     order: 0;
 
-    &:after {
-      content: '';
-      background-size: contain;
-      background-repeat: no-repeat;
+    i {
+      display: block;
+      color: $grey-color;
       position: absolute;
       height: 100%;
-      width: 32px;
-      right: 10px;
-      top: 5px;
-      transition: all 0.3s;
+      width: 15px;
+      right: 0.7rem;
+      top: 25%;
+      transition: all 0.4s;
     }
   }
 

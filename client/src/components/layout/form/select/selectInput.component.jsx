@@ -27,6 +27,7 @@ const SelectInput = ({ fieldName, options, placeholder, onChange }) => {
         </div>
         <div className="selected" onClick={() => toggleActive(!active)}>
           {placeholder}
+          <i className="fas fa-chevron-down"></i>
         </div>
       </div>
     </div>
