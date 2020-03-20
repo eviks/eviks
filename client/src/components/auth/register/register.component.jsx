@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { setAlert } from '../../../actions/alert'
+import Ripple from '../../layout/ripple/ripple.component'
 import Alert from '../../layout/alert/alert.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInRight } from 'react-animations'
@@ -94,7 +95,10 @@ const Register = ({ handleCloseModal, setAlert }) => {
         required
         onChange={e => onChange(e)}
       />
-      <input className="btn btn-primary" type="submit" value={t('signUp')} />
+      <button type="submit" className="btn btn-primary">
+        {t('signUp')}
+        <Ripple />
+      </button>
     </FadeInRightForm>
   )
 }

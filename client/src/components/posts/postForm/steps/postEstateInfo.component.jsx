@@ -2,7 +2,15 @@ import React from 'react'
 import Input from '../../../layout/form/input/input.component'
 import SwitchInput from '../../../layout/form/switch/switchInput.component'
 import Checkbox from '../../../layout/form/checkbox/checkbox.component'
+import styled, { keyframes } from 'styled-components'
+import { fadeIn, fadeOut } from 'react-animations'
 import PropTypes from 'prop-types'
+
+const FadeInAnimation = keyframes`${fadeIn}`
+const FadeOutAnimation = keyframes`${fadeOut}`
+const FadeInDiv = styled.div`
+  animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
+`
 
 const PostEstateInfo = ({ formData, onChange }) => {
   const {
@@ -47,7 +55,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
   ]
 
   return (
-    <div>
+    <FadeInDiv>
       <h3 className="my-1">Estate Properties</h3>
       {/* Rooms */}
       <Input
@@ -192,7 +200,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
         }}
         onChange={onChange}
       />
-    </div>
+    </FadeInDiv>
   )
 }
 

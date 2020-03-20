@@ -1,0 +1,97 @@
+@import '../../../../../sass/config';
+
+.progress-step {
+  width: 105px;
+
+  .circle {
+    margin: auto;
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in;
+  }
+
+  &.current {
+    .circle {
+      border-color: $primary-color;
+    }
+  }
+
+  &:first-child {
+    .progress-icon {
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  &:last-child {
+    .progress-icon {
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+.progress-icon {
+  margin: auto;
+  border: 2px solid $grey-color;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease-in;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    width: 100%;
+    height: 2px;
+    margin: 0 1rem;
+    background: linear-gradient(to right, $primary-color 50%, $grey-color 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all 0.3s ease-in;
+
+    .previous & {
+      background-position: left bottom;
+    }
+  }
+
+  .current & {
+    background-color: $primary-color;
+    border-color: $primary-color;
+
+    i {
+      color: $light-color;
+      transition: all 0.3s ease-in;
+    }
+  }
+
+  .previous & {
+    background-color: $primary-color;
+    border-color: $primary-color;
+
+    i {
+      color: $light-color;
+    }
+  }
+
+  .next & {
+    i {
+      color: $grey-color;
+    }
+  }
+}

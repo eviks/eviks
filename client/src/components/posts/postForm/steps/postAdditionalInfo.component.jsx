@@ -1,12 +1,20 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Checkbox from '../../../layout/form/checkbox/checkbox.component'
+import styled, { keyframes } from 'styled-components'
+import { fadeIn, fadeOut } from 'react-animations'
 import PropTypes from 'prop-types'
 
 import '../postForm.style.scss'
 
+const FadeInAnimation = keyframes`${fadeIn}`
+const FadeOutAnimation = keyframes`${fadeOut}`
+const FadeInDiv = styled.div`
+  animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
+`
+
 const PostAdditionalInfo = ({ formData, onChange }) => {
   return (
-    <Fragment>
+    <FadeInDiv>
       <h3 className="my-1">Additional information</h3>
       <div className="grid-container">
         <div>
@@ -108,7 +116,7 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
           />
         </div>
       </div>
-    </Fragment>
+    </FadeInDiv>
   )
 }
 

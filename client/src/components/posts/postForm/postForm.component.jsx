@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
 import PostEstateInfo from './steps/postEstateInfo.component'
 import PostAdditionalInfo from './steps/postAdditionalInfo.component'
+import Ripple from '../../layout/ripple/ripple.component'
 import { connect } from 'react-redux'
 import { addPost } from '../../../actions/post'
 import PropTypes from 'prop-types'
@@ -55,6 +57,9 @@ const PostForm = ({ addPost }) => {
     contact: ''
   })
 
+  const [step, setStep] = useState({ currentStep: 0, totalSteps: 8 })
+  const { currentStep, totalSteps } = step
+
   const onSubmit = e => {
     e.preventDefault()
     addPost(formData)
@@ -69,13 +74,55 @@ const PostForm = ({ addPost }) => {
     })
   }
 
+  const stepChange = (e, inc = false) => {
+    e.preventDefault()
+    let newStep = inc ? step.currentStep + 1 : step.currentStep - 1
+    newStep = Math.max(newStep, 0)
+    setStep({
+      ...step,
+      currentStep: newStep
+    })
+  }
+
+  const renderSwitch = () => {
+    switch (step.currentStep) {
+      case 0:
+        return <PostGeneralInfo formData={formData} onChange={onChange} />
+      case 2:
+        return <PostEstateInfo formData={formData} onChange={onChange} />
+      case 4:
+        return <PostAdditionalInfo formData={formData} onChange={onChange} />
+      default:
+        return <PostGeneralInfo formData={formData} onChange={onChange} />
+    }
+  }
+
   return (
     <div className="container px-4">
-      <h1 className="text-primary">Create add</h1>
+      <ProgressBar step={step} />
       <form onSubmit={e => onSubmit(e)}>
-        <PostGeneralInfo formData={formData} onChange={onChange} />
-        <PostEstateInfo formData={formData} onChange={onChange} />
-        <PostAdditionalInfo formData={formData} onChange={onChange} />
+        {renderSwitch()}
+        <button className="btn btn-secondary" onClick={e => stepChange(e)}>
+          Back
+          <Ripple />
+        </button>
+        {currentStep === totalSteps ? (
+          <button
+            className="btn btn-primary"
+            onClick={e => stepChange(e, true)}
+          >
+            Submit
+            <Ripple />
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary"
+            onClick={e => stepChange(e, true)}
+          >
+            Next
+            <Ripple />
+          </button>
+        )}
       </form>
     </div>
   )

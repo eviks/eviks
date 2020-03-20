@@ -1,8 +1,16 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import SwitchInput from '../../../layout/form/switch/switchInput.component'
 import SelectInput from '../../../layout/form/select/selectInput.component'
 import TextInput from '../../../layout/form/input/input.component'
+import styled, { keyframes } from 'styled-components'
+import { fadeIn, fadeOut } from 'react-animations'
 import PropTypes from 'prop-types'
+
+const FadeInAnimation = keyframes`${fadeIn}`
+const FadeOutAnimation = keyframes`${fadeOut}`
+const FadeInDiv = styled.div`
+  animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
+`
 
 const PostGeneralInfo = ({ formData, onChange }) => {
   const { city, district, address } = formData
@@ -67,7 +75,7 @@ const PostGeneralInfo = ({ formData, onChange }) => {
   ]
 
   return (
-    <Fragment>
+    <FadeInDiv>
       <h3 className="my-1">General Information</h3>
       {/* User type */}
       <SwitchInput
@@ -101,7 +109,7 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         options={{ name: 'address', value: address }}
         onChange={onChange}
       />
-    </Fragment>
+    </FadeInDiv>
   )
 }
 

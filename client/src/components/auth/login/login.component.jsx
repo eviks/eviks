@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Ripple from '../../layout/ripple/ripple.component'
 import Alert from '../../layout/alert/alert.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInLeft } from 'react-animations'
@@ -69,7 +70,10 @@ const Login = ({ handleCloseModal, login, isAuthenticated }) => {
         required
         onChange={e => onChange(e)}
       />
-      <input className="btn btn-primary" type="submit" value={t('signIn')} />
+      <button type="submit" className="btn btn-primary">
+        {t('signIn')}
+        <Ripple />
+      </button>
       <Link to="/reset_password" onClick={() => handleCloseModal()}>
         {t('forgotPassword')}
       </Link>
