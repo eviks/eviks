@@ -1,7 +1,6 @@
 import React from 'react'
 import SwitchInput from '../../../layout/form/switch/switchInput.component'
 import SelectInput from '../../../layout/form/select/selectInput.component'
-import TextInput from '../../../layout/form/input/input.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
 import PropTypes from 'prop-types'
@@ -13,7 +12,7 @@ const FadeInDiv = styled.div`
 `
 
 const PostGeneralInfo = ({ formData, onChange }) => {
-  const { city, district, address } = formData
+  const { city, district } = formData
 
   const userTypeOptions = [
     {
@@ -101,12 +100,6 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         fieldName={'District'}
         options={districtOptions}
         placeholder={district ? district : 'Choose your district'}
-        onChange={onChange}
-      />
-      {/* Address */}
-      <TextInput
-        fieldName={'Address'}
-        options={{ name: 'address', value: address }}
         onChange={onChange}
       />
     </FadeInDiv>

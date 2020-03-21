@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
+import PostMap from './steps/postMap.component'
 import PostEstateInfo from './steps/postEstateInfo.component'
 import PostAdditionalInfo from './steps/postAdditionalInfo.component'
 import Ripple from '../../layout/ripple/ripple.component'
@@ -16,6 +17,8 @@ const PostForm = ({ addPost }) => {
     city: '',
     district: '',
     address: '',
+    lat: 40.40926169999999,
+    lng: 49.8670924,
     estateType: '',
     rooms: 0,
     sqm: 0,
@@ -66,6 +69,7 @@ const PostForm = ({ addPost }) => {
   }
 
   const onChange = e => {
+    console.log(e)
     const { name, type } = e.target
     const value = type === 'checkbox' ? e.target.checked : e.target.value
     setFormData({
@@ -88,6 +92,8 @@ const PostForm = ({ addPost }) => {
     switch (step.currentStep) {
       case 0:
         return <PostGeneralInfo formData={formData} onChange={onChange} />
+      case 1:
+        return <PostMap formData={formData} setFormData={setFormData} />
       case 2:
         return <PostEstateInfo formData={formData} onChange={onChange} />
       case 4:
