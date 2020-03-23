@@ -17,9 +17,19 @@ const FadeInDiv = styled.div`
 
 const geocoder = new google.maps.Geocoder()
 
-const AnyReactComponent = () => (
+const Marker = () => (
   <div>
-    <i className="fas fa-map-marker-alt fa-3x" style={{ color: '#fe4060' }}></i>
+    <i
+      className="fas fa-map-marker-alt fa-3x"
+      style={{
+        color: '#fe4060',
+        position: 'absolute',
+        width: 40,
+        height: 40,
+        left: -40 / 2,
+        top: -40 / 2
+      }}
+    ></i>
   </div>
 )
 
@@ -90,7 +100,7 @@ const PostMap = ({ formData, setFormData }) => {
           center={{ lat, lng }}
           defaultZoom={11}
         >
-          <AnyReactComponent lat={lat} lng={lng} />
+          <Marker lat={lat} lng={lng} />
         </GoogleMapReact>
       </div>
     </FadeInDiv>

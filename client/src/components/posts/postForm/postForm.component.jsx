@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
 import PostMap from './steps/postMap.component'
 import PostEstateInfo from './steps/postEstateInfo.component'
+import PostBuidingInfo from './steps/postBuildingInfo.component'
 import PostAdditionalInfo from './steps/postAdditionalInfo.component'
+import PostPrice from './steps/postPrice.component'
+import PostPhotos from './steps/postPhotos.component'
+import PostContact from './steps/postContact.component'
 import Ripple from '../../layout/ripple/ripple.component'
 import { connect } from 'react-redux'
 import { addPost } from '../../../actions/post'
@@ -60,8 +64,16 @@ const PostForm = ({ addPost }) => {
     contact: ''
   })
 
-  const [step, setStep] = useState({ currentStep: 0, totalSteps: 8 })
+  const [step, setStep] = useState({ currentStep: 0, totalSteps: 7 })
   const { currentStep, totalSteps } = step
+
+  const [files, setFiles] = useState([])
+
+  useEffect(() => {
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview))
+    }
+  }, [files])
 
   const onSubmit = e => {
     e.preventDefault()
@@ -90,21 +102,28 @@ const PostForm = ({ addPost }) => {
 
   const renderSwitch = () => {
     switch (step.currentStep) {
-      case 0:
-        return <PostGeneralInfo formData={formData} onChange={onChange} />
       case 1:
         return <PostMap formData={formData} setFormData={setFormData} />
       case 2:
         return <PostEstateInfo formData={formData} onChange={onChange} />
+      case 3:
+        return <PostBuidingInfo formData={formData} onChange={onChange} />
       case 4:
         return <PostAdditionalInfo formData={formData} onChange={onChange} />
+      case 5:
+        return <PostPrice formData={formData} onChange={onChange} />
+      case 6:
+        return <PostPhotos files={files} setFiles={setFiles} />
+      case 7:
+        return <PostContact formData={formData} onChange={onChange} />
+      case 0:
       default:
         return <PostGeneralInfo formData={formData} onChange={onChange} />
     }
   }
 
   return (
-    <div className="container px-4">
+    <div className="container px-4 mx-12">
       <ProgressBar step={step} />
       <form onSubmit={e => onSubmit(e)}>
         {renderSwitch()}

@@ -10,7 +10,7 @@ import ReduxToastr from 'react-redux-toastr'
 import AuthForm from './components/auth/authForm.component'
 import Verification from './components/auth/verification/verification.component'
 import ResetPassword from './components/auth/resetPassword/resetPassword.component'
-import Posts from './components/posts/posts.component'
+import Posts from './components/posts/postList/posts.component'
 import PostForm from './components/posts/postForm/postForm.component'
 
 import './sass/style.scss'

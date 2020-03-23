@@ -38,27 +38,21 @@ const ProgressBar = ({ step: { currentStep } }) => {
         }
       />
       <ProgressStep
-        iconClass={'fas fa-file'}
-        stepClass={
-          currentStep === 5 ? 'current' : currentStep < 5 ? 'next' : 'previous'
-        }
-      />
-      <ProgressStep
         iconClass={'fas fa-money-bill-alt'}
         stepClass={
-          currentStep === 6 ? 'current' : currentStep < 6 ? 'next' : 'previous'
+          currentStep === 5 ? 'current' : currentStep < 6 ? 'next' : 'previous'
         }
       />
       <ProgressStep
         iconClass={'fas fa-camera'}
         stepClass={
-          currentStep === 7 ? 'current' : currentStep < 7 ? 'next' : 'previous'
+          currentStep === 6 ? 'current' : currentStep < 7 ? 'next' : 'previous'
         }
       />
       <ProgressStep
         iconClass={'fas fa-phone'}
         stepClass={
-          currentStep === 8 ? 'current' : currentStep < 8 ? 'next' : 'previous'
+          currentStep === 7 ? 'current' : currentStep < 8 ? 'next' : 'previous'
         }
       />
     </div>

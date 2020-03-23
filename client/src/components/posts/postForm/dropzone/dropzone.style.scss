@@ -1,0 +1,33 @@
+@import '../../../../sass/config';
+
+.dropzone {
+  width: 100%;
+  height: 55vh;
+  border: 2px dashed $grey-color;
+  background: rgb(248, 248, 248);
+  margin-bottom: 1rem;
+  box-sizing: content-box;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &--active {
+    border-color: $primary-color;
+  }
+
+  &--filled {
+    max-height: 200px;
+  }
+
+  i {
+    color: $grey-color;
+    display: block;
+  }
+
+  p {
+    color: $grey-color;
+  }
+}

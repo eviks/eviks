@@ -20,8 +20,9 @@ const PostEstateInfo = ({ formData, onChange }) => {
     kitchenSqm,
     floor,
     totalFloors,
-    ceilingHeight,
-    yearBulid
+    redevelopment,
+    documented,
+    onKredit
   } = formData
 
   const maintenanceOptions = [
@@ -139,54 +140,18 @@ const PostEstateInfo = ({ formData, onChange }) => {
       <Checkbox
         label={'Redevelopment'}
         showFieldName={true}
-        options={{ name: 'redevelopment', id: 'redevelopment' }}
-        onChange={onChange}
-      />
-      <h3>Information about building</h3>
-      <br />
-      {/* Ceiling height */}
-      <Input
-        fieldName={'Ceiling height'}
         options={{
-          type: 'number',
-          name: 'ceilingHeight',
-          value: ceilingHeight === 0 ? '' : ceilingHeight,
-          min: '0',
-          style: { width: '60px' }
+          name: 'redevelopment',
+          id: 'redevelopment',
+          checked: redevelopment
         }}
-        onChange={onChange}
-      />
-      {/* Year build */}
-      <Input
-        fieldName={'Year build'}
-        options={{
-          type: 'number',
-          name: 'yearBulid',
-          value: yearBulid === 0 ? '' : yearBulid,
-          min: '0',
-          style: { width: '60px' }
-        }}
-        onChange={onChange}
-      />
-      {/* Elevator */}
-      <Checkbox
-        label={'Elevator'}
-        showFieldName={true}
-        options={{ name: 'elevator', id: 'elevator' }}
-        onChange={onChange}
-      />
-      {/* Parking lot */}
-      <Checkbox
-        label={'Parking lot'}
-        showFieldName={true}
-        options={{ name: 'parkingLot', id: 'parkingLot' }}
         onChange={onChange}
       />
       {/* Documented */}
       <Checkbox
         label={'Documented'}
         showFieldName={true}
-        options={{ name: 'documented', id: 'documented' }}
+        options={{ name: 'documented', id: 'documented', checked: documented }}
         onChange={onChange}
       />
       {/* On kredit */}
@@ -196,6 +161,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
         options={{
           name: 'onKredit',
           id: 'onKredit',
+          checked: onKredit,
           style: { marginLeft: '200px' }
         }}
         onChange={onChange}

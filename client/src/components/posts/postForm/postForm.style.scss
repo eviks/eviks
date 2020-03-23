@@ -1,8 +1,17 @@
-.grid-container {
+@import '../../../sass/config';
+
+.flex-container {
   display: flex;
   flex-direction: row;
 
   > div {
     margin-right: 4rem;
   }
+}
+
+.upload-images {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
