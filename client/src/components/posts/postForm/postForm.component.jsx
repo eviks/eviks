@@ -33,7 +33,7 @@ const PostForm = ({ addPost }) => {
     maintenance: '',
     redevelopment: false,
     ceilingHeight: 0,
-    yearBuild: null,
+    yearBuild: 0,
     elevator: false,
     parkingLot: false,
     documented: false,
@@ -64,7 +64,7 @@ const PostForm = ({ addPost }) => {
     contact: ''
   })
 
-  const [step, setStep] = useState({ currentStep: 0, totalSteps: 7 })
+  const [step, setStep] = useState({ currentStep: 6, totalSteps: 7 })
   const { currentStep, totalSteps } = step
 
   const [files, setFiles] = useState([])
@@ -77,11 +77,15 @@ const PostForm = ({ addPost }) => {
 
   const onSubmit = e => {
     e.preventDefault()
-    addPost(formData)
+
+    const data = new FormData()
+    Object.keys(formData).forEach(key => data.append(key, formData[key]))
+    data.append('photos', files[0])
+
+    addPost(data)
   }
 
   const onChange = e => {
-    console.log(e)
     const { name, type } = e.target
     const value = type === 'checkbox' ? e.target.checked : e.target.value
     setFormData({
@@ -123,7 +127,7 @@ const PostForm = ({ addPost }) => {
   }
 
   return (
-    <div className="container px-4 mx-12">
+    <div className="container px-4" style={{ width: '1000px' }}>
       <ProgressBar step={step} />
       <form onSubmit={e => onSubmit(e)}>
         {renderSwitch()}
@@ -132,10 +136,7 @@ const PostForm = ({ addPost }) => {
           <Ripple />
         </button>
         {currentStep === totalSteps ? (
-          <button
-            className="btn btn-primary"
-            onClick={e => stepChange(e, true)}
-          >
+          <button type="submit" className="btn btn-primary">
             Submit
             <Ripple />
           </button>

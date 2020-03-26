@@ -3,6 +3,7 @@ const router = express.Router()
 const passport = require('passport')
 const upload = require('../../middleware/upload')
 const mongoose = require('mongoose')
+const Grid = require('gridfs-stream')
 
 const Post = require('../../models/Post')
 
@@ -45,26 +46,17 @@ router.get('/:id', async (req, res) => {
 // @acess Private
 router.post(
   '/',
-  [passport.authenticate('jwt', { session: false }), upload.array('photo')],
+  [passport.authenticate('jwt', { session: false }), upload.array('photos')],
   async (req, res) => {
-    const { city, address, rooms, sqm, description, price } = req.body
-
     try {
-      // Build post object
-      const postFields = {}
-      postFields.generalInfo = {}
-      postFields.estate = {}
-      postFields.priceInfo = {}
+      const postFields = { ...req.body }
       postFields.photos = []
 
-      postFields.user = req.user.id
-      fillObjectFields(postFields, { description })
-      fillObjectFields(postFields.generalInfo, { city, address })
-      fillObjectFields(postFields.estate, { rooms, sqm })
-      fillObjectFields(postFields.priceInfo, { price })
-
       // Post photos
-      req.files.map(file => postFields.photos.push(file.id))
+      postFields.user = req.user
+      req.files.map(file =>
+        postFields.photos.push(mongoose.Types.ObjectId(file.id))
+      )
 
       const post = new Post(postFields)
       await post.save()
@@ -77,10 +69,51 @@ router.post(
   }
 )
 
-const fillObjectFields = (object, fields) => {
-  Object.keys(fields).map(key => {
-    if (fields[key]) object[key] = fields[key]
+// @route GET api/posts/photo
+// @desc  Get post photos
+// @acess Public
+router.get('/photo/:id', async (req, res) => {
+  Grid.mongo = mongoose.mongo
+  let gfs = new Grid(mongoose.connection.db)
+  gfs.collection('uploads')
+
+  const postId = req.params.id
+  const post = await Post.findById(postId)
+
+  gfs.files
+    .find({
+      _id: { $in: post.photos.map(photo => mongoose.Types.ObjectId(photo._id)) }
+    })
+    .toArray((error, files) => {
+      // Check if no files
+      if (!files || files.length === 0) {
+        return res
+          .status(404)
+          .json({ errors: [{ message: 'No photos found' }] })
+      }
+
+      res.json(files)
+    })
+})
+
+// @route GET api/posts/photo/single/:filename
+// @desc  Get post photo by its name
+// @acess Public
+router.get('/photo/single/:filename', (req, res) => {
+  Grid.mongo = mongoose.mongo
+  let gfs = new Grid(mongoose.connection.db)
+  gfs.collection('uploads')
+
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if no files
+    if (!file) {
+      return res.status(404).json({ errors: [{ message: 'No photos found' }] })
+    }
+
+    // Read output to browser
+    const readstream = gfs.createReadStream(file.filename)
+    readstream.pipe(res)
   })
-}
+})
 
 module.exports = router

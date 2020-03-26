@@ -1,3 +1,4 @@
+/*google*/
 import React from 'react'
 import Dropzone from '../dropzone/dropzone.component'
 import UploadedImage from '../uploadedImage/uploadedImage.component'

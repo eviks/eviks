@@ -8,16 +8,19 @@ import './dropzone.style.scss'
 const Dropzone = ({ files, setFiles }) => {
   const onDrop = useCallback(
     acceptedFiles => {
-      const newPhotos = acceptedFiles.map(file =>
+      const newPhotos = acceptedFiles.map(file => {
         Object.assign(file, {
           preview: URL.createObjectURL(file),
           photoId: uuid.v4()
         })
-      )
+        return file
+      })
+
       setFiles([...files, ...newPhotos])
     },
     [files, setFiles]
   )
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: true,

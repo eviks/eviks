@@ -22,10 +22,9 @@ const PostContact = ({ formData, onChange }) => {
       <Input
         fieldName={'Contact'}
         options={{
-          type: 'number',
+          type: 'text',
           name: 'contact',
-          value: contact === 0 ? '' : contact,
-          min: '0'
+          value: contact === 0 ? '' : contact
         }}
         onChange={onChange}
       />

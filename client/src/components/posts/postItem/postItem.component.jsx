@@ -1,20 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 
 import './postItem.styles.scss'
 
 const PostItem = ({
-  post: {
-    priceInfo: { price },
-    estate: { sqm, rooms, floor, totalFloors },
-    generalInfo: { city, district },
-    date,
-    _id
-  }
+  post: { city, district, sqm, rooms, floor, totalFloors, price, date, _id }
 }) => {
+  const [itemPhotos, setItemPhotos] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(`/api/posts/photo/${_id}`)
+      setItemPhotos([...res.data])
+    }
+
+    fetchData()
+  }, [setItemPhotos])
+
   const [t] = useTranslation()
 
   const priceStr = price.toLocaleString('az-AZ', {
@@ -23,10 +29,12 @@ const PostItem = ({
   return (
     <Link className="card" to={`/posts/${_id}`}>
       <div className="card-images">
-        <img
-          src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1873&q=80"
-          alt="Card"
-        />
+        {itemPhotos.length > 0 && (
+          <img
+            src={`/api/posts/photo/single/${itemPhotos[0].filename}`}
+            alt="Card"
+          />
+        )}
       </div>
       <div className="card-info">
         <div className="card-price">{`${priceStr} AZN`}</div>

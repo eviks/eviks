@@ -18,14 +18,14 @@ export const getPosts = () => async dispatch => {
 }
 
 // Add post
-export const addPost = formData => async dispatch => {
+export const addPost = data => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   }
   try {
-    const res = await axios.post('/api/posts', formData, config)
+    const res = await axios.post('/api/posts', data, config)
     dispatch({ type: ADD_POST, payload: res.data })
   } catch (error) {
     dispatch({

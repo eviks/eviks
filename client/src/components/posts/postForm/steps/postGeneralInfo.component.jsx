@@ -12,15 +12,27 @@ const FadeInDiv = styled.div`
 `
 
 const PostGeneralInfo = ({ formData, onChange }) => {
-  const { city, district } = formData
+  const { city, district, userType, estateType } = formData
 
   const userTypeOptions = [
     {
-      input: { id: 'owner', name: 'userType', type: 'radio', value: 'owner' },
+      input: {
+        id: 'owner',
+        name: 'userType',
+        type: 'radio',
+        value: 'owner',
+        checked: userType === 'owner'
+      },
       label: 'Owner'
     },
     {
-      input: { id: 'agent', name: 'userType', type: 'radio', value: 'agent' },
+      input: {
+        id: 'agent',
+        name: 'userType',
+        type: 'radio',
+        value: 'agent',
+        checked: userType === 'agent'
+      },
       label: 'Agent'
     }
   ]
@@ -31,12 +43,19 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         id: 'apartment',
         name: 'estateType',
         type: 'radio',
-        value: 'apartment'
+        value: 'apartment',
+        checked: estateType === 'apartment'
       },
       label: 'Apartment'
     },
     {
-      input: { id: 'house', name: 'estateType', type: 'radio', value: 'house' },
+      input: {
+        id: 'house',
+        name: 'estateType',
+        type: 'radio',
+        value: 'house',
+        checked: estateType === 'house'
+      },
       label: 'House'
     }
   ]
