@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
-import spinner from './spinner.svg'
+import spinner from './button-spinner.svg'
 import PropTypes from 'prop-types'
 
-const Spinner = ({ style }) => {
+const ButtonSpinner = ({ style }) => {
   return (
     <Fragment>
       <img src={spinner} alt="Loading..." style={style} />
@@ -10,8 +10,8 @@ const Spinner = ({ style }) => {
   )
 }
 
-Spinner.propTypes = {
+ButtonSpinner.propTypes = {
   style: PropTypes.object.isRequired
 }
 
-export default Spinner
+export default ButtonSpinner

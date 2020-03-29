@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MessageIcon = () => {
+const SuccessIcon = () => {
   return (
     <div
       style={{
@@ -11,9 +11,9 @@ const MessageIcon = () => {
         alignItems: 'center'
       }}
     >
-      <i className="far fa-paper-plane fa-3x" style={{ color: '#fe4060' }}></i>
+      <i className="fas fa-check fa-3x" style={{ color: '#fe4060' }}></i>
     </div>
   )
 }
 
-export default MessageIcon
+export default SuccessIcon

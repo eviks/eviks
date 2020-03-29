@@ -28,20 +28,23 @@
 
 // Buttons
 .btn {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   margin-right: 0.5rem;
   padding: 0 1.3rem;
   border-radius: 50px;
   font-size: 1rem;
   outline: none;
-  transition: 0.5s;
+  transition: all 0.5s;
   text-transform: uppercase;
   min-width: 150px;
   position: relative;
   overflow: hidden;
 
-  &.btn-primary {
+  &-primary {
     border: none;
     background: $primary-color;
     color: $light-color;
@@ -50,16 +53,19 @@
     &:hover {
       background: darken($primary-color, 5%);
     }
+    &:disabled {
+      background: lighten($primary-color, 7%);
+    }
   }
 
-  &.btn-secondary {
+  &-secondary {
     border: none;
     background: $grey-color;
     color: $light-color;
     line-height: 2.5rem;
   }
 
-  &.btn-ghost {
+  &-ghost {
     color: $light-color;
     border: 2px solid $light-color;
     line-height: 2.4rem;
@@ -68,7 +74,7 @@
     }
   }
 
-  &.btn-toggle {
+  &-toggle {
     position: relative;
     text-align: center;
     transition: background 600ms ease, color 600ms ease;

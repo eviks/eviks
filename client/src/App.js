@@ -1,5 +1,5 @@
 import React, { Fragment, Suspense, useEffect } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 // Components
 import PrivateRoute from './components/routing/privateRoute.component'

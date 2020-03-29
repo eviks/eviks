@@ -24,7 +24,8 @@ const Dropzone = ({ files, setFiles }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: true,
-    accept: 'image/*'
+    accept: 'image/*',
+    maxSize: 10485760
   })
 
   return (

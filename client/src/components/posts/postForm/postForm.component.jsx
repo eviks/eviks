@@ -8,14 +8,17 @@ import PostAdditionalInfo from './steps/postAdditionalInfo.component'
 import PostPrice from './steps/postPrice.component'
 import PostPhotos from './steps/postPhotos.component'
 import PostContact from './steps/postContact.component'
-import Ripple from '../../layout/ripple/ripple.component'
 import { connect } from 'react-redux'
 import { addPost } from '../../../actions/post'
+import { toastr } from 'react-redux-toastr'
+import SuccessIcon from '../../layout/icons/successIcon.component'
+import Ripple from '../../layout/ripple/ripple.component'
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import PropTypes from 'prop-types'
 
 import './postForm.style.scss'
 
-const PostForm = ({ addPost }) => {
+const PostForm = ({ addPost, loading, history }) => {
   const [formData, setFormData] = useState({
     userType: '',
     city: '',
@@ -64,7 +67,7 @@ const PostForm = ({ addPost }) => {
     contact: ''
   })
 
-  const [step, setStep] = useState({ currentStep: 6, totalSteps: 7 })
+  const [step, setStep] = useState({ currentStep: 0, totalSteps: 7 })
   const { currentStep, totalSteps } = step
 
   const [files, setFiles] = useState([])
@@ -75,14 +78,24 @@ const PostForm = ({ addPost }) => {
     }
   }, [files])
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault()
 
     const data = new FormData()
     Object.keys(formData).forEach(key => data.append(key, formData[key]))
     data.append('photos', files[0])
 
-    addPost(data)
+    const post = await addPost(data)
+
+    if (post) {
+      const toastrOptions = {
+        timeOut: 0,
+        icon: <SuccessIcon />,
+        status: 'info'
+      }
+      toastr.light('Success', 'Your post is published', toastrOptions)
+      history.push('/')
+    }
   }
 
   const onChange = e => {
@@ -90,7 +103,7 @@ const PostForm = ({ addPost }) => {
     const value = type === 'checkbox' ? e.target.checked : e.target.value
     setFormData({
       ...formData,
-      [name]: type === 'number' ? parseInt(value, 10) : value
+      [name]: type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value
     })
   }
 
@@ -127,35 +140,64 @@ const PostForm = ({ addPost }) => {
   }
 
   return (
-    <div className="container px-4" style={{ width: '1000px' }}>
+    <div className="container px-4" style={{ maxWidth: '1000px' }}>
       <ProgressBar step={step} />
       <form onSubmit={e => onSubmit(e)}>
         {renderSwitch()}
-        <button className="btn btn-secondary" onClick={e => stepChange(e)}>
-          Back
-          <Ripple />
-        </button>
-        {currentStep === totalSteps ? (
-          <button type="submit" className="btn btn-primary">
-            Submit
-            <Ripple />
-          </button>
-        ) : (
+        <div className="form-button-box">
+          {/* Back */}
+
           <button
-            className="btn btn-primary"
-            onClick={e => stepChange(e, true)}
+            className="btn btn-secondary"
+            onClick={e => stepChange(e)}
+            disabled={loading}
+            style={{ visibility: currentStep === 0 ? 'hidden' : 'visible' }}
           >
-            Next
+            Back
             <Ripple />
           </button>
-        )}
+
+          {/* Next / Submit */}
+          {currentStep === totalSteps ? (
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
+              Submit
+              {loading && (
+                <ButtonSpinner
+                  style={{
+                    width: '20px',
+                    marginLeft: '4px',
+                    transition: 'all 0.3s ease-in-out'
+                  }}
+                />
+              )}
+              <Ripple />
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary"
+              onClick={e => stepChange(e, true)}
+            >
+              Next
+              <Ripple />
+            </button>
+          )}
+        </div>
       </form>
     </div>
   )
 }
 
 PostForm.propTypes = {
-  addPost: PropTypes.func.isRequired
+  addPost: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
-export default connect(null, { addPost })(PostForm)
+const mapStateToProps = state => ({
+  loading: state.async.loading
+})
+
+export default connect(mapStateToProps, { addPost })(PostForm)

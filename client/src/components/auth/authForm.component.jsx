@@ -2,11 +2,11 @@ import React from 'react'
 import Auth from './auth.component'
 import img from '../../img/AuthBackground.jpg'
 
-const AuthForm = () => {
+const AuthForm = ({ history }) => {
   return (
     <div style={style}>
       <div className="modal" style={{ left: '35%', right: '35%' }}>
-        <Auth />
+        <Auth history={history} />
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { setAlert } from './alert'
+import { asyncActionStart, asyncActionFinish, asyncActionError } from './async'
 import {
   VERIFICATION_SUCCESS,
   VERIFICATION_FAIL,
@@ -18,10 +19,36 @@ export const loadUser = () => async dispatch => {
   }
 
   try {
+    dispatch(asyncActionStart())
     const res = await axios.get('/api/auth')
     dispatch({ type: USER_LOADED, payload: res.data })
+    dispatch(asyncActionFinish())
   } catch (error) {
+    dispatch(asyncActionError())
     dispatch({ type: AUTH_ERROR })
+  }
+}
+
+// Register user
+export const registerUser = credentials => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    const body = JSON.stringify(credentials)
+    dispatch(asyncActionStart())
+    await axios.post('/api/users/', body, config)
+    dispatch(asyncActionFinish())
+    return true
+  } catch (error) {
+    dispatch(asyncActionError())
+    const errors = error.response.data.errors
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+    }
+    dispatch({ type: VERIFICATION_FAIL })
   }
 }
 
@@ -32,7 +59,6 @@ export const verifyEmail = activationToken => async dispatch => {
     dispatch({ type: VERIFICATION_SUCCESS, payload: res.data })
     dispatch(loadUser())
   } catch (error) {
-    console.log(error)
     const errors = error.response.data.errors
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
@@ -50,11 +76,13 @@ export const login = (email, password) => async dispatch => {
       }
     }
     const body = JSON.stringify({ email, password })
+    dispatch(asyncActionStart())
     const res = await axios.post('/api/auth', body, config)
     dispatch({ type: LOGIN_SUCCESS, payload: res.data })
     dispatch(loadUser())
+    dispatch(asyncActionFinish())
   } catch (error) {
-    console.log(error)
+    dispatch(asyncActionError())
     const errors = error.response.data.errors
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))

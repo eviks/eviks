@@ -12,7 +12,7 @@ const FadeInDiv = styled.div`
 `
 
 const PostBuildingInfo = ({ formData, onChange }) => {
-  const { ceilingHeight, yearBulid, elevator, parkingLot } = formData
+  const { ceilingHeight, yearBuild, elevator, parkingLot } = formData
 
   return (
     <FadeInDiv>
@@ -34,8 +34,8 @@ const PostBuildingInfo = ({ formData, onChange }) => {
         fieldName={'Year build'}
         options={{
           type: 'number',
-          name: 'yearBulid',
-          value: yearBulid === 0 ? '' : yearBulid,
+          name: 'yearBuild',
+          value: yearBuild === 0 ? '' : yearBuild,
           min: '0',
           style: { width: '60px' }
         }}

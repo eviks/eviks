@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 
 const PrivateRoute = ({
   component: Component,
-  auth: { isAuthenticated, loading },
+  isAuthenticated,
+  loading,
   ...rest
 }) => (
   <Route
@@ -21,11 +22,13 @@ const PrivateRoute = ({
 )
 
 PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired
+  isAuthenticated: PropTypes.bool,
+  loading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.async.loading
 })
 
 export default connect(mapStateToProps)(PrivateRoute)

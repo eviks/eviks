@@ -13,7 +13,7 @@ const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
 
-const Auth = ({ handleCloseModal, showOverlay }) => {
+const Auth = ({ handleCloseModal, showOverlay, history }) => {
   const [state, setState] = useState({ action: 'login' })
   const [t] = useTranslation()
   const { action } = state
@@ -47,7 +47,7 @@ const Auth = ({ handleCloseModal, showOverlay }) => {
         {action === 'login' ? (
           <Login handleCloseModal={handleCloseModal} />
         ) : (
-          <Register handleCloseModal={handleCloseModal} />
+          <Register handleCloseModal={handleCloseModal} history={history} />
         )}
       </div>
       {showOverlay && (

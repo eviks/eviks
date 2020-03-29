@@ -69,6 +69,27 @@ router.post(
   }
 )
 
+// @route POST api/posts/photo
+// @desc  Upload photo
+// @acess Private
+router.post(
+  '/photo',
+  [passport.authenticate('jwt', { session: false }), upload.single('photo')],
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res
+          .status(400)
+          .json({ errors: [{ message: 'Photo not uploaded' }] })
+      }
+      res.json({ id: req.file.id })
+    } catch (error) {
+      console.error(error.message)
+      return res.status(500).send('Server error...')
+    }
+  }
+)
+
 // @route GET api/posts/photo
 // @desc  Get post photos
 // @acess Public

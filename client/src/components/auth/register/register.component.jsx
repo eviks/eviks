@@ -1,22 +1,22 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { setAlert } from '../../../actions/alert'
-import Ripple from '../../layout/ripple/ripple.component'
+import { registerUser } from '../../../actions/auth'
 import Alert from '../../layout/alert/alert.component'
+import Ripple from '../../layout/ripple/ripple.component'
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
+import { toastr } from 'react-redux-toastr'
+import MessageIcon from '../../layout/icons/messageIcon.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInRight } from 'react-animations'
 import { useTranslation } from 'react-i18next'
-import { toastr } from 'react-redux-toastr'
-import MessageIcon from '../../layout/icons/messageIcon.component'
 import PropTypes from 'prop-types'
-import axios from 'axios'
 
 const FadeInRightAnimation = keyframes`${fadeInRight}`
 const FadeInRightForm = styled.form`
   animation: 0.5s ${FadeInRightAnimation};
 `
 
-const Register = ({ handleCloseModal, setAlert }) => {
+const Register = ({ handleCloseModal, registerUser, loading, history }) => {
   const [formData, setFormData] = useState({
     displayName: '',
     email: '',
@@ -30,15 +30,10 @@ const Register = ({ handleCloseModal, setAlert }) => {
 
   const onSubmit = async e => {
     e.preventDefault()
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-      const body = JSON.stringify({ displayName, email, password })
-      await axios.post('/api/users/', body, config)
 
+    const success = await registerUser({ displayName, email, password })
+
+    if (success) {
       const toastrOptions = {
         timeOut: 0,
         icon: <MessageIcon />,
@@ -49,11 +44,10 @@ const Register = ({ handleCloseModal, setAlert }) => {
         t('checkEmail', { email }),
         toastrOptions
       )
-      handleCloseModal()
-    } catch (error) {
-      const errors = error.response.data.errors
-      if (errors) {
-        errors.forEach(error => setAlert(error.msg, 'danger'))
+      if (handleCloseModal !== undefined) {
+        handleCloseModal()
+      } else {
+        history.push('/')
       }
     }
   }
@@ -95,8 +89,17 @@ const Register = ({ handleCloseModal, setAlert }) => {
         required
         onChange={e => onChange(e)}
       />
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="btn btn-primary" disabled={loading}>
         {t('signUp')}
+        {loading && (
+          <ButtonSpinner
+            style={{
+              width: '20px',
+              marginLeft: '4px',
+              transition: 'all 0.3s ease-in-out'
+            }}
+          />
+        )}
         <Ripple />
       </button>
     </FadeInRightForm>
@@ -104,7 +107,13 @@ const Register = ({ handleCloseModal, setAlert }) => {
 }
 
 Register.propTypes = {
-  setAlert: PropTypes.func.isRequired
+  handleCloseModal: PropTypes.func,
+  registerUser: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
-export default connect(null, { setAlert })(Register)
+const mapStateToProps = state => ({
+  loading: state.async.loading
+})
+
+export default connect(mapStateToProps, { registerUser })(Register)

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Ripple from '../../layout/ripple/ripple.component'
+import { login } from '../../../actions/auth'
 import Alert from '../../layout/alert/alert.component'
+import Ripple from '../../layout/ripple/ripple.component'
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInLeft } from 'react-animations'
 import { useTranslation } from 'react-i18next'
-import { login } from '../../../actions/auth'
 import PropTypes from 'prop-types'
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`
@@ -14,7 +15,7 @@ const FadeInLeftForm = styled.form`
   animation: 0.5s ${FadeInLeftAnimation};
 `
 
-const Login = ({ handleCloseModal, login, isAuthenticated }) => {
+const Login = ({ handleCloseModal, login, isAuthenticated, loading }) => {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [t] = useTranslation()
   const { email, password } = formData
@@ -29,7 +30,6 @@ const Login = ({ handleCloseModal, login, isAuthenticated }) => {
 
   if (isAuthenticated) {
     if (handleCloseModal !== undefined) {
-      console.log(handleCloseModal)
       handleCloseModal()
     } else {
       return <Redirect to="/" />
@@ -70,8 +70,17 @@ const Login = ({ handleCloseModal, login, isAuthenticated }) => {
         required
         onChange={e => onChange(e)}
       />
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="btn btn-primary" disabled={loading}>
         {t('signIn')}
+        {loading && (
+          <ButtonSpinner
+            style={{
+              width: '20px',
+              marginLeft: '4px',
+              transition: 'all 0.3s ease-in-out'
+            }}
+          />
+        )}
         <Ripple />
       </button>
       <Link to="/reset_password" onClick={() => handleCloseModal()}>
@@ -82,12 +91,15 @@ const Login = ({ handleCloseModal, login, isAuthenticated }) => {
 }
 
 Login.propTypes = {
+  handleCloseModal: PropTypes.func,
   login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  loading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.async.loading
 })
 
 export default connect(mapStateToProps, { login })(Login)

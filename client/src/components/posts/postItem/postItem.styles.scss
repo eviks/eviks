@@ -1,6 +1,7 @@
 @import '../../../sass/config';
 
 .card {
+  height: 350px;
   background: $light-color;
   border-radius: 5px;
   box-shadow: inset 0 0 0 1px #e5e5e5;
@@ -13,6 +14,7 @@
 
   &-images {
     width: 100%;
+    height: 60%;
     overflow: hidden;
     margin: 0;
     border-top-left-radius: 5px;
@@ -20,12 +22,14 @@
     transition: all 0.2s ease-in-out;
 
     img {
+      object-fit: cover;
       width: 100%;
       margin: -10.875% 0;
     }
   }
 
   &-info {
+    height: 40%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     padding: 1rem 1rem;

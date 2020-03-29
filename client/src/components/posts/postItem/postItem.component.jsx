@@ -19,7 +19,7 @@ const PostItem = ({
     }
 
     fetchData()
-  }, [setItemPhotos])
+  }, [setItemPhotos, _id])
 
   const [t] = useTranslation()
 
