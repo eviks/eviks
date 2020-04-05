@@ -20,15 +20,15 @@ const Register = ({ handleCloseModal, registerUser, loading, history }) => {
   const [formData, setFormData] = useState({
     displayName: '',
     email: '',
-    password: ''
+    password: '',
   })
   const [t] = useTranslation()
   const { displayName, email, password } = formData
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault()
 
     const success = await registerUser({ displayName, email, password })
@@ -37,11 +37,11 @@ const Register = ({ handleCloseModal, registerUser, loading, history }) => {
       const toastrOptions = {
         timeOut: 0,
         icon: <MessageIcon />,
-        status: 'info'
+        status: 'info',
       }
       toastr.light(
-        t('checkEmailTitle'),
-        t('checkEmail', { email }),
+        t('auth.checkEmailTitle'),
+        t('auth.checkEmail', { email }),
         toastrOptions
       )
       if (handleCloseModal !== undefined) {
@@ -53,11 +53,11 @@ const Register = ({ handleCloseModal, registerUser, loading, history }) => {
   }
 
   return (
-    <FadeInRightForm onSubmit={e => onSubmit(e)}>
-      <h3 className="lead">{t('registerTitle')}</h3>
+    <FadeInRightForm onSubmit={(e) => onSubmit(e)}>
+      <h3 className="lead">{t('auth.registerTitle')}</h3>
       <Alert />
       <label htmlFor="displayName" className="label-flex">
-        <i className="fas fa-user"></i> {t('displayName')}
+        <i className="fas fa-user"></i> {t('auth.displayName')}
       </label>
       <input
         className="input-field-radius"
@@ -65,10 +65,10 @@ const Register = ({ handleCloseModal, registerUser, loading, history }) => {
         name="displayName"
         value={displayName}
         required
-        onChange={e => onChange(e)}
+        onChange={(e) => onChange(e)}
       />
       <label htmlFor="email" className="label-flex">
-        <i className="fas fa-at"></i> {t('email')}
+        <i className="fas fa-at"></i> {t('auth.email')}
       </label>
       <input
         className="input-field-radius"
@@ -76,10 +76,10 @@ const Register = ({ handleCloseModal, registerUser, loading, history }) => {
         name="email"
         value={email}
         required
-        onChange={e => onChange(e)}
+        onChange={(e) => onChange(e)}
       />
       <label htmlFor="password" className="label-flex">
-        <i className="fas fa-lock"></i> {t('password')}
+        <i className="fas fa-lock"></i> {t('auth.password')}
       </label>
       <input
         className="input-field-radius"
@@ -87,16 +87,16 @@ const Register = ({ handleCloseModal, registerUser, loading, history }) => {
         name="password"
         value={password}
         required
-        onChange={e => onChange(e)}
+        onChange={(e) => onChange(e)}
       />
       <button type="submit" className="btn btn-primary" disabled={loading}>
-        {t('signUp')}
+        {t('auth.signUp')}
         {loading && (
           <ButtonSpinner
             style={{
               width: '20px',
               marginLeft: '4px',
-              transition: 'all 0.3s ease-in-out'
+              transition: 'all 0.3s ease-in-out',
             }}
           />
         )}
@@ -109,11 +109,11 @@ const Register = ({ handleCloseModal, registerUser, loading, history }) => {
 Register.propTypes = {
   handleCloseModal: PropTypes.func,
   registerUser: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
-  loading: state.async.loading
+const mapStateToProps = (state) => ({
+  loading: state.async.loading,
 })
 
 export default connect(mapStateToProps, { registerUser })(Register)

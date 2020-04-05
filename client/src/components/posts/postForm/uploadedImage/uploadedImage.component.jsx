@@ -10,13 +10,19 @@ const UploadedImage = ({
   file,
   deletePhoto,
   uploadPhoto,
-  async: { loading, loadingElements }
+  async: { loading, loadingElements },
+  post: { uploadedPhotos }
 }) => {
   useEffect(() => {
-    const data = new FormData()
-    data.append('photo', file)
-    uploadPhoto(data, file.photoId)
-  }, [uploadPhoto, file])
+    if (
+      !loadingElements.includes(file.photoId) &&
+      !uploadedPhotos.find(obj => obj.photoId === file.photoId)
+    ) {
+      const data = new FormData()
+      data.append('photo', file)
+      uploadPhoto(data, file.photoId)
+    }
+  }, [uploadPhoto, file, loadingElements, uploadedPhotos])
 
   const photoIsUploading = loading && loadingElements.includes(file.photoId)
 

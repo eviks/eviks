@@ -3,7 +3,7 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from './async'
 import { GET_POSTS, POST_ERROR, ADD_POST, UPLOAD_PHOTO } from './types'
 
 // Get posts
-export const getPosts = () => async dispatch => {
+export const getPosts = () => async (dispatch) => {
   try {
     const res = await axios.get('api/posts')
     dispatch({ type: GET_POSTS, payload: res.data })
@@ -12,18 +12,18 @@ export const getPosts = () => async dispatch => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response.status
-      }
+        status: error.response.status,
+      },
     })
   }
 }
 
 // Add post
-export const addPost = data => async dispatch => {
+export const addPost = (data) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+      'Content-Type': 'application/json',
+    },
   }
   try {
     dispatch(asyncActionStart())
@@ -37,23 +37,26 @@ export const addPost = data => async dispatch => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response
-      }
+        status: error.response,
+      },
     })
   }
 }
 
 // Upload photo
-export const uploadPhoto = (data, photoId) => async dispatch => {
+export const uploadPhoto = (data, photoId) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+      'Content-Type': 'multipart/form-data',
+    },
   }
   try {
     dispatch(asyncActionStart(photoId))
-    const res = await axios.post('/api/posts/photo', data, config)
-    dispatch({ type: UPLOAD_PHOTO, payload: res.data })
+    const res = await axios.post('/api/posts/upload_photo', data, config)
+    const payload = res.data
+    console.log(payload)
+    Object.assign(payload, { photoId })
+    dispatch({ type: UPLOAD_PHOTO, payload })
     dispatch(asyncActionFinish(photoId))
   } catch (error) {
     dispatch(asyncActionError(photoId))
@@ -61,8 +64,8 @@ export const uploadPhoto = (data, photoId) => async dispatch => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response
-      }
+        status: error.response,
+      },
     })
   }
 }

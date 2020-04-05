@@ -13,7 +13,7 @@ export default function(state = initialState, action) {
     case GET_POSTS:
       return { ...state, posts: payload }
     case ADD_POST:
-      return { ...state, posts: [...state.posts, payload] }
+      return { ...state, posts: [...state.posts, payload], uploadedPhotos: [] }
     case UPLOAD_PHOTO:
       return {
         ...state,

@@ -3,6 +3,7 @@ import SwitchInput from '../../../layout/form/switch/switchInput.component'
 import SelectInput from '../../../layout/form/select/selectInput.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 const FadeInAnimation = keyframes`${fadeIn}`
@@ -14,6 +15,8 @@ const FadeInDiv = styled.div`
 const PostGeneralInfo = ({ formData, onChange }) => {
   const { city, district, userType, estateType } = formData
 
+  const [t] = useTranslation()
+
   const userTypeOptions = [
     {
       input: {
@@ -21,9 +24,9 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         name: 'userType',
         type: 'radio',
         value: 'owner',
-        checked: userType === 'owner'
+        checked: userType === 'owner',
       },
-      label: 'Owner'
+      label: t('createPost.generalInfo.owner'),
     },
     {
       input: {
@@ -31,10 +34,10 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         name: 'userType',
         type: 'radio',
         value: 'agent',
-        checked: userType === 'agent'
+        checked: userType === 'agent',
       },
-      label: 'Agent'
-    }
+      label: t('createPost.generalInfo.agent'),
+    },
   ]
 
   const estateTypeOptions = [
@@ -44,9 +47,9 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         name: 'estateType',
         type: 'radio',
         value: 'apartment',
-        checked: estateType === 'apartment'
+        checked: estateType === 'apartment',
       },
-      label: 'Apartment'
+      label: t('createPost.generalInfo.apartment'),
     },
     {
       input: {
@@ -54,21 +57,21 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         name: 'estateType',
         type: 'radio',
         value: 'house',
-        checked: estateType === 'house'
+        checked: estateType === 'house',
       },
-      label: 'House'
-    }
+      label: t('createPost.generalInfo.house'),
+    },
   ]
 
   const cityOptions = [
     {
       input: { id: 'baku', name: 'city', type: 'radio', value: 'Baku' },
-      label: 'Baku'
+      label: 'Baku',
     },
     {
       input: { id: 'ganja', name: 'city', type: 'radio', value: 'Ganja' },
-      label: 'Ganja'
-    }
+      label: 'Ganja',
+    },
   ]
 
   const districtOptions = [
@@ -77,48 +80,50 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         id: 'icheri-sheher',
         name: 'district',
         type: 'radio',
-        value: 'Icheri Sheher'
+        value: 'Icheri Sheher',
       },
-      label: 'Icheri Sheher'
+      label: 'Icheri Sheher',
     },
     {
       input: {
         id: 'sabunchu',
         name: 'district',
         type: 'radio',
-        value: 'Sabunchu'
+        value: 'Sabunchu',
       },
-      label: 'Sabunchu'
-    }
+      label: 'Sabunchu',
+    },
   ]
 
   return (
     <FadeInDiv>
-      <h3 className="my-1">General Information</h3>
+      <h3 className="step-title my-1">{t('createPost.generalInfo.title')}</h3>
       {/* User type */}
       <SwitchInput
-        fieldName={'Who are you?'}
+        fieldName={t('createPost.generalInfo.userType')}
         options={userTypeOptions}
         onChange={onChange}
       />
       {/* Estate type */}
       <SwitchInput
-        fieldName={'Estate type'}
+        fieldName={t('createPost.generalInfo.estateType')}
         options={estateTypeOptions}
         onChange={onChange}
       />
       {/* City */}
       <SelectInput
-        fieldName={'City'}
+        fieldName={t('createPost.generalInfo.city')}
         options={cityOptions}
-        placeholder={city ? city : 'Choose your city'}
+        placeholder={city ? city : t('createPost.generalInfo.cityField')}
         onChange={onChange}
       />
       {/* District */}
       <SelectInput
-        fieldName={'District'}
+        fieldName={t('createPost.generalInfo.district')}
         options={districtOptions}
-        placeholder={district ? district : 'Choose your district'}
+        placeholder={
+          district ? district : t('createPost.generalInfo.districtField')
+        }
         onChange={onChange}
       />
     </FadeInDiv>
@@ -127,7 +132,7 @@ const PostGeneralInfo = ({ formData, onChange }) => {
 
 PostGeneralInfo.propTypes = {
   formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 }
 
 export default PostGeneralInfo

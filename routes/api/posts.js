@@ -1,9 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
-const upload = require('../../middleware/upload')
 const mongoose = require('mongoose')
-const Grid = require('gridfs-stream')
+const Busboy = require('busboy')
+const busboyBodyParser = require('busboy-body-parser')
+const AWS = require('aws-sdk')
+const sharp = require('sharp')
+const crypto = require('crypto')
+const path = require('path')
+const config = require('config')
+
+const { accessKeyId, secretAccessKey, Bucket } = config.get('AWS')
 
 const Post = require('../../models/Post')
 
@@ -46,19 +53,10 @@ router.get('/:id', async (req, res) => {
 // @acess Private
 router.post(
   '/',
-  [passport.authenticate('jwt', { session: false }), upload.array('photos')],
+  [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
     try {
-      const postFields = { ...req.body }
-      postFields.photos = []
-
-      // Post photos
-      postFields.user = req.user
-      req.files.map(file =>
-        postFields.photos.push(mongoose.Types.ObjectId(file.id))
-      )
-
-      const post = new Post(postFields)
+      const post = new Post(req.body)
       await post.save()
 
       res.json(post)
@@ -69,72 +67,78 @@ router.post(
   }
 )
 
-// @route POST api/posts/photo
+// @route POST api/posts/upload_photo
 // @desc  Upload photo
 // @acess Private
 router.post(
-  '/photo',
-  [passport.authenticate('jwt', { session: false }), upload.single('photo')],
-  async (req, res) => {
-    try {
-      if (!req.file) {
-        return res
-          .status(400)
-          .json({ errors: [{ message: 'Photo not uploaded' }] })
+  '/upload_photo',
+  [
+    passport.authenticate('jwt', { session: false }),
+    busboyBodyParser({ limit: '10mb' }),
+  ],
+  (req, res) => {
+    const busboy = new Busboy({ headers: req.headers })
+    busboy.on('finish', async () => {
+      const { name, data, mimetype } = req.files.photo
+
+      try {
+        const uploadFilePromises = []
+        const filename = await hashFileName(name)
+        const re = /WIDTH/
+
+        const image = await sharp(data).resize(1024).toBuffer()
+
+        const thumbnail = await sharp(data).resize(480).toBuffer()
+
+        uploadFilePromises.push(
+          uploadToS3(filename.replace(re, '1024'), image, mimetype)
+        )
+
+        uploadFilePromises.push(
+          uploadToS3(filename.replace(re, '480'), thumbnail, mimetype)
+        )
+
+        const filesInfo = await Promise.all(uploadFilePromises)
+        res.json({ img: filesInfo[0].Location, thumb: filesInfo[1].Location })
+      } catch (error) {
+        console.error(error.message)
+        return res.status(500).send('Server error...')
       }
-      res.json({ id: req.file.id })
-    } catch (error) {
-      console.error(error.message)
-      return res.status(500).send('Server error...')
-    }
+    })
+
+    req.pipe(busboy)
   }
 )
 
-// @route GET api/posts/photo
-// @desc  Get post photos
-// @acess Public
-router.get('/photo/:id', async (req, res) => {
-  Grid.mongo = mongoose.mongo
-  let gfs = new Grid(mongoose.connection.db)
-  gfs.collection('uploads')
-
-  const postId = req.params.id
-  const post = await Post.findById(postId)
-
-  gfs.files
-    .find({
-      _id: { $in: post.photos.map(photo => mongoose.Types.ObjectId(photo._id)) }
-    })
-    .toArray((error, files) => {
-      // Check if no files
-      if (!files || files.length === 0) {
-        return res
-          .status(404)
-          .json({ errors: [{ message: 'No photos found' }] })
+const hashFileName = (filename) => {
+  return new Promise((resolve, reject) => {
+    crypto.randomBytes(16, async (err, buff) => {
+      if (err) {
+        reject(err)
       }
-
-      res.json(files)
+      const hashedName =
+        buff.toString('hex') + '_WIDTH' + path.extname(filename)
+      resolve(hashedName)
     })
-})
-
-// @route GET api/posts/photo/single/:filename
-// @desc  Get post photo by its name
-// @acess Public
-router.get('/photo/single/:filename', (req, res) => {
-  Grid.mongo = mongoose.mongo
-  let gfs = new Grid(mongoose.connection.db)
-  gfs.collection('uploads')
-
-  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    // Check if no files
-    if (!file) {
-      return res.status(404).json({ errors: [{ message: 'No photos found' }] })
-    }
-
-    // Read output to browser
-    const readstream = gfs.createReadStream(file.filename)
-    readstream.pipe(res)
   })
-})
+}
+
+const uploadToS3 = (filename, buffer, mimetype) => {
+  const s3bucket = new AWS.S3({
+    accessKeyId,
+    secretAccessKey,
+    Bucket,
+  })
+
+  const params = {
+    Bucket,
+    Key: filename,
+    Body: buffer,
+    ContentType: mimetype,
+    CacheControl: 'public, max-age=86400',
+  }
+
+  return s3bucket.upload(params).promise()
+}
 
 module.exports = router

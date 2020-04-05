@@ -6,6 +6,7 @@ import { fadeIn, fadeOut } from 'react-animations'
 import PropTypes from 'prop-types'
 import GoogleMapReact from 'google-map-react'
 import { googleAPIKey } from '../../../../config'
+import { useTranslation } from 'react-i18next'
 
 import '../postForm.style.scss'
 
@@ -27,7 +28,7 @@ const Marker = () => (
         width: 40,
         height: 40,
         left: -40 / 2,
-        top: -40 / 2
+        top: -40 / 2,
       }}
     ></i>
   </div>
@@ -36,22 +37,23 @@ const Marker = () => (
 const PostMap = ({ formData, setFormData }) => {
   const { address, lat, lng } = formData
 
+  const [t] = useTranslation()
+
   const options = {
     name: 'address',
     value: address,
     searchOptions: {
       location: new google.maps.LatLng({
         lat: 40.40926169999999,
-        lng: 49.8670924
+        lng: 49.8670924,
       }),
       radius: 1000,
       types: ['address'],
-      componentRestrictions: { country: 'az' }
-    }
+      componentRestrictions: { country: 'az' },
+    },
   }
 
   const onChange = (address, lat, lng) => {
-    console.log('123')
     if (lat === null || lng === null) {
       setFormData({ ...formData, address })
     } else {
@@ -59,7 +61,7 @@ const PostMap = ({ formData, setFormData }) => {
     }
   }
 
-  const onClickMap = obj => {
+  const onClickMap = (obj) => {
     let latlng = new google.maps.LatLng(obj.lat, obj.lng)
     geocoder.geocode({ latLng: latlng }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
@@ -68,7 +70,7 @@ const PostMap = ({ formData, setFormData }) => {
             ...formData,
             address: results[1].formatted_address,
             lat: obj.lat,
-            lng: obj.lng
+            lng: obj.lng,
           })
         } else {
           console.log('No results found')
@@ -81,13 +83,13 @@ const PostMap = ({ formData, setFormData }) => {
 
   return (
     <FadeInDiv>
-      <h3 className="my-1">Show your house on the map</h3>
+      <h3 className="step-title my-1">{t('createPost.mapInfo.title')}</h3>
       <PlaceInput options={options} onChange={onChange} />
       <div
         style={{
           height: '55vh',
           width: '100%',
-          marginBottom: '1rem'
+          marginBottom: '1rem',
         }}
       >
         <GoogleMapReact
@@ -95,7 +97,7 @@ const PostMap = ({ formData, setFormData }) => {
           bootstrapURLKeys={{ key: googleAPIKey }}
           defaultCenter={{
             lat,
-            lng
+            lng,
           }}
           center={{ lat, lng }}
           defaultZoom={11}
@@ -109,7 +111,7 @@ const PostMap = ({ formData, setFormData }) => {
 
 PostMap.propTypes = {
   formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired
+  setFormData: PropTypes.func.isRequired,
 }
 
 export default PostMap

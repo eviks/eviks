@@ -2,6 +2,7 @@ import React from 'react'
 import Input from '../../../layout/form/input/input.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 const FadeInAnimation = keyframes`${fadeIn}`
@@ -13,18 +14,18 @@ const FadeInDiv = styled.div`
 const PostContact = ({ formData, onChange }) => {
   const { contact } = formData
 
+  const [t] = useTranslation()
+
   return (
     <FadeInDiv>
-      <h3 className="my-1">
-        Everything is up & ready! Just leave us your contact information
-      </h3>
+      <h3 className="step-title my-1">{t('createPost.contact.title')}</h3>
       {/* Contact */}
       <Input
-        fieldName={'Contact'}
+        fieldName={t('createPost.contact.contact')}
         options={{
           type: 'text',
           name: 'contact',
-          value: contact === 0 ? '' : contact
+          value: contact === 0 ? '' : contact,
         }}
         onChange={onChange}
       />
@@ -34,7 +35,7 @@ const PostContact = ({ formData, onChange }) => {
 
 PostContact.propTypes = {
   formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 }
 
 export default PostContact

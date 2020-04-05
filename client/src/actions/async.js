@@ -4,14 +4,14 @@ import {
   ASYNC_ACTION_ERROR
 } from './types'
 
-export const asyncActionStart = (payload = '') => async dispatch => {
+export const asyncActionStart = (payload = '') => dispatch => {
   dispatch({ type: ASYNC_ACTION_START, payload })
 }
 
-export const asyncActionFinish = (payload = '') => async dispatch => {
+export const asyncActionFinish = (payload = '') => dispatch => {
   dispatch({ type: ASYNC_ACTION_FINISH, payload })
 }
 
-export const asyncActionError = (payload = '') => async dispatch => {
+export const asyncActionError = (payload = '') => dispatch => {
   dispatch({ type: ASYNC_ACTION_ERROR, payload })
 }

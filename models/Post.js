@@ -49,7 +49,7 @@ const PostSchema = new mongoose.Schema({
   price: Number,
   bargain: Boolean,
   progressPayment: Boolean,
-  photos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'uploads.files' }],
+  photos: Array,
   contact: String,
   date: {
     type: Date,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
 import PostMap from './steps/postMap.component'
@@ -14,11 +14,12 @@ import { toastr } from 'react-redux-toastr'
 import SuccessIcon from '../../layout/icons/successIcon.component'
 import Ripple from '../../layout/ripple/ripple.component'
 import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 import './postForm.style.scss'
 
-const PostForm = ({ addPost, loading, history }) => {
+const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
   const [formData, setFormData] = useState({
     userType: '',
     city: '',
@@ -64,7 +65,7 @@ const PostForm = ({ addPost, loading, history }) => {
     price: 0,
     bargain: false,
     progressPayment: false,
-    contact: ''
+    contact: '',
   })
 
   const [step, setStep] = useState({ currentStep: 0, totalSteps: 7 })
@@ -72,38 +73,30 @@ const PostForm = ({ addPost, loading, history }) => {
 
   const [files, setFiles] = useState([])
 
-  useEffect(() => {
-    return () => {
-      files.forEach(file => URL.revokeObjectURL(file.preview))
-    }
-  }, [files])
-
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault()
 
-    const data = new FormData()
-    Object.keys(formData).forEach(key => data.append(key, formData[key]))
-    data.append('photos', files[0])
-
+    const data = { ...formData, photos: uploadedPhotos }
     const post = await addPost(data)
 
     if (post) {
       const toastrOptions = {
         timeOut: 0,
         icon: <SuccessIcon />,
-        status: 'info'
+        status: 'info',
       }
       toastr.light('Success', 'Your post is published', toastrOptions)
       history.push('/')
     }
   }
 
-  const onChange = e => {
+  const onChange = (e) => {
     const { name, type } = e.target
     const value = type === 'checkbox' ? e.target.checked : e.target.value
     setFormData({
       ...formData,
-      [name]: type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value
+      [name]:
+        type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value,
     })
   }
 
@@ -113,7 +106,7 @@ const PostForm = ({ addPost, loading, history }) => {
     newStep = Math.max(newStep, 0)
     setStep({
       ...step,
-      currentStep: newStep
+      currentStep: newStep,
     })
   }
 
@@ -139,21 +132,22 @@ const PostForm = ({ addPost, loading, history }) => {
     }
   }
 
+  const [t] = useTranslation()
+
   return (
-    <div className="container px-4" style={{ maxWidth: '1000px' }}>
+    <div className="post-form-container px-4">
       <ProgressBar step={step} />
-      <form onSubmit={e => onSubmit(e)}>
+      <form onSubmit={(e) => onSubmit(e)}>
         {renderSwitch()}
         <div className="form-button-box">
           {/* Back */}
 
           <button
             className="btn btn-secondary"
-            onClick={e => stepChange(e)}
-            disabled={loading}
+            onClick={(e) => stepChange(e)}
             style={{ visibility: currentStep === 0 ? 'hidden' : 'visible' }}
           >
-            Back
+            {t('createPost.back')}
             <Ripple />
           </button>
 
@@ -164,13 +158,13 @@ const PostForm = ({ addPost, loading, history }) => {
               className="btn btn-primary"
               disabled={loading}
             >
-              Submit
+              {t('createPost.submit')}
               {loading && (
                 <ButtonSpinner
                   style={{
                     width: '20px',
                     marginLeft: '4px',
-                    transition: 'all 0.3s ease-in-out'
+                    transition: 'all 0.3s ease-in-out',
                   }}
                 />
               )}
@@ -179,9 +173,9 @@ const PostForm = ({ addPost, loading, history }) => {
           ) : (
             <button
               className="btn btn-primary"
-              onClick={e => stepChange(e, true)}
+              onClick={(e) => stepChange(e, true)}
             >
-              Next
+              {t('createPost.next')}
               <Ripple />
             </button>
           )}
@@ -193,11 +187,12 @@ const PostForm = ({ addPost, loading, history }) => {
 
 PostForm.propTypes = {
   addPost: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
-  loading: state.async.loading
+const mapStateToProps = (state) => ({
+  loading: state.async.loading,
+  uploadedPhotos: state.post.uploadedPhotos,
 })
 
 export default connect(mapStateToProps, { addPost })(PostForm)

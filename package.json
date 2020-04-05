@@ -12,7 +12,10 @@
   "author": "Kamran Veliev",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.652.0",
     "bcryptjs": "^2.4.3",
+    "busboy": "^0.3.1",
+    "busboy-body-parser": "^0.3.2",
     "config": "^3.2.4",
     "express": "^4.17.1",
     "express-validator": "^6.3.1",
@@ -20,14 +23,13 @@
     "handlebars": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.3",
-    "multer": "^1.4.2",
-    "multer-gridfs-storage": "^4.0.1",
     "nodemailer": "^6.4.2",
     "nodemailer-mailgun-transport": "^2.0.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "sharp": "^0.25.2"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",

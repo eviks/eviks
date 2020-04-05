@@ -1,16 +1,19 @@
 import React from 'react'
 import PlacesAutocomplete, {
   geocodeByAddress,
-  getLatLng
+  getLatLng,
 } from 'react-places-autocomplete'
+import { useTranslation } from 'react-i18next'
 
 import './placeInput.style.scss'
 
 const LocationSearchInput = ({
   options: { name, value, searchOptions },
-  onChange
+  onChange,
 }) => {
-  const onSelect = async address => {
+  const [t] = useTranslation()
+
+  const onSelect = async (address) => {
     try {
       const results = await geocodeByAddress(address)
       const latLng = await getLatLng(results[0])
@@ -24,22 +27,22 @@ const LocationSearchInput = ({
     <PlacesAutocomplete
       value={value}
       searchOptions={searchOptions}
-      onChange={e => onChange(e, null, null)}
-      onSelect={e => onSelect(e)}
+      onChange={(e) => onChange(e, null, null)}
+      onSelect={(e) => onSelect(e)}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div style={{ position: 'relative' }}>
           <input
             {...getInputProps({
-              placeholder: 'Search Places ...',
-              className: 'location-search-input field'
+              placeholder: t('form.googleAutoComplitePlaceholder'),
+              className: 'location-search-input field',
             })}
           />
           <div
             className="autocomplete-dropdown-container"
             style={{ display: suggestions.length ? 'block' : 'none' }}
           >
-            {suggestions.map(suggestion => {
+            {suggestions.map((suggestion) => {
               const className = suggestion.active
                 ? 'suggestion-item--active'
                 : 'suggestion-item'
@@ -47,7 +50,7 @@ const LocationSearchInput = ({
               return (
                 <div
                   {...getSuggestionItemProps(suggestion, {
-                    className
+                    className,
                   })}
                 >
                   <span>{suggestion.description}</span>

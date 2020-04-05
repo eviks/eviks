@@ -31,7 +31,7 @@ const Auth = ({ handleCloseModal, showOverlay, history }) => {
             onClick={() => setState({ action: 'login' })}
           />
           <label htmlFor="login" className="btn btn-toggle">
-            {t('login')}
+            {t('auth.login')}
           </label>
           <input
             id="register"
@@ -41,7 +41,7 @@ const Auth = ({ handleCloseModal, showOverlay, history }) => {
             onClick={() => setState({ action: 'register' })}
           />
           <label htmlFor="register" className="btn btn-toggle">
-            {t('register')}
+            {t('auth.register')}
           </label>
         </div>
         {action === 'login' ? (
@@ -53,7 +53,7 @@ const Auth = ({ handleCloseModal, showOverlay, history }) => {
       {showOverlay && (
         <div className="overlay-container">
           <div className="overlay">
-            <span className="large">{t('authTitle')}</span>
+            <span className="large">{t('auth.authTitle')}</span>
           </div>
         </div>
       )}

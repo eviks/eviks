@@ -22,7 +22,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     setState({ showAuthModal: false })
   }
 
-  const changeLanguage = lng => {
+  const changeLanguage = (lng) => {
     i18n.changeLanguage(lng)
   }
 
@@ -30,17 +30,17 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     <Fragment>
       <li>
         <Link to="/">
-          <i className="fas fa-heart"></i> {t('favorites')}
+          <i className="fas fa-heart"></i> {t('navbar.favorites')}
         </Link>
       </li>
       <li>
         <Link to="/">
-          <i className="fas fa-user"></i> {t('myAccount')}
+          <i className="fas fa-user"></i> {t('navbar.myAccount')}
         </Link>
       </li>
       <li>
         <a href="#!" onClick={logout}>
-          <i className="fas fa-sign-out-alt"></i> {t('logout')}
+          <i className="fas fa-sign-out-alt"></i> {t('navbar.logout')}
         </a>
       </li>
     </Fragment>
@@ -49,7 +49,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <li>
       <Link to="" onClick={() => handleOpenModal()}>
-        <i className="fas fa-sign-in-alt"></i> {t('joinOrSignIn')}
+        <i className="fas fa-sign-in-alt"></i> {t('navbar.joinOrSignIn')}
       </Link>
     </li>
   )
@@ -93,11 +93,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 }
 
 logout.propTypes = {
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 })
 
 export default connect(mapStateToProps, { logout })(Navbar)

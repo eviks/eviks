@@ -20,10 +20,10 @@ const Login = ({ handleCloseModal, login, isAuthenticated, loading }) => {
   const [t] = useTranslation()
   const { email, password } = formData
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     login(email, password)
   }
@@ -37,8 +37,8 @@ const Login = ({ handleCloseModal, login, isAuthenticated, loading }) => {
   }
 
   return (
-    <FadeInLeftForm onSubmit={e => onSubmit(e)}>
-      <h3 className="lead">{t('loginTitle')}</h3>
+    <FadeInLeftForm onSubmit={(e) => onSubmit(e)}>
+      <h3 className="lead">{t('auth.loginTitle')}</h3>
       <Alert />
       <div className="social-container">
         <Link to="#" className="social">
@@ -49,7 +49,7 @@ const Login = ({ handleCloseModal, login, isAuthenticated, loading }) => {
         </Link>
       </div>
       <label htmlFor="email" className="label-flex">
-        <i className="fas fa-at"></i> {t('email')}
+        <i className="fas fa-at"></i> {t('auth.email')}
       </label>
       <input
         className="input-field-radius"
@@ -57,10 +57,10 @@ const Login = ({ handleCloseModal, login, isAuthenticated, loading }) => {
         name="email"
         value={email}
         required
-        onChange={e => onChange(e)}
+        onChange={(e) => onChange(e)}
       />
       <label htmlFor="password" className="label-flex">
-        <i className="fas fa-lock"></i> {t('password')}
+        <i className="fas fa-lock"></i> {t('auth.password')}
       </label>
       <input
         className="input-field-radius"
@@ -68,23 +68,23 @@ const Login = ({ handleCloseModal, login, isAuthenticated, loading }) => {
         name="password"
         value={password}
         required
-        onChange={e => onChange(e)}
+        onChange={(e) => onChange(e)}
       />
       <button type="submit" className="btn btn-primary" disabled={loading}>
-        {t('signIn')}
+        {t('auth.signIn')}
         {loading && (
           <ButtonSpinner
             style={{
               width: '20px',
               marginLeft: '4px',
-              transition: 'all 0.3s ease-in-out'
+              transition: 'all 0.3s ease-in-out',
             }}
           />
         )}
         <Ripple />
       </button>
       <Link to="/reset_password" onClick={() => handleCloseModal()}>
-        {t('forgotPassword')}
+        {t('auth.forgotPassword')}
       </Link>
     </FadeInLeftForm>
   )
@@ -94,12 +94,12 @@ Login.propTypes = {
   handleCloseModal: PropTypes.func,
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  loading: state.async.loading
+  loading: state.async.loading,
 })
 
 export default connect(mapStateToProps, { login })(Login)

@@ -11,15 +11,15 @@ const Landing = () => {
     <section className="landing">
       <div className="dark-overlay">
         <div className="landing-inner">
-          <h1 className="x-large">{t('welcome')}</h1>
-          <p className="lead">{t('slogan')}</p>
+          <h1 className="x-large">{t('landing.title')}</h1>
+          <p className="lead">{t('landing.slogan')}</p>
           <div className="buttons">
             <Link to="posts" className="btn btn-primary">
-              {t('search')}
+              {t('landing.search')}
               <Ripple />
             </Link>
             <Link to="create_post" className="btn btn-ghost">
-              {t('sell')}
+              {t('landing.sell')}
               <Ripple />
             </Link>
           </div>
