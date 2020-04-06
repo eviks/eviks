@@ -65,11 +65,16 @@ const resources = {
       },
       form: {
         googleAutoComplitePlaceholder: 'Введите адрес...',
+        requiredField: 'Это обязательное поле',
+      },
+      dropzone: {
+        click: 'Добавить',
+        drag: 'или перетащите файлы сюда',
       },
       createPost: {
         back: 'Назад',
         next: 'Далее',
-        submit: 'Подтвердить',
+        submit: 'Разместить объявление',
         generalInfo: {
           title: 'Общая информация',
           userType: 'Кто вы?',
@@ -90,8 +95,8 @@ const resources = {
           title: 'Информация о недвижимости',
           rooms: 'Количество комнат',
           sqm: 'Общая полощадь',
-          livingRoomsSqm: 'Площадь жилых комнат',
-          kitchenSqm: 'Площадь кухни',
+          livingRoomsSqm: 'Жилая площадь (необязательно)',
+          kitchenSqm: 'Площадь кухни (необязательно)',
           floor: 'Этаж',
           totalFloors: 'Всего этажей',
           maintenance: 'Ремонт',

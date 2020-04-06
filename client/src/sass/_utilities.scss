@@ -33,7 +33,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin-right: 0.5rem;
+  // margin-right: 0.5rem;
   padding: 0 1.3rem;
   border-radius: 50px;
   font-size: 1rem;
@@ -60,8 +60,8 @@
 
   &-secondary {
     border: none;
-    background: $grey-color;
-    color: $light-color;
+    background: rgb(233, 233, 233);
+    color: $dark-color;
     line-height: 2.5rem;
   }
 
@@ -80,6 +80,13 @@
     transition: background 600ms ease, color 600ms ease;
     color: $dark-color;
     font-weight: bold;
+  }
+
+  &-sm {
+    font-size: 0.8rem;
+    line-height: 2;
+    padding: 0;
+    min-width: 100px;
   }
 }
 
@@ -105,9 +112,14 @@
   margin-bottom: 1.1rem;
   // align-items: center;
 
-  .field-name {
+  &-name {
     margin-left: 0.2rem;
-    width: 200px;
+  }
+
+  &-required {
+    margin-left: 0.2rem;
+    font-size: 0.8rem;
+    color: $danger-color;
   }
 }
 

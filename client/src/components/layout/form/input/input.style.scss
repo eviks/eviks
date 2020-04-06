@@ -12,6 +12,10 @@
   &:focus {
     border: 1px solid $dark-color;
   }
+
+  &.not-field {
+    border-color: $danger-color;
+  }
 }
 
 .input-field[type='number']::-webkit-inner-spin-button,

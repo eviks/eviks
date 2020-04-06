@@ -1,7 +1,9 @@
 @import '../../../../../sass/config';
 
 .progress-step {
-  width: 105px;
+  width: auto;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 
   .circle {
     margin: auto;
@@ -50,25 +52,6 @@
   justify-content: center;
   position: relative;
   transition: all 0.3s ease-in;
-
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    width: 100%;
-    height: 2px;
-    margin: 0 1rem;
-    background: linear-gradient(to right, $primary-color 50%, $grey-color 50%);
-    background-size: 200% 100%;
-    background-position: right bottom;
-    transition: all 0.3s ease-in;
-
-    .previous & {
-      background-position: left bottom;
-    }
-  }
 
   .current & {
     background-color: $primary-color;

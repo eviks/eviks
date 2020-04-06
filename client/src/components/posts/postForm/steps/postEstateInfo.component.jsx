@@ -59,7 +59,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
   ]
 
   return (
-    <FadeInDiv>
+    <FadeInDiv className="px-4">
       <h3 className="step-title my-1">{t('createPost.estateInfo.title')}</h3>
       {/* Rooms */}
       <Input
@@ -69,7 +69,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'rooms',
           value: rooms === 0 ? '' : rooms,
           min: '0',
-          style: { width: '60px' },
+          style: { width: '120px' },
         }}
         onChange={onChange}
       />
@@ -81,7 +81,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'sqm',
           value: sqm === 0 ? '' : sqm,
           min: '0',
-          style: { width: '60px' },
+          style: { width: '120px' },
         }}
         onChange={onChange}
       />
@@ -93,8 +93,9 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'livingRoomsSqm',
           value: livingRoomsSqm === 0 ? '' : livingRoomsSqm,
           min: '0',
-          style: { width: '60px' },
+          style: { width: '120px' },
         }}
+        required={false}
         onChange={onChange}
       />
       {/* Kitchen sqm */}
@@ -105,8 +106,9 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'kitchenSqm',
           value: kitchenSqm === 0 ? '' : kitchenSqm,
           min: '0',
-          style: { width: '60px' },
+          style: { width: '120px' },
         }}
+        required={false}
         onChange={onChange}
       />
       {/* Floor */}
@@ -117,7 +119,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'floor',
           value: floor === 0 ? '' : floor,
           min: '0',
-          style: { width: '60px' },
+          style: { width: '120px' },
         }}
         onChange={onChange}
       />
@@ -129,7 +131,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'totalFloors',
           value: totalFloors === 0 ? '' : totalFloors,
           min: '0',
-          style: { width: '60px' },
+          style: { width: '120px' },
         }}
         onChange={onChange}
       />

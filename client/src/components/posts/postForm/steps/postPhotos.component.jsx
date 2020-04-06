@@ -23,7 +23,7 @@ const PostPhotos = ({ files, setFiles }) => {
   }
 
   return (
-    <FadeInDiv>
+    <FadeInDiv className="post-step">
       <h3 className="step-title my-1">{t('createPost.photos.title')}</h3>
       <p className="my-1">{t('createPost.photos.additionalInfo')}</p>
       {files.length > 0 ? (

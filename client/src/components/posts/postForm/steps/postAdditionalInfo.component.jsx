@@ -1,6 +1,6 @@
 import React from 'react'
 import TextArea from '../../../layout/form/textarea/textarea.component'
-import Checkbox from '../../../layout/form/checkbox/checkbox.component'
+import CheckboxCard from '../../../layout/form/checkboxCard/checkboxCard.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
 import { useTranslation } from 'react-i18next'
@@ -47,22 +47,24 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
         onChange={onChange}
       />
       <br />
-      <div className="flex-container">
+      <div className="grid-container">
         <div>
           {/* Balcony */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.balcony')}
             options={{ name: 'balcony', id: 'balcony', checked: balcony }}
             onChange={onChange}
+            iconClass={'fas fa-building'}
           />
           {/* Furniture */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.furniture')}
             options={{ name: 'furniture', id: 'furniture', checked: furniture }}
             onChange={onChange}
+            iconClass={'fas fa-couch'}
           />
           {/* Kitchen furniture */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.kitchenFurniture')}
             options={{
               name: 'kitchenFurniture',
@@ -70,31 +72,35 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
               checked: kitchenFurniture,
             }}
             onChange={onChange}
+            iconClass={'fas fa-utensils'}
           />
         </div>
         <div>
           {/* CCTV */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.cctv')}
             options={{ name: 'cctv', id: 'cctv', checked: cctv }}
             onChange={onChange}
+            iconClass={'fas fa-tv'}
           />
           {/* Phone */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.phone')}
             options={{ name: 'phone', id: 'phone', checked: phone }}
             onChange={onChange}
+            iconClass={'fas fa-phone-alt'}
           />
           {/* Internet */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.internet')}
             options={{ name: 'internet', id: 'internet', checked: internet }}
             onChange={onChange}
+            iconClass={'fas fa-wifi'}
           />
         </div>
         <div>
           {/* Electricity */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.electricity')}
             options={{
               name: 'electricity',
@@ -102,35 +108,40 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
               checked: electricity,
             }}
             onChange={onChange}
+            iconClass={'fas fa-bolt'}
           />
           {/* Gas */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.gas')}
             options={{ name: 'gas', id: 'gas', checked: gas }}
             onChange={onChange}
+            iconClass={'fas fa-burn'}
           />
           {/* Water */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.water')}
             options={{ name: 'water', id: 'water', checked: water }}
             onChange={onChange}
+            iconClass={'fas fa-shower'}
           />
           {/* Heating */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.heating')}
             options={{ name: 'heating', id: 'heating', checked: heating }}
             onChange={onChange}
+            iconClass={'fas fa-fire'}
           />
         </div>
         <div>
           {/* TV */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.tv')}
             options={{ name: 'tv', id: 'tv', checked: tv }}
             onChange={onChange}
+            iconClass={'fas fa-tv'}
           />
           {/* Conditioner */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.conditioner')}
             options={{
               name: 'conditioner',
@@ -138,9 +149,10 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
               checked: conditioner,
             }}
             onChange={onChange}
+            iconClass={'fas fa-wind'}
           />
           {/* Washing machine */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.washingMachine')}
             options={{
               name: 'washingMachine',
@@ -148,9 +160,10 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
               checked: washingMachine,
             }}
             onChange={onChange}
+            iconClass={'fas fa-recycle'}
           />
           {/* Dishwasher */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.dishwasher')}
             options={{
               name: 'dishwasher',
@@ -158,9 +171,10 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
               checked: dishwasher,
             }}
             onChange={onChange}
+            iconClass={'fas fa-soap'}
           />
           {/* Refrigerator */}
-          <Checkbox
+          <CheckboxCard
             label={t('createPost.additionalInfo.refrigerator')}
             options={{
               name: 'refrigerator',
@@ -168,6 +182,7 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
               checked: refrigerator,
             }}
             onChange={onChange}
+            iconClass={'fas fa-snowflake'}
           />
         </div>
       </div>

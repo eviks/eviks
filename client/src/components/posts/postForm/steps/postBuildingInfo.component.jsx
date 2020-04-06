@@ -18,7 +18,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
   const [t] = useTranslation()
 
   return (
-    <FadeInDiv>
+    <FadeInDiv className="px-4">
       <h3 className="step-title my-1">{t('createPost.buildingInfo.title')}</h3>
       {/* Ceiling height */}
       <Input
@@ -28,7 +28,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
           name: 'ceilingHeight',
           value: ceilingHeight === 0 ? '' : ceilingHeight,
           min: '0',
-          style: { width: '60px' },
+          style: { width: '120px' },
         }}
         onChange={onChange}
       />
@@ -40,7 +40,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
           name: 'yearBuild',
           value: yearBuild === 0 ? '' : yearBuild,
           min: '0',
-          style: { width: '60px' },
+          style: { width: '120px' },
         }}
         onChange={onChange}
       />

@@ -2,9 +2,10 @@
 
 .dropzone {
   width: 100%;
-  height: 55vh;
+  height: 300px;
   border: 2px dashed $grey-color;
-  background: rgb(248, 248, 248);
+  border-radius: 8px;
+  background: $light-color;
   margin-bottom: 1rem;
   box-sizing: content-box;
   cursor: pointer;

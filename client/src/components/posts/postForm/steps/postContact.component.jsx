@@ -17,7 +17,7 @@ const PostContact = ({ formData, onChange }) => {
   const [t] = useTranslation()
 
   return (
-    <FadeInDiv>
+    <FadeInDiv className="px-4">
       <h3 className="step-title my-1">{t('createPost.contact.title')}</h3>
       {/* Contact */}
       <Input

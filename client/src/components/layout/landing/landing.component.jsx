@@ -14,12 +14,16 @@ const Landing = () => {
           <h1 className="x-large">{t('landing.title')}</h1>
           <p className="lead">{t('landing.slogan')}</p>
           <div className="buttons">
-            <Link to="posts" className="btn btn-primary">
-              {t('landing.search')}
+            <Link
+              to="create_post"
+              className="btn btn-ghost"
+              style={{ marginRight: '0.5rem' }}
+            >
+              {t('landing.sell')}
               <Ripple />
             </Link>
-            <Link to="create_post" className="btn btn-ghost">
-              {t('landing.sell')}
+            <Link to="posts" className="btn btn-primary">
+              {t('landing.search')}
               <Ripple />
             </Link>
           </div>

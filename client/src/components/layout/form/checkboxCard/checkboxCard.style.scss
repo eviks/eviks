@@ -1,0 +1,46 @@
+@import '../../../../sass/config';
+
+.checkbox-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+  background-color: $light-color;
+  width: 150px;
+  height: 70px;
+  color: $dark-color;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px $grey-color;
+  overflow: hidden;
+
+  &.checked,
+  &:hover {
+    color: $light-color;
+    box-shadow: none;
+  }
+
+  &:hover {
+    background-color: lighten($primary-color, 5%);
+  }
+
+  &.checked {
+    background-color: $primary-color;
+  }
+
+  i {
+    margin-right: 0.5rem;
+  }
+
+  input[type='checkbox'] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+}

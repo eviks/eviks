@@ -96,7 +96,7 @@ const PostGeneralInfo = ({ formData, onChange }) => {
   ]
 
   return (
-    <FadeInDiv>
+    <FadeInDiv className="px-4">
       <h3 className="step-title my-1">{t('createPost.generalInfo.title')}</h3>
       {/* User type */}
       <SwitchInput
