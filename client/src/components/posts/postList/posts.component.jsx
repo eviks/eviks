@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
+import Searchbar from './searchbar/searchbar.component'
 import Spinner from '../../layout/spinner/spinner.component'
 import PostItem from '../postItem/postItem.component'
 import { getPosts } from '../../../actions/post'
@@ -14,21 +15,24 @@ const Posts = ({ post: { posts, loading }, getPosts }) => {
   return loading ? (
     <Spinner />
   ) : (
-    <div className="cards-container">
-      {posts.map(post => (
-        <PostItem key={post._id} post={post} />
-      ))}
-    </div>
+    <Fragment>
+      <Searchbar />
+      <div className="cards-container">
+        {posts.map((post) => (
+          <PostItem key={post._id} post={post} />
+        ))}
+      </div>
+    </Fragment>
   )
 }
 
 Posts.propTypes = {
   post: PropTypes.object.isRequired,
-  getPosts: PropTypes.func.isRequired
+  getPosts: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  post: state.post
+const mapStateToProps = (state) => ({
+  post: state.post,
 })
 
 export default connect(mapStateToProps, { getPosts })(Posts)

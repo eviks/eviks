@@ -56,7 +56,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   return (
     <Fragment>
-      <nav className="navbar">
+      <nav className="navbar" id="navbar">
         <h1>
           <Link to="/">
             {' '}
