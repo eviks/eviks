@@ -28,8 +28,8 @@ const resources = {
       room: 'otaq',
       back: 'Geri',
       next: 'Ardıncı',
-      submit: 'Təsdiq eləmək',
-    },
+      submit: 'Təsdiq eləmək'
+    }
   },
   ru: {
     translation: {
@@ -37,7 +37,7 @@ const resources = {
         favorites: 'Избранное',
         myAccount: 'Мой аккаунт',
         logout: 'Выйти',
-        joinOrSignIn: 'Вход и регистрация',
+        joinOrSignIn: 'Вход и регистрация'
       },
       auth: {
         login: 'Вход',
@@ -52,24 +52,29 @@ const resources = {
         signUp: 'Зарегистрироваться',
         forgotPassword: 'Упс! Я забыл пароль',
         checkEmailTitle: 'Вам письмо!',
-        checkEmail: 'Письмо с подтверждением было отправлено на {{email}}',
+        checkEmail: 'Письмо с подтверждением было отправлено на {{email}}'
       },
       landing: {
         title: 'Хорошо быть дома',
         slogan: 'Найдите нечто большее, чем просто четыре стены',
         search: 'Найти',
-        sell: 'Продать',
+        sell: 'Продать'
       },
       postList: {
-        room: 'комната',
+        filters: {
+          price: 'Цена',
+          rooms: 'Комнаты',
+          estateType: 'Тип недвижимости'
+        },
+        room: 'комната'
       },
       form: {
         googleAutoComplitePlaceholder: 'Введите адрес...',
-        requiredField: 'Это обязательное поле',
+        requiredField: 'Это обязательное поле'
       },
       dropzone: {
         click: 'Добавить',
-        drag: 'или перетащите файлы сюда',
+        drag: 'или перетащите файлы сюда'
       },
       createPost: {
         back: 'Назад',
@@ -86,10 +91,10 @@ const resources = {
           city: 'Город',
           cityField: 'Выберите ваш город',
           district: 'Район',
-          districtField: 'Выберите ваш район',
+          districtField: 'Выберите ваш район'
         },
         mapInfo: {
-          title: 'Покажите ваш дом на карте',
+          title: 'Покажите ваш дом на карте'
         },
         estateInfo: {
           title: 'Информация о недвижимости',
@@ -105,14 +110,14 @@ const resources = {
           noMaintenance: 'Без ремонта',
           redevelopment: 'Перепланировка',
           documented: 'Имеется купчая',
-          onKredit: 'Имеется кредит',
+          onKredit: 'Имеется кредит'
         },
         buildingInfo: {
           title: 'Информация о здании',
           ceilingHeight: 'Высота потолка',
           yearBuild: 'Год постройки',
           elevator: 'Лифт',
-          parkingLot: 'Парковка',
+          parkingLot: 'Парковка'
         },
         additionalInfo: {
           title: 'Дополнительно',
@@ -130,25 +135,25 @@ const resources = {
           conditioner: 'Кондиционер',
           washingMachine: 'Стиральная машина',
           dishwasher: 'Посудомоечная машина',
-          refrigerator: 'Холодильник',
+          refrigerator: 'Холодильник'
         },
         price: {
           title: 'Цена',
           price: 'Цена',
           bargain: 'Возможен торг',
-          progressPayment: 'Возможна оплата в несколько этапов',
+          progressPayment: 'Возможна оплата в несколько этапов'
         },
         photos: {
           title: 'Добавьте несколько фотографий',
-          additionalInfo: 'Макимальный размер файла 10 МБ.',
+          additionalInfo: 'Макимальный размер файла 10 МБ.'
         },
         contact: {
           title: 'Почти готово! Осталось лишь указать ваши контактные данные',
-          contact: 'Контактная информация',
-        },
-      },
-    },
-  },
+          contact: 'Контактная информация'
+        }
+      }
+    }
+  }
 }
 
 i18n.use(initReactI18next).init({ resources, lng: 'ru' })

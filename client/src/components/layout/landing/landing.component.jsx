@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Ripple from '../../layout/ripple/ripple.component'
 import { useTranslation } from 'react-i18next'
 
-import './landing.styles.scss'
+import './landing.style.scss'
 
 const Landing = () => {
   const [t] = useTranslation()

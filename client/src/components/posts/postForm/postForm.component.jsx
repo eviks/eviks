@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
 import PostMap from './steps/postMap.component'
@@ -65,7 +65,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
     price: 0,
     bargain: false,
     progressPayment: false,
-    contact: '',
+    contact: ''
   })
 
   const [step, setStep] = useState({ currentStep: 0, totalSteps: 7 })
@@ -73,7 +73,12 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
 
   const [files, setFiles] = useState([])
 
-  const onSubmit = async (e) => {
+  // Scroll to top when step is changed
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [currentStep])
+
+  const onSubmit = async e => {
     e.preventDefault()
 
     const data = { ...formData, photos: uploadedPhotos }
@@ -83,20 +88,19 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
       const toastrOptions = {
         timeOut: 0,
         icon: <SuccessIcon />,
-        status: 'info',
+        status: 'info'
       }
       toastr.light('Success', 'Your post is published', toastrOptions)
       history.push('/')
     }
   }
 
-  const onChange = (e) => {
+  const onChange = e => {
     const { name, type } = e.target
     const value = type === 'checkbox' ? e.target.checked : e.target.value
     setFormData({
       ...formData,
-      [name]:
-        type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value,
+      [name]: type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value
     })
   }
 
@@ -106,7 +110,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
     newStep = Math.max(newStep, 0)
     setStep({
       ...step,
-      currentStep: newStep,
+      currentStep: newStep
     })
   }
 
@@ -137,14 +141,14 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
   return (
     <div className="post-form-container px-2">
       <ProgressBar step={step} />
-      <form onSubmit={(e) => onSubmit(e)}>
+      <form onSubmit={e => onSubmit(e)}>
         {renderSwitch()}
         <div className="form-button-box">
           {/* Back */}
 
           <button
             className="btn btn-secondary"
-            onClick={(e) => stepChange(e)}
+            onClick={e => stepChange(e)}
             style={{ visibility: currentStep === 0 ? 'hidden' : 'visible' }}
           >
             {t('createPost.back')}
@@ -164,7 +168,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
                   style={{
                     width: '20px',
                     marginLeft: '4px',
-                    transition: 'all 0.3s ease-in-out',
+                    transition: 'all 0.3s ease-in-out'
                   }}
                 />
               )}
@@ -173,7 +177,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
           ) : (
             <button
               className="btn btn-primary"
-              onClick={(e) => stepChange(e, true)}
+              onClick={e => stepChange(e, true)}
             >
               {t('createPost.next')}
               <Ripple />
@@ -187,12 +191,12 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
 
 PostForm.propTypes = {
   addPost: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   loading: state.async.loading,
-  uploadedPhotos: state.post.uploadedPhotos,
+  uploadedPhotos: state.post.uploadedPhotos
 })
 
 export default connect(mapStateToProps, { addPost })(PostForm)

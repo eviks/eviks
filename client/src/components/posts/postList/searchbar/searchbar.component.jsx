@@ -1,48 +1,80 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, useRef } from 'react'
+import FilterButton from '../filterButton/filterButton.component'
+import PriceFilter from '../filters/priceFilter.component'
+import { useTranslation } from 'react-i18next'
 
 import './searchbar.style.scss'
 
-const Searchbar = () => {
-  const [hide, setHideFlag] = useState(false)
-  const [scrollPosition, setScrollPosition] = useState(0)
-  const [scrollUp, setScrollUp] = useState(false)
+let prevScrollPos = window.pageYOffset
 
-  window.onscroll = () => {
-    const currentScrollPos = window.pageYOffset
-    setHideFlag(scrollPosition < currentScrollPos && !isElementInViewport())
-    setScrollUp(scrollPosition > currentScrollPos)
-    setScrollPosition(currentScrollPos)
-  }
+const Searchbar = ({ navRef }) => {
+  let containerRef = useRef(null)
 
-  const isElementInViewport = () => {
-    const el = document.getElementById('navbar')
-    const rect = el.getBoundingClientRect()
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    )
-  }
+  const [classes, setClasses] = useState('')
+  const [filter, setFilter] = useState('')
+  const [t] = useTranslation()
+
+  useEffect(() => {
+    const onScroll = () => {
+      let currentScrollPos = window.pageYOffset
+      let scrollUp = prevScrollPos > currentScrollPos
+      prevScrollPos = currentScrollPos
+      if (
+        !navRef ||
+        !containerRef ||
+        isInViewport(navRef.current) ||
+        (isInViewport(containerRef.current) && !scrollUp)
+      ) {
+        setClasses('searchbar-relative')
+      } else {
+        if (classes === 'searchbar-relative') {
+          setClasses('searchbar-fixed searchbar-hidden searchbar-transition')
+        } else {
+          setClasses(`searchbar-fixed ${!scrollUp ? 'searchbar-hidden' : ''}`)
+        }
+      }
+    }
+
+    const isInViewport = element => {
+      const bounding = element.getBoundingClientRect()
+      return bounding.bottom >= 0
+    }
+
+    const watchScroll = () => {
+      window.addEventListener('scroll', onScroll)
+    }
+
+    watchScroll()
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [classes, navRef])
 
   return (
-    <section
-      className={`searchbar ${
-        hide ? 'searchbar-hide' : scrollUp ? 'searchbar-scroll-up' : ''
-      }`}
-    >
-      <div className="filter-buttons">
-        <button>Location</button>
-        <button>Price</button>
-        <button>Rooms</button>
-        <button>Home Type</button>
-      </div>
-    </section>
+    <div ref={containerRef} style={{ height: '50px' }}>
+      <section className={`searchbar ${classes}`}>
+        <div className="filter-buttons">
+          <FilterButton
+            name={t('postList.filters.price')}
+            filter={filter}
+            setFilter={setFilter}
+            component={PriceFilter}
+          />
+          <FilterButton
+            name={t('postList.filters.rooms')}
+            filter={filter}
+            setFilter={setFilter}
+          />
+          <FilterButton
+            name={t('postList.filters.estateType')}
+            filter={filter}
+            setFilter={setFilter}
+          />
+        </div>
+      </section>
+    </div>
   )
 }
-
-Searchbar.propTypes = {}
 
 export default Searchbar

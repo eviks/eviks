@@ -17,9 +17,29 @@ const Post = require('../../models/Post')
 // @route GET api/posts
 // @desc  Get all posts
 // @acess Public
-router.get('/', async (req, res) => {
+router.get('/:filters?', async (req, res) => {
+  const filters = req.params.filters
   try {
-    const posts = await Post.find().sort({ date: -1 })
+    let posts
+
+    if (filters == null || filters == 'null') {
+      console.log(1)
+      posts = await Post.find().sort({ date: -1 })
+    } else {
+      const selectedFilters = {}
+
+      // Prices
+      const { minPrice, maxPrice } = JSON.parse(filters)
+
+      if (minPrice !== 0 && maxPrice !== 0) {
+        selectedFilters.price = { $gt: minPrice, $lt: maxPrice }
+      } else if (minPrice !== 0) {
+        selectedFilters.price = { $gt: minPrice }
+      } else if (maxPrice !== 0) {
+        selectedFilters.price = { $lt: maxPrice }
+      }
+      posts = await Post.find(selectedFilters).sort({ date: -1 })
+    }
     res.json(posts)
   } catch (error) {
     console.error(error.message)
@@ -74,7 +94,7 @@ router.post(
   '/upload_photo',
   [
     passport.authenticate('jwt', { session: false }),
-    busboyBodyParser({ limit: '10mb' }),
+    busboyBodyParser({ limit: '10mb' })
   ],
   (req, res) => {
     const busboy = new Busboy({ headers: req.headers })
@@ -86,9 +106,13 @@ router.post(
         const filename = await hashFileName(name)
         const re = /WIDTH/
 
-        const image = await sharp(data).resize(1024).toBuffer()
+        const image = await sharp(data)
+          .resize(1024)
+          .toBuffer()
 
-        const thumbnail = await sharp(data).resize(480).toBuffer()
+        const thumbnail = await sharp(data)
+          .resize(480)
+          .toBuffer()
 
         uploadFilePromises.push(
           uploadToS3(filename.replace(re, '1024'), image, mimetype)
@@ -110,7 +134,7 @@ router.post(
   }
 )
 
-const hashFileName = (filename) => {
+const hashFileName = filename => {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(16, async (err, buff) => {
       if (err) {
@@ -127,7 +151,7 @@ const uploadToS3 = (filename, buffer, mimetype) => {
   const s3bucket = new AWS.S3({
     accessKeyId,
     secretAccessKey,
-    Bucket,
+    Bucket
   })
 
   const params = {
@@ -135,7 +159,7 @@ const uploadToS3 = (filename, buffer, mimetype) => {
     Key: filename,
     Body: buffer,
     ContentType: mimetype,
-    CacheControl: 'public, max-age=86400',
+    CacheControl: 'public, max-age=86400'
   }
 
   return s3bucket.upload(params).promise()

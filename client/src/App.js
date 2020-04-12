@@ -1,8 +1,9 @@
-import React, { Fragment, Suspense, useEffect } from 'react'
+import React, { Fragment, Suspense, useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 // Components
 import PrivateRoute from './components/routing/privateRoute.component'
+import ScrollToTop from './components/layout/scrollToTop/scrollToTop.component'
 import Navbar from './components/layout/navbar/navbar.component'
 import Landing from './components/layout/landing/landing.component'
 import Modal from 'react-modal'
@@ -29,6 +30,9 @@ if (localStorage.token) {
 }
 
 const App = () => {
+  // Reference to navbar element
+  let navRef = useRef(null)
+
   useEffect(() => {
     store.dispatch(loadUser())
   }, [])
@@ -37,8 +41,9 @@ const App = () => {
     <Suspense fallback="loading">
       <Provider store={store}>
         <Router>
+          <ScrollToTop />
           <Fragment>
-            <Navbar />
+            <Navbar navRef={navRef} />
             <Route exact path="/" component={Landing} />
             <Route exact path="/auth" component={AuthForm} />
             <Route
@@ -47,7 +52,11 @@ const App = () => {
               component={Verification}
             />
             <Route exact path="/reset_password" component={ResetPassword} />
-            <Route exact path="/posts" component={Posts} />
+            <Route
+              exact
+              path="/posts"
+              component={() => <Posts navRef={navRef} />}
+            />
             <PrivateRoute exact path="/create_post" component={PostForm} />
           </Fragment>
         </Router>

@@ -7,9 +7,9 @@ import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
-import './navbar.styles.scss'
+import './navbar.style.scss'
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout, navRef }) => {
   const [state, setState] = useState({ showAuthModal: false })
   const [t, i18n] = useTranslation()
   const { showAuthModal } = state
@@ -22,7 +22,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     setState({ showAuthModal: false })
   }
 
-  const changeLanguage = (lng) => {
+  const changeLanguage = lng => {
     i18n.changeLanguage(lng)
   }
 
@@ -56,7 +56,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   return (
     <Fragment>
-      <nav className="navbar" id="navbar">
+      <nav className="navbar" id="navbar" ref={navRef}>
         <h1>
           <Link to="/">
             {' '}
@@ -93,11 +93,12 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 }
 
 logout.propTypes = {
-  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
+const mapStateToProps = state => ({
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { logout })(Navbar)

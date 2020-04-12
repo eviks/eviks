@@ -1,9 +1,19 @@
-import { GET_POSTS, POST_ERROR, ADD_POST, UPLOAD_PHOTO } from '../actions/types'
+import {
+  GET_POSTS,
+  POST_ERROR,
+  ADD_POST,
+  UPLOAD_PHOTO,
+  SET_FILTER
+} from '../actions/types'
 
 const initialState = {
   posts: [],
   post: null,
   uploadedPhotos: [],
+  filters: {
+    minPrice: 0,
+    maxPrice: 0
+  },
   error: {}
 }
 
@@ -19,6 +29,8 @@ export default function(state = initialState, action) {
         ...state,
         uploadedPhotos: [...state.uploadedPhotos, payload]
       }
+    case SET_FILTER:
+      return { ...state, filters: { ...state.filters, ...payload } }
     case POST_ERROR:
       return { ...state, error: payload }
     default:

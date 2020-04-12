@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
-import './postItem.styles.scss'
+import './postItem.style.scss'
 
 const PostItem = ({
   post: {
@@ -17,18 +17,22 @@ const PostItem = ({
     price,
     date,
     _id,
-    photos,
-  },
+    photos
+  }
 }) => {
   const [t] = useTranslation()
 
   const priceStr = price.toLocaleString('az-AZ', {
-    style: 'decimal',
+    style: 'decimal'
   })
   return (
     <Link className="card" to={`/posts/${_id}`}>
-      <div className="card-images">
-        {photos.length > 0 && <img src={photos[0].thumb} alt="Card" />}
+      <div className="card-photos">
+        {photos.length > 0 && (
+          <picture>
+            <img className="photo-element" src={photos[0].thumb} alt="Card" />
+          </picture>
+        )}
       </div>
       <div className="card-info">
         <div className="card-price">{`${priceStr} AZN`}</div>
@@ -48,7 +52,7 @@ const PostItem = ({
 }
 
 PostItem.propTypes = {
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired
 }
 
 export default PostItem

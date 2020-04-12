@@ -1,29 +1,38 @@
 import axios from 'axios'
 import { asyncActionStart, asyncActionFinish, asyncActionError } from './async'
-import { GET_POSTS, POST_ERROR, ADD_POST, UPLOAD_PHOTO } from './types'
+import {
+  GET_POSTS,
+  POST_ERROR,
+  ADD_POST,
+  UPLOAD_PHOTO,
+  SET_FILTER
+} from './types'
 
 // Get posts
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (filters = null) => async dispatch => {
   try {
-    const res = await axios.get('api/posts')
+    dispatch(asyncActionStart())
+    const res = await axios.get(`api/posts/${JSON.stringify(filters)}`)
     dispatch({ type: GET_POSTS, payload: res.data })
+    dispatch(asyncActionFinish())
   } catch (error) {
+    dispatch(asyncActionError())
     dispatch({
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response.status,
-      },
+        status: error.response.status
+      }
     })
   }
 }
 
 // Add post
-export const addPost = (data) => async (dispatch) => {
+export const addPost = data => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'application/json',
-    },
+      'Content-Type': 'application/json'
+    }
   }
   try {
     dispatch(asyncActionStart())
@@ -37,18 +46,18 @@ export const addPost = (data) => async (dispatch) => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response,
-      },
+        status: error.response
+      }
     })
   }
 }
 
 // Upload photo
-export const uploadPhoto = (data, photoId) => async (dispatch) => {
+export const uploadPhoto = (data, photoId) => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+      'Content-Type': 'multipart/form-data'
+    }
   }
   try {
     dispatch(asyncActionStart(photoId))
@@ -64,8 +73,13 @@ export const uploadPhoto = (data, photoId) => async (dispatch) => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response,
-      },
+        status: error.response
+      }
     })
   }
+}
+
+// Set search filter
+export const setSrearchFilters = filters => async dispatch => {
+  dispatch({ type: SET_FILTER, payload: filters })
 }

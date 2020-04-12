@@ -1,38 +1,52 @@
 import React, { useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Searchbar from './searchbar/searchbar.component'
-import Spinner from '../../layout/spinner/spinner.component'
+import PostItemSkeleton from '../postItemSkeleton/postItemSkeleton.component'
 import PostItem from '../postItem/postItem.component'
 import { getPosts } from '../../../actions/post'
 import PropTypes from 'prop-types'
 
-import './posts.styles.scss'
+import './posts.style.scss'
 
-const Posts = ({ post: { posts, loading }, getPosts }) => {
+const Posts = ({ post: { posts }, loading, getPosts, navRef }) => {
   useEffect(() => {
     getPosts()
   }, [getPosts])
-  return loading ? (
-    <Spinner />
-  ) : (
-    <Fragment>
-      <Searchbar />
+
+  const getSkeletonItems = () => {
+    return (
+      <Fragment>
+        <PostItemSkeleton />
+        <PostItemSkeleton />
+        <PostItemSkeleton />
+        <PostItemSkeleton />
+        <PostItemSkeleton />
+        <PostItemSkeleton />
+      </Fragment>
+    )
+  }
+
+  return (
+    <div>
+      <Searchbar navRef={navRef} />
       <div className="cards-container">
-        {posts.map((post) => (
-          <PostItem key={post._id} post={post} />
-        ))}
+        {loading
+          ? getSkeletonItems()
+          : posts.map(post => <PostItem key={post._id} post={post} />)}
       </div>
-    </Fragment>
+    </div>
   )
 }
 
 Posts.propTypes = {
   post: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
+  loading: PropTypes.bool
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   post: state.post,
+  loading: state.async.loading
 })
 
 export default connect(mapStateToProps, { getPosts })(Posts)

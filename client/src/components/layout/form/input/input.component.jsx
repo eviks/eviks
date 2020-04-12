@@ -4,7 +4,13 @@ import { useTranslation } from 'react-i18next'
 
 import './input.style.scss'
 
-const TextInput = ({ fieldName, options, onChange, required = true }) => {
+const TextInput = ({
+  fieldName,
+  options,
+  onChange,
+  onBlur,
+  required = true
+}) => {
   const [filled, setFilledFlag] = useState(true)
   const [t] = useTranslation()
   return (
@@ -14,8 +20,13 @@ const TextInput = ({ fieldName, options, onChange, required = true }) => {
         className={`input-field ${!filled && 'not-field'}`}
         type="text"
         {...options}
-        onChange={(e) => onChange(e)}
-        onBlur={(e) => setFilledFlag(e.target.value || !required)}
+        onChange={e => onChange(e)}
+        onBlur={e => {
+          if (onBlur !== null) {
+            onBlur()
+          }
+          setFilledFlag(e.target.value || !required)
+        }}
       />
       {!filled && (
         <div className="field-required">{t('form.requiredField')}</div>
@@ -28,7 +39,8 @@ TextInput.propTypes = {
   fieldName: PropTypes.string,
   options: PropTypes.object,
   onChange: PropTypes.func,
-  required: PropTypes.bool,
+  onBlur: PropTypes.func,
+  required: PropTypes.bool
 }
 
 export default TextInput

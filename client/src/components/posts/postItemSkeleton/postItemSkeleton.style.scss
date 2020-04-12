@@ -1,0 +1,22 @@
+.skeleton {
+  &-content {
+    width: 100%;
+    padding: 0 1rem;
+  }
+  &-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+
+    > i {
+      position: absolute;
+      color: #fff;
+    }
+  }
+}

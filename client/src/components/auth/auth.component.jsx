@@ -5,7 +5,7 @@ import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
 import { useTranslation } from 'react-i18next'
 
-import './auth.styles.scss'
+import './auth.style.scss'
 
 const FadeInAnimation = keyframes`${fadeIn}`
 const FadeOutAnimation = keyframes`${fadeOut}`
@@ -19,7 +19,7 @@ const Auth = ({ handleCloseModal, showOverlay, history }) => {
   const { action } = state
 
   return (
-    <FadeInDiv className="popup">
+    <FadeInDiv className="popup" style={!showOverlay ? { width: '400px' } : {}}>
       <div className="form-container" style={showOverlay && { width: '55%' }}>
         <div className="button-box">
           <input
