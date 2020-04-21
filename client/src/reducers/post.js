@@ -12,7 +12,8 @@ const initialState = {
   uploadedPhotos: [],
   filters: {
     minPrice: 0,
-    maxPrice: 0
+    maxPrice: 0,
+    rooms: 0
   },
   error: {}
 }

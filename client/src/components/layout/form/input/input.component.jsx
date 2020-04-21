@@ -9,6 +9,7 @@ const TextInput = ({
   options,
   onChange,
   onBlur,
+  onFocus,
   required = true
 }) => {
   const [filled, setFilledFlag] = useState(true)
@@ -23,9 +24,14 @@ const TextInput = ({
         onChange={e => onChange(e)}
         onBlur={e => {
           if (onBlur !== null) {
-            onBlur()
+            onBlur(e)
           }
           setFilledFlag(e.target.value || !required)
+        }}
+        onFocus={e => {
+          if (onFocus !== null) {
+            onFocus(e)
+          }
         }}
       />
       {!filled && (
@@ -40,6 +46,7 @@ TextInput.propTypes = {
   options: PropTypes.object,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  onFocus: PropTypes.func,
   required: PropTypes.bool
 }
 

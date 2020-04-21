@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import FilterButton from '../filterButton/filterButton.component'
 import PriceFilter from '../filters/priceFilter.component'
+import RoomFilter from '../filters/roomFilter.component'
 import { useTranslation } from 'react-i18next'
 
 import './searchbar.style.scss'
@@ -12,7 +13,12 @@ const Searchbar = ({ navRef }) => {
 
   const [classes, setClasses] = useState('')
   const [filter, setFilter] = useState('')
+  const [filterIsOpen, setFilterIsOpen] = useState(false)
   const [t] = useTranslation()
+
+  useEffect(() => {
+    setFilterIsOpen(filter !== '')
+  }, [filter])
 
   useEffect(() => {
     const onScroll = () => {
@@ -30,7 +36,11 @@ const Searchbar = ({ navRef }) => {
         if (classes === 'searchbar-relative') {
           setClasses('searchbar-fixed searchbar-hidden searchbar-transition')
         } else {
-          setClasses(`searchbar-fixed ${!scrollUp ? 'searchbar-hidden' : ''}`)
+          setClasses(
+            `searchbar-fixed ${
+              !scrollUp && !filterIsOpen ? 'searchbar-hidden' : ''
+            }`
+          )
         }
       }
     }
@@ -49,7 +59,7 @@ const Searchbar = ({ navRef }) => {
     return () => {
       window.removeEventListener('scroll', onScroll)
     }
-  }, [classes, navRef])
+  }, [classes, navRef, filterIsOpen])
 
   return (
     <div ref={containerRef} style={{ height: '50px' }}>
@@ -65,6 +75,7 @@ const Searchbar = ({ navRef }) => {
             name={t('postList.filters.rooms')}
             filter={filter}
             setFilter={setFilter}
+            component={RoomFilter}
           />
           <FilterButton
             name={t('postList.filters.estateType')}

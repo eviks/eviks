@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { setSrearchFilters, getPosts } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import Input from '../../../layout/form/input/input.component'
@@ -7,6 +7,7 @@ import './filters.style.scss'
 
 const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
   const { maxPrice, minPrice } = filters
+  const [prevVal, setPrevVal] = useState(null)
 
   const filtersOnChange = e => {
     const { name, type } = e.target
@@ -16,8 +17,14 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
     })
   }
 
-  const filtersOnBlur = () => {
-    getPosts(filters)
+  const filtersOnBlur = e => {
+    if (e.target.value !== prevVal) {
+      getPosts(filters)
+    }
+  }
+
+  const filtersOnFocus = e => {
+    setPrevVal(e.target.value)
   }
 
   return (
@@ -36,6 +43,7 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
           }}
           onChange={filtersOnChange}
           onBlur={filtersOnBlur}
+          onFocus={filtersOnFocus}
         />
         {'-'}
         <Input
@@ -50,6 +58,7 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
           }}
           onChange={filtersOnChange}
           onBlur={filtersOnBlur}
+          onFocus={filtersOnFocus}
         />
       </div>
     </form>

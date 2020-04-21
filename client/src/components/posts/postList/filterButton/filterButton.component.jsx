@@ -22,6 +22,7 @@ const FilterButton = ({ name, filter, setFilter, component: Component }) => {
       </button>
       {isOpen && (
         <div
+          className="light-border"
           style={{
             marginTop: '0.7rem',
             padding: '1rem',
@@ -32,6 +33,14 @@ const FilterButton = ({ name, filter, setFilter, component: Component }) => {
           }}
         >
           <Component />
+          <div>
+            <button
+              className="btn btn-primary btn-md"
+              onClick={() => filterOnClick(name)}
+            >
+              Done
+            </button>
+          </div>
         </div>
       )}
     </div>

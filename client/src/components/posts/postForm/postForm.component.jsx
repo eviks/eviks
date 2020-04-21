@@ -139,7 +139,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
   const [t] = useTranslation()
 
   return (
-    <div className="post-form-container px-2">
+    <div className="post-form-container px-2 light-border">
       <ProgressBar step={step} />
       <form onSubmit={e => onSubmit(e)}>
         {renderSwitch()}

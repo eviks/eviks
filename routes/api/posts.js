@@ -23,21 +23,26 @@ router.get('/:filters?', async (req, res) => {
     let posts
 
     if (filters == null || filters == 'null') {
-      console.log(1)
       posts = await Post.find().sort({ date: -1 })
     } else {
       const selectedFilters = {}
 
-      // Prices
-      const { minPrice, maxPrice } = JSON.parse(filters)
+      const { minPrice, maxPrice, rooms } = JSON.parse(filters)
 
+      // Prices
       if (minPrice !== 0 && maxPrice !== 0) {
-        selectedFilters.price = { $gt: minPrice, $lt: maxPrice }
+        selectedFilters.price = { $gte: minPrice, $lte: maxPrice }
       } else if (minPrice !== 0) {
-        selectedFilters.price = { $gt: minPrice }
+        selectedFilters.price = { $gte: minPrice }
       } else if (maxPrice !== 0) {
-        selectedFilters.price = { $lt: maxPrice }
+        selectedFilters.price = { $lte: maxPrice }
       }
+
+      // Rooms
+      if (rooms !== 0) {
+        selectedFilters.rooms = { $gte: rooms }
+      }
+
       posts = await Post.find(selectedFilters).sort({ date: -1 })
     }
     res.json(posts)
