@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import FilterButton from '../filterButton/filterButton.component'
 import PriceFilter from '../filters/priceFilter.component'
 import RoomFilter from '../filters/roomFilter.component'
+import EstateTypeFilter from '../filters/estateTypeFilter.component'
+import MoreFilters from '../filters/moreFilters.component'
 import { useTranslation } from 'react-i18next'
 
 import './searchbar.style.scss'
@@ -81,6 +83,14 @@ const Searchbar = ({ navRef }) => {
             name={t('postList.filters.estateType')}
             filter={filter}
             setFilter={setFilter}
+            component={EstateTypeFilter}
+          />
+          <FilterButton
+            name={t('postList.filters.more')}
+            filter={filter}
+            setFilter={setFilter}
+            moreFilters={true}
+            component={MoreFilters}
           />
         </div>
       </section>

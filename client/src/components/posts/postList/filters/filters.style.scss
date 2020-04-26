@@ -1,4 +1,85 @@
+@import '../../../../sass/config';
+
+.filter {
+  &-title {
+    margin-bottom: 0.9rem;
+  }
+
+  &-group {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $light-grey-color;
+  }
+
+  &-block {
+    text-align: left;
+    padding: 0 2.2rem;
+  }
+
+  &-inuts {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-footer {
+    display: flex;
+    justify-content: center;
+    background-color: $primary-color;
+    padding: 1rem;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+}
+
 .row-group {
   display: flex;
   flex-direction: row;
+}
+
+.estate-type {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.room-filters,
+.estate-type-filters {
+  margin-bottom: 1rem;
+
+  label {
+    &:first-of-type {
+      > span {
+        margin-left: 0;
+      }
+    }
+    &:last-of-type {
+      > span {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.more-filters {
+  &-container {
+    position: relative;
+  }
+
+  &-popup {
+    border-top-left-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+    background-color: $light-color;
+    max-height: 400px;
+    overflow: auto;
+    padding-top: 1rem;
+  }
+}
+
+.input-separator {
+  margin: 0 0.5rem;
 }

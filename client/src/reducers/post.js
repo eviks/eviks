@@ -11,9 +11,20 @@ const initialState = {
   post: null,
   uploadedPhotos: [],
   filters: {
-    minPrice: 0,
-    maxPrice: 0,
-    rooms: 0
+    priceMin: 0,
+    priceMax: 0,
+    rooms: 0,
+    estateType: null,
+    sqmMin: 0,
+    sqmMax: 0,
+    livingSqmMin: 0,
+    livingSqmMax: 0,
+    kitchenSqmMin: 0,
+    kitchenSqmMax: 0,
+    totalFloorMin: 0,
+    totalFloorMax: 0,
+    floorMin: 0,
+    floorMax: 0
   },
   error: {}
 }

@@ -14,6 +14,16 @@ const { accessKeyId, secretAccessKey, Bucket } = config.get('AWS')
 
 const Post = require('../../models/Post')
 
+const setMinMaxFilter = (selectedFilters, name, min, max) => {
+  if (min !== 0 && max !== 0) {
+    selectedFilters[name] = { $gte: min, $lte: max }
+  } else if (min !== 0) {
+    selectedFilters[name] = { $gte: min }
+  } else if (max !== 0) {
+    selectedFilters[name] = { $lte: max }
+  }
+}
+
 // @route GET api/posts
 // @desc  Get all posts
 // @acess Public
@@ -27,21 +37,59 @@ router.get('/:filters?', async (req, res) => {
     } else {
       const selectedFilters = {}
 
-      const { minPrice, maxPrice, rooms } = JSON.parse(filters)
+      const {
+        priceMin,
+        priceMax,
+        rooms,
+        estateType,
+        sqmMin,
+        sqmMax,
+        livingSqmMin,
+        livingSqmMax,
+        kitchenSqmMin,
+        kitchenSqmMax,
+        totalFloorMin,
+        totalFloorMax,
+        floorMin,
+        floorMax
+      } = JSON.parse(filters)
 
-      // Prices
-      if (minPrice !== 0 && maxPrice !== 0) {
-        selectedFilters.price = { $gte: minPrice, $lte: maxPrice }
-      } else if (minPrice !== 0) {
-        selectedFilters.price = { $gte: minPrice }
-      } else if (maxPrice !== 0) {
-        selectedFilters.price = { $lte: maxPrice }
-      }
+      // Price
+      setMinMaxFilter(selectedFilters, 'price', priceMin, priceMax)
 
       // Rooms
       if (rooms !== 0) {
         selectedFilters.rooms = { $gte: rooms }
       }
+
+      // Estate type
+      if (estateType != null) {
+        selectedFilters.estateType = estateType
+      }
+
+      // Sqm
+      setMinMaxFilter(selectedFilters, 'sqm', sqmMin, sqmMax)
+      setMinMaxFilter(
+        selectedFilters,
+        'livingRoomsSqm',
+        livingSqmMin,
+        livingSqmMax
+      )
+      setMinMaxFilter(
+        selectedFilters,
+        'kitchenSqm',
+        kitchenSqmMin,
+        kitchenSqmMax
+      )
+
+      // Floor
+      setMinMaxFilter(
+        selectedFilters,
+        'totalFloors',
+        totalFloorMin,
+        totalFloorMax
+      )
+      setMinMaxFilter(selectedFilters, 'floor', floorMin, floorMax)
 
       posts = await Post.find(selectedFilters).sort({ date: -1 })
     }

@@ -1,12 +1,21 @@
 import React from 'react'
+import MoreFilters from '../filters/moreFilters.component'
+import QuickFilter from '../quickFilter/quickFilter.component'
+import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
 
-const FilterButton = ({ name, filter, setFilter, component: Component }) => {
-  const filterOnClick = val => {
-    if (filter === val) {
+const FilterButton = ({
+  name,
+  filter,
+  setFilter,
+  component: Component,
+  moreFilters
+}) => {
+  const filterOnClick = () => {
+    if (filter === name) {
       setFilter('')
     } else {
-      setFilter(val)
+      setFilter(name)
     }
   }
 
@@ -15,42 +24,39 @@ const FilterButton = ({ name, filter, setFilter, component: Component }) => {
   return (
     <div style={{ position: 'relative' }}>
       <button
-        onClick={() => filterOnClick(name)}
+        onClick={() => filterOnClick()}
         className={`btn btn-ghost-pm${isOpen ? '-active' : ''} btn-md`}
       >
         {name}
       </button>
-      {isOpen && (
-        <div
-          className="light-border"
-          style={{
-            marginTop: '0.7rem',
-            padding: '1rem',
-            position: 'absolute',
-            backgroundColor: '#fff',
-            zIndex: '10',
-            borderRadius: '8px'
-          }}
-        >
-          <Component />
-          <div>
-            <button
-              className="btn btn-primary btn-md"
-              onClick={() => filterOnClick(name)}
-            >
-              Done
-            </button>
-          </div>
-        </div>
-      )}
+      {isOpen &&
+        (moreFilters ? (
+          <ReactModal
+            isOpen={isOpen}
+            onRequestClose={() => {
+              setFilter('')
+            }}
+            className="modal"
+            overlayClassName="modal-overlay"
+          >
+            <MoreFilters filterOnClick={filterOnClick} />
+          </ReactModal>
+        ) : (
+          <QuickFilter filterOnClick={filterOnClick} component={Component} />
+        ))}
     </div>
   )
+}
+
+FilterButton.defaultProps = {
+  moreFilters: false
 }
 
 FilterButton.propTypes = {
   name: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
-  setFilter: PropTypes.func.isRequired
+  setFilter: PropTypes.func.isRequired,
+  moreFilters: PropTypes.bool
 }
 
 export default FilterButton

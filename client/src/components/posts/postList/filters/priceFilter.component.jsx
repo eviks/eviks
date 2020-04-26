@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { setSrearchFilters, getPosts } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import Input from '../../../layout/form/input/input.component'
+import PropTypes from 'prop-types'
 
 import './filters.style.scss'
 
 const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
-  const { maxPrice, minPrice } = filters
+  const { priceMax, priceMin } = filters
   const [prevVal, setPrevVal] = useState(null)
 
   const filtersOnChange = e => {
@@ -29,32 +30,32 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
 
   return (
     <form>
-      <h4 style={styles.title}>Price</h4>
+      <h4 className="filter-title">Price</h4>
       <div className="row-group">
         <Input
           required={false}
           options={{
             type: 'number',
-            name: 'minPrice',
-            value: minPrice === 0 ? '' : minPrice,
+            name: 'priceMin',
+            value: priceMin === 0 ? '' : priceMin,
             min: '0',
             placeholder: 'Min',
-            style: styles.input
+            style: { width: '120px' }
           }}
           onChange={filtersOnChange}
           onBlur={filtersOnBlur}
           onFocus={filtersOnFocus}
         />
-        {'-'}
+        <span className="input-separator">-</span>
         <Input
           required={false}
           options={{
             type: 'number',
-            name: 'maxPrice',
-            value: maxPrice === 0 ? '' : maxPrice,
+            name: 'priceMax',
+            value: priceMax === 0 ? '' : priceMax,
             min: '0',
             placeholder: 'Max',
-            style: styles.input
+            style: { width: '120px' }
           }}
           onChange={filtersOnChange}
           onBlur={filtersOnBlur}
@@ -65,14 +66,15 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
   )
 }
 
-const styles = {
-  title: { marginLeft: '0.8rem', marginBottom: '1rem' },
-  input: { width: '120px', marginLeft: '0.7rem', marginRight: '0.7rem' }
-}
-
 const mapStateToProps = state => ({
   filters: state.post.filters
 })
+
+PriceFilter.propTypes = {
+  filters: PropTypes.object.isRequired,
+  setSrearchFilters: PropTypes.func.isRequired,
+  getPosts: PropTypes.func.isRequired
+}
 
 export default connect(mapStateToProps, { setSrearchFilters, getPosts })(
   PriceFilter

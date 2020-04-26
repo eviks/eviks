@@ -3,6 +3,7 @@ import { setSrearchFilters, getPosts } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import useIsMount from '../../../layout/useIsMount/useIsMount.component'
 import Radio from '../../../layout/form/radio/radio.component'
+import PropTypes from 'prop-types'
 
 import './filters.style.scss'
 
@@ -57,22 +58,23 @@ const RoomFilter = ({ filters, setSrearchFilters, getPosts }) => {
 
   return (
     <form>
-      <h4 style={styles.title}>Rooms</h4>
-      <div className="row-group" style={{ marginBottom: '1rem' }}>
+      <h4 className="filter-title">Rooms</h4>
+      <div className="row-group room-filters">
         <Radio options={options} onChange={filtersOnChange} />
       </div>
     </form>
   )
 }
 
-const styles = {
-  title: { marginLeft: '0.8rem', marginBottom: '1rem' },
-  input: { width: '120px', marginLeft: '0.7rem', marginRight: '0.7rem' }
-}
-
 const mapStateToProps = state => ({
   filters: state.post.filters
 })
+
+RoomFilter.propTypes = {
+  filters: PropTypes.object.isRequired,
+  setSrearchFilters: PropTypes.func.isRequired,
+  getPosts: PropTypes.func.isRequired
+}
 
 export default connect(mapStateToProps, { setSrearchFilters, getPosts })(
   RoomFilter

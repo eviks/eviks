@@ -3,7 +3,9 @@
 .radio-container {
   display: block;
   position: relative;
+  text-align: center;
   cursor: pointer;
+  color: $grey-color;
 
   input {
     position: absolute;
@@ -15,21 +17,36 @@
       background-color: $primary-color;
       color: $light-color;
     }
+
+    &:checked ~ .radio-label {
+      color: $primary-color;
+    }
   }
 
   .checkmark {
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-    border: 1px solid $light-grey-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid $grey-color;
     border-radius: 50%;
     margin: 0.3rem;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 2.5;
+
+    &-md {
+      height: 40px;
+      width: 40px;
+    }
+
+    &-lg {
+      height: 60px;
+      width: 60px;
+    }
   }
 
   &:hover input ~ .checkmark {
     border-color: $primary-color;
+  }
+
+  &:hover {
+    color: $primary-color;
   }
 }

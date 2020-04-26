@@ -53,7 +53,7 @@ const Auth = ({ handleCloseModal, showOverlay, history }) => {
       {showOverlay && (
         <div className="overlay-container">
           <div className="overlay">
-            <span className="large">{t('auth.authTitle')}</span>
+            <span className="auth-text large">{t('auth.authTitle')}</span>
           </div>
         </div>
       )}

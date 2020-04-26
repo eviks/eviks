@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import './radio.style.scss'
 
-const Radio = ({ options, onChange }) => {
+const Radio = ({ options, size, onChange }) => {
   return (
     <Fragment>
       {options.map(option => (
@@ -14,16 +14,29 @@ const Radio = ({ options, onChange }) => {
             onChange={e => onChange(e)}
             onClick={e => onChange(e)}
           />
-          <span className="checkmark">{option.label}</span>
+          {option.icon ? (
+            <Fragment>
+              <div className={`checkmark checkmark-${size}`}>{option.icon}</div>
+              <span className="radio-label">{option.label}</span>
+            </Fragment>
+          ) : (
+            <span className={`checkmark checkmark-${size}`}>
+              {option.label}
+            </span>
+          )}
         </label>
       ))}
     </Fragment>
   )
 }
 
+Radio.defaultProps = {
+  size: 'md'
+}
+
 Radio.propTypes = {
-  fieldName: PropTypes.string,
   options: PropTypes.array,
+  size: PropTypes.string,
   onChange: PropTypes.func
 }
 

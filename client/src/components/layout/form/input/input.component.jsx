@@ -23,13 +23,13 @@ const TextInput = ({
         {...options}
         onChange={e => onChange(e)}
         onBlur={e => {
-          if (onBlur !== null) {
+          if (onBlur) {
             onBlur(e)
           }
           setFilledFlag(e.target.value || !required)
         }}
         onFocus={e => {
-          if (onFocus !== null) {
+          if (onFocus) {
             onFocus(e)
           }
         }}
