@@ -25,7 +25,7 @@ const PostSchema = new mongoose.Schema({
   elevator: Boolean,
   parkingLot: Boolean,
   documented: Boolean,
-  onKredit: Boolean,
+  mortgage: Boolean,
   balcony: Boolean,
   bathroomType: String,
   windows: Number,

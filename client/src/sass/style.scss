@@ -19,7 +19,9 @@ body {
 input,
 textarea,
 select,
-button {
+button,
+label,
+i {
   font-family: inherit;
   font-size: inherit;
 }
@@ -59,4 +61,20 @@ img {
   margin: auto;
   background-color: rgba(11, 12, 14, 0.5);
   z-index: 100;
+}
+
+.close-modal {
+  position: absolute;
+  top: -2%;
+  right: -2%;
+  border: none;
+  background: transparent;
+  color: $light-grey-color;
+  transition: background-color 0.4s ease-in-out;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    color: $light-color;
+  }
 }

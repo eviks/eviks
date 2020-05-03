@@ -1,6 +1,5 @@
 import React from 'react'
 import SwitchInput from '../../../layout/form/switch/switchInput.component'
-import SelectInput from '../../../layout/form/select/selectInput.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
 import { useTranslation } from 'react-i18next'
@@ -13,7 +12,7 @@ const FadeInDiv = styled.div`
 `
 
 const PostGeneralInfo = ({ formData, onChange }) => {
-  const { city, district, userType, estateType } = formData
+  const { userType, estateType } = formData
 
   const [t] = useTranslation()
 
@@ -24,9 +23,9 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         name: 'userType',
         type: 'radio',
         value: 'owner',
-        checked: userType === 'owner',
+        checked: userType === 'owner'
       },
-      label: t('createPost.generalInfo.owner'),
+      label: t('createPost.generalInfo.owner')
     },
     {
       input: {
@@ -34,10 +33,10 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         name: 'userType',
         type: 'radio',
         value: 'agent',
-        checked: userType === 'agent',
+        checked: userType === 'agent'
       },
-      label: t('createPost.generalInfo.agent'),
-    },
+      label: t('createPost.generalInfo.agent')
+    }
   ]
 
   const estateTypeOptions = [
@@ -47,9 +46,9 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         name: 'estateType',
         type: 'radio',
         value: 'apartment',
-        checked: estateType === 'apartment',
+        checked: estateType === 'apartment'
       },
-      label: t('createPost.generalInfo.apartment'),
+      label: t('createPost.generalInfo.apartment')
     },
     {
       input: {
@@ -57,42 +56,10 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         name: 'estateType',
         type: 'radio',
         value: 'house',
-        checked: estateType === 'house',
+        checked: estateType === 'house'
       },
-      label: t('createPost.generalInfo.house'),
-    },
-  ]
-
-  const cityOptions = [
-    {
-      input: { id: 'baku', name: 'city', type: 'radio', value: 'Baku' },
-      label: 'Baku',
-    },
-    {
-      input: { id: 'ganja', name: 'city', type: 'radio', value: 'Ganja' },
-      label: 'Ganja',
-    },
-  ]
-
-  const districtOptions = [
-    {
-      input: {
-        id: 'icheri-sheher',
-        name: 'district',
-        type: 'radio',
-        value: 'Icheri Sheher',
-      },
-      label: 'Icheri Sheher',
-    },
-    {
-      input: {
-        id: 'sabunchu',
-        name: 'district',
-        type: 'radio',
-        value: 'Sabunchu',
-      },
-      label: 'Sabunchu',
-    },
+      label: t('createPost.generalInfo.house')
+    }
   ]
 
   return (
@@ -110,29 +77,13 @@ const PostGeneralInfo = ({ formData, onChange }) => {
         options={estateTypeOptions}
         onChange={onChange}
       />
-      {/* City */}
-      <SelectInput
-        fieldName={t('createPost.generalInfo.city')}
-        options={cityOptions}
-        placeholder={city ? city : t('createPost.generalInfo.cityField')}
-        onChange={onChange}
-      />
-      {/* District */}
-      <SelectInput
-        fieldName={t('createPost.generalInfo.district')}
-        options={districtOptions}
-        placeholder={
-          district ? district : t('createPost.generalInfo.districtField')
-        }
-        onChange={onChange}
-      />
     </FadeInDiv>
   )
 }
 
 PostGeneralInfo.propTypes = {
   formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default PostGeneralInfo

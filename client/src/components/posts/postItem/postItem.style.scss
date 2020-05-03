@@ -4,12 +4,6 @@
   background: $light-color;
   border-radius: 5px;
 
-  &:hover {
-    .card-photos {
-      opacity: 0.9;
-    }
-  }
-
   &-photos {
     position: relative;
     width: 100%;
@@ -32,76 +26,42 @@
   }
 
   &-info {
-    height: 40%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    padding: 1rem 1rem;
+    padding: 1rem;
+    position: relative;
+  }
 
-    .card-price {
-      font-weight: bold;
-      font-size: 1.5rem;
-      line-height: 1.2;
-    }
+  &-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
-    .card-area {
-      grid-column-start: 1;
-      grid-column-end: 3;
-      font-size: 1.5rem;
-      line-height: 1.2;
-    }
+  &-bottom {
+    align-items: flex-end;
+  }
 
-    .card-city-and-date {
-      opacity: 50%;
-    }
-
-    .card-specials,
-    .card-main-params {
-      justify-self: right;
-    }
-
-    .card-specials {
-      display: flex;
-      border-radius: 50%;
-      background: #ffee44;
-      height: 35px;
-      width: 35px;
-      justify-content: center;
-      align-items: center;
+  &:hover {
+    .card-photos {
+      opacity: 0.9;
     }
   }
-}
 
-.section-label {
-  width: 150px;
-  margin: 2rem auto;
-  padding: 0.4rem 1.3rem;
-  text-align: center;
-  text-transform: uppercase;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #ffee44, #fea240);
-}
+  .time-stamp {
+    opacity: 50%;
+  }
 
-// Features
-.features {
-  margin: 2rem 10rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  &-features {
+    display: flex;
+  }
 
-  .feature {
-    width: 200px;
-    align-self: center;
-    justify-self: center;
-    text-align: center;
-
-    &-image {
-      img {
-        width: auto;
-      }
-    }
-
-    p {
-      padding: 1rem;
-      font-weight: bold;
-    }
+  &-feature {
+    display: flex;
+    border-radius: 50%;
+    background: $accent-color;
+    height: 35px;
+    width: 35px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0.2rem;
   }
 }

@@ -1,8 +1,13 @@
-import { SET_ALERT, REMOVE_ALERT } from './types'
-import uuid from 'uuid'
+import { SET_ALERT, REMOVE_ALERT, REMOVE_ALL_ALERTS } from './types'
 
-export const setAlert = (message, alertType, timeout = 5000) => dispatch => {
-  const id = uuid.v4()
+export const setAlert = (
+  message,
+  alertType,
+  id,
+  timeout = null
+) => dispatch => {
+  // Delete all pev alerts
+  dispatch({ type: REMOVE_ALL_ALERTS })
 
   dispatch({
     type: SET_ALERT,
@@ -13,7 +18,17 @@ export const setAlert = (message, alertType, timeout = 5000) => dispatch => {
     }
   })
 
-  setTimeout(() => {
-    dispatch({ type: REMOVE_ALERT, payload: id })
-  }, timeout)
+  if (timeout !== null) {
+    setTimeout(() => {
+      dispatch({ type: REMOVE_ALERT, payload: id })
+    }, timeout)
+  }
+}
+
+export const deleteAlert = id => dispatch => {
+  dispatch({ type: REMOVE_ALERT, payload: id })
+}
+
+export const deleteAllAlerts = () => dispatch => {
+  dispatch({ type: REMOVE_ALL_ALERTS })
 }

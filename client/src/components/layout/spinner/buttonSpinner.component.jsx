@@ -10,6 +10,13 @@ const ButtonSpinner = ({ style }) => {
   )
 }
 
+ButtonSpinner.defaultProps = {
+  style: {
+    position: 'absolute',
+    width: '20px'
+  }
+}
+
 ButtonSpinner.propTypes = {
   style: PropTypes.object.isRequired
 }

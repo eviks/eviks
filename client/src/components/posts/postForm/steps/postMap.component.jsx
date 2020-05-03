@@ -53,11 +53,11 @@ const PostMap = ({ formData, setFormData }) => {
     }
   }
 
-  const onChange = (address, lat, lng) => {
+  const onChange = (city, district, address, lat, lng) => {
     if (lat === null || lng === null) {
-      setFormData({ ...formData, address })
+      setFormData({ ...formData, city, district, address })
     } else {
-      setFormData({ ...formData, address, lat, lng })
+      setFormData({ ...formData, city, district, address, lat, lng })
     }
   }
 
@@ -66,9 +66,13 @@ const PostMap = ({ formData, setFormData }) => {
     geocoder.geocode({ latLng: latlng }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
         if (results[1]) {
+          console.log(results)
+          const { address_components, formatted_address } = results[0]
           setFormData({
             ...formData,
-            address: results[1].formatted_address,
+            city: address_components[address_components.length - 2].long_name,
+            district: address_components[1].long_name,
+            address: formatted_address,
             lat: obj.lat,
             lng: obj.lng
           })

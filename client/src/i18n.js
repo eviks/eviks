@@ -42,7 +42,9 @@ const resources = {
       auth: {
         login: 'Вход',
         register: 'Регистрация',
-        authTitle: 'Используйте \n максимум \n возможностей',
+        feature1: 'Размещайте бесплатные объявления',
+        feature2: 'Сохраняйте параметры поиска',
+        feature3: 'Добавляйте объявления в избранное',
         loginTitle: 'С возвращением!',
         registerTitle: 'Давайте знакомиться',
         displayName: 'Имя',
@@ -111,7 +113,7 @@ const resources = {
           noMaintenance: 'Без ремонта',
           redevelopment: 'Перепланировка',
           documented: 'Имеется купчая',
-          onKredit: 'Имеется кредит'
+          mortgage: 'Имеется кредит'
         },
         buildingInfo: {
           title: 'Информация о здании',

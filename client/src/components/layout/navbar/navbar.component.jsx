@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../../actions/auth'
 import Auth from '../../auth/auth.component'
@@ -13,6 +13,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, navRef }) => {
   const [state, setState] = useState({ showAuthModal: false })
   const [t, i18n] = useTranslation()
   const { showAuthModal } = state
+  const location = useLocation()
 
   const handleOpenModal = () => {
     setState({ showAuthModal: true })
@@ -46,11 +47,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, navRef }) => {
     </Fragment>
   )
 
-  const guestLinks = (
+  const guestLinks = location.pathname !== '/auth' && (
     <li>
-      <Link to="" onClick={() => handleOpenModal()}>
+      <button onClick={() => handleOpenModal()}>
         <i className="fas fa-sign-in-alt"></i> {t('navbar.joinOrSignIn')}
-      </Link>
+      </button>
     </li>
   )
 

@@ -11,6 +11,7 @@ import {
   LOGOUT
 } from './types'
 import setAuthToken from '../utils/setAuthToken'
+import uuid from 'uuid'
 
 // Load user
 export const loadUser = () => async dispatch => {
@@ -46,7 +47,10 @@ export const registerUser = credentials => async dispatch => {
     dispatch(asyncActionError())
     const errors = error.response.data.errors
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+      errors.forEach(error => {
+        const id = uuid.v4()
+        dispatch(setAlert(error.msg, 'danger', id))
+      })
     }
     dispatch({ type: VERIFICATION_FAIL })
   }

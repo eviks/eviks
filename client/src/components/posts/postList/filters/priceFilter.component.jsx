@@ -11,10 +11,10 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
   const [prevVal, setPrevVal] = useState(null)
 
   const filtersOnChange = e => {
-    const { name, type } = e.target
-    const value = type === 'checkbox' ? e.target.checked : e.target.value
+    const { name, value } = e.target
+    const numericValue = value.replace(/\s/g, '').replace(/AZN/g, '')
     setSrearchFilters({
-      [name]: type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value
+      [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
     })
   }
 
@@ -35,13 +35,13 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
         <Input
           required={false}
           options={{
-            type: 'number',
+            type: 'text',
             name: 'priceMin',
             value: priceMin === 0 ? '' : priceMin,
-            min: '0',
             placeholder: 'Min',
             style: { width: '120px' }
           }}
+          currency={true}
           onChange={filtersOnChange}
           onBlur={filtersOnBlur}
           onFocus={filtersOnFocus}
@@ -50,13 +50,13 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
         <Input
           required={false}
           options={{
-            type: 'number',
+            type: 'text',
             name: 'priceMax',
             value: priceMax === 0 ? '' : priceMax,
-            min: '0',
             placeholder: 'Max',
             style: { width: '120px' }
           }}
+          currency={true}
           onChange={filtersOnChange}
           onBlur={filtersOnBlur}
           onFocus={filtersOnFocus}

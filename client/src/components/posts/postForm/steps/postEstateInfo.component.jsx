@@ -25,7 +25,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
     totalFloors,
     redevelopment,
     documented,
-    onKredit,
+    mortgage,
   } = formData
 
   const maintenanceOptions = [
@@ -161,12 +161,12 @@ const PostEstateInfo = ({ formData, onChange }) => {
       />
       {/* On kredit */}
       <Checkbox
-        label={t('createPost.estateInfo.onKredit')}
+        label={t('createPost.estateInfo.mortgage')}
         showFieldName={true}
         options={{
-          name: 'onKredit',
-          id: 'onKredit',
-          checked: onKredit,
+          name: 'mortgage',
+          id: 'mortgage',
+          checked: mortgage,
           style: { marginLeft: '200px' },
         }}
         onChange={onChange}

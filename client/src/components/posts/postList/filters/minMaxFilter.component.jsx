@@ -7,9 +7,9 @@ const MinMaxFilter = ({ filters, title, onChange, minInput, maxInput }) => {
   const getInputOptions = (inputName, placeholder = '') => {
     return {
       type: 'number',
+      min: 0,
       name: inputName,
       value: filters[inputName] === 0 ? '' : filters[inputName],
-      min: '0',
       placeholder: placeholder,
       style: { width: '120px' }
     }

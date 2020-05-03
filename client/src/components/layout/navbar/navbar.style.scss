@@ -12,10 +12,14 @@
   border-bottom: 1px solid $light-grey-color;
   height: $navbar-height;
 
-  a {
+  a,
+  button {
     color: $dark-color;
     margin: 0 0.25rem;
     padding: 0.45rem;
+    background: transparent;
+    border: none;
+    outline: none;
     cursor: pointer;
     transition: color 0.4s;
     &:hover {

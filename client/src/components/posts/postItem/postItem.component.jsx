@@ -17,7 +17,9 @@ const PostItem = ({
     price,
     date,
     _id,
-    photos
+    photos,
+    documented,
+    mortgage
   }
 }) => {
   const [t] = useTranslation()
@@ -35,16 +37,31 @@ const PostItem = ({
         )}
       </div>
       <div className="card-info">
-        <div className="card-price">{`${priceStr} AZN`}</div>
-        <div className="card-main-params">
-          {sqm} m2 | {rooms} {t('postList.room')} | {floor}/{totalFloors}
+        <div className="card-block">
+          <div>
+            <div className="lead-2x lead-bold">{`${priceStr} AZN`}</div>
+            <div className="lead-2x">{district}</div>
+          </div>
+          <div className="card-main-params">
+            {sqm} m² | {rooms} {t('postList.room')} | {floor}/{totalFloors}
+          </div>
         </div>
-        <div className="card-area">{district}</div>
-        <div className="card-city-and-date">
-          {city} <Moment format="DD.MM.YY">{date}</Moment>
-        </div>
-        <div className="card-specials">
-          <i className="fas fa-crown"></i>
+        <div className="card-block card-bottom">
+          <div className="time-stamp">
+            {city} <Moment format="DD.MM.YY">{date}</Moment>
+          </div>
+          <div className="card-features">
+            {documented && (
+              <div className="card-feature">
+                <i className="fas fa-stamp"></i>
+              </div>
+            )}
+            {mortgage && (
+              <div className="card-feature">
+                <i className="fas fa-coins"></i>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Link>

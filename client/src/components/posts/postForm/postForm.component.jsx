@@ -41,7 +41,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
     elevator: false,
     parkingLot: false,
     documented: false,
-    onKredit: false,
+    mortgage: false,
     balcony: false,
     bathroomType: '',
     windows: 0,
@@ -96,11 +96,20 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
   }
 
   const onChange = e => {
-    const { name, type } = e.target
-    const value = type === 'checkbox' ? e.target.checked : e.target.value
+    let { name, type, value } = e.target
+    let fieldValue
+    if (name === 'price') {
+      type = 'number'
+      fieldValue = value.replace(/\s/g, '').replace(/AZN/g, '')
+    } else {
+      fieldValue = type === 'checkbox' ? e.target.checked : value
+    }
     setFormData({
       ...formData,
-      [name]: type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value
+      [name]:
+        type === 'number'
+          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+          : fieldValue
     })
   }
 
@@ -159,19 +168,11 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
           {currentStep === totalSteps ? (
             <button
               type="submit"
-              className="btn btn-primary"
+              className={`btn btn-primary ${loading && 'btn-loading'}`}
               disabled={loading}
             >
               {t('createPost.submit')}
-              {loading && (
-                <ButtonSpinner
-                  style={{
-                    width: '20px',
-                    marginLeft: '4px',
-                    transition: 'all 0.3s ease-in-out'
-                  }}
-                />
-              )}
+              {loading && <ButtonSpinner />}
               <Ripple />
             </button>
           ) : (

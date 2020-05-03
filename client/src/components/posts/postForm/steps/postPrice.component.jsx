@@ -24,12 +24,13 @@ const PostPrice = ({ formData, onChange }) => {
       <Input
         fieldName={t('createPost.price.price')}
         options={{
-          type: 'number',
+          type: 'text',
           name: 'price',
           value: price === 0 ? '' : price,
           min: '0',
-          style: { width: '120px' },
+          style: { width: '120px' }
         }}
+        currency={true}
         onChange={onChange}
       />
       {/* Bargain */}
@@ -46,7 +47,7 @@ const PostPrice = ({ formData, onChange }) => {
         options={{
           name: 'progressPayment',
           id: 'progressPayment',
-          checked: progressPayment,
+          checked: progressPayment
         }}
         onChange={onChange}
       />
@@ -56,7 +57,7 @@ const PostPrice = ({ formData, onChange }) => {
 
 PostPrice.propTypes = {
   formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default PostPrice
