@@ -56,8 +56,8 @@ const Ripple = ({ duration = 850, color = '#fff' }) => {
       rippleContainer.width > rippleContainer.height
         ? rippleContainer.width
         : rippleContainer.height
-    const x = event.pageX - rippleContainer.x - size / 2
-    const y = event.pageY - rippleContainer.y - size / 2
+    const x = event.pageX - window.pageXOffset - rippleContainer.x - size / 2
+    const y = event.pageY - window.pageYOffset - rippleContainer.y - size / 2
     const newRipple = {
       x,
       y,

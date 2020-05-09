@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import TextArea from '../../../layout/form/textarea/textarea.component'
 import CheckboxCard from '../../../layout/form/checkboxCard/checkboxCard.component'
 import styled, { keyframes } from 'styled-components'
@@ -16,6 +16,7 @@ const FadeInDiv = styled.div`
 
 const PostAdditionalInfo = ({ formData, onChange }) => {
   const {
+    estateType,
     description,
     balcony,
     furniture,
@@ -32,6 +33,9 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
     washingMachine,
     dishwasher,
     refrigerator,
+    garage,
+    pool,
+    bathhouse
   } = formData
 
   const [t] = useTranslation()
@@ -49,6 +53,43 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
       <br />
       <div className="grid-container">
         <div>
+          {estateType === 'house' && (
+            <Fragment>
+              {/* Garage */}
+              <CheckboxCard
+                label={t('createPost.additionalInfo.garage')}
+                options={{
+                  name: 'garage',
+                  id: 'garage',
+                  checked: garage
+                }}
+                onChange={onChange}
+                iconClass={'fas fa-car'}
+              />
+              {/* Pool */}
+              <CheckboxCard
+                label={t('createPost.additionalInfo.pool')}
+                options={{
+                  name: 'pool',
+                  id: 'pool',
+                  checked: pool
+                }}
+                onChange={onChange}
+                iconClass={'fas fa-swimming-pool'}
+              />
+              {/* Bathhouse */}
+              <CheckboxCard
+                label={t('createPost.additionalInfo.bathhouse')}
+                options={{
+                  name: 'bathhouse',
+                  id: 'bathhouse',
+                  checked: bathhouse
+                }}
+                onChange={onChange}
+                iconClass={'fas fa-hot-tub'}
+              />
+            </Fragment>
+          )}
           {/* Balcony */}
           <CheckboxCard
             label={t('createPost.additionalInfo.balcony')}
@@ -69,7 +110,7 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
             options={{
               name: 'kitchenFurniture',
               id: 'kitchenFurniture',
-              checked: kitchenFurniture,
+              checked: kitchenFurniture
             }}
             onChange={onChange}
             iconClass={'fas fa-utensils'}
@@ -105,7 +146,7 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
             options={{
               name: 'electricity',
               id: 'electricity',
-              checked: electricity,
+              checked: electricity
             }}
             onChange={onChange}
             iconClass={'fas fa-bolt'}
@@ -146,7 +187,7 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
             options={{
               name: 'conditioner',
               id: 'conditioner',
-              checked: conditioner,
+              checked: conditioner
             }}
             onChange={onChange}
             iconClass={'fas fa-wind'}
@@ -157,7 +198,7 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
             options={{
               name: 'washingMachine',
               id: 'washingMachine',
-              checked: washingMachine,
+              checked: washingMachine
             }}
             onChange={onChange}
             iconClass={'fas fa-recycle'}
@@ -168,7 +209,7 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
             options={{
               name: 'dishwasher',
               id: 'dishwasher',
-              checked: dishwasher,
+              checked: dishwasher
             }}
             onChange={onChange}
             iconClass={'fas fa-soap'}
@@ -179,7 +220,7 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
             options={{
               name: 'refrigerator',
               id: 'refrigerator',
-              checked: refrigerator,
+              checked: refrigerator
             }}
             onChange={onChange}
             iconClass={'fas fa-snowflake'}
@@ -192,7 +233,7 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
 
 PostAdditionalInfo.propTypes = {
   formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default PostAdditionalInfo

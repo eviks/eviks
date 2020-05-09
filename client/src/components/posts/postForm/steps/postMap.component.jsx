@@ -21,7 +21,7 @@ const geocoder = new google.maps.Geocoder()
 const Marker = () => (
   <div>
     <i
-      className="fas fa-map-marker-alt fa-3x"
+      className="fas fa-dot-circle fa-2x"
       style={{
         color: '#fe4060',
         position: 'absolute',

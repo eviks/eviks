@@ -68,6 +68,8 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
     contact: ''
   })
 
+  const { estateType, userType } = formData
+
   const [step, setStep] = useState({ currentStep: 0, totalSteps: 7 })
   const { currentStep, totalSteps } = step
 
@@ -124,7 +126,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
   }
 
   const renderSwitch = () => {
-    switch (step.currentStep) {
+    switch (currentStep) {
       case 1:
         return <PostMap formData={formData} setFormData={setFormData} />
       case 2:
@@ -134,15 +136,20 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
       case 4:
         return <PostAdditionalInfo formData={formData} onChange={onChange} />
       case 5:
-        return <PostPrice formData={formData} onChange={onChange} />
-      case 6:
         return <PostPhotos files={files} setFiles={setFiles} />
+      case 6:
+        return <PostPrice formData={formData} onChange={onChange} />
       case 7:
         return <PostContact formData={formData} onChange={onChange} />
       case 0:
       default:
         return <PostGeneralInfo formData={formData} onChange={onChange} />
     }
+  }
+
+  const formIsValid = () => {
+    if (currentStep === 0) return estateType && userType
+    return true
   }
 
   const [t] = useTranslation()
@@ -179,6 +186,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
             <button
               className="btn btn-primary"
               onClick={e => stepChange(e, true)}
+              disabled={!formIsValid()}
             >
               {t('createPost.next')}
               <Ripple />

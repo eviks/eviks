@@ -107,6 +107,7 @@ const resources = {
           kitchenSqm: 'Площадь кухни (необязательно)',
           floor: 'Этаж',
           totalFloors: 'Всего этажей',
+          lotSqm: 'Площадь участка',
           maintenance: 'Ремонт',
           redecorated: 'Косметический ремонт',
           designed: 'Дизайнерский ремонт',
@@ -138,7 +139,10 @@ const resources = {
           conditioner: 'Кондиционер',
           washingMachine: 'Стиральная машина',
           dishwasher: 'Посудомоечная машина',
-          refrigerator: 'Холодильник'
+          refrigerator: 'Холодильник',
+          garage: 'Гараж',
+          pool: 'Бассейн',
+          bathhouse: 'Баня'
         },
         price: {
           title: 'Цена',

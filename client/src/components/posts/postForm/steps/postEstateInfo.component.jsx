@@ -17,15 +17,17 @@ const PostEstateInfo = ({ formData, onChange }) => {
   const [t] = useTranslation()
 
   const {
+    estateType,
     rooms,
     sqm,
     livingRoomsSqm,
     kitchenSqm,
+    lotSqm,
     floor,
     totalFloors,
     redevelopment,
     documented,
-    mortgage,
+    mortgage
   } = formData
 
   const maintenanceOptions = [
@@ -34,28 +36,28 @@ const PostEstateInfo = ({ formData, onChange }) => {
         id: 'redecorated',
         name: 'maintenance',
         type: 'radio',
-        value: 'redecorated',
+        value: 'redecorated'
       },
-      label: t('createPost.estateInfo.redecorated'),
+      label: t('createPost.estateInfo.redecorated')
     },
     {
       input: {
         id: 'designed',
         name: 'maintenance',
         type: 'radio',
-        value: 'designed',
+        value: 'designed'
       },
-      label: t('createPost.estateInfo.designed'),
+      label: t('createPost.estateInfo.designed')
     },
     {
       input: {
         id: 'noMaintenance',
         name: 'maintenance',
         type: 'radio',
-        value: 'noMaintenance',
+        value: 'noMaintenance'
       },
-      label: t('createPost.estateInfo.noMaintenance'),
-    },
+      label: t('createPost.estateInfo.noMaintenance')
+    }
   ]
 
   return (
@@ -69,7 +71,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'rooms',
           value: rooms === 0 ? '' : rooms,
           min: '0',
-          style: { width: '120px' },
+          style: { width: '120px' }
         }}
         onChange={onChange}
       />
@@ -81,7 +83,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'sqm',
           value: sqm === 0 ? '' : sqm,
           min: '0',
-          style: { width: '120px' },
+          style: { width: '120px' }
         }}
         onChange={onChange}
       />
@@ -93,7 +95,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'livingRoomsSqm',
           value: livingRoomsSqm === 0 ? '' : livingRoomsSqm,
           min: '0',
-          style: { width: '120px' },
+          style: { width: '120px' }
         }}
         required={false}
         onChange={onChange}
@@ -106,23 +108,37 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'kitchenSqm',
           value: kitchenSqm === 0 ? '' : kitchenSqm,
           min: '0',
-          style: { width: '120px' },
+          style: { width: '120px' }
         }}
         required={false}
         onChange={onChange}
       />
-      {/* Floor */}
-      <Input
-        fieldName={t('createPost.estateInfo.floor')}
-        options={{
-          type: 'number',
-          name: 'floor',
-          value: floor === 0 ? '' : floor,
-          min: '0',
-          style: { width: '120px' },
-        }}
-        onChange={onChange}
-      />
+      {/* Floor or Lot */}
+      {estateType === 'apartment' ? (
+        <Input
+          fieldName={t('createPost.estateInfo.floor')}
+          options={{
+            type: 'number',
+            name: 'floor',
+            value: floor === 0 ? '' : floor,
+            min: '0',
+            style: { width: '120px' }
+          }}
+          onChange={onChange}
+        />
+      ) : (
+        <Input
+          fieldName={t('createPost.estateInfo.lotSqm')}
+          options={{
+            type: 'number',
+            name: 'lotSqm',
+            value: lotSqm === 0 ? '' : lotSqm,
+            min: '0',
+            style: { width: '120px' }
+          }}
+          onChange={onChange}
+        />
+      )}
       {/* Total floors */}
       <Input
         fieldName={t('createPost.estateInfo.totalFloors')}
@@ -131,7 +147,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'totalFloors',
           value: totalFloors === 0 ? '' : totalFloors,
           min: '0',
-          style: { width: '120px' },
+          style: { width: '120px' }
         }}
         onChange={onChange}
       />
@@ -148,7 +164,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
         options={{
           name: 'redevelopment',
           id: 'redevelopment',
-          checked: redevelopment,
+          checked: redevelopment
         }}
         onChange={onChange}
       />
@@ -167,7 +183,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           name: 'mortgage',
           id: 'mortgage',
           checked: mortgage,
-          style: { marginLeft: '200px' },
+          style: { marginLeft: '200px' }
         }}
         onChange={onChange}
       />
@@ -177,7 +193,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
 
 PostEstateInfo.propTypes = {
   formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default PostEstateInfo

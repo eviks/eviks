@@ -60,21 +60,21 @@ const MoreFilters = ({
             <div className="filter-group">
               {estateType !== 'house' && (
                 <Fragment>
-                  {/* Total floor */}
+                  {/* Floor */}
                   <MinMaxFilter
-                    title={'Total floor'}
+                    title={'Floor'}
                     onChange={filtersOnChange}
-                    minInput={{ name: 'totalFloorMin', placeholder: 'Min' }}
-                    maxInput={{ name: 'totalFloorMax', placeholder: 'Max' }}
+                    minInput={{ name: 'floorMin', placeholder: 'Min' }}
+                    maxInput={{ name: 'floorMax', placeholder: 'Max' }}
                   />
                 </Fragment>
               )}
-              {/* Floor */}
+              {/* Total floor */}
               <MinMaxFilter
-                title={'Floor'}
+                title={'Total floor'}
                 onChange={filtersOnChange}
-                minInput={{ name: 'floorMin', placeholder: 'Min' }}
-                maxInput={{ name: 'floorMax', placeholder: 'Max' }}
+                minInput={{ name: 'totalFloorMin', placeholder: 'Min' }}
+                maxInput={{ name: 'totalFloorMax', placeholder: 'Max' }}
               />
             </div>
           </form>
