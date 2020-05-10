@@ -2,6 +2,7 @@ import axios from 'axios'
 import { asyncActionStart, asyncActionFinish, asyncActionError } from './async'
 import {
   GET_POSTS,
+  GET_POST,
   POST_ERROR,
   ADD_POST,
   UPLOAD_PHOTO,
@@ -14,6 +15,25 @@ export const getPosts = (filters = null) => async dispatch => {
     dispatch(asyncActionStart())
     const res = await axios.get(`api/posts/${JSON.stringify(filters)}`)
     dispatch({ type: GET_POSTS, payload: res.data })
+    dispatch(asyncActionFinish())
+  } catch (error) {
+    dispatch(asyncActionError())
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        message: error.response.statusText,
+        status: error.response.status
+      }
+    })
+  }
+}
+
+// Get single post
+export const getPost = id => async dispatch => {
+  try {
+    dispatch(asyncActionStart())
+    const res = await axios.get(`/api/posts/post/${id}`)
+    dispatch({ type: GET_POST, payload: res.data })
     dispatch(asyncActionFinish())
   } catch (error) {
     dispatch(asyncActionError())

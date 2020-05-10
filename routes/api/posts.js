@@ -100,10 +100,10 @@ router.get('/:filters?', async (req, res) => {
   }
 })
 
-// @route GET api/posts/:id
-// @desc  Get post info
+// @route GET api/posts/post/:id
+// @desc  Get single post
 // @acess Public
-router.get('/:id', async (req, res) => {
+router.get('/post/:id', async (req, res) => {
   postId = req.params.id
 
   // Id validation
@@ -129,7 +129,8 @@ router.post(
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
     try {
-      const post = new Post(req.body)
+      const user = await User.findById(req.user.id).select('-password')
+      const post = new Post({ ...req.body, user, userName: user.displayName })
       await post.save()
 
       res.json(post)

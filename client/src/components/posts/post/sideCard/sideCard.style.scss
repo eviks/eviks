@@ -1,0 +1,41 @@
+@import '../../../../sass/config';
+
+.side-card {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background: $light-color;
+  border-radius: 8px;
+  padding: 2.5rem;
+  height: fit-content;
+  line-height: 1;
+
+  .phone-number {
+    font-size: 2rem;
+  }
+
+  .price-wrapper {
+    margin-bottom: 1rem;
+
+    .price {
+      display: block;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .user-name-and-type {
+      display: flex;
+      flex-direction: column;
+      margin-left: 0.4rem;
+    }
+  }
+}

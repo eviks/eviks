@@ -217,6 +217,11 @@ input[type='radio'].toggle {
     line-height: 1.2;
   }
 
+  &-3x {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
   &-bold {
     font-weight: bold;
   }
@@ -227,12 +232,22 @@ input[type='radio'].toggle {
 }
 
 // Text colors
-.text-primary {
-  color: $primary-color;
-}
+.text {
+  &-primary {
+    color: $primary-color;
+  }
 
-.text-dark {
-  color: $dark-color;
+  &-secondary {
+    color: $grey-color;
+  }
+
+  &-dark {
+    color: $dark-color;
+  }
+
+  &-sm {
+    font-size: 0.8rem;
+  }
 }
 
 // Padding & margin

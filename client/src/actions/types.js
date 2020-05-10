@@ -16,6 +16,7 @@ export const AUTH_ERROR = 'AUTH_ERROR'
 export const LOGOUT = 'LOGOUT'
 // POST
 export const GET_POSTS = 'GET_POSTS'
+export const GET_POST = 'GET_POST'
 export const UPLOAD_PHOTO = 'UPLOAD_PHOTO'
 export const ADD_POST = 'ADD_POST'
 export const SET_FILTER = 'SET_FILTER'

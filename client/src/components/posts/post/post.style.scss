@@ -1,0 +1,15 @@
+@import '../../../sass/config';
+
+.post-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+  margin: 0.5rem 3rem;
+}
+
+.post-container {
+  background: $light-color;
+  width: 65vw;
+  border-radius: 8px;
+  overflow: hidden;
+}

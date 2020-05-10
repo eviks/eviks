@@ -1,5 +1,6 @@
 import {
   GET_POSTS,
+  GET_POST,
   POST_ERROR,
   ADD_POST,
   UPLOAD_PHOTO,
@@ -34,6 +35,8 @@ export default function(state = initialState, action) {
   switch (type) {
     case GET_POSTS:
       return { ...state, posts: payload }
+    case GET_POST:
+      return { ...state, post: payload }
     case ADD_POST:
       return { ...state, posts: [...state.posts, payload], uploadedPhotos: [] }
     case UPLOAD_PHOTO:

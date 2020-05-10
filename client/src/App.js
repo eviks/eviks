@@ -12,6 +12,7 @@ import AuthForm from './components/auth/authForm.component'
 import Verification from './components/auth/verification/verification.component'
 import ResetPassword from './components/auth/resetPassword/resetPassword.component'
 import Posts from './components/posts/postList/posts.component'
+import Post from './components/posts/post/post.component'
 import PostForm from './components/posts/postForm/postForm.component'
 
 import './sass/style.scss'
@@ -57,6 +58,7 @@ const App = () => {
               path="/posts"
               component={() => <Posts navRef={navRef} />}
             />
+            <Route path="/posts/:id" component={Post} />
             <PrivateRoute exact path="/create_post" component={PostForm} />
           </Fragment>
         </Router>
