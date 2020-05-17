@@ -51,7 +51,6 @@ const PostSchema = new mongoose.Schema({
   garage: Boolean,
   pool: Boolean,
   bathhouse: Boolean,
-  garage: Boolean,
   description: String,
   price: Number,
   bargain: Boolean,

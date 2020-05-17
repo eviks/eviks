@@ -1,0 +1,34 @@
+@import '../../../../sass/config';
+
+.features {
+  &-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  &-special {
+    display: flex;
+    justify-content: flex-start;
+    margin: 1rem;
+    margin-left: 0;
+
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      margin-right: 3rem;
+    }
+
+    &-icon {
+      font-size: 1.5rem;
+      display: flex;
+      border-radius: 50%;
+      height: 60px;
+      width: 60px;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+    }
+  }
+}

@@ -346,7 +346,7 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
 
   .image-gallery-thumbnails-container {
     cursor: pointer;
-    text-align: center;
+    text-align: start;
     transition: transform 0.45s ease-out;
     white-space: nowrap;
   }
@@ -423,9 +423,11 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   color: $ig-white;
   line-height: 1;
   padding: 10px 20px;
+  margin-bottom: 20px;
   position: absolute;
-  right: 0;
-  top: 0;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 0);
   z-index: 4;
 
   @media (max-width: $ig-small-screen) {

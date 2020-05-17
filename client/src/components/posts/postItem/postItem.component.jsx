@@ -8,9 +8,11 @@ import './postItem.style.scss'
 
 const PostItem = ({
   post: {
+    estateType,
     city,
     district,
     sqm,
+    lotSqm,
     rooms,
     floor,
     totalFloors,
@@ -43,7 +45,10 @@ const PostItem = ({
             <div className="lead-2x">{district}</div>
           </div>
           <div className="card-main-params">
-            {sqm} m² | {rooms} {t('postList.room')} | {floor}/{totalFloors}
+            {sqm} m² | {rooms} {t('postList.room')} |{' '}
+            {estateType === 'apartment'
+              ? `${floor}/${totalFloors}`
+              : `${lotSqm} m²`}
           </div>
         </div>
         <div className="card-block card-bottom">

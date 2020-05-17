@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react'
 import ImageGallery from 'react-image-gallery'
 import SideCard from './sideCard/sideCard.component'
-import Spinner from '../../layout/spinner/spinner.component'
+import PostHead from './postHead/postHead.component'
+import MainInfo from './mainInfo/MainInfo.component'
+import PostFeatures from './postFeatures/postFeatures.component'
+import BuildingInfo from './buildingInfo/buildingInfo.component'
+import PostDescription from './postDescription/postDescription.component'
+import PostSkeleton from './postSkeleton/postSkeleton.component'
 import { connect } from 'react-redux'
 import { getPost } from '../../../actions/post'
 import PropTypes from 'prop-types'
@@ -22,10 +27,11 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
   }
 
   return loading || post == null ? (
-    <Spinner style={{ width: '30px' }} />
+    <PostSkeleton />
   ) : (
     <div className="post-wrapper">
       <div className="post-container light-border">
+        <PostHead post={post} />
         <ImageGallery
           items={getPostPhotos()}
           showIndex={true}
@@ -33,6 +39,12 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
           useTranslate3D={false}
           slideOnThumbnailOver={true}
         />
+        <div className="px-2">
+          <MainInfo post={post} />
+          <PostDescription description={post.description} />
+          <PostFeatures post={post} />
+          <BuildingInfo post={post} />
+        </div>
       </div>
       <SideCard post={post} />
     </div>

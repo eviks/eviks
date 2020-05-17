@@ -12,4 +12,30 @@
   width: 65vw;
   border-radius: 8px;
   overflow: hidden;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+
+  .main-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid $light-grey-color;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0 2rem;
+
+      &:first-of-type {
+        margin-left: 0;
+      }
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
 }

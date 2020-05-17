@@ -1,0 +1,8 @@
+.building-info-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.building-info {
+  padding: 0.5rem 0;
+}
