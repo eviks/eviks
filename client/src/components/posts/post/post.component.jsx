@@ -6,6 +6,7 @@ import MainInfo from './mainInfo/MainInfo.component'
 import PostFeatures from './postFeatures/postFeatures.component'
 import BuildingInfo from './buildingInfo/buildingInfo.component'
 import PostDescription from './postDescription/postDescription.component'
+import Location from './location/location.component'
 import PostSkeleton from './postSkeleton/postSkeleton.component'
 import { connect } from 'react-redux'
 import { getPost } from '../../../actions/post'
@@ -44,6 +45,7 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
           <PostDescription description={post.description} />
           <PostFeatures post={post} />
           <BuildingInfo post={post} />
+          <Location coordinate={[post.lat, post.lng]} />
         </div>
       </div>
       <SideCard post={post} />
