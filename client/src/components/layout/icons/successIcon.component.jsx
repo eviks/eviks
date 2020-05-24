@@ -8,10 +8,10 @@ const SuccessIcon = () => {
         height: '70px',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
       }}
     >
-      <i className="fas fa-check fa-3x" style={{ color: '#fe4060' }}></i>
+      <i className="fas fa-check fa-3x" style={{ color: '#ed4751' }}></i>
     </div>
   )
 }

@@ -6,11 +6,12 @@ import {
   POST_ERROR,
   ADD_POST,
   UPLOAD_PHOTO,
-  SET_FILTER
+  DELETE_PHOTO,
+  SET_FILTER,
 } from './types'
 
 // Get posts
-export const getPosts = (filters = null) => async dispatch => {
+export const getPosts = (filters = null) => async (dispatch) => {
   try {
     dispatch(asyncActionStart())
     const res = await axios.get(`api/posts/${JSON.stringify(filters)}`)
@@ -22,14 +23,14 @@ export const getPosts = (filters = null) => async dispatch => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response.status
-      }
+        status: error.response.status,
+      },
     })
   }
 }
 
 // Get single post
-export const getPost = id => async dispatch => {
+export const getPost = (id) => async (dispatch) => {
   try {
     dispatch(asyncActionStart())
     const res = await axios.get(`/api/posts/post/${id}`)
@@ -41,18 +42,18 @@ export const getPost = id => async dispatch => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response.status
-      }
+        status: error.response.status,
+      },
     })
   }
 }
 
 // Add post
-export const addPost = data => async dispatch => {
+export const addPost = (data) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   }
   try {
     dispatch(asyncActionStart())
@@ -61,29 +62,29 @@ export const addPost = data => async dispatch => {
     dispatch(asyncActionFinish())
     return res.data
   } catch (error) {
+    console.log(error)
     dispatch(asyncActionError())
     dispatch({
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response
-      }
+        status: error.response,
+      },
     })
   }
 }
 
 // Upload photo
-export const uploadPhoto = (data, photoId) => async dispatch => {
+export const uploadPhoto = (data, photoId) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+      'Content-Type': 'multipart/form-data',
+    },
   }
   try {
     dispatch(asyncActionStart(photoId))
     const res = await axios.post('/api/posts/upload_photo', data, config)
     const payload = res.data
-    console.log(payload)
     Object.assign(payload, { photoId })
     dispatch({ type: UPLOAD_PHOTO, payload })
     dispatch(asyncActionFinish(photoId))
@@ -93,13 +94,32 @@ export const uploadPhoto = (data, photoId) => async dispatch => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response
-      }
+        status: error.response,
+      },
+    })
+  }
+}
+
+// Delete photo
+export const deletePhoto = (filename) => async (dispatch) => {
+  try {
+    dispatch(asyncActionStart(filename))
+    await axios.delete(`/api/posts/delete_photo/${filename}`)
+    dispatch({ type: DELETE_PHOTO, filename })
+    dispatch(asyncActionFinish(filename))
+  } catch (error) {
+    dispatch(asyncActionError(filename))
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        message: error.response.statusText,
+        status: error.response,
+      },
     })
   }
 }
 
 // Set search filter
-export const setSrearchFilters = filters => async dispatch => {
+export const setSrearchFilters = (filters) => async (dispatch) => {
   dispatch({ type: SET_FILTER, payload: filters })
 }

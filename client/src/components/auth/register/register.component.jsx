@@ -23,12 +23,12 @@ const Register = ({
   registerUser,
   loading,
   history,
-  deleteAllAlerts
+  deleteAllAlerts,
 }) => {
   const [formData, setFormData] = useState({
     displayName: '',
     email: '',
-    password: ''
+    password: '',
   })
   const [t] = useTranslation()
   const { displayName, email, password } = formData
@@ -39,10 +39,10 @@ const Register = ({
     }
   }, [deleteAllAlerts])
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault()
 
     const success = await registerUser({ displayName, email, password })
@@ -51,7 +51,7 @@ const Register = ({
       const toastrOptions = {
         timeOut: 0,
         icon: <MessageIcon />,
-        status: 'info'
+        status: 'info',
       }
       toastr.light(
         t('auth.checkEmailTitle'),
@@ -71,13 +71,14 @@ const Register = ({
   }
 
   return (
-    <FadeInRightForm onSubmit={e => onSubmit(e)}>
+    <FadeInRightForm onSubmit={(e) => onSubmit(e)}>
       <div className="inner-container">
         <h3 className="lead" style={{ marginBottom: '1rem' }}>
           {t('auth.registerTitle')}
         </h3>
         <Alert />
         <Input
+          mask={false}
           fieldName={
             <Fragment>
               <i className="fas fa-user"></i> {t('auth.displayName')}
@@ -86,12 +87,13 @@ const Register = ({
           options={{
             type: 'text',
             name: 'displayName',
-            value: displayName
+            value: displayName,
           }}
           main={true}
           onChange={onChange}
         />
         <Input
+          mask={false}
           fieldName={
             <Fragment>
               <i className="fas fa-at"></i> {t('auth.email')}
@@ -100,12 +102,13 @@ const Register = ({
           options={{
             type: 'email',
             name: 'email',
-            value: email
+            value: email,
           }}
           main={true}
           onChange={onChange}
         />
         <Input
+          mask={false}
           fieldName={
             <Fragment>
               <i className="fas fa-lock"></i> {t('auth.password')}
@@ -114,7 +117,7 @@ const Register = ({
           options={{
             type: 'password',
             name: 'password',
-            value: password
+            value: password,
           }}
           main={true}
           onChange={onChange}
@@ -136,11 +139,11 @@ const Register = ({
 Register.propTypes = {
   handleCloseModal: PropTypes.func,
   registerUser: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
-  loading: state.async.loading
+const mapStateToProps = (state) => ({
+  loading: state.async.loading,
 })
 
 export default connect(mapStateToProps, { registerUser, deleteAllAlerts })(

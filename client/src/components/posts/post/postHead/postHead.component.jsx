@@ -1,17 +1,14 @@
 import React from 'react'
 import Moment from 'react-moment'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 const PostHead = ({ post: { estateType, date, address, rooms, sqm } }) => {
-  const getPostTitle = () => {
-    return `Продается ${rooms}-комнатн${
-      estateType === 'house' ? 'ый дом' : 'ая квартира'
-    } ${sqm} м²`
-  }
+  const [t] = useTranslation()
 
   return (
     <div className="my-1 px-2">
-      <h1>{getPostTitle()}</h1>
+      <h1>{t(`post.title.${estateType}`, { rooms, sqm })}</h1>
       <div>
         <i className="fas fa-map-marker-alt"></i> {address}
       </div>
@@ -25,7 +22,7 @@ const PostHead = ({ post: { estateType, date, address, rooms, sqm } }) => {
 }
 
 PostHead.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
 }
 
 export default PostHead

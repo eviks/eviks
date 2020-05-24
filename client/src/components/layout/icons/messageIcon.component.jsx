@@ -8,10 +8,10 @@ const MessageIcon = () => {
         height: '70px',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
       }}
     >
-      <i className="far fa-paper-plane fa-3x" style={{ color: '#fe4060' }}></i>
+      <i className="far fa-paper-plane fa-3x" style={{ color: '#ed4751' }}></i>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Spinner from '../../../layout/spinner/spinner.component'
 import { connect } from 'react-redux'
-import { uploadPhoto } from '../../../../actions/post'
+import { uploadPhoto, deletePhoto } from '../../../../actions/post'
 import PropTypes from 'prop-types'
 
 import './uploadedImage.style.scss'
@@ -10,13 +10,14 @@ const UploadedImage = ({
   file,
   deletePhoto,
   uploadPhoto,
+  deletePhotoFromState,
   async: { loading, loadingElements },
-  post: { uploadedPhotos }
+  post: { uploadedPhotos },
 }) => {
   useEffect(() => {
     if (
       !loadingElements.includes(file.photoId) &&
-      !uploadedPhotos.find(obj => obj.photoId === file.photoId)
+      !uploadedPhotos.find((obj) => obj.photoId === file.photoId)
     ) {
       const data = new FormData()
       data.append('photo', file)
@@ -25,6 +26,16 @@ const UploadedImage = ({
   }, [uploadPhoto, file, loadingElements, uploadedPhotos])
 
   const photoIsUploading = loading && loadingElements.includes(file.photoId)
+
+  const handleDeletePhoto = (photoId) => {
+    const photoToDelete = uploadedPhotos.filter(
+      (photo) => photo.photoId === photoId
+    )
+    if (photoToDelete.length === 1) {
+      photoToDelete[0].fileNames.map((fileName) => deletePhoto(fileName))
+      deletePhotoFromState(photoId)
+    }
+  }
 
   return (
     <div className="image-container">
@@ -37,7 +48,7 @@ const UploadedImage = ({
         )}
         <div
           className="icon-background"
-          onClick={() => deletePhoto(file.photoId)}
+          onClick={() => handleDeletePhoto(file.photoId)}
         >
           <i className="fas fa-trash"></i>
         </div>
@@ -48,13 +59,16 @@ const UploadedImage = ({
 
 UploadedImage.propTypes = {
   file: PropTypes.object.isRequired,
+  uploadPhoto: PropTypes.func.isRequired,
   deletePhoto: PropTypes.func.isRequired,
-  uploadPhoto: PropTypes.func.isRequired
+  deletePhotoFromState: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   async: state.async,
-  post: state.post
+  post: state.post,
 })
 
-export default connect(mapStateToProps, { uploadPhoto })(UploadedImage)
+export default connect(mapStateToProps, { uploadPhoto, deletePhoto })(
+  UploadedImage
+)

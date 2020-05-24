@@ -22,7 +22,7 @@ const Login = ({
   login,
   isAuthenticated,
   loading,
-  deleteAllAlerts
+  deleteAllAlerts,
 }) => {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [t] = useTranslation()
@@ -34,10 +34,10 @@ const Login = ({
     }
   }, [deleteAllAlerts])
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     login(email, password)
   }
@@ -55,7 +55,7 @@ const Login = ({
   }
 
   return (
-    <FadeInLeftForm onSubmit={e => onSubmit(e)}>
+    <FadeInLeftForm onSubmit={(e) => onSubmit(e)}>
       <div className="inner-container">
         <h3 className="lead">{t('auth.loginTitle')}</h3>
         <Alert />
@@ -68,6 +68,7 @@ const Login = ({
           </Link>
         </div>
         <Input
+          mask={false}
           fieldName={
             <Fragment>
               <i className="fas fa-at"></i> {t('auth.email')}
@@ -76,12 +77,13 @@ const Login = ({
           options={{
             type: 'email',
             name: 'email',
-            value: email
+            value: email,
           }}
           main={true}
           onChange={onChange}
         />
         <Input
+          mask={false}
           fieldName={
             <Fragment>
               <i className="fas fa-lock"></i> {t('auth.password')}
@@ -90,7 +92,7 @@ const Login = ({
           options={{
             type: 'password',
             name: 'password',
-            value: password
+            value: password,
           }}
           main={true}
           onChange={onChange}
@@ -116,12 +118,12 @@ Login.propTypes = {
   handleCloseModal: PropTypes.func,
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  loading: state.async.loading
+  loading: state.async.loading,
 })
 
 export default connect(mapStateToProps, { login, deleteAllAlerts })(Login)

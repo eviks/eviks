@@ -16,16 +16,38 @@ const PostContact = ({ formData, onChange }) => {
 
   const [t] = useTranslation()
 
+  const phoneMask = [
+    '+',
+    /[1-9]/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    '-',
+    /\d/,
+    /\d/,
+    '-',
+    /\d/,
+    /\d/,
+  ]
+
   return (
     <FadeInDiv className="px-4">
       <h3 className="step-title my-1">{t('createPost.contact.title')}</h3>
       {/* Contact */}
       <Input
         fieldName={t('createPost.contact.contact')}
+        mask={phoneMask}
         options={{
           type: 'text',
           name: 'contact',
           value: contact === 0 ? '' : contact,
+          placeholder: '+994 77 777-77-77',
         }}
         onChange={onChange}
       />

@@ -4,17 +4,19 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from './async'
 import {
   VERIFICATION_SUCCESS,
   VERIFICATION_FAIL,
+  RESETPASSWORD_SUCCESS,
+  RESETPASSWORD_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   USER_LOADED,
   AUTH_ERROR,
-  LOGOUT
+  LOGOUT,
 } from './types'
 import setAuthToken from '../utils/setAuthToken'
 import uuid from 'uuid'
 
 // Load user
-export const loadUser = () => async dispatch => {
+export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
@@ -31,12 +33,12 @@ export const loadUser = () => async dispatch => {
 }
 
 // Register user
-export const registerUser = credentials => async dispatch => {
+export const registerUser = (credentials) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
     const body = JSON.stringify(credentials)
     dispatch(asyncActionStart())
@@ -47,7 +49,7 @@ export const registerUser = credentials => async dispatch => {
     dispatch(asyncActionError())
     const errors = error.response.data.errors
     if (errors) {
-      errors.forEach(error => {
+      errors.forEach((error) => {
         const id = uuid.v4()
         dispatch(setAlert(error.msg, 'danger', id))
       })
@@ -57,27 +59,26 @@ export const registerUser = credentials => async dispatch => {
 }
 
 // Verify user email
-export const verifyEmail = activationToken => async dispatch => {
+export const verifyEmail = (activationToken) => async (dispatch) => {
   try {
+    dispatch(asyncActionStart())
     const res = await axios.post(`/api/auth/verification/${activationToken}`)
     dispatch({ type: VERIFICATION_SUCCESS, payload: res.data })
+    dispatch(asyncActionFinish())
     dispatch(loadUser())
   } catch (error) {
-    const errors = error.response.data.errors
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
-    }
+    dispatch(asyncActionError())
     dispatch({ type: VERIFICATION_FAIL })
   }
 }
 
 // Login user
-export const login = (email, password) => async dispatch => {
+export const login = (email, password) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
     const body = JSON.stringify({ email, password })
     dispatch(asyncActionStart())
@@ -89,13 +90,42 @@ export const login = (email, password) => async dispatch => {
     dispatch(asyncActionError())
     const errors = error.response.data.errors
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')))
     }
     dispatch({ type: LOGIN_FAIL })
   }
 }
 
+// Send reset password token
+export const sendResetPasswordToken = (email) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    const body = JSON.stringify({ email })
+    dispatch(asyncActionStart())
+    axios.post('/api/auth/create_reset_password_token/', body, config)
+    dispatch(asyncActionFinish())
+    return true
+  } catch (error) {
+    dispatch(asyncActionError())
+    dispatch(setAlert(error.message, 'danger', uuid.v4()))
+  }
+}
+
+// Reset password
+export const resetPassword = (email) => async (dispatch) => {
+  try {
+    dispatch({ type: RESETPASSWORD_SUCCESS })
+  } catch (error) {
+    dispatch(asyncActionError())
+    dispatch({ type: RESETPASSWORD_FAIL })
+  }
+}
+
 // Logout
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT })
 }

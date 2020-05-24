@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
+// import PostYandexMap from './steps/postYandexMap.component'
 import PostMap from './steps/postMap.component'
 import PostEstateInfo from './steps/postEstateInfo.component'
 import PostBuidingInfo from './steps/postBuildingInfo.component'
@@ -65,7 +66,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
     price: 0,
     bargain: false,
     progressPayment: false,
-    contact: ''
+    contact: '',
   })
 
   const { estateType, userType } = formData
@@ -80,7 +81,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
     window.scrollTo(0, 0)
   }, [currentStep])
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault()
 
     const data = { ...formData, photos: uploadedPhotos }
@@ -90,14 +91,14 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
       const toastrOptions = {
         timeOut: 0,
         icon: <SuccessIcon />,
-        status: 'info'
+        status: 'info',
       }
       toastr.light('Success', 'Your post is published', toastrOptions)
       history.push('/')
     }
   }
 
-  const onChange = e => {
+  const onChange = (e) => {
     let { name, type, value } = e.target
     let fieldValue
     if (name === 'price') {
@@ -111,7 +112,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
       [name]:
         type === 'number'
           ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
-          : fieldValue
+          : fieldValue,
     })
   }
 
@@ -121,7 +122,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
     newStep = Math.max(newStep, 0)
     setStep({
       ...step,
-      currentStep: newStep
+      currentStep: newStep,
     })
   }
 
@@ -129,6 +130,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
     switch (currentStep) {
       case 1:
         return <PostMap formData={formData} setFormData={setFormData} />
+      // return <PostYandexMap formData={formData} setFormData={setFormData} />
       case 2:
         return <PostEstateInfo formData={formData} onChange={onChange} />
       case 3:
@@ -157,14 +159,14 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
   return (
     <div className="post-form-container px-2 light-border">
       <ProgressBar step={step} />
-      <form onSubmit={e => onSubmit(e)}>
+      <form onSubmit={(e) => onSubmit(e)}>
         {renderSwitch()}
         <div className="form-button-box">
           {/* Back */}
 
           <button
             className="btn btn-secondary"
-            onClick={e => stepChange(e)}
+            onClick={(e) => stepChange(e)}
             style={{ visibility: currentStep === 0 ? 'hidden' : 'visible' }}
           >
             {t('createPost.back')}
@@ -185,7 +187,7 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
           ) : (
             <button
               className="btn btn-primary"
-              onClick={e => stepChange(e, true)}
+              onClick={(e) => stepChange(e, true)}
               disabled={!formIsValid()}
             >
               {t('createPost.next')}
@@ -200,12 +202,12 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
 
 PostForm.propTypes = {
   addPost: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.async.loading,
-  uploadedPhotos: state.post.uploadedPhotos
+  uploadedPhotos: state.post.uploadedPhotos,
 })
 
 export default connect(mapStateToProps, { addPost })(PostForm)

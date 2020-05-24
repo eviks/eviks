@@ -8,10 +8,10 @@ import PropTypes from 'prop-types'
 
 import './posts.style.scss'
 
-const Posts = ({ post: { posts }, loading, getPosts, navRef }) => {
+const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
   useEffect(() => {
-    getPosts()
-  }, [getPosts])
+    getPosts(filters)
+  }, [getPosts, filters])
 
   const getSkeletonItems = () => {
     return (
@@ -32,7 +32,7 @@ const Posts = ({ post: { posts }, loading, getPosts, navRef }) => {
       <div className="cards-container">
         {loading
           ? getSkeletonItems()
-          : posts.map(post => <PostItem key={post._id} post={post} />)}
+          : posts.map((post) => <PostItem key={post._id} post={post} />)}
       </div>
     </div>
   )
@@ -41,12 +41,12 @@ const Posts = ({ post: { posts }, loading, getPosts, navRef }) => {
 Posts.propTypes = {
   post: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   post: state.post,
-  loading: state.async.loading
+  loading: state.async.loading,
 })
 
 export default connect(mapStateToProps, { getPosts })(Posts)

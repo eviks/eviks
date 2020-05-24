@@ -21,9 +21,24 @@
   max-width: 1400px;
   margin: auto;
   overflow: hidden;
-  padding: 5rem 2rem 2rem 2rem;
+  padding: 2rem;
   background: $light-color;
-  min-height: 100vh;
+  min-height: 91vh;
+
+  &-center {
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  &-center {
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .light-border {

@@ -18,7 +18,7 @@ const FadeInDiv = styled.div`
 const PostPhotos = ({ files, setFiles }) => {
   const [t] = useTranslation()
 
-  const deletePhoto = (photoId) => {
+  const deletePhotoFromState = (photoId) => {
     setFiles(files.filter((file) => file.photoId !== photoId))
   }
 
@@ -32,7 +32,7 @@ const PostPhotos = ({ files, setFiles }) => {
             <UploadedImage
               key={file.photoId}
               file={file}
-              deletePhoto={deletePhoto}
+              deletePhotoFromState={deletePhotoFromState}
             />
           ))}
           <Dropzone files={files} setFiles={setFiles} />

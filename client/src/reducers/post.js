@@ -4,7 +4,8 @@ import {
   POST_ERROR,
   ADD_POST,
   UPLOAD_PHOTO,
-  SET_FILTER
+  DELETE_PHOTO,
+  SET_FILTER,
 } from '../actions/types'
 
 const initialState = {
@@ -25,12 +26,12 @@ const initialState = {
     totalFloorMin: 0,
     totalFloorMax: 0,
     floorMin: 0,
-    floorMax: 0
+    floorMax: 0,
   },
-  error: {}
+  error: {},
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case GET_POSTS:
@@ -42,7 +43,14 @@ export default function(state = initialState, action) {
     case UPLOAD_PHOTO:
       return {
         ...state,
-        uploadedPhotos: [...state.uploadedPhotos, payload]
+        uploadedPhotos: [...state.uploadedPhotos, payload],
+      }
+    case DELETE_PHOTO:
+      return {
+        ...state,
+        uploadedPhotos: state.uploadedPhotos.filter(
+          (photo) => photo.photoId !== payload
+        ),
       }
     case SET_FILTER:
       return { ...state, filters: { ...state.filters, ...payload } }

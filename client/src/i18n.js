@@ -28,8 +28,8 @@ const resources = {
       room: 'otaq',
       back: 'Geri',
       next: 'Ardıncı',
-      submit: 'Təsdiq eləmək'
-    }
+      submit: 'Təsdiq eləmək',
+    },
   },
   ru: {
     translation: {
@@ -37,7 +37,7 @@ const resources = {
         favorites: 'Избранное',
         myAccount: 'Мой аккаунт',
         logout: 'Выйти',
-        joinOrSignIn: 'Вход и регистрация'
+        joinOrSignIn: 'Вход и регистрация',
       },
       auth: {
         login: 'Вход',
@@ -54,30 +54,124 @@ const resources = {
         signUp: 'Зарегистрироваться',
         forgotPassword: 'Упс! Я забыл пароль',
         checkEmailTitle: 'Вам письмо!',
-        checkEmail: 'Письмо с подтверждением было отправлено на {{email}}'
+        checkEmail: 'Письмо с подтверждением было отправлено на {{email}}',
+        verification: {
+          greeting: 'Мы рады, что вы с нами!',
+          error: 'Что-то пошло не так...',
+          errorDesc:
+            'Похоже вы нажали на неверную ссылку подверждения аккаунта. Пожалуйста, попробуйте еще раз.',
+        },
+        resetPassword: {
+          title: 'Забыли пароль? Не переживайте.',
+          subtitle:
+            'Просто сообщите нам ваш Email, и мы вышлем вам ссылку для создания нового пароля',
+          send: 'Отправить',
+          checkEmailTitle: 'Вам письмо!',
+          checkEmail: 'Письмо с инструкциями отправлено на {{email}}',
+        },
       },
       landing: {
         title: 'Всё начинается с дома',
         slogan: 'Мы поможем найти то, что подходит именно вам',
         search: 'Найти',
-        sell: 'Продать'
+        sell: 'Продать',
+      },
+      post: {
+        title: {
+          apartment: 'Продается {{rooms}}-комнатная квартира {{sqm}} м²',
+          house: 'Продается {{rooms}}-комнатный дом {{sqm}} м²',
+        },
+        info: {
+          rooms: 'Комнаты',
+          sqm: 'Общая площадь',
+          livingSqm: 'Жилая площадь',
+          kitchenSqm: 'Площадь кухни',
+          floor: '{{floor}} из {{totalFloors}}',
+          floorTitle: 'Этаж',
+          lot: 'Участок',
+        },
+        desc: {
+          title: 'Описание',
+        },
+        building: {
+          title: 'О доме',
+          ceilingHeight: 'Высота потолка: {{ceilingHeight}} м.',
+          yearBuild: 'Год постройки: {{yearBuild}} г.',
+          elevator: 'Есть лифт',
+          parkingLot: 'Есть парковка',
+        },
+        features: {
+          title: 'Дополнительно',
+          maintenance: {
+            redecorated: 'Косметический ремонт',
+            designed: 'Дизайнерский ремонт',
+            noMaintenance: 'Требуется ремонт',
+          },
+          mortgage: 'Ипотека',
+          documented: 'Есть купчая',
+          redevelopment: 'Перепланировка',
+          balcony: 'Балкон',
+          furniture: 'Мебель',
+          kitchenFurniture: 'Кухонная мебель',
+          cctv: 'Кабельное',
+          phone: 'Телефон',
+          internet: 'Интернет',
+          electricity: 'Электричество',
+          gas: 'Газ',
+          water: 'Вода',
+          heating: 'Отопление',
+          tv: 'Телевизор',
+          conditioner: 'Кондиционер',
+          washingMachine: 'Стиральная машина',
+          dishwasher: 'Посудомоечная машина',
+          refrigerator: 'Холодильник',
+          garage: 'Гараж',
+          pool: 'Бассейн',
+          bathhouse: 'Баня',
+        },
+        location: {
+          title: 'Расположение',
+        },
+        price: {
+          priceForSqm: '{{priceForSqm}} AZN за м²',
+          message:
+            'Не забудьте сообщить о том, что нашли это объявление на Eviks',
+          showNumber: 'Показать номер',
+          userType: {
+            agent: 'Агент',
+            owner: 'Владелец',
+          },
+        },
       },
       postList: {
         filters: {
           price: 'Цена',
           rooms: 'Комнаты',
           estateType: 'Тип недвижимости',
-          more: 'Больше фильтров'
+          more: 'Больше фильтров',
+          doneButton: 'Готово',
+          min: 'от',
+          max: 'до',
+          sqm: 'Общая площадь',
+          livingSqm: 'Жилая площадь',
+          kitchenSqm: 'Площадь кухни',
+          floor: 'Этаж',
+          totalFloor: 'Всего этажей',
         },
-        room: 'комната'
+        estateTypes: {
+          any: 'Любой',
+          apartment: 'Квартира',
+          house: 'Дом',
+        },
+        room: 'комната',
       },
       form: {
         googleAutoComplitePlaceholder: 'Введите адрес...',
-        requiredField: 'Это обязательное поле'
+        requiredField: 'Это обязательное поле',
       },
       dropzone: {
         click: 'Добавить',
-        drag: 'или перетащите файлы сюда'
+        drag: 'или перетащите файлы сюда',
       },
       createPost: {
         back: 'Назад',
@@ -94,10 +188,10 @@ const resources = {
           city: 'Город',
           cityField: 'Выберите ваш город',
           district: 'Район',
-          districtField: 'Выберите ваш район'
+          districtField: 'Выберите ваш район',
         },
         mapInfo: {
-          title: 'Покажите ваш дом на карте'
+          title: 'Покажите ваш дом на карте',
         },
         estateInfo: {
           title: 'Информация о недвижимости',
@@ -114,14 +208,14 @@ const resources = {
           noMaintenance: 'Без ремонта',
           redevelopment: 'Перепланировка',
           documented: 'Имеется купчая',
-          mortgage: 'Имеется кредит'
+          mortgage: 'Имеется кредит',
         },
         buildingInfo: {
           title: 'Информация о здании',
           ceilingHeight: 'Высота потолка',
           yearBuild: 'Год постройки',
           elevator: 'Лифт',
-          parkingLot: 'Парковка'
+          parkingLot: 'Парковка',
         },
         additionalInfo: {
           title: 'Дополнительно',
@@ -142,25 +236,25 @@ const resources = {
           refrigerator: 'Холодильник',
           garage: 'Гараж',
           pool: 'Бассейн',
-          bathhouse: 'Баня'
+          bathhouse: 'Баня',
         },
         price: {
           title: 'Цена',
           price: 'Цена',
           bargain: 'Возможен торг',
-          progressPayment: 'Возможна оплата в несколько этапов'
+          progressPayment: 'Возможна оплата в несколько этапов',
         },
         photos: {
           title: 'Добавьте несколько фотографий',
-          additionalInfo: 'Макимальный размер файла 10 МБ.'
+          additionalInfo: 'Макимальный размер файла 10 МБ.',
         },
         contact: {
           title: 'Почти готово! Осталось лишь указать ваши контактные данные',
-          contact: 'Контактная информация'
-        }
-      }
-    }
-  }
+          contact: 'Номер телефона',
+        },
+      },
+    },
+  },
 }
 
 i18n.use(initReactI18next).init({ resources, lng: 'ru' })

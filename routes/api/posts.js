@@ -51,7 +51,7 @@ router.get('/:filters?', async (req, res) => {
         totalFloorMin,
         totalFloorMax,
         floorMin,
-        floorMax
+        floorMax,
       } = JSON.parse(filters)
 
       // Price
@@ -148,7 +148,7 @@ router.post(
   '/upload_photo',
   [
     passport.authenticate('jwt', { session: false }),
-    busboyBodyParser({ limit: '10mb' })
+    busboyBodyParser({ limit: '10mb' }),
   ],
   (req, res) => {
     const busboy = new Busboy({ headers: req.headers })
@@ -160,24 +160,23 @@ router.post(
         const filename = await hashFileName(name)
         const re = /WIDTH/
 
-        const image = await sharp(data)
-          .resize(1024)
-          .toBuffer()
+        const image = await sharp(data).resize(1024).toBuffer()
 
-        const thumbnail = await sharp(data)
-          .resize(480)
-          .toBuffer()
+        const thumbnail = await sharp(data).resize(480).toBuffer()
 
-        uploadFilePromises.push(
-          uploadToS3(filename.replace(re, '1024'), image, mimetype)
-        )
+        const imgName = filename.replace(re, '1024')
+        const thumbName = filename.replace(re, '480')
 
-        uploadFilePromises.push(
-          uploadToS3(filename.replace(re, '480'), thumbnail, mimetype)
-        )
+        uploadFilePromises.push(uploadToS3(imgName, image, mimetype))
+
+        uploadFilePromises.push(uploadToS3(thumbName, thumbnail, mimetype))
 
         const filesInfo = await Promise.all(uploadFilePromises)
-        res.json({ img: filesInfo[0].Location, thumb: filesInfo[1].Location })
+        res.json({
+          img: filesInfo[0].Location,
+          thumb: filesInfo[1].Location,
+          fileNames: [imgName, thumbName],
+        })
       } catch (error) {
         console.error(error.message)
         return res.status(500).send('Server error...')
@@ -188,7 +187,24 @@ router.post(
   }
 )
 
-const hashFileName = filename => {
+// @route DELETE api/posts/delete_photo/:id
+// @desc  Delete photo
+// @acess Private
+router.delete(
+  '/delete_photo/:id',
+  [passport.authenticate('jwt', { session: false })],
+  (req, res) => {
+    try {
+      filename = req.params.id
+      deleteFromS3(filename, res)
+    } catch (error) {
+      console.error(error.message)
+      return res.status(500).send('Server error...')
+    }
+  }
+)
+
+const hashFileName = (filename) => {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(16, async (err, buff) => {
       if (err) {
@@ -205,7 +221,7 @@ const uploadToS3 = (filename, buffer, mimetype) => {
   const s3bucket = new AWS.S3({
     accessKeyId,
     secretAccessKey,
-    Bucket
+    Bucket,
   })
 
   const params = {
@@ -213,10 +229,28 @@ const uploadToS3 = (filename, buffer, mimetype) => {
     Key: filename,
     Body: buffer,
     ContentType: mimetype,
-    CacheControl: 'public, max-age=86400'
+    CacheControl: 'public, max-age=86400',
   }
 
   return s3bucket.upload(params).promise()
+}
+
+const deleteFromS3 = (filename, res) => {
+  const s3bucket = new AWS.S3({
+    accessKeyId,
+    secretAccessKey,
+    Bucket,
+  })
+
+  const params = {
+    Bucket,
+    Key: filename,
+  }
+
+  return s3bucket.deleteObject(params, function (error, data) {
+    if (error) res.status(500).send('Server error...')
+    return res.send('Photo deleted')
+  })
 }
 
 module.exports = router

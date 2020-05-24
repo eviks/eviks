@@ -1,11 +1,105 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import Input from '../../layout/form/input/input.component'
+import Ripple from '../../layout/ripple/ripple.component'
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
+import { connect } from 'react-redux'
+import { sendResetPasswordToken } from '../../../actions/auth'
+import Alert from '../../layout/alert/alert.component'
+import { deleteAllAlerts } from '../../../actions/alert'
+import { toastr } from 'react-redux-toastr'
+import MessageIcon from '../../layout/icons/messageIcon.component'
+import { useTranslation } from 'react-i18next'
+import PropTypes from 'prop-types'
 
-const ResetPassword = () => {
+import '../auth.style.scss'
+
+const ResetPassword = ({
+  loading,
+  deleteAllAlerts,
+  sendResetPasswordToken,
+  history,
+}) => {
+  useEffect(() => {
+    return () => {
+      deleteAllAlerts()
+    }
+  }, [deleteAllAlerts])
+
+  const [email, setEmail] = useState('')
+
+  const onSubmit = async () => {
+    // Send reset-password-token
+    const result = await sendResetPasswordToken(email)
+
+    if (!result) return
+
+    // Toaster
+    const toastrOptions = {
+      timeOut: 0,
+      icon: <MessageIcon />,
+      status: 'info',
+    }
+    toastr.light(
+      t('auth.resetPassword.checkEmailTitle'),
+      t('auth.resetPassword.checkEmail', { email }),
+      toastrOptions
+    )
+
+    // Go to landing page
+    history.push('/')
+  }
+
+  const [t] = useTranslation()
+
   return (
-    <div className="container">
-      <h1>Забыли пароль? Не проблема</h1>
+    <div className="container container-center">
+      <Alert />
+      <h1>{t('auth.resetPassword.title')}</h1>
+      <span>{t('auth.resetPassword.subtitle')}</span>
+      <img
+        style={{ width: '400px', display: 'block' }}
+        src={require('../../../img/illustrations/password.jpg')}
+        alt="password"
+      />
+      <div className="reset-password-form">
+        <Input
+          mask={false}
+          options={{
+            type: 'email',
+            name: 'email',
+            value: email,
+          }}
+          main={true}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <div>
+          <button
+            type="submit"
+            className={`btn btn-primary ${loading && 'btn-loading'}`}
+            disabled={loading || email === ''}
+            onClick={onSubmit}
+          >
+            {t('auth.resetPassword.send')}
+            {loading && <ButtonSpinner />}
+            <Ripple />
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default ResetPassword
+ResetPassword.propTypes = {
+  sendResetPasswordToken: PropTypes.func.isRequired,
+  deleteAllAlerts: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+}
+
+const mapStateToProps = (state) => ({
+  loading: state.async.loading,
+})
+
+export default connect(mapStateToProps, {
+  deleteAllAlerts,
+  sendResetPasswordToken,
+})(ResetPassword)

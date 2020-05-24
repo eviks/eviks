@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import Input from '../../../layout/form/input/input.component'
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import Checkbox from '../../../layout/form/checkbox/checkbox.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
@@ -18,10 +19,23 @@ const PostBuildingInfo = ({ formData, onChange }) => {
     ceilingHeight,
     yearBuild,
     elevator,
-    parkingLot
+    parkingLot,
   } = formData
 
   const [t] = useTranslation()
+
+  const heightFormat = createNumberMask({
+    prefix: '',
+    suffix: '',
+    includeThousandsSeparator: false,
+    thousandsSeparatorSymbol: ' ',
+    allowDecimal: true,
+    decimalSymbol: '.',
+    decimalLimit: 2, // how many digits allowed after the decimal
+    integerLimit: 15, // limit length of integer numbers
+    allowNegative: false,
+    allowLeadingZeroes: false,
+  })
 
   return (
     <FadeInDiv className="px-4">
@@ -29,12 +43,13 @@ const PostBuildingInfo = ({ formData, onChange }) => {
       {/* Ceiling height */}
       <Input
         fieldName={t('createPost.buildingInfo.ceilingHeight')}
+        mask={heightFormat}
         options={{
-          type: 'number',
+          type: 'text',
           name: 'ceilingHeight',
           value: ceilingHeight === 0 ? '' : ceilingHeight,
           min: '0',
-          style: { width: '120px' }
+          style: { width: '120px' },
         }}
         onChange={onChange}
       />
@@ -46,7 +61,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
           name: 'yearBuild',
           value: yearBuild === 0 ? '' : yearBuild,
           min: '0',
-          style: { width: '120px' }
+          style: { width: '120px' },
         }}
         onChange={onChange}
       />
@@ -65,7 +80,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
             options={{
               name: 'parkingLot',
               id: 'parkingLot',
-              checked: parkingLot
+              checked: parkingLot,
             }}
             onChange={onChange}
           />
@@ -77,7 +92,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
 
 PostBuildingInfo.propTypes = {
   formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 }
 
 export default PostBuildingInfo

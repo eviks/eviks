@@ -1,30 +1,34 @@
 import {
   VERIFICATION_SUCCESS,
   VERIFICATION_FAIL,
+  RESETPASSWORD_SUCCESS,
+  RESETPASSWORD_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   USER_LOADED,
   AUTH_ERROR,
-  LOGOUT
+  LOGOUT,
 } from '../actions/types'
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
-  user: null
+  user: null,
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case USER_LOADED:
       return { ...state, isAuthenticated: true, user: payload }
     case VERIFICATION_SUCCESS:
+    case RESETPASSWORD_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token)
       return { ...state, ...payload, isAuthenticated: true }
     case AUTH_ERROR:
     case VERIFICATION_FAIL:
+    case RESETPASSWORD_FAIL:
     case LOGIN_FAIL:
     case LOGOUT:
       localStorage.removeItem('token')

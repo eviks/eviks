@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import MoreFilters from '../filters/moreFilters.component'
 import QuickFilter from '../quickFilter/quickFilter.component'
 import ReactModal from 'react-modal'
@@ -9,7 +9,7 @@ const FilterButton = ({
   filter,
   setFilter,
   component: Component,
-  moreFilters
+  moreFilters,
 }) => {
   const filterOnClick = () => {
     if (filter === name) {
@@ -21,8 +21,10 @@ const FilterButton = ({
 
   const isOpen = filter === name
 
+  const filterButtonRef = useRef(null)
+
   return (
-    <div style={{ position: 'relative' }}>
+    <div ref={filterButtonRef} style={{ position: 'relative' }}>
       <button
         onClick={() => filterOnClick()}
         className={`btn btn-ghost-pm${isOpen ? '-active' : ''} btn-md`}
@@ -42,21 +44,25 @@ const FilterButton = ({
             <MoreFilters filterOnClick={filterOnClick} />
           </ReactModal>
         ) : (
-          <QuickFilter filterOnClick={filterOnClick} component={Component} />
+          <QuickFilter
+            filterOnClick={filterOnClick}
+            component={Component}
+            filterButtonRef={filterButtonRef}
+          />
         ))}
     </div>
   )
 }
 
 FilterButton.defaultProps = {
-  moreFilters: false
+  moreFilters: false,
 }
 
 FilterButton.propTypes = {
   name: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
   setFilter: PropTypes.func.isRequired,
-  moreFilters: PropTypes.bool
+  moreFilters: PropTypes.bool,
 }
 
 export default FilterButton
