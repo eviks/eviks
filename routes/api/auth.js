@@ -160,6 +160,32 @@ router.post(
   }
 )
 
+router.post('/check_reset_password_token/:token', async (req, res) => {
+  const resetPasswordToken = req.params.token
+
+  try {
+    // Find user by reset password token
+    let user = await User.findOne({
+      'local.resetPasswordToken': resetPasswordToken,
+      'local.resetPasswordExpires': {
+        $gt: Date.now(),
+      },
+    })
+
+    // User not found
+    if (!user) {
+      return res.status(400).json({
+        errors: [{ msg: 'Wrong reset password token' }],
+      })
+    }
+
+    res.send('Reset-password-token is valid')
+  } catch (error) {
+    console.error(error.message)
+    return res.status(500).send('Server error...')
+  }
+})
+
 // @route POST api/auth/password_reset
 // @desc  Resets users password
 // @acess Public

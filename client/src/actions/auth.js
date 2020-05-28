@@ -4,6 +4,8 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from './async'
 import {
   VERIFICATION_SUCCESS,
   VERIFICATION_FAIL,
+  RESET_TOKEN_CHECK_SUCCESS,
+  RESET_TOKEN_CHECK_FAIL,
   RESETPASSWORD_SUCCESS,
   RESETPASSWORD_FAIL,
   LOGIN_SUCCESS,
@@ -22,12 +24,9 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    dispatch(asyncActionStart())
     const res = await axios.get('/api/auth')
     dispatch({ type: USER_LOADED, payload: res.data })
-    dispatch(asyncActionFinish())
   } catch (error) {
-    dispatch(asyncActionError())
     dispatch({ type: AUTH_ERROR })
   }
 }
@@ -106,7 +105,7 @@ export const sendResetPasswordToken = (email) => async (dispatch) => {
     }
     const body = JSON.stringify({ email })
     dispatch(asyncActionStart())
-    axios.post('/api/auth/create_reset_password_token/', body, config)
+    await axios.post('/api/auth/create_reset_password_token/', body, config)
     dispatch(asyncActionFinish())
     return true
   } catch (error) {
@@ -115,10 +114,41 @@ export const sendResetPasswordToken = (email) => async (dispatch) => {
   }
 }
 
-// Reset password
-export const resetPassword = (email) => async (dispatch) => {
+// Check reset password token
+export const checkResetPasswordToken = (token) => async (dispatch) => {
   try {
-    dispatch({ type: RESETPASSWORD_SUCCESS })
+    dispatch(asyncActionStart())
+    await axios.post(`/api/auth/check_reset_password_token/${token}`)
+    dispatch({ type: RESET_TOKEN_CHECK_SUCCESS })
+    dispatch(asyncActionFinish())
+  } catch (error) {
+    dispatch(asyncActionError())
+    dispatch({ type: RESET_TOKEN_CHECK_FAIL })
+  }
+}
+
+// Reset password
+export const resetPassword = (token, password, confirm, history) => async (
+  dispatch
+) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    dispatch(asyncActionStart())
+    console.log(password, confirm)
+    const body = JSON.stringify({ password, confirm })
+    const res = await axios.post(
+      `/api/auth/password_reset/${token}`,
+      body,
+      config
+    )
+    dispatch({ type: RESETPASSWORD_SUCCESS, payload: res.data })
+    dispatch(loadUser())
+    dispatch(asyncActionFinish())
+    history.push('/')
   } catch (error) {
     dispatch(asyncActionError())
     dispatch({ type: RESETPASSWORD_FAIL })

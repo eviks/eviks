@@ -11,6 +11,7 @@ import ReduxToastr from 'react-redux-toastr'
 import AuthForm from './components/auth/authForm.component'
 import Verification from './components/auth/verification/verification.component'
 import ResetPassword from './components/auth/resetPassword/resetPassword.component'
+import PasswordConfirmation from './components/auth/resetPassword/passwordConfirmation.component'
 import Posts from './components/posts/postList/posts.component'
 import Post from './components/posts/post/post.component'
 import PostForm from './components/posts/postForm/postForm.component'
@@ -58,6 +59,11 @@ const App = () => {
                 component={Verification}
               />
               <Route exact path="/reset_password" component={ResetPassword} />
+              <Route
+                exact
+                path="/password_confirmation/:resetPasswordToken"
+                component={PasswordConfirmation}
+              />
               <Route
                 exact
                 path="/posts"

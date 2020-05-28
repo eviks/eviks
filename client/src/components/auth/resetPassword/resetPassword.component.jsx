@@ -5,18 +5,21 @@ import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import { connect } from 'react-redux'
 import { sendResetPasswordToken } from '../../../actions/auth'
 import Alert from '../../layout/alert/alert.component'
-import { deleteAllAlerts } from '../../../actions/alert'
+import { setAlert, deleteAllAlerts } from '../../../actions/alert'
 import { toastr } from 'react-redux-toastr'
 import MessageIcon from '../../layout/icons/messageIcon.component'
 import { useTranslation } from 'react-i18next'
+import uuid from 'uuid'
 import PropTypes from 'prop-types'
 
 import '../auth.style.scss'
 
 const ResetPassword = ({
   loading,
+  setAlert,
   deleteAllAlerts,
   sendResetPasswordToken,
+  location,
   history,
 }) => {
   useEffect(() => {
@@ -50,6 +53,11 @@ const ResetPassword = ({
   }
 
   const [t] = useTranslation()
+
+  if (location.state && location.state.showAlert) {
+    location.state.showAlert = false
+    setAlert(t('auth.resetPassword.invalidToken'), 'danger', uuid.v4())
+  }
 
   return (
     <div className="container container-center">
@@ -93,6 +101,7 @@ ResetPassword.propTypes = {
   sendResetPasswordToken: PropTypes.func.isRequired,
   deleteAllAlerts: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  showAlert: PropTypes.bool,
 }
 
 const mapStateToProps = (state) => ({
@@ -100,6 +109,7 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, {
+  setAlert,
   deleteAllAlerts,
   sendResetPasswordToken,
 })(ResetPassword)

@@ -54,6 +54,10 @@ const Login = ({
     }
   }
 
+  const resetPasswordOnClick = () => {
+    if (handleCloseModal !== undefined) handleCloseModal()
+  }
+
   return (
     <FadeInLeftForm onSubmit={(e) => onSubmit(e)}>
       <div className="inner-container">
@@ -106,7 +110,7 @@ const Login = ({
           {loading && <ButtonSpinner />}
           <Ripple />
         </button>
-        <Link to="/reset_password" onClick={() => handleCloseModal()}>
+        <Link to="/reset_password" onClick={resetPasswordOnClick}>
           {t('auth.forgotPassword')}
         </Link>
       </div>

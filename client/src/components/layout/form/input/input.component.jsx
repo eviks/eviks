@@ -73,7 +73,7 @@ Input.defaultProps = {
 }
 
 Input.propTypes = {
-  fieldName: PropTypes.string,
+  fieldName: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   options: PropTypes.object,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,

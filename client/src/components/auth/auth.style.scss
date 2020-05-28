@@ -6,6 +6,7 @@
   overflow: hidden;
   height: 480px;
   width: 700px;
+  background-color: $light-color;
 
   .form-container {
     background-color: $light-color;
@@ -69,31 +70,9 @@
     height: 100%;
     width: 45%;
     z-index: 100;
-    background: linear-gradient(
-        to bottom,
-        rgba(254, 64, 96, 0.5),
-        rgba(254, 162, 64, 0.5)
-      ),
-      url('../../img/Auth.jpg');
+    background: url('../../img/illustrations/relaxed.jpg');
     background-size: cover;
     background-position: 70%;
-  }
-
-  .features {
-    li {
-      margin: 0.8rem 0;
-      text-align: center;
-    }
-  }
-
-  .auth-text {
-    position: absolute;
-    color: $light-color;
-    text-transform: uppercase;
-    line-height: 1;
-    bottom: 0;
-    padding: 2rem 1rem;
-    margin-bottom: 2rem;
   }
 }
 
@@ -112,4 +91,14 @@
   flex-direction: column;
   align-items: center;
   width: 300px;
+}
+
+.new-password-form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 450px;
+  padding: 2rem;
+  border-radius: 8px;
 }

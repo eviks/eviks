@@ -68,6 +68,12 @@ const resources = {
           send: 'Отправить',
           checkEmailTitle: 'Вам письмо!',
           checkEmail: 'Письмо с инструкциями отправлено на {{email}}',
+          invalidToken:
+            'Похоже, вы перешли по неправильной ссылке сброса пароля. Пожалуйста, попробуйте еще раз',
+          changePasswordTitle: 'Введите ваш новый пароль',
+          changePassword: 'Подтвердить',
+          newPassword: 'Новый пароль',
+          passwordConfirm: 'Повторите пароль',
         },
       },
       landing: {

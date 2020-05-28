@@ -54,32 +54,7 @@ const Auth = ({ handleCloseModal, showOverlay, history }) => {
             <Register handleCloseModal={handleCloseModal} history={history} />
           )}
         </div>
-        {showOverlay && (
-          <div className="overlay-container">
-            <div className="auth-text">
-              <ul className="features lead">
-                <li>
-                  <span role="img" aria-label="feature">
-                    🔥
-                  </span>{' '}
-                  {t('auth.feature1')}
-                </li>
-                <li>
-                  <span role="img" aria-label="feature">
-                    🔍
-                  </span>{' '}
-                  {t('auth.feature2')}
-                </li>
-                <li>
-                  <span role="img" aria-label="feature">
-                    🧡
-                  </span>{' '}
-                  {t('auth.feature3')}
-                </li>
-              </ul>
-            </div>
-          </div>
-        )}
+        {showOverlay && <FadeInDiv className="overlay-container"></FadeInDiv>}
       </FadeInDiv>
       {showOverlay && (
         <button className="close-modal" onClick={() => handleCloseModal()}>
