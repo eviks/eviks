@@ -4,14 +4,17 @@ import {
   GET_POSTS,
   GET_POST,
   POST_ERROR,
-  ADD_POST,
+  ADD_POST_API,
+  UPDATE_POST_FORM,
+  FORM_NEXT_STEP,
+  FORM_PREV_STEP,
   UPLOAD_PHOTO,
   DELETE_PHOTO,
-  SET_FILTER,
+  SET_FILTER
 } from './types'
 
 // Get posts
-export const getPosts = (filters = null) => async (dispatch) => {
+export const getPosts = (filters = null) => async dispatch => {
   try {
     dispatch(asyncActionStart())
     const res = await axios.get(`api/posts/${JSON.stringify(filters)}`)
@@ -23,14 +26,14 @@ export const getPosts = (filters = null) => async (dispatch) => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response.status,
-      },
+        status: error.response.status
+      }
     })
   }
 }
 
 // Get single post
-export const getPost = (id) => async (dispatch) => {
+export const getPost = id => async dispatch => {
   try {
     dispatch(asyncActionStart())
     const res = await axios.get(`/api/posts/post/${id}`)
@@ -42,25 +45,26 @@ export const getPost = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response.status,
-      },
+        status: error.response.status
+      }
     })
   }
 }
 
+const addNewPost = (action, dispatch) =>
+  new Promise((resolve, reject) => {
+    dispatch(action)
+    resolve()
+  })
+
 // Add post
-export const addPost = (data) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
+export const addPost = data => async dispatch => {
   try {
     dispatch(asyncActionStart())
-    const res = await axios.post('/api/posts', data, config)
-    dispatch({ type: ADD_POST, payload: res.data })
+    let action = { type: ADD_POST_API, payload: data, result: false }
+    await addNewPost(action, dispatch)
     dispatch(asyncActionFinish())
-    return res.data
+    return action.result
   } catch (error) {
     console.log(error)
     dispatch(asyncActionError())
@@ -68,18 +72,34 @@ export const addPost = (data) => async (dispatch) => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response,
-      },
+        status: error.response
+      }
     })
   }
 }
 
+// Set post form fields
+export const updatePostFormAttributes = payload => {
+  return { type: UPDATE_POST_FORM, payload }
+}
+
+// Go to the next form step
+export const formNextStep = newStep => async dispatch => {
+  dispatch({ type: FORM_NEXT_STEP, payload: newStep })
+}
+
+// Go to the prev form step
+export const formPrevStep = newStep => async dispatch => {
+  newStep = Math.max(newStep, 0)
+  dispatch({ type: FORM_PREV_STEP, payload: newStep })
+}
+
 // Upload photo
-export const uploadPhoto = (data, photoId) => async (dispatch) => {
+export const uploadPhoto = (data, photoId) => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+      'Content-Type': 'multipart/form-data'
+    }
   }
   try {
     dispatch(asyncActionStart(photoId))
@@ -94,18 +114,18 @@ export const uploadPhoto = (data, photoId) => async (dispatch) => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response,
-      },
+        status: error.response
+      }
     })
   }
 }
 
 // Delete photo
-export const deletePhoto = (filename) => async (dispatch) => {
+export const deletePhoto = (photoId, filename) => async dispatch => {
   try {
     dispatch(asyncActionStart(filename))
     await axios.delete(`/api/posts/delete_photo/${filename}`)
-    dispatch({ type: DELETE_PHOTO, filename })
+    dispatch({ type: DELETE_PHOTO, payload: photoId })
     dispatch(asyncActionFinish(filename))
   } catch (error) {
     dispatch(asyncActionError(filename))
@@ -113,13 +133,13 @@ export const deletePhoto = (filename) => async (dispatch) => {
       type: POST_ERROR,
       payload: {
         message: error.response.statusText,
-        status: error.response,
-      },
+        status: error.response
+      }
     })
   }
 }
 
 // Set search filter
-export const setSrearchFilters = (filters) => async (dispatch) => {
+export const setSrearchFilters = filters => async dispatch => {
   dispatch({ type: SET_FILTER, payload: filters })
 }

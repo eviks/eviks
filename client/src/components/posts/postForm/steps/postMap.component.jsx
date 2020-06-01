@@ -1,5 +1,7 @@
 /*global google*/
 import React from 'react'
+import { connect } from 'react-redux'
+import { updatePostFormAttributes } from '../../../../actions/post'
 import PlaceInput from '../../../layout/form/placeInput/placeInput.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
@@ -28,15 +30,13 @@ const Marker = () => (
         width: 40,
         height: 40,
         left: -40 / 2,
-        top: -40 / 2,
+        top: -40 / 2
       }}
     ></i>
   </div>
 )
 
-const PostMap = ({ formData, setFormData }) => {
-  const { address, lat, lng } = formData
-
+const PostMap = ({ address, lat, lng, updatePostFormAttributes }) => {
   const [t] = useTranslation()
 
   const options = {
@@ -45,36 +45,35 @@ const PostMap = ({ formData, setFormData }) => {
     searchOptions: {
       location: new google.maps.LatLng({
         lat: 40.40926169999999,
-        lng: 49.8670924,
+        lng: 49.8670924
       }),
       radius: 1000,
       types: ['address'],
-      componentRestrictions: { country: 'az' },
-    },
+      componentRestrictions: { country: 'az' }
+    }
   }
 
   const onChange = (city, district, address, lat, lng) => {
     if (lat === null || lng === null) {
-      setFormData({ ...formData, city, district, address })
+      updatePostFormAttributes({ city, district, address })
     } else {
-      setFormData({ ...formData, city, district, address, lat, lng })
+      updatePostFormAttributes({ city, district, address, lat, lng })
     }
   }
 
-  const onClickMap = (obj) => {
+  const onClickMap = obj => {
     let latlng = new google.maps.LatLng(obj.lat, obj.lng)
     geocoder.geocode({ latLng: latlng }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
         if (results[1]) {
           console.log(results)
           const { address_components, formatted_address } = results[0]
-          setFormData({
-            ...formData,
+          updatePostFormAttributes({
             city: address_components[address_components.length - 2].long_name,
             district: address_components[1].long_name,
             address: formatted_address,
             lat: obj.lat,
-            lng: obj.lng,
+            lng: obj.lng
           })
         } else {
           console.log('No results found')
@@ -93,7 +92,7 @@ const PostMap = ({ formData, setFormData }) => {
         style={{
           height: '55vh',
           width: '100%',
-          marginBottom: '1rem',
+          marginBottom: '1rem'
         }}
       >
         <GoogleMapReact
@@ -101,7 +100,7 @@ const PostMap = ({ formData, setFormData }) => {
           bootstrapURLKeys={{ key: googleAPIKey }}
           defaultCenter={{
             lat,
-            lng,
+            lng
           }}
           center={{ lat, lng }}
           defaultZoom={11}
@@ -114,8 +113,15 @@ const PostMap = ({ formData, setFormData }) => {
 }
 
 PostMap.propTypes = {
-  formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired,
+  address: PropTypes.string.isRequired,
+  lat: PropTypes.number.isRequired,
+  lng: PropTypes.number.isRequired
 }
 
-export default PostMap
+const mapStateToProps = state => ({
+  address: state.post.postForm.address,
+  lat: state.post.postForm.lat,
+  lng: state.post.postForm.lng
+})
+
+export default connect(mapStateToProps, { updatePostFormAttributes })(PostMap)

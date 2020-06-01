@@ -224,6 +224,11 @@ input[type='radio'].toggle {
   line-height: 1.1;
 }
 
+.medium {
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .lead {
   font-size: 1.3rem;
 
@@ -240,10 +245,6 @@ input[type='radio'].toggle {
   &-bold {
     font-weight: bold;
   }
-}
-
-.normal {
-  font-size: 1rem;
 }
 
 // Text colors

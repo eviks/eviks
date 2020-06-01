@@ -10,7 +10,7 @@ import PostPrice from './steps/postPrice.component'
 import PostPhotos from './steps/postPhotos.component'
 import PostContact from './steps/postContact.component'
 import { connect } from 'react-redux'
-import { addPost } from '../../../actions/post'
+import { formNextStep, formPrevStep, addPost } from '../../../actions/post'
 import { toastr } from 'react-redux-toastr'
 import SuccessIcon from '../../layout/icons/successIcon.component'
 import Ripple from '../../layout/ripple/ripple.component'
@@ -20,59 +20,16 @@ import PropTypes from 'prop-types'
 
 import './postForm.style.scss'
 
-const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
-  const [formData, setFormData] = useState({
-    userType: '',
-    city: '',
-    district: '',
-    address: '',
-    lat: 40.40926169999999,
-    lng: 49.8670924,
-    estateType: '',
-    rooms: 0,
-    sqm: 0,
-    livingRoomsSqm: 0,
-    kitchenSqm: 0,
-    floor: 0,
-    totalFloors: 0,
-    maintenance: '',
-    redevelopment: false,
-    ceilingHeight: 0,
-    yearBuild: 0,
-    elevator: false,
-    parkingLot: false,
-    documented: false,
-    mortgage: false,
-    balcony: false,
-    bathroomType: '',
-    windows: 0,
-    frontWindow: false,
-    rearWindow: false,
-    furniture: false,
-    kitchenFurniture: false,
-    cctv: false,
-    phone: false,
-    internet: false,
-    electricity: false,
-    gas: false,
-    water: false,
-    heating: false,
-    tv: false,
-    conditioner: false,
-    washingMachine: false,
-    dishwasher: false,
-    refrigerator: false,
-    description: '',
-    price: 0,
-    bargain: false,
-    progressPayment: false,
-    contact: '',
-  })
-
-  const { estateType, userType } = formData
-
-  const [step, setStep] = useState({ currentStep: 0, totalSteps: 7 })
-  const { currentStep, totalSteps } = step
+const PostForm = ({
+  postForm,
+  formSteps,
+  formNextStep,
+  formPrevStep,
+  addPost,
+  loading,
+  history
+}) => {
+  const { currentStep, totalSteps } = formSteps
 
   const [files, setFiles] = useState([])
 
@@ -81,92 +38,67 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
     window.scrollTo(0, 0)
   }, [currentStep])
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault()
 
-    const data = { ...formData, photos: uploadedPhotos }
-    const post = await addPost(data)
+    const res = await addPost(postForm)
 
-    if (post) {
+    if (res) {
       const toastrOptions = {
         timeOut: 0,
         icon: <SuccessIcon />,
-        status: 'info',
+        status: 'info'
       }
       toastr.light('Success', 'Your post is published', toastrOptions)
       history.push('/')
     }
   }
 
-  const onChange = (e) => {
-    let { name, type, value } = e.target
-    let fieldValue
-    if (name === 'price') {
-      type = 'number'
-      fieldValue = value.replace(/\s/g, '').replace(/AZN/g, '')
-    } else {
-      fieldValue = type === 'checkbox' ? e.target.checked : value
-    }
-    setFormData({
-      ...formData,
-      [name]:
-        type === 'number'
-          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
-          : fieldValue,
-    })
-  }
-
   const stepChange = (e, inc = false) => {
     e.preventDefault()
-    let newStep = inc ? step.currentStep + 1 : step.currentStep - 1
-    newStep = Math.max(newStep, 0)
-    setStep({
-      ...step,
-      currentStep: newStep,
-    })
+
+    if (inc) {
+      formNextStep(currentStep + 1)
+    } else {
+      formPrevStep(currentStep - 1)
+    }
   }
 
   const renderSwitch = () => {
     switch (currentStep) {
       case 1:
-        return <PostMap formData={formData} setFormData={setFormData} />
+        return <PostMap />
       // return <PostYandexMap formData={formData} setFormData={setFormData} />
       case 2:
-        return <PostEstateInfo formData={formData} onChange={onChange} />
+        return <PostEstateInfo />
       case 3:
-        return <PostBuidingInfo formData={formData} onChange={onChange} />
+        return <PostBuidingInfo />
       case 4:
-        return <PostAdditionalInfo formData={formData} onChange={onChange} />
+        return <PostAdditionalInfo />
       case 5:
         return <PostPhotos files={files} setFiles={setFiles} />
       case 6:
-        return <PostPrice formData={formData} onChange={onChange} />
+        return <PostPrice />
       case 7:
-        return <PostContact formData={formData} onChange={onChange} />
+        return <PostContact />
       case 0:
       default:
-        return <PostGeneralInfo formData={formData} onChange={onChange} />
+        return <PostGeneralInfo />
     }
-  }
-
-  const formIsValid = () => {
-    if (currentStep === 0) return estateType && userType
-    return true
   }
 
   const [t] = useTranslation()
 
   return (
     <div className="post-form-container px-2 light-border">
-      <ProgressBar step={step} />
-      <form onSubmit={(e) => onSubmit(e)}>
+      <ProgressBar />
+      <form onSubmit={e => onSubmit(e)}>
         {renderSwitch()}
         <div className="form-button-box">
           {/* Back */}
-
           <button
             className="btn btn-secondary"
-            onClick={(e) => stepChange(e)}
+            onClick={e => stepChange(e)}
             style={{ visibility: currentStep === 0 ? 'hidden' : 'visible' }}
           >
             {t('createPost.back')}
@@ -187,8 +119,8 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
           ) : (
             <button
               className="btn btn-primary"
-              onClick={(e) => stepChange(e, true)}
-              disabled={!formIsValid()}
+              onClick={e => stepChange(e, true)}
+              disabled={loading}
             >
               {t('createPost.next')}
               <Ripple />
@@ -201,13 +133,22 @@ const PostForm = ({ addPost, loading, uploadedPhotos, history }) => {
 }
 
 PostForm.propTypes = {
+  postForm: PropTypes.object.isRequired,
+  formSteps: PropTypes.object.isRequired,
   addPost: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
+  formNextStep: PropTypes.func.isRequired,
+  formPrevStep: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = (state) => ({
-  loading: state.async.loading,
-  uploadedPhotos: state.post.uploadedPhotos,
+const mapStateToProps = state => ({
+  postForm: state.post.postForm,
+  formSteps: state.post.formSteps,
+  loading: state.async.loading
 })
 
-export default connect(mapStateToProps, { addPost })(PostForm)
+export default connect(mapStateToProps, {
+  formNextStep,
+  formPrevStep,
+  addPost
+})(PostForm)

@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
+import { updatePostFormAttributes } from '../../../../actions/post'
 import Input from '../../../layout/form/input/input.component'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import Checkbox from '../../../layout/form/checkbox/checkbox.component'
@@ -13,14 +15,28 @@ const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
 
-const PostBuildingInfo = ({ formData, onChange }) => {
+const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
   const {
     estateType,
     ceilingHeight,
     yearBuild,
     elevator,
-    parkingLot,
-  } = formData
+    parkingLot
+  } = postForm
+
+  const onChange = event => {
+    let { name, type, value } = event.target
+    const fieldValue = type === 'checkbox' ? event.target.checked : value
+
+    const newAttributes = {
+      [name]:
+        type === 'number'
+          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+          : fieldValue
+    }
+
+    updatePostFormAttributes(newAttributes)
+  }
 
   const [t] = useTranslation()
 
@@ -34,7 +50,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
     decimalLimit: 2, // how many digits allowed after the decimal
     integerLimit: 15, // limit length of integer numbers
     allowNegative: false,
-    allowLeadingZeroes: false,
+    allowLeadingZeroes: false
   })
 
   return (
@@ -49,7 +65,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
           name: 'ceilingHeight',
           value: ceilingHeight === 0 ? '' : ceilingHeight,
           min: '0',
-          style: { width: '120px' },
+          style: { width: '120px' }
         }}
         onChange={onChange}
       />
@@ -61,7 +77,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
           name: 'yearBuild',
           value: yearBuild === 0 ? '' : yearBuild,
           min: '0',
-          style: { width: '120px' },
+          style: { width: '120px' }
         }}
         onChange={onChange}
       />
@@ -80,7 +96,7 @@ const PostBuildingInfo = ({ formData, onChange }) => {
             options={{
               name: 'parkingLot',
               id: 'parkingLot',
-              checked: parkingLot,
+              checked: parkingLot
             }}
             onChange={onChange}
           />
@@ -91,8 +107,14 @@ const PostBuildingInfo = ({ formData, onChange }) => {
 }
 
 PostBuildingInfo.propTypes = {
-  formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  postForm: PropTypes.object.isRequired,
+  updatePostFormAttributes: PropTypes.func.isRequired
 }
 
-export default PostBuildingInfo
+const mapStateToProps = state => ({
+  postForm: state.post.postForm
+})
+
+export default connect(mapStateToProps, { updatePostFormAttributes })(
+  PostBuildingInfo
+)

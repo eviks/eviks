@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { updatePostFormAttributes } from '../../../../actions/post'
 import Input from '../../../layout/form/input/input.component'
 import SwitchInput from '../../../layout/form/switch/switchInput.component'
 import Checkbox from '../../../layout/form/checkbox/checkbox.component'
@@ -13,7 +15,11 @@ const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
 
-const PostEstateInfo = ({ formData, onChange }) => {
+const PostEstateInfo = ({
+  postForm,
+  validationErrors,
+  updatePostFormAttributes
+}) => {
   const [t] = useTranslation()
 
   const {
@@ -28,7 +34,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
     redevelopment,
     documented,
     mortgage
-  } = formData
+  } = postForm
 
   const maintenanceOptions = [
     {
@@ -60,6 +66,20 @@ const PostEstateInfo = ({ formData, onChange }) => {
     }
   ]
 
+  const onChange = event => {
+    let { name, type, value } = event.target
+    const fieldValue = type === 'checkbox' ? event.target.checked : value
+
+    const newAttributes = {
+      [name]:
+        type === 'number'
+          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+          : fieldValue
+    }
+
+    updatePostFormAttributes(newAttributes)
+  }
+
   return (
     <FadeInDiv className="px-4">
       <h3 className="step-title my-1">{t('createPost.estateInfo.title')}</h3>
@@ -74,6 +94,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           style: { width: '120px' }
         }}
         onChange={onChange}
+        error={validationErrors.rooms}
       />
       {/* Sqm */}
       <Input
@@ -86,6 +107,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
           style: { width: '120px' }
         }}
         onChange={onChange}
+        error={validationErrors.sqm}
       />
       {/* Living rooms sqm */}
       <Input
@@ -97,7 +119,6 @@ const PostEstateInfo = ({ formData, onChange }) => {
           min: '0',
           style: { width: '120px' }
         }}
-        required={false}
         onChange={onChange}
       />
       {/* Kitchen sqm */}
@@ -110,7 +131,6 @@ const PostEstateInfo = ({ formData, onChange }) => {
           min: '0',
           style: { width: '120px' }
         }}
-        required={false}
         onChange={onChange}
       />
       {/* Floor or Lot */}
@@ -125,6 +145,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
             style: { width: '120px' }
           }}
           onChange={onChange}
+          error={validationErrors.floor}
         />
       ) : (
         <Input
@@ -137,6 +158,7 @@ const PostEstateInfo = ({ formData, onChange }) => {
             style: { width: '120px' }
           }}
           onChange={onChange}
+          error={validationErrors.lotSqm}
         />
       )}
       {/* Total floors */}
@@ -150,12 +172,14 @@ const PostEstateInfo = ({ formData, onChange }) => {
           style: { width: '120px' }
         }}
         onChange={onChange}
+        error={validationErrors.totalFloors}
       />
       {/* Maintenance */}
       <SwitchInput
         fieldName={t('createPost.estateInfo.maintenance')}
         options={maintenanceOptions}
         onChange={onChange}
+        error={validationErrors.maintenance}
       />
       {/* Redevelopment */}
       <Checkbox
@@ -192,8 +216,15 @@ const PostEstateInfo = ({ formData, onChange }) => {
 }
 
 PostEstateInfo.propTypes = {
-  formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  postForm: PropTypes.object.isRequired,
+  updatePostFormAttributes: PropTypes.func.isRequired
 }
 
-export default PostEstateInfo
+const mapStateToProps = state => ({
+  postForm: state.post.postForm,
+  validationErrors: state.post.validationErrors
+})
+
+export default connect(mapStateToProps, { updatePostFormAttributes })(
+  PostEstateInfo
+)

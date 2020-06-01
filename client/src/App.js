@@ -23,7 +23,7 @@ import setAuthToken from './utils/setAuthToken'
 
 // Yandex map
 import { YMaps } from 'react-yandex-maps'
-import { yandexAPIKey } from './config'
+// import { yandexAPIKey } from './config'
 
 // Redux
 import { Provider } from 'react-redux'
@@ -78,7 +78,7 @@ const App = () => {
             newestOnTop={false}
             preventDuplicates
             position="bottom-right"
-            getState={(state) => state.toastr} // This is the default
+            getState={state => state.toastr} // This is the default
             transitionIn="fadeIn"
             transitionOut="fadeOut"
             progressBar

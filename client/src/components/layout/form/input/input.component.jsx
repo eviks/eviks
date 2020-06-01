@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import MaskedInput from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import PropTypes from 'prop-types'
@@ -10,26 +10,23 @@ const Input = ({
   fieldName,
   mask,
   options,
-  required,
   main,
   onChange,
   onBlur,
   onFocus,
+  error = null
 }) => {
-  const [filled, setFilledFlag] = useState(true)
   const [t] = useTranslation()
 
-  const handleChange = (event) => {
-    setFilledFlag(true)
+  const handleChange = event => {
     if (onChange) onChange(event)
   }
 
-  const handleBlur = (event) => {
-    setFilledFlag(event.target.value || !required)
+  const handleBlur = event => {
     if (onBlur) onBlur(event)
   }
 
-  const handleFocus = (event) => {
+  const handleFocus = event => {
     if (onFocus) onFocus(event)
   }
 
@@ -40,17 +37,13 @@ const Input = ({
       </label>
       <MaskedInput
         mask={mask}
-        className={`input-field${main ? '-main' : ''} ${
-          !filled && 'not-field'
-        }`}
+        className={`input-field${main ? '-main' : ''} ${error && 'not-field'}`}
         onChange={handleChange}
         onBlur={handleBlur}
         onFocus={handleFocus}
         {...options}
       />
-      {!filled && (
-        <div className="field-required">{t('form.requiredField')}</div>
-      )}
+      {error && <div className="field-required">{t('form.requiredField')}</div>}
     </div>
   )
 }
@@ -66,10 +59,10 @@ Input.defaultProps = {
     decimalLimit: 0, // how many digits allowed after the decimal
     integerLimit: 15, // limit length of integer numbers
     allowNegative: false,
-    allowLeadingZeroes: false,
+    allowLeadingZeroes: false
   }),
   required: true,
-  main: false,
+  main: false
 }
 
 Input.propTypes = {
@@ -80,6 +73,7 @@ Input.propTypes = {
   onFocus: PropTypes.func,
   required: PropTypes.bool,
   main: PropTypes.bool,
+  error: PropTypes.bool
 }
 
 export default Input

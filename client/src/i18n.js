@@ -28,8 +28,8 @@ const resources = {
       room: 'otaq',
       back: 'Geri',
       next: 'Ardıncı',
-      submit: 'Təsdiq eləmək',
-    },
+      submit: 'Təsdiq eləmək'
+    }
   },
   ru: {
     translation: {
@@ -37,7 +37,7 @@ const resources = {
         favorites: 'Избранное',
         myAccount: 'Мой аккаунт',
         logout: 'Выйти',
-        joinOrSignIn: 'Вход и регистрация',
+        joinOrSignIn: 'Вход и регистрация'
       },
       auth: {
         login: 'Вход',
@@ -59,7 +59,7 @@ const resources = {
           greeting: 'Мы рады, что вы с нами!',
           error: 'Что-то пошло не так...',
           errorDesc:
-            'Похоже вы нажали на неверную ссылку подверждения аккаунта. Пожалуйста, попробуйте еще раз.',
+            'Похоже вы нажали на неверную ссылку подверждения аккаунта. Пожалуйста, попробуйте еще раз.'
         },
         resetPassword: {
           title: 'Забыли пароль? Не переживайте.',
@@ -73,19 +73,19 @@ const resources = {
           changePasswordTitle: 'Введите ваш новый пароль',
           changePassword: 'Подтвердить',
           newPassword: 'Новый пароль',
-          passwordConfirm: 'Повторите пароль',
-        },
+          passwordConfirm: 'Повторите пароль'
+        }
       },
       landing: {
         title: 'Всё начинается с дома',
         slogan: 'Мы поможем найти то, что подходит именно вам',
         search: 'Найти',
-        sell: 'Продать',
+        sell: 'Продать'
       },
       post: {
         title: {
           apartment: 'Продается {{rooms}}-комнатная квартира {{sqm}} м²',
-          house: 'Продается {{rooms}}-комнатный дом {{sqm}} м²',
+          house: 'Продается {{rooms}}-комнатный дом {{sqm}} м²'
         },
         info: {
           rooms: 'Комнаты',
@@ -94,24 +94,24 @@ const resources = {
           kitchenSqm: 'Площадь кухни',
           floor: '{{floor}} из {{totalFloors}}',
           floorTitle: 'Этаж',
-          lot: 'Участок',
+          lot: 'Участок'
         },
         desc: {
-          title: 'Описание',
+          title: 'Описание'
         },
         building: {
           title: 'О доме',
           ceilingHeight: 'Высота потолка: {{ceilingHeight}} м.',
           yearBuild: 'Год постройки: {{yearBuild}} г.',
           elevator: 'Есть лифт',
-          parkingLot: 'Есть парковка',
+          parkingLot: 'Есть парковка'
         },
         features: {
           title: 'Дополнительно',
           maintenance: {
             redecorated: 'Косметический ремонт',
             designed: 'Дизайнерский ремонт',
-            noMaintenance: 'Требуется ремонт',
+            noMaintenance: 'Требуется ремонт'
           },
           mortgage: 'Ипотека',
           documented: 'Есть купчая',
@@ -133,10 +133,10 @@ const resources = {
           refrigerator: 'Холодильник',
           garage: 'Гараж',
           pool: 'Бассейн',
-          bathhouse: 'Баня',
+          bathhouse: 'Баня'
         },
         location: {
-          title: 'Расположение',
+          title: 'Расположение'
         },
         price: {
           priceForSqm: '{{priceForSqm}} AZN за м²',
@@ -145,9 +145,9 @@ const resources = {
           showNumber: 'Показать номер',
           userType: {
             agent: 'Агент',
-            owner: 'Владелец',
-          },
-        },
+            owner: 'Владелец'
+          }
+        }
       },
       postList: {
         filters: {
@@ -162,22 +162,23 @@ const resources = {
           livingSqm: 'Жилая площадь',
           kitchenSqm: 'Площадь кухни',
           floor: 'Этаж',
-          totalFloor: 'Всего этажей',
+          totalFloor: 'Всего этажей'
         },
         estateTypes: {
           any: 'Любой',
           apartment: 'Квартира',
-          house: 'Дом',
+          house: 'Дом'
         },
-        room: 'комната',
+        room: 'комната'
       },
       form: {
         googleAutoComplitePlaceholder: 'Введите адрес...',
         requiredField: 'Это обязательное поле',
+        textareaMinLength: 'Описание должно содержать как минимум 100 символов'
       },
       dropzone: {
         click: 'Добавить',
-        drag: 'или перетащите файлы сюда',
+        drag: 'или перетащите файлы сюда'
       },
       createPost: {
         back: 'Назад',
@@ -194,10 +195,10 @@ const resources = {
           city: 'Город',
           cityField: 'Выберите ваш город',
           district: 'Район',
-          districtField: 'Выберите ваш район',
+          districtField: 'Выберите ваш район'
         },
         mapInfo: {
-          title: 'Покажите ваш дом на карте',
+          title: 'Покажите ваш дом на карте'
         },
         estateInfo: {
           title: 'Информация о недвижимости',
@@ -214,17 +215,21 @@ const resources = {
           noMaintenance: 'Без ремонта',
           redevelopment: 'Перепланировка',
           documented: 'Имеется купчая',
-          mortgage: 'Имеется кредит',
+          mortgage: 'Имеется кредит'
         },
         buildingInfo: {
           title: 'Информация о здании',
           ceilingHeight: 'Высота потолка',
           yearBuild: 'Год постройки',
           elevator: 'Лифт',
-          parkingLot: 'Парковка',
+          parkingLot: 'Парковка'
         },
         additionalInfo: {
           title: 'Дополнительно',
+          hint:
+            'Расскажите нам о вашем доме. Например, каким материалом отделан пол, какой вид открывается из окон или какие объекты расположены поблизости. Детальное описание снимет большинство вопросов потенциальных покупателей.',
+          features:
+            'Отметьте характеристики вашего дома и дополнительные удобства, которые будут предоставлены покупателю.',
           balcony: 'Балкон',
           furniture: 'Мебель',
           kitchenFurniture: 'Кухонная мебель',
@@ -242,25 +247,27 @@ const resources = {
           refrigerator: 'Холодильник',
           garage: 'Гараж',
           pool: 'Бассейн',
-          bathhouse: 'Баня',
+          bathhouse: 'Баня'
         },
         price: {
           title: 'Цена',
           price: 'Цена',
           bargain: 'Возможен торг',
-          progressPayment: 'Возможна оплата в несколько этапов',
+          progressPayment: 'Возможна оплата в несколько этапов'
         },
         photos: {
           title: 'Добавьте несколько фотографий',
-          additionalInfo: 'Макимальный размер файла 10 МБ.',
+          minPhotos: 'Нужно добавить хотя бы 3 фотографии вашего дома',
+          additionalInfo: 'Макимальный размер файла 10 МБ.'
         },
         contact: {
           title: 'Почти готово! Осталось лишь указать ваши контактные данные',
-          contact: 'Номер телефона',
-        },
-      },
-    },
-  },
+          userName: 'Как вас представить?',
+          contact: 'Номер телефона'
+        }
+      }
+    }
+  }
 }
 
 i18n.use(initReactI18next).init({ resources, lng: 'ru' })

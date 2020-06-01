@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
+import { updatePostFormAttributes } from '../../../../actions/post'
 import TextArea from '../../../layout/form/textarea/textarea.component'
 import CheckboxCard from '../../../layout/form/checkboxCard/checkboxCard.component'
 import styled, { keyframes } from 'styled-components'
@@ -14,7 +16,11 @@ const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
 
-const PostAdditionalInfo = ({ formData, onChange }) => {
+const PostAdditionalInfo = ({
+  postForm,
+  validationErrors,
+  updatePostFormAttributes
+}) => {
   const {
     estateType,
     description,
@@ -36,7 +42,21 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
     garage,
     pool,
     bathhouse
-  } = formData
+  } = postForm
+
+  const onChange = event => {
+    let { name, type, value } = event.target
+    const fieldValue = type === 'checkbox' ? event.target.checked : value
+
+    const newAttributes = {
+      [name]:
+        type === 'number'
+          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+          : fieldValue
+    }
+
+    updatePostFormAttributes(newAttributes)
+  }
 
   const [t] = useTranslation()
 
@@ -46,11 +66,17 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
         {t('createPost.additionalInfo.title')}
       </h3>
       {/* Description */}
+      <p className="my-1 text-secondary medium">
+        {t('createPost.additionalInfo.hint')}
+      </p>
       <TextArea
         options={{ id: 'description', name: 'description', value: description }}
         onChange={onChange}
+        error={validationErrors.description}
       />
-      <br />
+      <p className="my-1 text-secondary medium">
+        {t('createPost.additionalInfo.features')}
+      </p>
       <div className="grid-container">
         <div>
           {estateType === 'house' && (
@@ -232,8 +258,16 @@ const PostAdditionalInfo = ({ formData, onChange }) => {
 }
 
 PostAdditionalInfo.propTypes = {
-  formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  postForm: PropTypes.object.isRequired,
+  updatePostFormAttributes: PropTypes.func.isRequired,
+  validationErrors: PropTypes.object.isRequired
 }
 
-export default PostAdditionalInfo
+const mapStateToProps = state => ({
+  postForm: state.post.postForm,
+  validationErrors: state.post.validationErrors
+})
+
+export default connect(mapStateToProps, { updatePostFormAttributes })(
+  PostAdditionalInfo
+)

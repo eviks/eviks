@@ -1,10 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import ProgressStep from './progressStep/progressStep.component'
 import PropTypes from 'prop-types'
 
 import './progressBar.style.scss'
 
-const ProgressBar = ({ step: { currentStep } }) => {
+const ProgressBar = ({ formSteps: { currentStep } }) => {
   return (
     <div className="progress-bar">
       <ProgressStep
@@ -60,7 +61,11 @@ const ProgressBar = ({ step: { currentStep } }) => {
 }
 
 ProgressBar.propTypes = {
-  step: PropTypes.object.isRequired
+  formSteps: PropTypes.object.isRequired
 }
 
-export default ProgressBar
+const mapStateToProps = state => ({
+  formSteps: state.post.formSteps
+})
+
+export default connect(mapStateToProps)(ProgressBar)

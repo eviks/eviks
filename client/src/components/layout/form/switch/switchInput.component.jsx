@@ -1,9 +1,12 @@
 import React, { Fragment } from 'react'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 import './switchInput.style.scss'
 
-const SwitchInput = ({ fieldName, options, onChange }) => {
+const SwitchInput = ({ fieldName, options, onChange, error = null }) => {
+  const [t] = useTranslation()
+
   return (
     <div className="field">
       <div className="field-name">{fieldName}</div>
@@ -15,6 +18,7 @@ const SwitchInput = ({ fieldName, options, onChange }) => {
           </Fragment>
         ))}
       </div>
+      {error && <div className="field-required">{t('form.requiredField')}</div>}
     </div>
   )
 }
@@ -22,7 +26,8 @@ const SwitchInput = ({ fieldName, options, onChange }) => {
 SwitchInput.propTypes = {
   fieldName: PropTypes.string,
   options: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  error: PropTypes.bool
 }
 
 export default SwitchInput

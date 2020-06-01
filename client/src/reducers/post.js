@@ -1,37 +1,19 @@
+import initialState from './initialStates/postInitialState'
 import {
   GET_POSTS,
   GET_POST,
   POST_ERROR,
   ADD_POST,
+  UPDATE_POST_FORM,
+  FORM_NEXT_STEP,
+  FORM_PREV_STEP,
+  POST_VALIDATION_ERROR,
   UPLOAD_PHOTO,
   DELETE_PHOTO,
-  SET_FILTER,
+  SET_FILTER
 } from '../actions/types'
 
-const initialState = {
-  posts: [],
-  post: null,
-  uploadedPhotos: [],
-  filters: {
-    priceMin: 0,
-    priceMax: 0,
-    rooms: 0,
-    estateType: null,
-    sqmMin: 0,
-    sqmMax: 0,
-    livingSqmMin: 0,
-    livingSqmMax: 0,
-    kitchenSqmMin: 0,
-    kitchenSqmMax: 0,
-    totalFloorMin: 0,
-    totalFloorMax: 0,
-    floorMin: 0,
-    floorMax: 0,
-  },
-  error: {},
-}
-
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case GET_POSTS:
@@ -39,18 +21,51 @@ export default function (state = initialState, action) {
     case GET_POST:
       return { ...state, post: payload }
     case ADD_POST:
-      return { ...state, posts: [...state.posts, payload], uploadedPhotos: [] }
+      return {
+        ...state,
+        posts: [...state.posts, payload],
+        postForm: initialState.postForm
+      }
+    case UPDATE_POST_FORM:
+      return {
+        ...state,
+        postForm: {
+          ...state.postForm,
+          ...payload
+        },
+        validationErrors: {
+          ...state.validationErrors,
+          ...action.validationErrors
+        }
+      }
+    case FORM_NEXT_STEP:
+    case FORM_PREV_STEP:
+      return {
+        ...state,
+        formSteps: { ...state.formSteps, currentStep: payload }
+      }
+    case POST_VALIDATION_ERROR:
+      return {
+        ...state,
+        validationErrors: payload
+      }
     case UPLOAD_PHOTO:
       return {
         ...state,
-        uploadedPhotos: [...state.uploadedPhotos, payload],
+        postForm: {
+          ...state.postForm,
+          photos: [...state.postForm.photos, payload]
+        }
       }
     case DELETE_PHOTO:
       return {
         ...state,
-        uploadedPhotos: state.uploadedPhotos.filter(
-          (photo) => photo.photoId !== payload
-        ),
+        postForm: {
+          ...state.postForm,
+          photos: state.postForm.photos.filter(
+            photo => photo.photoId !== payload
+          )
+        }
       }
     case SET_FILTER:
       return { ...state, filters: { ...state.filters, ...payload } }

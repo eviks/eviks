@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { updatePostFormAttributes } from '../../../../actions/post'
 import SwitchInput from '../../../layout/form/switch/switchInput.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
@@ -11,9 +13,12 @@ const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
 
-const PostGeneralInfo = ({ formData, onChange }) => {
-  const { userType, estateType } = formData
-
+const PostGeneralInfo = ({
+  userType,
+  estateType,
+  updatePostFormAttributes,
+  validationErrors
+}) => {
   const [t] = useTranslation()
 
   const userTypeOptions = [
@@ -69,21 +74,33 @@ const PostGeneralInfo = ({ formData, onChange }) => {
       <SwitchInput
         fieldName={t('createPost.generalInfo.userType')}
         options={userTypeOptions}
-        onChange={onChange}
+        onChange={e => updatePostFormAttributes({ userType: e.target.value })}
+        error={validationErrors.userType}
       />
       {/* Estate type */}
       <SwitchInput
         fieldName={t('createPost.generalInfo.estateType')}
         options={estateTypeOptions}
-        onChange={onChange}
+        onChange={e => updatePostFormAttributes({ estateType: e.target.value })}
+        error={validationErrors.estateType}
       />
     </FadeInDiv>
   )
 }
 
 PostGeneralInfo.propTypes = {
-  formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  userType: PropTypes.string.isRequired,
+  estateType: PropTypes.string.isRequired,
+  updatePostFormAttributes: PropTypes.func.isRequired,
+  validationErrors: PropTypes.object.isRequired
 }
 
-export default PostGeneralInfo
+const mapStateToProps = state => ({
+  userType: state.post.postForm.userType,
+  estateType: state.post.postForm.estateType,
+  validationErrors: state.post.validationErrors
+})
+
+export default connect(mapStateToProps, { updatePostFormAttributes })(
+  PostGeneralInfo
+)

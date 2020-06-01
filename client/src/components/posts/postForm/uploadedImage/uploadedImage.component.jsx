@@ -12,12 +12,12 @@ const UploadedImage = ({
   uploadPhoto,
   deletePhotoFromState,
   async: { loading, loadingElements },
-  post: { uploadedPhotos },
+  uploadedPhotos
 }) => {
   useEffect(() => {
     if (
       !loadingElements.includes(file.photoId) &&
-      !uploadedPhotos.find((obj) => obj.photoId === file.photoId)
+      !uploadedPhotos.find(obj => obj.photoId === file.photoId)
     ) {
       const data = new FormData()
       data.append('photo', file)
@@ -27,12 +27,12 @@ const UploadedImage = ({
 
   const photoIsUploading = loading && loadingElements.includes(file.photoId)
 
-  const handleDeletePhoto = (photoId) => {
+  const handleDeletePhoto = photoId => {
     const photoToDelete = uploadedPhotos.filter(
-      (photo) => photo.photoId === photoId
+      photo => photo.photoId === photoId
     )
     if (photoToDelete.length === 1) {
-      photoToDelete[0].fileNames.map((fileName) => deletePhoto(fileName))
+      photoToDelete[0].fileNames.map(fileName => deletePhoto(photoId, fileName))
       deletePhotoFromState(photoId)
     }
   }
@@ -58,15 +58,17 @@ const UploadedImage = ({
 }
 
 UploadedImage.propTypes = {
+  async: PropTypes.object.isRequired,
   file: PropTypes.object.isRequired,
+  uploadedPhotos: PropTypes.array.isRequired,
   uploadPhoto: PropTypes.func.isRequired,
   deletePhoto: PropTypes.func.isRequired,
-  deletePhotoFromState: PropTypes.func.isRequired,
+  deletePhotoFromState: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   async: state.async,
-  post: state.post,
+  uploadedPhotos: state.post.postForm.photos
 })
 
 export default connect(mapStateToProps, { uploadPhoto, deletePhoto })(

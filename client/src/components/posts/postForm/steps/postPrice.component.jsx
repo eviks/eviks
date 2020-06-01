@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { updatePostFormAttributes } from '../../../../actions/post'
 import Input from '../../../layout/form/input/input.component'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import Checkbox from '../../../layout/form/checkbox/checkbox.component'
@@ -13,8 +15,33 @@ const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
 
-const PostPrice = ({ formData, onChange }) => {
-  const { price, bargain, progressPayment } = formData
+const PostPrice = ({
+  postForm,
+  validationErrors,
+  updatePostFormAttributes
+}) => {
+  const { price, bargain, progressPayment } = postForm
+
+  const onChange = event => {
+    let { name, type, value } = event.target
+
+    let fieldValue
+    if (name === 'price') {
+      type = 'number'
+      fieldValue = value.replace(/\s/g, '').replace(/AZN/g, '')
+    } else {
+      fieldValue = type === 'checkbox' ? event.target.checked : value
+    }
+
+    const newAttributes = {
+      [name]:
+        type === 'number'
+          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+          : fieldValue
+    }
+
+    updatePostFormAttributes(newAttributes)
+  }
 
   const [t] = useTranslation()
 
@@ -28,7 +55,7 @@ const PostPrice = ({ formData, onChange }) => {
     decimalLimit: 0, // how many digits allowed after the decimal
     integerLimit: 15, // limit length of integer numbers
     allowNegative: false,
-    allowLeadingZeroes: false,
+    allowLeadingZeroes: false
   })
 
   return (
@@ -43,9 +70,10 @@ const PostPrice = ({ formData, onChange }) => {
           name: 'price',
           value: price === 0 ? '' : price,
           min: '0',
-          style: { width: '120px' },
+          style: { width: '120px' }
         }}
         onChange={onChange}
+        error={validationErrors.price}
       />
       {/* Bargain */}
       <Checkbox
@@ -61,7 +89,7 @@ const PostPrice = ({ formData, onChange }) => {
         options={{
           name: 'progressPayment',
           id: 'progressPayment',
-          checked: progressPayment,
+          checked: progressPayment
         }}
         onChange={onChange}
       />
@@ -70,8 +98,14 @@ const PostPrice = ({ formData, onChange }) => {
 }
 
 PostPrice.propTypes = {
-  formData: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  postForm: PropTypes.object.isRequired,
+  updatePostFormAttributes: PropTypes.func.isRequired,
+  validationErrors: PropTypes.object.isRequired
 }
 
-export default PostPrice
+const mapStateToProps = state => ({
+  postForm: state.post.postForm,
+  validationErrors: state.post.validationErrors
+})
+
+export default connect(mapStateToProps, { updatePostFormAttributes })(PostPrice)
