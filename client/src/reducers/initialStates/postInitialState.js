@@ -1,6 +1,13 @@
 export default {
   post: null,
-  posts: [],
+  posts: {
+    result: [],
+    pagination: {
+      skipped: null,
+      current: 1,
+      total: null
+    }
+  },
   filters: {
     priceMin: 0,
     priceMax: 0,
@@ -68,5 +75,6 @@ export default {
   },
   formSteps: { currentStep: 0, totalSteps: 7 },
   validationErrors: {},
+  newPostCreated: false,
   error: {}
 }

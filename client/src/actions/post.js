@@ -5,6 +5,7 @@ import {
   GET_POST,
   POST_ERROR,
   ADD_POST_API,
+  SET_POST_CREATED_FLAG,
   UPDATE_POST_FORM,
   FORM_NEXT_STEP,
   FORM_PREV_STEP,
@@ -14,10 +15,12 @@ import {
 } from './types'
 
 // Get posts
-export const getPosts = (filters = null) => async dispatch => {
+export const getPosts = (page = 1, filters = null) => async dispatch => {
   try {
     dispatch(asyncActionStart())
-    const res = await axios.get(`api/posts/${JSON.stringify(filters)}`)
+    const res = await axios.get(
+      `api/posts/${JSON.stringify(filters)}/?limit=${1}&page=${page}`
+    )
     dispatch({ type: GET_POSTS, payload: res.data })
     dispatch(asyncActionFinish())
   } catch (error) {
@@ -51,22 +54,13 @@ export const getPost = id => async dispatch => {
   }
 }
 
-const addNewPost = (action, dispatch) =>
-  new Promise((resolve, reject) => {
-    dispatch(action)
-    resolve()
-  })
-
 // Add post
 export const addPost = data => async dispatch => {
   try {
     dispatch(asyncActionStart())
-    let action = { type: ADD_POST_API, payload: data, result: false }
-    await addNewPost(action, dispatch)
+    dispatch({ type: ADD_POST_API, payload: data })
     dispatch(asyncActionFinish())
-    return action.result
   } catch (error) {
-    console.log(error)
     dispatch(asyncActionError())
     dispatch({
       type: POST_ERROR,
@@ -76,6 +70,10 @@ export const addPost = data => async dispatch => {
       }
     })
   }
+}
+
+export const setPostCreatedFlag = flag => async dispatch => {
+  dispatch({ type: SET_POST_CREATED_FLAG, payload: flag })
 }
 
 // Set post form fields

@@ -29,76 +29,113 @@ const setMinMaxFilter = (selectedFilters, name, min, max) => {
 // @acess Public
 router.get('/:filters?', async (req, res) => {
   const filters = req.params.filters
+
   try {
-    let posts
+    let posts = {}
+    let result = []
+    let pagination = {}
+    let selectedFilters = {}
 
-    if (filters == null || filters == 'null') {
-      posts = await Post.find().sort({ date: -1 })
-    } else {
-      const selectedFilters = {}
+    // Set filters
+    setPostsFilters(filters, selectedFilters)
 
-      const {
-        priceMin,
-        priceMax,
-        rooms,
-        estateType,
-        sqmMin,
-        sqmMax,
-        livingSqmMin,
-        livingSqmMax,
-        kitchenSqmMin,
-        kitchenSqmMax,
-        totalFloorMin,
-        totalFloorMax,
-        floorMin,
-        floorMax,
-      } = JSON.parse(filters)
+    // Pagination
+    const { limit, startIndex } = await getPaginatedResults(
+      req,
+      pagination,
+      selectedFilters
+    )
 
-      // Price
-      setMinMaxFilter(selectedFilters, 'price', priceMin, priceMax)
+    result = await Post.find(selectedFilters)
+      .limit(limit)
+      .skip(startIndex)
+      .sort({ date: -1 })
 
-      // Rooms
-      if (rooms !== 0) {
-        selectedFilters.rooms = { $gte: rooms }
-      }
+    posts.result = result
+    posts.pagination = pagination
 
-      // Estate type
-      if (estateType != null) {
-        selectedFilters.estateType = estateType
-      }
-
-      // Sqm
-      setMinMaxFilter(selectedFilters, 'sqm', sqmMin, sqmMax)
-      setMinMaxFilter(
-        selectedFilters,
-        'livingRoomsSqm',
-        livingSqmMin,
-        livingSqmMax
-      )
-      setMinMaxFilter(
-        selectedFilters,
-        'kitchenSqm',
-        kitchenSqmMin,
-        kitchenSqmMax
-      )
-
-      // Floor
-      setMinMaxFilter(
-        selectedFilters,
-        'totalFloors',
-        totalFloorMin,
-        totalFloorMax
-      )
-      setMinMaxFilter(selectedFilters, 'floor', floorMin, floorMax)
-
-      posts = await Post.find(selectedFilters).sort({ date: -1 })
-    }
     res.json(posts)
   } catch (error) {
     console.error(error.message)
     res.status(500).send('Server Error...')
   }
 })
+
+const setPostsFilters = (filters, selectedFilters) => {
+  if (filters == null || filters == 'null') return
+
+  const {
+    priceMin,
+    priceMax,
+    rooms,
+    estateType,
+    sqmMin,
+    sqmMax,
+    livingSqmMin,
+    livingSqmMax,
+    kitchenSqmMin,
+    kitchenSqmMax,
+    totalFloorMin,
+    totalFloorMax,
+    floorMin,
+    floorMax
+  } = JSON.parse(filters)
+
+  // Price
+  setMinMaxFilter(selectedFilters, 'price', priceMin, priceMax)
+
+  // Rooms
+  if (rooms !== 0) {
+    selectedFilters.rooms = { $gte: rooms }
+  }
+
+  // Estate type
+  if (estateType != null) {
+    selectedFilters.estateType = estateType
+  }
+
+  // Sqm
+  setMinMaxFilter(selectedFilters, 'sqm', sqmMin, sqmMax)
+  setMinMaxFilter(selectedFilters, 'livingRoomsSqm', livingSqmMin, livingSqmMax)
+  setMinMaxFilter(selectedFilters, 'kitchenSqm', kitchenSqmMin, kitchenSqmMax)
+
+  // Floor
+  setMinMaxFilter(selectedFilters, 'totalFloors', totalFloorMin, totalFloorMax)
+  setMinMaxFilter(selectedFilters, 'floor', floorMin, floorMax)
+}
+
+const getPaginatedResults = (req, pagination, selectedFilters) => {
+  return new Promise(async (resolve, reject) => {
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
+
+    if (!page || !limit) resolve({})
+
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+
+    let numberOfElements
+    try {
+      numberOfElements = await Post.find(selectedFilters)
+        .countDocuments()
+        .exec()
+    } catch (error) {
+      reject(error.message)
+    }
+
+    if (endIndex < numberOfElements) {
+      pagination.total = Math.ceil(numberOfElements / limit)
+    }
+
+    if (startIndex > 0) {
+      pagination.skipped = Math.ceil(startIndex / limit)
+    }
+
+    pagination.current = page
+
+    resolve({ limit, startIndex })
+  })
+}
 
 // @route GET api/posts/post/:id
 // @desc  Get single post
@@ -148,7 +185,7 @@ router.post(
   '/upload_photo',
   [
     passport.authenticate('jwt', { session: false }),
-    busboyBodyParser({ limit: '10mb' }),
+    busboyBodyParser({ limit: '10mb' })
   ],
   (req, res) => {
     const busboy = new Busboy({ headers: req.headers })
@@ -160,9 +197,13 @@ router.post(
         const filename = await hashFileName(name)
         const re = /WIDTH/
 
-        const image = await sharp(data).resize(1024).toBuffer()
+        const image = await sharp(data)
+          .resize(1024)
+          .toBuffer()
 
-        const thumbnail = await sharp(data).resize(480).toBuffer()
+        const thumbnail = await sharp(data)
+          .resize(480)
+          .toBuffer()
 
         const imgName = filename.replace(re, '1024')
         const thumbName = filename.replace(re, '480')
@@ -175,7 +216,7 @@ router.post(
         res.json({
           img: filesInfo[0].Location,
           thumb: filesInfo[1].Location,
-          fileNames: [imgName, thumbName],
+          fileNames: [imgName, thumbName]
         })
       } catch (error) {
         console.error(error.message)
@@ -204,7 +245,7 @@ router.delete(
   }
 )
 
-const hashFileName = (filename) => {
+const hashFileName = filename => {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(16, async (err, buff) => {
       if (err) {
@@ -221,7 +262,7 @@ const uploadToS3 = (filename, buffer, mimetype) => {
   const s3bucket = new AWS.S3({
     accessKeyId,
     secretAccessKey,
-    Bucket,
+    Bucket
   })
 
   const params = {
@@ -229,7 +270,7 @@ const uploadToS3 = (filename, buffer, mimetype) => {
     Key: filename,
     Body: buffer,
     ContentType: mimetype,
-    CacheControl: 'public, max-age=86400',
+    CacheControl: 'public, max-age=86400'
   }
 
   return s3bucket.upload(params).promise()
@@ -239,15 +280,15 @@ const deleteFromS3 = (filename, res) => {
   const s3bucket = new AWS.S3({
     accessKeyId,
     secretAccessKey,
-    Bucket,
+    Bucket
   })
 
   const params = {
     Bucket,
-    Key: filename,
+    Key: filename
   }
 
-  return s3bucket.deleteObject(params, function (error, data) {
+  return s3bucket.deleteObject(params, function(error, data) {
     if (error) res.status(500).send('Server error...')
     return res.send('Photo deleted')
   })

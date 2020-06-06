@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { setSrearchFilters, getPosts } from '../../../../actions/post'
+import React from 'react'
+import { setSrearchFilters } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import Input from '../../../layout/form/input/input.component'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
@@ -8,26 +8,15 @@ import PropTypes from 'prop-types'
 
 import './filters.style.scss'
 
-const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
+const PriceFilter = ({ filters, setSrearchFilters }) => {
   const { priceMax, priceMin } = filters
-  const [prevVal, setPrevVal] = useState(null)
 
-  const filtersOnChange = (e) => {
+  const filtersOnChange = e => {
     const { name, value } = e.target
     const numericValue = value.replace(/\s/g, '').replace(/AZN/g, '')
     setSrearchFilters({
-      [name]: parseInt(numericValue === '' ? 0 : numericValue, 10),
+      [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
     })
-  }
-
-  const filtersOnBlur = (e) => {
-    if (e.target.value !== prevVal) {
-      getPosts(filters)
-    }
-  }
-
-  const filtersOnFocus = (e) => {
-    setPrevVal(e.target.value)
   }
 
   const priceMask = createNumberMask({
@@ -40,7 +29,7 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
     decimalLimit: 0, // how many digits allowed after the decimal
     integerLimit: 15, // limit length of integer numbers
     allowNegative: false,
-    allowLeadingZeroes: false,
+    allowLeadingZeroes: false
   })
 
   const [t] = useTranslation()
@@ -57,12 +46,10 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
             name: 'priceMin',
             value: priceMin === 0 ? '' : priceMin,
             placeholder: t('postList.filters.min'),
-            style: { width: '120px' },
+            style: { width: '120px' }
           }}
           currency={true}
           onChange={filtersOnChange}
-          onBlur={filtersOnBlur}
-          onFocus={filtersOnFocus}
         />
         <span className="input-separator">-</span>
         <Input
@@ -73,28 +60,23 @@ const PriceFilter = ({ filters, setSrearchFilters, getPosts }) => {
             name: 'priceMax',
             value: priceMax === 0 ? '' : priceMax,
             placeholder: t('postList.filters.max'),
-            style: { width: '120px' },
+            style: { width: '120px' }
           }}
           currency={true}
           onChange={filtersOnChange}
-          onBlur={filtersOnBlur}
-          onFocus={filtersOnFocus}
         />
       </div>
     </form>
   )
 }
 
-const mapStateToProps = (state) => ({
-  filters: state.post.filters,
+const mapStateToProps = state => ({
+  filters: state.post.filters
 })
 
 PriceFilter.propTypes = {
   filters: PropTypes.object.isRequired,
-  setSrearchFilters: PropTypes.func.isRequired,
-  getPosts: PropTypes.func.isRequired,
+  setSrearchFilters: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, { setSrearchFilters, getPosts })(
-  PriceFilter
-)
+export default connect(mapStateToProps, { setSrearchFilters })(PriceFilter)

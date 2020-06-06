@@ -10,7 +10,12 @@ import PostPrice from './steps/postPrice.component'
 import PostPhotos from './steps/postPhotos.component'
 import PostContact from './steps/postContact.component'
 import { connect } from 'react-redux'
-import { formNextStep, formPrevStep, addPost } from '../../../actions/post'
+import {
+  formNextStep,
+  formPrevStep,
+  addPost,
+  setPostCreatedFlag
+} from '../../../actions/post'
 import { toastr } from 'react-redux-toastr'
 import SuccessIcon from '../../layout/icons/successIcon.component'
 import Ripple from '../../layout/ripple/ripple.component'
@@ -26,24 +31,23 @@ const PostForm = ({
   formNextStep,
   formPrevStep,
   addPost,
+  setPostCreatedFlag,
   loading,
+  newPostCreated,
   history
 }) => {
   const { currentStep, totalSteps } = formSteps
 
   const [files, setFiles] = useState([])
 
-  // Scroll to top when step is changed
+  // When component is mount newPostCreated is set to false
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [currentStep])
+    setPostCreatedFlag(false)
+  })
 
-  const onSubmit = async e => {
-    e.preventDefault()
-
-    const res = await addPost(postForm)
-
-    if (res) {
+  // If new post created push to landing page
+  useEffect(() => {
+    if (newPostCreated) {
       const toastrOptions = {
         timeOut: 0,
         icon: <SuccessIcon />,
@@ -52,6 +56,16 @@ const PostForm = ({
       toastr.light('Success', 'Your post is published', toastrOptions)
       history.push('/')
     }
+  }, [newPostCreated, history])
+
+  // Scroll to top when step is changed
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [currentStep])
+
+  const onSubmit = async e => {
+    e.preventDefault()
+    addPost(postForm)
   }
 
   const stepChange = (e, inc = false) => {
@@ -138,17 +152,21 @@ PostForm.propTypes = {
   addPost: PropTypes.func.isRequired,
   formNextStep: PropTypes.func.isRequired,
   formPrevStep: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  setPostCreatedFlag: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  newPostCreated: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
   postForm: state.post.postForm,
   formSteps: state.post.formSteps,
-  loading: state.async.loading
+  loading: state.async.loading,
+  newPostCreated: state.post.newPostCreated
 })
 
 export default connect(mapStateToProps, {
   formNextStep,
   formPrevStep,
-  addPost
+  addPost,
+  setPostCreatedFlag
 })(PostForm)

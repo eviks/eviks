@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import MinMaxFilter from './minMaxFilter.component'
-import { setSrearchFilters, getPosts } from '../../../../actions/post'
+import { setSrearchFilters } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import styled, { keyframes } from 'styled-components'
 import { fadeInDown } from 'react-animations'
@@ -14,20 +14,14 @@ const FadeInDownDiv = styled.div`
   animation: 0.5s ${FadeInDownAnimation};
 `
 
-const MoreFilters = ({
-  filters,
-  setSrearchFilters,
-  getPosts,
-  filterOnClick,
-}) => {
+const MoreFilters = ({ filters, setSrearchFilters, filterOnClick }) => {
   const { estateType } = filters
 
-  const filtersOnChange = (e) => {
+  const filtersOnChange = e => {
     const { name, type } = e.target
     const value = type === 'checkbox' ? e.target.checked : e.target.value
     setSrearchFilters({
-      [name]:
-        type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value,
+      [name]: type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value
     })
   }
 
@@ -45,11 +39,11 @@ const MoreFilters = ({
                 onChange={filtersOnChange}
                 minInput={{
                   name: 'sqmMin',
-                  placeholder: t('postList.filters.min'),
+                  placeholder: t('postList.filters.min')
                 }}
                 maxInput={{
                   name: 'sqmMax',
-                  placeholder: t('postList.filters.max'),
+                  placeholder: t('postList.filters.max')
                 }}
               />
               {/* Living sqm */}
@@ -58,11 +52,11 @@ const MoreFilters = ({
                 onChange={filtersOnChange}
                 minInput={{
                   name: 'livingSqmMin',
-                  placeholder: t('postList.filters.min'),
+                  placeholder: t('postList.filters.min')
                 }}
                 maxInput={{
                   name: 'livingSqmMax',
-                  placeholder: t('postList.filters.max'),
+                  placeholder: t('postList.filters.max')
                 }}
               />
               {/* Kitchen sqm */}
@@ -71,11 +65,11 @@ const MoreFilters = ({
                 onChange={filtersOnChange}
                 minInput={{
                   name: 'kitchenSqmMin',
-                  placeholder: t('postList.filters.min'),
+                  placeholder: t('postList.filters.min')
                 }}
                 maxInput={{
                   name: 'kitchenSqmMax',
-                  placeholder: t('postList.filters.max'),
+                  placeholder: t('postList.filters.max')
                 }}
               />
             </div>
@@ -88,11 +82,11 @@ const MoreFilters = ({
                     onChange={filtersOnChange}
                     minInput={{
                       name: 'floorMin',
-                      placeholder: t('postList.filters.min'),
+                      placeholder: t('postList.filters.min')
                     }}
                     maxInput={{
                       name: 'floorMax',
-                      placeholder: t('postList.filters.max'),
+                      placeholder: t('postList.filters.max')
                     }}
                   />
                 </Fragment>
@@ -103,11 +97,11 @@ const MoreFilters = ({
                 onChange={filtersOnChange}
                 minInput={{
                   name: 'totalFloorMin',
-                  placeholder: t('postList.filters.min'),
+                  placeholder: t('postList.filters.min')
                 }}
                 maxInput={{
                   name: 'totalFloorMax',
-                  placeholder: t('postList.filters.max'),
+                  placeholder: t('postList.filters.max')
                 }}
               />
             </div>
@@ -117,7 +111,6 @@ const MoreFilters = ({
               className="btn btn-white btn-md"
               onClick={() => {
                 filterOnClick()
-                getPosts(filters)
               }}
             >
               {t('postList.filters.doneButton')}
@@ -136,16 +129,13 @@ const MoreFilters = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  filters: state.post.filters,
+const mapStateToProps = state => ({
+  filters: state.post.filters
 })
 
 MoreFilters.propTypes = {
   filters: PropTypes.object.isRequired,
-  setSrearchFilters: PropTypes.func.isRequired,
-  getPosts: PropTypes.func.isRequired,
+  setSrearchFilters: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, { setSrearchFilters, getPosts })(
-  MoreFilters
-)
+export default connect(mapStateToProps, { setSrearchFilters })(MoreFilters)

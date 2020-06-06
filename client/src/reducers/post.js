@@ -4,6 +4,7 @@ import {
   GET_POST,
   POST_ERROR,
   ADD_POST,
+  SET_POST_CREATED_FLAG,
   UPDATE_POST_FORM,
   FORM_NEXT_STEP,
   FORM_PREV_STEP,
@@ -23,9 +24,12 @@ export default function(state = initialState, action) {
     case ADD_POST:
       return {
         ...state,
-        posts: [...state.posts, payload],
-        postForm: initialState.postForm
+        posts: { ...state.posts, result: [...state.posts.result, payload] },
+        postForm: initialState.postForm,
+        newPostCreated: true
       }
+    case SET_POST_CREATED_FLAG:
+      return { ...state, newPostCreated: payload }
     case UPDATE_POST_FORM:
       return {
         ...state,
@@ -68,7 +72,10 @@ export default function(state = initialState, action) {
         }
       }
     case SET_FILTER:
-      return { ...state, filters: { ...state.filters, ...payload } }
+      return {
+        ...state,
+        filters: { ...state.filters, ...payload }
+      }
     case POST_ERROR:
       return { ...state, error: payload }
     default:
