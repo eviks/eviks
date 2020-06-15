@@ -4,6 +4,8 @@ export default (formName, currentStep = null, estateType = null) => {
       switch (currentStep) {
         case 0:
           return ['userType', 'estateType']
+        case 1:
+          return ['address'] // Contains all checking for correct address (country, lat, lng, etc)
         case 2:
           let fields = ['rooms', 'sqm', 'maintenance']
           if (estateType === 'apartment') {

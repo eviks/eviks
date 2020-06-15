@@ -29,8 +29,10 @@ export default {
     city: '',
     district: '',
     address: '',
-    lat: 0,
-    lng: 0,
+    location: {
+      lat: 0,
+      lng: 0
+    },
     estateType: '',
     rooms: 0,
     sqm: 0,
@@ -73,7 +75,7 @@ export default {
     userName: '',
     contact: ''
   },
-  formSteps: { currentStep: 0, totalSteps: 7 },
+  formSteps: { currentStep: 1, totalSteps: 7 },
   validationErrors: {},
   newPostCreated: false,
   error: {}

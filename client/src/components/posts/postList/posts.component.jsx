@@ -20,28 +20,41 @@ const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
     getPosts(pageNumber, filters)
   }
 
-  const getSkeletonItems = () => {
-    return (
-      <Fragment>
-        <PostItemSkeleton />
-        <PostItemSkeleton />
-        <PostItemSkeleton />
-        <PostItemSkeleton />
-        <PostItemSkeleton />
-        <PostItemSkeleton />
-      </Fragment>
-    )
-  }
+  const getSkeletonItems = () => (
+    <Fragment>
+      <PostItemSkeleton />
+      <PostItemSkeleton />
+      <PostItemSkeleton />
+      <PostItemSkeleton />
+      <PostItemSkeleton />
+      <PostItemSkeleton />
+    </Fragment>
+  )
 
   return (
     <div>
       <Searchbar navRef={navRef} />
-      <div className="cards-container">
-        {loading
-          ? getSkeletonItems()
-          : result.map(post => <PostItem key={post._id} post={post} />)}
-      </div>
-      <Pagination pagination={pagination} onClick={handlePaginationOnClick} />
+      {!loading && result.length === 0 ? (
+        <div className="container-center">
+          <div className="no-results-img" />
+          <span className="lead text-secondary">
+            Как жаль! По вашему запросу нет результатов{' '}
+            <i className="fas fa-search"></i>
+          </span>
+        </div>
+      ) : (
+        <Fragment>
+          <div className="cards-container">
+            {loading
+              ? getSkeletonItems()
+              : result.map(post => <PostItem key={post._id} post={post} />)}
+          </div>
+          <Pagination
+            pagination={pagination}
+            onClick={handlePaginationOnClick}
+          />
+        </Fragment>
+      )}
     </div>
   )
 }

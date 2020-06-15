@@ -32,9 +32,11 @@ const Input = ({
 
   return (
     <div className="field">
-      <label htmlFor={options.name} className="field-name">
-        {fieldName}
-      </label>
+      {fieldName && (
+        <label htmlFor={options.name} className="field-name">
+          {fieldName}
+        </label>
+      )}
       <MaskedInput
         mask={mask}
         className={`input-field${main ? '-main' : ''} ${error && 'not-field'}`}

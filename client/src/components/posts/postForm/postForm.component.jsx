@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
-// import PostYandexMap from './steps/postYandexMap.component'
-import PostMap from './steps/postMap.component'
+import PostYandexMap from './steps/postYandexMap.component'
+// import PostMap from './steps/postMap.component'
 import PostEstateInfo from './steps/postEstateInfo.component'
 import PostBuidingInfo from './steps/postBuildingInfo.component'
 import PostAdditionalInfo from './steps/postAdditionalInfo.component'
@@ -81,8 +81,8 @@ const PostForm = ({
   const renderSwitch = () => {
     switch (currentStep) {
       case 1:
-        return <PostMap />
-      // return <PostYandexMap formData={formData} setFormData={setFormData} />
+        // return <PostMap />
+        return <PostYandexMap />
       case 2:
         return <PostEstateInfo />
       case 3:
@@ -106,7 +106,7 @@ const PostForm = ({
   return (
     <div className="post-form-container px-2 light-border">
       <ProgressBar />
-      <form onSubmit={e => onSubmit(e)}>
+      <form onSubmit={e => onSubmit(e)} autoComplete="off">
         {renderSwitch()}
         <div className="form-button-box">
           {/* Back */}

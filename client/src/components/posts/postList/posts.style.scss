@@ -4,3 +4,12 @@
   grid-gap: 2rem;
   margin: 2rem;
 }
+
+.no-results-img {
+  display: block;
+  width: 250px;
+  height: 250px;
+  margin-top: 2rem;
+  background: url('../../../img/illustrations/lost.jpg') no-repeat center
+    center/cover;
+}

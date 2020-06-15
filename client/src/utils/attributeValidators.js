@@ -6,7 +6,13 @@ export const photosAreValid = ({ photos }) => {
   return photos.length >= 3
 }
 
+export const addressIsValid = form => {
+  const { estateType } = form
+  return form[estateType === 'apartment' ? 'houseNumber' : 'street'] !== ''
+}
+
 export const attributeValidators = {
   description: descriptionIsValid,
-  photos: photosAreValid
+  photos: photosAreValid,
+  address: addressIsValid
 }

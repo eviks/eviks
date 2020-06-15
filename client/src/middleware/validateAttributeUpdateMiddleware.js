@@ -11,7 +11,13 @@ const ValidateAttributeUpdateMiddleware = ({
 
   const { payload } = action
   const state = getState()
-  const attrName = Object.keys(payload)[0]
+
+  let attrName
+  if (Object.keys(payload).includes('address')) {
+    attrName = 'address'
+  } else {
+    attrName = Object.keys(payload)[0]
+  }
 
   const requiredFields = getRequiredFields(
     'POST_FORM',
@@ -28,6 +34,8 @@ const ValidateAttributeUpdateMiddleware = ({
 
   action.validationErrors = {
     [attrName]: !attribueIsValid(updatedForm, attrName)
+      ? 'form.requiredField'
+      : null
   }
 
   next(action)

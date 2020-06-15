@@ -23,7 +23,7 @@ import setAuthToken from './utils/setAuthToken'
 
 // Yandex map
 import { YMaps } from 'react-yandex-maps'
-// import { yandexAPIKey } from './config'
+import { yandexAPIKey } from './config'
 
 // Redux
 import { Provider } from 'react-redux'
@@ -45,7 +45,9 @@ const App = () => {
 
   return (
     <Suspense fallback="loading">
-      <YMaps query={{ lang: 'az_AZ' }}>
+      <YMaps
+        query={{ apikey: yandexAPIKey, lang: 'az_AZ', load: 'package.full' }}
+      >
         <Provider store={store}>
           <Router>
             <ScrollToTop />

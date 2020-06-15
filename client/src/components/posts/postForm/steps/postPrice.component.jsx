@@ -17,8 +17,8 @@ const FadeInDiv = styled.div`
 
 const PostPrice = ({
   postForm,
-  validationErrors,
-  updatePostFormAttributes
+  updatePostFormAttributes,
+  validationErrors
 }) => {
   const { price, bargain, progressPayment } = postForm
 

@@ -19,9 +19,13 @@ const formValidationMiddleware = ({ dispatch, getState }) => next => action => {
   const validationErrors = formValidationErrors(fields, requiredFields)
   dispatch({ type: POST_VALIDATION_ERROR, payload: validationErrors })
 
-  if (!Object.values(validationErrors).includes(true)) {
-    next(action)
-  }
+  let formIsValid = true
+
+  Object.values(validationErrors).forEach(value => {
+    if (value) formIsValid = false
+  })
+
+  if (formIsValid) next(action)
 }
 
 export default formValidationMiddleware
