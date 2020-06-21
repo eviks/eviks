@@ -11,7 +11,7 @@ const Textarea = ({ fieldName, options, onChange, error = null }) => {
     <div className="field">
       <div className="field-name">{fieldName}</div>
       <textarea
-        className="textarea-field"
+        className={`textarea-field ${error ? 'error' : ''}`}
         {...options}
         onChange={e => onChange(e)}
       ></textarea>
@@ -26,7 +26,7 @@ Textarea.propTypes = {
   fieldName: PropTypes.string,
   options: PropTypes.object,
   onChange: PropTypes.func,
-  error: PropTypes.bool
+  error: PropTypes.string
 }
 
 export default Textarea

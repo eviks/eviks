@@ -10,7 +10,7 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
   const handleOnClick = () => setShowPhone(!showPhone)
 
   const formattedPrice = price.toLocaleString('az-AZ', {
-    style: 'decimal',
+    style: 'decimal'
   })
 
   const priceForSqm = Math.round((price / sqm + Number.EPSILON) * 100) / 100
@@ -21,7 +21,7 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
 
   return (
     <div>
-      <div className="side-card light-border">
+      <div className="side-card shadow-border">
         <div className="price-wrapper">
           <span className="price">{formattedPrice} AZN</span>
           <span>{t('post.price.priceForSqm', { priceForSqm })}</span>
@@ -55,7 +55,7 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
 }
 
 SideCard.propTypes = {
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired
 }
 
 export default SideCard

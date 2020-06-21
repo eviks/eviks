@@ -9,9 +9,18 @@ export default (fields, requiredFields) => {
         fields[requiredField].length < 3 ? defaultErrorMessage : null
     } else if (requiredField === 'address') {
       // Check country & street / house number
+      const errorMessage =
+        fields.estateType === 'apartment'
+          ? 'createPost.mapInfo.wrongApartment'
+          : 'createPost.mapInfo.wrongHouse'
+
       const fieldName =
         fields.estateType === 'apartment' ? 'houseNumber' : 'street'
-      errors.address = !fields[fieldName] ? 'Wrong address!' : null
+
+      errors.address =
+        !fields[fieldName] || fields.country !== 'Azərbaycan'
+          ? errorMessage
+          : null
     } else {
       errors[requiredField] = !fields[requiredField]
         ? defaultErrorMessage

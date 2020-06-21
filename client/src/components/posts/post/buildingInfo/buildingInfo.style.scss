@@ -6,3 +6,13 @@
 .building-info {
   padding: 0.5rem 0;
 }
+
+/* MEDIA QUERIES */
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  .building-info-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+}

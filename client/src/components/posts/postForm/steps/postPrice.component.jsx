@@ -34,10 +34,7 @@ const PostPrice = ({
     }
 
     const newAttributes = {
-      [name]:
-        type === 'number'
-          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
-          : fieldValue
+      [name]: parseInt(fieldValue === '' ? 0 : fieldValue, 10)
     }
 
     updatePostFormAttributes(newAttributes)
@@ -69,8 +66,7 @@ const PostPrice = ({
           type: 'text',
           name: 'price',
           value: price === 0 ? '' : price,
-          min: '0',
-          style: { width: '120px' }
+          min: '0'
         }}
         onChange={onChange}
         error={validationErrors.price}

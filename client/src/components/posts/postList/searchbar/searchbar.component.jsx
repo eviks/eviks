@@ -65,7 +65,7 @@ const Searchbar = ({ navRef }) => {
 
   return (
     <div ref={containerRef} style={{ height: '50px' }}>
-      <section className={`searchbar ${classes}`}>
+      <section className={`searchbar light-shadow-border ${classes}`}>
         <div className="filter-buttons">
           <FilterButton
             name={t('postList.filters.price')}

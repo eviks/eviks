@@ -38,7 +38,7 @@ const PostMap = ({
   const [map, setMap] = useState(null)
 
   const [mapData, setMapData] = useState({
-    center: lat && lng ? [lat, lng] : ['40.409264', '49.867092'],
+    center: lat && lng ? [lat, lng] : [40.409264, 49.867092],
     zoom: lat && lng ? 18 : 11,
     controls: []
   })
@@ -74,8 +74,6 @@ const PostMap = ({
       )
       const featureMember = res.data.response.GeoObjectCollection.featureMember
       if (featureMember.length > 0) {
-        console.log(featureMember)
-
         const GeocoderMetaData =
           featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData
 

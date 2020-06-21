@@ -1,8 +1,8 @@
 import React from 'react'
 import MaskedInput from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
+import PropTypes from 'prop-types'
 
 import './input.style.scss'
 
@@ -16,8 +16,6 @@ const Input = ({
   onFocus,
   error = null
 }) => {
-  const [t] = useTranslation()
-
   const handleChange = event => {
     if (onChange) onChange(event)
   }
@@ -30,6 +28,8 @@ const Input = ({
     if (onFocus) onFocus(event)
   }
 
+  const [t] = useTranslation()
+
   return (
     <div className="field">
       {fieldName && (
@@ -39,13 +39,13 @@ const Input = ({
       )}
       <MaskedInput
         mask={mask}
-        className={`input-field${main ? '-main' : ''} ${error && 'not-field'}`}
+        className={`input-field${main ? '-main' : ''} ${error ? 'error' : ''}`}
         onChange={handleChange}
         onBlur={handleBlur}
         onFocus={handleFocus}
         {...options}
       />
-      {error && <div className="field-required">{t('form.requiredField')}</div>}
+      {error && <div className="field-required">{t(error)}</div>}
     </div>
   )
 }
@@ -75,7 +75,7 @@ Input.propTypes = {
   onFocus: PropTypes.func,
   required: PropTypes.bool,
   main: PropTypes.bool,
-  error: PropTypes.bool
+  error: PropTypes.string
 }
 
 export default Input

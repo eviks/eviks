@@ -6,12 +6,11 @@ import PropTypes from 'prop-types'
 const MinMaxFilter = ({ filters, title, onChange, minInput, maxInput }) => {
   const getInputOptions = (inputName, placeholder = '') => {
     return {
-      type: 'number',
+      type: 'text',
       min: 0,
       name: inputName,
       value: filters[inputName] === 0 ? '' : filters[inputName],
-      placeholder: placeholder,
-      style: { width: '120px' }
+      placeholder: placeholder
     }
   }
 

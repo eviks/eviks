@@ -1,6 +1,6 @@
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
   margin: 2rem;
 }
@@ -12,4 +12,27 @@
   margin-top: 2rem;
   background: url('../../../img/illustrations/lost.jpg') no-repeat center
     center/cover;
+}
+
+/* MEDIA QUERIES */
+
+/* BIG SCREENS */
+@media screen and (min-width: 1080px) {
+  .cards-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* TABLEST */
+@media screen and (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  .cards-container {
+    margin: 0.5rem;
+  }
 }

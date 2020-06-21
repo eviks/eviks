@@ -6,7 +6,7 @@ import './postSkeleton.style.scss'
 const PostSkeleton = () => {
   return (
     <div className="post-wrapper">
-      <div className="post-container light-border">
+      <div className="post-container shadow-border">
         <div className="my-1 px-2">
           <SkeletonLine />
         </div>
@@ -23,7 +23,7 @@ const PostSkeleton = () => {
           <SkeletonLine />
         </div>
       </div>
-      <div className="side-card light-border">
+      <div className="side-card shadow-border">
         <div className="my-1" style={{ position: 'relative', width: '100%' }}>
           <SkeletonLine />
         </div>

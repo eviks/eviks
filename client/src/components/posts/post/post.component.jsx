@@ -31,7 +31,7 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
     <PostSkeleton />
   ) : (
     <div className="post-wrapper">
-      <div className="post-container light-border">
+      <div className="post-container shadow-border">
         <PostHead post={post} />
         <ImageGallery
           items={getPostPhotos()}

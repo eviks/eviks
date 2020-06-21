@@ -45,8 +45,7 @@ const PriceFilter = ({ filters, setSrearchFilters }) => {
             type: 'text',
             name: 'priceMin',
             value: priceMin === 0 ? '' : priceMin,
-            placeholder: t('postList.filters.min'),
-            style: { width: '120px' }
+            placeholder: t('postList.filters.min')
           }}
           currency={true}
           onChange={filtersOnChange}
@@ -59,8 +58,7 @@ const PriceFilter = ({ filters, setSrearchFilters }) => {
             type: 'text',
             name: 'priceMax',
             value: priceMax === 0 ? '' : priceMax,
-            placeholder: t('postList.filters.max'),
-            style: { width: '120px' }
+            placeholder: t('postList.filters.max')
           }}
           currency={true}
           onChange={filtersOnChange}

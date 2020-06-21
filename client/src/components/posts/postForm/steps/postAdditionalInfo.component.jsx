@@ -66,7 +66,7 @@ const PostAdditionalInfo = ({
         {t('createPost.additionalInfo.title')}
       </h3>
       {/* Description */}
-      <p className="my-1 text-secondary medium">
+      <p className="my-1 medium">
         {t('createPost.additionalInfo.hint')}
       </p>
       <TextArea
@@ -74,7 +74,7 @@ const PostAdditionalInfo = ({
         onChange={onChange}
         error={validationErrors.description}
       />
-      <p className="my-1 text-secondary medium">
+      <p className="my-1 medium">
         {t('createPost.additionalInfo.features')}
       </p>
       <div className="grid-container">

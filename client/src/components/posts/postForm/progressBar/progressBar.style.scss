@@ -6,3 +6,12 @@
   text-align: center;
   align-items: center;
 }
+
+/* MEDIA QUERIES */
+
+/* TABLETS */
+@media screen and (max-width: 768px) {
+  .progress-bar {
+    display: none;
+  }
+}

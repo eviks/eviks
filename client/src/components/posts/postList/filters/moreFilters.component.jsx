@@ -21,7 +21,7 @@ const MoreFilters = ({ filters, setSrearchFilters, filterOnClick }) => {
     const { name, type } = e.target
     const value = type === 'checkbox' ? e.target.checked : e.target.value
     setSrearchFilters({
-      [name]: type === 'number' ? parseInt(value === '' ? 0 : value, 10) : value
+      [name]: parseInt(value === '' ? 0 : value, 10)
     })
   }
 

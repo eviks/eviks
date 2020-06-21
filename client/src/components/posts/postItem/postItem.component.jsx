@@ -30,7 +30,7 @@ const PostItem = ({
     style: 'decimal'
   })
   return (
-    <Link className="card light-border" to={`/posts/${_id}`}>
+    <Link className="card shadow-border" to={`/posts/${_id}`}>
       <div className="card-photos">
         {photos.length > 0 && (
           <picture>

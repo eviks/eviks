@@ -29,7 +29,7 @@ function useOutsideAlerter(ref, filterButtonRef, filterOnClick) {
 const QuickFilter = ({
   component: Component,
   filterButtonRef,
-  filterOnClick,
+  filterOnClick
 }) => {
   const wrapperRef = useRef(null)
   useOutsideAlerter(wrapperRef, filterButtonRef, filterOnClick)
@@ -39,14 +39,14 @@ const QuickFilter = ({
   return (
     <div
       ref={wrapperRef}
-      className="light-border"
+      className="shadow-border"
       style={{
         marginTop: '0.7rem',
         padding: '1.5rem',
         position: 'absolute',
         backgroundColor: '#fff',
         zIndex: '10',
-        borderRadius: '8px',
+        borderRadius: '8px'
       }}
     >
       <Component />
@@ -63,7 +63,7 @@ const QuickFilter = ({
 }
 
 QuickFilter.propTypes = {
-  filterOnClick: PropTypes.func.isRequired,
+  filterOnClick: PropTypes.func.isRequired
 }
 
 export default QuickFilter

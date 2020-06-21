@@ -27,7 +27,7 @@ SwitchInput.propTypes = {
   fieldName: PropTypes.string,
   options: PropTypes.array,
   onChange: PropTypes.func,
-  error: PropTypes.bool
+  error: PropTypes.string
 }
 
 export default SwitchInput

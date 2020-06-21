@@ -23,7 +23,7 @@ const DropdownItem = ({ listItem: { text, location }, updatePlacemark }) => {
   return (
     <li
       className="dropdown-address-item"
-      onClick={() => updatePlacemark([location[1], [location[0]]])}
+      onClick={() => updatePlacemark([location[1], location[0]])}
     >
       {text}
     </li>

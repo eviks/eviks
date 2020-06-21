@@ -8,7 +8,7 @@
   transition: all 0.3s ease-out;
   display: block;
   padding: 0.385rem 0.5rem;
-  width: 400px;
+  width: 120px;
 
   &-main {
     border: 2px solid $grey-color;
@@ -26,7 +26,7 @@
     border: 1px solid $dark-color;
   }
 
-  &.not-field {
+  &.error {
     border-color: $danger-color;
   }
 }

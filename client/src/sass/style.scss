@@ -78,3 +78,12 @@ img {
     color: $light-color;
   }
 }
+
+/* MEDIA QUERIES */
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  h1 {
+    line-height: 1.1;
+  }
+}

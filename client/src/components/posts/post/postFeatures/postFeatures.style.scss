@@ -4,6 +4,14 @@
   &-wrapper {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+
+    .feature-item {
+      margin: 0.5rem 0;
+
+      &-icon {
+        margin-right: 0.5rem;
+      }
+    }
   }
 
   &-special {
@@ -29,6 +37,34 @@
       justify-content: center;
       align-items: center;
       margin: auto;
+    }
+  }
+}
+
+/* MEDIA QUERIES */
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  .features {
+    &-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+
+      .feature-item {
+        display: flex;
+        flex-direction: column;
+
+        &-icon {
+          margin: 0;
+        }
+      }
+    }
+
+    &-special {
+      flex-direction: column;
+      margin: 0;
+      &-wrapper {
+        margin: 0.5rem auto;
+      }
     }
   }
 }

@@ -29,10 +29,7 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
     const fieldValue = type === 'checkbox' ? event.target.checked : value
 
     const newAttributes = {
-      [name]:
-        type === 'number'
-          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
-          : fieldValue
+      [name]: parseInt(fieldValue === '' ? 0 : fieldValue, 10)
     }
 
     updatePostFormAttributes(newAttributes)
@@ -64,8 +61,7 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
           type: 'text',
           name: 'ceilingHeight',
           value: ceilingHeight === 0 ? '' : ceilingHeight,
-          min: '0',
-          style: { width: '120px' }
+          min: '0'
         }}
         onChange={onChange}
       />
@@ -73,11 +69,10 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
       <Input
         fieldName={t('createPost.buildingInfo.yearBuild')}
         options={{
-          type: 'number',
+          type: 'text',
           name: 'yearBuild',
           value: yearBuild === 0 ? '' : yearBuild,
-          min: '0',
-          style: { width: '120px' }
+          min: '0'
         }}
         onChange={onChange}
       />

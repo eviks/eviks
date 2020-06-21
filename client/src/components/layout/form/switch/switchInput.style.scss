@@ -46,3 +46,16 @@
     cursor: default;
   }
 }
+
+/* MEDIA QUERIES */
+
+/* TABLETS */
+@media screen and (max-width: 768px) {
+  .radio-group {
+    label {
+      display: flex;
+      margin: 0.2rem;
+      border-radius: 15px;
+    }
+  }
+}

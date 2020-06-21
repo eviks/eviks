@@ -17,7 +17,7 @@ const PasswordConfirmation = ({
   validResetPasswordToken,
   loading,
   match,
-  history,
+  history
 }) => {
   const resetPasswordToken = match.params.resetPasswordToken
 
@@ -26,7 +26,7 @@ const PasswordConfirmation = ({
   }, [
     match.params.resetPasswordToken,
     checkResetPasswordToken,
-    resetPasswordToken,
+    resetPasswordToken
   ])
 
   const [form, setForm] = useState({ password: '', passwordConfirm: '' })
@@ -54,11 +54,11 @@ const PasswordConfirmation = ({
       />
     )
 
-  const onChange = (e) => {
+  const onChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault()
 
     resetPassword(resetPasswordToken, password, passwordConfirm, history)
@@ -70,8 +70,8 @@ const PasswordConfirmation = ({
       style={{ textAlign: 'inherit' }}
     >
       <form
-        className="new-password-form light-border"
-        onSubmit={(e) => onSubmit(e)}
+        className="new-password-form shadow-border"
+        onSubmit={e => onSubmit(e)}
       >
         <h1 className="my-1">{t('auth.resetPassword.changePasswordTitle')}</h1>
         <Input
@@ -85,7 +85,7 @@ const PasswordConfirmation = ({
           options={{
             type: 'password',
             name: 'password',
-            value: password,
+            value: password
           }}
           main={true}
           onChange={onChange}
@@ -101,7 +101,7 @@ const PasswordConfirmation = ({
           options={{
             type: 'password',
             name: 'passwordConfirm',
-            value: passwordConfirm,
+            value: passwordConfirm
           }}
           main={true}
           onChange={onChange}
@@ -123,15 +123,15 @@ const PasswordConfirmation = ({
 PasswordConfirmation.propTypes = {
   checkResetPasswordToken: PropTypes.func.isRequired,
   validResetPasswordToken: PropTypes.bool,
-  loading: PropTypes.bool,
+  loading: PropTypes.bool
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   validResetPasswordToken: state.auth.validResetPasswordToken,
-  loading: state.async.loading,
+  loading: state.async.loading
 })
 
 export default connect(mapStateToProps, {
   checkResetPasswordToken,
-  resetPassword,
+  resetPassword
 })(PasswordConfirmation)

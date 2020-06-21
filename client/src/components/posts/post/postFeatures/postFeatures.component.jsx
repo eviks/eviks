@@ -6,8 +6,8 @@ import './postFeatures.style.scss'
 
 const Feature = ({ flag, icon, name }) => {
   return flag ? (
-    <div style={{ margin: '0.5rem 0' }}>
-      <i className={icon} style={{ marginRight: '0.5rem' }}></i> {name}
+    <div className="feature-item">
+      <i className={`feature-item-icon ${icon}`}></i> {name}
     </div>
   ) : null
 }
@@ -47,8 +47,8 @@ const PostFeatures = ({
     conditioner,
     washingMachine,
     dishwasher,
-    refrigerator,
-  },
+    refrigerator
+  }
 }) => {
   const [t] = useTranslation()
 
@@ -167,7 +167,7 @@ const PostFeatures = ({
 }
 
 PostFeatures.propTypes = {
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired
 }
 
 export default PostFeatures

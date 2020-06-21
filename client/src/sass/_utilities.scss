@@ -38,6 +38,14 @@
   box-shadow: inset 0 0 0 1px $light-grey-color;
 }
 
+.light-shadow-border {
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+}
+
+.shadow-border {
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+}
+
 // Buttons
 .btn {
   display: flex;
@@ -343,5 +351,28 @@ input[type='radio'].toggle {
     justify-content: center;
     align-items: center;
     margin-left: 0.5rem;
+  }
+}
+
+/* MEDIA QUERIES */
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  .x-large {
+    font-size: 2.5rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .px-4 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }

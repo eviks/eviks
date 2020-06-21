@@ -9,7 +9,11 @@ import PropTypes from 'prop-types'
 
 import './navbar.style.scss'
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout, navRef }) => {
+const Navbar = ({
+  auth: { isAuthenticated, loading, user },
+  logout,
+  navRef
+}) => {
   const [state, setState] = useState({ showAuthModal: false })
   const [t, i18n] = useTranslation()
   const { showAuthModal } = state
@@ -36,7 +40,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, navRef }) => {
       </li>
       <li>
         <Link to="/">
-          <i className="fas fa-user"></i> {t('navbar.myAccount')}
+          <i className="fas fa-user"></i>{' '}
+          {user && user.local && user.local.displayName}
         </Link>
       </li>
       <li>
@@ -57,7 +62,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, navRef }) => {
 
   return (
     <Fragment>
-      <nav className="navbar" id="navbar" ref={navRef}>
+      <nav className="navbar light-shadow-border" id="navbar" ref={navRef}>
         <h1>
           <Link to="/">
             {' '}

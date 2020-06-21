@@ -75,7 +75,7 @@ export default {
     userName: '',
     contact: ''
   },
-  formSteps: { currentStep: 1, totalSteps: 7 },
+  formSteps: { currentStep: 0, totalSteps: 7 },
   validationErrors: {},
   newPostCreated: false,
   error: {}

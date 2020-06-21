@@ -104,7 +104,7 @@ const PostForm = ({
   const [t] = useTranslation()
 
   return (
-    <div className="post-form-container px-2 light-border">
+    <div className="post-form-container px-2 shadow-border">
       <ProgressBar />
       <form onSubmit={e => onSubmit(e)} autoComplete="off">
         {renderSwitch()}

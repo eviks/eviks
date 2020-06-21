@@ -39,3 +39,37 @@
     }
   }
 }
+
+/* MEDIA QUERIES */
+
+/* TABLEST */
+@media screen and (max-width: 768px) {
+  .post-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 1rem;
+  }
+
+  .post-container {
+    width: auto;
+  }
+}
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  .post-wrapper {
+    margin: 0.5rem;
+  }
+
+  .post-container {
+    text-align: center;
+
+    .main-info {
+      flex-direction: column;
+      justify-content: center;
+      > div {
+        margin: 0 0 1rem 0;
+      }
+    }
+  }
+}

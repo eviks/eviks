@@ -71,10 +71,7 @@ const PostEstateInfo = ({
     const fieldValue = type === 'checkbox' ? event.target.checked : value
 
     const newAttributes = {
-      [name]:
-        type === 'number'
-          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
-          : fieldValue
+      [name]: name === 'maintenance' ? fieldValue : parseInt(fieldValue === '' ? 0 : fieldValue, 10)
     }
 
     updatePostFormAttributes(newAttributes)
@@ -87,11 +84,10 @@ const PostEstateInfo = ({
       <Input
         fieldName={t('createPost.estateInfo.rooms')}
         options={{
-          type: 'number',
+          type: 'text',
           name: 'rooms',
           value: rooms === 0 ? '' : rooms,
-          min: '0',
-          style: { width: '120px' }
+          min: '0'
         }}
         onChange={onChange}
         error={validationErrors.rooms}
@@ -100,11 +96,10 @@ const PostEstateInfo = ({
       <Input
         fieldName={t('createPost.estateInfo.sqm')}
         options={{
-          type: 'number',
+          type: 'text',
           name: 'sqm',
           value: sqm === 0 ? '' : sqm,
-          min: '0',
-          style: { width: '120px' }
+          min: '0'
         }}
         onChange={onChange}
         error={validationErrors.sqm}
@@ -113,11 +108,10 @@ const PostEstateInfo = ({
       <Input
         fieldName={t('createPost.estateInfo.livingRoomsSqm')}
         options={{
-          type: 'number',
+          type: 'text',
           name: 'livingRoomsSqm',
           value: livingRoomsSqm === 0 ? '' : livingRoomsSqm,
-          min: '0',
-          style: { width: '120px' }
+          min: '0'
         }}
         onChange={onChange}
       />
@@ -125,11 +119,10 @@ const PostEstateInfo = ({
       <Input
         fieldName={t('createPost.estateInfo.kitchenSqm')}
         options={{
-          type: 'number',
+          type: 'text',
           name: 'kitchenSqm',
           value: kitchenSqm === 0 ? '' : kitchenSqm,
-          min: '0',
-          style: { width: '120px' }
+          min: '0'
         }}
         onChange={onChange}
       />
@@ -138,11 +131,10 @@ const PostEstateInfo = ({
         <Input
           fieldName={t('createPost.estateInfo.floor')}
           options={{
-            type: 'number',
+            type: 'text',
             name: 'floor',
             value: floor === 0 ? '' : floor,
-            min: '0',
-            style: { width: '120px' }
+            min: '0'
           }}
           onChange={onChange}
           error={validationErrors.floor}
@@ -151,11 +143,10 @@ const PostEstateInfo = ({
         <Input
           fieldName={t('createPost.estateInfo.lotSqm')}
           options={{
-            type: 'number',
+            type: 'text',
             name: 'lotSqm',
             value: lotSqm === 0 ? '' : lotSqm,
-            min: '0',
-            style: { width: '120px' }
+            min: '0'
           }}
           onChange={onChange}
           error={validationErrors.lotSqm}
@@ -165,11 +156,10 @@ const PostEstateInfo = ({
       <Input
         fieldName={t('createPost.estateInfo.totalFloors')}
         options={{
-          type: 'number',
+          type: 'text',
           name: 'totalFloors',
           value: totalFloors === 0 ? '' : totalFloors,
-          min: '0',
-          style: { width: '120px' }
+          min: '0'
         }}
         onChange={onChange}
         error={validationErrors.totalFloors}
