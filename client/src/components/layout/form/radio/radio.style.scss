@@ -50,3 +50,14 @@
     color: $primary-color;
   }
 }
+
+/* MEDIA QUERIES */
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  .radio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

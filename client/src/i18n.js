@@ -151,6 +151,7 @@ const resources = {
       },
       postList: {
         filters: {
+          allFilters: 'Фильтры',
           price: 'Цена',
           rooms: 'Комнаты',
           estateType: 'Тип недвижимости',

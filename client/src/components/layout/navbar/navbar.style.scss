@@ -61,3 +61,47 @@
     }
   }
 }
+
+/* MEDIA QUERIES */
+
+/* TABLEST */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0.5rem;
+    height: 50px;
+
+    h1 {
+      align-self: center;
+    }
+
+    ul {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background-color: $light-color;
+      z-index: 100;
+      transform-origin: 0% 0%;
+      transform: translate(-100%, 0);
+      transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+      li {
+        margin: 0.3rem 0;
+      }
+
+      .lang {
+        margin: 0;
+      }
+    }
+
+    .checked {
+      transform: none;
+    }
+  }
+}

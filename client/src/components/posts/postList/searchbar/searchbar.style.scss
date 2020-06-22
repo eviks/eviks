@@ -7,6 +7,15 @@
   background-color: $light-color;
   width: 100%;
   height: inherit;
+  z-index: 100;
+
+  &-wrapper {
+    height: 50px;
+  }
+
+  &-small {
+    display: none;
+  }
 
   &-relative {
     position: relative;
@@ -36,5 +45,37 @@
 
   > div {
     margin: 0.3rem;
+  }
+}
+
+/* MEDIA QUERIES */
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  .searchbar-wrapper {
+    display: none;
+  }
+
+  .searchbar-small {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    z-index: 10;
+
+    .filter-button {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      outline: none;
+      border: none;
+      background: $primary-color;
+      color: $light-color;
+    }
   }
 }

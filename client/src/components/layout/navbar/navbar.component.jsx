@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../../actions/auth'
 import Auth from '../../auth/auth.component'
+import MenuButton from '../menuButton/menuButton.component'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -15,6 +16,7 @@ const Navbar = ({
   navRef
 }) => {
   const [state, setState] = useState({ showAuthModal: false })
+  const [showMenu, toggleMenu] = useState(false)
   const [t, i18n] = useTranslation()
   const { showAuthModal } = state
   const location = useLocation()
@@ -63,6 +65,7 @@ const Navbar = ({
   return (
     <Fragment>
       <nav className="navbar light-shadow-border" id="navbar" ref={navRef}>
+        <MenuButton onClick={() => toggleMenu(!showMenu)} />
         <h1>
           <Link to="/">
             {' '}
@@ -72,7 +75,7 @@ const Navbar = ({
             </span>
           </Link>
         </h1>
-        <ul>
+        <ul className={showMenu ? 'checked' : ''}>
           {!loading && (
             <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
           )}

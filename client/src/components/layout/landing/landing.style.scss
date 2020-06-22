@@ -39,3 +39,18 @@
     width: 100%;
   }
 }
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  .landing {
+    height: 60vh;
+
+    h1 {
+      margin-bottom: 0.7rem;
+    }
+
+    p {
+      display: none;
+    }
+  }
+}

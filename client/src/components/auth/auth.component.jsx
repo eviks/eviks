@@ -20,11 +20,12 @@ const Auth = ({ handleCloseModal, showOverlay, history }) => {
 
   return (
     <div>
-      <FadeInDiv
-        className="popup"
-        style={!showOverlay ? { width: '400px' } : {}}
-      >
-        <div className="form-container" style={showOverlay && { width: '55%' }}>
+      <FadeInDiv className={`popup ${showOverlay ? 'popup-with-overlay' : ''}`}>
+        <div
+          className={`form-container ${
+            showOverlay ? 'form-container-half-size' : ''
+          }`}
+        >
           <div className="button-box">
             <input
               id="login"

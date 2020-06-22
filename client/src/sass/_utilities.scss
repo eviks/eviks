@@ -358,8 +358,16 @@ input[type='radio'].toggle {
 
 /* MOBILE */
 @media screen and (max-width: 480px) {
+  .btn {
+    min-width: 100px;
+  }
+
+  .field {
+    width: 120px;
+  }
+
   .x-large {
-    font-size: 2.5rem;
+    font-size: 1.7rem;
   }
 
   .lead {

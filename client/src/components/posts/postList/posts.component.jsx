@@ -1,6 +1,7 @@
 import React, { useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Searchbar from './searchbar/searchbar.component'
+import SearchbarSmall from './searchbar/searchbarSmall.component'
 import Pagination from '../../layout/pagination/pagination.component'
 import PostItemSkeleton from '../postItemSkeleton/postItemSkeleton.component'
 import PostItem from '../postItem/postItem.component'
@@ -34,6 +35,7 @@ const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
   return (
     <div>
       <Searchbar navRef={navRef} />
+      <SearchbarSmall />
       {!loading && result.length === 0 ? (
         <div className="container-center">
           <div className="no-results-img" />

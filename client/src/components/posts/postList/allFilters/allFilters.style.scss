@@ -1,0 +1,13 @@
+@import '../../../../sass/config';
+
+.all-filters {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  min-height: 100%;
+  background-color: $light-color;
+  display: block;
+  padding: 0.5rem;
+  z-index: 10;
+  padding-bottom: 2rem;
+}

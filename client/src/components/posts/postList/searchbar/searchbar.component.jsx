@@ -64,7 +64,7 @@ const Searchbar = ({ navRef }) => {
   }, [classes, navRef, filterIsOpen])
 
   return (
-    <div ref={containerRef} style={{ height: '50px' }}>
+    <div ref={containerRef} className="searchbar-wrapper">
       <section className={`searchbar light-shadow-border ${classes}`}>
         <div className="filter-buttons">
           <FilterButton
