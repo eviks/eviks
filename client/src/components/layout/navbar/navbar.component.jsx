@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../../actions/auth'
 import Auth from '../../auth/auth.component'
 import MenuButton from '../menuButton/menuButton.component'
 import ReactModal from 'react-modal'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
@@ -15,6 +16,8 @@ const Navbar = ({
   logout,
   navRef
 }) => {
+  const ulRef = useRef(null)
+
   const [state, setState] = useState({ showAuthModal: false })
   const [showMenu, toggleMenu] = useState(false)
   const [t, i18n] = useTranslation()
@@ -31,6 +34,13 @@ const Navbar = ({
 
   const changeLanguage = lng => {
     i18n.changeLanguage(lng)
+  }
+
+  const handleMenuToggle = () => {
+    const newValue = !showMenu
+    toggleMenu(newValue)
+    if (newValue && ulRef) disableBodyScroll(ulRef.current)
+    if (!newValue && ulRef) enableBodyScroll(ulRef.current)
   }
 
   const authLinks = (
@@ -65,7 +75,7 @@ const Navbar = ({
   return (
     <Fragment>
       <nav className="navbar light-shadow-border" id="navbar" ref={navRef}>
-        <MenuButton onClick={() => toggleMenu(!showMenu)} />
+        <MenuButton onClick={handleMenuToggle} />
         <h1>
           <Link to="/">
             {' '}
@@ -75,7 +85,7 @@ const Navbar = ({
             </span>
           </Link>
         </h1>
-        <ul className={showMenu ? 'checked' : ''}>
+        <ul className={showMenu ? 'checked' : ''} ref={ulRef}>
           {!loading && (
             <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
           )}

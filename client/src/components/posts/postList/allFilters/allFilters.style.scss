@@ -1,13 +1,31 @@
 @import '../../../../sass/config';
 
 .all-filters {
-  position: absolute;
-  top: 50px;
+  &-wrapper {
+    position: fixed;
+    overflow-y: scroll;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    border: none;
+    background: transparent;
+    color: $dark-color;
+    outline: none;
+  }
+
+  position: static;
   width: 100%;
   min-height: 100%;
   background-color: $light-color;
   display: block;
   padding: 0.5rem;
-  z-index: 10;
   padding-bottom: 2rem;
 }

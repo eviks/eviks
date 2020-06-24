@@ -6,6 +6,8 @@ import Pagination from '../../layout/pagination/pagination.component'
 import PostItemSkeleton from '../postItemSkeleton/postItemSkeleton.component'
 import PostItem from '../postItem/postItem.component'
 import { getPosts } from '../../../actions/post'
+import useWindowDimensions from '../../../utils/hooks/useWindowDimensions'
+import useIsMount from '../../../utils/hooks/useIsMount'
 import PropTypes from 'prop-types'
 
 import './posts.style.scss'
@@ -13,9 +15,14 @@ import './posts.style.scss'
 const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
   const { result, pagination } = posts
 
+  const isMounted = useIsMount()
+  const { width } = useWindowDimensions()
+
   useEffect(() => {
-    getPosts(1, filters)
-  }, [getPosts, filters])
+    if (width > 480 || isMounted) {
+      getPosts(1, filters)
+    }
+  }, [getPosts, filters, width, isMounted])
 
   const handlePaginationOnClick = pageNumber => {
     getPosts(pageNumber, filters)
@@ -34,8 +41,7 @@ const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
 
   return (
     <div>
-      <Searchbar navRef={navRef} />
-      <SearchbarSmall />
+      {width > 480 ? <Searchbar navRef={navRef} /> : <SearchbarSmall />}
       {!loading && result.length === 0 ? (
         <div className="container-center">
           <div className="no-results-img" />

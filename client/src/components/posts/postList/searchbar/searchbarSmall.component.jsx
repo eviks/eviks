@@ -1,24 +1,43 @@
 import React, { Fragment, useState } from 'react'
+import { connect } from 'react-redux'
+import { getPosts } from '../../../../actions/post'
 import AllFilters from '../allFilters/allFilters.component'
 import Ripple from '../../../layout/ripple/ripple.component'
+import { CSSTransition } from 'react-transition-group'
 import { useTranslation } from 'react-i18next'
+import PropTypes from 'prop-types'
 
 import './searchbar.style.scss'
 
-const SearchbarSmall = () => {
+const SearchbarSmall = ({ filters, getPosts }) => {
   const [showAllFilters, toggleAllFilters] = useState(false)
+
+  const handleOnClick = () => {
+    if (!showAllFilters) {
+      toggleAllFilters(true)
+    } else {
+      getPosts(1, filters)
+      toggleAllFilters(false)
+    }
+  }
 
   const [t] = useTranslation()
 
   return (
     <Fragment>
-      {showAllFilters && <AllFilters />}
+      <CSSTransition
+        in={showAllFilters}
+        timeout={400}
+        classNames="filters-transition"
+        unmountOnExit
+      >
+        <AllFilters toggleAllFilters={toggleAllFilters} />
+      </CSSTransition>
+
       <section className="searchbar-small light-border">
-        <button
-          className="filter-button"
-          onClick={() => toggleAllFilters(!showAllFilters)}
-        >
-          <i className="fas fa-search"></i> {t('postList.filters.allFilters')}
+        <button className="mobile-button" onClick={() => handleOnClick()}>
+          <i className="fas fa-search"></i>{' '}
+          {t(`postList.filters.${showAllFilters ? 'search' : 'allFilters'}`)}
           <Ripple />
         </button>
       </section>
@@ -26,4 +45,13 @@ const SearchbarSmall = () => {
   )
 }
 
-export default SearchbarSmall
+SearchbarSmall.propTypes = {
+  filters: PropTypes.object.isRequired,
+  getPosts: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  filters: state.post.filters
+})
+
+export default connect(mapStateToProps, { getPosts })(SearchbarSmall)
