@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Searchbar from './searchbar/searchbar.component'
 import SearchbarSmall from './searchbar/searchbarSmall.component'
@@ -15,14 +15,21 @@ import './posts.style.scss'
 const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
   const { result, pagination } = posts
 
-  const isMounted = useIsMount()
+  const [smallWidth, setSmallWidth] = useState(false)
+
   const { width } = useWindowDimensions()
+  if (width <= 768 && !smallWidth) setSmallWidth(true)
+  if (width > 768 && smallWidth) setSmallWidth(false)
+
+  const isMounted = useIsMount()
 
   useEffect(() => {
-    if (width > 480 || isMounted) {
-      getPosts(1, filters)
-    }
-  }, [getPosts, filters, width, isMounted])
+    if (!smallWidth) getPosts(1, filters)
+  }, [getPosts, filters, smallWidth])
+
+  useEffect(() => {
+    if (smallWidth && isMounted) getPosts(1, filters)
+  }, [getPosts, filters, smallWidth, isMounted])
 
   const handlePaginationOnClick = pageNumber => {
     getPosts(pageNumber, filters)
@@ -41,7 +48,7 @@ const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
 
   return (
     <div>
-      {width > 480 ? <Searchbar navRef={navRef} /> : <SearchbarSmall />}
+      {width > 768 ? <Searchbar navRef={navRef} /> : <SearchbarSmall />}
       {!loading && result.length === 0 ? (
         <div className="container-center">
           <div className="no-results-img" />

@@ -50,7 +50,7 @@ const PostPhotos = ({ files, setFiles, error }) => {
 PostPhotos.propTypes = {
   files: PropTypes.array.isRequired,
   setFiles: PropTypes.func.isRequired,
-  error: PropTypes.bool
+  error: PropTypes.string
 }
 
 const mapStateToProps = state => ({

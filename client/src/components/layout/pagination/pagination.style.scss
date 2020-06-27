@@ -3,6 +3,7 @@
 .pagination {
   display: flex;
   justify-content: center;
+  margin: 1rem 0;
 
   &-item {
     display: flex;
@@ -32,5 +33,14 @@
       background-color: $light-color;
       color: $grey-color;
     }
+  }
+}
+
+/* MEDIA QUERIES */
+
+/* TABLEST */
+@media screen and (max-width: 768px) {
+  .pagination {
+    margin: 1rem 0 4rem 0;
   }
 }

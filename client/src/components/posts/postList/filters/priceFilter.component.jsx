@@ -1,7 +1,8 @@
 import React from 'react'
 import { setSrearchFilters } from '../../../../actions/post'
 import { connect } from 'react-redux'
-import Input from '../../../layout/form/input/input.component'
+import MinMaxFilter from './minMaxFilter.component'
+import Checkbox from '../../../layout/form/checkbox/checkbox.component'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -9,14 +10,22 @@ import PropTypes from 'prop-types'
 import './filters.style.scss'
 
 const PriceFilter = ({ filters, setSrearchFilters }) => {
-  const { priceMax, priceMin } = filters
+  const { bargain } = filters
 
   const filtersOnChange = e => {
-    const { name, value } = e.target
-    const numericValue = value.replace(/\s/g, '').replace(/AZN/g, '')
-    setSrearchFilters({
-      [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
-    })
+    const { name, type } = e.target
+    const value = type === 'checkbox' ? e.target.checked : e.target.value
+
+    if (typeof value === 'boolean') {
+      setSrearchFilters({
+        [name]: value
+      })
+    } else {
+      const numericValue = value.replace(/\s/g, '').replace(/AZN/g, '')
+      setSrearchFilters({
+        [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
+      })
+    }
   }
 
   const priceMask = createNumberMask({
@@ -37,33 +46,29 @@ const PriceFilter = ({ filters, setSrearchFilters }) => {
   return (
     <form>
       <h4 className="filter-title">{t('postList.filters.price')}</h4>
-      <div className="row-group">
-        <Input
-          mask={priceMask}
-          required={false}
-          options={{
-            type: 'text',
-            name: 'priceMin',
-            value: priceMin === 0 ? '' : priceMin,
-            placeholder: t('postList.filters.min')
-          }}
-          currency={true}
-          onChange={filtersOnChange}
-        />
-        <span className="input-separator">-</span>
-        <Input
-          mask={priceMask}
-          required={false}
-          options={{
-            type: 'text',
-            name: 'priceMax',
-            value: priceMax === 0 ? '' : priceMax,
-            placeholder: t('postList.filters.max')
-          }}
-          currency={true}
-          onChange={filtersOnChange}
-        />
-      </div>
+      <MinMaxFilter
+        mask={priceMask}
+        className={''}
+        onChange={filtersOnChange}
+        minInput={{
+          name: 'priceMin',
+          placeholder: t('postList.filters.min')
+        }}
+        maxInput={{
+          name: 'priceMax',
+          placeholder: t('postList.filters.max')
+        }}
+      />
+      <Checkbox
+        label={t('postList.filters.bargain')}
+        showFieldName={true}
+        options={{
+          name: 'bargain',
+          id: 'bargain',
+          checked: bargain
+        }}
+        onChange={filtersOnChange}
+      />
     </form>
   )
 }

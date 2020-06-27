@@ -78,21 +78,23 @@ const setPostsFilters = (filters, selectedFilters) => {
     totalFloorMin,
     totalFloorMax,
     floorMin,
-    floorMax
+    floorMax,
+    documented,
+    mortgage,
+    redevelopment,
+    bargain,
+    notFirstFloor,
+    notLastFloor
   } = JSON.parse(filters)
 
   // Price
   setMinMaxFilter(selectedFilters, 'price', priceMin, priceMax)
 
   // Rooms
-  if (rooms !== 0) {
-    selectedFilters.rooms = { $gte: rooms }
-  }
+  if (rooms !== 0) selectedFilters.rooms = { $gte: rooms }
 
   // Estate type
-  if (estateType != null) {
-    selectedFilters.estateType = estateType
-  }
+  if (estateType != null) selectedFilters.estateType = estateType
 
   // Sqm
   setMinMaxFilter(selectedFilters, 'sqm', sqmMin, sqmMax)
@@ -102,6 +104,24 @@ const setPostsFilters = (filters, selectedFilters) => {
   // Floor
   setMinMaxFilter(selectedFilters, 'totalFloors', totalFloorMin, totalFloorMax)
   setMinMaxFilter(selectedFilters, 'floor', floorMin, floorMax)
+
+  // Documented
+  if (documented) selectedFilters.documented = true
+
+  // Mortgage
+  if (mortgage) selectedFilters.mortgage = true
+
+  // Redevelopment
+  if (redevelopment) selectedFilters.redevelopment = true
+
+  // Bargain
+  if (bargain) selectedFilters.bargain = true
+
+  // Not first floor
+  if (notFirstFloor) selectedFilters.notFirstFloor = { $ne: 1 }
+
+  // Not last floor
+  if (notLastFloor) selectedFilters.$expr = { $ne: ['$floor', '$totalFloors'] }
 }
 
 const getPaginatedResults = (req, pagination, selectedFilters) => {

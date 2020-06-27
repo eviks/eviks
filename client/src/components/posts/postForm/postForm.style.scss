@@ -1,18 +1,47 @@
 @import '../../../sass/config';
 
 .post-form-container {
+  position: relative;
   max-width: 700px;
   min-height: auto;
   border-radius: 20px;
   margin: 1rem auto;
-  overflow: hidden;
   padding: 2rem;
   background: $light-color;
   padding-bottom: 0;
 
+  form {
+    overflow: hidden;
+  }
+
   .step-title {
     display: flex;
     justify-content: center;
+  }
+
+  .helpers-button-box {
+    position: absolute;
+    top: 1%;
+    left: -8%;
+    display: flex;
+    flex-direction: column;
+    .clean {
+      display: flex;
+      border-radius: 50%;
+      color: $grey-color;
+      background: $light-color;
+      height: 35px;
+      width: 35px;
+      justify-content: center;
+      align-items: center;
+      margin: 0 0.2rem;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
   }
 }
 
@@ -78,6 +107,10 @@
   .post-form-container {
     max-width: none;
     margin: 1rem;
+
+    .helpers-button-box {
+      display: none;
+    }
   }
 
   .upload-images {

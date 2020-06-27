@@ -11,7 +11,9 @@ import {
   FORM_PREV_STEP,
   UPLOAD_PHOTO,
   DELETE_PHOTO,
-  SET_FILTER
+  SET_FILTER,
+  REMOVE_FILTERS,
+  CLEAN_FORM
 } from './types'
 
 // Get posts
@@ -19,7 +21,7 @@ export const getPosts = (page = 1, filters = null) => async dispatch => {
   try {
     dispatch(asyncActionStart())
     const res = await axios.get(
-      `api/posts/${JSON.stringify(filters)}/?limit=${1}&page=${page}`
+      `api/posts/${JSON.stringify(filters)}/?limit=${15}&page=${page}`
     )
     dispatch({ type: GET_POSTS, payload: res.data })
     dispatch(asyncActionFinish())
@@ -140,4 +142,14 @@ export const deletePhoto = (photoId, filename) => async dispatch => {
 // Set search filter
 export const setSrearchFilters = filters => async dispatch => {
   dispatch({ type: SET_FILTER, payload: filters })
+}
+
+// Remove all search filters
+export const removeFilters = () => async dispatch => {
+  dispatch({ type: REMOVE_FILTERS })
+}
+
+// Clean post form attributes
+export const cleanPostForm = () => async dispatch => {
+  dispatch({ type: CLEAN_FORM })
 }

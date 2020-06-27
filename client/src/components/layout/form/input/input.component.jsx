@@ -63,7 +63,6 @@ Input.defaultProps = {
     allowNegative: false,
     allowLeadingZeroes: false
   }),
-  required: true,
   main: false
 }
 
@@ -73,7 +72,6 @@ Input.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
-  required: PropTypes.bool,
   main: PropTypes.bool,
   error: PropTypes.string
 }

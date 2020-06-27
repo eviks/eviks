@@ -112,8 +112,6 @@ const PostMap = ({
   const handleInputChange = event => {
     event.persist()
 
-    updatePostFormAttributes({ address: event.target.value })
-
     const duration = 2000
     if (timerRef.current) clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => {
@@ -122,6 +120,11 @@ const PostMap = ({
   }
 
   const updateDropdownList = async text => {
+    if (text.length < 3) {
+      setDropdownList([])
+      return
+    }
+
     try {
       const res = await axios.get(
         `https://geocode-maps.yandex.ru/1.x/?apikey=${yandexAPIKey}&geocode=${text}&bbox=44.46,38.24~50.33,41.54&kind=house&results=5&sco=latlong&format=json&lang=az_AZ`

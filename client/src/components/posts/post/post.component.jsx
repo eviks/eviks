@@ -45,7 +45,7 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
           <PostDescription description={post.description} />
           <PostFeatures post={post} />
           <BuildingInfo post={post} />
-          <Location coordinate={[post.lat, post.lng]} />
+          <Location coordinate={[post.location.lat, post.location.lng]} />
         </div>
       </div>
       <SideCard post={post} />

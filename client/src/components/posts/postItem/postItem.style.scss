@@ -65,3 +65,15 @@
     margin: 0 0.2rem;
   }
 }
+
+/* MEDIA QUERIES */
+
+/* TABLEST */
+@media screen and (max-width: 768px) {
+  .card-block {
+    flex-direction: column;
+  }
+  .card-bottom {
+    align-items: flex-start;
+  }
+}

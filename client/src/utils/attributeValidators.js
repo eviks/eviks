@@ -1,5 +1,5 @@
 export const descriptionIsValid = ({ description }) => {
-  return description.length > 100
+  return description.length >= 100
 }
 
 export const photosAreValid = ({ photos }) => {
@@ -7,8 +7,9 @@ export const photosAreValid = ({ photos }) => {
 }
 
 export const addressIsValid = form => {
-  const { estateType } = form
-  return form[estateType === 'apartment' ? 'houseNumber' : 'street'] !== ''
+  // Check country & street / house number
+  const fieldName = form.estateType === 'apartment' ? 'houseNumber' : 'street'
+  return form[fieldName] !== '' && form.country === 'Azərbaycan'
 }
 
 export const attributeValidators = {

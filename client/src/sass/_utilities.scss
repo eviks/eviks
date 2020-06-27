@@ -117,6 +117,13 @@
     }
   }
 
+  &-ghost-sd {
+    color: darken($grey-color, 10%);
+    border: 2px solid;
+    border-color: $light-grey-color;
+    background-color: $light-color;
+  }
+
   &-toggle {
     position: relative;
     text-align: center;
@@ -354,16 +361,62 @@ input[type='radio'].toggle {
   }
 }
 
+// Tooltip
+.tooltip {
+  &-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: $dark-color;
+    color: $light-color;
+    text-align: center;
+    border-radius: 8px;
+    padding: 0.2rem 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
+    transform: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent $dark-color transparent;
+    }
+  }
+
+  &:hover {
+    .tooltip-text {
+      visibility: visible;
+    }
+  }
+}
+
 /* MEDIA QUERIES */
+
+/* TABLETS */
+@media screen and (max-width: 768px) {
+  .mobile-button {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+    background: $primary-color;
+    color: $light-color;
+  }
+}
 
 /* MOBILE */
 @media screen and (max-width: 480px) {
   .btn {
     min-width: 100px;
-  }
-
-  .field {
-    width: 120px;
   }
 
   .x-large {
@@ -382,16 +435,5 @@ input[type='radio'].toggle {
   .px-4 {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-  }
-
-  .mobile-button {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    outline: none;
-    border: none;
-    background: $primary-color;
-    color: $light-color;
   }
 }

@@ -22,7 +22,13 @@ export default {
     totalFloorMin: 0,
     totalFloorMax: 0,
     floorMin: 0,
-    floorMax: 0
+    floorMax: 0,
+    documented: false,
+    mortgage: false,
+    redevelopment: false,
+    bargain: false,
+    notFirstFloor: false,
+    notLastFloor: false
   },
   postForm: {
     userType: '',

@@ -34,7 +34,10 @@ const PostPrice = ({
     }
 
     const newAttributes = {
-      [name]: parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+      [name]:
+        type === 'number'
+          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+          : fieldValue
     }
 
     updatePostFormAttributes(newAttributes)

@@ -11,7 +11,9 @@ import {
   POST_VALIDATION_ERROR,
   UPLOAD_PHOTO,
   DELETE_PHOTO,
-  SET_FILTER
+  SET_FILTER,
+  REMOVE_FILTERS,
+  CLEAN_FORM
 } from '../actions/types'
 
 export default function(state = initialState, action) {
@@ -75,6 +77,18 @@ export default function(state = initialState, action) {
       return {
         ...state,
         filters: { ...state.filters, ...payload }
+      }
+    case REMOVE_FILTERS:
+      return {
+        ...state,
+        filters: { ...initialState.filters }
+      }
+    case CLEAN_FORM:
+      return {
+        ...state,
+        postForm: { ...initialState.postForm },
+        formSteps: { ...initialState.formSteps },
+        validationErrors: { ...initialState.validationErrors }
       }
     case POST_ERROR:
       return { ...state, error: payload }

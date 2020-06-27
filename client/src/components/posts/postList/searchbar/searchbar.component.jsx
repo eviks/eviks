@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { connect } from 'react-redux'
+import { removeFilters } from '../../../../actions/post'
 import FilterButton from '../filterButton/filterButton.component'
 import PriceFilter from '../filters/priceFilter.component'
 import RoomFilter from '../filters/roomFilter.component'
@@ -10,7 +12,7 @@ import './searchbar.style.scss'
 
 let prevScrollPos = window.pageYOffset
 
-const Searchbar = ({ navRef }) => {
+const Searchbar = ({ navRef, removeFilters }) => {
   let containerRef = useRef(null)
 
   const [classes, setClasses] = useState('')
@@ -92,10 +94,15 @@ const Searchbar = ({ navRef }) => {
             moreFilters={true}
             component={MoreFilters}
           />
+          <div style={{ position: 'relative' }}>
+            <button className="btn btn-ghost-sd btn-md" onClick={removeFilters}>
+              <i className="fas fa-broom"></i> {t('postList.filters.remove')}
+            </button>
+          </div>
         </div>
       </section>
     </div>
   )
 }
 
-export default Searchbar
+export default connect(null, { removeFilters })(Searchbar)

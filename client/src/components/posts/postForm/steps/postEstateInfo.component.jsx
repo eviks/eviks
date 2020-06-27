@@ -71,7 +71,10 @@ const PostEstateInfo = ({
     const fieldValue = type === 'checkbox' ? event.target.checked : value
 
     const newAttributes = {
-      [name]: name === 'maintenance' ? fieldValue : parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+      [name]:
+        typeof fieldValue === 'number'
+          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+          : fieldValue
     }
 
     updatePostFormAttributes(newAttributes)

@@ -24,7 +24,7 @@ const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
   }, [current, skipped, total])
 
   return (
-    <div className="pagination my-1">
+    <div className="pagination">
       {/* Prev Button */}
       {skipped && (
         <PaginationItem

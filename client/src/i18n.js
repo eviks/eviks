@@ -152,8 +152,10 @@ const resources = {
       postList: {
         filters: {
           allFilters: 'Фильтры',
+          remove: 'Очистить фильтры',
           search: 'Найти',
           price: 'Цена',
+          bargain: 'Возможен торг',
           rooms: 'Комнаты',
           estateType: 'Тип недвижимости',
           more: 'Больше фильтров',
@@ -164,7 +166,12 @@ const resources = {
           livingSqm: 'Жилая площадь',
           kitchenSqm: 'Площадь кухни',
           floor: 'Этаж',
-          totalFloor: 'Всего этажей'
+          totalFloor: 'Всего этажей',
+          documented: 'Имеется купчая',
+          mortgage: 'Ипотека',
+          redevelopment: 'Перепланировка',
+          notFirstFloor: 'Не первый',
+          notLastFloor: 'Не последний'
         },
         estateTypes: {
           any: 'Любой',
@@ -183,6 +190,7 @@ const resources = {
         drag: 'или перетащите файлы сюда'
       },
       createPost: {
+        clean: 'Очистить форму',
         back: 'Назад',
         next: 'Далее',
         submit: 'Разместить объявление',
@@ -213,7 +221,7 @@ const resources = {
           kitchenSqm: 'Площадь кухни (необязательно)',
           floor: 'Этаж',
           totalFloors: 'Всего этажей',
-          lotSqm: 'Площадь участка',
+          lotSqm: 'Площадь участка (соток)',
           maintenance: 'Ремонт',
           redecorated: 'Косметический ремонт',
           designed: 'Дизайнерский ремонт',
@@ -223,7 +231,7 @@ const resources = {
           mortgage: 'Имеется кредит'
         },
         buildingInfo: {
-          title: 'Информация о здании',
+          title: 'Информация о здании (необязательно)',
           ceilingHeight: 'Высота потолка',
           yearBuild: 'Год постройки',
           elevator: 'Лифт',

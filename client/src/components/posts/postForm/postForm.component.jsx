@@ -14,7 +14,8 @@ import {
   formNextStep,
   formPrevStep,
   addPost,
-  setPostCreatedFlag
+  setPostCreatedFlag,
+  cleanPostForm
 } from '../../../actions/post'
 import { toastr } from 'react-redux-toastr'
 import SuccessIcon from '../../layout/icons/successIcon.component'
@@ -32,6 +33,7 @@ const PostForm = ({
   formPrevStep,
   addPost,
   setPostCreatedFlag,
+  cleanPostForm,
   loading,
   newPostCreated,
   history
@@ -106,6 +108,14 @@ const PostForm = ({
   return (
     <div className="post-form-container px-2 shadow-border">
       <ProgressBar />
+      <div className="helpers-button-box">
+        <div className="tooltip">
+          <div className="clean shadow-border" onClick={cleanPostForm}>
+            <i className="fas fa-broom"></i>
+          </div>
+          <div className="tooltip-text">{t('createPost.clean')}</div>
+        </div>
+      </div>
       <form onSubmit={e => onSubmit(e)} autoComplete="off">
         {renderSwitch()}
         <div className="form-button-box">
@@ -153,6 +163,7 @@ PostForm.propTypes = {
   formNextStep: PropTypes.func.isRequired,
   formPrevStep: PropTypes.func.isRequired,
   setPostCreatedFlag: PropTypes.func.isRequired,
+  cleanPostForm: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   newPostCreated: PropTypes.bool.isRequired
 }
@@ -168,5 +179,6 @@ export default connect(mapStateToProps, {
   formNextStep,
   formPrevStep,
   addPost,
-  setPostCreatedFlag
+  setPostCreatedFlag,
+  cleanPostForm
 })(PostForm)

@@ -15,7 +15,7 @@
     padding: 0 2.2rem;
   }
 
-  &-inuts {
+  &-inputs {
     display: flex;
     flex-direction: row;
   }
@@ -86,10 +86,14 @@
 
 /* MEDIA QUERIES */
 
-/* MOBILE */
-@media screen and (max-width: 480px) {
+/* TABLETS */
+@media screen and (max-width: 768px) {
   .filter-block {
     padding: 0;
+  }
+
+  .filter-inputs {
+    width: 120px;
   }
 
   .more-filters-form {
