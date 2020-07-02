@@ -9,14 +9,14 @@ import PropTypes from 'prop-types'
 
 import './searchbar.style.scss'
 
-const SearchbarSmall = ({ filters, getPosts }) => {
+const SearchbarSmall = ({ filters, getPosts, history }) => {
   const [showAllFilters, toggleAllFilters] = useState(false)
 
   const handleOnClick = () => {
     if (!showAllFilters) {
       toggleAllFilters(true)
     } else {
-      getPosts(1, filters)
+      getPosts(1, filters, history)
       toggleAllFilters(false)
     }
   }
@@ -47,7 +47,8 @@ const SearchbarSmall = ({ filters, getPosts }) => {
 
 SearchbarSmall.propTypes = {
   filters: PropTypes.object.isRequired,
-  getPosts: PropTypes.func.isRequired
+  getPosts: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

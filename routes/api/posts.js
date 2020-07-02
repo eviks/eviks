@@ -15,11 +15,11 @@ const { accessKeyId, secretAccessKey, Bucket } = config.get('AWS')
 const Post = require('../../models/Post')
 
 const setMinMaxFilter = (selectedFilters, name, min, max) => {
-  if (min !== 0 && max !== 0) {
+  if (min && max) {
     selectedFilters[name] = { $gte: min, $lte: max }
-  } else if (min !== 0) {
+  } else if (min) {
     selectedFilters[name] = { $gte: min }
-  } else if (max !== 0) {
+  } else if (max) {
     selectedFilters[name] = { $lte: max }
   }
 }
@@ -27,8 +27,8 @@ const setMinMaxFilter = (selectedFilters, name, min, max) => {
 // @route GET api/posts
 // @desc  Get all posts
 // @acess Public
-router.get('/:filters?', async (req, res) => {
-  const filters = req.params.filters
+router.get('/', async (req, res) => {
+  const filters = req.query
 
   try {
     let posts = {}
@@ -62,8 +62,6 @@ router.get('/:filters?', async (req, res) => {
 })
 
 const setPostsFilters = (filters, selectedFilters) => {
-  if (filters == null || filters == 'null') return
-
   const {
     priceMin,
     priceMax,
@@ -85,16 +83,16 @@ const setPostsFilters = (filters, selectedFilters) => {
     bargain,
     notFirstFloor,
     notLastFloor
-  } = JSON.parse(filters)
+  } = filters
 
   // Price
   setMinMaxFilter(selectedFilters, 'price', priceMin, priceMax)
 
   // Rooms
-  if (rooms !== 0) selectedFilters.rooms = { $gte: rooms }
+  if (rooms) selectedFilters.rooms = { $gte: rooms }
 
   // Estate type
-  if (estateType != null) selectedFilters.estateType = estateType
+  if (estateType) selectedFilters.estateType = estateType
 
   // Sqm
   setMinMaxFilter(selectedFilters, 'sqm', sqmMin, sqmMax)

@@ -69,7 +69,9 @@ const App = () => {
               <Route
                 exact
                 path="/posts"
-                component={() => <Posts navRef={navRef} />}
+                render={({ history }) => (
+                  <Posts history={history} navRef={navRef} />
+                )}
               />
               <Route path="/posts/:id" component={Post} />
               <PrivateRoute exact path="/create_post" component={PostForm} />

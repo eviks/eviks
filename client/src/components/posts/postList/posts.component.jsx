@@ -1,38 +1,66 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, useRef, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Searchbar from './searchbar/searchbar.component'
 import SearchbarSmall from './searchbar/searchbarSmall.component'
 import Pagination from '../../layout/pagination/pagination.component'
 import PostItemSkeleton from '../postItemSkeleton/postItemSkeleton.component'
 import PostItem from '../postItem/postItem.component'
-import { getPosts } from '../../../actions/post'
+import { getPosts, setSrearchFilters } from '../../../actions/post'
 import useWindowDimensions from '../../../utils/hooks/useWindowDimensions'
 import useIsMount from '../../../utils/hooks/useIsMount'
+import { getURLParams } from '../../../utils/urlParams'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 import './posts.style.scss'
 
-const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
+const Posts = ({
+  post: { posts, filters },
+  loading,
+  getPosts,
+  setSrearchFilters,
+  navRef,
+  history
+}) => {
   const { result, pagination } = posts
 
-  const [smallWidth, setSmallWidth] = useState(false)
+  const [smallWidth, setSmallWidth] = useState(true)
 
   const { width } = useWindowDimensions()
   if (width <= 768 && !smallWidth) setSmallWidth(true)
   if (width > 768 && smallWidth) setSmallWidth(false)
 
   const isMounted = useIsMount()
+  let firstLoad = useRef(false)
+
+  if (isMounted) {
+    const query = history.location.search
+    if (query) {
+      firstLoad.current = true
+      const searchParams = Object.fromEntries(getURLParams(query))
+      setSrearchFilters(searchParams)
+    }
+  }
 
   useEffect(() => {
-    if (!smallWidth) getPosts(1, filters)
-  }, [getPosts, filters, smallWidth])
-
-  useEffect(() => {
-    if (smallWidth && isMounted) getPosts(1, filters)
-  }, [getPosts, filters, smallWidth, isMounted])
+    if (smallWidth) {
+      if (
+        (isMounted && !history.location.search) ||
+        (!isMounted && firstLoad.current)
+      ) {
+        firstLoad.current = false
+        getPosts(1, filters, history)
+      }
+    } else {
+      if ((isMounted && !history.location.search) || !isMounted) {
+        getPosts(1, filters, history)
+      }
+    }
+    // eslint-disable-next-line
+  }, [getPosts, filters, history])
 
   const handlePaginationOnClick = pageNumber => {
-    getPosts(pageNumber, filters)
+    getPosts(pageNumber, filters, history)
   }
 
   const getSkeletonItems = () => (
@@ -46,15 +74,20 @@ const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
     </Fragment>
   )
 
+  const [t] = useTranslation()
+
   return (
     <div>
-      {width > 768 ? <Searchbar navRef={navRef} /> : <SearchbarSmall />}
+      {width > 768 ? (
+        <Searchbar navRef={navRef} />
+      ) : (
+        <SearchbarSmall history={history} />
+      )}
       {!loading && result.length === 0 ? (
         <div className="container-center">
           <div className="no-results-img" />
           <span className="lead text-secondary">
-            Как жаль! По вашему запросу нет результатов{' '}
-            <i className="fas fa-search"></i>
+            {t('postList.noResults')} <i className="fas fa-search"></i>
           </span>
         </div>
       ) : (
@@ -77,6 +110,7 @@ const Posts = ({ post: { posts, filters }, loading, getPosts, navRef }) => {
 Posts.propTypes = {
   post: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
+  setSrearchFilters: PropTypes.func.isRequired,
   loading: PropTypes.bool
 }
 
@@ -85,4 +119,4 @@ const mapStateToProps = state => ({
   loading: state.async.loading
 })
 
-export default connect(mapStateToProps, { getPosts })(Posts)
+export default connect(mapStateToProps, { getPosts, setSrearchFilters })(Posts)

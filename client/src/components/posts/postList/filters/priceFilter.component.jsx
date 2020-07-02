@@ -17,9 +17,7 @@ const PriceFilter = ({ filters, setSrearchFilters }) => {
     const value = type === 'checkbox' ? e.target.checked : e.target.value
 
     if (typeof value === 'boolean') {
-      setSrearchFilters({
-        [name]: value
-      })
+      setSrearchFilters({ [name]: value })
     } else {
       const numericValue = value.replace(/\s/g, '').replace(/AZN/g, '')
       setSrearchFilters({
@@ -73,13 +71,13 @@ const PriceFilter = ({ filters, setSrearchFilters }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  filters: state.post.filters
-})
-
 PriceFilter.propTypes = {
   filters: PropTypes.object.isRequired,
   setSrearchFilters: PropTypes.func.isRequired
 }
+
+const mapStateToProps = state => ({
+  filters: state.post.filters
+})
 
 export default connect(mapStateToProps, { setSrearchFilters })(PriceFilter)

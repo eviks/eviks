@@ -62,13 +62,13 @@ const EstateTypeFilter = ({ filters, setSrearchFilters }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  filters: state.post.filters
-})
-
 EstateTypeFilter.propTypes = {
   filters: PropTypes.object.isRequired,
   setSrearchFilters: PropTypes.func.isRequired
 }
+
+const mapStateToProps = state => ({
+  filters: state.post.filters
+})
 
 export default connect(mapStateToProps, { setSrearchFilters })(EstateTypeFilter)

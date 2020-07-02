@@ -2,12 +2,9 @@ import React, { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
-function useOutsideAlerter(ref, filterButtonRef, filterOnClick) {
+const useOutsideAlerter = (ref, filterButtonRef, filterOnClick) => {
   useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
-    function handleClickOutside(event) {
+    const handleClickOutside = event => {
       if (
         ref.current &&
         !ref.current.contains(event.target) &&
@@ -63,6 +60,7 @@ const QuickFilter = ({
 }
 
 QuickFilter.propTypes = {
+  filterButtonRef: PropTypes.object.isRequired,
   filterOnClick: PropTypes.func.isRequired
 }
 

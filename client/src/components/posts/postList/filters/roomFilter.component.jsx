@@ -29,9 +29,7 @@ const RoomFilter = ({ filters, setSrearchFilters }) => {
 
   const filtersOnChange = e => {
     const numberOfRooms = getNumberOfRooms(e.target.value)
-    setSrearchFilters({
-      rooms: numberOfRooms === rooms ? 0 : numberOfRooms
-    })
+    setSrearchFilters({ rooms: numberOfRooms === rooms ? 0 : numberOfRooms })
   }
 
   // Array of options

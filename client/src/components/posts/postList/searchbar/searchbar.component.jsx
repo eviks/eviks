@@ -7,6 +7,7 @@ import RoomFilter from '../filters/roomFilter.component'
 import EstateTypeFilter from '../filters/estateTypeFilter.component'
 import MoreFilters from '../filters/moreFilters.component'
 import { useTranslation } from 'react-i18next'
+import PropTypes from 'prop-types'
 
 import './searchbar.style.scss'
 
@@ -65,6 +66,10 @@ const Searchbar = ({ navRef, removeFilters }) => {
     }
   }, [classes, navRef, filterIsOpen])
 
+  const handleRemoveFilters = () => {
+    removeFilters()
+  }
+
   return (
     <div ref={containerRef} className="searchbar-wrapper">
       <section className={`searchbar light-shadow-border ${classes}`}>
@@ -95,7 +100,10 @@ const Searchbar = ({ navRef, removeFilters }) => {
             component={MoreFilters}
           />
           <div style={{ position: 'relative' }}>
-            <button className="btn btn-ghost-sd btn-md" onClick={removeFilters}>
+            <button
+              className="btn btn-ghost-sd btn-md"
+              onClick={handleRemoveFilters}
+            >
               <i className="fas fa-broom"></i> {t('postList.filters.remove')}
             </button>
           </div>
@@ -103,6 +111,11 @@ const Searchbar = ({ navRef, removeFilters }) => {
       </section>
     </div>
   )
+}
+
+Searchbar.propTypes = {
+  navRef: PropTypes.object.isRequired,
+  removeFilters: PropTypes.func.isRequired
 }
 
 export default connect(null, { removeFilters })(Searchbar)

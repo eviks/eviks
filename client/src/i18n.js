@@ -150,6 +150,7 @@ const resources = {
         }
       },
       postList: {
+        noResults: 'Как жаль! По вашему запросу нет результатов',
         filters: {
           allFilters: 'Фильтры',
           remove: 'Очистить фильтры',

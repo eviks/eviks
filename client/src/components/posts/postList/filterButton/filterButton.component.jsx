@@ -9,7 +9,7 @@ const FilterButton = ({
   filter,
   setFilter,
   component: Component,
-  moreFilters,
+  moreFilters
 }) => {
   const filterOnClick = () => {
     if (filter === name) {
@@ -55,14 +55,14 @@ const FilterButton = ({
 }
 
 FilterButton.defaultProps = {
-  moreFilters: false,
+  moreFilters: false
 }
 
 FilterButton.propTypes = {
   name: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
   setFilter: PropTypes.func.isRequired,
-  moreFilters: PropTypes.bool,
+  moreFilters: PropTypes.bool
 }
 
 export default FilterButton

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
-import PostYandexMap from './steps/postYandexMap.component'
+import PostOpenlayersMap from './steps/postOpenlayersMap.component'
+// import PostYandexMap from './steps/postYandexMap.component'
 // import PostMap from './steps/postMap.component'
 import PostEstateInfo from './steps/postEstateInfo.component'
 import PostBuidingInfo from './steps/postBuildingInfo.component'
@@ -84,7 +85,8 @@ const PostForm = ({
     switch (currentStep) {
       case 1:
         // return <PostMap />
-        return <PostYandexMap />
+        // return <PostYandexMap />
+        return <PostOpenlayersMap />
       case 2:
         return <PostEstateInfo />
       case 3:

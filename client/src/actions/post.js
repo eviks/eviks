@@ -15,13 +15,16 @@ import {
   REMOVE_FILTERS,
   CLEAN_FORM
 } from './types'
+import { setURLParams } from '../utils/urlParams'
 
 // Get posts
-export const getPosts = (page = 1, filters = null) => async dispatch => {
+export const getPosts = (page = 1, filters, history) => async dispatch => {
   try {
+    const url = setURLParams({ ...filters })
+    history.push(`?${url || ''}`)
     dispatch(asyncActionStart())
     const res = await axios.get(
-      `api/posts/${JSON.stringify(filters)}/?limit=${15}&page=${page}`
+      `api/posts/?${url && url + '&'}limit=${15}&page=${page}`
     )
     dispatch({ type: GET_POSTS, payload: res.data })
     dispatch(asyncActionFinish())
