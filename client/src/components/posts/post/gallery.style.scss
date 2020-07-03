@@ -15,6 +15,7 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
 
 // SVG ICON STYLES
 .image-gallery-icon {
+  opacity: 1;
   color: $ig-white;
   transition: all 0.2s ease-out;
   appearance: none;
@@ -24,6 +25,7 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   outline: none;
   position: absolute;
   z-index: 4;
+  transition: opacity 0.2s ease-in-out;
   filter: drop-shadow(0 2px 2px lighten($ig-black, 10%));
 
   @media (min-width: $ig-small-screen) {
@@ -34,6 +36,7 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
         transform: scale(1.1);
       }
     }
+    opacity: 0;
   }
 
   &:focus {
@@ -168,11 +171,6 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
     }
   }
 
-  .image-gallery-slide .image-gallery-image {
-    max-height: calc(75vh - 80px); // 80 px for the thumbnail space
-    min-height: calc(75vh - 80px);
-  }
-
   &.left,
   &.right {
     .image-gallery-slide .image-gallery-image {
@@ -183,6 +181,12 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
 
 .image-gallery-slide-wrapper {
   position: relative;
+
+  &:hover {
+    .image-gallery-icon {
+      opacity: 1;
+    }
+  }
 
   &.left,
   &.right {
@@ -433,5 +437,29 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   @media (max-width: $ig-small-screen) {
     font-size: 0.8em;
     padding: 5px 10px;
+  }
+}
+
+.post-container
+  .image-gallery-content
+  .image-gallery-slide
+  .image-gallery-image {
+  max-height: calc(99vh - 80px); // 80 px for the thumbnail space
+  min-height: calc(99vh - 80px);
+}
+
+.card .image-gallery-content .image-gallery-slide {
+  > div {
+    position: relative;
+    padding-bottom: 60%;
+  }
+
+  .image-gallery-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
 }

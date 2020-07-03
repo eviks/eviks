@@ -3,6 +3,7 @@
 .card {
   background: $light-color;
   border-radius: 5px;
+  cursor: pointer;
 
   &-photos {
     position: relative;

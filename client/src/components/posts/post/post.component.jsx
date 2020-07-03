@@ -6,7 +6,7 @@ import MainInfo from './mainInfo/MainInfo.component'
 import PostFeatures from './postFeatures/postFeatures.component'
 import BuildingInfo from './buildingInfo/buildingInfo.component'
 import PostDescription from './postDescription/postDescription.component'
-import Location from './location/location.component'
+import Location from './location/_location.component'
 import PostSkeleton from './postSkeleton/postSkeleton.component'
 import { connect } from 'react-redux'
 import { getPost } from '../../../actions/post'
@@ -35,17 +35,18 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
         <PostHead post={post} />
         <ImageGallery
           items={getPostPhotos()}
-          showIndex={true}
+          showBullets={true}
           showPlayButton={false}
           useTranslate3D={false}
           slideOnThumbnailOver={true}
+          lazyLoad={true}
         />
         <div className="px-2">
           <MainInfo post={post} />
           <PostDescription description={post.description} />
           <PostFeatures post={post} />
           <BuildingInfo post={post} />
-          <Location coordinate={[post.location.lat, post.location.lng]} />
+          <Location location={post.location} />
         </div>
       </div>
       <SideCard post={post} />

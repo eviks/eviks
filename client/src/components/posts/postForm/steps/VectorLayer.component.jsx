@@ -6,19 +6,9 @@ import { toEPSG4326, fromEPSG4326 } from 'ol/proj/epsg3857'
 import VectorSource from 'ol/source/Vector'
 import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
-import Style from 'ol/style/Style'
-import Icon from 'ol/style/Icon'
-import marker from '../../../../utils/icons/marker.svg'
 import useIsMount from '../../../../utils/hooks/useIsMount'
 import PropTypes from 'prop-types'
-
-const markerStyle = new Style({
-  image: new Icon({
-    anchor: [0.5, 1],
-    src: marker,
-    scale: 0.3
-  })
-})
+import markerStyle from '../../../layout/mapAssets/markerStyle'
 
 const source = new VectorSource({
   features: undefined

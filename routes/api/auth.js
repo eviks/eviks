@@ -32,14 +32,14 @@ router.post(
   '/',
   [
     check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Password is required').exists(),
+    check('password', 'Password is required').exists()
   ],
   async (req, res, next) => {
     // Validation
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array(),
+        errors: errors.array()
       })
     }
 
@@ -52,11 +52,11 @@ router.post(
       }
       const payload = {
         user: {
-          id: user.id,
-        },
+          id: user.id
+        }
       }
       const token = jwt.sign(payload, config.get('jwtSecret'), {
-        expiresIn: 360000,
+        expiresIn: 360000
       })
       res.json({ token })
     })(req, res, next)
@@ -73,13 +73,13 @@ router.post('/verification/:activationToken', async (req, res, next) => {
     // Find user by activation token
     let user = await User.findOne({
       'local.active': false,
-      'local.activationToken': activationToken,
+      'local.activationToken': activationToken
     })
 
     // User not found
     if (!user) {
       return res.status(400).json({
-        errors: [{ msg: 'Wrong activation token' }],
+        errors: [{ msg: 'Wrong activation token' }]
       })
     }
 
@@ -91,11 +91,11 @@ router.post('/verification/:activationToken', async (req, res, next) => {
     // Login user
     const payload = {
       user: {
-        id: user.id,
-      },
+        id: user.id
+      }
     }
     const token = jwt.sign(payload, config.get('jwtSecret'), {
-      expiresIn: 360000,
+      expiresIn: 360000
     })
     res.json({ token })
   } catch (error) {
@@ -115,7 +115,7 @@ router.post(
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array(),
+        errors: errors.array()
       })
     }
 
@@ -124,13 +124,13 @@ router.post(
 
       // Find user by email address
       let user = await User.findOne({
-        'local.email': email,
+        'local.email': email
       })
 
       // User not found
       if (!user) {
         return res.status(400).json({
-          errors: [{ msg: 'No account with that email address exist' }],
+          errors: [{ msg: 'No account with that email address exist' }]
         })
       }
 
@@ -148,8 +148,8 @@ router.post(
         subject: 'Please reset your password',
         receivers: email,
         context: {
-          resetPasswordToken,
-        },
+          resetPasswordToken
+        }
       })
 
       return res.send('Reset password email sent')
@@ -168,14 +168,14 @@ router.post('/check_reset_password_token/:token', async (req, res) => {
     let user = await User.findOne({
       'local.resetPasswordToken': resetPasswordToken,
       'local.resetPasswordExpires': {
-        $gt: Date.now(),
-      },
+        $gt: Date.now()
+      }
     })
 
     // User not found
     if (!user) {
       return res.status(400).json({
-        errors: [{ msg: 'Wrong reset password token' }],
+        errors: [{ msg: 'Wrong reset password token' }]
       })
     }
 
@@ -193,14 +193,14 @@ router.post(
   '/password_reset/:token',
   [
     check('password', 'Password is required').exists(),
-    check('confirm', 'Password confirm is required').exists(),
+    check('confirm', 'Password confirm is required').exists()
   ],
   async (req, res, next) => {
     // Validation
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array(),
+        errors: errors.array()
       })
     }
 
@@ -210,7 +210,7 @@ router.post(
 
       if (password !== confirm) {
         return res.status(400).json({
-          errors: [{ msg: 'Passwords do not match' }],
+          errors: [{ msg: 'Passwords do not match' }]
         })
       }
 
@@ -218,14 +218,14 @@ router.post(
       let user = await User.findOne({
         'local.resetPasswordToken': resetPasswordToken,
         'local.resetPasswordExpires': {
-          $gt: Date.now(),
-        },
+          $gt: Date.now()
+        }
       })
 
       // User not found
       if (!user) {
         return res.status(400).json({
-          errors: [{ msg: 'Wrong reset password token' }],
+          errors: [{ msg: 'Wrong reset password token' }]
         })
       }
 
@@ -242,11 +242,11 @@ router.post(
       // Login user
       const payload = {
         user: {
-          id: user.id,
-        },
+          id: user.id
+        }
       }
       const token = jwt.sign(payload, config.get('jwtSecret'), {
-        expiresIn: 360000,
+        expiresIn: 360000
       })
       res.json({ token })
     } catch (error) {

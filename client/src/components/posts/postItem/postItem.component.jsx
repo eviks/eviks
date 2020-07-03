@@ -1,6 +1,6 @@
 import React from 'react'
+import ImageGallery from 'react-image-gallery'
 import Moment from 'react-moment'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
@@ -22,23 +22,35 @@ const PostItem = ({
     photos,
     documented,
     mortgage
-  }
+  },
+  history
 }) => {
   const [t] = useTranslation()
+
+  const redirectToPost = () => history.push(`/posts/${_id}`)
 
   const priceStr = price.toLocaleString('az-AZ', {
     style: 'decimal'
   })
+
+  const getPostPhotos = () => {
+    return photos.map(photo => ({ original: photo.thumb }))
+  }
+
   return (
-    <Link className="card shadow-border" to={`/posts/${_id}`}>
-      <div className="card-photos">
-        {photos.length > 0 && (
-          <picture>
-            <img className="photo-element" src={photos[0].thumb} alt="Card" />
-          </picture>
-        )}
-      </div>
-      <div className="card-info">
+    <div className="card shadow-border">
+      {
+        <ImageGallery
+          items={getPostPhotos()}
+          showThumbnails={false}
+          showPlayButton={false}
+          showFullscreenButton={false}
+          showBullets={true}
+          lazyLoad={true}
+          onClick={redirectToPost}
+        />
+      }
+      <div className="card-info" onClick={redirectToPost}>
         <div className="card-block">
           <div>
             <div className="lead-2x lead-bold">{`${priceStr} AZN`}</div>
@@ -69,12 +81,13 @@ const PostItem = ({
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 
 PostItem.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 }
 
 export default PostItem

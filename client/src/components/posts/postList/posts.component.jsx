@@ -95,7 +95,9 @@ const Posts = ({
           <div className="cards-container">
             {loading
               ? getSkeletonItems()
-              : result.map(post => <PostItem key={post._id} post={post} />)}
+              : result.map(post => (
+                  <PostItem key={post._id} post={post} history={history} />
+                ))}
           </div>
           <Pagination
             pagination={pagination}
