@@ -34,6 +34,7 @@ export default {
     userType: '',
     city: '',
     district: '',
+    subdistrict: '',
     address: '',
     location: {
       lat: 0,

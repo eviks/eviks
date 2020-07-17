@@ -1,0 +1,53 @@
+@import '../../../sass/config';
+
+.divisions-container {
+  background: $light-color;
+  border-radius: 8px;
+  width: 900px;
+  max-height: 500px;
+  padding: 3rem;
+  overflow: overlay;
+
+  .city {
+    &-list {
+      display: grid;
+      grid-template: 'a a a a a' 3.2rem;
+    }
+
+    &-item {
+      margin: 1rem 0;
+    }
+  }
+
+  .division {
+    &-header {
+      display: flex;
+      align-items: center;
+
+      > button {
+        margin-left: 1rem;
+      }
+    }
+
+    &-list {
+      columns: 4 50px;
+    }
+
+    &-item {
+      display: table-row;
+      margin: 1rem 0;
+      break-inside: avoid-column;
+    }
+
+    &-level {
+      &::after {
+        content: ' > ';
+        margin: 0 0.28rem;
+      }
+
+      &:last-of-type {
+        content: '';
+      }
+    }
+  }
+}
