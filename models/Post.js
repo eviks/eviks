@@ -8,16 +8,12 @@ const PostSchema = new mongoose.Schema({
   },
   userName: String,
   userType: String,
-  country: String, // Required for checking
   city: String,
   district: String,
   subdistrict: String,
   address: String,
   houseNumber: String,
-  location: {
-    lat: Number,
-    lng: Number
-  },
+  location: [Number, Number],
   estateType: String,
   rooms: Number,
   sqm: Number,

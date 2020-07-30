@@ -64,11 +64,20 @@
   margin: 2rem;
 }
 
+.address-wrapper {
+  display: flex;
+  margin-bottom: 0.7rem;
+
+  > div {
+    margin-right: 1rem;
+  }
+}
+
 .step-map {
   position: relative;
 
   .map-wrapper {
-    height: 65vh;
+    height: 80vh;
   }
 
   .map {

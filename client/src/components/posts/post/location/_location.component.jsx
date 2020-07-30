@@ -11,8 +11,7 @@ const Location = ({ location }) => {
   const [map, setMap] = useState(null)
 
   useEffect(() => {
-    if (mapRef.current)
-      setMap(initMap(mapRef.current, [location.lng, location.lat], 17))
+    if (mapRef.current) setMap(initMap(mapRef.current, location, 17))
     // eslint-disable-next-line
   }, [mapRef])
 

@@ -19,13 +19,13 @@ const FadeInUl = styled.ul`
   animation: 0.5s ${FadeInAnimation};
 `
 
-const DropdownItem = ({ listItem: { text, location }, updatePlacemark }) => {
+const DropdownItem = ({ listItem: { addr, x, y }, updatePlacemark }) => {
   return (
     <li
       className="dropdown-address-item"
-      onClick={() => updatePlacemark([location[1], location[0]])}
+      onClick={() => updatePlacemark([x, y], true)}
     >
-      {text}
+      {addr}
     </li>
   )
 }

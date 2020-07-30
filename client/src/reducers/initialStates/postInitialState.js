@@ -36,10 +36,8 @@ export default {
     district: '',
     subdistrict: '',
     address: '',
-    location: {
-      lat: 0,
-      lng: 0
-    },
+    cityLocation: [49.9673008918762, 40.4929150268958],
+    location: [0, 0],
     estateType: '',
     rooms: 0,
     sqm: 0,

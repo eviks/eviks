@@ -16,7 +16,7 @@ const VectorLayerComponent = ({ map, location }) => {
   map.addLayer(layer)
 
   const featureToAdd = new Feature({
-    geometry: new Point(fromEPSG4326([location.lng, location.lat]))
+    geometry: new Point(fromEPSG4326(location))
   })
   featureToAdd.setStyle(markerStyle)
 

@@ -3,8 +3,8 @@ import DivisionItem from './divisionItem.component'
 
 const DivisionList = ({
   items,
-  divisionState,
-  updateDivisionState,
+  onDivisionSelect,
+  localities,
   cities = false
 }) => {
   return (
@@ -14,9 +14,9 @@ const DivisionList = ({
           <li key={index} className="division-item">
             <DivisionItem
               item={item}
+              localities={localities}
               primary={cities}
-              divisionState={divisionState}
-              updateDivisionState={updateDivisionState}
+              onDivisionSelect={onDivisionSelect}
             />
           </li>
         ))}

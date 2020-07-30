@@ -80,7 +80,8 @@ const resources = {
         title: 'Всё начинается с дома',
         slogan: 'Мы поможем найти то, что подходит именно вам',
         search: 'Найти',
-        sell: 'Продать'
+        sell: 'Продать',
+        newListings: 'Новые объявления'
       },
       post: {
         title: {
@@ -182,7 +183,7 @@ const resources = {
         room: 'комната'
       },
       form: {
-        googleAutoComplitePlaceholder: 'Введите адрес...',
+        addressPlaceholder: 'Улица, номер дома',
         requiredField: 'Это обязательное поле',
         textareaMinLength: 'Описание должно содержать как минимум 100 символов'
       },
@@ -210,9 +211,11 @@ const resources = {
         },
         mapInfo: {
           title: 'Адрес',
-          wrongApartment:
-            'Укажите номер дома, в котором расположена ваша квартира. Если его нет на карте, то укажите ближайший',
-          wrongHouse: 'Укажите адрес, по которому расположен ваш дом'
+          selectHint: 'Выберите ваш населенный пункт',
+          select: 'Выбрать',
+          change: 'Изменить',
+          wrongCity: 'Укажите ваш населенный пункт',
+          wrongAddress: 'Укажите адрес, по которому расположен ваш дом'
         },
         estateInfo: {
           title: 'Информация о недвижимости',

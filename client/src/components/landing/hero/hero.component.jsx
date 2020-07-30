@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom'
 import Ripple from '../../layout/ripple/ripple.component'
 import { useTranslation } from 'react-i18next'
 
-import './landing.style.scss'
-
-const Landing = () => {
+const Hero = () => {
   const [t] = useTranslation()
   return (
     <section className="landing">
@@ -33,4 +31,4 @@ const Landing = () => {
   )
 }
 
-export default Landing
+export default Hero

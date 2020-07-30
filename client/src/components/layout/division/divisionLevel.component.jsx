@@ -2,7 +2,7 @@ import React from 'react'
 import DivisionItem from './divisionItem.component'
 import PropTypes from 'prop-types'
 
-const DivisionLevel = ({ divisionState, updateDivisionState }) => {
+const DivisionLevel = ({ onDivisionSelect, divisionState, localities }) => {
   const { city, district, subdistrict } = divisionState
   const levels = [{ name: 'Азербайджан', type: 'country', location: [] }]
   if (city) levels.push(city)
@@ -17,9 +17,9 @@ const DivisionLevel = ({ divisionState, updateDivisionState }) => {
             <DivisionItem
               key={index}
               item={level}
+              localities={localities}
               className="division-level text-secondary"
-              divisionState={divisionState}
-              updateDivisionState={updateDivisionState}
+              onDivisionSelect={onDivisionSelect}
             />
           )
       )}
@@ -29,7 +29,8 @@ const DivisionLevel = ({ divisionState, updateDivisionState }) => {
 
 DivisionLevel.propTypes = {
   divisionState: PropTypes.object.isRequired,
-  updateDivisionState: PropTypes.func.isRequired
+  onDivisionSelect: PropTypes.func.isRequired,
+  localities: PropTypes.array.isRequired
 }
 
 export default DivisionLevel

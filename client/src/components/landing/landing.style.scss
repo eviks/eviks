@@ -1,8 +1,8 @@
-@import '../../../sass/config';
+@import '../../sass/config';
 
 .landing {
   position: relative;
-  background: url('../../../img/Showcase.jpg') no-repeat center center/cover;
+  background: url('../../img/Showcase.jpg') no-repeat center center/cover;
   height: 70vh;
 
   h1 {
@@ -28,6 +28,24 @@
       display: flex;
       flex-direction: row;
     }
+  }
+}
+
+.swipe-block {
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-wrapper {
+    display: flex;
+  }
+
+  &-item {
+    width: 400px;
+    padding: 0.5rem 0.2rem;
+    outline: none;
   }
 }
 

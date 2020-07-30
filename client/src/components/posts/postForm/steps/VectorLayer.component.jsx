@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 import { Vector as VectorLayer } from 'ol/layer'
 import { connect } from 'react-redux'
-import { updatePostFormAttributes } from '../../../../actions/post'
-import { toEPSG4326, fromEPSG4326 } from 'ol/proj/epsg3857'
+import { fromEPSG4326 } from 'ol/proj/epsg3857'
 import VectorSource from 'ol/source/Vector'
 import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
@@ -19,14 +18,14 @@ const layer = new VectorLayer({ source })
 const VectorLayerComponent = ({
   map,
   postForm: { location },
-  updatePostFormAttributes
+  updatePlacemark
 }) => {
   useEffect(() => {
-    if (location.lat === 0 || location.lng === 0) {
+    if (location[0] === 0 || location[1] === 0) {
       source.clear()
     } else {
       const featureToAdd = new Feature({
-        geometry: new Point(fromEPSG4326([location.lng, location.lat]))
+        geometry: new Point(fromEPSG4326(location))
       })
       featureToAdd.setStyle(markerStyle)
 
@@ -35,26 +34,9 @@ const VectorLayerComponent = ({
     }
   }, [location])
 
-  const onMapClick = event => {
-    const coords = event.coordinate
-    const formattedCoords = toEPSG4326(coords)
-
-    console.log({ lat: formattedCoords[1], lng: formattedCoords[0] })
-
-    updatePostFormAttributes({
-      location: { lat: formattedCoords[1], lng: formattedCoords[0] }
-    })
-
-    map.getView().animate({
-      center: coords,
-      zoom: 18,
-      duration: 1000
-    })
-  }
-
   const isMounted = useIsMount()
   if (isMounted) {
-    map.on('singleclick', onMapClick)
+    map.on('singleclick', event => updatePlacemark(event.coordinate))
     map.addLayer(layer)
   }
 
@@ -64,13 +46,11 @@ const VectorLayerComponent = ({
 VectorLayerComponent.propTypes = {
   map: PropTypes.object.isRequired,
   postForm: PropTypes.object.isRequired,
-  updatePostFormAttributes: PropTypes.func.isRequired
+  updatePlacemark: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   postForm: state.post.postForm
 })
 
-export default connect(mapStateToProps, { updatePostFormAttributes })(
-  VectorLayerComponent
-)
+export default connect(mapStateToProps)(VectorLayerComponent)

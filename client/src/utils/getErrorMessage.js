@@ -1,8 +1,10 @@
 export default (fieldName, fields) => {
   if (fieldName === 'address') {
-    return fields.estateType === 'apartment'
-      ? 'createPost.mapInfo.wrongApartment'
-      : 'createPost.mapInfo.wrongHouse'
+    return 'createPost.mapInfo.wrongAddress'
+  }
+
+  if (fieldName === 'city') {
+    return 'createPost.mapInfo.wrongCity'
   }
 
   return 'form.requiredField'

@@ -5,50 +5,14 @@ const DivisionItem = ({
   item,
   primary = false,
   className = '',
-  divisionState,
-  updateDivisionState
+  onDivisionSelect
 }) => {
-  const { name, location, type } = item
-
-  const onClick = () => {
-    let newDivisionState
-
-    if (type === 'city')
-      newDivisionState = {
-        city: item,
-        district: null,
-        subdistrict: null,
-        location: location
-      }
-    if (type === 'district')
-      newDivisionState = {
-        ...divisionState,
-        district: item,
-        subdistrict: null,
-        location: location
-      }
-    if (type === 'subdistrict')
-      newDivisionState = {
-        ...divisionState,
-        subdistrict: item,
-        location: location
-      }
-
-    if (type === 'country')
-      newDivisionState = {
-        city: null,
-        district: null,
-        subdistrict: null,
-        location: []
-      }
-
-    updateDivisionState(newDivisionState)
-  }
+  const { name } = item
 
   return (
     <button
       className={`${className} ${primary ? 'btn btn-ghost-pm btn-md' : 'link'}`}
-      onClick={onClick}
+      onClick={() => onDivisionSelect(item)}
     >
       {name}
     </button>
@@ -59,8 +23,7 @@ DivisionItem.propTypes = {
   item: PropTypes.object.isRequired,
   primary: PropTypes.bool,
   className: PropTypes.string,
-  divisionState: PropTypes.object.isRequired,
-  updateDivisionState: PropTypes.func.isRequired
+  onDivisionSelect: PropTypes.func.isRequired
 }
 
 export default DivisionItem

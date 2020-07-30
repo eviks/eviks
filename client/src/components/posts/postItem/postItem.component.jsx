@@ -1,5 +1,6 @@
 import React from 'react'
 import ImageGallery from 'react-image-gallery'
+import ArrowButton from '../../layout/arrowButtons/arrowButton.component'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -37,6 +38,30 @@ const PostItem = ({
     return photos.map(photo => ({ original: photo.thumb }))
   }
 
+  const renderLeftNav = (onClick, disabled) => {
+    return (
+      <ArrowButton
+        type="left"
+        onClick={onClick}
+        disabled={disabled}
+        classNameWrapper="arrow-wrapper-transparent arrow-wrapper-transparent-left"
+        classNameButton="arrow-btn-transparent"
+      />
+    )
+  }
+
+  const renderRightNav = (onClick, disabled) => {
+    return (
+      <ArrowButton
+        type="right"
+        onClick={onClick}
+        disabled={disabled}
+        classNameWrapper="arrow-wrapper-transparent arrow-wrapper-transparent-right"
+        classNameButton="arrow-btn-transparent"
+      />
+    )
+  }
+
   return (
     <div className="card shadow-border">
       {
@@ -48,6 +73,8 @@ const PostItem = ({
           showBullets={true}
           lazyLoad={true}
           onClick={redirectToPost}
+          renderLeftNav={renderLeftNav}
+          renderRightNav={renderRightNav}
         />
       }
       <div className="card-info" onClick={redirectToPost}>

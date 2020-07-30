@@ -13,28 +13,56 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   }
 }
 
-// SVG ICON STYLES
-.image-gallery-icon {
-  opacity: 1;
-  color: $ig-white;
-  transition: all 0.2s ease-out;
-  appearance: none;
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  outline: none;
+// ARROW STYLES
+.arrow-wrapper-transparent {
+  display: block;
+  opacity: 0;
   position: absolute;
-  z-index: 4;
+  outline: none;
+  z-index: 10;
+  bottom: 50%;
+  transform: translateY(50%);
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: (50px / 2);
+  color: $dark-color;
+  transition: border-color 0.2s ease-in-out;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
   transition: opacity 0.2s ease-in-out;
-  filter: drop-shadow(0 2px 2px lighten($ig-black, 10%));
+
+  &-right {
+    right: 3px;
+  }
+
+  &-left {
+    left: 3px;
+  }
+
+  &:hover {
+    color: $primary-color;
+  }
+
+  .arrow-btn-transparent {
+    position: absolute;
+    display: block;
+    border: none;
+    color: inherit;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%) scale(1.1);
+  }
 
   @media (min-width: $ig-small-screen) {
     // Don't hover on screens smaller than small
     &:hover {
       color: $primary-color;
-      .image-gallery-svg {
-        transform: scale(1.1);
-      }
     }
     opacity: 0;
   }
@@ -46,7 +74,7 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
 }
 
 .image-gallery-using-mouse {
-  .image-gallery-icon {
+  .arrow-wrapper-transparent {
     &:focus {
       outline: none;
     }
@@ -183,7 +211,7 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   position: relative;
 
   &:hover {
-    .image-gallery-icon {
+    .arrow-wrapper-transparent {
       opacity: 1;
     }
   }

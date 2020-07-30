@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react'
+import SearchDivision from './searchDivision.component'
 import DivisionList from './divisionList.component'
 import DivisionLevel from './divisionLevel.component'
 import { connect } from 'react-redux'
@@ -16,20 +17,28 @@ const FadeOutAnimation = keyframes`${fadeOut}`
 const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
+// Create list of all localities
+const { countryCities, autonomousRepublic, countryDistricts } = divisions
+const allCities = [
+  ...countryCities,
+  ...autonomousRepublic[0].cities,
+  ...autonomousRepublic[0].districts,
+  ...countryDistricts
+]
+let allDistricts = []
+allCities.forEach(city => {
+  if (city.districts) allDistricts = [...allDistricts, ...city.districts]
+})
 
-const Division = ({
-  handleCloseModal,
-  changeMapCenter,
-  updatePostFormAttributes
-}) => {
-  const { countryCities, autonomousRepublic, countryDistricts } = divisions
-  const allCities = [
-    ...countryCities,
-    ...autonomousRepublic[0].cities,
-    ...autonomousRepublic[0].districts,
-    ...countryDistricts
-  ]
+let allSubdistricts = []
+allDistricts.forEach(district => {
+  if (district.subdistricts)
+    allSubdistricts = [...allSubdistricts, ...district.subdistricts]
+})
 
+const localities = [...allCities, ...allDistricts, ...allSubdistricts]
+
+const Division = ({ handleCloseModal, updatePostFormAttributes }) => {
   const containerRef = useRef(null)
 
   const [divisionItems, setDivisionItems] = useState([])
@@ -41,6 +50,66 @@ const Division = ({
     location: []
   })
   const { city, district, subdistrict, location } = state
+
+  const findParentElement = item => {
+    if (item.type === 'subdistrict')
+      return allDistricts.filter(district => {
+        let elements = district.subdistricts
+          ? district.subdistricts.filter(
+              subdistrict => subdistrict.name === item.name
+            )
+          : []
+        return elements.length === 1
+      })[0]
+
+    if (item.type === 'district')
+      return allCities.filter(city => {
+        let elements = city.districts
+          ? city.districts.filter(district => district.name === item.name)
+          : []
+        return elements.length === 1
+      })[0]
+  }
+
+  // Select division
+  const onDivisionSelect = item => {
+    const { type } = item
+
+    let newState
+
+    if (type === 'city')
+      newState = {
+        city: item,
+        district: null,
+        subdistrict: null,
+        location: item.location
+      }
+    if (type === 'district')
+      newState = {
+        city: findParentElement(item),
+        district: item,
+        subdistrict: null,
+        location: item.location
+      }
+    if (type === 'subdistrict') {
+      const itemDistrict = findParentElement(item)
+      newState = {
+        city: findParentElement(itemDistrict),
+        district: itemDistrict,
+        subdistrict: item,
+        location: item.location
+      }
+    }
+    if (type === 'country')
+      newState = {
+        city: null,
+        district: null,
+        subdistrict: null,
+        location: []
+      }
+
+    setState(newState)
+  }
 
   // Update division list
   useEffect(() => {
@@ -73,10 +142,10 @@ const Division = ({
       city: city ? city.name : '',
       district: district ? district.name : '',
       subdistrict: subdistrict ? subdistrict.name : '',
-      location: { lat: '', lng: '' }
+      location: [0, 0],
+      cityLocation: [location[1], location[0]]
     })
     handleCloseModal()
-    changeMapCenter([location[1], location[0]])
   }
 
   const getTitle = () => {
@@ -88,7 +157,15 @@ const Division = ({
   return (
     <FadeInDiv className="divisions-container" ref={containerRef}>
       <Fragment>
-        <DivisionLevel divisionState={state} updateDivisionState={setState} />
+        <SearchDivision
+          onDivisionSelect={onDivisionSelect}
+          localities={localities}
+        />
+        <DivisionLevel
+          divisionState={state}
+          localities={localities}
+          onDivisionSelect={onDivisionSelect}
+        />
         {!city ? (
           <Fragment>
             {/* Country cities */}
@@ -96,15 +173,13 @@ const Division = ({
             <DivisionList
               items={countryCities}
               cities={true}
-              divisionState={state}
-              updateDivisionState={setState}
+              onDivisionSelect={onDivisionSelect}
             />
             {/* Country districts */}
             <h1 className="text-secondary">Районы</h1>
             <DivisionList
               items={countryDistricts}
-              divisionState={state}
-              updateDivisionState={setState}
+              onDivisionSelect={onDivisionSelect}
             />
             {/* Autonomous Republic */}
             <h1 className="text-secondary mt-1">
@@ -113,14 +188,12 @@ const Division = ({
             <DivisionList
               items={autonomousRepublic[0].cities}
               cities={true}
-              divisionState={state}
-              updateDivisionState={setState}
+              onDivisionSelect={onDivisionSelect}
             />
             <div className="mt-1">
               <DivisionList
                 items={autonomousRepublic[0].districts}
-                divisionState={state}
-                updateDivisionState={setState}
+                onDivisionSelect={onDivisionSelect}
               />
             </div>
           </Fragment>
@@ -139,8 +212,8 @@ const Division = ({
             </div>
             <DivisionList
               items={divisionItems}
-              divisionState={state}
-              updateDivisionState={setState}
+              localities={localities}
+              onDivisionSelect={onDivisionSelect}
             />
           </Fragment>
         )}
@@ -154,13 +227,7 @@ const Division = ({
 
 Division.propTypes = {
   updatePostFormAttributes: PropTypes.func.isRequired,
-  changeMapCenter: PropTypes.func.isRequired,
   handleCloseModal: PropTypes.func.isRequired
 }
 
 export default connect(null, { updatePostFormAttributes })(Division)
-
-/* Country cities */
-/* <div>
-
-</div> */
