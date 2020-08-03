@@ -10,6 +10,10 @@ import Location from './location/_location.component'
 import PostSkeleton from './postSkeleton/postSkeleton.component'
 import { connect } from 'react-redux'
 import { getPost } from '../../../actions/post'
+import {
+  renderLeftNav,
+  renderRightNav
+} from '../../layout/arrowButtons/galleryButtons.component'
 import PropTypes from 'prop-types'
 
 import './post.style.scss'
@@ -40,6 +44,8 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
           useTranslate3D={false}
           slideOnThumbnailOver={true}
           lazyLoad={true}
+          renderLeftNav={renderLeftNav}
+          renderRightNav={renderRightNav}
         />
         <div className="px-2">
           <MainInfo post={post} />

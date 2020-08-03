@@ -3,10 +3,10 @@ import Auth from './auth.component'
 
 import './auth.style.scss'
 
-const AuthForm = ({ history }) => {
+const AuthForm = () => {
   return (
     <div className="auth-background">
-      <Auth history={history} />
+      <Auth />
     </div>
   )
 }

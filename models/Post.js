@@ -15,6 +15,7 @@ const PostSchema = new mongoose.Schema({
   houseNumber: String,
   location: [Number, Number],
   estateType: String,
+  dealType: String,
   rooms: Number,
   sqm: Number,
   livingRoomsSqm: Number,

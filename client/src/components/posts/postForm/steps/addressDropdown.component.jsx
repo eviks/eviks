@@ -1,8 +1,25 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useRef, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 import PropTypes from 'prop-types'
 
 import '../postForm.style.scss'
+
+const useClickOutside = (ref, onOutsideClick) => {
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        onOutsideClick([])
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [ref, onOutsideClick])
+}
 
 const FadeInAnimation = keyframes`{
    0% {
@@ -23,18 +40,21 @@ const DropdownItem = ({ listItem: { addr, x, y }, updatePlacemark }) => {
   return (
     <li
       className="dropdown-address-item"
-      onClick={() => updatePlacemark([x, y], true)}
+      onClick={() => updatePlacemark([x, y], true, addr)}
     >
       {addr}
     </li>
   )
 }
 
-const AddressDropdown = ({ list, updatePlacemark }) => {
+const AddressDropdown = ({ list, setDropdownList, updatePlacemark }) => {
+  const ref = useRef(null)
+  useClickOutside(ref, setDropdownList)
+
   return (
     <Fragment>
       {list.length > 0 && (
-        <FadeInUl className="dropdown-address">
+        <FadeInUl ref={ref} className="dropdown-address">
           {list.map((listItem, index) => (
             <DropdownItem
               key={index}
@@ -50,6 +70,7 @@ const AddressDropdown = ({ list, updatePlacemark }) => {
 
 AddressDropdown.propTypes = {
   list: PropTypes.array.isRequired,
+  setDropdownList: PropTypes.func.isRequired,
   updatePlacemark: PropTypes.func.isRequired
 }
 

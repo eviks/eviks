@@ -39,6 +39,7 @@ export default {
     cityLocation: [49.9673008918762, 40.4929150268958],
     location: [0, 0],
     estateType: '',
+    dealType: '',
     rooms: 0,
     sqm: 0,
     livingRoomsSqm: 0,
@@ -80,7 +81,7 @@ export default {
     userName: '',
     contact: ''
   },
-  formSteps: { currentStep: 1, totalSteps: 7 },
+  formSteps: { currentStep: 0, totalSteps: 7 },
   validationErrors: {},
   newPostCreated: false,
   error: {}

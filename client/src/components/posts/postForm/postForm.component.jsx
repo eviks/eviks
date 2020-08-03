@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
 import PostOpenlayersMap from './steps/postOpenlayersMap.component'
@@ -36,9 +37,10 @@ const PostForm = ({
   setPostCreatedFlag,
   cleanPostForm,
   loading,
-  newPostCreated,
-  history
+  newPostCreated
 }) => {
+  const history = useHistory()
+
   const { currentStep, totalSteps } = formSteps
 
   const [files, setFiles] = useState([])
@@ -66,8 +68,7 @@ const PostForm = ({
     window.scrollTo(0, 0)
   }, [currentStep])
 
-  const onSubmit = async e => {
-    e.preventDefault()
+  const submitForm = async () => {
     addPost(postForm)
   }
 
@@ -118,7 +119,7 @@ const PostForm = ({
           <div className="tooltip-text">{t('createPost.clean')}</div>
         </div>
       </div>
-      <form onSubmit={e => onSubmit(e)} autoComplete="off">
+      <form onSubmit={event => event.preventDefault()} autoComplete="off">
         {renderSwitch()}
         <div className="form-button-box">
           {/* Back */}
@@ -134,7 +135,8 @@ const PostForm = ({
           {/* Next / Submit */}
           {currentStep === totalSteps ? (
             <button
-              type="submit"
+              type="button"
+              onClick={submitForm}
               className={`btn btn-primary ${loading && 'btn-loading'}`}
               disabled={loading}
             >

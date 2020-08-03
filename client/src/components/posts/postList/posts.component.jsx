@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Searchbar from './searchbar/searchbar.component'
 import SearchbarSmall from './searchbar/searchbarSmall.component'
@@ -19,9 +20,10 @@ const Posts = ({
   loading,
   getPosts,
   setSrearchFilters,
-  navRef,
-  history
+  navRef
 }) => {
+  const history = useHistory()
+
   const { result, pagination } = posts
 
   const [smallWidth, setSmallWidth] = useState(true)
@@ -78,11 +80,7 @@ const Posts = ({
 
   return (
     <div>
-      {width > 768 ? (
-        <Searchbar navRef={navRef} />
-      ) : (
-        <SearchbarSmall history={history} />
-      )}
+      {width > 768 ? <Searchbar navRef={navRef} /> : <SearchbarSmall />}
       {!loading && result.length === 0 ? (
         <div className="container-center">
           <div className="no-results-img" />
@@ -95,9 +93,7 @@ const Posts = ({
           <div className="cards-container">
             {loading
               ? getSkeletonItems()
-              : result.map(post => (
-                  <PostItem key={post._id} post={post} history={history} />
-                ))}
+              : result.map(post => <PostItem key={post._id} post={post} />)}
           </div>
           <Pagination
             pagination={pagination}

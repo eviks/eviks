@@ -73,12 +73,47 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   }
 }
 
+.image-gallery-icon {
+  opacity: 1;
+  color: $ig-white;
+  transition: all 0.2s ease-out;
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+  position: absolute;
+  z-index: 4;
+  transition: opacity 0.2s ease-in-out;
+  filter: drop-shadow(0 2px 2px lighten($ig-black, 10%));
+
+  @media (min-width: $ig-small-screen) {
+    // Don't hover on screens smaller than small
+    &:hover {
+      color: $primary-color;
+      .image-gallery-svg {
+        transform: scale(1.1);
+      }
+    }
+    opacity: 0;
+  }
+
+  &:focus {
+    // a11y support
+    outline: 2px solid $primary-color;
+  }
+}
+
 .image-gallery-using-mouse {
-  .arrow-wrapper-transparent {
+  .arrow-wrapper-transparent,
+  .image-gallery-icon {
     &:focus {
       outline: none;
     }
   }
+}
+
+.image-gallery-fullscreen-button {
 }
 
 .image-gallery-fullscreen-button,
@@ -211,7 +246,8 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   position: relative;
 
   &:hover {
-    .arrow-wrapper-transparent {
+    .arrow-wrapper-transparent,
+    .image-gallery-icon {
       opacity: 1;
     }
   }

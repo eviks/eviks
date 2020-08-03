@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Autosuggest from 'react-autosuggest'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 const SearchDivision = ({ onDivisionSelect, localities }) => {
@@ -46,8 +47,10 @@ const SearchDivision = ({ onDivisionSelect, localities }) => {
     onDivisionSelect(suggestion)
   }
 
+  const [t] = useTranslation()
+
   const inputProps = {
-    placeholder: 'Type something...',
+    placeholder: t('divisions.searchHint'),
     value,
     onChange
   }

@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import MaskedInput from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+import ButtonSpinner from '../../spinner/buttonSpinner.component'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 import './input.style.scss'
+
+const spinerStyle = {
+  position: 'absolute',
+  width: '20px',
+  bottom: '50%',
+  right: '1%',
+  transform: 'translateY(50%)'
+}
 
 const Input = ({
   fieldName,
@@ -14,7 +23,9 @@ const Input = ({
   onChange,
   onBlur,
   onFocus,
-  error = null
+  loading = false,
+  error = null,
+  forwardedRef
 }) => {
   const handleChange = event => {
     if (onChange) onChange(event)
@@ -37,14 +48,20 @@ const Input = ({
           {fieldName}
         </label>
       )}
-      <MaskedInput
-        mask={mask}
-        className={`input-field${main ? '-main' : ''} ${error ? 'error' : ''}`}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        {...options}
-      />
+      <div className="field-input-wrapper">
+        <MaskedInput
+          ref={forwardedRef}
+          mask={mask}
+          className={`input-field${main ? '-main' : ''} ${
+            error ? 'error' : ''
+          }`}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          {...options}
+        />
+        {loading && <ButtonSpinner style={spinerStyle} primary={true} />}
+      </div>
       {error && <div className="field-required">{t(error)}</div>}
     </div>
   )
@@ -73,7 +90,10 @@ Input.propTypes = {
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   main: PropTypes.bool,
+  loading: PropTypes.bool,
   error: PropTypes.string
 }
 
-export default Input
+export default forwardRef((props, ref) => (
+  <Input {...props} forwardedRef={ref} />
+))

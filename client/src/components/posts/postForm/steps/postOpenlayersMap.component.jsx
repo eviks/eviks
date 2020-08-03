@@ -1,10 +1,12 @@
 import React, { Fragment, useState, useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { updatePostFormAttributes } from '../../../../actions/post'
+import {
+  updatePostFormAttributes,
+  updateAddressSuggestions
+} from '../../../../actions/post'
 import DivisionSelect from './divisionSelect.component'
 import Input from '../../../layout/form/input/input.component'
 import AddressDropdown from './addressDropdown.component'
-import axios from 'axios'
 import { fromEPSG4326, toEPSG4326 } from 'ol/proj/epsg3857'
 import { initMap } from '../../../layout/mapAssets/initMap'
 import VectorLayerComponent from './VectorLayer.component'
@@ -23,10 +25,13 @@ const FadeInDiv = styled.div`
 
 const OpenlayersMap = ({
   postForm: { city, address, cityLocation },
+  loading,
   updatePostFormAttributes,
+  updateAddressSuggestions,
   validationErrors
 }) => {
   const mapRef = useRef(null)
+  const addressRef = useRef(null)
   const [map, setMap] = useState(null)
   const [dropdownList, setDropdownList] = useState([])
 
@@ -57,41 +62,17 @@ const OpenlayersMap = ({
     const duration = 500
     if (timerRef.current) clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => {
-      updateDropdownList(event.target.value)
+      updateAddressSuggestions(event.target.value, setDropdownList)
     }, duration)
   }
 
-  const updateDropdownList = async text => {
-    if (text.length < 3) {
-      setDropdownList([])
-      return
-    }
-
-    const config = {
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    }
-
-    try {
-      const res = await axios.post(
-        `https://cors-anywhere.herokuapp.com/https://gomap.az/maps/search/index/az?q=${text}&lon=${cityLocation[0]}&lat=${cityLocation[1]}`,
-        {},
-        config
-      )
-      const list = res.data.rows.slice(0, 4)
-      setDropdownList(list)
-    } catch (error) {
-      console.log(error.message)
-    }
-  }
-
-  const updatePlacemark = (coords, isEPSG4326 = false) => {
+  const updatePlacemark = (coords, isEPSG4326 = false, newAddress = null) => {
     const formattedCoords = isEPSG4326 ? coords : toEPSG4326(coords)
 
-    updatePostFormAttributes({
-      location: formattedCoords
-    })
+    let newAttributes = { location: formattedCoords }
+    if (newAddress) newAttributes.address = newAddress
+    if (addressRef.current) addressRef.current.inputElement.value = newAddress
+    updatePostFormAttributes(newAttributes)
 
     map.getView().animate({
       center: isEPSG4326 ? fromEPSG4326(coords) : coords,
@@ -112,6 +93,7 @@ const OpenlayersMap = ({
       {city && (
         <Fragment>
           <Input
+            ref={addressRef}
             mask={false}
             options={{
               type: 'text',
@@ -121,10 +103,12 @@ const OpenlayersMap = ({
               style: { width: '100%' }
             }}
             onChange={e => handleAddressChange(e)}
+            loading={loading}
             error={validationErrors.address}
           />
           <AddressDropdown
             list={dropdownList}
+            setDropdownList={setDropdownList}
             updatePlacemark={updatePlacemark}
           />
         </Fragment>
@@ -143,16 +127,18 @@ const OpenlayersMap = ({
 
 OpenlayersMap.propTypes = {
   postForm: PropTypes.object.isRequired,
-  updatePostFormAttributes: PropTypes.func.isRequired,
-  validationErrors: PropTypes.object.isRequired
+  loading: PropTypes.bool.isRequired,
+  validationErrors: PropTypes.object.isRequired,
+  updatePostFormAttributes: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   postForm: state.post.postForm,
-  validationErrors: state.post.validationErrors,
-  updatePostFormAttributes: PropTypes.func.isRequired
+  loading: state.async.loading,
+  validationErrors: state.post.validationErrors
 })
 
-export default connect(mapStateToProps, { updatePostFormAttributes })(
-  OpenlayersMap
-)
+export default connect(mapStateToProps, {
+  updatePostFormAttributes,
+  updateAddressSuggestions
+})(OpenlayersMap)

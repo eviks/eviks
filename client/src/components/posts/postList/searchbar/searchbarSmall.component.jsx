@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getPosts } from '../../../../actions/post'
 import AllFilters from '../allFilters/allFilters.component'
@@ -9,7 +10,9 @@ import PropTypes from 'prop-types'
 
 import './searchbar.style.scss'
 
-const SearchbarSmall = ({ filters, getPosts, history }) => {
+const SearchbarSmall = ({ filters, getPosts }) => {
+  const history = useHistory()
+
   const [showAllFilters, toggleAllFilters] = useState(false)
 
   const handleOnClick = () => {
@@ -47,8 +50,7 @@ const SearchbarSmall = ({ filters, getPosts, history }) => {
 
 SearchbarSmall.propTypes = {
   filters: PropTypes.object.isRequired,
-  getPosts: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  getPosts: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

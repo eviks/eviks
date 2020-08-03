@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import uuid from 'uuid'
 
+import './swipeBlock.style.scss'
+
 const SwipeBlock = () => {
   const swipeBlockRef = useRef(null)
   const [list, setList] = useState([
@@ -45,7 +47,7 @@ const SwipeBlock = () => {
   return (
     <div>
       <div className="swipe-block-header">
-        <h2>{t('landing.newListings')}</h2>
+        <h4 className="lead-2x px-05">{t('landing.newListings')}</h4>
         <div className="arrows-block">
           <ArrowButton
             type={'left'}

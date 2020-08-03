@@ -29,7 +29,10 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
     const fieldValue = type === 'checkbox' ? event.target.checked : value
 
     const newAttributes = {
-      [name]: parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+      [name]:
+        typeof fieldValue === 'number'
+          ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
+          : fieldValue
     }
 
     updatePostFormAttributes(newAttributes)

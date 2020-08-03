@@ -97,6 +97,41 @@ export const formPrevStep = newStep => async dispatch => {
   dispatch({ type: FORM_PREV_STEP, payload: newStep })
 }
 
+// Update address suggestions
+export const updateAddressSuggestions = (text, setDropdownList) => async (
+  dispatch,
+  getState
+) => {
+  const state = getState()
+  const cityLocation = state.post.postForm.cityLocation
+
+  if (text.length < 3) {
+    setDropdownList([])
+    return
+  }
+
+  const config = {
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  }
+
+  dispatch(asyncActionStart())
+
+  try {
+    const res = await axios.post(
+      `https://cors-anywhere.herokuapp.com/https://gomap.az/maps/search/index/az?q=${text}&lon=${cityLocation[0]}&lat=${cityLocation[1]}`,
+      {},
+      config
+    )
+    const list = res.data.rows.slice(0, 4)
+    setDropdownList(list)
+    dispatch(asyncActionFinish())
+  } catch (error) {
+    dispatch(asyncActionError())
+  }
+}
+
 // Upload photo
 export const uploadPhoto = (data, photoId) => async dispatch => {
   const config = {

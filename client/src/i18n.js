@@ -39,6 +39,9 @@ const resources = {
         logout: 'Выйти',
         joinOrSignIn: 'Вход и регистрация'
       },
+      divisions: {
+        searchHint: 'Город или район'
+      },
       auth: {
         login: 'Вход',
         register: 'Регистрация',
@@ -81,7 +84,14 @@ const resources = {
         slogan: 'Мы поможем найти то, что подходит именно вам',
         search: 'Найти',
         sell: 'Продать',
-        newListings: 'Новые объявления'
+        quickLinks: 'Быстрые ссылки',
+        newListings: 'Новые объявления',
+        oneRoom: '1-комнатные',
+        twoRoom: '2-комнатные',
+        threeRoom: '3-комнатные',
+        documented: 'Имеется купчая',
+        buyAppartment: 'Купить квартиру',
+        buyHouse: 'Купить дом'
       },
       post: {
         title: {
@@ -204,10 +214,10 @@ const resources = {
           estateType: 'Вид недвижимости',
           apartment: 'Квартира',
           house: 'Дом',
-          city: 'Город',
-          cityField: 'Выберите ваш город',
-          district: 'Район',
-          districtField: 'Выберите ваш район'
+          dealType: 'Тип сделки',
+          sell: 'Продать',
+          rent: 'Сдать',
+          rentPerDay: 'Сдать посуточно'
         },
         mapInfo: {
           title: 'Адрес',

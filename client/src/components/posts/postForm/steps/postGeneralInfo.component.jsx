@@ -16,6 +16,7 @@ const FadeInDiv = styled.div`
 const PostGeneralInfo = ({
   userType,
   estateType,
+  dealType,
   updatePostFormAttributes,
   validationErrors
 }) => {
@@ -67,6 +68,39 @@ const PostGeneralInfo = ({
     }
   ]
 
+  const dealTypeOptions = [
+    {
+      input: {
+        id: 'sell',
+        name: 'dealType',
+        type: 'radio',
+        value: 'sell',
+        checked: dealType === 'sell'
+      },
+      label: t('createPost.generalInfo.sell')
+    },
+    {
+      input: {
+        id: 'rent',
+        name: 'dealType',
+        type: 'radio',
+        value: 'rent',
+        checked: dealType === 'rent'
+      },
+      label: t('createPost.generalInfo.rent')
+    },
+    {
+      input: {
+        id: 'rentPerDay',
+        name: 'dealType',
+        type: 'radio',
+        value: 'rentPerDay',
+        checked: dealType === 'rentPerDay'
+      },
+      label: t('createPost.generalInfo.rentPerDay')
+    }
+  ]
+
   return (
     <FadeInDiv className="px-4">
       <h3 className="step-title my-1">{t('createPost.generalInfo.title')}</h3>
@@ -84,6 +118,13 @@ const PostGeneralInfo = ({
         onChange={e => updatePostFormAttributes({ estateType: e.target.value })}
         error={validationErrors.estateType}
       />
+      {/* Deal type */}
+      <SwitchInput
+        fieldName={t('createPost.generalInfo.dealType')}
+        options={dealTypeOptions}
+        onChange={e => updatePostFormAttributes({ dealType: e.target.value })}
+        error={validationErrors.dealType}
+      />
     </FadeInDiv>
   )
 }
@@ -91,6 +132,7 @@ const PostGeneralInfo = ({
 PostGeneralInfo.propTypes = {
   userType: PropTypes.string.isRequired,
   estateType: PropTypes.string.isRequired,
+  dealType: PropTypes.string.isRequired,
   updatePostFormAttributes: PropTypes.func.isRequired,
   validationErrors: PropTypes.object.isRequired
 }
@@ -98,6 +140,7 @@ PostGeneralInfo.propTypes = {
 const mapStateToProps = state => ({
   userType: state.post.postForm.userType,
   estateType: state.post.postForm.estateType,
+  dealType: state.post.postForm.dealType,
   validationErrors: state.post.validationErrors
 })
 

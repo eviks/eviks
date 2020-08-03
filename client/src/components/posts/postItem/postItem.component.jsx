@@ -1,6 +1,10 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import ImageGallery from 'react-image-gallery'
-import ArrowButton from '../../layout/arrowButtons/arrowButton.component'
+import {
+  renderLeftNav,
+  renderRightNav
+} from '../../layout/arrowButtons/galleryButtons.component'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -23,9 +27,9 @@ const PostItem = ({
     photos,
     documented,
     mortgage
-  },
-  history
+  }
 }) => {
+  const history = useHistory()
   const [t] = useTranslation()
 
   const redirectToPost = () => history.push(`/posts/${_id}`)
@@ -36,30 +40,6 @@ const PostItem = ({
 
   const getPostPhotos = () => {
     return photos.map(photo => ({ original: photo.thumb }))
-  }
-
-  const renderLeftNav = (onClick, disabled) => {
-    return (
-      <ArrowButton
-        type="left"
-        onClick={onClick}
-        disabled={disabled}
-        classNameWrapper="arrow-wrapper-transparent arrow-wrapper-transparent-left"
-        classNameButton="arrow-btn-transparent"
-      />
-    )
-  }
-
-  const renderRightNav = (onClick, disabled) => {
-    return (
-      <ArrowButton
-        type="right"
-        onClick={onClick}
-        disabled={disabled}
-        classNameWrapper="arrow-wrapper-transparent arrow-wrapper-transparent-right"
-        classNameButton="arrow-btn-transparent"
-      />
-    )
   }
 
   return (
@@ -113,8 +93,7 @@ const PostItem = ({
 }
 
 PostItem.propTypes = {
-  post: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired
 }
 
 export default PostItem

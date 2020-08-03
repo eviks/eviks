@@ -43,7 +43,7 @@
 }
 
 .shadow-border {
-  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
 }
 
 // Buttons
@@ -181,6 +181,10 @@
     font-size: 0.8rem;
     color: $danger-color;
   }
+
+  &-input-wrapper {
+    position: relative;
+  }
 }
 
 // Toggle radio button
@@ -286,6 +290,10 @@ input[type='radio'].toggle {
 
 // Padding & margin
 .px {
+  &-05 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
   &-2 {
     padding-left: 2rem;
     padding-right: 2rem;
@@ -318,6 +326,9 @@ input[type='radio'].toggle {
   }
   &-1 {
     margin-bottom: 1rem;
+  }
+  &-2 {
+    margin-bottom: 2rem;
   }
 }
 
