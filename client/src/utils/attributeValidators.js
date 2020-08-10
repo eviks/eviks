@@ -1,5 +1,6 @@
 export const descriptionIsValid = ({ description }) => {
-  return description.length >= 100
+  const value = description
+  return value.replace(/\s+/g, '').length >= 50
 }
 
 export const photosAreValid = ({ photos }) => {

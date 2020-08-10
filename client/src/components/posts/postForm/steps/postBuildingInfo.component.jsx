@@ -63,6 +63,7 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
         options={{
           type: 'text',
           name: 'ceilingHeight',
+          placeholder: '2,2',
           value: ceilingHeight === 0 ? '' : ceilingHeight,
           min: '0'
         }}

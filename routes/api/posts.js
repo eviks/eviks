@@ -185,7 +185,7 @@ router.post(
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select('-password')
-      const post = new Post({ ...req.body, user, userName: user.displayName })
+      const post = new Post({ ...req.body, user })
       await post.save()
 
       res.json(post)

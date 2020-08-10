@@ -1,4 +1,5 @@
 import React, { Fragment, useRef, useEffect } from 'react'
+import DropdownItem from './dropdownItem.component'
 import styled, { keyframes } from 'styled-components'
 import PropTypes from 'prop-types'
 
@@ -36,18 +37,7 @@ const FadeInUl = styled.ul`
   animation: 0.5s ${FadeInAnimation};
 `
 
-const DropdownItem = ({ listItem: { addr, x, y }, updatePlacemark }) => {
-  return (
-    <li
-      className="dropdown-address-item"
-      onClick={() => updatePlacemark([x, y], true, addr)}
-    >
-      {addr}
-    </li>
-  )
-}
-
-const AddressDropdown = ({ list, setDropdownList, updatePlacemark }) => {
+const AddressDropdown = ({ list, setDropdownList }) => {
   const ref = useRef(null)
   useClickOutside(ref, setDropdownList)
 
@@ -56,11 +46,7 @@ const AddressDropdown = ({ list, setDropdownList, updatePlacemark }) => {
       {list.length > 0 && (
         <FadeInUl ref={ref} className="dropdown-address">
           {list.map((listItem, index) => (
-            <DropdownItem
-              key={index}
-              listItem={listItem}
-              updatePlacemark={updatePlacemark}
-            />
+            <DropdownItem key={index} listItem={listItem} />
           ))}
         </FadeInUl>
       )}
@@ -70,8 +56,7 @@ const AddressDropdown = ({ list, setDropdownList, updatePlacemark }) => {
 
 AddressDropdown.propTypes = {
   list: PropTypes.array.isRequired,
-  setDropdownList: PropTypes.func.isRequired,
-  updatePlacemark: PropTypes.func.isRequired
+  setDropdownList: PropTypes.func.isRequired
 }
 
 export default AddressDropdown

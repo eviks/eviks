@@ -7,9 +7,10 @@ import {
 import DivisionSelect from './divisionSelect.component'
 import Input from '../../../layout/form/input/input.component'
 import AddressDropdown from './addressDropdown.component'
-import { fromEPSG4326, toEPSG4326 } from 'ol/proj/epsg3857'
+import { fromEPSG4326 } from 'ol/proj/epsg3857'
 import { initMap } from '../../../layout/mapAssets/initMap'
 import VectorLayerComponent from './VectorLayer.component'
+import Spinner from '../../../layout/spinner/spinner.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
 import { useTranslation } from 'react-i18next'
@@ -24,8 +25,8 @@ const FadeInDiv = styled.div`
 `
 
 const OpenlayersMap = ({
-  postForm: { city, address, cityLocation },
-  loading,
+  postForm: { city, address, cityLocation, location },
+  async: { loading, loadingElements },
   updatePostFormAttributes,
   updateAddressSuggestions,
   validationErrors
@@ -47,9 +48,32 @@ const OpenlayersMap = ({
   }, [cityLocation])
 
   useEffect(() => {
-    if (mapRef.current)
-      setMap(initMap(mapRef.current, [49.867092, 40.409264], 12))
+    let mapCenter
+    let zoom
+
+    if (!mapRef.current) return
+
+    if (location[0] !== 0 && location[1] !== 0) {
+      mapCenter = location
+      zoom = 18
+    } else {
+      mapCenter = [49.867092, 40.409264]
+      zoom = 12
+    }
+    setMap(initMap(mapRef.current, mapCenter, zoom))
+    // eslint-disable-next-line
   }, [mapRef])
+
+  useEffect(() => {
+    if (map && location[0] !== 0 && location[1] !== 0) {
+      map.getView().animate({
+        center: fromEPSG4326(location),
+        zoom: 18,
+        duration: 1000
+      })
+    }
+    // eslint-disable-next-line
+  }, [location])
 
   // Timer for typing delay
   let timerRef = useRef(null)
@@ -64,21 +88,6 @@ const OpenlayersMap = ({
     timerRef.current = setTimeout(() => {
       updateAddressSuggestions(event.target.value, setDropdownList)
     }, duration)
-  }
-
-  const updatePlacemark = (coords, isEPSG4326 = false, newAddress = null) => {
-    const formattedCoords = isEPSG4326 ? coords : toEPSG4326(coords)
-
-    let newAttributes = { location: formattedCoords }
-    if (newAddress) newAttributes.address = newAddress
-    if (addressRef.current) addressRef.current.inputElement.value = newAddress
-    updatePostFormAttributes(newAttributes)
-
-    map.getView().animate({
-      center: isEPSG4326 ? fromEPSG4326(coords) : coords,
-      zoom: 18,
-      duration: 1000
-    })
   }
 
   const [t] = useTranslation()
@@ -102,23 +111,24 @@ const OpenlayersMap = ({
               placeholder: t('form.addressPlaceholder'),
               style: { width: '100%' }
             }}
-            onChange={e => handleAddressChange(e)}
+            onChange={handleAddressChange}
             loading={loading}
             error={validationErrors.address}
           />
           <AddressDropdown
             list={dropdownList}
             setDropdownList={setDropdownList}
-            updatePlacemark={updatePlacemark}
           />
         </Fragment>
       )}
-
       <div className="map-wrapper">
+        {loading && (
+          <div className="map-loading">
+            <Spinner className="map-loading-spinner" />
+          </div>
+        )}
         <div className="map" ref={mapRef}>
-          {map && (
-            <VectorLayerComponent map={map} updatePlacemark={updatePlacemark} />
-          )}
+          {map && <VectorLayerComponent map={map} />}
         </div>
       </div>
     </FadeInDiv>
@@ -127,14 +137,14 @@ const OpenlayersMap = ({
 
 OpenlayersMap.propTypes = {
   postForm: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
+  async: PropTypes.object.isRequired,
   validationErrors: PropTypes.object.isRequired,
   updatePostFormAttributes: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   postForm: state.post.postForm,
-  loading: state.async.loading,
+  async: state.async,
   validationErrors: state.post.validationErrors
 })
 

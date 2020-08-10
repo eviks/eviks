@@ -74,7 +74,7 @@ Input.defaultProps = {
     includeThousandsSeparator: false,
     thousandsSeparatorSymbol: ' ',
     allowDecimal: false,
-    decimalSymbol: '.',
+    decimalSymbol: ',',
     decimalLimit: 0, // how many digits allowed after the decimal
     integerLimit: 15, // limit length of integer numbers
     allowNegative: false,

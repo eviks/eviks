@@ -1,5 +1,9 @@
 import { ADD_POST, POST_ERROR } from '../actions/types'
-import { asyncActionError } from '../actions/async'
+import {
+  asyncActionStart,
+  asyncActionFinish,
+  asyncActionError
+} from '../actions/async'
 import axios from 'axios'
 
 const addPostMiddleware = ({ dispatch, getState }) => next => async action => {
@@ -7,6 +11,7 @@ const addPostMiddleware = ({ dispatch, getState }) => next => async action => {
     return next(action)
   }
 
+  dispatch(asyncActionStart())
   try {
     const config = {
       headers: {
@@ -17,6 +22,7 @@ const addPostMiddleware = ({ dispatch, getState }) => next => async action => {
     const res = await axios.post('/api/posts', action.payload, config)
     action.result = true
     dispatch({ type: ADD_POST, payload: res.data })
+    dispatch(asyncActionFinish())
     next(action)
   } catch (error) {
     dispatch(asyncActionError())

@@ -3,7 +3,9 @@ export default (formName, currentStep = null, estateType = null) => {
     case 'POST_FORM':
       switch (currentStep) {
         case 0:
-          return ['userType', 'estateType', 'dealType']
+          let fileds = ['userType', 'estateType', 'dealType']
+          if (estateType === 'apartment') fileds = [...fileds, 'apartmentType']
+          return fileds
         case 1:
           return ['city', 'address']
         case 2:

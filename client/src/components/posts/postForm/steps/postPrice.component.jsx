@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { updatePostFormAttributes } from '../../../../actions/post'
 import Input from '../../../layout/form/input/input.component'
@@ -20,7 +20,14 @@ const PostPrice = ({
   updatePostFormAttributes,
   validationErrors
 }) => {
-  const { price, bargain, progressPayment } = postForm
+  const {
+    dealType,
+    price,
+    bargain,
+    progressPayment,
+    prepayment,
+    municipalServices
+  } = postForm
 
   const onChange = event => {
     let { name, type, value } = event.target
@@ -51,7 +58,7 @@ const PostPrice = ({
     includeThousandsSeparator: true,
     thousandsSeparatorSymbol: ' ',
     allowDecimal: true,
-    decimalSymbol: '.',
+    decimalSymbol: ',',
     decimalLimit: 0, // how many digits allowed after the decimal
     integerLimit: 15, // limit length of integer numbers
     allowNegative: false,
@@ -81,17 +88,44 @@ const PostPrice = ({
         options={{ name: 'bargain', id: 'bargain', checked: bargain }}
         onChange={onChange}
       />
-      {/* Progress payment */}
-      <Checkbox
-        label={t('createPost.price.progressPayment')}
-        showFieldName={true}
-        options={{
-          name: 'progressPayment',
-          id: 'progressPayment',
-          checked: progressPayment
-        }}
-        onChange={onChange}
-      />
+      {dealType === 'sell' ? (
+        // Progress payment
+        <Checkbox
+          label={t('createPost.price.progressPayment')}
+          showFieldName={true}
+          options={{
+            name: 'progressPayment',
+            id: 'progressPayment',
+            checked: progressPayment
+          }}
+          onChange={onChange}
+        />
+      ) : (
+        <Fragment>
+          {/* Prepayment */}
+          <Checkbox
+            label={t('createPost.price.prepayment')}
+            showFieldName={true}
+            options={{
+              name: 'prepayment',
+              id: 'prepayment',
+              checked: prepayment
+            }}
+            onChange={onChange}
+          />
+          {/* Municipal services */}
+          <Checkbox
+            label={t('createPost.price.municipalServices')}
+            showFieldName={true}
+            options={{
+              name: 'municipalServices',
+              id: 'municipalServices',
+              checked: municipalServices
+            }}
+            onChange={onChange}
+          />
+        </Fragment>
+      )}
     </FadeInDiv>
   )
 }

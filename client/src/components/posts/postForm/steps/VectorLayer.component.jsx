@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
+import { getAddressByCoords } from '../../../../actions/post'
 import { Vector as VectorLayer } from 'ol/layer'
 import { connect } from 'react-redux'
-import { fromEPSG4326 } from 'ol/proj/epsg3857'
+import { fromEPSG4326, toEPSG4326 } from 'ol/proj/epsg3857'
 import VectorSource from 'ol/source/Vector'
 import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
@@ -18,7 +19,7 @@ const layer = new VectorLayer({ source })
 const VectorLayerComponent = ({
   map,
   postForm: { location },
-  updatePlacemark
+  getAddressByCoords
 }) => {
   useEffect(() => {
     if (location[0] === 0 || location[1] === 0) {
@@ -34,9 +35,13 @@ const VectorLayerComponent = ({
     }
   }, [location])
 
+  const onMapClick = event => {
+    getAddressByCoords(toEPSG4326(event.coordinate))
+  }
+
   const isMounted = useIsMount()
   if (isMounted) {
-    map.on('singleclick', event => updatePlacemark(event.coordinate))
+    map.on('singleclick', event => onMapClick(event))
     map.addLayer(layer)
   }
 
@@ -46,11 +51,13 @@ const VectorLayerComponent = ({
 VectorLayerComponent.propTypes = {
   map: PropTypes.object.isRequired,
   postForm: PropTypes.object.isRequired,
-  updatePlacemark: PropTypes.func.isRequired
+  getAddressByCoords: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   postForm: state.post.postForm
 })
 
-export default connect(mapStateToProps)(VectorLayerComponent)
+export default connect(mapStateToProps, { getAddressByCoords })(
+  VectorLayerComponent
+)

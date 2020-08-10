@@ -2,16 +2,17 @@ import React, { Fragment } from 'react'
 import spinner from './spinner.svg'
 import PropTypes from 'prop-types'
 
-const Spinner = ({ style }) => {
+const Spinner = ({ style, className }) => {
   return (
     <Fragment>
-      <img src={spinner} alt="Loading..." style={style} />
+      <img src={spinner} alt="Loading..." style={style} className={className} />
     </Fragment>
   )
 }
 
 Spinner.propTypes = {
-  style: PropTypes.object.isRequired
+  style: PropTypes.object,
+  className: PropTypes.string
 }
 
 export default Spinner

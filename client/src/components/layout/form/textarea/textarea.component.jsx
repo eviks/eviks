@@ -4,11 +4,17 @@ import PropTypes from 'prop-types'
 
 import './textarea.style.scss'
 
-const Textarea = ({ fieldName, options, onChange, error = null }) => {
+const Textarea = ({
+  fieldName,
+  options,
+  onChange,
+  error = null,
+  wrapperStyle = null
+}) => {
   const [t] = useTranslation()
 
   return (
-    <div className="field">
+    <div className="field" style={wrapperStyle}>
       <div className="field-name">{fieldName}</div>
       <textarea
         className={`textarea-field ${error ? 'error' : ''}`}
@@ -26,7 +32,8 @@ Textarea.propTypes = {
   fieldName: PropTypes.string,
   options: PropTypes.object,
   onChange: PropTypes.func,
-  error: PropTypes.string
+  error: PropTypes.string,
+  wrapperStyle: PropTypes.object
 }
 
 export default Textarea

@@ -195,7 +195,8 @@ const resources = {
       form: {
         addressPlaceholder: 'Улица, номер дома',
         requiredField: 'Это обязательное поле',
-        textareaMinLength: 'Описание должно содержать как минимум 100 символов'
+        textareaMinLength:
+          'Описание должно содержать как минимум буквенных 50 символов'
       },
       dropzone: {
         click: 'Добавить',
@@ -206,6 +207,8 @@ const resources = {
         back: 'Назад',
         next: 'Далее',
         submit: 'Разместить объявление',
+        postIsPublished: 'Ваше объявление опубликовано!',
+        success: 'Готово!',
         generalInfo: {
           title: 'Общая информация',
           userType: 'Кто вы?',
@@ -214,6 +217,9 @@ const resources = {
           estateType: 'Вид недвижимости',
           apartment: 'Квартира',
           house: 'Дом',
+          apartmentType: 'Новостройка или вторичка?',
+          newBuilding: 'Новостройка',
+          secondaryBuilding: 'Вторичка',
           dealType: 'Тип сделки',
           sell: 'Продать',
           rent: 'Сдать',
@@ -230,12 +236,12 @@ const resources = {
         estateInfo: {
           title: 'Информация о недвижимости',
           rooms: 'Количество комнат',
-          sqm: 'Общая полощадь',
-          livingRoomsSqm: 'Жилая площадь (необязательно)',
-          kitchenSqm: 'Площадь кухни (необязательно)',
+          sqm: 'Общая полощадь, м²',
+          livingRoomsSqm: 'Жилая площадь, м²',
+          kitchenSqm: 'Площадь кухни, м²',
           floor: 'Этаж',
           totalFloors: 'Всего этажей',
-          lotSqm: 'Площадь участка (соток)',
+          lotSqm: 'Площадь участка, соток',
           maintenance: 'Ремонт',
           redecorated: 'Косметический ремонт',
           designed: 'Дизайнерский ремонт',
@@ -245,14 +251,15 @@ const resources = {
           mortgage: 'Имеется кредит'
         },
         buildingInfo: {
-          title: 'Информация о здании (необязательно)',
-          ceilingHeight: 'Высота потолка',
+          title: 'Информация о здании',
+          ceilingHeight: 'Высота потолка, м',
           yearBuild: 'Год постройки',
           elevator: 'Лифт',
           parkingLot: 'Парковка'
         },
         additionalInfo: {
           title: 'Дополнительно',
+          description: 'Описание',
           hint:
             'Расскажите нам о вашем доме. Например, каким материалом отделан пол, какой вид открывается из окон или какие объекты расположены поблизости. Детальное описание снимет большинство вопросов потенциальных покупателей.',
           features:
@@ -274,13 +281,17 @@ const resources = {
           refrigerator: 'Холодильник',
           garage: 'Гараж',
           pool: 'Бассейн',
-          bathhouse: 'Баня'
+          bathhouse: 'Баня',
+          kidsAllowed: 'Можно с детьми',
+          petsAllowed: 'Можно с животными'
         },
         price: {
           title: 'Цена',
           price: 'Цена',
           bargain: 'Возможен торг',
-          progressPayment: 'Возможна оплата в несколько этапов'
+          progressPayment: 'Возможна оплата в несколько этапов',
+          prepayment: 'Предоплата',
+          municipalServices: 'Цена включает коммунальные услуги'
         },
         photos: {
           title: 'Добавьте несколько фотографий',

@@ -31,6 +31,7 @@ const PostEstateInfo = ({
     lotSqm,
     floor,
     totalFloors,
+    maintenance,
     redevelopment,
     documented,
     mortgage
@@ -42,7 +43,8 @@ const PostEstateInfo = ({
         id: 'redecorated',
         name: 'maintenance',
         type: 'radio',
-        value: 'redecorated'
+        value: 'redecorated',
+        checked: maintenance === 'redecorated'
       },
       label: t('createPost.estateInfo.redecorated')
     },
@@ -51,7 +53,8 @@ const PostEstateInfo = ({
         id: 'designed',
         name: 'maintenance',
         type: 'radio',
-        value: 'designed'
+        value: 'designed',
+        checked: maintenance === 'designed'
       },
       label: t('createPost.estateInfo.designed')
     },
@@ -60,7 +63,8 @@ const PostEstateInfo = ({
         id: 'noMaintenance',
         name: 'maintenance',
         type: 'radio',
-        value: 'noMaintenance'
+        value: 'noMaintenance',
+        checked: maintenance === 'noMaintenance'
       },
       label: t('createPost.estateInfo.noMaintenance')
     }

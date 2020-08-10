@@ -9,6 +9,7 @@
   display: block;
   padding: 0.385rem 0.5rem;
   min-height: 120px;
+  resize: vertical;
 
   &:focus {
     border: 1px solid $dark-color;

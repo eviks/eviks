@@ -24,7 +24,8 @@ const PostContact = ({
     if (userName === '') {
       updatePostFormAttributes({ userName: displayName })
     }
-  })
+    // eslint-disable-next-line
+  }, [])
 
   const [t] = useTranslation()
 
@@ -71,7 +72,8 @@ const PostContact = ({
           type: 'text',
           name: 'contact',
           value: contact,
-          placeholder: '+994 77 777-77-77'
+          placeholder: '+994 77 777-77-77',
+          style: { width: '200px' }
         }}
         onChange={e => updatePostFormAttributes({ contact: e.target.value })}
         error={validationErrors.contact}

@@ -3,6 +3,7 @@
 .checkbox-label {
   display: flex;
   flex-wrap: nowrap;
+  cursor: pointer;
 
   .checkmark {
     border: 1px solid $grey-color;
@@ -31,7 +32,6 @@
   input[type='checkbox'] {
     position: absolute;
     opacity: 0;
-    cursor: pointer;
     height: 0;
     width: 0;
   }

@@ -41,6 +41,8 @@ const PostForm = ({
 }) => {
   const history = useHistory()
 
+  const [t] = useTranslation()
+
   const { currentStep, totalSteps } = formSteps
 
   const [files, setFiles] = useState([])
@@ -48,7 +50,8 @@ const PostForm = ({
   // When component is mount newPostCreated is set to false
   useEffect(() => {
     setPostCreatedFlag(false)
-  })
+    // eslint-disable-next-line
+  }, [])
 
   // If new post created push to landing page
   useEffect(() => {
@@ -58,10 +61,15 @@ const PostForm = ({
         icon: <SuccessIcon />,
         status: 'info'
       }
-      toastr.light('Success', 'Your post is published', toastrOptions)
+      toastr.light(
+        t('createPost.success'),
+        t('createPost.postIsPublished'),
+        toastrOptions
+      )
       history.push('/')
     }
-  }, [newPostCreated, history])
+    // eslint-disable-next-line
+  }, [newPostCreated])
 
   // Scroll to top when step is changed
   useEffect(() => {
@@ -105,8 +113,6 @@ const PostForm = ({
         return <PostGeneralInfo />
     }
   }
-
-  const [t] = useTranslation()
 
   return (
     <div className="post-form-container px-2 shadow-border">

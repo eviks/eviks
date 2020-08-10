@@ -79,6 +79,11 @@ img {
   }
 }
 
+// TOASTR
+.redux-toastr .toastr .toastr-status.info {
+  background-color: $primary-color;
+}
+
 /* MEDIA QUERIES */
 
 /* MOBILE */

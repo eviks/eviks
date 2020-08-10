@@ -14,9 +14,7 @@ const FadeInDiv = styled.div`
 `
 
 const PostGeneralInfo = ({
-  userType,
-  estateType,
-  dealType,
+  postForm: { userType, estateType, apartmentType, dealType },
   updatePostFormAttributes,
   validationErrors
 }) => {
@@ -68,6 +66,29 @@ const PostGeneralInfo = ({
     }
   ]
 
+  const apartmentTypeOptions = [
+    {
+      input: {
+        id: 'newBuilding',
+        name: 'apartmentType',
+        type: 'radio',
+        value: 'newBuilding',
+        checked: apartmentType === 'newBuilding'
+      },
+      label: t('createPost.generalInfo.newBuilding')
+    },
+    {
+      input: {
+        id: 'secondaryBuilding',
+        name: 'apartmentType',
+        type: 'radio',
+        value: 'secondaryBuilding',
+        checked: apartmentType === 'secondaryBuilding'
+      },
+      label: t('createPost.generalInfo.secondaryBuilding')
+    }
+  ]
+
   const dealTypeOptions = [
     {
       input: {
@@ -101,6 +122,25 @@ const PostGeneralInfo = ({
     }
   ]
 
+  const onEstateTypeChange = e => {
+    const value = e.target.value
+    const newAttributes = { estateType: value }
+    if (value === 'house') newAttributes.apartmentType = ''
+    updatePostFormAttributes(newAttributes)
+  }
+
+  const onDealTypeChange = e => {
+    const value = e.target.value
+    const newAttributes = { dealType: value }
+    if (value === 'sell') {
+      newAttributes.kidsAllowed = false
+      newAttributes.petsAllowed = false
+      newAttributes.prepayment = false
+      newAttributes.municipalServices = false
+    }
+    updatePostFormAttributes(newAttributes)
+  }
+
   return (
     <FadeInDiv className="px-4">
       <h3 className="step-title my-1">{t('createPost.generalInfo.title')}</h3>
@@ -115,14 +155,25 @@ const PostGeneralInfo = ({
       <SwitchInput
         fieldName={t('createPost.generalInfo.estateType')}
         options={estateTypeOptions}
-        onChange={e => updatePostFormAttributes({ estateType: e.target.value })}
+        onChange={onEstateTypeChange}
         error={validationErrors.estateType}
       />
+      {/* Apartment type */}
+      {estateType === 'apartment' && (
+        <SwitchInput
+          fieldName={t('createPost.generalInfo.apartmentType')}
+          options={apartmentTypeOptions}
+          onChange={e =>
+            updatePostFormAttributes({ apartmentType: e.target.value })
+          }
+          error={validationErrors.apartmentType}
+        />
+      )}
       {/* Deal type */}
       <SwitchInput
         fieldName={t('createPost.generalInfo.dealType')}
         options={dealTypeOptions}
-        onChange={e => updatePostFormAttributes({ dealType: e.target.value })}
+        onChange={onDealTypeChange}
         error={validationErrors.dealType}
       />
     </FadeInDiv>
@@ -130,17 +181,13 @@ const PostGeneralInfo = ({
 }
 
 PostGeneralInfo.propTypes = {
-  userType: PropTypes.string.isRequired,
-  estateType: PropTypes.string.isRequired,
-  dealType: PropTypes.string.isRequired,
-  updatePostFormAttributes: PropTypes.func.isRequired,
-  validationErrors: PropTypes.object.isRequired
+  postForm: PropTypes.object.isRequired,
+  validationErrors: PropTypes.object.isRequired,
+  updatePostFormAttributes: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  userType: state.post.postForm.userType,
-  estateType: state.post.postForm.estateType,
-  dealType: state.post.postForm.dealType,
+  postForm: state.post.postForm,
   validationErrors: state.post.validationErrors
 })
 

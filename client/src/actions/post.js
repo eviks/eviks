@@ -16,6 +16,7 @@ import {
   CLEAN_FORM
 } from './types'
 import { setURLParams } from '../utils/urlParams'
+import { goMapGUID } from '../config'
 
 // Get posts
 export const getPosts = (page = 1, filters, history) => async dispatch => {
@@ -62,11 +63,8 @@ export const getPost = id => async dispatch => {
 // Add post
 export const addPost = data => async dispatch => {
   try {
-    dispatch(asyncActionStart())
     dispatch({ type: ADD_POST_API, payload: data })
-    dispatch(asyncActionFinish())
   } catch (error) {
-    dispatch(asyncActionError())
     dispatch({
       type: POST_ERROR,
       payload: {
@@ -129,6 +127,66 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
     dispatch(asyncActionFinish())
   } catch (error) {
     dispatch(asyncActionError())
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        message: error.response.statusText,
+        status: error.response
+      }
+    })
+  }
+}
+
+export const getAddressByCoords = coords => async dispatch => {
+  dispatch(asyncActionStart('mapIsLoading'))
+
+  const config = { headers: { 'Content-Type': 'application/json' } }
+
+  try {
+    const res = await axios.post(
+      'https://cors-anywhere.herokuapp.com/http://api.gomap.az/Main.asmx/getAddressByCoords',
+      {
+        guid: goMapGUID,
+        lng: 'az',
+        x: coords[0],
+        y: coords[1]
+      },
+      config
+    )
+
+    const data = JSON.parse(res.data.replace('{"d":null}', ''))
+
+    let newAttributes = {
+      city: '',
+      district: '',
+      subdistrict: '',
+      address: '',
+      location: coords
+    }
+
+    if (data.success) {
+      data.addr_components.forEach(addressComponent => {
+        if (addressComponent.type === 'country district')
+          newAttributes.city = addressComponent.name
+        if (addressComponent.type === 'settlement district')
+          newAttributes.district = addressComponent.name
+        if (addressComponent.type === 'settlement')
+          newAttributes.subdistrict = addressComponent.name
+        if (addressComponent.type === 'street')
+          newAttributes.address = addressComponent.name
+      })
+    }
+    dispatch(updatePostFormAttributes(newAttributes))
+    dispatch(asyncActionFinish('mapIsLoading'))
+  } catch (error) {
+    dispatch(asyncActionError('mapIsLoading'))
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        message: error.response.statusText,
+        status: error.response
+      }
+    })
   }
 }
 
