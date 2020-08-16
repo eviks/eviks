@@ -32,9 +32,9 @@ export default {
   },
   postForm: {
     userType: '',
-    city: '',
-    district: '',
-    subdistrict: '',
+    city: { name: '', id: '', location: [0, 0] },
+    district: { name: '', id: '', location: [0, 0] },
+    subdistrict: { name: '', id: '', location: [0, 0] },
     address: '',
     cityLocation: [49.9673008918762, 40.4929150268958],
     location: [0, 0],
@@ -86,7 +86,7 @@ export default {
     userName: '',
     contact: ''
   },
-  formSteps: { currentStep: 7, totalSteps: 7 },
+  formSteps: { currentStep: 1, totalSteps: 7 },
   validationErrors: {},
   newPostCreated: false,
   error: {}

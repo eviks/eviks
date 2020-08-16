@@ -12,7 +12,7 @@ const User = require('../../models/User')
 
 // @route GET api/auth
 // @desc  Get user info via token
-// @acess Public
+// @access Public
 router.get('/', async (req, res, next) => {
   passport.authenticate('jwt', (err, user, info) => {
     if (err) {
@@ -27,7 +27,7 @@ router.get('/', async (req, res, next) => {
 
 // @route POST api/auth
 // @desc  Authericate user & get user
-// @acess Public
+// @access Public
 router.post(
   '/',
   [
@@ -65,7 +65,7 @@ router.post(
 
 // @route POST api/auth/verification/:activationToken
 // @desc  Email verification
-// @acess Public
+// @access Public
 router.post('/verification/:activationToken', async (req, res, next) => {
   try {
     const { activationToken } = req.params
@@ -106,7 +106,7 @@ router.post('/verification/:activationToken', async (req, res, next) => {
 
 // @route POST api/auth/create_reset_password_token
 // @desc  Create reset password token
-// @acess Public
+// @access Public
 router.post(
   '/create_reset_password_token',
   [check('email', 'Please include a valid email').isEmail()],
@@ -188,7 +188,7 @@ router.post('/check_reset_password_token/:token', async (req, res) => {
 
 // @route POST api/auth/password_reset
 // @desc  Resets users password
-// @acess Public
+// @access Public
 router.post(
   '/password_reset/:token',
   [

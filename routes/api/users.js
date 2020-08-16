@@ -5,7 +5,7 @@ const passport = require('passport')
 
 // @route POST api/users
 // @desc  Register user
-// @acess Public
+// @access Public
 router.post(
   '/',
   [

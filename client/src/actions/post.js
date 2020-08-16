@@ -34,8 +34,7 @@ export const getPosts = (page = 1, filters, history) => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.response.statusText,
-        status: error.response.status
+        message: error.message
       }
     })
   }
@@ -53,8 +52,7 @@ export const getPost = id => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.response.statusText,
-        status: error.response.status
+        message: error.message
       }
     })
   }
@@ -68,8 +66,7 @@ export const addPost = data => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.response.statusText,
-        status: error.response
+        message: error.message
       }
     })
   }
@@ -101,12 +98,14 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
   getState
 ) => {
   const state = getState()
-  const cityLocation = state.post.postForm.cityLocation
+  const cityLocation = state.post.postForm.city.location
 
   if (text.length < 3) {
     setDropdownList([])
     return
   }
+
+  dispatch(asyncActionStart())
 
   const config = {
     headers: {
@@ -114,15 +113,15 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
     }
   }
 
-  dispatch(asyncActionStart())
-
   try {
     const res = await axios.post(
       `https://cors-anywhere.herokuapp.com/https://gomap.az/maps/search/index/az?q=${text}&lon=${cityLocation[0]}&lat=${cityLocation[1]}`,
       {},
       config
     )
-    const list = res.data.rows.slice(0, 4)
+    const list = res.data.rows
+      .filter(row => row.nm !== 'Yeni ünvan')
+      .slice(0, 5)
     setDropdownList(list)
     dispatch(asyncActionFinish())
   } catch (error) {
@@ -130,8 +129,7 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.response.statusText,
-        status: error.response
+        message: error.message
       }
     })
   }
@@ -140,7 +138,12 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
 export const getAddressByCoords = coords => async dispatch => {
   dispatch(asyncActionStart('mapIsLoading'))
 
-  const config = { headers: { 'Content-Type': 'application/json' } }
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  }
 
   try {
     const res = await axios.post(
@@ -179,12 +182,12 @@ export const getAddressByCoords = coords => async dispatch => {
     dispatch(updatePostFormAttributes(newAttributes))
     dispatch(asyncActionFinish('mapIsLoading'))
   } catch (error) {
+    console.log(error)
     dispatch(asyncActionError('mapIsLoading'))
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.response.statusText,
-        status: error.response
+        message: error.message
       }
     })
   }
@@ -209,8 +212,7 @@ export const uploadPhoto = (data, photoId) => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.response.statusText,
-        status: error.response
+        message: error.message
       }
     })
   }
@@ -228,8 +230,7 @@ export const deletePhoto = (photoId, filename) => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.response.statusText,
-        status: error.response
+        message: error.message
       }
     })
   }

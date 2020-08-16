@@ -34,3 +34,7 @@ export const SET_FILTER = 'SET_FILTER'
 export const REMOVE_FILTERS = 'REMOVE_FILTERS'
 export const CLEAN_FORM = 'CLEAN_FORM'
 export const POST_ERROR = 'POST_ERROR'
+// REGION
+export const GET_REGIONS = 'GET_REGIONS'
+export const GET_REGIONS_ERROR = 'GET_REGIONS_ERROR'
+export const CLEAR_REGIONS = 'CLEAR_REGIONS'

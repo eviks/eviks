@@ -25,7 +25,7 @@ const FadeInDiv = styled.div`
 `
 
 const OpenlayersMap = ({
-  postForm: { city, address, cityLocation, location },
+  postForm: { city, district, subdistrict, address, location },
   async: { loading, loadingElements },
   updatePostFormAttributes,
   updateAddressSuggestions,
@@ -36,16 +36,25 @@ const OpenlayersMap = ({
   const [map, setMap] = useState(null)
   const [dropdownList, setDropdownList] = useState([])
 
+  const getRegionLocation = () => {
+    if (subdistrict.id !== '') return subdistrict.location
+    if (district.id !== '') return district.location
+    if (city.id !== '') return city.location
+    return [49.867092, 40.409264]
+  }
+
+  const regionLocation = getRegionLocation()
+
   useEffect(() => {
-    if (map && cityLocation) {
+    if (map && regionLocation) {
       map.getView().animate({
-        center: fromEPSG4326(cityLocation),
+        center: fromEPSG4326(regionLocation),
         zoom: 13,
         duration: 1000
       })
     }
     // eslint-disable-next-line
-  }, [cityLocation])
+  }, [regionLocation])
 
   useEffect(() => {
     let mapCenter
@@ -57,7 +66,7 @@ const OpenlayersMap = ({
       mapCenter = location
       zoom = 18
     } else {
-      mapCenter = [49.867092, 40.409264]
+      mapCenter = regionLocation
       zoom = 12
     }
     setMap(initMap(mapRef.current, mapCenter, zoom))
@@ -99,28 +108,26 @@ const OpenlayersMap = ({
       {validationErrors.city && (
         <div className="field-required">{t(validationErrors.city)}</div>
       )}
-      {city && (
-        <Fragment>
-          <Input
-            ref={addressRef}
-            mask={false}
-            options={{
-              type: 'text',
-              name: 'address',
-              value: address,
-              placeholder: t('form.addressPlaceholder'),
-              style: { width: '100%' }
-            }}
-            onChange={handleAddressChange}
-            loading={loading}
-            error={validationErrors.address}
-          />
-          <AddressDropdown
-            list={dropdownList}
-            setDropdownList={setDropdownList}
-          />
-        </Fragment>
-      )}
+      <Fragment>
+        <Input
+          ref={addressRef}
+          mask={false}
+          options={{
+            type: 'text',
+            name: 'address',
+            value: address,
+            placeholder: t('form.addressPlaceholder'),
+            style: { width: '100%' }
+          }}
+          onChange={handleAddressChange}
+          loading={loading}
+          error={validationErrors.address}
+        />
+        <AddressDropdown
+          list={dropdownList}
+          setDropdownList={setDropdownList}
+        />
+      </Fragment>
       <div className="map-wrapper">
         {loading && (
           <div className="map-loading">

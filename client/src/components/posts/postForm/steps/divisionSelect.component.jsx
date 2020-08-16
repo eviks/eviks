@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import Division from '../../../layout/division/division.component'
+import Regions from '../../../layout/regions/regions.component'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -11,9 +11,10 @@ const DivisionSelect = ({ city, district, subdistrict }) => {
   const [t] = useTranslation()
 
   const getFullAddress = () => {
-    if (subdistrict) return `${city}, ${district}, ${subdistrict}`
-    if (district) return `${city}, ${district}`
-    if (city) return `${city}`
+    if (subdistrict.id !== '')
+      return `${city.name}, ${district.name}, ${subdistrict.name}`
+    if (district.id !== '') return `${city.name}, ${district.name}`
+    if (city.id !== '') return `${city.name}`
     return t('createPost.mapInfo.selectHint')
   }
 
@@ -38,7 +39,7 @@ const DivisionSelect = ({ city, district, subdistrict }) => {
         className="modal"
         overlayClassName="modal-overlay"
       >
-        <Division handleCloseModal={() => setOpenModal(false)} />
+        <Regions handleCloseModal={() => setOpenModal(false)} />
       </ReactModal>
     </div>
   )

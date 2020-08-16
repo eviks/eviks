@@ -26,7 +26,7 @@ const setMinMaxFilter = (selectedFilters, name, min, max) => {
 
 // @route GET api/posts
 // @desc  Get all posts
-// @acess Public
+// @access Public
 router.get('/', async (req, res) => {
   const filters = req.query
 
@@ -157,7 +157,7 @@ const getPaginatedResults = (req, pagination, selectedFilters) => {
 
 // @route GET api/posts/post/:id
 // @desc  Get single post
-// @acess Public
+// @access Public
 router.get('/post/:id', async (req, res) => {
   postId = req.params.id
 
@@ -166,19 +166,24 @@ router.get('/post/:id', async (req, res) => {
     return res.status(404).json({ errors: [{ message: 'Post not found' }] })
   }
 
-  const post = await Post.findById(postId)
+  try {
+    const post = await Post.findById(postId)
 
-  // Post not found
-  if (!post) {
-    return res.status(404).json({ errors: [{ message: 'Post not found' }] })
+    // Post not found
+    if (!post) {
+      return res.status(404).json({ errors: [{ message: 'Post not found' }] })
+    }
+
+    return res.json(post)
+  } catch (error) {
+    console.error(error.message)
+    return res.status(500).send('Server error...')
   }
-
-  return res.json(post)
 })
 
 // @route POST api/posts
 // @desc  Create post
-// @acess Private
+// @access Private
 router.post(
   '/',
   [passport.authenticate('jwt', { session: false })],
@@ -198,7 +203,7 @@ router.post(
 
 // @route POST api/posts/upload_photo
 // @desc  Upload photo
-// @acess Private
+// @access Private
 router.post(
   '/upload_photo',
   [
@@ -248,7 +253,7 @@ router.post(
 
 // @route DELETE api/posts/delete_photo/:id
 // @desc  Delete photo
-// @acess Private
+// @access Private
 router.delete(
   '/delete_photo/:id',
   [passport.authenticate('jwt', { session: false })],

@@ -1,0 +1,39 @@
+@import '../../../sass/config';
+
+.regions {
+  &-container {
+    background: $light-color;
+    border-radius: 8px;
+    width: 900px;
+    height: 500px;
+    padding: 3rem;
+    overflow: overlay;
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+
+    > button {
+      margin-left: 1rem;
+    }
+  }
+
+  &-list {
+    columns: 4 50px;
+  }
+
+  &-item {
+    display: table-row;
+    margin: 1rem 0;
+    break-inside: avoid-column;
+  }
+
+  &-loading-spinner {
+    position: absolute;
+    width: 50px;
+    transform: translate(50%, 50%);
+    right: 50%;
+    bottom: 50%;
+  }
+}
