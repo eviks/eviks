@@ -12,7 +12,7 @@ import {
   UPLOAD_PHOTO,
   DELETE_PHOTO,
   SET_FILTER,
-  REMOVE_FILTERS,
+  REMOVE_ALL_FILTERS,
   CLEAN_FORM
 } from '../actions/types'
 
@@ -20,7 +20,7 @@ export default function(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case GET_POSTS:
-      return { ...state, posts: payload }
+      return { ...state, posts: { ...state.posts, ...payload } }
     case GET_POST:
       return { ...state, post: payload }
     case ADD_POST:
@@ -76,12 +76,18 @@ export default function(state = initialState, action) {
     case SET_FILTER:
       return {
         ...state,
-        filters: { ...state.filters, ...payload }
+        posts: {
+          ...state.posts,
+          filters: { ...state.posts.filters, ...payload }
+        }
       }
-    case REMOVE_FILTERS:
+    case REMOVE_ALL_FILTERS:
       return {
         ...state,
-        filters: { ...initialState.filters }
+        posts: {
+          ...state.posts,
+          filters: { ...initialState.posts.filters, ...payload }
+        }
       }
     case CLEAN_FORM:
       return {

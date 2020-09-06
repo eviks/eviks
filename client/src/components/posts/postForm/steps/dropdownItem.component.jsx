@@ -1,27 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { updatePostFormAttributes } from '../../../../actions/post'
+import { getAddressByCoords } from '../../../../actions/post'
 import PropTypes from 'prop-types'
 
-const DropdownItem = ({
-  listItem: { addr, x, y },
-  updatePostFormAttributes
-}) => {
+const DropdownItem = ({ listItem: { nm, addr, x, y }, getAddressByCoords }) => {
   return (
     <li
       className="dropdown-address-item"
-      onClick={() =>
-        updatePostFormAttributes({ location: [x, y], address: addr })
-      }
+      onClick={() => getAddressByCoords([x, y])}
     >
-      {addr}
+      <span>{nm}</span>
+      <span className="small text-secondary">{addr}</span>
     </li>
   )
 }
 
 DropdownItem.propTypes = {
   listItem: PropTypes.object.isRequired,
-  updatePostFormAttributes: PropTypes.func.isRequired
+  getAddressByCoords: PropTypes.func.isRequired
 }
 
-export default connect(null, { updatePostFormAttributes })(DropdownItem)
+export default connect(null, { getAddressByCoords })(DropdownItem)

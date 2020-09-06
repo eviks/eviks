@@ -4,7 +4,7 @@ import {
   updatePostFormAttributes,
   updateAddressSuggestions
 } from '../../../../actions/post'
-import DivisionSelect from './divisionSelect.component'
+import RegionSelect from './regionSelect.component'
 import Input from '../../../layout/form/input/input.component'
 import AddressDropdown from './addressDropdown.component'
 import { fromEPSG4326 } from 'ol/proj/epsg3857'
@@ -25,36 +25,22 @@ const FadeInDiv = styled.div`
 `
 
 const OpenlayersMap = ({
-  postForm: { city, district, subdistrict, address, location },
+  postForm: { searchArea, address, location },
   async: { loading, loadingElements },
   updatePostFormAttributes,
   updateAddressSuggestions,
   validationErrors
 }) => {
   const mapRef = useRef(null)
-  const addressRef = useRef(null)
   const [map, setMap] = useState(null)
   const [dropdownList, setDropdownList] = useState([])
 
   const getRegionLocation = () => {
-    if (subdistrict.id !== '') return subdistrict.location
-    if (district.id !== '') return district.location
-    if (city.id !== '') return city.location
+    if (searchArea[0] !== 0 && searchArea[1] !== 0) return searchArea
     return [49.867092, 40.409264]
   }
 
   const regionLocation = getRegionLocation()
-
-  useEffect(() => {
-    if (map && regionLocation) {
-      map.getView().animate({
-        center: fromEPSG4326(regionLocation),
-        zoom: 13,
-        duration: 1000
-      })
-    }
-    // eslint-disable-next-line
-  }, [regionLocation])
 
   useEffect(() => {
     let mapCenter
@@ -74,10 +60,18 @@ const OpenlayersMap = ({
   }, [mapRef])
 
   useEffect(() => {
-    if (map && location[0] !== 0 && location[1] !== 0) {
+    if (!map) return
+
+    if (location[0] !== 0 && location[1] !== 0) {
       map.getView().animate({
         center: fromEPSG4326(location),
         zoom: 18,
+        duration: 1000
+      })
+    } else {
+      map.getView().animate({
+        center: fromEPSG4326(regionLocation),
+        zoom: 13,
         duration: 1000
       })
     }
@@ -104,13 +98,12 @@ const OpenlayersMap = ({
   return (
     <FadeInDiv className="step-map">
       <h3 className="step-title my-1">{t('createPost.mapInfo.title')}</h3>
-      <DivisionSelect />
+      <RegionSelect />
       {validationErrors.city && (
         <div className="field-required">{t(validationErrors.city)}</div>
       )}
       <Fragment>
         <Input
-          ref={addressRef}
           mask={false}
           options={{
             type: 'text',
@@ -129,7 +122,7 @@ const OpenlayersMap = ({
         />
       </Fragment>
       <div className="map-wrapper">
-        {loading && (
+        {loading && loadingElements.includes('mapIsLoading') && (
           <div className="map-loading">
             <Spinner className="map-loading-spinner" />
           </div>

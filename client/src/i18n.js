@@ -39,8 +39,12 @@ const resources = {
         logout: 'Выйти',
         joinOrSignIn: 'Вход и регистрация'
       },
-      divisions: {
-        searchHint: 'Город или район'
+      regions: {
+        question: {
+          text: 'Ваш город - Баку?',
+          yes: 'Все верно',
+          no: 'Другой город'
+        }
       },
       auth: {
         login: 'Вход',
@@ -190,7 +194,9 @@ const resources = {
           apartment: 'Квартира',
           house: 'Дом'
         },
-        room: 'комната'
+        room: 'комната',
+        documented: 'Есть купчая',
+        mortgage: 'Ипотека'
       },
       form: {
         addressPlaceholder: 'Улица, номер дома',

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import './buildingInfo.style.scss'
 
 const BuildingInfo = ({
-  post: { estateType, ceilingHeight, yearBuild, elevator, parkingLot },
+  post: { estateType, ceilingHeight, yearBuild, elevator, parkingLot }
 }) => {
   const [t] = useTranslation()
   return (
@@ -24,10 +24,10 @@ const BuildingInfo = ({
         )}
         {estateType === 'apartment' && (
           <Fragment>
-            {elevator != null && elevator !== 0 && (
+            {elevator && (
               <div className="building-info">{t('post.building.elevator')}</div>
             )}
-            {parkingLot != null && parkingLot !== 0 && (
+            {parkingLot && (
               <div className="building-info">
                 {t('post.building.parkingLot')}
               </div>
@@ -40,7 +40,7 @@ const BuildingInfo = ({
 }
 
 BuildingInfo.propTypes = {
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired
 }
 
 export default BuildingInfo

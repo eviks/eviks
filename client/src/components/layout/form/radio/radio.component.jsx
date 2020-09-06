@@ -8,12 +8,7 @@ const Radio = ({ options, size, onChange }) => {
     <Fragment>
       {options.map(option => (
         <label className="radio-container" key={option.input.id}>
-          <input
-            type="radio"
-            {...option.input}
-            onChange={e => onChange(e)}
-            onClick={e => onChange(e)}
-          />
+          <input type="radio" {...option.input} onChange={e => onChange(e)} />
           {option.icon ? (
             <Fragment>
               <div className={`checkmark checkmark-${size}`}>{option.icon}</div>

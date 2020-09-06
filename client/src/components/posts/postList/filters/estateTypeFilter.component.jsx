@@ -1,5 +1,6 @@
 import React from 'react'
-import { setSrearchFilters } from '../../../../actions/post'
+import { useHistory } from 'react-router-dom'
+import { updateURLParams } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import Radio from '../../../layout/form/radio/radio.component'
 import { useTranslation } from 'react-i18next'
@@ -7,14 +8,19 @@ import PropTypes from 'prop-types'
 
 import './filters.style.scss'
 
-const EstateTypeFilter = ({ filters, setSrearchFilters }) => {
+const EstateTypeFilter = ({ filters, updateURLParams }) => {
+  const history = useHistory()
+
   const { estateType } = filters
 
   const filtersOnChange = e => {
     const val = e.target.value
-    setSrearchFilters({
-      estateType: estateType === val || val === 'any' ? null : val
-    })
+    updateURLParams(
+      {
+        estateType: estateType === val || val === 'any' ? null : val
+      },
+      history
+    )
   }
 
   const [t] = useTranslation()
@@ -64,11 +70,11 @@ const EstateTypeFilter = ({ filters, setSrearchFilters }) => {
 
 EstateTypeFilter.propTypes = {
   filters: PropTypes.object.isRequired,
-  setSrearchFilters: PropTypes.func.isRequired
+  updateURLParams: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  filters: state.post.filters
+  filters: state.post.posts.filters
 })
 
-export default connect(mapStateToProps, { setSrearchFilters })(EstateTypeFilter)
+export default connect(mapStateToProps, { updateURLParams })(EstateTypeFilter)

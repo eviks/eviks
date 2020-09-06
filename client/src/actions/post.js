@@ -12,21 +12,20 @@ import {
   UPLOAD_PHOTO,
   DELETE_PHOTO,
   SET_FILTER,
-  REMOVE_FILTERS,
-  CLEAN_FORM
+  REMOVE_ALL_FILTERS,
+  CLEAN_FORM,
 } from './types'
 import { setURLParams } from '../utils/urlParams'
 import { goMapGUID } from '../config'
 
 // Get posts
-export const getPosts = (page = 1, filters, history) => async dispatch => {
+export const getPosts = filters => async dispatch => {
+  const filtersObj = { ...filters }
+  if (!filtersObj.page) filtersObj.page = 1
+  const url = setURLParams(filtersObj)
   try {
-    const url = setURLParams({ ...filters })
-    history.push(`?${url || ''}`)
     dispatch(asyncActionStart())
-    const res = await axios.get(
-      `api/posts/?${url && url + '&'}limit=${15}&page=${page}`
-    )
+    const res = await axios.get(`/api/posts/?${url && url + '&'}limit=${15}`)
     dispatch({ type: GET_POSTS, payload: res.data })
     dispatch(asyncActionFinish())
   } catch (error) {
@@ -98,7 +97,13 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
   getState
 ) => {
   const state = getState()
-  const cityLocation = state.post.postForm.city.location
+
+  let searchArea
+  if (state.post.postForm.searchArea) {
+    searchArea = state.post.postForm.searchArea
+  } else {
+    searchArea = state.post.postForm.location
+  }
 
   if (text.length < 3) {
     setDropdownList([])
@@ -115,10 +120,11 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
 
   try {
     const res = await axios.post(
-      `https://cors-anywhere.herokuapp.com/https://gomap.az/maps/search/index/az?q=${text}&lon=${cityLocation[0]}&lat=${cityLocation[1]}`,
+      `https://cors-anywhere.herokuapp.com/https://gomap.az/maps/search/index/az?q=${text}&lon=${searchArea[0]}&lat=${searchArea[1]}`,
       {},
       config
     )
+
     const list = res.data.rows
       .filter(row => row.nm !== 'Yeni ünvan')
       .slice(0, 5)
@@ -179,6 +185,13 @@ export const getAddressByCoords = coords => async dispatch => {
           newAttributes.address = addressComponent.name
       })
     }
+
+    // Check if district is empty
+    if (newAttributes.district === '' && newAttributes.subdistrict !== '') {
+      newAttributes.district = newAttributes.subdistrict
+      newAttributes.subdistrict = ''
+    }
+
     dispatch(updatePostFormAttributes(newAttributes))
     dispatch(asyncActionFinish('mapIsLoading'))
   } catch (error) {
@@ -241,9 +254,27 @@ export const setSrearchFilters = filters => async dispatch => {
   dispatch({ type: SET_FILTER, payload: filters })
 }
 
-// Remove all search filters
-export const removeFilters = () => async dispatch => {
-  dispatch({ type: REMOVE_FILTERS })
+// Remove all filters
+export const removeAllFilters = () => async dispatch => {
+  dispatch({ type: REMOVE_ALL_FILTERS })
+}
+
+// Update search parameters in URL
+export const updateURLParams = (newFilters, history, page = 1) => async (
+  dispatch,
+  getState
+) => {
+  const state = getState()
+
+  const filters = { ...state.post.posts.filters, ...newFilters }
+  delete filters.city
+  delete filters.dealType
+
+  delete filters.page
+  filters.page = page
+
+  const url = setURLParams(filters)
+  history.push(`?${url || ''}`)
 }
 
 // Clean post form attributes

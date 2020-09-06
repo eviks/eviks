@@ -21,6 +21,7 @@ const Regions = ({
   loading,
   regions,
   getRegions,
+  citySelectMode = false,
   clearRegions,
   updatePostFormAttributes,
   handleCloseModal
@@ -36,7 +37,7 @@ const Regions = ({
   const { city, district, subdistrict } = selectedRegion
 
   useEffect(() => {
-    getRegions({ Type: 2 })
+    getRegions({ type: 2 })
     return () => clearRegions()
     // eslint-disable-next-line
   }, [])
@@ -46,9 +47,9 @@ const Regions = ({
       setSelectedRegion({
         ...selectedRegion,
         [getTypeName(regions[0])]: {
-          name: regions[0].Name,
-          id: regions[0].ID,
-          location: [regions[0].X, regions[0].Y]
+          name: regions[0].name,
+          id: regions[0].id,
+          location: [regions[0].x, regions[0].y]
         }
       })
     }
@@ -66,10 +67,10 @@ const Regions = ({
   })
 
   const getTypeName = region => {
-    if (region.Type === '2') return 'city'
+    if (region.type === '2') return 'city'
     if (
-      region.Type === '8' ||
-      (region.Type === '32' && selectedRegion.district.id === '')
+      region.type === '8' ||
+      (region.type === '32' && selectedRegion.district.id === '')
     )
       return 'district'
     return 'subdistrict'
@@ -81,11 +82,19 @@ const Regions = ({
     if (city.id !== '') return city.name
   }
 
+  const getSearchArea = () => {
+    if (subdistrict.id !== '') return subdistrict.location
+    if (district.id !== '') return district.location
+    if (city.id !== '') return city.location
+  }
+
   const selectRegion = () => {
     updatePostFormAttributes({
-      city,
-      district,
-      subdistrict,
+      city: city.name,
+      district: district.name,
+      subdistrict: subdistrict.name,
+      address: '',
+      searchArea: getSearchArea(),
       location: [0, 0]
     })
     handleCloseModal()
@@ -111,13 +120,21 @@ const Regions = ({
                 city.id !== '' ? (
                   region.children &&
                   region.children.map(region => (
-                    <li key={region.ID} className="regions-item">
-                      <Region region={region} />
+                    <li key={region.id} className="regions-item">
+                      <Region
+                        region={region}
+                        citySelectMode={citySelectMode}
+                        handleCloseModal={handleCloseModal}
+                      />
                     </li>
                   ))
                 ) : (
-                  <li key={region.ID} className="regions-item">
-                    <Region region={region} />
+                  <li key={region.id} className="regions-item">
+                    <Region
+                      region={region}
+                      citySelectMode={citySelectMode}
+                      handleCloseModal={handleCloseModal}
+                    />
                   </li>
                 )
               )}
@@ -135,6 +152,7 @@ Regions.propTypes = {
   loading: PropTypes.bool.isRequired,
   regions: PropTypes.array.isRequired,
   getRegions: PropTypes.func.isRequired,
+  citySelectMode: PropTypes.bool,
   updatePostFormAttributes: PropTypes.func.isRequired,
   clearRegions: PropTypes.func.isRequired,
   handleCloseModal: PropTypes.func.isRequired

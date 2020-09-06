@@ -28,7 +28,7 @@ const Location = ({ location }) => {
 }
 
 Location.propTypes = {
-  location: PropTypes.object.isRequired
+  location: PropTypes.array.isRequired
 }
 
 export default Location

@@ -28,7 +28,7 @@ const VectorLayerComponent = ({ map, location }) => {
 
 VectorLayerComponent.propTypes = {
   map: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.array.isRequired
 }
 
 export default VectorLayerComponent

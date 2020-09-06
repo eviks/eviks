@@ -48,24 +48,6 @@
   }
 }
 
-.filters-transition-enter {
-  opacity: 0;
-  transform: translateY(-50%);
-}
-.filters-transition-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: all 400ms;
-}
-.filters-transition-exit {
-  opacity: 1;
-}
-.filters-transition-exit-active {
-  opacity: 0;
-  transform: translateY(-50%);
-  transition: all 400ms;
-}
-
 /* MEDIA QUERIES */
 
 /* TABLETS */

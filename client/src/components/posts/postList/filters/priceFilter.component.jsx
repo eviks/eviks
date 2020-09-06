@@ -1,5 +1,6 @@
 import React from 'react'
-import { setSrearchFilters } from '../../../../actions/post'
+import { useHistory } from 'react-router-dom'
+import { updateURLParams } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import MinMaxFilter from './minMaxFilter.component'
 import Checkbox from '../../../layout/form/checkbox/checkbox.component'
@@ -9,7 +10,9 @@ import PropTypes from 'prop-types'
 
 import './filters.style.scss'
 
-const PriceFilter = ({ filters, setSrearchFilters }) => {
+const PriceFilter = ({ filters, updateURLParams }) => {
+  const history = useHistory()
+
   const { bargain } = filters
 
   const filtersOnChange = e => {
@@ -17,12 +20,15 @@ const PriceFilter = ({ filters, setSrearchFilters }) => {
     const value = type === 'checkbox' ? e.target.checked : e.target.value
 
     if (typeof value === 'boolean') {
-      setSrearchFilters({ [name]: value })
+      updateURLParams({ [name]: value }, history)
     } else {
       const numericValue = value.replace(/\s/g, '').replace(/AZN/g, '')
-      setSrearchFilters({
-        [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
-      })
+      updateURLParams(
+        {
+          [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
+        },
+        history
+      )
     }
   }
 
@@ -73,11 +79,11 @@ const PriceFilter = ({ filters, setSrearchFilters }) => {
 
 PriceFilter.propTypes = {
   filters: PropTypes.object.isRequired,
-  setSrearchFilters: PropTypes.func.isRequired
+  updateURLParams: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  filters: state.post.filters
+  filters: state.post.posts.filters
 })
 
-export default connect(mapStateToProps, { setSrearchFilters })(PriceFilter)
+export default connect(mapStateToProps, { updateURLParams })(PriceFilter)

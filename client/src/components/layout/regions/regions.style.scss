@@ -36,4 +36,28 @@
     right: 50%;
     bottom: 50%;
   }
+
+  &-question-wrapper {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    z-index: 10;
+    background: $light-color;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+
+    .question {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .button-box {
+      display: flex;
+      flex-direction: row;
+
+      > .btn:last-child {
+        margin-left: 0.2rem;
+      }
+    }
+  }
 }

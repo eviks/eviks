@@ -54,7 +54,7 @@ MinMaxFilter.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  filters: state.post.filters
+  filters: state.post.posts.filters
 })
 
 export default connect(mapStateToProps)(MinMaxFilter)

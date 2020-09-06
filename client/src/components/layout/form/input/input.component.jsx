@@ -41,6 +41,8 @@ const Input = ({
 
   const [t] = useTranslation()
 
+  const defaultMask = value => value.split('').map(() => /./)
+
   return (
     <div className="field">
       {fieldName && (
@@ -51,7 +53,7 @@ const Input = ({
       <div className="field-input-wrapper">
         <MaskedInput
           ref={forwardedRef}
-          mask={mask}
+          mask={mask || defaultMask}
           className={`input-field${main ? '-main' : ''} ${
             error ? 'error' : ''
           }`}

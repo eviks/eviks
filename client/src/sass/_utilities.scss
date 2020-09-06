@@ -154,6 +154,27 @@
   }
 }
 
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.8rem;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  border-radius: 50%;
+  outline: none;
+  transition: all 0.2s;
+  overflow: hidden;
+  border: none;
+  color: lighten($dark-color, 30);
+  background: transparent;
+
+  &:hover {
+    background: $light-grey-color;
+  }
+}
+
 .link {
   cursor: pointer;
   background: none;
@@ -402,20 +423,39 @@ input[type='radio'].toggle {
     padding: 0.2rem 0;
     position: absolute;
     z-index: 1;
-    top: 150%;
-    left: 50%;
-    margin-left: -60px;
     transform: none;
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 100%;
+    &-bottom {
+      top: 150%;
       left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: transparent transparent $dark-color transparent;
+      margin-left: -60px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent $dark-color transparent;
+      }
+    }
+
+    &-left {
+      top: 0px;
+      right: 110%;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        margin-top: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent transparent $dark-color;
+      }
     }
   }
 
@@ -424,6 +464,24 @@ input[type='radio'].toggle {
       visibility: visible;
     }
   }
+}
+
+.vertical-transition-enter {
+  opacity: 0;
+  transform: translateY(-50%);
+}
+.vertical-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 400ms;
+}
+.vertical-transition-exit {
+  opacity: 1;
+}
+.vertical-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: all 400ms;
 }
 
 /* MEDIA QUERIES */

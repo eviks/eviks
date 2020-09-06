@@ -16,6 +16,7 @@ const PostItem = ({
     estateType,
     city,
     district,
+    subdistrict,
     sqm,
     lotSqm,
     rooms,
@@ -61,7 +62,9 @@ const PostItem = ({
         <div className="card-block">
           <div>
             <div className="lead-2x lead-bold">{`${priceStr} AZN`}</div>
-            <div className="lead-2x">{district}</div>
+            <div className="lead-2x">
+              {subdistrict ? subdistrict : district}
+            </div>
           </div>
           <div className="card-main-params">
             {sqm} m² | {rooms} {t('postList.room')} |{' '}
@@ -76,13 +79,19 @@ const PostItem = ({
           </div>
           <div className="card-features">
             {documented && (
-              <div className="card-feature">
+              <div className="card-feature tooltip">
                 <i className="fas fa-stamp"></i>
+                <div className="tooltip-text tooltip-text-left">
+                  {t('postList.documented')}
+                </div>
               </div>
             )}
             {mortgage && (
-              <div className="card-feature">
-                <i className="fas fa-coins"></i>
+              <div className="card-feature tooltip">
+                <i className="fas fa-percent"></i>
+                <div className="tooltip-text tooltip-text-left">
+                  {t('postList.mortgage')}
+                </div>
               </div>
             )}
           </div>

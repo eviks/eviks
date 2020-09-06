@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Searchbar from './searchbar/searchbar.component'
@@ -6,9 +6,12 @@ import SearchbarSmall from './searchbar/searchbarSmall.component'
 import Pagination from '../../layout/pagination/pagination.component'
 import PostItemSkeleton from '../postItemSkeleton/postItemSkeleton.component'
 import PostItem from '../postItem/postItem.component'
-import { getPosts, setSrearchFilters } from '../../../actions/post'
+import {
+  getPosts,
+  setSrearchFilters,
+  removeAllFilters
+} from '../../../actions/post'
 import useWindowDimensions from '../../../utils/hooks/useWindowDimensions'
-import useIsMount from '../../../utils/hooks/useIsMount'
 import { getURLParams } from '../../../utils/urlParams'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -16,10 +19,11 @@ import PropTypes from 'prop-types'
 import './posts.style.scss'
 
 const Posts = ({
-  post: { posts, filters },
+  posts,
   loading,
   getPosts,
   setSrearchFilters,
+  removeAllFilters,
   navRef
 }) => {
   const history = useHistory()
@@ -32,37 +36,34 @@ const Posts = ({
   if (width <= 768 && !smallWidth) setSmallWidth(true)
   if (width > 768 && smallWidth) setSmallWidth(false)
 
-  const isMounted = useIsMount()
-  let firstLoad = useRef(false)
-
-  if (isMounted) {
-    const query = history.location.search
-    if (query) {
-      firstLoad.current = true
-      const searchParams = Object.fromEntries(getURLParams(query))
-      setSrearchFilters(searchParams)
-    }
-  }
+  useEffect(() => {
+    return () => removeAllFilters()
+  }, [removeAllFilters])
 
   useEffect(() => {
-    if (smallWidth) {
-      if (
-        (isMounted && !history.location.search) ||
-        (!isMounted && firstLoad.current)
-      ) {
-        firstLoad.current = false
-        getPosts(1, filters, history)
-      }
-    } else {
-      if ((isMounted && !history.location.search) || !isMounted) {
-        getPosts(1, filters, history)
+    // City & deal type are required
+    const path = history.location.pathname
+    const pathArray = path.split('/')
+    let searchParams = { city: pathArray[1], dealType: pathArray[2] }
+
+    // Other filters
+    const query = history.location.search
+    if (query) {
+      searchParams = {
+        ...searchParams,
+        ...Object.fromEntries(getURLParams(query))
       }
     }
-    // eslint-disable-next-line
-  }, [getPosts, filters, history])
 
-  const handlePaginationOnClick = pageNumber => {
-    getPosts(pageNumber, filters, history)
+    // Update state
+    setSrearchFilters(searchParams)
+    getPosts(searchParams)
+
+    // eslint-disable-next-line
+  }, [history.location.search])
+
+  const handlePaginationOnClick = page => {
+    // getPosts({ ...filters, page }, history)
   }
 
   const getSkeletonItems = () => (
@@ -106,15 +107,20 @@ const Posts = ({
 }
 
 Posts.propTypes = {
-  post: PropTypes.object.isRequired,
+  posts: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
   setSrearchFilters: PropTypes.func.isRequired,
+  removeAllFilters: PropTypes.func.isRequired,
   loading: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
-  post: state.post,
+  posts: state.post.posts,
   loading: state.async.loading
 })
 
-export default connect(mapStateToProps, { getPosts, setSrearchFilters })(Posts)
+export default connect(mapStateToProps, {
+  getPosts,
+  setSrearchFilters,
+  removeAllFilters
+})(Posts)

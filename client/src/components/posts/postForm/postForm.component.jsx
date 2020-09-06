@@ -122,7 +122,9 @@ const PostForm = ({
           <div className="clean shadow-border" onClick={cleanPostForm}>
             <i className="fas fa-broom"></i>
           </div>
-          <div className="tooltip-text">{t('createPost.clean')}</div>
+          <div className="tooltip-text tooltip-text-bottom">
+            {t('createPost.clean')}
+          </div>
         </div>
       </div>
       <form onSubmit={event => event.preventDefault()} autoComplete="off">

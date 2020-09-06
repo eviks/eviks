@@ -19,7 +19,7 @@ const SearchbarSmall = ({ filters, getPosts }) => {
     if (!showAllFilters) {
       toggleAllFilters(true)
     } else {
-      getPosts(1, filters, history)
+      getPosts({ ...filters, page: 1 }, history)
       toggleAllFilters(false)
     }
   }
@@ -31,7 +31,7 @@ const SearchbarSmall = ({ filters, getPosts }) => {
       <CSSTransition
         in={showAllFilters}
         timeout={400}
-        classNames="filters-transition"
+        classNames="vertical-transition"
         unmountOnExit
       >
         <AllFilters toggleAllFilters={toggleAllFilters} />
@@ -54,7 +54,7 @@ SearchbarSmall.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  filters: state.post.filters
+  filters: state.post.posts.filters
 })
 
 export default connect(mapStateToProps, { getPosts })(SearchbarSmall)

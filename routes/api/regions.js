@@ -10,13 +10,13 @@ router.get('/', async (req, res) => {
   try {
     const regions = await Region.aggregate([
       { $match: req.query },
-      { $sort: { Name: 1 } }
+      { $sort: { name: 1 } }
     ])
 
     regions.forEach(
       region =>
         region.children &&
-        region.children.sort((a, b) => a.Name.localeCompare(b.Name))
+        region.children.sort((a, b) => a.name.localeCompare(b.name))
     )
 
     // Regions not found

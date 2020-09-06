@@ -1,9 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Ripple from '../../layout/ripple/ripple.component'
 import { useTranslation } from 'react-i18next'
+import PropTypes from 'prop-types'
 
-const Hero = () => {
+const Hero = ({ city }) => {
   const [t] = useTranslation()
   return (
     <section className="landing">
@@ -20,7 +22,7 @@ const Hero = () => {
               {t('landing.sell')}
               <Ripple />
             </Link>
-            <Link to="posts" className="btn btn-primary">
+            <Link to={`/${city.routeName}/sale`} className="btn btn-primary">
               {t('landing.search')}
               <Ripple />
             </Link>
@@ -31,4 +33,12 @@ const Hero = () => {
   )
 }
 
-export default Hero
+Hero.propTypes = {
+  city: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  city: state.region.currentRegion.city
+})
+
+export default connect(mapStateToProps)(Hero)

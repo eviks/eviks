@@ -115,6 +115,8 @@
     overflow: hidden;
 
     &-item {
+      display: flex;
+      flex-direction: column;
       cursor: pointer;
       padding: 0.5rem 0.8rem;
       border-bottom: 1px solid $light-grey-color;

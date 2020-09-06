@@ -13,17 +13,8 @@
 
   a,
   button {
-    color: $dark-color;
     margin: 0 0.25rem;
     padding: 0.45rem;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: color 0.4s;
-    &:hover {
-      color: $primary-color;
-    }
   }
 
   ul {
@@ -58,6 +49,17 @@
           }
         }
       }
+    }
+  }
+
+  .right-block {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .region-select {
+      margin-left: 1rem;
     }
   }
 }

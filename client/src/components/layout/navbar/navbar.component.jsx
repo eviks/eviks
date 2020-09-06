@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../../actions/auth'
 import Auth from '../../auth/auth.component'
+import RegionSelect from './regionSelect.component'
 import MenuButton from '../menuButton/menuButton.component'
 import ReactModal from 'react-modal'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
@@ -46,18 +47,18 @@ const Navbar = ({
   const authLinks = (
     <Fragment>
       <li>
-        <Link to="/">
+        <Link className="link" to="/">
           <i className="fas fa-heart"></i> {t('navbar.favorites')}
         </Link>
       </li>
       <li>
-        <Link to="/">
+        <Link className="link" to="/">
           <i className="fas fa-user"></i>{' '}
           {user && user.local && user.local.displayName}
         </Link>
       </li>
       <li>
-        <a href="#!" onClick={logout}>
+        <a className="link" href="#!" onClick={logout}>
           <i className="fas fa-sign-out-alt"></i> {t('navbar.logout')}
         </a>
       </li>
@@ -66,7 +67,7 @@ const Navbar = ({
 
   const guestLinks = location.pathname !== '/auth' && (
     <li>
-      <button onClick={() => handleOpenModal()}>
+      <button className="link" onClick={() => handleOpenModal()}>
         <i className="fas fa-sign-in-alt"></i> {t('navbar.joinOrSignIn')}
       </button>
     </li>
@@ -76,25 +77,32 @@ const Navbar = ({
     <Fragment>
       <nav className="navbar light-shadow-border" id="navbar" ref={navRef}>
         <MenuButton onClick={handleMenuToggle} />
-        <h1>
-          <Link to="/">
-            {' '}
-            <span className="text-primary">
+        <div className="right-block">
+          <h1>
+            <Link to="/">
               {' '}
-              <i className="fas fa-home"></i> Eviks{' '}
-            </span>
-          </Link>
-        </h1>
+              <span className="text-primary">
+                {' '}
+                <i className="fas fa-home"></i> Eviks{' '}
+              </span>
+            </Link>
+          </h1>
+          <RegionSelect />
+        </div>
         <ul className={showMenu ? 'checked' : ''} ref={ulRef}>
           {!loading && (
             <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
           )}
           <div className="lang">
             <li>
-              <button onClick={() => changeLanguage('az')}>AZ</button>
+              <button className="link" onClick={() => changeLanguage('az')}>
+                AZ
+              </button>
             </li>
             <li>
-              <button onClick={() => changeLanguage('ru')}>RU</button>
+              <button className="link" onClick={() => changeLanguage('ru')}>
+                RU
+              </button>
             </li>
           </div>
         </ul>

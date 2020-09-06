@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { connect } from 'react-redux'
-import { removeFilters } from '../../../../actions/post'
+import {removeAllFilters} from '../../../../actions/post'
+import {connect} from 'react-redux';
+import { useHistory } from 'react-router-dom'
 import FilterButton from '../filterButton/filterButton.component'
 import PriceFilter from '../filters/priceFilter.component'
 import RoomFilter from '../filters/roomFilter.component'
@@ -13,7 +14,9 @@ import './searchbar.style.scss'
 
 let prevScrollPos = window.pageYOffset
 
-const Searchbar = ({ navRef, removeFilters }) => {
+const Searchbar = ({ navRef, removeAllFilters }) => {
+  const history = useHistory()
+
   let containerRef = useRef(null)
 
   const [classes, setClasses] = useState('')
@@ -67,7 +70,8 @@ const Searchbar = ({ navRef, removeFilters }) => {
   }, [classes, navRef, filterIsOpen])
 
   const handleRemoveFilters = () => {
-    removeFilters()
+    removeAllFilters()
+    history.push('?')
   }
 
   return (
@@ -115,7 +119,7 @@ const Searchbar = ({ navRef, removeFilters }) => {
 
 Searchbar.propTypes = {
   navRef: PropTypes.object.isRequired,
-  removeFilters: PropTypes.func.isRequired
+  removeAllFilters: PropTypes.func.isRequired,
 }
 
-export default connect(null, { removeFilters })(Searchbar)
+export default connect(null, {removeAllFilters})(Searchbar)
