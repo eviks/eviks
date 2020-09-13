@@ -89,7 +89,7 @@ const PostAdditionalInfo = ({
       </div>
       <p className="my-1 medium">{t('createPost.additionalInfo.features')}</p>
       <div className="grid-container">
-        {dealType !== 'sell' && (
+        {dealType !== 'sale' && (
           <Fragment>
             {/* Kids allowed */}
             <CheckboxCard

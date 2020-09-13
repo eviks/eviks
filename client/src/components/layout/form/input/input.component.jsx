@@ -27,15 +27,15 @@ const Input = ({
   error = null,
   forwardedRef
 }) => {
-  const handleChange = event => {
+  const handleOnChange = event => {
     if (onChange) onChange(event)
   }
 
-  const handleBlur = event => {
+  const handleOnBlur = event => {
     if (onBlur) onBlur(event)
   }
 
-  const handleFocus = event => {
+  const handleOnFocus = event => {
     if (onFocus) onFocus(event)
   }
 
@@ -57,9 +57,9 @@ const Input = ({
           className={`input-field${main ? '-main' : ''} ${
             error ? 'error' : ''
           }`}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          onFocus={handleFocus}
+          onChange={handleOnChange}
+          onBlur={handleOnBlur}
+          onFocus={handleOnFocus}
           {...options}
         />
         {loading && <ButtonSpinner style={spinerStyle} primary={true} />}

@@ -34,18 +34,7 @@ const QuickFilter = ({
   const [t] = useTranslation()
 
   return (
-    <div
-      ref={wrapperRef}
-      className="shadow-border"
-      style={{
-        marginTop: '0.7rem',
-        padding: '1.5rem',
-        position: 'absolute',
-        backgroundColor: '#fff',
-        zIndex: '10',
-        borderRadius: '8px'
-      }}
-    >
+    <div ref={wrapperRef} className="quick-filter-wrapper shadow-border">
       <Component />
       <div>
         <button

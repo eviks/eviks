@@ -4,7 +4,12 @@ import Checkbox from '../../../../layout/form/checkbox/checkbox.component'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
-const Square = ({ filters, filtersOnChange }) => {
+const Square = ({
+  filters,
+  filtersOnChange,
+  filtersOnBlur,
+  checkboxOnChange
+}) => {
   const { estateType, notFirstFloor, notLastFloor } = filters
 
   const [t] = useTranslation()
@@ -17,6 +22,7 @@ const Square = ({ filters, filtersOnChange }) => {
           <MinMaxFilter
             title={t('postList.filters.floor')}
             onChange={filtersOnChange}
+            onBlur={filtersOnBlur}
             minInput={{
               name: 'floorMin',
               placeholder: t('postList.filters.min')
@@ -32,6 +38,7 @@ const Square = ({ filters, filtersOnChange }) => {
       <MinMaxFilter
         title={t('postList.filters.totalFloor')}
         onChange={filtersOnChange}
+        onBlur={filtersOnBlur}
         minInput={{
           name: 'totalFloorMin',
           placeholder: t('postList.filters.min')
@@ -52,7 +59,7 @@ const Square = ({ filters, filtersOnChange }) => {
               id: 'notFirstFloor',
               checked: notFirstFloor
             }}
-            onChange={filtersOnChange}
+            onChange={checkboxOnChange}
           />
           <Checkbox
             label={t('postList.filters.notLastFloor')}
@@ -62,7 +69,7 @@ const Square = ({ filters, filtersOnChange }) => {
               id: 'notLastFloor',
               checked: notLastFloor
             }}
-            onChange={filtersOnChange}
+            onChange={checkboxOnChange}
           />
         </div>
       )}
@@ -72,7 +79,9 @@ const Square = ({ filters, filtersOnChange }) => {
 
 Square.propTypes = {
   filters: PropTypes.object.isRequired,
-  filtersOnChange: PropTypes.func.isRequired
+  filtersOnChange: PropTypes.func.isRequired,
+  filtersOnBlur: PropTypes.func.isRequired,
+  checkboxOnChange: PropTypes.func.isRequired
 }
 
 export default Square

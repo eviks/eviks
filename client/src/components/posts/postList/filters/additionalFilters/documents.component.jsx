@@ -3,7 +3,7 @@ import Checkbox from '../../../../layout/form/checkbox/checkbox.component'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
-const Square = ({ filters, filtersOnChange }) => {
+const Square = ({ filters, checkboxOnChange }) => {
   const { documented, mortgage, redevelopment } = filters
 
   const [t] = useTranslation()
@@ -19,7 +19,7 @@ const Square = ({ filters, filtersOnChange }) => {
             id: 'documented',
             checked: documented
           }}
-          onChange={filtersOnChange}
+          onChange={checkboxOnChange}
         />
         <Checkbox
           label={t('postList.filters.mortgage')}
@@ -29,7 +29,7 @@ const Square = ({ filters, filtersOnChange }) => {
             id: 'mortgage',
             checked: mortgage
           }}
-          onChange={filtersOnChange}
+          onChange={checkboxOnChange}
         />
         <Checkbox
           label={t('postList.filters.redevelopment')}
@@ -39,7 +39,7 @@ const Square = ({ filters, filtersOnChange }) => {
             id: 'redevelopment',
             checked: redevelopment
           }}
-          onChange={filtersOnChange}
+          onChange={checkboxOnChange}
         />
       </div>
     </div>
@@ -48,7 +48,7 @@ const Square = ({ filters, filtersOnChange }) => {
 
 Square.propTypes = {
   filters: PropTypes.object.isRequired,
-  filtersOnChange: PropTypes.func.isRequired
+  checkboxOnChange: PropTypes.func.isRequired
 }
 
 export default Square

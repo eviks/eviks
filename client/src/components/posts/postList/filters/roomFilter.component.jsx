@@ -13,27 +13,9 @@ const RoomFilter = ({ filters, updateURLParams }) => {
 
   const { rooms } = filters
 
-  const getNumberOfRooms = value => {
-    switch (value) {
-      case 'room1':
-        return 1
-      case 'room2':
-        return 2
-      case 'room3':
-        return 3
-      case 'room4':
-        return 4
-      case 'room5':
-        return 5
-      default:
-        return 0
-    }
-  }
-
   const filtersOnChange = e => {
-    const numberOfRooms = getNumberOfRooms(e.target.value)
     updateURLParams(
-      { rooms: numberOfRooms === rooms ? 0 : numberOfRooms },
+      { rooms: e.target.value === rooms ? 0 : e.target.value },
       history
     )
   }
@@ -45,8 +27,8 @@ const RoomFilter = ({ filters, updateURLParams }) => {
       input: {
         id: `room${index}`,
         name: 'rooms',
-        value: `room${index}`,
-        checked: rooms === getNumberOfRooms(`room${index}`)
+        value: index,
+        checked: rooms === index
       },
       label: `${index}+`
     })

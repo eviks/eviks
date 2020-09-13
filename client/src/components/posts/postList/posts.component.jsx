@@ -20,6 +20,7 @@ import './posts.style.scss'
 
 const Posts = ({
   posts,
+  currentRegion,
   loading,
   getPosts,
   setSrearchFilters,
@@ -41,10 +42,10 @@ const Posts = ({
   }, [removeAllFilters])
 
   useEffect(() => {
-    // City & deal type are required
+    // City ID & deal type are required
     const path = history.location.pathname
     const pathArray = path.split('/')
-    let searchParams = { city: pathArray[1], dealType: pathArray[2] }
+    let searchParams = { cityId: currentRegion.city.id, dealType: pathArray[2] }
 
     // Other filters
     const query = history.location.search
@@ -108,6 +109,7 @@ const Posts = ({
 
 Posts.propTypes = {
   posts: PropTypes.object.isRequired,
+  currentRegion: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
   setSrearchFilters: PropTypes.func.isRequired,
   removeAllFilters: PropTypes.func.isRequired,
@@ -116,6 +118,7 @@ Posts.propTypes = {
 
 const mapStateToProps = state => ({
   posts: state.post.posts,
+  currentRegion: state.region.currentRegion,
   loading: state.async.loading
 })
 

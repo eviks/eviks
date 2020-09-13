@@ -9,6 +9,7 @@ const MinMaxFilter = ({
   title,
   mask = false,
   onChange,
+  onBlur,
   minInput,
   maxInput
 }) => {
@@ -22,6 +23,14 @@ const MinMaxFilter = ({
     }
   }
 
+  const handleOnChange = event => {
+    if (onChange) onChange(event)
+  }
+
+  const handleOnBlur = event => {
+    if (onBlur) onBlur(event)
+  }
+
   return (
     <div className={className}>
       <h4>{title}</h4>
@@ -30,14 +39,16 @@ const MinMaxFilter = ({
           mask={mask}
           options={getInputOptions(minInput.name, minInput.placeholder)}
           required={false}
-          onChange={onChange}
+          onChange={handleOnChange}
+          onBlur={handleOnBlur}
         />
         <span className="input-separator">-</span>
         <Input
           mask={mask}
           options={getInputOptions(maxInput.name, maxInput.placeholder)}
           required={false}
-          onChange={onChange}
+          onChange={handleOnChange}
+          onBlur={handleOnBlur}
         />
       </div>
     </div>
@@ -48,7 +59,8 @@ MinMaxFilter.propTypes = {
   filters: PropTypes.object.isRequired,
   className: PropTypes.string,
   title: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   minInput: PropTypes.object.isRequired,
   maxInput: PropTypes.object.isRequired
 }

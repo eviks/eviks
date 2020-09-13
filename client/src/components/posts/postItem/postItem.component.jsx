@@ -63,7 +63,7 @@ const PostItem = ({
           <div>
             <div className="lead-2x lead-bold">{`${priceStr} AZN`}</div>
             <div className="lead-2x">
-              {subdistrict ? subdistrict : district}
+              {subdistrict ? subdistrict.name : district.name}
             </div>
           </div>
           <div className="card-main-params">
@@ -75,7 +75,7 @@ const PostItem = ({
         </div>
         <div className="card-block card-bottom">
           <div className="time-stamp">
-            {city} <Moment format="DD.MM.YY">{date}</Moment>
+            {city.name} <Moment format="DD.MM.YY">{date}</Moment>
           </div>
           <div className="card-features">
             {documented && (

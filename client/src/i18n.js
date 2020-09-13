@@ -227,7 +227,7 @@ const resources = {
           newBuilding: 'Новостройка',
           secondaryBuilding: 'Вторичка',
           dealType: 'Тип сделки',
-          sell: 'Продать',
+          sale: 'Продать',
           rent: 'Сдать',
           rentPerDay: 'Сдать посуточно'
         },

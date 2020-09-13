@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import MoreFilters from '../filters/moreFilters.component'
 import QuickFilter from '../quickFilter/quickFilter.component'
 import ReactModal from 'react-modal'
+import { CSSTransition } from 'react-transition-group'
 import PropTypes from 'prop-types'
 
 const FilterButton = ({
@@ -31,25 +32,31 @@ const FilterButton = ({
       >
         {name}
       </button>
-      {isOpen &&
-        (moreFilters ? (
-          <ReactModal
-            isOpen={isOpen}
-            onRequestClose={() => {
-              setFilter('')
-            }}
-            className="modal"
-            overlayClassName="modal-overlay"
-          >
-            <MoreFilters filterOnClick={filterOnClick} />
-          </ReactModal>
-        ) : (
+      {moreFilters ? (
+        <ReactModal
+          isOpen={isOpen}
+          onRequestClose={() => {
+            setFilter('')
+          }}
+          className="modal"
+          overlayClassName="modal-overlay"
+        >
+          <MoreFilters filterOnClick={filterOnClick} />
+        </ReactModal>
+      ) : (
+        <CSSTransition
+          in={isOpen}
+          timeout={400}
+          classNames="vertical-transition"
+          unmountOnExit
+        >
           <QuickFilter
             filterOnClick={filterOnClick}
             component={Component}
             filterButtonRef={filterButtonRef}
           />
-        ))}
+        </CSSTransition>
+      )}
     </div>
   )
 }

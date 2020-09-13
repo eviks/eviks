@@ -3,7 +3,7 @@ export default {
   posts: {
     result: [],
     filters: {
-      city: 'baku',
+      cityId: '10',
       dealType: 'sale',
       priceMin: 0,
       priceMax: 0,

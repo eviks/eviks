@@ -8,9 +8,18 @@ const PostSchema = new mongoose.Schema({
   },
   userName: String,
   userType: String,
-  city: String,
-  district: String,
-  subdistrict: String,
+  city: {
+    name: String,
+    id: String
+  },
+  district: {
+    name: String,
+    id: String
+  },
+  subdistrict: {
+    name: String,
+    id: String
+  },
   address: String,
   location: [Number, Number],
   estateType: String,

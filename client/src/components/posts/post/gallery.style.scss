@@ -113,8 +113,8 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   }
 }
 
-.image-gallery-fullscreen-button {
-}
+// .image-gallery-fullscreen-button {
+// }
 
 .image-gallery-fullscreen-button,
 .image-gallery-play-button {
@@ -286,6 +286,7 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   }
 
   .image-gallery-image {
+    max-height: 70vh;
     width: 100%;
     object-fit: cover;
   }
@@ -502,14 +503,6 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
     font-size: 0.8em;
     padding: 5px 10px;
   }
-}
-
-.post-container
-  .image-gallery-content
-  .image-gallery-slide
-  .image-gallery-image {
-  max-height: calc(99vh - 80px); // 80 px for the thumbnail space
-  min-height: calc(99vh - 80px);
 }
 
 .card .image-gallery-content .image-gallery-slide {

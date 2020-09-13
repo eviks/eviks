@@ -92,13 +92,13 @@ const PostGeneralInfo = ({
   const dealTypeOptions = [
     {
       input: {
-        id: 'sell',
+        id: 'sale',
         name: 'dealType',
         type: 'radio',
-        value: 'sell',
-        checked: dealType === 'sell'
+        value: 'sale',
+        checked: dealType === 'sale'
       },
-      label: t('createPost.generalInfo.sell')
+      label: t('createPost.generalInfo.sale')
     },
     {
       input: {
@@ -132,7 +132,7 @@ const PostGeneralInfo = ({
   const onDealTypeChange = e => {
     const value = e.target.value
     const newAttributes = { dealType: value }
-    if (value === 'sell') {
+    if (value === 'sale') {
       newAttributes.kidsAllowed = false
       newAttributes.petsAllowed = false
       newAttributes.prepayment = false

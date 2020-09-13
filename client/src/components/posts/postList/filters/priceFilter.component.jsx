@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { updateURLParams } from '../../../../actions/post'
+import { setSrearchFilters, updateURLParams } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import MinMaxFilter from './minMaxFilter.component'
 import Checkbox from '../../../layout/form/checkbox/checkbox.component'
@@ -10,26 +10,27 @@ import PropTypes from 'prop-types'
 
 import './filters.style.scss'
 
-const PriceFilter = ({ filters, updateURLParams }) => {
+const PriceFilter = ({ filters, setSrearchFilters, updateURLParams }) => {
   const history = useHistory()
 
   const { bargain } = filters
 
-  const filtersOnChange = e => {
-    const { name, type } = e.target
-    const value = type === 'checkbox' ? e.target.checked : e.target.value
+  const filtersOnChange = event => {
+    const { name, value } = event.target
 
-    if (typeof value === 'boolean') {
-      updateURLParams({ [name]: value }, history)
-    } else {
-      const numericValue = value.replace(/\s/g, '').replace(/AZN/g, '')
-      updateURLParams(
-        {
-          [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
-        },
-        history
-      )
-    }
+    const numericValue = value.replace(/\s/g, '').replace(/AZN/g, '')
+    setSrearchFilters({
+      [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
+    })
+  }
+
+  const filtersOnBlur = event => {
+    updateURLParams({}, history)
+  }
+
+  const checkboxOnChange = event => {
+    const { name, checked } = event.target
+    updateURLParams({ [name]: checked }, history)
   }
 
   const priceMask = createNumberMask({
@@ -54,6 +55,7 @@ const PriceFilter = ({ filters, updateURLParams }) => {
         mask={priceMask}
         className={''}
         onChange={filtersOnChange}
+        onBlur={filtersOnBlur}
         minInput={{
           name: 'priceMin',
           placeholder: t('postList.filters.min')
@@ -71,7 +73,7 @@ const PriceFilter = ({ filters, updateURLParams }) => {
           id: 'bargain',
           checked: bargain
         }}
-        onChange={filtersOnChange}
+        onChange={checkboxOnChange}
       />
     </form>
   )
@@ -79,6 +81,7 @@ const PriceFilter = ({ filters, updateURLParams }) => {
 
 PriceFilter.propTypes = {
   filters: PropTypes.object.isRequired,
+  setSrearchFilters: PropTypes.func.isRequired,
   updateURLParams: PropTypes.func.isRequired
 }
 
@@ -86,4 +89,6 @@ const mapStateToProps = state => ({
   filters: state.post.posts.filters
 })
 
-export default connect(mapStateToProps, { updateURLParams })(PriceFilter)
+export default connect(mapStateToProps, { setSrearchFilters, updateURLParams })(
+  PriceFilter
+)

@@ -37,16 +37,18 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
     <div className="post-wrapper">
       <div className="post-container shadow-border">
         <PostHead post={post} />
-        <ImageGallery
-          items={getPostPhotos()}
-          showBullets={true}
-          showPlayButton={false}
-          useTranslate3D={false}
-          slideOnThumbnailOver={true}
-          lazyLoad={true}
-          renderLeftNav={renderLeftNav}
-          renderRightNav={renderRightNav}
-        />
+        <div>
+          <ImageGallery
+            items={getPostPhotos()}
+            showBullets={true}
+            showPlayButton={false}
+            useTranslate3D={false}
+            slideOnThumbnailOver={true}
+            lazyLoad={true}
+            renderLeftNav={renderLeftNav}
+            renderRightNav={renderRightNav}
+          />
+        </div>
         <div className="px-2">
           <MainInfo post={post} />
           <PostDescription description={post.description} />

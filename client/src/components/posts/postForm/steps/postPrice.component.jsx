@@ -88,7 +88,7 @@ const PostPrice = ({
         options={{ name: 'bargain', id: 'bargain', checked: bargain }}
         onChange={onChange}
       />
-      {dealType === 'sell' ? (
+      {dealType === 'sale' ? (
         // Progress payment
         <Checkbox
           label={t('createPost.price.progressPayment')}

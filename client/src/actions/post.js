@@ -13,7 +13,7 @@ import {
   DELETE_PHOTO,
   SET_FILTER,
   REMOVE_ALL_FILTERS,
-  CLEAN_FORM,
+  CLEAN_FORM
 } from './types'
 import { setURLParams } from '../utils/urlParams'
 import { goMapGUID } from '../config'
@@ -39,7 +39,7 @@ export const getPosts = filters => async dispatch => {
   }
 }
 
-// Get single post
+// Get single post by ID
 export const getPost = id => async dispatch => {
   try {
     dispatch(asyncActionStart())
@@ -267,7 +267,7 @@ export const updateURLParams = (newFilters, history, page = 1) => async (
   const state = getState()
 
   const filters = { ...state.post.posts.filters, ...newFilters }
-  delete filters.city
+  delete filters.cityId
   delete filters.dealType
 
   delete filters.page

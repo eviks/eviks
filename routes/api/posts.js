@@ -63,6 +63,8 @@ router.get('/', async (req, res) => {
 
 const setPostsFilters = (filters, selectedFilters) => {
   const {
+    cityId,
+    dealType,
     priceMin,
     priceMax,
     rooms,
@@ -84,6 +86,12 @@ const setPostsFilters = (filters, selectedFilters) => {
     notFirstFloor,
     notLastFloor
   } = filters
+
+  // City
+  if (cityId) selectedFilters['city.id'] = cityId
+
+  // Deal type
+  if (dealType) selectedFilters.dealType = dealType
 
   // Price
   setMinMaxFilter(selectedFilters, 'price', priceMin, priceMax)

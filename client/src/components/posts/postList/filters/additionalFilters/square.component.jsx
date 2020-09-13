@@ -3,7 +3,7 @@ import MinMaxFilter from '../minMaxFilter.component'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
-const Square = ({ filtersOnChange }) => {
+const Square = ({ filtersOnChange, filtersOnBlur }) => {
   const [t] = useTranslation()
 
   return (
@@ -12,6 +12,7 @@ const Square = ({ filtersOnChange }) => {
       <MinMaxFilter
         title={t('postList.filters.sqm')}
         onChange={filtersOnChange}
+        onBlur={filtersOnBlur}
         minInput={{
           name: 'sqmMin',
           placeholder: t('postList.filters.min')
@@ -25,6 +26,7 @@ const Square = ({ filtersOnChange }) => {
       <MinMaxFilter
         title={t('postList.filters.livingSqm')}
         onChange={filtersOnChange}
+        onBlur={filtersOnBlur}
         minInput={{
           name: 'livingSqmMin',
           placeholder: t('postList.filters.min')
@@ -38,6 +40,7 @@ const Square = ({ filtersOnChange }) => {
       <MinMaxFilter
         title={t('postList.filters.kitchenSqm')}
         onChange={filtersOnChange}
+        onBlur={filtersOnBlur}
         minInput={{
           name: 'kitchenSqmMin',
           placeholder: t('postList.filters.min')
@@ -52,7 +55,8 @@ const Square = ({ filtersOnChange }) => {
 }
 
 Square.propTypes = {
-  filtersOnChange: PropTypes.func.isRequired
+  filtersOnChange: PropTypes.func.isRequired,
+  filtersOnBlur: PropTypes.func.isRequired
 }
 
 export default Square

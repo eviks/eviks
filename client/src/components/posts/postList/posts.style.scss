@@ -1,8 +1,19 @@
+@import '../../../sass/config';
+
 .cards-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
   margin: 2rem;
+}
+
+.quick-filter-wrapper {
+  margin-top: 0.7rem;
+  padding: 1.5rem;
+  position: absolute;
+  background-color: $light-color;
+  z-index: 15;
+  border-radius: 8px;
 }
 
 .no-results-img {

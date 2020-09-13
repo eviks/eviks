@@ -19,7 +19,40 @@ const addPostMiddleware = ({ dispatch, getState }) => next => async action => {
       }
     }
 
-    const res = await axios.post('/api/posts', action.payload, config)
+    // Request for city ID.
+    const cityRequest = await axios.get(
+      `/api/regions/?type=2&name=${action.payload.city}`
+    )
+
+    const city = cityRequest.data[0]
+
+    const post = {
+      ...action.payload,
+      city: { id: city.id, name: city.name }
+    }
+
+    // District ID
+    if (post.district) {
+      post.district = city.children.filter(
+        child => child.name === post.district
+      )[0]
+    }
+
+    // Request for subdistrict ID
+    if (post.subdistrict) {
+      const districtRequest = await axios.get(
+        `/api/regions/?id=${post.district.id}`
+      )
+
+      const district = districtRequest.data[0]
+
+      post.subdistrict = district.children.filter(
+        child => child.name === post.subdistrict
+      )[0]
+    }
+
+    // Add post
+    const res = await axios.post('/api/posts', post, config)
     action.result = true
     dispatch({ type: ADD_POST, payload: res.data })
     dispatch(asyncActionFinish())
