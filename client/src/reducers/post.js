@@ -12,6 +12,7 @@ import {
   UPLOAD_PHOTO,
   DELETE_PHOTO,
   SET_FILTER,
+  SET_FILTER_FROM_URL,
   REMOVE_ALL_FILTERS,
   CLEAN_FORM
 } from '../actions/types'
@@ -81,6 +82,7 @@ export default function(state = initialState, action) {
           filters: { ...state.posts.filters, ...payload }
         }
       }
+    case SET_FILTER_FROM_URL:
     case REMOVE_ALL_FILTERS:
       return {
         ...state,

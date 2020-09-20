@@ -8,7 +8,7 @@ import PostItemSkeleton from '../postItemSkeleton/postItemSkeleton.component'
 import PostItem from '../postItem/postItem.component'
 import {
   getPosts,
-  setSrearchFilters,
+  setSrearchFiltersFromURL,
   removeAllFilters
 } from '../../../actions/post'
 import useWindowDimensions from '../../../utils/hooks/useWindowDimensions'
@@ -23,7 +23,7 @@ const Posts = ({
   currentRegion,
   loading,
   getPosts,
-  setSrearchFilters,
+  setSrearchFiltersFromURL,
   removeAllFilters,
   navRef
 }) => {
@@ -57,7 +57,7 @@ const Posts = ({
     }
 
     // Update state
-    setSrearchFilters(searchParams)
+    setSrearchFiltersFromURL(searchParams)
     getPosts(searchParams)
 
     // eslint-disable-next-line
@@ -111,7 +111,7 @@ Posts.propTypes = {
   posts: PropTypes.object.isRequired,
   currentRegion: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
-  setSrearchFilters: PropTypes.func.isRequired,
+  setSrearchFiltersFromURL: PropTypes.func.isRequired,
   removeAllFilters: PropTypes.func.isRequired,
   loading: PropTypes.bool
 }
@@ -124,6 +124,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   getPosts,
-  setSrearchFilters,
+  setSrearchFiltersFromURL,
   removeAllFilters
 })(Posts)

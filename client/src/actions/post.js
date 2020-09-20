@@ -12,6 +12,7 @@ import {
   UPLOAD_PHOTO,
   DELETE_PHOTO,
   SET_FILTER,
+  SET_FILTER_FROM_URL,
   REMOVE_ALL_FILTERS,
   CLEAN_FORM
 } from './types'
@@ -254,9 +255,17 @@ export const setSrearchFilters = filters => async dispatch => {
   dispatch({ type: SET_FILTER, payload: filters })
 }
 
+// Set search filter from URL string
+export const setSrearchFiltersFromURL = filters => async dispatch => {
+  dispatch({ type: SET_FILTER_FROM_URL, payload: filters })
+}
+
 // Remove all filters
-export const removeAllFilters = () => async dispatch => {
-  dispatch({ type: REMOVE_ALL_FILTERS })
+export const removeAllFilters = () => async (dispatch, getState) => {
+  const state = getState()
+  const filters = state.post.posts.filters
+  const payload = { cityId: filters.cityId, dealType: filters.dealType }
+  dispatch({ type: REMOVE_ALL_FILTERS, payload })
 }
 
 // Update search parameters in URL

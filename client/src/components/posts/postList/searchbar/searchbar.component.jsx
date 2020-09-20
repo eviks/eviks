@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import {removeAllFilters} from '../../../../actions/post'
-import {connect} from 'react-redux';
+import { removeAllFilters } from '../../../../actions/post'
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import FilterButton from '../filterButton/filterButton.component'
 import PriceFilter from '../filters/priceFilter.component'
@@ -8,6 +8,12 @@ import RoomFilter from '../filters/roomFilter.component'
 import EstateTypeFilter from '../filters/estateTypeFilter.component'
 import MoreFilters from '../filters/moreFilters.component'
 import { useTranslation } from 'react-i18next'
+import { getURLParams } from '../../../../utils/urlParams'
+import {
+  getPriceFilterTitle,
+  getRoomsFilterTitle,
+  estateTypeFilterTitle
+} from './filterTitles'
 import PropTypes from 'prop-types'
 
 import './searchbar.style.scss'
@@ -16,6 +22,9 @@ let prevScrollPos = window.pageYOffset
 
 const Searchbar = ({ navRef, removeAllFilters }) => {
   const history = useHistory()
+  const urlParameters = Object.fromEntries(
+    getURLParams(history.location.search)
+  )
 
   let containerRef = useRef(null)
 
@@ -79,25 +88,29 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
       <section className={`searchbar light-shadow-border ${classes}`}>
         <div className="filter-buttons">
           <FilterButton
-            name={t('postList.filters.price')}
+            title={getPriceFilterTitle(urlParameters)}
+            name={'price'}
             filter={filter}
             setFilter={setFilter}
             component={PriceFilter}
           />
           <FilterButton
-            name={t('postList.filters.rooms')}
+            title={getRoomsFilterTitle(urlParameters)}
+            name={'rooms'}
             filter={filter}
             setFilter={setFilter}
             component={RoomFilter}
           />
           <FilterButton
-            name={t('postList.filters.estateType')}
+            title={estateTypeFilterTitle(urlParameters)}
+            name={'estateType'}
             filter={filter}
             setFilter={setFilter}
             component={EstateTypeFilter}
           />
           <FilterButton
-            name={t('postList.filters.more')}
+            title={t('postList.filters.more')}
+            name={'more'}
             filter={filter}
             setFilter={setFilter}
             moreFilters={true}
@@ -119,7 +132,7 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
 
 Searchbar.propTypes = {
   navRef: PropTypes.object.isRequired,
-  removeAllFilters: PropTypes.func.isRequired,
+  removeAllFilters: PropTypes.func.isRequired
 }
 
-export default connect(null, {removeAllFilters})(Searchbar)
+export default connect(null, { removeAllFilters })(Searchbar)

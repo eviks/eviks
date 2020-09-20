@@ -67,8 +67,10 @@ const setPostsFilters = (filters, selectedFilters) => {
     dealType,
     priceMin,
     priceMax,
-    rooms,
+    roomsMin,
+    roomsMax,
     estateType,
+    apartmentType,
     sqmMin,
     sqmMax,
     livingSqmMin,
@@ -97,10 +99,13 @@ const setPostsFilters = (filters, selectedFilters) => {
   setMinMaxFilter(selectedFilters, 'price', priceMin, priceMax)
 
   // Rooms
-  if (rooms) selectedFilters.rooms = { $gte: rooms }
+  setMinMaxFilter(selectedFilters, 'rooms', roomsMin, roomsMax)
 
   // Estate type
   if (estateType) selectedFilters.estateType = estateType
+
+  // Estate type
+  if (apartmentType) selectedFilters.apartmentType = apartmentType
 
   // Sqm
   setMinMaxFilter(selectedFilters, 'sqm', sqmMin, sqmMax)

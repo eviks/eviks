@@ -11,16 +11,24 @@ import './filters.style.scss'
 const EstateTypeFilter = ({ filters, updateURLParams }) => {
   const history = useHistory()
 
-  const { estateType } = filters
+  const { estateType, apartmentType } = filters
 
   const filtersOnChange = e => {
-    const val = e.target.value
-    updateURLParams(
-      {
-        estateType: estateType === val || val === 'any' ? null : val
-      },
-      history
-    )
+    const value = e.target.value
+    if (value === 'newBuilding' || value === 'secondaryBuilding') {
+      updateURLParams(
+        { apartmentType: value, estateType: 'apartment' },
+        history
+      )
+    } else {
+      updateURLParams(
+        {
+          estateType: value === 'any' ? null : value,
+          apartmentType: ''
+        },
+        history
+      )
+    }
   }
 
   const [t] = useTranslation()
@@ -41,9 +49,29 @@ const EstateTypeFilter = ({ filters, updateURLParams }) => {
         id: `apartment`,
         name: 'estateType',
         value: `apartment`,
-        checked: estateType === 'apartment'
+        checked: estateType === 'apartment' && !apartmentType
       },
       label: t('postList.estateTypes.apartment'),
+      icon: <i className="far fa-building fa-2x"></i>
+    },
+    {
+      input: {
+        id: `newBuilding`,
+        name: 'estateType',
+        value: `newBuilding`,
+        checked: apartmentType === 'newBuilding'
+      },
+      label: t('postList.estateTypes.newBuilding'),
+      icon: <i className="far fa-building fa-2x"></i>
+    },
+    {
+      input: {
+        id: `secondaryBuilding`,
+        name: 'estateType',
+        value: `secondaryBuilding`,
+        checked: apartmentType === 'secondaryBuilding'
+      },
+      label: t('postList.estateTypes.secondaryBuilding'),
       icon: <i className="far fa-building fa-2x"></i>
     },
     {

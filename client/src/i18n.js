@@ -171,8 +171,15 @@ const resources = {
           remove: 'Очистить фильтры',
           search: 'Найти',
           price: 'Цена',
+          priceRange: '{{priceMin}} - {{priceMax}} ₼',
+          priceUpTo: 'До {{priceMax}} ₼',
+          priceFrom: '{{priceMin}}+ ₼',
           bargain: 'Возможен торг',
           rooms: 'Комнаты',
+          roomsRange: '{{roomsMin}} - {{roomsMax}} комн.',
+          roomsUpTo: 'До {{roomsMax}} комн.',
+          roomsFrom: '{{roomsMin}}+ комн.',
+          roomsRangeTip: 'или укажите диапазон',
           estateType: 'Тип недвижимости',
           more: 'Больше фильтров',
           doneButton: 'Готово',
@@ -192,6 +199,8 @@ const resources = {
         estateTypes: {
           any: 'Любой',
           apartment: 'Квартира',
+          newBuilding: 'Новостройка',
+          secondaryBuilding: 'Вторичка',
           house: 'Дом'
         },
         room: 'комната',
@@ -308,6 +317,13 @@ const resources = {
           title: 'Почти готово! Осталось лишь указать ваши контактные данные',
           userName: 'Как вас представить?',
           contact: 'Номер телефона'
+        }
+      },
+      assets: {
+        formats: {
+          thousand: 'тыс',
+          million: 'млн',
+          billion: 'млрд'
         }
       }
     }

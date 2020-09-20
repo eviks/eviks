@@ -6,6 +6,7 @@ import { CSSTransition } from 'react-transition-group'
 import PropTypes from 'prop-types'
 
 const FilterButton = ({
+  title,
   name,
   filter,
   setFilter,
@@ -30,7 +31,7 @@ const FilterButton = ({
         onClick={() => filterOnClick()}
         className={`btn btn-ghost-pm${isOpen ? '-active' : ''} btn-md`}
       >
-        {name}
+        {title}
       </button>
       {moreFilters ? (
         <ReactModal
@@ -66,6 +67,7 @@ FilterButton.defaultProps = {
 }
 
 FilterButton.propTypes = {
+  title: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
   setFilter: PropTypes.func.isRequired,
