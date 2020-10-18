@@ -43,7 +43,8 @@
 }
 
 .shadow-border {
-  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 18px rgba(14, 21, 47, 0.1),
+    0 -2px 6px rgba(14, 21, 47, 0.02);
 }
 
 // Buttons
@@ -177,11 +178,16 @@
 
 .link {
   cursor: pointer;
+  color: $dark-color;
   background: none;
   border: none;
   outline: none;
   &:hover {
     color: $primary-color;
+  }
+
+  &-blue {
+    color: $link-color;
   }
 }
 
@@ -310,6 +316,10 @@ input[type='radio'].toggle {
 
   &-sm {
     font-size: 0.8rem;
+  }
+
+  &-bold {
+    font-weight: 700;
   }
 }
 
@@ -466,6 +476,9 @@ input[type='radio'].toggle {
   }
 }
 
+// CSS transition group styles
+
+// Vertical ease-in-out
 .vertical-transition-enter {
   opacity: 0;
   transform: translateY(-50%);
@@ -482,6 +495,21 @@ input[type='radio'].toggle {
   opacity: 0;
   transform: translateY(-50%);
   transition: all 400ms;
+}
+
+// Vertical ease-in
+.vertical-transition-ease-in-enter {
+  opacity: 0;
+  transform: translateY(-50%);
+}
+.vertical-transition-ease-in-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 400ms;
+}
+.vertical-transition-ease-in-exit {
+  opacity: 0;
+  transition: none;
 }
 
 /* MEDIA QUERIES */

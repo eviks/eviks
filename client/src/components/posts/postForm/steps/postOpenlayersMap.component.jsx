@@ -4,7 +4,7 @@ import {
   updatePostFormAttributes,
   updateAddressSuggestions
 } from '../../../../actions/post'
-import RegionSelect from './regionSelect.component'
+import LocalitySelect from './localitySelect.component'
 import Input from '../../../layout/form/input/input.component'
 import AddressDropdown from './addressDropdown.component'
 import { fromEPSG4326 } from 'ol/proj/epsg3857'
@@ -35,12 +35,12 @@ const OpenlayersMap = ({
   const [map, setMap] = useState(null)
   const [dropdownList, setDropdownList] = useState([])
 
-  const getRegionLocation = () => {
+  const getLocalityLocation = () => {
     if (searchArea[0] !== 0 && searchArea[1] !== 0) return searchArea
     return [49.867092, 40.409264]
   }
 
-  const regionLocation = getRegionLocation()
+  const localityLocation = getLocalityLocation()
 
   useEffect(() => {
     let mapCenter
@@ -52,7 +52,7 @@ const OpenlayersMap = ({
       mapCenter = location
       zoom = 18
     } else {
-      mapCenter = regionLocation
+      mapCenter = localityLocation
       zoom = 12
     }
     setMap(initMap(mapRef.current, mapCenter, zoom))
@@ -70,7 +70,7 @@ const OpenlayersMap = ({
       })
     } else {
       map.getView().animate({
-        center: fromEPSG4326(regionLocation),
+        center: fromEPSG4326(localityLocation),
         zoom: 13,
         duration: 1000
       })
@@ -98,7 +98,7 @@ const OpenlayersMap = ({
   return (
     <FadeInDiv className="step-map">
       <h3 className="step-title my-1">{t('createPost.mapInfo.title')}</h3>
-      <RegionSelect />
+      <LocalitySelect />
       {validationErrors.city && (
         <div className="field-required">{t(validationErrors.city)}</div>
       )}

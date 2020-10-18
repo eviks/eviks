@@ -27,7 +27,7 @@ const RoomFilter = ({ filters, setSrearchFilters, updateURLParams }) => {
   const roomsRangeOnChange = event => {
     const { name, value } = event.target
 
-    const numericValue = value.replace(/\s/g, '').replace(/AZN/g, '')
+    const numericValue = value.replace(/\s/g, '').replace(/₼/g, '')
     setSrearchFilters({
       [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
     })

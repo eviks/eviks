@@ -64,6 +64,7 @@ router.get('/', async (req, res) => {
 const setPostsFilters = (filters, selectedFilters) => {
   const {
     cityId,
+    locationIds,
     dealType,
     priceMin,
     priceMax,
@@ -91,6 +92,15 @@ const setPostsFilters = (filters, selectedFilters) => {
 
   // City
   if (cityId) selectedFilters['city.id'] = cityId
+
+  // Location IDs
+  if (locationIds) {
+    const locationIds = filters.locationIds.split(',')
+    selectedFilters.$or = [
+      { 'district.id': { $in: locationIds } },
+      { 'subdistrict.id': { $in: locationIds } }
+    ]
+  }
 
   // Deal type
   if (dealType) selectedFilters.dealType = dealType

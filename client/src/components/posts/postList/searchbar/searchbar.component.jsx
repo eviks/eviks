@@ -7,6 +7,8 @@ import PriceFilter from '../filters/priceFilter.component'
 import RoomFilter from '../filters/roomFilter.component'
 import EstateTypeFilter from '../filters/estateTypeFilter.component'
 import MoreFilters from '../filters/moreFilters.component'
+import LocationsFilter from '../filters/locationFilters/locationsFilter.component'
+import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
 import { getURLParams } from '../../../../utils/urlParams'
 import {
@@ -31,6 +33,7 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
   const [classes, setClasses] = useState('')
   const [filter, setFilter] = useState('')
   const [filterIsOpen, setFilterIsOpen] = useState(false)
+  const [showLocationsFilter, setShowLocationsFilter] = useState(false)
   const [t] = useTranslation()
 
   useEffect(() => {
@@ -87,6 +90,24 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
     <div ref={containerRef} className="searchbar-wrapper">
       <section className={`searchbar light-shadow-border ${classes}`}>
         <div className="filter-buttons">
+          {/* Locations */}
+          <button
+            className="link link-blue"
+            onClick={() => setShowLocationsFilter(true)}
+          >
+            {t('postList.filters.locations.district')}
+          </button>
+          <ReactModal
+            isOpen={showLocationsFilter}
+            onRequestClose={() => setShowLocationsFilter(false)}
+            className="modal"
+            overlayClassName="modal-overlay"
+          >
+            <LocationsFilter
+              closeFilter={() => setShowLocationsFilter(false)}
+            />
+          </ReactModal>
+          {/* Price */}
           <FilterButton
             title={getPriceFilterTitle(urlParameters)}
             name={'price'}
@@ -94,6 +115,7 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
             setFilter={setFilter}
             component={PriceFilter}
           />
+          {/* Rooms */}
           <FilterButton
             title={getRoomsFilterTitle(urlParameters)}
             name={'rooms'}
@@ -101,6 +123,7 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
             setFilter={setFilter}
             component={RoomFilter}
           />
+          {/* Estate type */}
           <FilterButton
             title={estateTypeFilterTitle(urlParameters)}
             name={'estateType'}
@@ -108,6 +131,7 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
             setFilter={setFilter}
             component={EstateTypeFilter}
           />
+          {/* More */}
           <FilterButton
             title={t('postList.filters.more')}
             name={'more'}
@@ -116,6 +140,7 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
             moreFilters={true}
             component={MoreFilters}
           />
+          {/* Remove filters */}
           <div style={{ position: 'relative' }}>
             <button
               className="btn btn-ghost-sd btn-md"

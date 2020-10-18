@@ -53,7 +53,6 @@ const Square = ({
         <div className="filter-block">
           <Checkbox
             label={t('postList.filters.notFirstFloor')}
-            showFieldName={true}
             options={{
               name: 'notFirstFloor',
               id: 'notFirstFloor',
@@ -63,7 +62,6 @@ const Square = ({
           />
           <Checkbox
             label={t('postList.filters.notLastFloor')}
-            showFieldName={true}
             options={{
               name: 'notLastFloor',
               id: 'notLastFloor',

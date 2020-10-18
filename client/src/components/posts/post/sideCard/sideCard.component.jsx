@@ -23,7 +23,7 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
     <div>
       <div className="side-card shadow-border">
         <div className="price-wrapper">
-          <span className="price">{formattedPrice} AZN</span>
+          <span className="price">{formattedPrice} ₼</span>
           <span>{t('post.price.priceForSqm', { priceForSqm })}</span>
         </div>
         <div className="user-info">

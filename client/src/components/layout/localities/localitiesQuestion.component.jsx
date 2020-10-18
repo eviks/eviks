@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { setCurrentRegion } from '../../../actions/region'
-import defaultRegion from '../../../reducers/initialStates/regionInitialState'
-import Regions from '../regions/regions.component'
+import { setCurrentLocality } from '../../../actions/locality'
+import defaultLocality from '../../../reducers/initialStates/localityInitialState'
+import Localities from './localities.component'
 import Ripple from '../ripple/ripple.component'
 import ReactModal from 'react-modal'
 import useIsMount from '../../../utils/hooks/useIsMount'
@@ -10,16 +10,16 @@ import { useTranslation } from 'react-i18next'
 import { CSSTransition } from 'react-transition-group'
 import PropTypes from 'prop-types'
 
-const RegionsQuestion = ({
-  currentRegion: reduxCurrentRegion,
-  setCurrentRegion
+const LocalitiesQuestion = ({
+  currentLocality: reduxCurrentLocality,
+  setCurrentLocality
 }) => {
   const isMounted = useIsMount()
 
   if (isMounted) {
     setTimeout(() => {
       setShowQuestion(
-        !currentRegion || currentRegion.nextQuestionDate < Date.now()
+        !currentLocality || currentLocality.nextQuestionDate < Date.now()
       )
     }, 5000)
   }
@@ -27,33 +27,33 @@ const RegionsQuestion = ({
   useEffect(() => {
     if (!isMounted) setShowQuestion(false)
     // eslint-disable-next-line
-  }, [reduxCurrentRegion])
+  }, [reduxCurrentLocality])
 
   const [showQuestion, setShowQuestion] = useState(false)
-  const [openRegionsSelect, setOpenRegions] = useState(false)
+  const [openLocalitiesSelect, setOpenLocalities] = useState(false)
 
-  const currentRegion = localStorage.currentRegion
-    ? JSON.parse(localStorage.currentRegion)
+  const currentLocality = localStorage.currentLocality
+    ? JSON.parse(localStorage.currentLocality)
     : null
 
   const [t] = useTranslation()
 
   const selectCapital = () => {
-    setCurrentRegion({
+    setCurrentLocality({
       nextQuestionDate: new Date(Date.now() + 86400000 * 365),
-      city: defaultRegion.currentRegion.city
+      city: defaultLocality.currentLocality.city
     })
   }
 
   const onCloseClick = () => {
-    setCurrentRegion({
+    setCurrentLocality({
       nextQuestionDate: new Date(Date.now() + 86400000),
-      city: defaultRegion.currentRegion.city
+      city: defaultLocality.currentLocality.city
     })
   }
 
-  const changeRegion = () => {
-    setOpenRegions(true)
+  const changeLocality = () => {
+    setOpenLocalities(true)
   }
 
   return (
@@ -63,38 +63,38 @@ const RegionsQuestion = ({
       classNames="vertical-transition"
       unmountOnExit
     >
-      <div className="regions-question-wrapper shadow-border">
+      <div className="localities-question-wrapper shadow-border">
         <button type="button" className="close-button" onClick={onCloseClick}>
           <i className="fas fa-times"></i>
         </button>
-        <div className="question">{t('regions.question.text')}</div>
+        <div className="question">{t('localities.question.text')}</div>
         <div className="button-box">
           <button
             type="button"
             className="btn btn-primary btn-sm"
             onClick={selectCapital}
           >
-            {t('regions.question.yes')}
+            {t('localities.question.yes')}
             <Ripple />
           </button>
           <button
             type="button"
             className="btn btn-secondary btn-sm"
-            onClick={changeRegion}
+            onClick={changeLocality}
           >
-            {t('regions.question.no')}
+            {t('localities.question.no')}
             <Ripple />
           </button>
         </div>
         <ReactModal
-          isOpen={openRegionsSelect}
-          onRequestClose={() => setOpenRegions(false)}
+          isOpen={openLocalitiesSelect}
+          onRequestClose={() => setOpenLocalities(false)}
           className="modal"
           overlayClassName="modal-overlay"
         >
-          <Regions
+          <Localities
             citySelectMode={true}
-            handleCloseModal={() => setOpenRegions(false)}
+            handleCloseModal={() => setOpenLocalities(false)}
           />
         </ReactModal>
       </div>
@@ -102,13 +102,15 @@ const RegionsQuestion = ({
   )
 }
 
-RegionsQuestion.propTypes = {
-  currentRegion: PropTypes.object.isRequired,
-  setCurrentRegion: PropTypes.func.isRequired
+LocalitiesQuestion.propTypes = {
+  currentLocality: PropTypes.object.isRequired,
+  setCurrentLocality: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  currentRegion: state.region.currentRegion
+  currentLocality: state.locality.currentLocality
 })
 
-export default connect(mapStateToProps, { setCurrentRegion })(RegionsQuestion)
+export default connect(mapStateToProps, { setCurrentLocality })(
+  LocalitiesQuestion
+)

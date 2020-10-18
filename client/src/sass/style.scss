@@ -9,7 +9,7 @@
 }
 
 body {
-  font-family: 'Roboto Condensed', 'sans-serif';
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background: $light-color;
@@ -64,19 +64,15 @@ img {
 }
 
 .close-modal {
-  position: absolute;
-  top: -2%;
-  right: -2%;
+  // position: absolute;
+  // top: -2%;
+  // right: -2%;
   border: none;
   background: transparent;
-  color: $light-grey-color;
+  color: $dark-color;
   transition: background-color 0.4s ease-in-out;
   outline: none;
   cursor: pointer;
-
-  &:hover {
-    color: $light-color;
-  }
 }
 
 // TOASTR
@@ -94,9 +90,5 @@ img {
 
   .close-modal {
     font-size: 2rem;
-    top: -40px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    margin-bottom: 2rem;
   }
 }

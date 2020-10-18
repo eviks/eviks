@@ -21,7 +21,7 @@ const addPostMiddleware = ({ dispatch, getState }) => next => async action => {
 
     // Request for city ID.
     const cityRequest = await axios.get(
-      `/api/regions/?type=2&name=${action.payload.city}`
+      `/api/localities/?type=2&name=${action.payload.city}`
     )
 
     const city = cityRequest.data[0]
@@ -41,7 +41,7 @@ const addPostMiddleware = ({ dispatch, getState }) => next => async action => {
     // Request for subdistrict ID
     if (post.subdistrict) {
       const districtRequest = await axios.get(
-        `/api/regions/?id=${post.district.id}`
+        `/api/localities/?id=${post.district.id}`
       )
 
       const district = districtRequest.data[0]

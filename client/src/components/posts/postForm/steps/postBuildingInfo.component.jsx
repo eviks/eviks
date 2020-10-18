@@ -85,13 +85,11 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
         <Fragment>
           <Checkbox
             label={t('createPost.buildingInfo.elevator')}
-            showFieldName={true}
             options={{ name: 'elevator', id: 'elevator', checked: elevator }}
             onChange={onChange}
           />
           <Checkbox
             label={t('createPost.buildingInfo.parkingLot')}
-            showFieldName={true}
             options={{
               name: 'parkingLot',
               id: 'parkingLot',

@@ -17,7 +17,7 @@ const QuickLinks = ({ links, title, img }) => {
         <div className="quick-links-content-inner">
           <h4>{title}</h4>
           {links.map((link, index) => (
-            <Link to={link.url} className="link" key={index}>
+            <Link to={link.url} className="link link-blue" key={index}>
               {link.name}
             </Link>
           ))}

@@ -1,19 +1,19 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
-import Regions from '../regions/regions.component'
+import Localities from '../localities/localities.component'
 import PropTypes from 'prop-types'
 
-const RegionSelect = ({ currentRegion }) => {
+const LocalitySelect = ({ currentLocality }) => {
   const [openModal, setOpenModal] = useState(false)
 
   return (
     <Fragment>
       <button
-        className="region-select text-secondary medium link"
+        className="locality-select text-secondary medium link"
         onClick={() => setOpenModal(true)}
       >
-        <i className="fas fa-map-marker-alt"></i> {currentRegion.city.name}
+        <i className="fas fa-map-marker-alt"></i> {currentLocality.city.name}
       </button>
       <ReactModal
         isOpen={openModal}
@@ -21,7 +21,7 @@ const RegionSelect = ({ currentRegion }) => {
         className="modal"
         overlayClassName="modal-overlay"
       >
-        <Regions
+        <Localities
           citySelectMode={true}
           handleCloseModal={() => setOpenModal(false)}
         />
@@ -30,12 +30,12 @@ const RegionSelect = ({ currentRegion }) => {
   )
 }
 
-RegionSelect.propTypes = {
-  currentRegion: PropTypes.object.isRequired
+LocalitySelect.propTypes = {
+  currentLocality: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  currentRegion: state.region.currentRegion
+  currentLocality: state.locality.currentLocality
 })
 
-export default connect(mapStateToProps)(RegionSelect)
+export default connect(mapStateToProps)(LocalitySelect)

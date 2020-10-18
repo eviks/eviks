@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import PrivateRoute from './components/routing/privateRoute.component'
 import ScrollToTop from './components/layout/scrollToTop/scrollToTop.component'
 import Navbar from './components/layout/navbar/navbar.component'
-import RegionsQuestion from './components/layout/regions/regionsQuestion.component'
+import LocalitiesQuestion from './components/layout/localities/localitiesQuestion.component'
 import Landing from './components/landing/landing.component'
 import Modal from 'react-modal'
 import ReduxToastr from 'react-redux-toastr'
@@ -20,7 +20,7 @@ import PostForm from './components/posts/postForm/postForm.component'
 import './sass/style.scss'
 import './i18n'
 import { loadUser } from './actions/auth'
-import { setCurrentRegion } from './actions/region'
+import { setCurrentLocality } from './actions/locality'
 import setAuthToken from './utils/setAuthToken'
 
 // Redux
@@ -40,8 +40,8 @@ const App = () => {
   useEffect(() => {
     store.dispatch(loadUser())
 
-    if (localStorage.currentRegion)
-      store.dispatch(setCurrentRegion(JSON.parse(localStorage.currentRegion)))
+    if (localStorage.currentLocality)
+      store.dispatch(setCurrentLocality(JSON.parse(localStorage.currentLocality)))
   }, [])
 
   return (
@@ -49,7 +49,7 @@ const App = () => {
       <Router>
         <ScrollToTop />
         <Navbar navRef={navRef} />
-        <RegionsQuestion />
+        <LocalitiesQuestion />
         <Switch>
           {/* Home page */}
           <Route exact path="/" component={Landing} />

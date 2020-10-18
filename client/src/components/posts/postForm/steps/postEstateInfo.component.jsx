@@ -181,7 +181,6 @@ const PostEstateInfo = ({
       {/* Redevelopment */}
       <Checkbox
         label={t('createPost.estateInfo.redevelopment')}
-        showFieldName={true}
         options={{
           name: 'redevelopment',
           id: 'redevelopment',
@@ -192,14 +191,12 @@ const PostEstateInfo = ({
       {/* Documented */}
       <Checkbox
         label={t('createPost.estateInfo.documented')}
-        showFieldName={true}
         options={{ name: 'documented', id: 'documented', checked: documented }}
         onChange={onChange}
       />
       {/* On kredit */}
       <Checkbox
         label={t('createPost.estateInfo.mortgage')}
-        showFieldName={true}
         options={{
           name: 'mortgage',
           id: 'mortgage',

@@ -4,6 +4,7 @@ export default {
     result: [],
     filters: {
       cityId: '10',
+      locationIds: '',
       dealType: 'sale',
       priceMin: 0,
       priceMax: 0,

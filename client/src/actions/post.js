@@ -282,6 +282,8 @@ export const updateURLParams = (newFilters, history, page = 1) => async (
   delete filters.page
   filters.page = page
 
+  Object.keys(filters).forEach(key => !filters[key] && delete filters[key])
+
   const url = setURLParams(filters)
   history.push(`?${url || ''}`)
 }

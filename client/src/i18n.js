@@ -39,7 +39,7 @@ const resources = {
         logout: 'Выйти',
         joinOrSignIn: 'Вход и регистрация'
       },
-      regions: {
+      localities: {
         question: {
           text: 'Ваш город - Баку?',
           yes: 'Все верно',
@@ -154,7 +154,7 @@ const resources = {
           title: 'Расположение'
         },
         price: {
-          priceForSqm: '{{priceForSqm}} AZN за м²',
+          priceForSqm: '{{priceForSqm}} ₼ за м²',
           message:
             'Не забудьте сообщить о том, что нашли это объявление на Eviks',
           showNumber: 'Показать номер',
@@ -194,7 +194,10 @@ const resources = {
           mortgage: 'Ипотека',
           redevelopment: 'Перепланировка',
           notFirstFloor: 'Не первый',
-          notLastFloor: 'Не последний'
+          notLastFloor: 'Не последний',
+          locations: {
+            district: 'Район'
+          }
         },
         estateTypes: {
           any: 'Любой',
@@ -205,7 +208,8 @@ const resources = {
         },
         room: 'комната',
         documented: 'Есть купчая',
-        mortgage: 'Ипотека'
+        mortgage: 'Ипотека',
+        showResult: 'Показать объявления'
       },
       form: {
         addressPlaceholder: 'Улица, номер дома',

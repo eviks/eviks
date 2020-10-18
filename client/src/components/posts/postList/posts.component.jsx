@@ -20,7 +20,7 @@ import './posts.style.scss'
 
 const Posts = ({
   posts,
-  currentRegion,
+  currentLocality,
   loading,
   getPosts,
   setSrearchFiltersFromURL,
@@ -45,7 +45,7 @@ const Posts = ({
     // City ID & deal type are required
     const path = history.location.pathname
     const pathArray = path.split('/')
-    let searchParams = { cityId: currentRegion.city.id, dealType: pathArray[2] }
+    let searchParams = { cityId: currentLocality.city.id, dealType: pathArray[2] }
 
     // Other filters
     const query = history.location.search
@@ -109,7 +109,7 @@ const Posts = ({
 
 Posts.propTypes = {
   posts: PropTypes.object.isRequired,
-  currentRegion: PropTypes.object.isRequired,
+  currentLocality: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
   setSrearchFiltersFromURL: PropTypes.func.isRequired,
   removeAllFilters: PropTypes.func.isRequired,
@@ -118,7 +118,7 @@ Posts.propTypes = {
 
 const mapStateToProps = state => ({
   posts: state.post.posts,
-  currentRegion: state.region.currentRegion,
+  currentLocality: state.locality.currentLocality,
   loading: state.async.loading
 })
 

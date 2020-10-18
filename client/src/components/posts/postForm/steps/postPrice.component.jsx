@@ -35,7 +35,7 @@ const PostPrice = ({
     let fieldValue
     if (name === 'price') {
       type = 'number'
-      fieldValue = value.replace(/\s/g, '').replace(/AZN/g, '')
+      fieldValue = value.replace(/\s/g, '').replace(/₼/g, '')
     } else {
       fieldValue = type === 'checkbox' ? event.target.checked : value
     }
@@ -84,7 +84,6 @@ const PostPrice = ({
       {/* Bargain */}
       <Checkbox
         label={t('createPost.price.bargain')}
-        showFieldName={true}
         options={{ name: 'bargain', id: 'bargain', checked: bargain }}
         onChange={onChange}
       />
@@ -92,7 +91,6 @@ const PostPrice = ({
         // Progress payment
         <Checkbox
           label={t('createPost.price.progressPayment')}
-          showFieldName={true}
           options={{
             name: 'progressPayment',
             id: 'progressPayment',
@@ -105,7 +103,6 @@ const PostPrice = ({
           {/* Prepayment */}
           <Checkbox
             label={t('createPost.price.prepayment')}
-            showFieldName={true}
             options={{
               name: 'prepayment',
               id: 'prepayment',
@@ -116,7 +113,6 @@ const PostPrice = ({
           {/* Municipal services */}
           <Checkbox
             label={t('createPost.price.municipalServices')}
-            showFieldName={true}
             options={{
               name: 'municipalServices',
               id: 'municipalServices',

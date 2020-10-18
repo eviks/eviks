@@ -13,7 +13,6 @@ const Square = ({ filters, checkboxOnChange }) => {
       <div className="filter-block">
         <Checkbox
           label={t('postList.filters.documented')}
-          showFieldName={true}
           options={{
             name: 'documented',
             id: 'documented',
@@ -23,7 +22,6 @@ const Square = ({ filters, checkboxOnChange }) => {
         />
         <Checkbox
           label={t('postList.filters.mortgage')}
-          showFieldName={true}
           options={{
             name: 'mortgage',
             id: 'mortgage',
@@ -33,7 +31,6 @@ const Square = ({ filters, checkboxOnChange }) => {
         />
         <Checkbox
           label={t('postList.filters.redevelopment')}
-          showFieldName={true}
           options={{
             name: 'redevelopment',
             id: 'redevelopment',

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../../actions/auth'
 import Auth from '../../auth/auth.component'
-import RegionSelect from './regionSelect.component'
+import LocalitySelect from './localitySelect.component'
 import MenuButton from '../menuButton/menuButton.component'
 import ReactModal from 'react-modal'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
@@ -87,7 +87,7 @@ const Navbar = ({
               </span>
             </Link>
           </h1>
-          <RegionSelect />
+          <LocalitySelect />
         </div>
         <ul className={showMenu ? 'checked' : ''} ref={ulRef}>
           {!loading && (

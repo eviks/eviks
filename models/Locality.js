@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const RegionSchema = new mongoose.Schema({
+const LocalitySchema = new mongoose.Schema({
   ID: String,
   Name: String,
   Type: String,
@@ -9,4 +9,4 @@ const RegionSchema = new mongoose.Schema({
   children: Array
 })
 
-module.exports = Region = mongoose.model('regions', RegionSchema)
+module.exports = Locality = mongoose.model('localities', LocalitySchema)

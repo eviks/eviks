@@ -48,7 +48,7 @@ const FilterButton = ({
         <CSSTransition
           in={isOpen}
           timeout={400}
-          classNames="vertical-transition"
+          classNames="vertical-transition-ease-in"
           unmountOnExit
         >
           <QuickFilter

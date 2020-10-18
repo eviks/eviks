@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import Regions from '../../../layout/regions/regions.component'
+import Localities from '../../../layout/localities/localities.component'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
-const RegionSelect = ({ city, district, subdistrict }) => {
+const LocalitySelect = ({ city, district, subdistrict }) => {
   const [openModal, setOpenModal] = useState(false)
 
   const [t] = useTranslation()
@@ -38,13 +38,13 @@ const RegionSelect = ({ city, district, subdistrict }) => {
         className="modal"
         overlayClassName="modal-overlay"
       >
-        <Regions handleCloseModal={() => setOpenModal(false)} />
+        <Localities handleCloseModal={() => setOpenModal(false)} />
       </ReactModal>
     </div>
   )
 }
 
-RegionSelect.propTypes = {
+LocalitySelect.propTypes = {
   city: PropTypes.string.isRequired,
   district: PropTypes.string.isRequired,
   subdistrict: PropTypes.string.isRequired
@@ -56,4 +56,4 @@ const mapStateToProps = state => ({
   subdistrict: state.post.postForm.subdistrict
 })
 
-export default connect(mapStateToProps)(RegionSelect)
+export default connect(mapStateToProps)(LocalitySelect)

@@ -38,7 +38,7 @@ Hero.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  city: state.region.currentRegion.city
+  city: state.locality.currentLocality.city
 })
 
 export default connect(mapStateToProps)(Hero)
