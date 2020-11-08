@@ -72,8 +72,8 @@ router.post('/verification/:activationToken', async (req, res, next) => {
 
     // Find user by activation token
     let user = await User.findOne({
-      'local.active': false,
-      'local.activationToken': activationToken
+      active: false,
+      activationToken: activationToken
     })
 
     // User not found
@@ -84,8 +84,8 @@ router.post('/verification/:activationToken', async (req, res, next) => {
     }
 
     // Update user
-    user.local.active = true
-    user.local.activationToken = undefined
+    user.active = true
+    user.activationToken = undefined
     await user.save()
 
     // Login user
@@ -124,7 +124,7 @@ router.post(
 
       // Find user by email address
       let user = await User.findOne({
-        'local.email': email
+        email: email
       })
 
       // User not found
@@ -138,8 +138,8 @@ router.post(
       const resetPasswordToken = randomstring.generate()
 
       // Update user
-      user.local.resetPasswordToken = resetPasswordToken
-      user.local.resetPasswordExpires = Date.now() + 3600000
+      user.resetPasswordToken = resetPasswordToken
+      user.resetPasswordExpires = Date.now() + 3600000
       await user.save()
 
       // Send password reset email
@@ -166,8 +166,8 @@ router.post('/check_reset_password_token/:token', async (req, res) => {
   try {
     // Find user by reset password token
     let user = await User.findOne({
-      'local.resetPasswordToken': resetPasswordToken,
-      'local.resetPasswordExpires': {
+      resetPasswordToken: resetPasswordToken,
+      resetPasswordExpires: {
         $gt: Date.now()
       }
     })
@@ -216,8 +216,8 @@ router.post(
 
       // Find user by reset password token
       let user = await User.findOne({
-        'local.resetPasswordToken': resetPasswordToken,
-        'local.resetPasswordExpires': {
+        resetPasswordToken: resetPasswordToken,
+        resetPasswordExpires: {
           $gt: Date.now()
         }
       })
@@ -234,9 +234,9 @@ router.post(
       const hashedPassword = await bcrypt.hash(password, salt)
 
       // Update user
-      user.local.password = hashedPassword
-      user.local.resetPasswordToken = undefined
-      user.local.resetPasswordExpires = undefined
+      user.password = hashedPassword
+      user.resetPasswordToken = undefined
+      user.resetPasswordExpires = undefined
       await user.save()
 
       // Login user

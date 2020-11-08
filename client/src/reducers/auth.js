@@ -10,16 +10,18 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT,
+  ADD_POST_TO_FAVORITES,
+  REMOVE_POST_FROM_FAVORITES
 } from '../actions/types'
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   user: null,
-  validResetPasswordToken: null,
+  validResetPasswordToken: null
 }
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case USER_LOADED:
@@ -42,7 +44,16 @@ export default function (state = initialState, action) {
         ...state,
         token: null,
         isAuthenticated: false,
-        validResetPasswordToken: false,
+        validResetPasswordToken: false
+      }
+    case ADD_POST_TO_FAVORITES:
+    case REMOVE_POST_FROM_FAVORITES:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          favorites: payload
+        }
       }
     default:
       return state

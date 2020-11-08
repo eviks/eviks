@@ -28,7 +28,7 @@ const LocationsFilter = ({
 
   return (
     <div className="locations-filter-wrapper">
-      <div className="locations-filter-header">
+      <div className="locations-filter-header shadow-border">
         <div>
           <span className="text-bold">{cityName}</span>
         </div>

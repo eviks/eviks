@@ -94,7 +94,7 @@ const mapStateToProps = state => ({
   contact: state.post.postForm.contact,
   userName: state.post.postForm.userName,
   validationErrors: state.post.validationErrors,
-  displayName: state.auth.user.local.displayName
+  displayName: state.auth.user.displayName
 })
 
 export default connect(mapStateToProps, { updatePostFormAttributes })(

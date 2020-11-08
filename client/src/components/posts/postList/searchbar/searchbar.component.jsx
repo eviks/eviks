@@ -3,6 +3,7 @@ import { removeAllFilters } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import FilterButton from '../filterButton/filterButton.component'
+import DealTypeFilter from '../filters/dealTypeFilter.component'
 import PriceFilter from '../filters/priceFilter.component'
 import RoomFilter from '../filters/roomFilter.component'
 import EstateTypeFilter from '../filters/estateTypeFilter.component'
@@ -12,6 +13,7 @@ import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
 import { getURLParams } from '../../../../utils/urlParams'
 import {
+  getDealTypeFilterTitle,
   getPriceFilterTitle,
   getRoomsFilterTitle,
   estateTypeFilterTitle
@@ -22,7 +24,7 @@ import './searchbar.style.scss'
 
 let prevScrollPos = window.pageYOffset
 
-const Searchbar = ({ navRef, removeAllFilters }) => {
+const Searchbar = ({ navRef, removeAllFilters, dealType }) => {
   const history = useHistory()
   const urlParameters = Object.fromEntries(
     getURLParams(history.location.search)
@@ -107,6 +109,14 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
               closeFilter={() => setShowLocationsFilter(false)}
             />
           </ReactModal>
+          {/* Deal type */}
+          <FilterButton
+            title={getDealTypeFilterTitle(dealType)}
+            name={'dealType'}
+            filter={filter}
+            setFilter={setFilter}
+            component={DealTypeFilter}
+          />
           {/* Price */}
           <FilterButton
             title={getPriceFilterTitle(urlParameters)}
@@ -157,7 +167,12 @@ const Searchbar = ({ navRef, removeAllFilters }) => {
 
 Searchbar.propTypes = {
   navRef: PropTypes.object.isRequired,
-  removeAllFilters: PropTypes.func.isRequired
+  removeAllFilters: PropTypes.func.isRequired,
+  dealType: PropTypes.string.isRequired
 }
 
-export default connect(null, { removeAllFilters })(Searchbar)
+const mapStateToProps = state => ({
+  dealType: state.post.posts.filters.dealType
+})
+
+export default connect(mapStateToProps, { removeAllFilters })(Searchbar)

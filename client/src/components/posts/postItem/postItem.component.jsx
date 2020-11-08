@@ -5,6 +5,7 @@ import {
   renderLeftNav,
   renderRightNav
 } from '../../layout/arrowButtons/galleryButtons.component'
+import LikeButton from '../likeButton/likeButton.component'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -44,8 +45,8 @@ const PostItem = ({
   }
 
   return (
-    <div className="card shadow-border">
-      {
+    <div className="card material-border">
+      <div className="card-gallery-wrapper">
         <ImageGallery
           items={getPostPhotos()}
           showThumbnails={false}
@@ -57,7 +58,8 @@ const PostItem = ({
           renderLeftNav={renderLeftNav}
           renderRightNav={renderRightNav}
         />
-      }
+        <LikeButton postId={_id} />
+      </div>
       <div className="card-info" onClick={redirectToPost}>
         <div className="card-block">
           <div>

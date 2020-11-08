@@ -40,6 +40,10 @@ const resources = {
         joinOrSignIn: 'Вход и регистрация'
       },
       localities: {
+        form: {
+          menuText: 'Выберите ваш регион',
+          select: 'Выбрать'
+        },
         question: {
           text: 'Ваш город - Баку?',
           yes: 'Все верно',
@@ -81,6 +85,10 @@ const resources = {
           changePassword: 'Подтвердить',
           newPassword: 'Новый пароль',
           passwordConfirm: 'Повторите пароль'
+        },
+        favorites: {
+          toastrTitle: 'Добавлено в избранное',
+          toastrText: 'Всего в избранном {{numberOfPosts}} постов'
         }
       },
       landing: {
@@ -168,8 +176,10 @@ const resources = {
         noResults: 'Как жаль! По вашему запросу нет результатов',
         filters: {
           allFilters: 'Фильтры',
+          additionalFilters: 'Дополнительные фильтры',
           remove: 'Очистить фильтры',
           search: 'Найти',
+          dealType: 'Тип сделки',
           price: 'Цена',
           priceRange: '{{priceMin}} - {{priceMax}} ₼',
           priceUpTo: 'До {{priceMax}} ₼',
@@ -198,6 +208,11 @@ const resources = {
           locations: {
             district: 'Район'
           }
+        },
+        dealTypes: {
+          sale: 'Купить',
+          rent: 'Снять',
+          rentPerDay: 'Посуточно'
         },
         estateTypes: {
           any: 'Любой',

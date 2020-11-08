@@ -19,8 +19,18 @@ const MoreFilters = ({ filterOnClick }) => {
     <FadeInDownDiv>
       <div className="more-filters-popup">
         <div className="more-filters-container">
+          <div className="more-filters-header shadow-border">
+            <div>
+              <span className="text-bold">
+                {t('postList.filters.additionalFilters')}
+              </span>
+            </div>
+            <button className="close-modal" onClick={() => filterOnClick()}>
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
           <MoreFiltersForm />
-          <div className="filter-footer">
+          <div className="more-filters-footer">
             <button
               className="btn btn-white btn-md"
               onClick={() => {
@@ -32,13 +42,6 @@ const MoreFilters = ({ filterOnClick }) => {
           </div>
         </div>
       </div>
-      <button
-        className="close-modal"
-        style={{ top: '-3%', right: '-5%' }}
-        onClick={() => filterOnClick()}
-      >
-        <i className="fas fa-times"></i>
-      </button>
     </FadeInDownDiv>
   )
 }

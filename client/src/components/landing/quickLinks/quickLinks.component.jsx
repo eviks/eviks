@@ -6,7 +6,7 @@ import './quickLinks.style.scss'
 
 const QuickLinks = ({ links, title, img }) => {
   return (
-    <div className="quick-links-wrapper shadow-border my-1">
+    <div className="quick-links-wrapper material-border my-1">
       <div className="quick-links-img">
         <picture>
           <source media="(min-width:480px)" srcSet={img} />

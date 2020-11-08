@@ -1,6 +1,12 @@
 import { priceFormatter } from '../../../../utils/formatters'
 import i18n from 'i18next'
 
+export const getDealTypeFilterTitle = dealType => {
+  return dealType
+    ? i18n.t(`postList.dealTypes.${dealType}`)
+    : i18n.t(`postList.dealTypes.sale`)
+}
+
 export const getPriceFilterTitle = urlParameters => {
   const { priceMin, priceMax } = urlParameters
 

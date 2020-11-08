@@ -30,7 +30,7 @@
     "react-scripts": "^3.4.0",
     "react-text-mask": "^5.4.1",
     "react-transition-group": "^4.4.1",
-    "react-yandex-maps": "^4.3.0",
+    "react-yandex-maps": "^4.5.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",

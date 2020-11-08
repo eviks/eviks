@@ -25,12 +25,12 @@ export const getPosts = filters => async dispatch => {
   if (!filtersObj.page) filtersObj.page = 1
   const url = setURLParams(filtersObj)
   try {
-    dispatch(asyncActionStart())
+    dispatch(asyncActionStart('POST_LIST'))
     const res = await axios.get(`/api/posts/?${url && url + '&'}limit=${15}`)
     dispatch({ type: GET_POSTS, payload: res.data })
-    dispatch(asyncActionFinish())
+    dispatch(asyncActionFinish('POST_LIST'))
   } catch (error) {
-    dispatch(asyncActionError())
+    dispatch(asyncActionError('POST_LIST'))
     dispatch({
       type: POST_ERROR,
       payload: {

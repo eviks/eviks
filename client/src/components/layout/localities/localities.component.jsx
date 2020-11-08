@@ -7,6 +7,7 @@ import Spinner from '../spinner/spinner.component'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 import './localities.style.scss'
@@ -100,26 +101,49 @@ const Localities = ({
     handleCloseModal()
   }
 
+  const [t] = useTranslation()
+
   return (
-    <FadeInDiv className="localities-container" ref={containerRef}>
-      {loading ? (
-        <Spinner className="localities-loading-spinner" />
-      ) : (
-        <Fragment>
-          {city.id !== '' && (
-            <div className="localities-header">
-              <h1>{getTitle()}</h1>
-              <button className="btn btn-primary btn-md" onClick={selectLocality}>
-                Выбрать
-              </button>
-            </div>
-          )}
-          <ul className={'localities-list'}>
-            {localities &&
-              localities.map(locality =>
-                city.id !== '' ? (
-                  locality.children &&
-                  locality.children.map(locality => (
+    <FadeInDiv className="localities-wrapper" ref={containerRef}>
+      <div className="localities-menu shadow-border">
+        <div>
+          <span className="text-bold">{t('localities.form.menuText')}</span>
+        </div>
+        <button className="close-modal" onClick={handleCloseModal}>
+          <i className="fas fa-times"></i>
+        </button>
+      </div>
+      <div className="localities-container">
+        {loading ? (
+          <Spinner className="localities-loading-spinner" />
+        ) : (
+          <Fragment>
+            {city.id !== '' && (
+              <div className="localities-header">
+                <h1>{getTitle()}</h1>
+                <button
+                  className="btn btn-primary btn-md"
+                  onClick={selectLocality}
+                >
+                  {t('localities.form.select')}
+                </button>
+              </div>
+            )}
+            <ul className={'localities-list'}>
+              {localities &&
+                localities.map(locality =>
+                  city.id !== '' ? (
+                    locality.children &&
+                    locality.children.map(locality => (
+                      <li key={locality.id} className="localities-item">
+                        <Locality
+                          locality={locality}
+                          citySelectMode={citySelectMode}
+                          handleCloseModal={handleCloseModal}
+                        />
+                      </li>
+                    ))
+                  ) : (
                     <li key={locality.id} className="localities-item">
                       <Locality
                         locality={locality}
@@ -127,23 +151,12 @@ const Localities = ({
                         handleCloseModal={handleCloseModal}
                       />
                     </li>
-                  ))
-                ) : (
-                  <li key={locality.id} className="localities-item">
-                    <Locality
-                      locality={locality}
-                      citySelectMode={citySelectMode}
-                      handleCloseModal={handleCloseModal}
-                    />
-                  </li>
-                )
-              )}
-          </ul>
-        </Fragment>
-      )}
-      <button className="close-modal" onClick={handleCloseModal}>
-        <i className="fas fa-times"></i>
-      </button>
+                  )
+                )}
+            </ul>
+          </Fragment>
+        )}
+      </div>
     </FadeInDiv>
   )
 }

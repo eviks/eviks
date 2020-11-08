@@ -56,12 +56,12 @@ const Auth = ({ handleCloseModal, showOverlay }) => {
           )}
         </div>
         {showOverlay && <FadeInDiv className="overlay-container"></FadeInDiv>}
+        {showOverlay && (
+          <button className="close-modal" onClick={() => handleCloseModal()}>
+            <i className="fas fa-times"></i>
+          </button>
+        )}
       </FadeInDiv>
-      {showOverlay && (
-        <button className="close-modal" onClick={() => handleCloseModal()}>
-          <i className="fas fa-times"></i>
-        </button>
-      )}
     </div>
   )
 }

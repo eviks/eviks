@@ -19,15 +19,6 @@
     display: flex;
     flex-direction: row;
   }
-
-  &-footer {
-    display: flex;
-    justify-content: center;
-    background-color: $primary-color;
-    padding: 1rem;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
 }
 
 .row-group {
@@ -77,18 +68,32 @@
   }
 
   &-popup {
-    border-top-left-radius: 8px;
+    border-radius: 8px;
+    background-color: $light-color;
     position: relative;
     overflow: hidden;
+  }
+
+  &-header {
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 
   &-form {
     display: flex;
     flex-direction: column;
-    background-color: $light-color;
     max-height: 400px;
     overflow: auto;
     padding-top: 1rem;
+  }
+
+  &-footer {
+    display: flex;
+    justify-content: center;
+    background-color: $primary-color;
+    padding: 1rem;
   }
 }
 

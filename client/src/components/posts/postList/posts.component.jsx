@@ -11,9 +11,11 @@ import {
   setSrearchFiltersFromURL,
   removeAllFilters
 } from '../../../actions/post'
+import { setCurrentLocality } from '../../../actions/locality'
 import useWindowDimensions from '../../../utils/hooks/useWindowDimensions'
 import { getURLParams } from '../../../utils/urlParams'
 import { useTranslation } from 'react-i18next'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 
 import './posts.style.scss'
@@ -21,17 +23,20 @@ import './posts.style.scss'
 const Posts = ({
   posts,
   currentLocality,
-  loading,
   getPosts,
   setSrearchFiltersFromURL,
   removeAllFilters,
+  setCurrentLocality,
+  loading,
+  loadingElements,
   navRef
 }) => {
-  const history = useHistory()
-
   const { result, pagination } = posts
 
+  const [initialLoading, setInitialLoading] = useState(true)
   const [smallWidth, setSmallWidth] = useState(true)
+
+  const history = useHistory()
 
   const { width } = useWindowDimensions()
   if (width <= 768 && !smallWidth) setSmallWidth(true)
@@ -42,26 +47,59 @@ const Posts = ({
   }, [removeAllFilters])
 
   useEffect(() => {
-    // City ID & deal type are required
-    const path = history.location.pathname
-    const pathArray = path.split('/')
-    let searchParams = { cityId: currentLocality.city.id, dealType: pathArray[2] }
+    const fetchData = async () => {
+      const path = history.location.pathname
+      const pathArray = path.split('/')
 
-    // Other filters
-    const query = history.location.search
-    if (query) {
-      searchParams = {
-        ...searchParams,
-        ...Object.fromEntries(getURLParams(query))
+      try {
+        const result = await axios.get(
+          `/api/localities?routeName=${pathArray[1]}`
+        )
+
+        // City ID & deal type are required
+        let searchParams = {
+          cityId:
+            result.data.length > 0
+              ? result.data[0].id
+              : currentLocality.city.id,
+          dealType: pathArray[2]
+        }
+
+        // Other filters
+        const query = history.location.search
+        if (query) {
+          searchParams = {
+            ...searchParams,
+            ...Object.fromEntries(getURLParams(query))
+          }
+        }
+
+        // Update state
+        setSrearchFiltersFromURL(searchParams)
+        getPosts(searchParams)
+
+        // Update current locality if needed
+        if (
+          result.data.length > 0 &&
+          result.data[0].id !== currentLocality.city.id
+        ) {
+          setCurrentLocality({
+            nextQuestionDate: new Date(Date.now() + 86400000 * 365),
+            city: result.data[0]
+          })
+        }
+
+        // Set initial loading to false
+        if (initialLoading) setInitialLoading(false)
+      } catch (error) {
+        console.log(error)
       }
     }
 
-    // Update state
-    setSrearchFiltersFromURL(searchParams)
-    getPosts(searchParams)
+    fetchData()
 
     // eslint-disable-next-line
-  }, [history.location.search])
+  }, [history.location.search, history.location.pathname])
 
   const handlePaginationOnClick = page => {
     // getPosts({ ...filters, page }, history)
@@ -83,7 +121,7 @@ const Posts = ({
   return (
     <div>
       {width > 768 ? <Searchbar navRef={navRef} /> : <SearchbarSmall />}
-      {!loading && result.length === 0 ? (
+      {!loading && !initialLoading && result.length === 0 ? (
         <div className="container-center">
           <div className="no-results-img" />
           <span className="lead text-secondary">
@@ -93,7 +131,8 @@ const Posts = ({
       ) : (
         <Fragment>
           <div className="cards-container">
-            {loading
+            {(loading && loadingElements.includes('POST_LIST')) ||
+            initialLoading
               ? getSkeletonItems()
               : result.map(post => <PostItem key={post._id} post={post} />)}
           </div>
@@ -113,17 +152,21 @@ Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
   setSrearchFiltersFromURL: PropTypes.func.isRequired,
   removeAllFilters: PropTypes.func.isRequired,
-  loading: PropTypes.bool
+  setCurrentLocality: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  loadingElements: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => ({
   posts: state.post.posts,
   currentLocality: state.locality.currentLocality,
-  loading: state.async.loading
+  loading: state.async.loading,
+  loadingElements: state.async.loadingElements
 })
 
 export default connect(mapStateToProps, {
   getPosts,
   setSrearchFiltersFromURL,
-  removeAllFilters
+  removeAllFilters,
+  setCurrentLocality
 })(Posts)

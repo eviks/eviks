@@ -20,8 +20,8 @@ passport.use(
     async (req, email, password, done) => {
       try {
         // Check if user already exists
-        let user = await User.findOne({ 'local.email': email })
-        if (user && user.local.active) {
+        let user = await User.findOne({ email: email })
+        if (user && user.active) {
           return done(null, false, {
             msg: 'This email is already taken'
           })
@@ -35,20 +35,18 @@ passport.use(
         const activationToken = randomstring.generate()
 
         if (user) {
-          user.local = {
-            ...user.local,
+          user = {
+            ...user,
             displayName: req.body.displayName,
             password: hashedPassword,
             activationToken
           }
         } else {
           user = new User({
-            local: {
-              displayName: req.body.displayName,
-              email,
-              password: hashedPassword,
-              activationToken
-            }
+            displayName: req.body.displayName,
+            email,
+            password: hashedPassword,
+            activationToken
           })
         }
 
@@ -84,7 +82,7 @@ passport.use(
     async (req, email, password, done) => {
       try {
         // Check if user exist
-        let user = await User.findOne({ 'local.email': email })
+        let user = await User.findOne({ email: email })
         if (!user) {
           return done(null, false, {
             msg: 'Invalid credentials'
@@ -92,7 +90,7 @@ passport.use(
         }
 
         // Check password
-        const isMatch = await bcrypt.compare(password, user.local.password)
+        const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
           return done(null, false, {
             msg: 'Invalid credentials'
@@ -100,7 +98,7 @@ passport.use(
         }
 
         // Check if user is activated
-        if (!user.local.active) {
+        if (!user.active) {
           return done(null, false, {
             msg: 'User email is not verified'
           })
@@ -123,7 +121,7 @@ passport.use(
     },
     async (jwtPayload, done) => {
       try {
-        user = await User.findById(jwtPayload.user.id).select('-local.password')
+        user = await User.findById(jwtPayload.user.id).select('-password')
         if (!user) {
           return done(null, false, {
             msg: 'Authorization denied'

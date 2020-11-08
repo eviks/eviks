@@ -4,7 +4,10 @@
   background: $light-color;
   border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.15s ease-out;
+
+  &-gallery-wrapper {
+    position: relative;
+  }
 
   &-photos {
     position: relative;
@@ -42,12 +45,6 @@
     align-items: flex-end;
   }
 
-  &:hover {
-    .card-photos {
-      opacity: 0.9;
-    }
-  }
-
   .time-stamp {
     opacity: 50%;
   }
@@ -66,10 +63,6 @@
     justify-content: center;
     align-items: center;
     margin: 0 0.2rem;
-  }
-
-  &:hover {
-    transform: translateY(-6px);
   }
 }
 

@@ -53,8 +53,7 @@ const Navbar = ({
       </li>
       <li>
         <Link className="link" to="/">
-          <i className="fas fa-user"></i>{' '}
-          {user && user.local && user.local.displayName}
+          <i className="fas fa-user"></i> {user && user.displayName}
         </Link>
       </li>
       <li>
