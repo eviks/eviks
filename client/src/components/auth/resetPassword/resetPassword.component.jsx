@@ -9,6 +9,7 @@ import { setAlert, deleteAllAlerts } from '../../../actions/alert'
 import { toastr } from 'react-redux-toastr'
 import MessageIcon from '../../layout/icons/messageIcon.component'
 import { useTranslation } from 'react-i18next'
+import { baseUrl } from '../../../App'
 import uuid from 'uuid'
 import PropTypes from 'prop-types'
 
@@ -20,7 +21,7 @@ const ResetPassword = ({
   deleteAllAlerts,
   sendResetPasswordToken,
   location,
-  history,
+  history
 }) => {
   useEffect(() => {
     return () => {
@@ -40,7 +41,7 @@ const ResetPassword = ({
     const toastrOptions = {
       timeOut: 0,
       icon: <MessageIcon />,
-      status: 'info',
+      status: 'info'
     }
     toastr.light(
       t('auth.resetPassword.checkEmailTitle'),
@@ -49,7 +50,7 @@ const ResetPassword = ({
     )
 
     // Go to landing page
-    history.push('/')
+    history.push(`${baseUrl}/`)
   }
 
   const [t] = useTranslation()
@@ -75,10 +76,10 @@ const ResetPassword = ({
           options={{
             type: 'email',
             name: 'email',
-            value: email,
+            value: email
           }}
           main={true}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
         />
         <div>
           <button
@@ -101,15 +102,15 @@ ResetPassword.propTypes = {
   sendResetPasswordToken: PropTypes.func.isRequired,
   deleteAllAlerts: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  showAlert: PropTypes.bool,
+  showAlert: PropTypes.bool
 }
 
-const mapStateToProps = (state) => ({
-  loading: state.async.loading,
+const mapStateToProps = state => ({
+  loading: state.async.loading
 })
 
 export default connect(mapStateToProps, {
   setAlert,
   deleteAllAlerts,
-  sendResetPasswordToken,
+  sendResetPasswordToken
 })(ResetPassword)

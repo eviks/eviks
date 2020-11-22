@@ -24,6 +24,7 @@ import SuccessIcon from '../../layout/icons/successIcon.component'
 import Ripple from '../../layout/ripple/ripple.component'
 import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import { useTranslation } from 'react-i18next'
+import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 import './postForm.style.scss'
@@ -66,7 +67,7 @@ const PostForm = ({
         t('createPost.postIsPublished'),
         toastrOptions
       )
-      history.push('/')
+      history.push(`${baseUrl}/`)
     }
     // eslint-disable-next-line
   }, [newPostCreated])

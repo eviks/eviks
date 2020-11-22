@@ -51,7 +51,7 @@ const LocalitiesFilters = ({
   return (
     <div className="districts-filter-wrapper">
       {loading ? (
-        <Spinner className="localities-loading-spinner" />
+        <Spinner className="centered-spinner" />
       ) : (
         districts.map(district => (
           <DistrictFilter

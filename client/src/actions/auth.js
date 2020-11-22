@@ -19,6 +19,7 @@ import {
 } from './types'
 import setAuthToken from '../utils/setAuthToken'
 import uuid from 'uuid'
+import { baseUrl } from '../App'
 
 // Load user
 export const loadUser = () => async dispatch => {
@@ -156,7 +157,7 @@ export const resetPassword = (
     dispatch({ type: RESETPASSWORD_SUCCESS, payload: res.data })
     dispatch(loadUser())
     dispatch(asyncActionFinish())
-    history.push('/')
+    history.push(`${baseUrl}/`)
   } catch (error) {
     dispatch(asyncActionError())
     dispatch({ type: RESETPASSWORD_FAIL })

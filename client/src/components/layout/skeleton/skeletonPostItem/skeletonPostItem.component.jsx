@@ -1,7 +1,7 @@
 import React from 'react'
-import SkeletonLine from '../../layout/skeleton/skeletonLine.component'
+import SkeletonLine from '../skeletonLine.component'
 
-import './postItemSkeleton.style.scss'
+import './skeletonPostItem.style.scss'
 
 const PostItemSkeleton = () => {
   return (

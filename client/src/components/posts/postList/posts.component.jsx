@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Searchbar from './searchbar/searchbar.component'
 import SearchbarSmall from './searchbar/searchbarSmall.component'
 import Pagination from '../../layout/pagination/pagination.component'
-import PostItemSkeleton from '../postItemSkeleton/postItemSkeleton.component'
+import SkeletonPostList from '../../layout/skeleton/skeletonPostList/skeletonPostList.component'
 import PostItem from '../postItem/postItem.component'
 import {
   getPosts,
@@ -53,7 +53,7 @@ const Posts = ({
 
       try {
         const result = await axios.get(
-          `/api/localities?routeName=${pathArray[1]}`
+          `/api/localities?routeName=${pathArray[2]}`
         )
 
         // City ID & deal type are required
@@ -62,7 +62,7 @@ const Posts = ({
             result.data.length > 0
               ? result.data[0].id
               : currentLocality.city.id,
-          dealType: pathArray[2]
+          dealType: pathArray[3]
         }
 
         // Other filters
@@ -105,17 +105,6 @@ const Posts = ({
     // getPosts({ ...filters, page }, history)
   }
 
-  const getSkeletonItems = () => (
-    <Fragment>
-      <PostItemSkeleton />
-      <PostItemSkeleton />
-      <PostItemSkeleton />
-      <PostItemSkeleton />
-      <PostItemSkeleton />
-      <PostItemSkeleton />
-    </Fragment>
-  )
-
   const [t] = useTranslation()
 
   return (
@@ -130,11 +119,13 @@ const Posts = ({
         </div>
       ) : (
         <Fragment>
-          <div className="cards-container">
+          <div className="cards-container my-2 mx-2">
             {(loading && loadingElements.includes('POST_LIST')) ||
-            initialLoading
-              ? getSkeletonItems()
-              : result.map(post => <PostItem key={post._id} post={post} />)}
+            initialLoading ? (
+              <SkeletonPostList />
+            ) : (
+              result.map(post => <PostItem key={post._id} post={post} />)
+            )}
           </div>
           <Pagination
             pagination={pagination}

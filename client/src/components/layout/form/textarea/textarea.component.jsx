@@ -17,7 +17,7 @@ const Textarea = ({
     <div className="field" style={wrapperStyle}>
       <div className="field-name">{fieldName}</div>
       <textarea
-        className={`textarea-field ${error ? 'error' : ''}`}
+        className={`textarea-field ${error ? 'textarea-field-error' : ''}`}
         {...options}
         onChange={e => onChange(e)}
       ></textarea>

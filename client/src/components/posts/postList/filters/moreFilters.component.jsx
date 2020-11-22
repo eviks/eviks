@@ -19,7 +19,7 @@ const MoreFilters = ({ filterOnClick }) => {
     <FadeInDownDiv>
       <div className="more-filters-popup">
         <div className="more-filters-container">
-          <div className="more-filters-header shadow-border">
+          <div className="more-filters-header light-shadow-border">
             <div>
               <span className="text-bold">
                 {t('postList.filters.additionalFilters')}

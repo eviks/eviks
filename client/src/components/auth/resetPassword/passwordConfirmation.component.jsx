@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { checkResetPasswordToken, resetPassword } from '../../../actions/auth'
 import Spinner from '../../layout/spinner/spinner.component'
 import { useTranslation } from 'react-i18next'
+import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 import '../auth.style.scss'
@@ -50,7 +51,10 @@ const PasswordConfirmation = ({
   if (!validResetPasswordToken)
     return (
       <Redirect
-        to={{ pathname: '/reset_password', state: { showAlert: true } }}
+        to={{
+          pathname: `${baseUrl}/reset_password`,
+          state: { showAlert: true }
+        }}
       />
     )
 

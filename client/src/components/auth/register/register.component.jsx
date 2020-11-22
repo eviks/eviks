@@ -12,6 +12,7 @@ import MessageIcon from '../../layout/icons/messageIcon.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInRight } from 'react-animations'
 import { useTranslation } from 'react-i18next'
+import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 const FadeInRightAnimation = keyframes`${fadeInRight}`
@@ -63,7 +64,7 @@ const Register = ({
       if (handleCloseModal !== undefined) {
         handleCloseModal()
       } else {
-        history.push('/')
+        history.push(`${baseUrl}/`)
       }
     }
   }

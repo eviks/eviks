@@ -5,14 +5,21 @@ import PropTypes from 'prop-types'
 import './pagination.style.scss'
 
 const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
-  const [state, setState] = useState({ prevPages: [], nextPages: [] })
+  const [state, setState] = useState({
+    prevPages: [],
+    nextPages: []
+  })
   const { prevPages, nextPages } = state
 
   useEffect(() => {
     const newPrevPages = []
     const newNextPages = []
 
-    for (let i = current; i > Math.min(current + 1, skipped); i--) {
+    for (
+      let i = current;
+      i > Math.min(current + 1, skipped) && current > 1;
+      i--
+    ) {
       newPrevPages.push(i - 1)
     }
 
@@ -20,7 +27,10 @@ const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
       newNextPages.push(i + 1)
     }
 
-    setState({ prevPages: newPrevPages, nextPages: newNextPages })
+    setState({
+      prevPages: newPrevPages,
+      nextPages: newNextPages
+    })
   }, [current, skipped, total])
 
   return (

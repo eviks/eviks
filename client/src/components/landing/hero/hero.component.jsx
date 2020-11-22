@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Ripple from '../../layout/ripple/ripple.component'
 import { useTranslation } from 'react-i18next'
+import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 const Hero = ({ city }) => {
@@ -15,14 +16,17 @@ const Hero = ({ city }) => {
           <p className="lead">{t('landing.slogan')}</p>
           <div className="buttons">
             <Link
-              to="create_post"
+              to={`${baseUrl}/create_post`}
               className="btn btn-ghost"
               style={{ marginRight: '0.5rem' }}
             >
               {t('landing.sell')}
               <Ripple />
             </Link>
-            <Link to={`/${city.routeName}/sale`} className="btn btn-primary">
+            <Link
+              to={`${baseUrl}/${city.routeName}/sale`}
+              className="btn btn-primary"
+            >
               {t('landing.search')}
               <Ripple />
             </Link>

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import useIsMount from '../../../utils/hooks/useIsMount'
 import ScrollMenu from 'react-horizontal-scrolling-menu'
 import PostItem from '../../posts/postItem/postItem.component'
-import PostItemSkeleton from '../../posts/postItemSkeleton/postItemSkeleton.component'
+import SkeletonPostItem from '../../layout/skeleton/skeletonPostItem/skeletonPostItem.component'
 import ArrowButton from '../../layout/arrowButtons/arrowButton.component'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
@@ -13,9 +13,9 @@ import './swipeBlock.style.scss'
 const SwipeBlock = () => {
   const swipeBlockRef = useRef(null)
   const [list, setList] = useState([
-    <PostItemSkeleton key={uuid.v4()} />,
-    <PostItemSkeleton key={uuid.v4()} />,
-    <PostItemSkeleton key={uuid.v4()} />
+    <SkeletonPostItem key={uuid.v4()} />,
+    <SkeletonPostItem key={uuid.v4()} />,
+    <SkeletonPostItem key={uuid.v4()} />
   ])
 
   const onLeftArrowClick = () => {

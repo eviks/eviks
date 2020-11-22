@@ -39,14 +39,6 @@
     break-inside: avoid-column;
   }
 
-  &-loading-spinner {
-    position: absolute;
-    width: 50px;
-    transform: translate(50%, 50%);
-    right: 50%;
-    bottom: 50%;
-  }
-
   &-question-wrapper {
     position: fixed;
     top: 25px;

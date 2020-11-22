@@ -54,8 +54,8 @@ const Input = ({
         <MaskedInput
           ref={forwardedRef}
           mask={mask || defaultMask}
-          className={`input-field${main ? '-main' : ''} ${
-            error ? 'error' : ''
+          className={`input-field ${main ? 'input-field-main' : ''} ${
+            error ? 'input-field-error' : ''
           }`}
           onChange={handleOnChange}
           onBlur={handleOnBlur}

@@ -105,7 +105,7 @@ const Localities = ({
 
   return (
     <FadeInDiv className="localities-wrapper" ref={containerRef}>
-      <div className="localities-menu shadow-border">
+      <div className="localities-menu light-shadow-border">
         <div>
           <span className="text-bold">{t('localities.form.menuText')}</span>
         </div>
@@ -115,7 +115,7 @@ const Localities = ({
       </div>
       <div className="localities-container">
         {loading ? (
-          <Spinner className="localities-loading-spinner" />
+          <Spinner className="centered-spinner" />
         ) : (
           <Fragment>
             {city.id !== '' && (

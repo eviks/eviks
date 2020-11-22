@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 // import { updateURLParams } from '../../../../actions/post'
 import Radio from '../../../layout/form/radio/radio.component'
 import { useTranslation } from 'react-i18next'
+import { baseUrl } from '../../../../App'
 import PropTypes from 'prop-types'
 
 import './filters.style.scss'
@@ -13,7 +14,7 @@ const DealTypeFilter = dealType => {
 
   const filtersOnChange = e => {
     const value = e.target.value
-    history.push(`/baku/${value}`)
+    history.push(`${baseUrl}/baku/${value}`)
   }
 
   const [t] = useTranslation()

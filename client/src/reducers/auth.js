@@ -15,6 +15,7 @@ import {
 } from '../actions/types'
 
 const initialState = {
+  userIsLoading: true,
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   user: null,
@@ -25,14 +26,24 @@ export default function(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case USER_LOADED:
-      return { ...state, isAuthenticated: true, user: payload }
+      return {
+        ...state,
+        userIsLoading: false,
+        isAuthenticated: true,
+        user: payload
+      }
     case VERIFICATION_SUCCESS:
     case RESETPASSWORD_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token)
-      return { ...state, ...payload, isAuthenticated: true }
+      return {
+        ...state,
+        ...payload,
+        userIsLoading: false,
+        isAuthenticated: true
+      }
     case RESET_TOKEN_CHECK_SUCCESS:
-      return { ...state, validResetPasswordToken: true }
+      return { ...state, userIsLoading: false, validResetPasswordToken: true }
     case AUTH_ERROR:
     case VERIFICATION_FAIL:
     case RESET_TOKEN_CHECK_FAIL:
@@ -42,6 +53,7 @@ export default function(state = initialState, action) {
       localStorage.removeItem('token')
       return {
         ...state,
+        userIsLoading: false,
         token: null,
         isAuthenticated: false,
         validResetPasswordToken: false
@@ -50,6 +62,7 @@ export default function(state = initialState, action) {
     case REMOVE_POST_FROM_FAVORITES:
       return {
         ...state,
+        userIsLoading: false,
         user: {
           ...state.user,
           favorites: payload

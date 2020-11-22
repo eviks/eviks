@@ -8,6 +8,7 @@ import {
 import LikeButton from '../likeButton/likeButton.component'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
+import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 import './postItem.style.scss'
@@ -34,7 +35,7 @@ const PostItem = ({
   const history = useHistory()
   const [t] = useTranslation()
 
-  const redirectToPost = () => history.push(`/posts/${_id}`)
+  const redirectToPost = () => history.push(`${baseUrl}/posts/${_id}`)
 
   const priceStr = price.toLocaleString('az-AZ', {
     style: 'decimal'

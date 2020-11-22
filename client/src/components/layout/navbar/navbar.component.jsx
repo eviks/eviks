@@ -8,6 +8,7 @@ import MenuButton from '../menuButton/menuButton.component'
 import ReactModal from 'react-modal'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useTranslation } from 'react-i18next'
+import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 import './navbar.style.scss'
@@ -47,12 +48,12 @@ const Navbar = ({
   const authLinks = (
     <Fragment>
       <li>
-        <Link className="link" to="/">
+        <Link className="link" to={`${baseUrl}/`}>
           <i className="fas fa-heart"></i> {t('navbar.favorites')}
         </Link>
       </li>
       <li>
-        <Link className="link" to="/">
+        <Link className="link" to={`${baseUrl}/users/${user && user._id}`}>
           <i className="fas fa-user"></i> {user && user.displayName}
         </Link>
       </li>
@@ -78,7 +79,7 @@ const Navbar = ({
         <MenuButton onClick={handleMenuToggle} />
         <div className="right-block">
           <h1>
-            <Link to="/">
+            <Link to={`${baseUrl}/`}>
               {' '}
               <span className="text-primary">
                 {' '}

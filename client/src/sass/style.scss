@@ -6,6 +6,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+
+  &::selection {
+    background-color: $primary-color;
+    color: $light-color;
+  }
 }
 
 body {
@@ -24,6 +29,7 @@ label,
 i {
   font-family: inherit;
   font-size: inherit;
+  color: inherit;
 }
 
 a {

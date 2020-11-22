@@ -7,7 +7,7 @@ import PostFeatures from './postFeatures/postFeatures.component'
 import BuildingInfo from './buildingInfo/buildingInfo.component'
 import PostDescription from './postDescription/postDescription.component'
 import Location from './location/_location.component'
-import PostSkeleton from './postSkeleton/postSkeleton.component'
+import SkeletonPost from '../../layout/skeleton/skeletonPost/skeletonPost.component'
 import { connect } from 'react-redux'
 import { getPost } from '../../../actions/post'
 import {
@@ -32,7 +32,7 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
   }
 
   return loading || post == null ? (
-    <PostSkeleton />
+    <SkeletonPost />
   ) : (
     <div className="post-wrapper">
       <div className="post-container shadow-border">

@@ -13,12 +13,13 @@ import AuthForm from './components/auth/authForm.component'
 import Verification from './components/auth/verification/verification.component'
 import ResetPassword from './components/auth/resetPassword/resetPassword.component'
 import PasswordConfirmation from './components/auth/resetPassword/passwordConfirmation.component'
+import UserMenu from './components/users/userMenu/userMenu.component'
 import Posts from './components/posts/postList/posts.component'
 import Post from './components/posts/post/post.component'
 import PostForm from './components/posts/postForm/postForm.component'
 
 import './sass/style.scss'
-import './i18n'
+import i18n from './i18n'
 import { loadUser } from './actions/auth'
 import { setCurrentLocality } from './actions/locality'
 import setAuthToken from './utils/setAuthToken'
@@ -27,8 +28,14 @@ import setAuthToken from './utils/setAuthToken'
 import { Provider } from 'react-redux'
 import store from './store'
 
+// Internatialization
+const baseRouteUrl = '/:locale(ru|az)?'
+export const baseUrl = `/${i18n.language}`
+
+// Modal windows
 Modal.setAppElement('body')
 
+// User token
 if (localStorage.token) {
   setAuthToken(localStorage.token)
 }
@@ -41,7 +48,9 @@ const App = () => {
     store.dispatch(loadUser())
 
     if (localStorage.currentLocality)
-      store.dispatch(setCurrentLocality(JSON.parse(localStorage.currentLocality)))
+      store.dispatch(
+        setCurrentLocality(JSON.parse(localStorage.currentLocality))
+      )
   }, [])
 
   return (
@@ -52,25 +61,43 @@ const App = () => {
         <LocalitiesQuestion />
         <Switch>
           {/* Home page */}
-          <Route exact path="/" component={Landing} />
+          <Route exact path={`${baseRouteUrl}/`} component={Landing} />
           {/* Authentication */}
-          <Route exact path="/auth" component={AuthForm} />
+          <Route exact path={`${baseRouteUrl}/auth`} component={AuthForm} />
           <Route
             exact
-            path="/verification/:activationToken"
+            path={`${baseRouteUrl}/verification/:activationToken`}
             component={Verification}
           />
-          <Route exact path="/reset_password" component={ResetPassword} />
           <Route
             exact
-            path="/password_confirmation/:resetPasswordToken"
+            path={`${baseRouteUrl}/reset_password`}
+            component={ResetPassword}
+          />
+          <Route
+            exact
+            path={`${baseRouteUrl}/password_confirmation/:resetPasswordToken`}
             component={PasswordConfirmation}
           />
-          {/* Posts */}
-          <Route exact path="/posts/:id" component={Post} />
-          <PrivateRoute exact path="/create_post" component={PostForm} />
+          {/* User Menu */}
           <Route
-            path="/:city/:dealType"
+            path={[
+              `${baseRouteUrl}/users/:id`,
+              `${baseRouteUrl}/users/:id/posts`,
+              `${baseRouteUrl}/favorites`,
+              `${baseRouteUrl}/settings`
+            ]}
+            component={UserMenu}
+          />
+          {/* Posts */}
+          <Route exact path={`${baseRouteUrl}/posts/:id`} component={Post} />
+          <PrivateRoute
+            exact
+            path={`${baseRouteUrl}/create_post`}
+            component={PostForm}
+          />
+          <Route
+            path={`${baseRouteUrl}/:city/:dealType`}
             component={() => <Posts navRef={navRef} />}
           />
         </Switch>

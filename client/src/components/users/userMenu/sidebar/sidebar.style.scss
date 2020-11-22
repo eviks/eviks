@@ -1,0 +1,27 @@
+@import '../../../../sass/config';
+
+.user-menu-sidebar {
+  position: fixed;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background: $primary-color;
+  z-index: 100;
+
+  li {
+    &:hover {
+      a {
+        background: $light-color;
+        color: $primary-color;
+      }
+    }
+  }
+
+  a {
+    display: inline-block;
+    border-radius: 33px;
+    color: $light-color;
+    width: 100%;
+    transition: all ease 0.2s;
+  }
+}

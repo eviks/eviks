@@ -10,6 +10,7 @@ import Input from '../../layout/form/input/input.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInLeft } from 'react-animations'
 import { useTranslation } from 'react-i18next'
+import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`
@@ -22,7 +23,7 @@ const Login = ({
   login,
   isAuthenticated,
   loading,
-  deleteAllAlerts,
+  deleteAllAlerts
 }) => {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [t] = useTranslation()
@@ -34,10 +35,10 @@ const Login = ({
     }
   }, [deleteAllAlerts])
 
-  const onChange = (e) =>
+  const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault()
     login(email, password)
   }
@@ -50,7 +51,7 @@ const Login = ({
     if (handleCloseModal !== undefined) {
       handleCloseModal()
     } else {
-      return <Redirect to="/" />
+      return <Redirect to={`${baseUrl}/`} />
     }
   }
 
@@ -59,7 +60,7 @@ const Login = ({
   }
 
   return (
-    <FadeInLeftForm onSubmit={(e) => onSubmit(e)}>
+    <FadeInLeftForm onSubmit={e => onSubmit(e)}>
       <div className="inner-container">
         <h3 className="lead">{t('auth.loginTitle')}</h3>
         <Alert />
@@ -81,7 +82,7 @@ const Login = ({
           options={{
             type: 'email',
             name: 'email',
-            value: email,
+            value: email
           }}
           main={true}
           onChange={onChange}
@@ -96,7 +97,7 @@ const Login = ({
           options={{
             type: 'password',
             name: 'password',
-            value: password,
+            value: password
           }}
           main={true}
           onChange={onChange}
@@ -110,7 +111,7 @@ const Login = ({
           {loading && <ButtonSpinner />}
           <Ripple />
         </button>
-        <Link to="/reset_password" onClick={resetPasswordOnClick}>
+        <Link to={`${baseUrl}/reset_password`} onClick={resetPasswordOnClick}>
           {t('auth.forgotPassword')}
         </Link>
       </div>
@@ -122,12 +123,12 @@ Login.propTypes = {
   handleCloseModal: PropTypes.func,
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  loading: state.async.loading,
+  loading: state.async.loading
 })
 
 export default connect(mapStateToProps, { login, deleteAllAlerts })(Login)

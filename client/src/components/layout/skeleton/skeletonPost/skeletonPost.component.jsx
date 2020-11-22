@@ -1,9 +1,9 @@
 import React from 'react'
-import SkeletonLine from '../../../layout/skeleton/skeletonLine.component'
+import SkeletonLine from '../skeletonLine.component'
 
-import './postSkeleton.style.scss'
+import './skeletonPost.style.scss'
 
-const PostSkeleton = () => {
+const SkeletonPost = () => {
   return (
     <div className="post-wrapper">
       <div className="post-container shadow-border">
@@ -35,4 +35,4 @@ const PostSkeleton = () => {
   )
 }
 
-export default PostSkeleton
+export default SkeletonPost
