@@ -1,32 +1,45 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import uuid from 'uuid'
+import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 import './dropzone.style.scss'
 
-const Dropzone = ({ files, setFiles }) => {
+const Dropzone = ({ images, setImages }) => {
   const onDrop = useCallback(
-    (acceptedFiles) => {
-      const newPhotos = acceptedFiles.map((file) => {
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-          photoId: uuid.v4(),
-        })
-        return file
-      })
+    async acceptedFiles => {
+      const newImages = (
+        await Promise.all(
+          acceptedFiles.map(async image => {
+            try {
+              const result = await axios.get('/api/posts/generate_upload_id')
+              const id = result.data.id
 
-      setFiles([...files, ...newPhotos])
+              Object.assign(image, {
+                preview: URL.createObjectURL(image),
+                id
+              })
+
+              return image
+            } catch (error) {
+              console.log(error)
+              return null
+            }
+          })
+        )
+      ).filter(image => image !== null)
+
+      setImages([...images, ...newImages])
     },
-    [files, setFiles]
+    [images, setImages]
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: true,
     accept: 'image/*',
-    maxSize: 10485760,
+    maxSize: 10485760
   })
 
   const [t] = useTranslation()
@@ -34,9 +47,8 @@ const Dropzone = ({ files, setFiles }) => {
   return (
     <div
       {...getRootProps()}
-      className={`dropzone ${isDragActive && 'dropzone--active'} ${
-        files.length > 0 && 'dropzone--filled'
-      }`}
+      className={`dropzone ${isDragActive &&
+        'dropzone--active'} ${images.length > 0 && 'dropzone--filled'}`}
     >
       <i className="far fa-images fa-5x" style={{ marginBottom: '0.5rem' }}></i>
       <span className="btn btn-primary btn-sm">{t('dropzone.click')}</span>
@@ -47,8 +59,8 @@ const Dropzone = ({ files, setFiles }) => {
 }
 
 Dropzone.propTypes = {
-  files: PropTypes.array.isRequired,
-  setFiles: PropTypes.func.isRequired,
+  images: PropTypes.array.isRequired,
+  setImages: PropTypes.func.isRequired
 }
 
 export default Dropzone

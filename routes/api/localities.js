@@ -21,9 +21,7 @@ router.get('/', async (req, res) => {
 
     // Localities not found
     if (!localities) {
-      return res
-        .status(404)
-        .json({ errors: [{ message: 'Localities not found' }] })
+      return res.status(404).json({ errors: [{ msg: 'Localities not found' }] })
     }
 
     return res.json(localities)
@@ -43,16 +41,14 @@ router.get('/getByIds/', async (req, res) => {
     if (!ids) {
       return res
         .status(400)
-        .json({ errors: [{ message: 'ids parameter must be specified' }] })
+        .json({ errors: [{ msg: 'ids parameter must be specified' }] })
     }
 
     const localities = await Locality.find({ id: { $in: ids.split(',') } })
 
     // Localities not found
     if (!localities) {
-      return res
-        .status(404)
-        .json({ errors: [{ message: 'Localities not found' }] })
+      return res.status(404).json({ errors: [{ msg: 'Localities not found' }] })
     }
 
     return res.json(localities)

@@ -24,10 +24,10 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
     getPost(match.params.id)
   }, [getPost, match.params.id])
 
-  const getPostPhotos = () => {
-    return post.photos.map(photo => ({
-      original: photo.img,
-      thumbnail: photo.thumb
+  const getPostImages = () => {
+    return post.images.map(image => ({
+      original: image.img,
+      thumbnail: image.thumb
     }))
   }
 
@@ -39,7 +39,7 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
         <PostHead post={post} />
         <div>
           <ImageGallery
-            items={getPostPhotos()}
+            items={getPostImages()}
             showBullets={true}
             showPlayButton={false}
             useTranslate3D={false}

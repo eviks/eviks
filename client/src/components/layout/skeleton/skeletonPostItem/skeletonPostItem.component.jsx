@@ -6,7 +6,7 @@ import './skeletonPostItem.style.scss'
 const PostItemSkeleton = () => {
   return (
     <div className="card">
-      <div className="card-photos">
+      <div className="card-images">
         <div className="skeleton-image">
           <i className="fas fa-home fa-5x"></i>
           <SkeletonLine />

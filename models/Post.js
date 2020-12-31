@@ -70,7 +70,7 @@ const PostSchema = new mongoose.Schema({
   progressPayment: Boolean,
   prepayment: Boolean,
   municipalServices: Boolean,
-  photos: Array,
+  images: Array,
   contact: String,
   date: {
     type: Date,

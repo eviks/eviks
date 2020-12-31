@@ -15,46 +15,46 @@ const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
 `
 
-const PostPhotos = ({ files, setFiles, error }) => {
+const PostImages = ({ images, setImages, error }) => {
   const [t] = useTranslation()
 
-  const deletePhotoFromState = photoId => {
-    setFiles(files.filter(file => file.photoId !== photoId))
+  const deleteImageFromState = id => {
+    setImages(images.filter(image => image.id !== id))
   }
 
   return (
     <FadeInDiv className="post-step">
-      <h3 className="step-title my-1">{t('createPost.photos.title')}</h3>
-      <p className="my-1">{t('createPost.photos.additionalInfo')}</p>
+      <h3 className="step-title my-1">{t('createPost.images.title')}</h3>
+      <p className="my-1">{t('createPost.images.additionalInfo')}</p>
       {error && (
-        <div className="field-required">{t('createPost.photos.minPhotos')}</div>
+        <div className="field-required">{t('createPost.images.minImages')}</div>
       )}
-      {files.length > 0 ? (
+      {images.length > 0 ? (
         <div className="upload-images">
-          {files.map(file => (
+          {images.map(image => (
             <UploadedImage
-              key={file.photoId}
-              file={file}
-              deletePhotoFromState={deletePhotoFromState}
+              key={image.id}
+              image={image}
+              deleteImageFromState={deleteImageFromState}
             />
           ))}
-          <Dropzone files={files} setFiles={setFiles} />
+          <Dropzone images={images} setImages={setImages} />
         </div>
       ) : (
-        <Dropzone files={files} setFiles={setFiles} />
+        <Dropzone images={images} setImages={setImages} />
       )}
     </FadeInDiv>
   )
 }
 
-PostPhotos.propTypes = {
-  files: PropTypes.array.isRequired,
-  setFiles: PropTypes.func.isRequired,
+PostImages.propTypes = {
+  images: PropTypes.array.isRequired,
+  setImages: PropTypes.func.isRequired,
   error: PropTypes.string
 }
 
 const mapStateToProps = state => ({
-  error: state.post.validationErrors.photos
+  error: state.post.validationErrors.images
 })
 
-export default connect(mapStateToProps)(PostPhotos)
+export default connect(mapStateToProps)(PostImages)

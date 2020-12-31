@@ -9,8 +9,8 @@ import {
   FORM_NEXT_STEP,
   FORM_PREV_STEP,
   POST_VALIDATION_ERROR,
-  UPLOAD_PHOTO,
-  DELETE_PHOTO,
+  UPLOAD_IMAGE,
+  DELETE_IMAGE,
   SET_FILTER,
   SET_FILTER_FROM_URL,
   REMOVE_ALL_FILTERS,
@@ -56,22 +56,20 @@ export default function(state = initialState, action) {
         ...state,
         validationErrors: payload
       }
-    case UPLOAD_PHOTO:
+    case UPLOAD_IMAGE:
       return {
         ...state,
         postForm: {
           ...state.postForm,
-          photos: [...state.postForm.photos, payload]
+          images: [...state.postForm.images, payload]
         }
       }
-    case DELETE_PHOTO:
+    case DELETE_IMAGE:
       return {
         ...state,
         postForm: {
           ...state.postForm,
-          photos: state.postForm.photos.filter(
-            photo => photo.photoId !== payload
-          )
+          images: state.postForm.images.filter(image => image !== payload)
         }
       }
     case SET_FILTER:

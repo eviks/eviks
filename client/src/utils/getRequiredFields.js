@@ -19,7 +19,7 @@ export default (formName, currentStep = null, estateType = null) => {
         case 4:
           return ['description']
         case 5:
-          return ['photos']
+          return ['images']
         case 6:
           return ['price']
         case 7:

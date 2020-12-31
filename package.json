@@ -12,12 +12,11 @@
   "author": "Kamran Veliev",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.652.0",
+    "aws-sdk": "^2.819.0",
     "bcryptjs": "^2.4.3",
-    "busboy": "^0.3.1",
-    "busboy-body-parser": "^0.3.2",
     "config": "^3.2.4",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.0",
     "express-validator": "^6.3.1",
     "gridfs-stream": "^1.1.1",
     "handlebars": "^4.7.6",
@@ -29,8 +28,10 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "randomstring": "^1.1.5",
+    "rimraf": "^3.0.2",
     "sharp": "^0.25.2",
-    "text-mask-addons": "^3.8.0"
+    "text-mask-addons": "^3.8.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",

@@ -9,8 +9,8 @@ import {
   UPDATE_POST_FORM,
   FORM_NEXT_STEP,
   FORM_PREV_STEP,
-  UPLOAD_PHOTO,
-  DELETE_PHOTO,
+  UPLOAD_IMAGE,
+  DELETE_IMAGE,
   SET_FILTER,
   SET_FILTER_FROM_URL,
   REMOVE_ALL_FILTERS,
@@ -72,6 +72,7 @@ export const addPost = data => async dispatch => {
   }
 }
 
+// Post-created flag (for redirection purpose)
 export const setPostCreatedFlag = flag => async dispatch => {
   dispatch({ type: SET_POST_CREATED_FLAG, payload: flag })
 }
@@ -207,22 +208,23 @@ export const getAddressByCoords = coords => async dispatch => {
   }
 }
 
-// Upload photo
-export const uploadPhoto = (data, photoId) => async dispatch => {
+// Upload image
+export const uploadImage = data => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   }
+
+  const id = data.get('id')
+
   try {
-    dispatch(asyncActionStart(photoId))
-    const res = await axios.post('/api/posts/upload_photo', data, config)
-    const payload = res.data
-    Object.assign(payload, { photoId })
-    dispatch({ type: UPLOAD_PHOTO, payload })
-    dispatch(asyncActionFinish(photoId))
+    dispatch(asyncActionStart(id))
+    await axios.post('/api/posts/upload_image', data, config)
+    dispatch({ type: UPLOAD_IMAGE, payload: id })
+    dispatch(asyncActionFinish(id))
   } catch (error) {
-    dispatch(asyncActionError(photoId))
+    dispatch(asyncActionError(id))
     dispatch({
       type: POST_ERROR,
       payload: {
@@ -232,15 +234,15 @@ export const uploadPhoto = (data, photoId) => async dispatch => {
   }
 }
 
-// Delete photo
-export const deletePhoto = (photoId, filename) => async dispatch => {
+// Delete image
+export const deleteImage = id => async dispatch => {
   try {
-    dispatch(asyncActionStart(filename))
-    await axios.delete(`/api/posts/delete_photo/${filename}`)
-    dispatch({ type: DELETE_PHOTO, payload: photoId })
-    dispatch(asyncActionFinish(filename))
+    dispatch(asyncActionStart(id))
+    await axios.delete(`/api/posts/delete_image/${id}`)
+    dispatch({ type: DELETE_IMAGE, payload: id })
+    dispatch(asyncActionFinish(id))
   } catch (error) {
-    dispatch(asyncActionError(filename))
+    dispatch(asyncActionError(id))
     dispatch({
       type: POST_ERROR,
       payload: {

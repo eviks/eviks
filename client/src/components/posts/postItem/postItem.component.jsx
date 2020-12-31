@@ -27,7 +27,7 @@ const PostItem = ({
     price,
     date,
     _id,
-    photos,
+    images,
     documented,
     mortgage
   }
@@ -41,15 +41,15 @@ const PostItem = ({
     style: 'decimal'
   })
 
-  const getPostPhotos = () => {
-    return photos.map(photo => ({ original: photo.thumb }))
+  const getPostImages = () => {
+    return images.map(image => ({ original: image.thumb }))
   }
 
   return (
     <div className="card material-border">
       <div className="card-gallery-wrapper">
         <ImageGallery
-          items={getPostPhotos()}
+          items={getPostImages()}
           showThumbnails={false}
           showPlayButton={false}
           showFullscreenButton={false}

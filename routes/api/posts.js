@@ -1,16 +1,12 @@
+const fs = require('fs')
 const express = require('express')
 const router = express.Router()
+const { check, validationResult } = require('express-validator')
 const passport = require('passport')
 const mongoose = require('mongoose')
-const Busboy = require('busboy')
-const busboyBodyParser = require('busboy-body-parser')
-const AWS = require('aws-sdk')
+const uuid = require('uuid')
 const sharp = require('sharp')
-const crypto = require('crypto')
-const path = require('path')
-const config = require('config')
-
-const { accessKeyId, secretAccessKey, Bucket } = config.get('AWS')
+const rimraf = require('rimraf')
 
 const Post = require('../../models/Post')
 
@@ -57,7 +53,7 @@ router.get('/', async (req, res) => {
     res.json(posts)
   } catch (error) {
     console.error(error.message)
-    res.status(500).send('Server Error...')
+    res.status(500).send('Server error...')
   }
 })
 
@@ -186,7 +182,7 @@ router.get('/post/:id', async (req, res) => {
 
   // Id validation
   if (!mongoose.Types.ObjectId.isValid(postId)) {
-    return res.status(404).json({ errors: [{ message: 'Post not found' }] })
+    return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
   }
 
   try {
@@ -194,7 +190,7 @@ router.get('/post/:id', async (req, res) => {
 
     // Post not found
     if (!post) {
-      return res.status(404).json({ errors: [{ message: 'Post not found' }] })
+      return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
     }
 
     return res.json(post)
@@ -224,120 +220,105 @@ router.post(
   }
 )
 
-// @route POST api/posts/upload_photo
-// @desc  Upload photo
+// @route GET api/posts/generate_upload_id
+// @desc  Generates unique id for new uploading image
 // @access Private
-router.post(
-  '/upload_photo',
-  [
-    passport.authenticate('jwt', { session: false }),
-    busboyBodyParser({ limit: '10mb' })
-  ],
+router.get(
+  '/generate_upload_id',
+  [passport.authenticate('jwt', { session: false })],
   (req, res) => {
-    const busboy = new Busboy({ headers: req.headers })
-    busboy.on('finish', async () => {
-      const { name, data, mimetype } = req.files.photo
+    // Generate unique id
+    let id = uuid.v4()
+    while (fs.existsSync(id)) {
+      id = uuid.v4()
+    }
 
-      try {
-        const uploadFilePromises = []
-        const filename = await hashFileName(name)
-        const re = /WIDTH/
+    // Create new directory, where all image size versions will be stored
+    const directory = `${__dirname}/../../uploads/temp/post_images/${id}`
+    fs.mkdirSync(directory)
 
-        const image = await sharp(data)
-          .resize(1024)
-          .toBuffer()
-
-        const thumbnail = await sharp(data)
-          .resize(480)
-          .toBuffer()
-
-        const imgName = filename.replace(re, '1024')
-        const thumbName = filename.replace(re, '480')
-
-        uploadFilePromises.push(uploadToS3(imgName, image, mimetype))
-
-        uploadFilePromises.push(uploadToS3(thumbName, thumbnail, mimetype))
-
-        const filesInfo = await Promise.all(uploadFilePromises)
-        res.json({
-          img: filesInfo[0].Location,
-          thumb: filesInfo[1].Location,
-          fileNames: [imgName, thumbName]
-        })
-      } catch (error) {
-        console.error(error.message)
-        return res.status(500).send('Server error...')
-      }
-    })
-
-    req.pipe(busboy)
+    res.json({ id })
   }
 )
 
-// @route DELETE api/posts/delete_photo/:id
-// @desc  Delete photo
+// @route POST api/posts/upload_image
+// @desc  Upload image
 // @access Private
-router.delete(
-  '/delete_photo/:id',
-  [passport.authenticate('jwt', { session: false })],
-  (req, res) => {
-    try {
-      filename = req.params.id
-      deleteFromS3(filename, res)
-    } catch (error) {
-      console.error(error.message)
-      return res.status(500).send('Server error...')
+router.post(
+  '/upload_image',
+  [
+    check('id', 'ID is required').exists(),
+    passport.authenticate('jwt', { session: false })
+  ],
+  async (req, res) => {
+    // Validation
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array()
+      })
+    }
+
+    // Check if file is passed
+    if (req.files === null) {
+      return res.status(400).json({ errors: [{ msg: 'No file uploaded' }] })
+    }
+
+    const image = req.files.image
+    const id = req.body.id
+    const directory = `${__dirname}/../../uploads/temp/post_images/${id}`
+
+    // Check if id is correct
+    if (!fs.existsSync(__dirname) || fs.readdirSync(directory).length !== 0) {
+      return res.status(400).json({ errors: [{ msg: 'Invalid ID' }] })
+    }
+
+    // Generate different image sizes (1280px, 640px, 320px, 160px)
+    const imageSizes = [1280, 640, 320, 160]
+
+    let serverError = false
+    imageSizes.forEach(async size => {
+      try {
+        await sharp(image.data)
+          .resize(size)
+          .png()
+          .toFile(`${directory}/image_${size}.png`)
+      } catch (error) {
+        console.log(error)
+        serverError = true
+      }
+    })
+
+    if (!serverError) {
+      res.json({ msg: 'Image successfully uploaded', id })
+    } else {
+      rimraf.sync(directory)
+      res.status(500).send('Server error...')
     }
   }
 )
 
-const hashFileName = filename => {
-  return new Promise((resolve, reject) => {
-    crypto.randomBytes(16, async (err, buff) => {
-      if (err) {
-        reject(err)
-      }
-      const hashedName =
-        buff.toString('hex') + '_WIDTH' + path.extname(filename)
-      resolve(hashedName)
-    })
-  })
-}
+// @route DELETE api/posts/delete_image/:id
+// @desc  Delete image (only available for temp files)
+// @access Private
+router.delete(
+  '/delete_image/:id',
+  [passport.authenticate('jwt', { session: false })],
+  (req, res) => {
+    id = req.params.id
 
-const uploadToS3 = (filename, buffer, mimetype) => {
-  const s3bucket = new AWS.S3({
-    accessKeyId,
-    secretAccessKey,
-    Bucket
-  })
+    const directory = `${__dirname}/../../uploads/temp/post_images/${id}`
 
-  const params = {
-    Bucket,
-    Key: filename,
-    Body: buffer,
-    ContentType: mimetype,
-    CacheControl: 'public, max-age=86400'
+    // Check if id is correct
+    if (!fs.existsSync(__dirname)) {
+      return res.status(400).json({ errors: [{ msg: 'Invalid ID' }] })
+    }
+
+    // Delete folder with all image sizes
+    rimraf.sync(directory)
+
+    res.json({ msg: 'Image successfully deleted', id })
   }
-
-  return s3bucket.upload(params).promise()
-}
-
-const deleteFromS3 = (filename, res) => {
-  const s3bucket = new AWS.S3({
-    accessKeyId,
-    secretAccessKey,
-    Bucket
-  })
-
-  const params = {
-    Bucket,
-    Key: filename
-  }
-
-  return s3bucket.deleteObject(params, function(error, data) {
-    if (error) res.status(500).send('Server error...')
-    return res.send('Photo deleted')
-  })
-}
+)
 
 module.exports = router

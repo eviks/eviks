@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 
 const passport = require('passport')
+const fileUpload = require('express-fileupload')
 
 const connectDB = require('./config/db')
 const PORT = process.env.PORT || 5000
@@ -12,9 +13,11 @@ connectDB()
 // Passport config
 require('./middleware/passport')
 
-// Init middlewares
+// Init middlewares & 3rd party libraries
 app.use(express.json({ extended: false }))
 app.use(passport.initialize())
+app.use(fileUpload())
+app.use('/uploads', express.static('uploads'))
 
 app.get('/', (req, res) => res.send('API running...'))
 

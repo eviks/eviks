@@ -3,11 +3,11 @@ export const descriptionIsValid = ({ description }) => {
   return value.replace(/\s+/g, '').length >= 50
 }
 
-export const photosAreValid = ({ photos }) => {
-  return photos.length >= 3
+export const imagesAreValid = ({ images }) => {
+  return images.length >= 3
 }
 
 export const attributeValidators = {
   description: descriptionIsValid,
-  photos: photosAreValid
+  images: imagesAreValid
 }

@@ -3,13 +3,11 @@ import { useHistory } from 'react-router-dom'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
 import PostOpenlayersMap from './steps/postOpenlayersMap.component'
-// import PostYandexMap from './steps/postYandexMap.component'
-// import PostMap from './steps/postMap.component'
 import PostEstateInfo from './steps/postEstateInfo.component'
 import PostBuidingInfo from './steps/postBuildingInfo.component'
 import PostAdditionalInfo from './steps/postAdditionalInfo.component'
 import PostPrice from './steps/postPrice.component'
-import PostPhotos from './steps/postPhotos.component'
+import PostImages from './steps/postImages.component'
 import PostContact from './steps/postContact.component'
 import { connect } from 'react-redux'
 import {
@@ -46,7 +44,7 @@ const PostForm = ({
 
   const { currentStep, totalSteps } = formSteps
 
-  const [files, setFiles] = useState([])
+  const [images, setImages] = useState([])
 
   // When component is mount newPostCreated is set to false
   useEffect(() => {
@@ -72,7 +70,7 @@ const PostForm = ({
     // eslint-disable-next-line
   }, [newPostCreated])
 
-  // Scroll to top when step is changed
+  // Scroll to top when step has changed
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [currentStep])
@@ -94,8 +92,6 @@ const PostForm = ({
   const renderSwitch = () => {
     switch (currentStep) {
       case 1:
-        // return <PostMap />
-        // return <PostYandexMap />
         return <PostOpenlayersMap />
       case 2:
         return <PostEstateInfo />
@@ -104,7 +100,7 @@ const PostForm = ({
       case 4:
         return <PostAdditionalInfo />
       case 5:
-        return <PostPhotos files={files} setFiles={setFiles} />
+        return <PostImages images={images} setImages={setImages} />
       case 6:
         return <PostPrice />
       case 7:
