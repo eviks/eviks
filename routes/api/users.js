@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 const { check, validationResult } = require('express-validator')
 const passport = require('passport')
+const postSearch = require('../../middleware/postSearch')
+
+const Post = require('../../models/Post')
 
 // @route  POST api/users
 // @desc   Register user
@@ -37,7 +40,7 @@ router.post(
 )
 
 // @route  POST api/users/favorites
-// @desc   Add to user's favorites list
+// @desc   Add post to user's favorites list
 // @access Private
 router.post(
   '/favorites',
@@ -91,5 +94,33 @@ router.delete(
     }
   }
 )
+
+// @route  GET api/users/:id/posts
+// @desc   Remove post from user's favorites list
+// @access Public
+router.get('/:id/posts', [postSearch], async (req, res) => {
+  let posts = {}
+  let result = []
+
+  const {
+    conditions,
+    paginatedResults: { pagination, limit, startIndex }
+  } = req
+
+  try {
+    result = await Post.find(conditions)
+      .limit(limit)
+      .skip(startIndex)
+      .sort({ date: -1 })
+
+    posts.result = result
+    posts.pagination = pagination
+
+    res.json(posts)
+  } catch (error) {
+    console.error(error.message)
+    res.status(500).send('Server error...')
+  }
+})
 
 module.exports = router

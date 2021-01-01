@@ -57,7 +57,7 @@ export const registerUser = credentials => async dispatch => {
         dispatch(setAlert(error.msg, 'danger', id))
       })
     }
-    dispatch({ type: VERIFICATION_FAIL })
+    dispatch({ type: AUTH_ERROR })
     return false
   }
 }

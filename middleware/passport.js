@@ -35,12 +35,9 @@ passport.use(
         const activationToken = randomstring.generate()
 
         if (user) {
-          user = {
-            ...user,
-            displayName: req.body.displayName,
-            password: hashedPassword,
-            activationToken
-          }
+          user.displayName = req.body.displayName
+          user.password = hashedPassword
+          user.activationToken = activationToken
         } else {
           user = new User({
             displayName: req.body.displayName,
@@ -54,7 +51,7 @@ passport.use(
         await user.save()
 
         // Send verification email
-        await emailSender({
+        const result = await emailSender({
           emailType: 'verification',
           subject: 'Email Verification',
           receivers: email,
@@ -62,6 +59,8 @@ passport.use(
             activationToken
           }
         })
+
+        if (!result.success) throw result.error
 
         return done(null, user)
       } catch (error) {

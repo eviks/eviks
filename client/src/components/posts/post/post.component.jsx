@@ -25,9 +25,9 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
   }, [getPost, match.params.id])
 
   const getPostImages = () => {
-    return post.images.map(image => ({
-      original: image.img,
-      thumbnail: image.thumb
+    return post.images.map(id => ({
+      original: `/uploads/post_images/${id}/image_640.png`,
+      thumbnail: `/uploads/post_images/${id}/image_160.png`
     }))
   }
 

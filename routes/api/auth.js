@@ -143,7 +143,7 @@ router.post(
       await user.save()
 
       // Send password reset email
-      await emailSender({
+      const result = await emailSender({
         emailType: 'reset-password',
         subject: 'Please reset your password',
         receivers: email,
@@ -151,6 +151,8 @@ router.post(
           resetPasswordToken
         }
       })
+
+      if (!result.success) throw result.error
 
       return res.send('Reset password email sent')
     } catch (error) {

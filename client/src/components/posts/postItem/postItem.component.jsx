@@ -42,7 +42,7 @@ const PostItem = ({
   })
 
   const getPostImages = () => {
-    return images.map(image => ({ original: image.thumb }))
+    return images.map(id => ({ original: `/uploads/post_images/${id}/image_320.png` }))
   }
 
   return (

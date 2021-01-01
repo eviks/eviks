@@ -2,7 +2,7 @@ import getRequiredFields from '../utils/getRequiredFields'
 import attribueIsValid from '../utils/attribueIsValid'
 import getErrorMessage from '../utils/getErrorMessage'
 
-const ValidateAttributeUpdateMiddleware = ({
+const validateAttributeUpdateMiddleware = ({
   dispatch,
   getState
 }) => next => action => {
@@ -42,4 +42,4 @@ const ValidateAttributeUpdateMiddleware = ({
   next(action)
 }
 
-export default ValidateAttributeUpdateMiddleware
+export default validateAttributeUpdateMiddleware

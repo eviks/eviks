@@ -74,7 +74,7 @@ const LikeButton = ({
 
 LikeButton.propTypes = {
   postId: PropTypes.string.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool,
   user: PropTypes.object
 }
 

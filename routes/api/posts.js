@@ -7,42 +7,23 @@ const mongoose = require('mongoose')
 const uuid = require('uuid')
 const sharp = require('sharp')
 const rimraf = require('rimraf')
+const postSearch = require('../../middleware/postSearch')
 
 const Post = require('../../models/Post')
-
-const setMinMaxFilter = (selectedFilters, name, min, max) => {
-  if (min && max) {
-    selectedFilters[name] = { $gte: min, $lte: max }
-  } else if (min) {
-    selectedFilters[name] = { $gte: min }
-  } else if (max) {
-    selectedFilters[name] = { $lte: max }
-  }
-}
 
 // @route GET api/posts
 // @desc  Get all posts
 // @access Public
-router.get('/', async (req, res) => {
-  const filters = req.query
+router.get('/', [postSearch], async (req, res) => {
+  
+  let posts = {}
+  let result = []
 
+  const {conditions, paginatedResults: {pagination, limit, startIndex}} = req
+  
   try {
-    let posts = {}
-    let result = []
-    let pagination = {}
-    let selectedFilters = {}
-
-    // Set filters
-    setPostsFilters(filters, selectedFilters)
-
-    // Pagination
-    const { limit, startIndex } = await getPaginatedResults(
-      req,
-      pagination,
-      selectedFilters
-    )
-
-    result = await Post.find(selectedFilters)
+   
+    result = await Post.find(conditions)
       .limit(limit)
       .skip(startIndex)
       .sort({ date: -1 })
@@ -56,123 +37,6 @@ router.get('/', async (req, res) => {
     res.status(500).send('Server error...')
   }
 })
-
-const setPostsFilters = (filters, selectedFilters) => {
-  const {
-    cityId,
-    locationIds,
-    dealType,
-    priceMin,
-    priceMax,
-    roomsMin,
-    roomsMax,
-    estateType,
-    apartmentType,
-    sqmMin,
-    sqmMax,
-    livingSqmMin,
-    livingSqmMax,
-    kitchenSqmMin,
-    kitchenSqmMax,
-    totalFloorMin,
-    totalFloorMax,
-    floorMin,
-    floorMax,
-    documented,
-    mortgage,
-    redevelopment,
-    bargain,
-    notFirstFloor,
-    notLastFloor
-  } = filters
-
-  // City
-  if (cityId) selectedFilters['city.id'] = cityId
-
-  // Location IDs
-  if (locationIds) {
-    const locationIds = filters.locationIds.split(',')
-    selectedFilters.$or = [
-      { 'district.id': { $in: locationIds } },
-      { 'subdistrict.id': { $in: locationIds } }
-    ]
-  }
-
-  // Deal type
-  if (dealType) selectedFilters.dealType = dealType
-
-  // Price
-  setMinMaxFilter(selectedFilters, 'price', priceMin, priceMax)
-
-  // Rooms
-  setMinMaxFilter(selectedFilters, 'rooms', roomsMin, roomsMax)
-
-  // Estate type
-  if (estateType) selectedFilters.estateType = estateType
-
-  // Estate type
-  if (apartmentType) selectedFilters.apartmentType = apartmentType
-
-  // Sqm
-  setMinMaxFilter(selectedFilters, 'sqm', sqmMin, sqmMax)
-  setMinMaxFilter(selectedFilters, 'livingRoomsSqm', livingSqmMin, livingSqmMax)
-  setMinMaxFilter(selectedFilters, 'kitchenSqm', kitchenSqmMin, kitchenSqmMax)
-
-  // Floor
-  setMinMaxFilter(selectedFilters, 'totalFloors', totalFloorMin, totalFloorMax)
-  setMinMaxFilter(selectedFilters, 'floor', floorMin, floorMax)
-
-  // Documented
-  if (documented) selectedFilters.documented = true
-
-  // Mortgage
-  if (mortgage) selectedFilters.mortgage = true
-
-  // Redevelopment
-  if (redevelopment) selectedFilters.redevelopment = true
-
-  // Bargain
-  if (bargain) selectedFilters.bargain = true
-
-  // Not first floor
-  if (notFirstFloor) selectedFilters.notFirstFloor = { $ne: 1 }
-
-  // Not last floor
-  if (notLastFloor) selectedFilters.$expr = { $ne: ['$floor', '$totalFloors'] }
-}
-
-const getPaginatedResults = (req, pagination, selectedFilters) => {
-  return new Promise(async (resolve, reject) => {
-    const page = parseInt(req.query.page)
-    const limit = parseInt(req.query.limit)
-
-    if (!page || !limit) resolve({})
-
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
-
-    let numberOfElements
-    try {
-      numberOfElements = await Post.find(selectedFilters)
-        .countDocuments()
-        .exec()
-    } catch (error) {
-      reject(error.message)
-    }
-
-    if (endIndex < numberOfElements) {
-      pagination.total = Math.ceil(numberOfElements / limit)
-    }
-
-    if (startIndex > 0) {
-      pagination.skipped = Math.ceil(startIndex / limit)
-    }
-
-    pagination.current = page
-
-    resolve({ limit, startIndex })
-  })
-}
 
 // @route GET api/posts/post/:id
 // @desc  Get single post
@@ -212,6 +76,15 @@ router.post(
       const post = new Post({ ...req.body, user })
       await post.save()
 
+      // Move post images from temp to main folder
+      for (let image of req.body.images ) {
+        fs.rename(`${__dirname}/../../uploads/temp/post_images/${image}`, 
+        `${__dirname}/../../uploads/post_images/${image}`,
+        (error) => {
+          if (error) throw error
+        });     
+      }
+    
       res.json(post)
     } catch (error) {
       console.error(error.message)
