@@ -1,21 +1,21 @@
-export default {
+const translation = {
   translation: {
     navbar: {
       favorites: 'Избранное',
       myAccount: 'Мой аккаунт',
       logout: 'Выйти',
-      joinOrSignIn: 'Вход и регистрация'
+      joinOrSignIn: 'Вход и регистрация',
     },
     localities: {
       form: {
         menuText: 'Выберите ваш регион',
-        select: 'Выбрать'
+        select: 'Выбрать',
       },
       question: {
         text: 'Ваш город - Баку?',
         yes: 'Все верно',
-        no: 'Другой город'
-      }
+        no: 'Другой город',
+      },
     },
     auth: {
       login: 'Вход',
@@ -37,7 +37,7 @@ export default {
         greeting: 'Мы рады, что вы с нами!',
         error: 'Что-то пошло не так...',
         errorDesc:
-          'Похоже вы нажали на неверную ссылку подверждения аккаунта. Пожалуйста, попробуйте еще раз.'
+          'Похоже вы нажали на неверную ссылку подверждения аккаунта. Пожалуйста, попробуйте еще раз.',
       },
       resetPassword: {
         title: 'Забыли пароль? Не переживайте.',
@@ -51,12 +51,8 @@ export default {
         changePasswordTitle: 'Введите ваш новый пароль',
         changePassword: 'Подтвердить',
         newPassword: 'Новый пароль',
-        passwordConfirm: 'Повторите пароль'
+        passwordConfirm: 'Повторите пароль',
       },
-      favorites: {
-        toastrTitle: 'Добавлено в избранное',
-        toastrText: 'Всего в избранном {{numberOfPosts}} постов'
-      }
     },
     landing: {
       title: 'Всё начинается с дома',
@@ -70,12 +66,17 @@ export default {
       threeRoom: '3-комнатные',
       documented: 'Имеется купчая',
       buyAppartment: 'Купить квартиру',
-      buyHouse: 'Купить дом'
+      buyHouse: 'Купить дом',
     },
     post: {
       title: {
-        apartment: 'Продается {{rooms}}-комнатная квартира {{sqm}} м²',
-        house: 'Продается {{rooms}}-комнатный дом {{sqm}} м²'
+        apartmentSale: 'Продается {{rooms}}-комнатная квартира {{sqm}} м²',
+        apartmentRent: 'Сдается {{rooms}}-комнатная квартира {{sqm}} м²',
+        apartmentRentPerDay:
+          'Сдается посуточно {{rooms}}-комнатная квартира {{sqm}} м²',
+        houseSale: 'Продается {{rooms}}-комнатный дом {{sqm}} м²',
+        houseRent: 'Сдается {{rooms}}-комнатный дом {{sqm}} м²',
+        houseRentPerDay: 'Сдается посуточно {{rooms}}-комнатный дом {{sqm}} м²',
       },
       info: {
         rooms: 'Комнаты',
@@ -84,24 +85,24 @@ export default {
         kitchenSqm: 'Площадь кухни',
         floor: '{{floor}} из {{totalFloors}}',
         floorTitle: 'Этаж',
-        lot: 'Участок'
+        lot: 'Участок',
       },
       desc: {
-        title: 'Описание'
+        title: 'Описание',
       },
       building: {
         title: 'О доме',
         ceilingHeight: 'Высота потолка: {{ceilingHeight}} м.',
         yearBuild: 'Год постройки: {{yearBuild}} г.',
         elevator: 'Есть лифт',
-        parkingLot: 'Есть парковка'
+        parkingLot: 'Есть парковка',
       },
       features: {
         title: 'Дополнительно',
         maintenance: {
           redecorated: 'Косметический ремонт',
           designed: 'Дизайнерский ремонт',
-          noMaintenance: 'Требуется ремонт'
+          noMaintenance: 'Требуется ремонт',
         },
         mortgage: 'Ипотека',
         documented: 'Есть купчая',
@@ -123,10 +124,10 @@ export default {
         refrigerator: 'Холодильник',
         garage: 'Гараж',
         pool: 'Бассейн',
-        bathhouse: 'Баня'
+        bathhouse: 'Баня',
       },
       location: {
-        title: 'Расположение'
+        title: 'Расположение',
       },
       price: {
         priceForSqm: '{{priceForSqm}} ₼ за м²',
@@ -135,9 +136,9 @@ export default {
         showNumber: 'Показать номер',
         userType: {
           agent: 'Агент',
-          owner: 'Владелец'
-        }
-      }
+          owner: 'Владелец',
+        },
+      },
     },
     postList: {
       noResults: 'Как жаль! По вашему запросу нет результатов',
@@ -173,35 +174,45 @@ export default {
         notFirstFloor: 'Не первый',
         notLastFloor: 'Не последний',
         locations: {
-          district: 'Район'
-        }
+          district: 'Район',
+        },
       },
       dealTypes: {
         sale: 'Купить',
         rent: 'Снять',
-        rentPerDay: 'Посуточно'
+        rentPerDay: 'Посуточно',
       },
       estateTypes: {
         any: 'Любой',
         apartment: 'Квартира',
         newBuilding: 'Новостройка',
         secondaryBuilding: 'Вторичка',
-        house: 'Дом'
+        house: 'Дом',
       },
       room: 'комната',
       documented: 'Есть купчая',
       mortgage: 'Ипотека',
-      showResult: 'Показать объявления'
+      showResult: 'Показать объявления',
+      buttons: {
+        like: {
+          toastrTitle: 'Добавлено в избранное',
+          toastrText: 'Всего в избранном {{numberOfPosts}} постов',
+        },
+        delete: {
+          toastrTitle: 'Удалено',
+          toastrText: 'Ваш пост был удален',
+        },
+      },
     },
     form: {
       addressPlaceholder: 'Улица, номер дома',
       requiredField: 'Это обязательное поле',
       textareaMinLength:
-        'Описание должно содержать как минимум буквенных 50 символов'
+        'Описание должно содержать как минимум буквенных 50 символов',
     },
     dropzone: {
       click: 'Добавить фото',
-      drag: 'или перетащите фотографии сюда'
+      drag: 'или перетащите фотографии сюда',
     },
     createPost: {
       clean: 'Очистить форму',
@@ -224,7 +235,7 @@ export default {
         dealType: 'Тип сделки',
         sale: 'Продать',
         rent: 'Сдать',
-        rentPerDay: 'Сдать посуточно'
+        rentPerDay: 'Сдать посуточно',
       },
       mapInfo: {
         title: 'Адрес',
@@ -232,7 +243,7 @@ export default {
         select: 'Выбрать',
         change: 'Изменить',
         wrongCity: 'Укажите ваш населенный пункт',
-        wrongAddress: 'Укажите адрес, по которому расположен ваш дом'
+        wrongAddress: 'Укажите адрес, по которому расположен ваш дом',
       },
       estateInfo: {
         title: 'Информация о недвижимости',
@@ -249,14 +260,14 @@ export default {
         noMaintenance: 'Без ремонта',
         redevelopment: 'Перепланировка',
         documented: 'Имеется купчая',
-        mortgage: 'Имеется кредит'
+        mortgage: 'Имеется кредит',
       },
       buildingInfo: {
         title: 'Информация о здании',
         ceilingHeight: 'Высота потолка, м',
         yearBuild: 'Год постройки',
         elevator: 'Лифт',
-        parkingLot: 'Парковка'
+        parkingLot: 'Парковка',
       },
       additionalInfo: {
         title: 'Дополнительно',
@@ -284,7 +295,7 @@ export default {
         pool: 'Бассейн',
         bathhouse: 'Баня',
         kidsAllowed: 'Можно с детьми',
-        petsAllowed: 'Можно с животными'
+        petsAllowed: 'Можно с животными',
       },
       price: {
         title: 'Цена',
@@ -292,33 +303,35 @@ export default {
         bargain: 'Возможен торг',
         progressPayment: 'Возможна оплата в несколько этапов',
         prepayment: 'Предоплата',
-        municipalServices: 'Цена включает коммунальные услуги'
+        municipalServices: 'Цена включает коммунальные услуги',
       },
       images: {
         title: 'Добавьте несколько фотографий',
         minImages: 'Нужно добавить хотя бы 3 фотографии вашего дома',
-        additionalInfo: 'Макимальный размер файла 10 МБ.'
+        additionalInfo: 'Макимальный размер файла 10 МБ.',
       },
       contact: {
         title: 'Почти готово! Осталось лишь указать ваши контактные данные',
         userName: 'Как вас представить?',
-        contact: 'Номер телефона'
-      }
+        contact: 'Номер телефона',
+      },
     },
     userMenu: {
       titles: {
         profile: 'Мой профиль',
         posts: 'Мои объявления',
         favorites: 'Понравившиеся',
-        settings: 'Настройки'
-      }
+        settings: 'Настройки',
+      },
     },
     assets: {
       formats: {
         thousand: 'тыс',
         million: 'млн',
-        billion: 'млрд'
-      }
-    }
-  }
+        billion: 'млрд',
+      },
+    },
+  },
 }
+
+export default translation

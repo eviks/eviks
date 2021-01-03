@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from 'react'
 import {
   addPostToFavorites,
-  removePostFromFavorites
-} from '../../../actions/auth'
+  removePostFromFavorites,
+} from '../../../../actions/user'
 import { connect } from 'react-redux'
-import Auth from '../../auth/auth.component'
+import Auth from '../../../auth/auth.component'
 import { toastr } from 'react-redux-toastr'
-import FavoriteIcon from '../../layout/icons/favoriteIcon.component'
+import { Player } from '@lottiefiles/react-lottie-player'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -18,7 +18,7 @@ const LikeButton = ({
   isAuthenticated,
   user,
   addPostToFavorites,
-  removePostFromFavorites
+  removePostFromFavorites,
 }) => {
   const [showAuthModal, setShowAuthModal] = useState(false)
 
@@ -36,11 +36,21 @@ const LikeButton = ({
 
         if (result.success) {
           toastr.light(
-            t('auth.favorites.toastrTitle'),
-            t('auth.favorites.toastrText', {
-              numberOfPosts: result.numberOfPosts
+            t('postList.buttons.like.toastrTitle'),
+            t('postList.buttons.like.toastrText', {
+              numberOfPosts: result.numberOfPosts,
             }),
-            { status: 'info', icon: <FavoriteIcon /> }
+            {
+              status: 'info',
+              icon: (
+                <Player
+                  autoplay
+                  loop={false}
+                  src="https://assets8.lottiefiles.com/packages/lf20_2P5Jbi.json"
+                  style={{ height: '70px', width: '70px' }}
+                />
+              ),
+            }
           )
         }
       }
@@ -75,15 +85,15 @@ const LikeButton = ({
 LikeButton.propTypes = {
   postId: PropTypes.string.isRequired,
   isAuthenticated: PropTypes.bool,
-  user: PropTypes.object
+  user: PropTypes.object,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  user: state.auth.user
+  user: state.auth.user,
 })
 
 export default connect(mapStateToProps, {
   addPostToFavorites,
-  removePostFromFavorites
+  removePostFromFavorites,
 })(LikeButton)

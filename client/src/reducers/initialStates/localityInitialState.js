@@ -1,4 +1,4 @@
-export default {
+const initialState = {
   localities: [],
   currentLocality: {
     nextQuestionDate: Date.now(),
@@ -19,8 +19,10 @@ export default {
         { id: '113', name: 'Nizami' },
         { id: '119', name: 'Suraxanı' },
         { id: '122', name: 'Pirallahı' },
-        { id: '118', name: 'Sabunçu' }
-      ]
-    }
-  }
+        { id: '118', name: 'Sabunçu' },
+      ],
+    },
+  },
 }
+
+export default initialState

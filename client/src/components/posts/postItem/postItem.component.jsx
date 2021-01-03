@@ -1,11 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import ImageGallery from 'react-image-gallery'
 import {
   renderLeftNav,
-  renderRightNav
+  renderRightNav,
 } from '../../layout/arrowButtons/galleryButtons.component'
-import LikeButton from '../likeButton/likeButton.component'
+import LikeButton from '../buttons/likeButton/likeButton.component'
+import DeleteButton from '../buttons/deleteButton/deleteButton.component'
+import DoorIcon from '../../layout/icons/doorIcon.component'
+import SqmIcon from '../../layout/icons/sqmIcon.component'
+import GardenWorksIcon from '../../layout/icons/gardenWorksIcon.component'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
 import { baseUrl } from '../../../App'
@@ -14,7 +19,9 @@ import PropTypes from 'prop-types'
 import './postItem.style.scss'
 
 const PostItem = ({
+  auth,
   post: {
+    address,
     estateType,
     city,
     district,
@@ -29,8 +36,9 @@ const PostItem = ({
     _id,
     images,
     documented,
-    mortgage
-  }
+    mortgage,
+    user,
+  },
 }) => {
   const history = useHistory()
   const [t] = useTranslation()
@@ -38,11 +46,13 @@ const PostItem = ({
   const redirectToPost = () => history.push(`${baseUrl}/posts/${_id}`)
 
   const priceStr = price.toLocaleString('az-AZ', {
-    style: 'decimal'
+    style: 'decimal',
   })
 
   const getPostImages = () => {
-    return images.map(id => ({ original: `/uploads/post_images/${id}/image_320.png` }))
+    return images.map((id) => ({
+      original: `/uploads/post_images/${id}/image_320.png`,
+    }))
   }
 
   return (
@@ -59,44 +69,62 @@ const PostItem = ({
           renderLeftNav={renderLeftNav}
           renderRightNav={renderRightNav}
         />
-        <LikeButton postId={_id} />
+        {auth.user && auth.user._id === user ? (
+          <DeleteButton postId={_id} />
+        ) : (
+          <LikeButton postId={_id} />
+        )}
       </div>
       <div className="card-info" onClick={redirectToPost}>
-        <div className="card-block">
-          <div>
-            <div className="lead-2x lead-bold">{`${priceStr} ₼`}</div>
-            <div className="lead-2x">
-              {subdistrict ? subdistrict.name : district.name}
-            </div>
+        <div className="lead-2x lead-bold mb-05">{`${priceStr} ₼`}</div>
+        <div className="mb-05">
+          <div className="lead-2x">
+            {subdistrict ? subdistrict.name : district.name}
           </div>
-          <div className="card-main-params">
-            {sqm} m² | {rooms} {t('postList.room')} |{' '}
-            {estateType === 'apartment'
-              ? `${floor}/${totalFloors}`
-              : `${lotSqm} m²`}
+          <div className="text-secondary">
+            {city.name}, {address}
           </div>
         </div>
-        <div className="card-block card-bottom">
-          <div className="time-stamp">
-            {city.name} <Moment format="DD.MM.YY">{date}</Moment>
+        <div className="card-param-wrapper mb-05">
+          <div className="card-param">
+            <SqmIcon width={'1.2rem'} /> {sqm} m²
           </div>
-          <div className="card-features">
-            {documented && (
-              <div className="card-feature tooltip">
-                <i className="fas fa-stamp"></i>
-                <div className="tooltip-text tooltip-text-left">
-                  {t('postList.documented')}
+          <div className="card-param">
+            <DoorIcon width={'1.2rem'} /> {rooms} {t('postList.room')}
+          </div>
+          {estateType === 'apartment' ? (
+            <div className="card-param">
+              <DoorIcon width={'1.2rem'} /> {floor}/{totalFloors}
+            </div>
+          ) : (
+            <div className="card-param">
+              <GardenWorksIcon width={'1.2rem'} /> {lotSqm} m²
+            </div>
+          )}
+        </div>
+        <div className="card-bottom">
+          <div className="text-secondary">
+            <Moment format="DD.MM.YY">{date}</Moment>
+          </div>
+          <div className="card-feature-wrapper">
+            <div className="features">
+              {documented && (
+                <div className="card-feature tooltip">
+                  <i className="fas fa-stamp"></i>
+                  <div className="tooltip-text tooltip-text-left">
+                    {t('postList.documented')}
+                  </div>
                 </div>
-              </div>
-            )}
-            {mortgage && (
-              <div className="card-feature tooltip">
-                <i className="fas fa-percent"></i>
-                <div className="tooltip-text tooltip-text-left">
-                  {t('postList.mortgage')}
+              )}
+              {mortgage && (
+                <div className="card-feature tooltip">
+                  <i className="fas fa-percent"></i>
+                  <div className="tooltip-text tooltip-text-left">
+                    {t('postList.mortgage')}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -105,7 +133,12 @@ const PostItem = ({
 }
 
 PostItem.propTypes = {
-  post: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
 }
 
-export default PostItem
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+})
+
+export default connect(mapStateToProps)(PostItem)

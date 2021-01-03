@@ -1,0 +1,36 @@
+@import '../../../../sass/config';
+
+.like-btn {
+  outline: none;
+  background: none;
+  border: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-active {
+    color: $light-color;
+    background: $primary-color;
+  }
+
+  &-disabled {
+    color: $grey-color;
+    background: $light-color;
+
+    &:hover {
+      color: darken($grey-color, 20);
+    }
+  }
+
+  &-icon {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0.7rem;
+    transition: 0.4s;
+  }
+}

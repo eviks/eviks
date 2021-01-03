@@ -1,4 +1,4 @@
-export default (fieldName, fields) => {
+const getErrorMessage = (fieldName, fields) => {
   if (fieldName === 'address') {
     return 'createPost.mapInfo.wrongAddress'
   }
@@ -9,3 +9,5 @@ export default (fieldName, fields) => {
 
   return 'form.requiredField'
 }
+
+export default getErrorMessage

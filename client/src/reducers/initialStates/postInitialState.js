@@ -1,4 +1,4 @@
-export default {
+const initialState = {
   post: null,
   posts: {
     result: [],
@@ -27,13 +27,13 @@ export default {
       redevelopment: false,
       bargain: false,
       notFirstFloor: false,
-      notLastFloor: false
+      notLastFloor: false,
     },
     pagination: {
       skipped: null,
       current: 1,
-      total: null
-    }
+      total: null,
+    },
   },
   postForm: {
     userType: '',
@@ -90,10 +90,12 @@ export default {
     municipalServices: false,
     images: [],
     userName: '',
-    contact: ''
+    contact: '',
   },
   formSteps: { currentStep: 0, totalSteps: 7 },
   validationErrors: {},
   newPostCreated: false,
-  error: {}
+  error: {},
 }
+
+export default initialState

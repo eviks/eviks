@@ -14,10 +14,10 @@ import {
   SET_FILTER,
   SET_FILTER_FROM_URL,
   REMOVE_ALL_FILTERS,
-  CLEAN_FORM
+  CLEAN_FORM,
 } from '../actions/types'
 
-export default function(state = initialState, action) {
+const postReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case GET_POSTS:
@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
         ...state,
         posts: { ...state.posts, result: [...state.posts.result, payload] },
         postForm: initialState.postForm,
-        newPostCreated: true
+        newPostCreated: true,
       }
     case SET_POST_CREATED_FLAG:
       return { ...state, newPostCreated: payload }
@@ -38,47 +38,47 @@ export default function(state = initialState, action) {
         ...state,
         postForm: {
           ...state.postForm,
-          ...payload
+          ...payload,
         },
         validationErrors: {
           ...state.validationErrors,
-          ...action.validationErrors
-        }
+          ...action.validationErrors,
+        },
       }
     case FORM_NEXT_STEP:
     case FORM_PREV_STEP:
       return {
         ...state,
-        formSteps: { ...state.formSteps, currentStep: payload }
+        formSteps: { ...state.formSteps, currentStep: payload },
       }
     case POST_VALIDATION_ERROR:
       return {
         ...state,
-        validationErrors: payload
+        validationErrors: payload,
       }
     case UPLOAD_IMAGE:
       return {
         ...state,
         postForm: {
           ...state.postForm,
-          images: [...state.postForm.images, payload]
-        }
+          images: [...state.postForm.images, payload],
+        },
       }
     case DELETE_IMAGE:
       return {
         ...state,
         postForm: {
           ...state.postForm,
-          images: state.postForm.images.filter(image => image !== payload)
-        }
+          images: state.postForm.images.filter((image) => image !== payload),
+        },
       }
     case SET_FILTER:
       return {
         ...state,
         posts: {
           ...state.posts,
-          filters: { ...state.posts.filters, ...payload }
-        }
+          filters: { ...state.posts.filters, ...payload },
+        },
       }
     case SET_FILTER_FROM_URL:
     case REMOVE_ALL_FILTERS:
@@ -86,15 +86,15 @@ export default function(state = initialState, action) {
         ...state,
         posts: {
           ...state.posts,
-          filters: { ...initialState.posts.filters, ...payload }
-        }
+          filters: { ...initialState.posts.filters, ...payload },
+        },
       }
     case CLEAN_FORM:
       return {
         ...state,
         postForm: { ...initialState.postForm },
         formSteps: { ...initialState.formSteps },
-        validationErrors: { ...initialState.validationErrors }
+        validationErrors: { ...initialState.validationErrors },
       }
     case POST_ERROR:
       return { ...state, error: payload }
@@ -102,3 +102,5 @@ export default function(state = initialState, action) {
       return state
   }
 }
+
+export default postReducer

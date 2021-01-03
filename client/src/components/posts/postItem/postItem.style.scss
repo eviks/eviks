@@ -35,6 +35,20 @@
     position: relative;
   }
 
+  &-param {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.2rem;
+
+    &-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+
   &-block {
     display: flex;
     flex-direction: row;
@@ -42,27 +56,33 @@
   }
 
   &-bottom {
-    align-items: flex-end;
-  }
-
-  .time-stamp {
-    opacity: 50%;
-  }
-
-  &-features {
     display: flex;
-    position: relative;
+    justify-content: space-between;
+    align-items: center;
   }
 
   &-feature {
+    position: relative;
     display: flex;
     border-radius: 50%;
-    background: $accent-color;
-    height: 35px;
-    width: 35px;
+    background: $primary-color;
+    color: $light-color;
+    height: 30px;
+    width: 30px;
     justify-content: center;
     align-items: center;
     margin: 0 0.2rem;
+
+    &-wrapper {
+      position: relative;
+    }
+  }
+
+  .features {
+    position: absolute;
+    display: flex;
+    right: 50%;
+    transform: translateY(-50%);
   }
 }
 

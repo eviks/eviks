@@ -12,22 +12,28 @@ import { connect } from 'react-redux'
 import { getPost } from '../../../actions/post'
 import {
   renderLeftNav,
-  renderRightNav
+  renderRightNav,
 } from '../../layout/arrowButtons/galleryButtons.component'
 import PropTypes from 'prop-types'
 
 import './post.style.scss'
 import './gallery.style.scss'
 
-const Post = ({ post: { post }, getPost, loading, match }) => {
+const Post = ({
+  auth: { user, isAuthenticated },
+  post: { post },
+  getPost,
+  loading,
+  match,
+}) => {
   useEffect(() => {
     getPost(match.params.id)
   }, [getPost, match.params.id])
 
   const getPostImages = () => {
-    return post.images.map(id => ({
+    return post.images.map((id) => ({
       original: `/uploads/post_images/${id}/image_640.png`,
-      thumbnail: `/uploads/post_images/${id}/image_160.png`
+      thumbnail: `/uploads/post_images/${id}/image_160.png`,
     }))
   }
 
@@ -63,14 +69,16 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
 }
 
 Post.propTypes = {
-  getPost: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  getPost: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
+  auth: state.auth,
   post: state.post,
-  loading: state.async.loading
+  loading: state.async.loading,
 })
 
 export default connect(mapStateToProps, { getPost })(Post)

@@ -1,4 +1,4 @@
-export default {
+const translation = {
   translation: {
     joinOrSignIn: 'Giriş və qeydiyyat',
     welcome: 'Evdə daha yaxşıdır',
@@ -24,6 +24,8 @@ export default {
     room: 'otaq',
     back: 'Geri',
     next: 'Ardıncı',
-    submit: 'Təsdiq eləmək'
-  }
+    submit: 'Təsdiq eləmək',
+  },
 }
+
+export default translation

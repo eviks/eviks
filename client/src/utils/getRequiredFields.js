@@ -1,4 +1,4 @@
-export default (formName, currentStep = null, estateType = null) => {
+const getRequiredFields = (formName, currentStep = null, estateType = null) => {
   switch (formName) {
     case 'POST_FORM':
       switch (currentStep) {
@@ -31,3 +31,5 @@ export default (formName, currentStep = null, estateType = null) => {
       return []
   }
 }
+
+export default getRequiredFields

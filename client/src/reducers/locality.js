@@ -3,10 +3,10 @@ import {
   GET_LOCALITIES,
   GET_LOCALITIES_ERROR,
   SET_CURRENT_LOCALITY,
-  CLEAR_LOCALITIES
+  CLEAR_LOCALITIES,
 } from '../actions/types'
 
-export default function(state = initialState, action) {
+const localityReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case GET_LOCALITIES:
@@ -22,3 +22,5 @@ export default function(state = initialState, action) {
       return state
   }
 }
+
+export default localityReducer

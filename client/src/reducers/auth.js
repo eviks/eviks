@@ -11,7 +11,7 @@ import {
   AUTH_ERROR,
   LOGOUT,
   ADD_POST_TO_FAVORITES,
-  REMOVE_POST_FROM_FAVORITES
+  REMOVE_POST_FROM_FAVORITES,
 } from '../actions/types'
 
 const initialState = {
@@ -19,10 +19,10 @@ const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   user: null,
-  validResetPasswordToken: null
+  validResetPasswordToken: null,
 }
 
-export default function(state = initialState, action) {
+const authReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case USER_LOADED:
@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
         ...state,
         userIsLoading: false,
         isAuthenticated: true,
-        user: payload
+        user: payload,
       }
     case VERIFICATION_SUCCESS:
     case RESETPASSWORD_SUCCESS:
@@ -40,7 +40,7 @@ export default function(state = initialState, action) {
         ...state,
         ...payload,
         userIsLoading: false,
-        isAuthenticated: true
+        isAuthenticated: true,
       }
     case RESET_TOKEN_CHECK_SUCCESS:
       return { ...state, userIsLoading: false, validResetPasswordToken: true }
@@ -56,7 +56,7 @@ export default function(state = initialState, action) {
         userIsLoading: false,
         token: null,
         isAuthenticated: false,
-        validResetPasswordToken: false
+        validResetPasswordToken: false,
       }
     case ADD_POST_TO_FAVORITES:
     case REMOVE_POST_FROM_FAVORITES:
@@ -65,10 +65,12 @@ export default function(state = initialState, action) {
         userIsLoading: false,
         user: {
           ...state.user,
-          favorites: payload
-        }
+          favorites: payload,
+        },
       }
     default:
       return state
   }
 }
+
+export default authReducer

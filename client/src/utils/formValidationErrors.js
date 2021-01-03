@@ -1,10 +1,10 @@
 import attribueIsValid from '../utils/attribueIsValid'
 import getErrorMessage from '../utils/getErrorMessage'
 
-export default (fields, requiredFields) => {
+const formValidationErrors = (fields, requiredFields) => {
   let errors = {}
 
-  requiredFields.forEach(requiredField => {
+  requiredFields.forEach((requiredField) => {
     errors[requiredField] = !attribueIsValid(fields, requiredField)
       ? getErrorMessage(requiredField, fields)
       : null
@@ -12,3 +12,5 @@ export default (fields, requiredFields) => {
 
   return errors
 }
+
+export default formValidationErrors

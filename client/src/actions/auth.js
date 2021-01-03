@@ -13,16 +13,13 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT,
-  ADD_POST_TO_FAVORITES,
-  REMOVE_POST_FROM_FAVORITES,
-  FAVORITES_ERROR
 } from './types'
 import setAuthToken from '../utils/setAuthToken'
 import uuid from 'uuid'
 import { baseUrl } from '../App'
 
 // Load user
-export const loadUser = () => async dispatch => {
+export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
@@ -36,12 +33,12 @@ export const loadUser = () => async dispatch => {
 }
 
 // Register user
-export const registerUser = credentials => async dispatch => {
+export const registerUser = (credentials) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
     const body = JSON.stringify(credentials)
     dispatch(asyncActionStart())
@@ -52,7 +49,7 @@ export const registerUser = credentials => async dispatch => {
     dispatch(asyncActionError())
     const errors = error.response.data.errors
     if (errors) {
-      errors.forEach(error => {
+      errors.forEach((error) => {
         const id = uuid.v4()
         dispatch(setAlert(error.msg, 'danger', id))
       })
@@ -63,7 +60,7 @@ export const registerUser = credentials => async dispatch => {
 }
 
 // Verify user email
-export const verifyEmail = activationToken => async dispatch => {
+export const verifyEmail = (activationToken) => async (dispatch) => {
   try {
     dispatch(asyncActionStart())
     const res = await axios.post(`/api/auth/verification/${activationToken}`)
@@ -77,12 +74,12 @@ export const verifyEmail = activationToken => async dispatch => {
 }
 
 // Login user
-export const login = (email, password) => async dispatch => {
+export const login = (email, password) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
     const body = JSON.stringify({ email, password })
     dispatch(asyncActionStart())
@@ -94,19 +91,19 @@ export const login = (email, password) => async dispatch => {
     dispatch(asyncActionError())
     const errors = error.response.data.errors
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')))
     }
     dispatch({ type: LOGIN_FAIL })
   }
 }
 
 // Send reset password token
-export const sendResetPasswordToken = email => async dispatch => {
+export const sendResetPasswordToken = (email) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
     const body = JSON.stringify({ email })
     dispatch(asyncActionStart())
@@ -121,7 +118,7 @@ export const sendResetPasswordToken = email => async dispatch => {
 }
 
 // Check reset password token
-export const checkResetPasswordToken = token => async dispatch => {
+export const checkResetPasswordToken = (token) => async (dispatch) => {
   try {
     dispatch(asyncActionStart())
     await axios.post(`/api/auth/check_reset_password_token/${token}`)
@@ -134,17 +131,14 @@ export const checkResetPasswordToken = token => async dispatch => {
 }
 
 // Reset password
-export const resetPassword = (
-  token,
-  password,
-  confirm,
-  history
-) => async dispatch => {
+export const resetPassword = (token, password, confirm, history) => async (
+  dispatch
+) => {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
     dispatch(asyncActionStart())
     console.log(password, confirm)
@@ -165,53 +159,6 @@ export const resetPassword = (
 }
 
 // Logout
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT })
-}
-
-// Add post to user's favorites list
-export const addPostToFavorites = postId => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
-  try {
-    dispatch(asyncActionStart())
-    const res = await axios.post(`/api/users/favorites`, { postId }, config)
-    dispatch({ type: ADD_POST_TO_FAVORITES, payload: res.data.favorites })
-    dispatch(asyncActionFinish())
-    return {
-      success: true,
-      numberOfPosts: Object.keys(res.data.favorites).length
-    }
-  } catch (error) {
-    dispatch(asyncActionError())
-    dispatch({
-      type: FAVORITES_ERROR,
-      payload: {
-        message: error.message
-      }
-    })
-    return { success: false }
-  }
-}
-
-// Remove post from user's favorites list
-export const removePostFromFavorites = postId => async dispatch => {
-  try {
-    dispatch(asyncActionStart())
-    const res = await axios.delete(`/api/users/favorites/${postId}`)
-    dispatch({ type: REMOVE_POST_FROM_FAVORITES, payload: res.data.favorites })
-    dispatch(asyncActionFinish())
-  } catch (error) {
-    dispatch(asyncActionError())
-    dispatch({
-      type: FAVORITES_ERROR,
-      payload: {
-        message: error.message
-      }
-    })
-  }
 }

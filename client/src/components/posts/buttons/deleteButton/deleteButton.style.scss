@@ -1,6 +1,6 @@
-@import '../../../sass/config';
+@import '../../../../sass/config';
 
-.like-btn {
+.delete-btn {
   outline: none;
   background: none;
   border: none;
@@ -13,24 +13,12 @@
   justify-content: center;
   align-items: center;
 
-  &-active {
-    color: $light-color;
-    background: $primary-color;
-  }
-
-  &-disabled {
+  &-icon {
     color: $grey-color;
     background: $light-color;
-
-    &:hover {
-      color: darken($grey-color, 20);
-    }
-  }
-
-  &-icon {
     cursor: pointer;
     border-radius: 50%;
-    padding: 0.8rem;
+    padding: 0.7rem;
     transition: 0.4s;
   }
 }
