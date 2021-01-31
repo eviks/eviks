@@ -2,16 +2,19 @@
 
 .like-btn {
   outline: none;
-  background: none;
   border: none;
+  border-radius: 50%;
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  transition: 0.4s;
 
   &-active {
     color: $light-color;
@@ -25,12 +28,5 @@
     &:hover {
       color: darken($grey-color, 20);
     }
-  }
-
-  &-icon {
-    cursor: pointer;
-    border-radius: 50%;
-    padding: 0.7rem;
-    transition: 0.4s;
   }
 }

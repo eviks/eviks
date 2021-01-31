@@ -15,14 +15,15 @@ const Post = require('../../models/Post')
 // @desc  Get all posts
 // @access Public
 router.get('/', [postSearch], async (req, res) => {
-  
   let posts = {}
   let result = []
 
-  const {conditions, paginatedResults: {pagination, limit, startIndex}} = req
-  
+  const {
+    conditions,
+    paginatedResults: { pagination, limit, startIndex },
+  } = req
+
   try {
-   
     result = await Post.find(conditions)
       .limit(limit)
       .skip(startIndex)
@@ -77,15 +78,55 @@ router.post(
       await post.save()
 
       // Move post images from temp to main folder
-      for (let image of req.body.images ) {
-        fs.rename(`${__dirname}/../../uploads/temp/post_images/${image}`, 
-        `${__dirname}/../../uploads/post_images/${image}`,
-        (error) => {
-          if (error) throw error
-        });     
+      for (let image of req.body.images) {
+        fs.rename(
+          `${__dirname}/../../uploads/temp/post_images/${image}`,
+          `${__dirname}/../../uploads/post_images/${image}`,
+          (error) => {
+            if (error) throw error
+          }
+        )
       }
-    
+
       res.json(post)
+    } catch (error) {
+      console.error(error.message)
+      return res.status(500).send('Server error...')
+    }
+  }
+)
+
+// @route DELETE api/posts
+// @desc  Delete post
+// @access Private
+router.delete(
+  '/:id',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    postId = req.params.id
+
+    // Id validation
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+      return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
+    }
+
+    try {
+      const post = await Post.findById(postId)
+
+      // Post not found
+      if (!post) {
+        return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
+      }
+
+      if (req.user.id !== post.user.toString()) {
+        return res
+          .status(401)
+          .json({ errors: [{ msg: 'User not authorized' }] })
+      }
+
+      await post.remove()
+
+      return res.json({ msg: 'Post deleted' })
     } catch (error) {
       console.error(error.message)
       return res.status(500).send('Server error...')
@@ -121,14 +162,14 @@ router.post(
   '/upload_image',
   [
     check('id', 'ID is required').exists(),
-    passport.authenticate('jwt', { session: false })
+    passport.authenticate('jwt', { session: false }),
   ],
   async (req, res) => {
     // Validation
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array()
+        errors: errors.array(),
       })
     }
 
@@ -150,7 +191,7 @@ router.post(
     const imageSizes = [1280, 640, 320, 160]
 
     let serverError = false
-    imageSizes.forEach(async size => {
+    imageSizes.forEach(async (size) => {
       try {
         await sharp(image.data)
           .resize(size)

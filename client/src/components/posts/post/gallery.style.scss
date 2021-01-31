@@ -28,10 +28,8 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   border: none;
   border-radius: (40px / 2);
   color: $dark-color;
-  transition: border-color 0.2s ease-in-out;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.2s ease-out;
   transition: opacity 0.2s ease-in-out;
 
   &-right {

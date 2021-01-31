@@ -9,6 +9,7 @@ import { toastr } from 'react-redux-toastr'
 import { Player } from '@lottiefiles/react-lottie-player'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
+import heartAnimation from '../../../../assets/lottiefilesSources/heart.json'
 import PropTypes from 'prop-types'
 
 import './likeButton.style.scss'
@@ -46,7 +47,7 @@ const LikeButton = ({
                 <Player
                   autoplay
                   loop={false}
-                  src="https://assets8.lottiefiles.com/packages/lf20_2P5Jbi.json"
+                  src={heartAnimation}
                   style={{ height: '70px', width: '70px' }}
                 />
               ),
@@ -63,12 +64,13 @@ const LikeButton = ({
 
   return (
     <Fragment>
-      <button className="like-btn" onClick={handleOnClick}>
-        <i
-          className={`fas fa-heart shadow-border like-btn-icon like-btn-${
-            favorites[postId] === true ? 'active' : 'disabled'
-          }`}
-        ></i>
+      <button
+        className={`like-btn shadow-border like-btn-${
+          favorites[postId] === true ? 'active' : 'disabled'
+        }`}
+        onClick={handleOnClick}
+      >
+        <i className={'fas fa-heart'}></i>
       </button>
       <ReactModal
         isOpen={showAuthModal}

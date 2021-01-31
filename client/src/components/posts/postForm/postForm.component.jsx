@@ -13,9 +13,9 @@ import { connect } from 'react-redux'
 import {
   formNextStep,
   formPrevStep,
+  getPostFormData,
   addPost,
-  setPostCreatedFlag,
-  cleanPostForm
+  cleanPostForm,
 } from '../../../actions/post'
 import { toastr } from 'react-redux-toastr'
 import SuccessIcon from '../../layout/icons/successIcon.component'
@@ -32,11 +32,11 @@ const PostForm = ({
   formSteps,
   formNextStep,
   formPrevStep,
+  getPostFormData,
   addPost,
-  setPostCreatedFlag,
   cleanPostForm,
   loading,
-  newPostCreated
+  match,
 }) => {
   const history = useHistory()
 
@@ -46,29 +46,12 @@ const PostForm = ({
 
   const [images, setImages] = useState([])
 
-  // When component is mount newPostCreated is set to false
   useEffect(() => {
-    setPostCreatedFlag(false)
-    // eslint-disable-next-line
-  }, [])
-
-  // If new post created push to landing page
-  useEffect(() => {
-    if (newPostCreated) {
-      const toastrOptions = {
-        timeOut: 0,
-        icon: <SuccessIcon />,
-        status: 'info'
-      }
-      toastr.light(
-        t('createPost.success'),
-        t('createPost.postIsPublished'),
-        toastrOptions
-      )
-      history.push(`${baseUrl}/`)
+    if (match.params.id) {
+      getPostFormData(match.params.id, setImages)
     }
     // eslint-disable-next-line
-  }, [newPostCreated])
+  }, [])
 
   // Scroll to top when step has changed
   useEffect(() => {
@@ -76,7 +59,25 @@ const PostForm = ({
   }, [currentStep])
 
   const submitForm = async () => {
-    addPost(postForm)
+    try {
+      const result = await addPost(postForm)
+
+      if (result) {
+        const toastrOptions = {
+          timeOut: 0,
+          icon: <SuccessIcon />,
+          status: 'info',
+        }
+        toastr.light(
+          t('createPost.success'),
+          t('createPost.postIsPublished'),
+          toastrOptions
+        )
+        history.push(`${baseUrl}/`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const stepChange = (e, inc = false) => {
@@ -124,13 +125,13 @@ const PostForm = ({
           </div>
         </div>
       </div>
-      <form onSubmit={event => event.preventDefault()} autoComplete="off">
+      <form onSubmit={(event) => event.preventDefault()} autoComplete="off">
         {renderSwitch()}
         <div className="form-button-box">
           {/* Back */}
           <button
             className="btn btn-secondary"
-            onClick={e => stepChange(e)}
+            onClick={(e) => stepChange(e)}
             style={{ visibility: currentStep === 0 ? 'hidden' : 'visible' }}
           >
             {t('createPost.back')}
@@ -152,7 +153,7 @@ const PostForm = ({
           ) : (
             <button
               className="btn btn-primary"
-              onClick={e => stepChange(e, true)}
+              onClick={(e) => stepChange(e, true)}
               disabled={loading}
             >
               {t('createPost.next')}
@@ -168,26 +169,24 @@ const PostForm = ({
 PostForm.propTypes = {
   postForm: PropTypes.object.isRequired,
   formSteps: PropTypes.object.isRequired,
+  getPostFormData: PropTypes.func.isRequired,
   addPost: PropTypes.func.isRequired,
   formNextStep: PropTypes.func.isRequired,
   formPrevStep: PropTypes.func.isRequired,
-  setPostCreatedFlag: PropTypes.func.isRequired,
   cleanPostForm: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  newPostCreated: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   postForm: state.post.postForm,
   formSteps: state.post.formSteps,
   loading: state.async.loading,
-  newPostCreated: state.post.newPostCreated
 })
 
 export default connect(mapStateToProps, {
   formNextStep,
   formPrevStep,
+  getPostFormData,
   addPost,
-  setPostCreatedFlag,
-  cleanPostForm
+  cleanPostForm,
 })(PostForm)

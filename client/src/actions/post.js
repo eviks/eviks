@@ -5,8 +5,8 @@ import {
   GET_POST,
   POST_ERROR,
   ADD_POST_API,
-  SET_POST_CREATED_FLAG,
   UPDATE_POST_FORM,
+  GET_POST_FORM_DATA,
   FORM_NEXT_STEP,
   FORM_PREV_STEP,
   UPLOAD_IMAGE,
@@ -14,13 +14,14 @@ import {
   SET_FILTER,
   SET_FILTER_FROM_URL,
   REMOVE_ALL_FILTERS,
-  CLEAN_FORM
+  CLEAN_FORM,
+  DELETE_POST,
 } from './types'
 import { setURLParams } from '../utils/urlParams'
 import { goMapGUID } from '../config'
 
 // Get posts
-export const getPosts = filters => async dispatch => {
+export const getPosts = (filters) => async (dispatch) => {
   const filtersObj = { ...filters }
   if (!filtersObj.page) filtersObj.page = 1
   const url = setURLParams(filtersObj)
@@ -34,17 +35,17 @@ export const getPosts = filters => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.message
-      }
+        message: error.message,
+      },
     })
   }
 }
 
 // Get single post by ID
-export const getPost = id => async dispatch => {
+export const getPost = (postId) => async (dispatch) => {
   try {
     dispatch(asyncActionStart())
-    const res = await axios.get(`/api/posts/post/${id}`)
+    const res = await axios.get(`/api/posts/post/${postId}`)
     dispatch({ type: GET_POST, payload: res.data })
     dispatch(asyncActionFinish())
   } catch (error) {
@@ -52,43 +53,96 @@ export const getPost = id => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.message
-      }
+        message: error.message,
+      },
     })
   }
 }
 
 // Add post
-export const addPost = data => async dispatch => {
+export const addPost = (data) => async (dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      dispatch({ type: ADD_POST_API, payload: data })
+      dispatch({ type: CLEAN_FORM })
+      resolve(true)
+    } catch (error) {
+      dispatch({
+        type: POST_ERROR,
+        payload: {
+          message: error.message,
+        },
+      })
+      reject(false)
+    }
+  })
+}
+
+// Delete post
+export const deletePost = (postId) => async (dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await axios.delete(`/api/posts/${postId}`)
+      dispatch({ type: DELETE_POST, payload: postId })
+      resolve(true)
+    } catch (error) {
+      dispatch({
+        type: POST_ERROR,
+        payload: {
+          message: error.message,
+        },
+      })
+    }
+    reject(false)
+  })
+}
+
+// Get post form data to edit post
+export const getPostFormData = (postId, setImages) => async (dispatch) => {
   try {
-    dispatch({ type: ADD_POST_API, payload: data })
+    dispatch(asyncActionStart())
+    const res = await axios.get(`/api/posts/post/${postId}`)
+    const data = res.data
+
+    data.searchArea = [...data.location]
+    data.city = data.city ? data.city.name : ''
+    data.district = data.district ? data.district.name : ''
+    data.subdistrict = data.subdistrict ? data.subdistrict.name : ''
+
+    setImages(
+      data.images.map((image) => {
+        return {
+          id: image,
+          preview: `/uploads/post_images/${image}/image_320.png`,
+        }
+      })
+    )
+
+    dispatch({ type: GET_POST_FORM_DATA, payload: data })
+    dispatch(asyncActionFinish())
   } catch (error) {
+    dispatch(asyncActionError())
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.message
-      }
+        message: error.message,
+      },
     })
   }
 }
 
-// Post-created flag (for redirection purpose)
-export const setPostCreatedFlag = flag => async dispatch => {
-  dispatch({ type: SET_POST_CREATED_FLAG, payload: flag })
-}
-
 // Set post form fields
-export const updatePostFormAttributes = payload => {
+export const updatePostFormAttributes = (payload) => {
   return { type: UPDATE_POST_FORM, payload }
 }
 
 // Go to the next form step
-export const formNextStep = newStep => async dispatch => {
+export const formNextStep = (newStep) => async (dispatch) => {
   dispatch({ type: FORM_NEXT_STEP, payload: newStep })
 }
 
 // Go to the prev form step
-export const formPrevStep = newStep => async dispatch => {
+export const formPrevStep = (newStep) => async (dispatch) => {
   newStep = Math.max(newStep, 0)
   dispatch({ type: FORM_PREV_STEP, payload: newStep })
 }
@@ -116,8 +170,8 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
 
   const config = {
     headers: {
-      'X-Requested-With': 'XMLHttpRequest'
-    }
+      'X-Requested-With': 'XMLHttpRequest',
+    },
   }
 
   try {
@@ -128,7 +182,7 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
     )
 
     const list = res.data.rows
-      .filter(row => row.nm !== 'Yeni ünvan')
+      .filter((row) => row.nm !== 'Yeni ünvan')
       .slice(0, 5)
     setDropdownList(list)
     dispatch(asyncActionFinish())
@@ -137,20 +191,20 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.message
-      }
+        message: error.message,
+      },
     })
   }
 }
 
-export const getAddressByCoords = coords => async dispatch => {
+export const getAddressByCoords = (coords) => async (dispatch) => {
   dispatch(asyncActionStart('mapIsLoading'))
 
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest'
-    }
+      'X-Requested-With': 'XMLHttpRequest',
+    },
   }
 
   try {
@@ -160,7 +214,7 @@ export const getAddressByCoords = coords => async dispatch => {
         guid: goMapGUID,
         lng: 'az',
         x: coords[0],
-        y: coords[1]
+        y: coords[1],
       },
       config
     )
@@ -172,11 +226,11 @@ export const getAddressByCoords = coords => async dispatch => {
       district: '',
       subdistrict: '',
       address: '',
-      location: coords
+      location: coords,
     }
 
     if (data.success) {
-      data.addr_components.forEach(addressComponent => {
+      data.addr_components.forEach((addressComponent) => {
         if (addressComponent.type === 'country district')
           newAttributes.city = addressComponent.name
         if (addressComponent.type === 'settlement district')
@@ -202,18 +256,18 @@ export const getAddressByCoords = coords => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.message
-      }
+        message: error.message,
+      },
     })
   }
 }
 
 // Upload image
-export const uploadImage = data => async dispatch => {
+export const uploadImage = (data) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+      'Content-Type': 'multipart/form-data',
+    },
   }
 
   const id = data.get('id')
@@ -228,14 +282,14 @@ export const uploadImage = data => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.message
-      }
+        message: error.message,
+      },
     })
   }
 }
 
 // Delete image
-export const deleteImage = id => async dispatch => {
+export const deleteImage = (id) => async (dispatch) => {
   try {
     dispatch(asyncActionStart(id))
     await axios.delete(`/api/posts/delete_image/${id}`)
@@ -246,19 +300,19 @@ export const deleteImage = id => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: {
-        message: error.message
-      }
+        message: error.message,
+      },
     })
   }
 }
 
 // Set search filter
-export const setSrearchFilters = filters => async dispatch => {
+export const setSrearchFilters = (filters) => async (dispatch) => {
   dispatch({ type: SET_FILTER, payload: filters })
 }
 
 // Set search filter from URL string
-export const setSrearchFiltersFromURL = filters => async dispatch => {
+export const setSrearchFiltersFromURL = (filters) => async (dispatch) => {
   dispatch({ type: SET_FILTER_FROM_URL, payload: filters })
 }
 
@@ -284,13 +338,13 @@ export const updateURLParams = (newFilters, history, page = 1) => async (
   delete filters.page
   filters.page = page
 
-  Object.keys(filters).forEach(key => !filters[key] && delete filters[key])
+  Object.keys(filters).forEach((key) => !filters[key] && delete filters[key])
 
   const url = setURLParams(filters)
   history.push(`?${url || ''}`)
 }
 
 // Clean post form attributes
-export const cleanPostForm = () => async dispatch => {
+export const cleanPostForm = () => async (dispatch) => {
   dispatch({ type: CLEAN_FORM })
 }

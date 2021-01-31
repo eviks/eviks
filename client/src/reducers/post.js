@@ -4,8 +4,8 @@ import {
   GET_POST,
   POST_ERROR,
   ADD_POST,
-  SET_POST_CREATED_FLAG,
   UPDATE_POST_FORM,
+  GET_POST_FORM_DATA,
   FORM_NEXT_STEP,
   FORM_PREV_STEP,
   POST_VALIDATION_ERROR,
@@ -15,6 +15,7 @@ import {
   SET_FILTER_FROM_URL,
   REMOVE_ALL_FILTERS,
   CLEAN_FORM,
+  DELETE_POST,
 } from '../actions/types'
 
 const postReducer = (state = initialState, action) => {
@@ -29,10 +30,7 @@ const postReducer = (state = initialState, action) => {
         ...state,
         posts: { ...state.posts, result: [...state.posts.result, payload] },
         postForm: initialState.postForm,
-        newPostCreated: true,
       }
-    case SET_POST_CREATED_FLAG:
-      return { ...state, newPostCreated: payload }
     case UPDATE_POST_FORM:
       return {
         ...state,
@@ -44,6 +42,13 @@ const postReducer = (state = initialState, action) => {
           ...state.validationErrors,
           ...action.validationErrors,
         },
+      }
+    case GET_POST_FORM_DATA:
+      return {
+        ...state,
+        postForm: { ...payload },
+        formSteps: { ...initialState.formSteps },
+        validationErrors: { ...initialState.validationErrors },
       }
     case FORM_NEXT_STEP:
     case FORM_PREV_STEP:
@@ -95,6 +100,14 @@ const postReducer = (state = initialState, action) => {
         postForm: { ...initialState.postForm },
         formSteps: { ...initialState.formSteps },
         validationErrors: { ...initialState.validationErrors },
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          result: state.posts.result.filter((post) => post._id !== payload),
+        },
       }
     case POST_ERROR:
       return { ...state, error: payload }

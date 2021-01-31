@@ -85,7 +85,7 @@ const App = () => {
               `${baseRouteUrl}/users/:id`,
               `${baseRouteUrl}/users/:id/posts`,
               `${baseRouteUrl}/favorites`,
-              `${baseRouteUrl}/settings`
+              `${baseRouteUrl}/settings`,
             ]}
             component={UserMenu}
           />
@@ -94,6 +94,11 @@ const App = () => {
           <PrivateRoute
             exact
             path={`${baseRouteUrl}/create_post`}
+            component={PostForm}
+          />
+          <PrivateRoute
+            exact
+            path={`${baseRouteUrl}/edit_post/:id`}
             component={PostForm}
           />
           <Route
@@ -107,7 +112,7 @@ const App = () => {
         newestOnTop={false}
         preventDuplicates
         position="bottom-right"
-        getState={state => state.toastr} // This is the default
+        getState={(state) => state.toastr} // This is the default
         transitionIn="fadeIn"
         transitionOut="fadeOut"
         progressBar

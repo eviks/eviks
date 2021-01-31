@@ -72,5 +72,3 @@ export const getUserPosts = (userId) => async (dispatch) => {
     })
   }
 }
-
-export const deletePost = (postId) => async (dispatch) => {}

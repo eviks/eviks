@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import ImageGallery from 'react-image-gallery'
@@ -7,9 +7,11 @@ import {
   renderRightNav,
 } from '../../layout/arrowButtons/galleryButtons.component'
 import LikeButton from '../buttons/likeButton/likeButton.component'
+import EditButton from '../buttons/editButton/editButton.component'
 import DeleteButton from '../buttons/deleteButton/deleteButton.component'
 import DoorIcon from '../../layout/icons/doorIcon.component'
 import SqmIcon from '../../layout/icons/sqmIcon.component'
+import StairsIcon from '../../layout/icons/stairsIcon.component'
 import GardenWorksIcon from '../../layout/icons/gardenWorksIcon.component'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
@@ -69,11 +71,16 @@ const PostItem = ({
           renderLeftNav={renderLeftNav}
           renderRightNav={renderRightNav}
         />
-        {auth.user && auth.user._id === user ? (
-          <DeleteButton postId={_id} />
-        ) : (
-          <LikeButton postId={_id} />
-        )}
+        <div className="card-btn-container">
+          {auth.user && auth.user._id === user ? (
+            <Fragment>
+              <EditButton postId={_id} />
+              <DeleteButton postId={_id} />
+            </Fragment>
+          ) : (
+            <LikeButton postId={_id} />
+          )}
+        </div>
       </div>
       <div className="card-info" onClick={redirectToPost}>
         <div className="lead-2x lead-bold mb-05">{`${priceStr} ₼`}</div>
@@ -94,7 +101,7 @@ const PostItem = ({
           </div>
           {estateType === 'apartment' ? (
             <div className="card-param">
-              <DoorIcon width={'1.2rem'} /> {floor}/{totalFloors}
+              <StairsIcon width={'1.2rem'} /> {floor}/{totalFloors}
             </div>
           ) : (
             <div className="card-param">

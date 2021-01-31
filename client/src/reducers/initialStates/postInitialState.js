@@ -94,7 +94,6 @@ const initialState = {
   },
   formSteps: { currentStep: 0, totalSteps: 7 },
   validationErrors: {},
-  newPostCreated: false,
   error: {},
 }
 

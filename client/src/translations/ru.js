@@ -201,6 +201,9 @@ const translation = {
         delete: {
           toastrTitle: 'Удалено',
           toastrText: 'Ваш пост был удален',
+          confirm: 'Вы уверены, что хотите удалить свое объявление?',
+          okText: 'Удалить объявление',
+          cancelText: 'Я передумал',
         },
       },
     },
