@@ -1,4 +1,6 @@
 node_modules/
+uploads/
 config/default.json
 client/src/config.js
-uploads/
+client/.eslintcache
+client/debug.log
