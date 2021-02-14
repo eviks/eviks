@@ -58,10 +58,10 @@ const setPostsFilters = req => {
 
   // Location IDs
   if (locationIds) {
-    const locationIds = filters.locationIds.split(',')
+    const locationConditions = locationIds.split(',')
     conditions.$or = [
-      { 'district.id': { $in: locationIds } },
-      { 'subdistrict.id': { $in: locationIds } }
+      { 'district.id': { $in: locationConditions } },
+      { 'subdistrict.id': { $in: locationConditions } }
     ]
   }
 

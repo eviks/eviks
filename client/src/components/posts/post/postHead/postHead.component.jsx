@@ -13,7 +13,7 @@ const PostHead = ({
   }
 
   return (
-    <div className="my-1 px-2">
+    <div className="my-1">
       <h1>
         {t(`post.title.${estateType}${capitalizeFirstLetter(dealType)}`, {
           rooms,

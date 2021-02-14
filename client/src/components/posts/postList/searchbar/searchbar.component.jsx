@@ -16,7 +16,7 @@ import {
   getDealTypeFilterTitle,
   getPriceFilterTitle,
   getRoomsFilterTitle,
-  estateTypeFilterTitle
+  estateTypeFilterTitle,
 } from './filterTitles'
 import PropTypes from 'prop-types'
 
@@ -67,7 +67,7 @@ const Searchbar = ({ navRef, removeAllFilters, dealType }) => {
       }
     }
 
-    const isInViewport = element => {
+    const isInViewport = (element) => {
       const bounding = element.getBoundingClientRect()
       return bounding.bottom >= 0
     }
@@ -90,7 +90,7 @@ const Searchbar = ({ navRef, removeAllFilters, dealType }) => {
 
   return (
     <div ref={containerRef} className="searchbar-wrapper">
-      <section className={`searchbar light-shadow-border ${classes}`}>
+      <section className={`searchbar ${classes}`}>
         <div className="filter-buttons">
           {/* Locations */}
           <button
@@ -168,11 +168,11 @@ const Searchbar = ({ navRef, removeAllFilters, dealType }) => {
 Searchbar.propTypes = {
   navRef: PropTypes.object.isRequired,
   removeAllFilters: PropTypes.func.isRequired,
-  dealType: PropTypes.string.isRequired
+  dealType: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => ({
-  dealType: state.post.posts.filters.dealType
+const mapStateToProps = (state) => ({
+  dealType: state.post.posts.filters.dealType,
 })
 
 export default connect(mapStateToProps, { removeAllFilters })(Searchbar)

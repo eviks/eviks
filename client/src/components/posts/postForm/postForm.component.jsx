@@ -113,11 +113,11 @@ const PostForm = ({
   }
 
   return (
-    <div className="post-form-container px-2 shadow-border">
+    <div className="post-form-container px-2 light-border">
       <ProgressBar />
       <div className="helpers-button-box">
         <div className="tooltip">
-          <div className="clean shadow-border" onClick={cleanPostForm}>
+          <div className="clean light-border" onClick={cleanPostForm}>
             <i className="fas fa-broom"></i>
           </div>
           <div className="tooltip-text tooltip-text-bottom">

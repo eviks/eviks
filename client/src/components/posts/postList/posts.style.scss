@@ -2,8 +2,8 @@
 
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
 }
 
 .quick-filter-wrapper {
@@ -25,13 +25,6 @@
 }
 
 /* MEDIA QUERIES */
-
-/* BIG SCREENS */
-@media screen and (min-width: 1080px) {
-  .cards-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
 
 /* TABLEST */
 @media screen and (max-width: 768px) {

@@ -58,7 +58,7 @@ const PostItem = ({
   }
 
   return (
-    <div className="card material-border">
+    <div className="card light-border">
       <div className="card-gallery-wrapper">
         <ImageGallery
           items={getPostImages()}

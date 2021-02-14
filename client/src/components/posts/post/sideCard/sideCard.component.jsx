@@ -10,7 +10,7 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
   const handleOnClick = () => setShowPhone(!showPhone)
 
   const formattedPrice = price.toLocaleString('az-AZ', {
-    style: 'decimal'
+    style: 'decimal',
   })
 
   const priceForSqm = Math.round((price / sqm + Number.EPSILON) * 100) / 100
@@ -20,10 +20,10 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
   const [t] = useTranslation()
 
   return (
-    <div>
-      <div className="side-card shadow-border">
+    <div className="side-card-container">
+      <div className="side-card light-border">
         <div className="price-wrapper">
-          <span className="price">{formattedPrice} ₼</span>
+          <h2 className="price large">{formattedPrice} ₼</h2>
           <span>{t('post.price.priceForSqm', { priceForSqm })}</span>
         </div>
         <div className="user-info">
@@ -37,7 +37,7 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
         </div>
         {showPhone ? (
           <Fragment>
-            <span className="phone-number">{contact}</span>
+            <span className="lead">{contact}</span>
             <span className="text-secondary text-sm">
               {t('post.price.message')}
             </span>
@@ -55,7 +55,7 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
 }
 
 SideCard.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
 }
 
 export default SideCard

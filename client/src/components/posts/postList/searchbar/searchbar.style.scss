@@ -8,6 +8,7 @@
   width: 100%;
   height: inherit;
   z-index: 100;
+  box-shadow: 0 7px 12px -4px rgba(0, 0, 0, 0.05);
 
   &-wrapper {
     height: 50px;
@@ -19,6 +20,7 @@
 
   &-relative {
     position: relative;
+    top: -3px;
   }
 
   &-hidden {

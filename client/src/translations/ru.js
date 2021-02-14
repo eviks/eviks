@@ -98,7 +98,7 @@ const translation = {
         parkingLot: 'Есть парковка',
       },
       features: {
-        title: 'Дополнительно',
+        title: 'Дополнительные удобства',
         maintenance: {
           redecorated: 'Косметический ремонт',
           designed: 'Дизайнерский ремонт',
@@ -127,7 +127,7 @@ const translation = {
         bathhouse: 'Баня',
       },
       location: {
-        title: 'Расположение',
+        title: 'Местоположение',
       },
       price: {
         priceForSqm: '{{priceForSqm}} ₼ за м²',

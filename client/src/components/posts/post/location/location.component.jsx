@@ -11,7 +11,7 @@ const Location = ({ location }) => {
   const [map, setMap] = useState(null)
 
   useEffect(() => {
-    if (mapRef.current) setMap(initMap(mapRef.current, location, 17))
+    if (mapRef.current) setMap(initMap(mapRef.current, location, 14))
     // eslint-disable-next-line
   }, [mapRef])
 
@@ -28,7 +28,7 @@ const Location = ({ location }) => {
 }
 
 Location.propTypes = {
-  location: PropTypes.array.isRequired
+  location: PropTypes.array.isRequired,
 }
 
 export default Location

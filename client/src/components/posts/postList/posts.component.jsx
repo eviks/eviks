@@ -9,7 +9,7 @@ import PostItem from '../postItem/postItem.component'
 import {
   getPosts,
   setSrearchFiltersFromURL,
-  removeAllFilters
+  removeAllFilters,
 } from '../../../actions/post'
 import { setCurrentLocality } from '../../../actions/locality'
 import useWindowDimensions from '../../../utils/hooks/useWindowDimensions'
@@ -29,7 +29,7 @@ const Posts = ({
   setCurrentLocality,
   loading,
   loadingElements,
-  navRef
+  navRef,
 }) => {
   const { result, pagination } = posts
 
@@ -62,7 +62,7 @@ const Posts = ({
             result.data.length > 0
               ? result.data[0].id
               : currentLocality.city.id,
-          dealType: pathArray[3]
+          dealType: pathArray[3],
         }
 
         // Other filters
@@ -70,7 +70,7 @@ const Posts = ({
         if (query) {
           searchParams = {
             ...searchParams,
-            ...Object.fromEntries(getURLParams(query))
+            ...Object.fromEntries(getURLParams(query)),
           }
         }
 
@@ -85,7 +85,7 @@ const Posts = ({
         ) {
           setCurrentLocality({
             nextQuestionDate: new Date(Date.now() + 86400000 * 365),
-            city: result.data[0]
+            city: result.data[0],
           })
         }
 
@@ -101,7 +101,7 @@ const Posts = ({
     // eslint-disable-next-line
   }, [history.location.search, history.location.pathname])
 
-  const handlePaginationOnClick = page => {
+  const handlePaginationOnClick = (page) => {
     // getPosts({ ...filters, page }, history)
   }
 
@@ -124,7 +124,7 @@ const Posts = ({
             initialLoading ? (
               <SkeletonPostList />
             ) : (
-              result.map(post => <PostItem key={post._id} post={post} />)
+              result.map((post) => <PostItem key={post._id} post={post} />)
             )}
           </div>
           <Pagination
@@ -145,19 +145,19 @@ Posts.propTypes = {
   removeAllFilters: PropTypes.func.isRequired,
   setCurrentLocality: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  loadingElements: PropTypes.array.isRequired
+  loadingElements: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   posts: state.post.posts,
   currentLocality: state.locality.currentLocality,
   loading: state.async.loading,
-  loadingElements: state.async.loadingElements
+  loadingElements: state.async.loadingElements,
 })
 
 export default connect(mapStateToProps, {
   getPosts,
   setSrearchFiltersFromURL,
   removeAllFilters,
-  setCurrentLocality
+  setCurrentLocality,
 })(Posts)

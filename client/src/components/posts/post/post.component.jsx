@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import ImageGallery from 'react-image-gallery'
 import SideCard from './sideCard/sideCard.component'
 import PostHead from './postHead/postHead.component'
-import MainInfo from './mainInfo/MainInfo.component'
+import MainInfo from './mainInfo/mainInfo.component'
 import PostFeatures from './postFeatures/postFeatures.component'
 import BuildingInfo from './buildingInfo/buildingInfo.component'
 import PostDescription from './postDescription/postDescription.component'
@@ -26,8 +26,11 @@ const Post = ({
   loading,
   match,
 }) => {
+  const [initialLoading, setInitialLoading] = useState(true)
+
   useEffect(() => {
     getPost(match.params.id)
+    setInitialLoading(false)
   }, [getPost, match.params.id])
 
   const getPostImages = () => {
@@ -37,33 +40,31 @@ const Post = ({
     }))
   }
 
-  return loading || post == null ? (
+  return loading || initialLoading || post == null ? (
     <SkeletonPost />
   ) : (
-    <div className="post-wrapper">
-      <div className="post-container shadow-border">
-        <PostHead post={post} />
+    <div className="container">
+      <PostHead post={post} />
+      <ImageGallery
+        items={getPostImages()}
+        showBullets={true}
+        showPlayButton={false}
+        useTranslate3D={false}
+        slideOnThumbnailOver={true}
+        lazyLoad={true}
+        renderLeftNav={renderLeftNav}
+        renderRightNav={renderRightNav}
+      />
+      <div className="post-content my-1">
         <div>
-          <ImageGallery
-            items={getPostImages()}
-            showBullets={true}
-            showPlayButton={false}
-            useTranslate3D={false}
-            slideOnThumbnailOver={true}
-            lazyLoad={true}
-            renderLeftNav={renderLeftNav}
-            renderRightNav={renderRightNav}
-          />
-        </div>
-        <div className="px-2">
           <MainInfo post={post} />
           <PostDescription description={post.description} />
           <PostFeatures post={post} />
           <BuildingInfo post={post} />
-          <Location location={post.location} />
         </div>
+        <SideCard post={post} />
       </div>
-      <SideCard post={post} />
+      <Location location={post.location} />
     </div>
   )
 }

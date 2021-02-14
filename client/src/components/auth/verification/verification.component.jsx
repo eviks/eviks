@@ -3,6 +3,8 @@ import Spinner from '../../layout/spinner/spinner.component'
 import { connect } from 'react-redux'
 import { verifyEmail } from '../../../actions/auth'
 import { useTranslation } from 'react-i18next'
+import SuccessImage from '../../../img/illustrations/success.jpg'
+import QuestionImage from '../../../img/illustrations/question.jpg'
 import PropTypes from 'prop-types'
 
 const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
@@ -26,7 +28,7 @@ const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
         <div>
           <img
             style={{ width: '400px' }}
-            src={require('../../../img/illustrations/success.jpg')}
+            src={SuccessImage}
             alt="success"
           />
           <h1>
@@ -40,7 +42,7 @@ const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
         <div>
           <img
             style={{ width: '400px' }}
-            src={require('../../../img/illustrations/question.jpg')}
+            src={QuestionImage}
             alt="question"
           />
           <h1>

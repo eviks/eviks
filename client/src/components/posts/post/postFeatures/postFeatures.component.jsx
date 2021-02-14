@@ -4,21 +4,10 @@ import PropTypes from 'prop-types'
 
 import './postFeatures.style.scss'
 
-const Feature = ({ flag, icon, name }) => {
+const Feature = ({ flag, icon, name, special = false }) => {
   return flag ? (
-    <div className="feature-item">
+    <div className={`${special ? 'special' : ''}`}>
       <i className={`feature-item-icon ${icon}`}></i> {name}
-    </div>
-  ) : null
-}
-
-const SpecialFeature = ({ flag, icon, name }) => {
-  return flag ? (
-    <div className="features-special-wrapper">
-      <div className="features-special-icon light-border">
-        <i className={icon}></i>
-      </div>
-      {name}
     </div>
   ) : null
 }
@@ -47,38 +36,42 @@ const PostFeatures = ({
     conditioner,
     washingMachine,
     dishwasher,
-    refrigerator
-  }
+    refrigerator,
+  },
 }) => {
   const [t] = useTranslation()
 
   return (
     <div className="my-1">
       <h2>{t('post.features.title')}</h2>
-      {/* Speacial */}
-      <div className="features-special">
-        <SpecialFeature
+      <div className="features-special my-1">
+        <Feature
           flag={maintenance}
           icon="fas fa-paint-roller"
           name={t(`post.features.maintenance.${maintenance}`)}
+          special={true}
         />
-        <SpecialFeature
+        <Feature
           flag={documented}
           icon="fas fa-check"
           name={t('post.features.documented')}
+          special={true}
         />
-        <SpecialFeature
+        <Feature
           flag={mortgage}
           icon="fas fa-coins"
           name={t('post.features.mortgage')}
+          special={true}
         />
-        <SpecialFeature
+        <Feature
           flag={redevelopment}
           icon="fas fa-pencil-ruler"
           name={t('post.features.redevelopment')}
+          special={true}
         />
       </div>
-      <div className="features-wrapper my-1">
+      <div className="divider" />
+      <div className="features my-1">
         {estateType === 'house' && (
           <Fragment>
             <Feature
@@ -162,12 +155,13 @@ const PostFeatures = ({
           name={t('post.features.refrigerator')}
         />
       </div>
+      <div className="divider" />
     </div>
   )
 }
 
 PostFeatures.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
 }
 
 export default PostFeatures
