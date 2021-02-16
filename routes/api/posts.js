@@ -5,6 +5,8 @@ const { check, validationResult } = require('express-validator')
 const passport = require('passport')
 const mongoose = require('mongoose')
 const uuid = require('uuid')
+const axios = require('axios')
+const config = require('config')
 const sharp = require('sharp')
 const rimraf = require('rimraf')
 const postSearch = require('../../middleware/postSearch')
@@ -234,5 +236,48 @@ router.delete(
     res.json({ msg: 'Image successfully deleted', id })
   }
 )
+
+// @route POST api/posts/getAddressByCoords
+// @desc  Get address
+// @access Private
+router.post(
+  '/getAddressByCoords',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+
+    const axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }
+
+    try {
+      const result = await axios.post('http://api.gomap.az/Main.asmx/getAddressByCoords', {...req.body, guid: config.get('goMapGUID')}, axiosConfig)
+      res.json(JSON.parse(result.data.replace('{"d":null}', '')))
+    } catch (error) {
+      console.error(error.message)
+      return res.status(500).send('Server error...')
+    }
+  }
+)
+
+// @route GET api/posts/geocoder
+// @desc  Search on map by query
+// @access Public
+router.get('/geocoder', async (req, res) => {
+
+  const urlParams = new URLSearchParams(req.query).toString()
+
+  try {
+    const result = await axios.post(
+      `https://gomap.az/maps/search/index/az?${urlParams}`,
+    )
+    res.json(result.data)
+  } catch (error) {
+    console.error(error.message)
+      return res.status(500).send('Server error...')
+  }
+
+})
 
 module.exports = router

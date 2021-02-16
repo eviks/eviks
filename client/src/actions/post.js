@@ -18,7 +18,6 @@ import {
   DELETE_POST,
 } from './types'
 import { setURLParams } from '../utils/urlParams'
-import { goMapGUID } from '../config'
 
 // Get posts
 export const getPosts = (filters) => async (dispatch) => {
@@ -155,7 +154,7 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
   const state = getState()
 
   let searchArea
-  if (state.post.postForm.searchArea) {
+  if (state.post.postForm.location[0] === 0 && state.post.postForm.location[1] === 0) {
     searchArea = state.post.postForm.searchArea
   } else {
     searchArea = state.post.postForm.location
@@ -168,17 +167,9 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
 
   dispatch(asyncActionStart())
 
-  const config = {
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-    },
-  }
-
   try {
-    const res = await axios.post(
-      `https://cors-anywhere.herokuapp.com/https://gomap.az/maps/search/index/az?q=${text}&lon=${searchArea[0]}&lat=${searchArea[1]}`,
-      {},
-      config
+    const res = await axios.get(
+      `/api/posts/geocoder?q=${text}&lon=${searchArea[0]}&lat=${searchArea[1]}`,
     )
 
     const list = res.data.rows
@@ -200,26 +191,15 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
 export const getAddressByCoords = (coords) => async (dispatch) => {
   dispatch(asyncActionStart('mapIsLoading'))
 
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest',
-    },
-  }
-
   try {
     const res = await axios.post(
-      'https://cors-anywhere.herokuapp.com/http://api.gomap.az/Main.asmx/getAddressByCoords',
+      '/api/posts/getAddressByCoords',
       {
-        guid: goMapGUID,
         lng: 'az',
         x: coords[0],
         y: coords[1],
-      },
-      config
+      }
     )
-
-    const data = JSON.parse(res.data.replace('{"d":null}', ''))
 
     let newAttributes = {
       city: '',
@@ -229,8 +209,8 @@ export const getAddressByCoords = (coords) => async (dispatch) => {
       location: coords,
     }
 
-    if (data.success) {
-      data.addr_components.forEach((addressComponent) => {
+    if (res.data.success) {
+      res.data.addr_components.forEach((addressComponent) => {
         if (addressComponent.type === 'country district')
           newAttributes.city = addressComponent.name
         if (addressComponent.type === 'settlement district')
