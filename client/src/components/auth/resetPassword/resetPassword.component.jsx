@@ -11,6 +11,7 @@ import MessageIcon from '../../layout/icons/messageIcon.component'
 import { useTranslation } from 'react-i18next'
 import { baseUrl } from '../../../App'
 import uuid from 'uuid'
+import PasswordImage from '../../../img/illustrations/password.jpg'
 import PropTypes from 'prop-types'
 
 import '../auth.style.scss'
@@ -21,7 +22,7 @@ const ResetPassword = ({
   deleteAllAlerts,
   sendResetPasswordToken,
   location,
-  history
+  history,
 }) => {
   useEffect(() => {
     return () => {
@@ -41,7 +42,7 @@ const ResetPassword = ({
     const toastrOptions = {
       timeOut: 0,
       icon: <MessageIcon />,
-      status: 'info'
+      status: 'info',
     }
     toastr.light(
       t('auth.resetPassword.checkEmailTitle'),
@@ -67,7 +68,7 @@ const ResetPassword = ({
       <span>{t('auth.resetPassword.subtitle')}</span>
       <img
         style={{ width: '400px', display: 'block' }}
-        src={require('../../../img/illustrations/password.jpg')}
+        src={PasswordImage}
         alt="password"
       />
       <div className="reset-password-form">
@@ -76,10 +77,10 @@ const ResetPassword = ({
           options={{
             type: 'email',
             name: 'email',
-            value: email
+            value: email,
           }}
           main={true}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <div>
           <button
@@ -102,15 +103,15 @@ ResetPassword.propTypes = {
   sendResetPasswordToken: PropTypes.func.isRequired,
   deleteAllAlerts: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  showAlert: PropTypes.bool
+  showAlert: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
-  loading: state.async.loading
+const mapStateToProps = (state) => ({
+  loading: state.async.loading,
 })
 
 export default connect(mapStateToProps, {
   setAlert,
   deleteAllAlerts,
-  sendResetPasswordToken
+  sendResetPasswordToken,
 })(ResetPassword)

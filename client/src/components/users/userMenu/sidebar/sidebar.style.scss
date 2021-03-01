@@ -5,14 +5,13 @@
   left: 0;
   width: 250px;
   height: 100%;
-  background: $primary-color;
+  background: transparent;
   z-index: 100;
 
   li {
     &:hover {
       a {
-        background: $light-color;
-        color: $primary-color;
+        background: $light-grey-color;
       }
     }
   }
@@ -20,7 +19,7 @@
   a {
     display: inline-block;
     border-radius: 33px;
-    color: $light-color;
+    color: $dark-color;
     width: 100%;
     transition: all ease 0.2s;
   }

@@ -4,6 +4,7 @@
   background: $light-color;
   border-radius: 5px;
   cursor: pointer;
+  min-width: 330px;
 
   &-gallery-wrapper {
     position: relative;
@@ -15,27 +16,6 @@
     right: 0;
     display: flex;
     z-index: 10;
-  }
-
-  &-images {
-    position: relative;
-    width: 100%;
-    height: 0;
-    overflow: hidden;
-    margin: 0;
-    padding-bottom: 60%;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    transition: all 0.2s ease-in-out;
-
-    .image-element {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      object-fit: cover;
-    }
   }
 
   &-info {

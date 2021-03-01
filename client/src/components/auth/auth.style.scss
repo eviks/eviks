@@ -89,7 +89,7 @@
   align-items: center;
   position: relative;
   background: url('../../img/AuthBackground.jpg') no-repeat center center/cover;
-  height: calc(100vh - #{$navbar-height});
+  height: 100vh;
 }
 
 .reset-password-form {

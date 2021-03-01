@@ -14,7 +14,7 @@ const Sidebar = ({ user, isAuthenticated }) => {
 
   return (
     <div>
-      <aside className="user-menu-sidebar light-shadow-border">
+      <aside className="user-menu-sidebar">
         <div className="py-2 px-1">
           <ul>
             <li className="mb-05">
@@ -53,12 +53,12 @@ const Sidebar = ({ user, isAuthenticated }) => {
 
 Sidebar.propTypes = {
   user: PropTypes.object,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.auth.user,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
 })
 
 export default connect(mapStateToProps)(Sidebar)
