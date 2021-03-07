@@ -15,6 +15,7 @@ import {
   SET_FILTER_FROM_URL,
   REMOVE_ALL_FILTERS,
   CLEAN_FORM,
+  CLEAN_POSTS,
   DELETE_POST,
 } from '../actions/types'
 
@@ -101,6 +102,8 @@ const postReducer = (state = initialState, action) => {
         formSteps: { ...initialState.formSteps },
         validationErrors: { ...initialState.validationErrors },
       }
+    case CLEAN_POSTS:
+      return { ...state, posts: { ...state.posts, result: [] } }
     case DELETE_POST:
       return {
         ...state,

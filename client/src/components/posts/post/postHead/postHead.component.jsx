@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
+import LikeButton from '../../buttons/likeButton/likeButton.component'
+import EditButton from '../../buttons/editButton/editButton.component'
+import DeleteButton from '../../buttons/deleteButton/deleteButton.component'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
+import './postHead.style.scss'
+
 const PostHead = ({
-  post: { city, dealType, estateType, date, address, rooms, sqm },
+  auth,
+  post: { _id, city, dealType, estateType, date, address, rooms, sqm, user },
 }) => {
   const [t] = useTranslation()
 
@@ -23,17 +30,34 @@ const PostHead = ({
       <div>
         <i className="fas fa-map-marker-alt"></i> {`${city.name}, ${address}`}
       </div>
-      <div className="text-secondary">
-        <Moment locale="ru" format="DD MMMM YYYY">
-          {date}
-        </Moment>
+      <div className="post-head-pannel">
+        <div className="text-secondary">
+          <Moment locale="ru" format="DD MMMM YYYY">
+            {date}
+          </Moment>
+        </div>
+        <div className="post-head-btn-container">
+          {auth.user && auth.user._id === user ? (
+            <Fragment>
+              <EditButton postId={_id} lg={true} />
+              <DeleteButton postId={_id} lg={true} />
+            </Fragment>
+          ) : (
+            <LikeButton postId={_id} lg={true} />
+          )}
+        </div>
       </div>
     </div>
   )
 }
 
 PostHead.propTypes = {
+  auth: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
 }
 
-export default PostHead
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+})
+
+export default connect(mapStateToProps)(PostHead)

@@ -19,13 +19,7 @@ import PropTypes from 'prop-types'
 import './post.style.scss'
 import './gallery.style.scss'
 
-const Post = ({
-  auth: { user, isAuthenticated },
-  post: { post },
-  getPost,
-  loading,
-  match,
-}) => {
+const Post = ({ post: { post }, getPost, loading, match }) => {
   const [initialLoading, setInitialLoading] = useState(true)
 
   useEffect(() => {
@@ -70,14 +64,12 @@ const Post = ({
 }
 
 Post.propTypes = {
-  auth: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   loading: PropTypes.bool,
   getPost: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
   post: state.post,
   loading: state.async.loading,
 })

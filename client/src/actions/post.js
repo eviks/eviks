@@ -15,6 +15,7 @@ import {
   SET_FILTER_FROM_URL,
   REMOVE_ALL_FILTERS,
   CLEAN_FORM,
+  CLEAN_POSTS,
   DELETE_POST,
 } from './types'
 import { setURLParams } from '../utils/urlParams'
@@ -154,7 +155,10 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
   const state = getState()
 
   let searchArea
-  if (state.post.postForm.location[0] === 0 && state.post.postForm.location[1] === 0) {
+  if (
+    state.post.postForm.location[0] === 0 &&
+    state.post.postForm.location[1] === 0
+  ) {
     searchArea = state.post.postForm.searchArea
   } else {
     searchArea = state.post.postForm.location
@@ -169,7 +173,7 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
 
   try {
     const res = await axios.get(
-      `/api/posts/geocoder?q=${text}&lon=${searchArea[0]}&lat=${searchArea[1]}`,
+      `/api/posts/geocoder?q=${text}&lon=${searchArea[0]}&lat=${searchArea[1]}`
     )
 
     const list = res.data.rows
@@ -192,14 +196,11 @@ export const getAddressByCoords = (coords) => async (dispatch) => {
   dispatch(asyncActionStart('mapIsLoading'))
 
   try {
-    const res = await axios.post(
-      '/api/posts/getAddressByCoords',
-      {
-        lng: 'az',
-        x: coords[0],
-        y: coords[1],
-      }
-    )
+    const res = await axios.post('/api/posts/getAddressByCoords', {
+      lng: 'az',
+      x: coords[0],
+      y: coords[1],
+    })
 
     let newAttributes = {
       city: '',
@@ -327,4 +328,9 @@ export const updateURLParams = (newFilters, history, page = 1) => async (
 // Clean post form attributes
 export const cleanPostForm = () => async (dispatch) => {
   dispatch({ type: CLEAN_FORM })
+}
+
+// Clean posts list
+export const cleanPosts = () => async (dispatch) => {
+  dispatch({ type: CLEAN_POSTS })
 }

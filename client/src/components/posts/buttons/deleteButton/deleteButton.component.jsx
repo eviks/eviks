@@ -1,29 +1,21 @@
-import React from 'react'
-import { deletePost } from '../../../../actions/post'
+import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
+import { deletePost } from '../../../../actions/post'
 import { Player } from '@lottiefiles/react-lottie-player'
 import DeleteMessage from './deleteMessage/deleteMessage.component'
+import ReactModal from 'react-modal'
 import { toastr } from 'react-redux-toastr'
 import { useTranslation } from 'react-i18next'
 import trashAnimation from '../../../../assets/lottiefilesSources/trash.json'
 import PropTypes from 'prop-types'
 
-import './deleteButton.style.scss'
+const DeleteButton = ({ postId, lg = false, deletePost }) => {
+  const [showModal, setShowModal] = useState(false)
 
-const DeleteButton = ({ postId, deletePost }) => {
   const [t] = useTranslation()
 
-  const handleOnClick = async () => {
-    const toastrConfirmOptions = {
-      onOk: () => onDeleteConfirm(),
-      okText: t('postList.buttons.delete.okText'),
-      cancelText: t('postList.buttons.delete.cancelText'),
-      component: DeleteMessage,
-    }
-    toastr.confirm(null, toastrConfirmOptions)
-  }
-
   const onDeleteConfirm = async () => {
+    setShowModal(false)
     try {
       const result = await deletePost(postId)
       if (result) {
@@ -49,14 +41,32 @@ const DeleteButton = ({ postId, deletePost }) => {
   }
 
   return (
-    <button className="delete-btn shadow-border" onClick={handleOnClick}>
-      <i className="fas fa-trash"></i>
-    </button>
+    <Fragment>
+      <button
+        className={`post-btn${lg ? '-lg' : ''} shadow-border`}
+        onClick={() => setShowModal(true)}
+      >
+        <i className="fas fa-trash"></i>
+        {lg && <span className="ml-05">{t('post.buttons.delete')}</span>}
+      </button>
+      <ReactModal
+        isOpen={showModal}
+        onRequestClose={() => setShowModal(false)}
+        className="modal"
+        overlayClassName="modal-overlay"
+      >
+        <DeleteMessage
+          onOk={onDeleteConfirm}
+          onCancel={() => setShowModal(false)}
+        />
+      </ReactModal>
+    </Fragment>
   )
 }
 
 DeleteButton.propTypes = {
   postId: PropTypes.string.isRequired,
+  lg: PropTypes.bool,
 }
 
 export default connect(null, { deletePost })(DeleteButton)

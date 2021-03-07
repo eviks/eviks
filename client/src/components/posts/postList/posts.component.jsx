@@ -10,6 +10,7 @@ import {
   getPosts,
   setSrearchFiltersFromURL,
   removeAllFilters,
+  cleanPosts,
 } from '../../../actions/post'
 import { setCurrentLocality } from '../../../actions/locality'
 import useWindowDimensions from '../../../utils/hooks/useWindowDimensions'
@@ -26,6 +27,7 @@ const Posts = ({
   getPosts,
   setSrearchFiltersFromURL,
   removeAllFilters,
+  cleanPosts,
   setCurrentLocality,
   loading,
   loadingElements,
@@ -43,8 +45,11 @@ const Posts = ({
   if (width > 768 && smallWidth) setSmallWidth(false)
 
   useEffect(() => {
-    return () => removeAllFilters()
-  }, [removeAllFilters])
+    return () => {
+      cleanPosts()
+      removeAllFilters()
+    }
+  }, [cleanPosts, removeAllFilters])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -143,6 +148,7 @@ Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
   setSrearchFiltersFromURL: PropTypes.func.isRequired,
   removeAllFilters: PropTypes.func.isRequired,
+  cleanPosts: PropTypes.func.isRequired,
   setCurrentLocality: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingElements: PropTypes.array.isRequired,
@@ -159,5 +165,6 @@ export default connect(mapStateToProps, {
   getPosts,
   setSrearchFiltersFromURL,
   removeAllFilters,
+  cleanPosts,
   setCurrentLocality,
 })(Posts)

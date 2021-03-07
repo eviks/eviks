@@ -1,0 +1,25 @@
+@import '../../../../../sass/config';
+
+.delete-post {
+  &-wrapper {
+    display: flex;
+    border-radius: 8px;
+    background-color: $light-color;
+    width: 700px;
+    height: 400px;
+    padding: 2rem;
+  }
+
+  &-img {
+    flex: 1;
+    background: url('../../../../../img/illustrations/thoughts.svg') no-repeat
+      center center/cover;
+  }
+
+  &-msg {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    flex: 1.5;
+  }
+}

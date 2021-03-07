@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import {
   addPostToFavorites,
   removePostFromFavorites,
-} from '../../../../actions/user'
+} from '../../../../actions/auth'
 import { connect } from 'react-redux'
 import Auth from '../../../auth/auth.component'
 import { toastr } from 'react-redux-toastr'
@@ -16,12 +16,13 @@ import './likeButton.style.scss'
 
 const LikeButton = ({
   postId,
+  lg = false,
   isAuthenticated,
   user,
   addPostToFavorites,
   removePostFromFavorites,
 }) => {
-  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const favorites =
     isAuthenticated && user && user.favorites ? user.favorites : {}
@@ -56,24 +57,27 @@ const LikeButton = ({
         }
       }
     } else {
-      setShowAuthModal(true)
+      setShowModal(true)
     }
   }
 
-  const handleCloseModal = () => setShowAuthModal(false)
+  const handleCloseModal = () => setShowModal(false)
 
   return (
     <Fragment>
       <button
-        className={`like-btn shadow-border like-btn-${
+        className={`post-btn${
+          lg ? '-lg' : ''
+        } like-btn shadow-border like-btn-${
           favorites[postId] === true ? 'active' : 'disabled'
         }`}
         onClick={handleOnClick}
       >
         <i className={'fas fa-heart'}></i>
+        {lg && <span className="ml-05">{t('post.buttons.like')}</span>}
       </button>
       <ReactModal
-        isOpen={showAuthModal}
+        isOpen={showModal}
         onRequestClose={handleCloseModal}
         className="modal"
         overlayClassName="modal-overlay"
@@ -86,6 +90,7 @@ const LikeButton = ({
 
 LikeButton.propTypes = {
   postId: PropTypes.string.isRequired,
+  lg: PropTypes.bool,
   isAuthenticated: PropTypes.bool,
   user: PropTypes.object,
 }

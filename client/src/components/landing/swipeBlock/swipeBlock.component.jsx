@@ -15,7 +15,7 @@ const SwipeBlock = () => {
   const [list, setList] = useState([
     <SkeletonPostItem key={uuid.v4()} />,
     <SkeletonPostItem key={uuid.v4()} />,
-    <SkeletonPostItem key={uuid.v4()} />
+    <SkeletonPostItem key={uuid.v4()} />,
   ])
 
   const onLeftArrowClick = () => {
@@ -30,7 +30,7 @@ const SwipeBlock = () => {
     try {
       const res = await axios.get('/api/posts/?limit=20&page=1')
       setList(
-        res.data.result.map(post => <PostItem key={post._id} post={post} />)
+        res.data.result.map((post) => <PostItem key={post._id} post={post} />)
       )
     } catch (error) {
       console.log(error)

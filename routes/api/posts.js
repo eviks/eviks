@@ -81,13 +81,15 @@ router.post(
 
       // Move post images from temp to main folder
       for (let image of req.body.images) {
-        fs.rename(
-          `${__dirname}/../../uploads/temp/post_images/${image}`,
-          `${__dirname}/../../uploads/post_images/${image}`,
-          (error) => {
-            if (error) throw error
-          }
-        )
+        try {
+          await fs.promises.rename(
+            `${__dirname}/../../uploads/temp/post_images/${image}`,
+            `${__dirname}/../../uploads/post_images/${image}`
+          )
+        } catch (error) {
+          console.error(error.message)
+          return res.status(500).send('Server error...')
+        }
       }
 
       res.json(post)
@@ -120,12 +122,25 @@ router.delete(
         return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
       }
 
+      // Check user
       if (req.user.id !== post.user.toString()) {
         return res
           .status(401)
           .json({ errors: [{ msg: 'User not authorized' }] })
       }
 
+      // Delete post images first
+      post.images.forEach(async (image) => {
+        const directory = `${__dirname}/../../uploads/post_images/${image}`
+        const fileExists = await checkFileExists(directory)
+        if (fileExists) {
+          rimraf(directory, (error) => {
+            if (error) return res.status(500).send('Server error...')
+          })
+        }
+      })
+
+      // Delete post
       await post.remove()
 
       return res.json({ msg: 'Post deleted' })
@@ -142,16 +157,25 @@ router.delete(
 router.get(
   '/generate_upload_id',
   [passport.authenticate('jwt', { session: false })],
-  (req, res) => {
+  async (req, res) => {
     // Generate unique id
     let id = uuid.v4()
-    while (fs.existsSync(id)) {
+    const tempDirectory = `${__dirname}/../../uploads/temp/post_images/${id}`
+    const mainDirectory = `${__dirname}/../../uploads/post_images/${id}`
+    while (
+      (await checkFileExists(tempDirectory)) ||
+      (await checkFileExists(mainDirectory))
+    ) {
       id = uuid.v4()
     }
 
-    // Create new directory, where all image size versions will be stored
-    const directory = `${__dirname}/../../uploads/temp/post_images/${id}`
-    fs.mkdirSync(directory)
+    // Create new temp directory, where all image size versions will be stored
+    try {
+      await fs.promises.mkdir(tempDirectory)
+    } catch (error) {
+      console.error(error.message)
+      return res.status(500).send('Server error...')
+    }
 
     res.json({ id })
   }
@@ -185,7 +209,9 @@ router.post(
     const directory = `${__dirname}/../../uploads/temp/post_images/${id}`
 
     // Check if id is correct
-    if (!fs.existsSync(__dirname) || fs.readdirSync(directory).length !== 0) {
+    const fileExists = await checkFileExists(directory)
+    const files = fileExists ? await fs.promises.readdir(directory) : []
+    if (!fileExists || files.length !== 0) {
       return res.status(400).json({ errors: [{ msg: 'Invalid ID' }] })
     }
 
@@ -208,7 +234,9 @@ router.post(
     if (!serverError) {
       res.json({ msg: 'Image successfully uploaded', id })
     } else {
-      rimraf.sync(directory)
+      rimraf(directory, (error) => {
+        if (error) return res.status(500).send('Server error...')
+      })
       res.status(500).send('Server error...')
     }
   }
@@ -220,18 +248,20 @@ router.post(
 router.delete(
   '/delete_image/:id',
   [passport.authenticate('jwt', { session: false })],
-  (req, res) => {
+  async (req, res) => {
     id = req.params.id
 
     const directory = `${__dirname}/../../uploads/temp/post_images/${id}`
 
     // Check if id is correct
-    if (!fs.existsSync(__dirname)) {
+    if (!(await checkFileExists(directory))) {
       return res.status(400).json({ errors: [{ msg: 'Invalid ID' }] })
     }
 
     // Delete folder with all image sizes
-    rimraf.sync(directory)
+    rimraf(directory, (error) => {
+      if (error) return res.status(500).send('Server error...')
+    })
 
     res.json({ msg: 'Image successfully deleted', id })
   }
@@ -244,15 +274,18 @@ router.post(
   '/getAddressByCoords',
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
-
     const axiosConfig = {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
     }
 
     try {
-      const result = await axios.post('http://api.gomap.az/Main.asmx/getAddressByCoords', {...req.body, guid: config.get('goMapGUID')}, axiosConfig)
+      const result = await axios.post(
+        'http://api.gomap.az/Main.asmx/getAddressByCoords',
+        { ...req.body, guid: config.get('goMapGUID') },
+        axiosConfig
+      )
       res.json(JSON.parse(result.data.replace('{"d":null}', '')))
     } catch (error) {
       console.error(error.message)
@@ -265,19 +298,24 @@ router.post(
 // @desc  Search on map by query
 // @access Public
 router.get('/geocoder', async (req, res) => {
-
   const urlParams = new URLSearchParams(req.query).toString()
 
   try {
     const result = await axios.post(
-      `https://gomap.az/maps/search/index/az?${urlParams}`,
+      `https://gomap.az/maps/search/index/az?${urlParams}`
     )
     res.json(result.data)
   } catch (error) {
     console.error(error.message)
-      return res.status(500).send('Server error...')
+    return res.status(500).send('Server error...')
   }
-
 })
+
+const checkFileExists = async (file) => {
+  return fs.promises
+    .access(file, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false)
+}
 
 module.exports = router

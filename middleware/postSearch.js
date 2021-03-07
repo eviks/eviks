@@ -4,8 +4,8 @@ const Post = require('../models/Post')
 
 const postSearch = async (req, res, next) => {
   // userId validation
-  const userId = req.params.userId
-  if (userId && !mongoose.Types.ObjectId.isValid(userId)) {
+  const user = req.query.user
+  if (user && !mongoose.Types.ObjectId.isValid(user)) {
     return res.status(404).json({ errors: [{ msg: 'User not found' }] })
   }
 
@@ -18,7 +18,7 @@ const postSearch = async (req, res, next) => {
   next()
 }
 
-const setPostsFilters = req => {
+const setPostsFilters = (req) => {
   const {
     cityId,
     locationIds,
@@ -44,7 +44,9 @@ const setPostsFilters = req => {
     redevelopment,
     bargain,
     notFirstFloor,
-    notLastFloor
+    notLastFloor,
+    user,
+    ids,
   } = req.query
 
   const conditions = {}
@@ -61,7 +63,7 @@ const setPostsFilters = req => {
     const locationConditions = locationIds.split(',')
     conditions.$or = [
       { 'district.id': { $in: locationConditions } },
-      { 'subdistrict.id': { $in: locationConditions } }
+      { 'subdistrict.id': { $in: locationConditions } },
     ]
   }
 
@@ -107,6 +109,12 @@ const setPostsFilters = req => {
   // Not last floor
   if (notLastFloor) conditions.$expr = { $ne: ['$floor', '$totalFloors'] }
 
+  // User
+  if (user && mongoose.Types.ObjectId.isValid(user)) conditions.user = user
+
+  // Ids
+  if (ids) conditions._id = { $in: ids }
+
   return conditions
 }
 
@@ -132,9 +140,7 @@ const getPaginatedResults = (req, conditions) => {
 
     let numberOfElements
     try {
-      numberOfElements = await Post.find(conditions)
-        .countDocuments()
-        .exec()
+      numberOfElements = await Post.find(conditions).countDocuments().exec()
     } catch (error) {
       reject(error.message)
     }

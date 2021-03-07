@@ -1,32 +1,13 @@
 @import '../../../../sass/config';
 
 .like-btn {
-  outline: none;
-  border: none;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  margin: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: 0.4s;
-
   &-active {
-    color: $light-color;
-    background: $primary-color;
+    color: $light-color !important;
+    background: $primary-color !important;
   }
 
   &-disabled {
     color: $grey-color;
     background: $light-color;
-
-    &:hover {
-      color: darken($grey-color, 20);
-    }
   }
 }

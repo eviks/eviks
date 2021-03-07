@@ -64,7 +64,6 @@
   min-width: 150px;
   position: relative;
   overflow: hidden;
-  line-height: 1;
 
   &-primary {
     border: none;
@@ -153,6 +152,46 @@
   &-loading {
     color: transparent;
     transition: none;
+  }
+}
+
+.post-btn {
+  outline: none;
+  background: $light-color;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $grey-color;
+  cursor: pointer;
+  transition: 0.4s;
+
+  &:hover {
+    color: darken($grey-color, 20);
+  }
+}
+
+.post-btn-lg {
+  outline: none;
+  background: $light-color;
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $grey-color;
+  cursor: pointer;
+  transition: 0.4s;
+
+  &:hover {
+    color: darken($grey-color, 20);
   }
 }
 
@@ -265,17 +304,14 @@ input[type='radio'].toggle {
 // Text styles
 .x-large {
   font-size: 3.5rem;
-  line-height: 1.1;
 }
 
 .large {
   font-size: 3rem;
-  line-height: 1.1;
 }
 
 .medium {
   font-size: 1rem;
-  line-height: 1;
 }
 
 .lead {
@@ -283,12 +319,10 @@ input[type='radio'].toggle {
 
   &-2x {
     font-size: 1.5rem;
-    line-height: 1.2;
   }
 
   &-3x {
     font-size: 2rem;
-    line-height: 1.2;
   }
 
   &-bold {
@@ -409,6 +443,12 @@ input[type='radio'].toggle {
 .mr {
   &-1 {
     margin-right: 1rem;
+  }
+}
+
+.ml {
+  &-05 {
+    margin-left: 0.5rem;
   }
 }
 

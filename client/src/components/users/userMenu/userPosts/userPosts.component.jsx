@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getUserPosts } from '../../../../actions/user'
+import { getPosts, cleanPosts } from '../../../../actions/post'
 import PostItem from '../../../posts/postItem/postItem.component'
 import SkeletonPostList from '../../../layout/skeleton/skeletonPostList/skeletonPostList.component'
 import Pagination from '../../../layout/pagination/pagination.component'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
-const UserPosts = ({ posts, loading, loadingElements, getUserPosts, match }) => {
-
+const UserPosts = ({
+  posts,
+  loading,
+  loadingElements,
+  getPosts,
+  cleanPosts,
+  match,
+}) => {
   useEffect(() => {
-    getUserPosts(match.params.id)
+    getPosts({ user: match.params.id })
     // Set initial loading to false
     if (initialLoading) setInitialLoading(false)
     // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    return () => cleanPosts()
+  }, [cleanPosts])
 
   const [initialLoading, setInitialLoading] = useState(true)
   const { result, pagination } = posts
@@ -27,11 +37,11 @@ const UserPosts = ({ posts, loading, loadingElements, getUserPosts, match }) => 
     <div>
       <h5 className="lead">{t('userMenu.titles.posts')}</h5>
       <div className="cards-container my-1">
-        {(loading && loadingElements.includes('USER_POST_LIST')) ||
+        {(loading && loadingElements.includes('POST_LIST')) ||
         initialLoading ? (
           <SkeletonPostList />
         ) : (
-          result.map(post => <PostItem key={post._id} post={post} />)
+          result.map((post) => <PostItem key={post._id} post={post} />)
         )}
       </div>
       <Pagination pagination={pagination} onClick={handlePaginationOnClick} />
@@ -43,13 +53,14 @@ UserPosts.propTypes = {
   posts: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingElements: PropTypes.array.isRequired,
-  getUserPosts: PropTypes.func.isRequired,
+  getPosts: PropTypes.func.isRequired,
+  cleanPosts: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  posts: state.user.posts,
+const mapStateToProps = (state) => ({
+  posts: state.post.posts,
   loading: state.async.loading,
-  loadingElements: state.async.loadingElements
+  loadingElements: state.async.loadingElements,
 })
 
-export default connect(mapStateToProps, { getUserPosts })(UserPosts)
+export default connect(mapStateToProps, { getPosts, cleanPosts })(UserPosts)

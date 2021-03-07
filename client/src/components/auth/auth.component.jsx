@@ -82,7 +82,7 @@ const Auth = ({ handleCloseModal, showOverlay }) => {
 }
 
 Auth.propTypes = {
-  handleCloseModal: PropTypes.func.isRequired,
+  handleCloseModal: PropTypes.func,
   showOverlay: PropTypes.bool,
 }
 
