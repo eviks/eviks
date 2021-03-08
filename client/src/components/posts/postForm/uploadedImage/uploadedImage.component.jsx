@@ -12,12 +12,13 @@ const UploadedImage = ({
   uploadImage,
   deleteImageFromState,
   async: { loading, loadingElements },
-  uploadedImages
+  uploadedImages,
+  postId,
 }) => {
   useEffect(() => {
     if (
       !loadingElements.includes(image.id) &&
-      !uploadedImages.find(obj => obj.id === image.id)
+      !uploadedImages.find((obj) => obj.id === image.id)
     ) {
       const data = new FormData()
       data.append('image', image)
@@ -30,7 +31,7 @@ const UploadedImage = ({
   const imageIsUploading = loading && loadingElements.includes(image.id)
 
   const handleDeleteImage = () => {
-    deleteImage(image.id)
+    deleteImage(postId, image.id)
     deleteImageFromState(image.id)
   }
 
@@ -55,14 +56,16 @@ UploadedImage.propTypes = {
   async: PropTypes.object.isRequired,
   image: PropTypes.object.isRequired,
   uploadedImages: PropTypes.array.isRequired,
+  postId: PropTypes.string,
   uploadImage: PropTypes.func.isRequired,
   deleteImage: PropTypes.func.isRequired,
-  deleteImageFromState: PropTypes.func.isRequired
+  deleteImageFromState: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   async: state.async,
-  uploadedImages: state.post.postForm.images
+  uploadedImages: state.post.postForm.images,
+  postId: state.post.postForm._id,
 })
 
 export default connect(mapStateToProps, { uploadImage, deleteImage })(

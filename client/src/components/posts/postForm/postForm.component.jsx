@@ -14,11 +14,12 @@ import {
   formNextStep,
   formPrevStep,
   getPostFormData,
-  addPost,
+  createUpdatePost,
   cleanPostForm,
 } from '../../../actions/post'
 import { toastr } from 'react-redux-toastr'
-import SuccessIcon from '../../layout/icons/successIcon.component'
+import { Player } from '@lottiefiles/react-lottie-player'
+import successAnimation from '../../../assets/lottiefilesSources/success.json'
 import Ripple from '../../layout/ripple/ripple.component'
 import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import { useTranslation } from 'react-i18next'
@@ -33,7 +34,7 @@ const PostForm = ({
   formNextStep,
   formPrevStep,
   getPostFormData,
-  addPost,
+  createUpdatePost,
   cleanPostForm,
   loading,
   match,
@@ -58,19 +59,32 @@ const PostForm = ({
     window.scrollTo(0, 0)
   }, [currentStep])
 
+  useEffect(() => {
+    return () => {
+      cleanPostForm()
+    }
+  }, [cleanPostForm])
+
   const submitForm = async () => {
     try {
-      const result = await addPost(postForm)
+      const result = await createUpdatePost(postForm)
 
       if (result) {
         const toastrOptions = {
           timeOut: 0,
-          icon: <SuccessIcon />,
+          icon: (
+            <Player
+              autoplay
+              loop={false}
+              src={successAnimation}
+              style={{ height: '70px', width: '70px' }}
+            />
+          ),
           status: 'info',
         }
         toastr.light(
           t('createPost.success'),
-          t('createPost.postIsPublished'),
+          t(`createPost.${postForm._id ? 'postIsUpdated' : 'postIsPublished'}`),
           toastrOptions
         )
         history.push(`${baseUrl}/`)
@@ -170,7 +184,7 @@ PostForm.propTypes = {
   postForm: PropTypes.object.isRequired,
   formSteps: PropTypes.object.isRequired,
   getPostFormData: PropTypes.func.isRequired,
-  addPost: PropTypes.func.isRequired,
+  createUpdatePost: PropTypes.func.isRequired,
   formNextStep: PropTypes.func.isRequired,
   formPrevStep: PropTypes.func.isRequired,
   cleanPostForm: PropTypes.func.isRequired,
@@ -187,6 +201,6 @@ export default connect(mapStateToProps, {
   formNextStep,
   formPrevStep,
   getPostFormData,
-  addPost,
+  createUpdatePost,
   cleanPostForm,
 })(PostForm)

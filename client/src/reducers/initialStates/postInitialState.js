@@ -36,6 +36,7 @@ const initialState = {
     },
   },
   postForm: {
+    _id: null,
     userType: '',
     city: '',
     district: '',

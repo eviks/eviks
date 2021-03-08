@@ -3,8 +3,9 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from './async'
 import {
   GET_POSTS,
   GET_POST,
+  ADD_POST,
+  UPDATE_POST,
   POST_ERROR,
-  ADD_POST_API,
   UPDATE_POST_FORM,
   GET_POST_FORM_DATA,
   FORM_NEXT_STEP,
@@ -59,18 +60,68 @@ export const getPost = (postId) => async (dispatch) => {
   }
 }
 
-// Add post
-export const addPost = (data) => async (dispatch) => {
+export const createUpdatePost = (data) => async (dispatch) => {
   return new Promise(async (resolve, reject) => {
+    dispatch(asyncActionStart())
     try {
-      dispatch({ type: ADD_POST_API, payload: data })
-      dispatch({ type: CLEAN_FORM })
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+
+      // Request for city ID.
+      const cityRequest = await axios.get(
+        `/api/localities/?type=2&name=${data.city}`
+      )
+
+      const city = cityRequest.data[0]
+
+      const post = {
+        ...data,
+        city: { id: city.id, name: city.name },
+      }
+
+      // District ID
+      if (post.district) {
+        post.district = city.children.filter(
+          (child) => child.name === post.district
+        )[0]
+      }
+
+      // Request for subdistrict ID
+      if (post.subdistrict) {
+        const districtRequest = await axios.get(
+          `/api/localities/?id=${post.district.id}`
+        )
+
+        const district = districtRequest.data[0]
+
+        post.subdistrict = district.children.filter(
+          (child) => child.name === post.subdistrict
+        )[0]
+      }
+
+      if (post._id) {
+        // Update post
+        const res = await axios.put(`/api/posts/${post._id}`, post, config)
+        dispatch({ type: UPDATE_POST, payload: res.data })
+      } else {
+        // Add post
+        const res = await axios.post('/api/posts', post, config)
+        dispatch({ type: ADD_POST, payload: res.data })
+      }
+
+      dispatch(asyncActionFinish())
+
       resolve(true)
     } catch (error) {
+      dispatch(asyncActionError())
       dispatch({
         type: POST_ERROR,
         payload: {
-          message: error.message,
+          message: error.response.statusText,
+          status: error.response,
         },
       })
       reject(false)
@@ -270,10 +321,10 @@ export const uploadImage = (data) => async (dispatch) => {
 }
 
 // Delete image
-export const deleteImage = (id) => async (dispatch) => {
+export const deleteImage = (postId, id) => async (dispatch) => {
   try {
     dispatch(asyncActionStart(id))
-    await axios.delete(`/api/posts/delete_image/${id}`)
+    if (!postId) await axios.delete(`/api/posts/delete_image/${id}`)
     dispatch({ type: DELETE_IMAGE, payload: id })
     dispatch(asyncActionFinish(id))
   } catch (error) {

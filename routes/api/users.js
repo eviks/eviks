@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const { check, validationResult } = require('express-validator')
 const passport = require('passport')
-const postSearch = require('../../middleware/postSearch')
 
 const Post = require('../../models/Post')
 
@@ -15,15 +14,15 @@ router.post(
     check('displayName', 'Name is required').notEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password must be at least 6 characters long').isLength({
-      min: 6
-    })
+      min: 6,
+    }),
   ],
   async (req, res, next) => {
     // Validation
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array()
+        errors: errors.array(),
       })
     }
 
@@ -39,17 +38,17 @@ router.post(
   }
 )
 
-// @route  POST api/users/favorites
+// @route  PUT api/users/add_to_favorites
 // @desc   Add post to user's favorites list
 // @access Private
-router.post(
-  '/favorites',
+router.put(
+  '/add_to_favorites/:postId',
   [passport.authenticate('jwt', { session: false })],
 
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select('-password')
-      user.favorites = { ...user.favorites, [req.body.postId]: true }
+      user.favorites = { ...user.favorites, [req.params.postId]: true }
       await user.save()
 
       res.json({ favorites: user.favorites })
@@ -60,11 +59,11 @@ router.post(
   }
 )
 
-// @route  DELETE api/users/favorites
+// @route  PUT api/users/remove_from_favorites
 // @desc   Remove post from user's favorites list
 // @access Private
-router.delete(
-  '/favorites/:postId',
+router.put(
+  '/remove_from_favorites/:postId',
   [passport.authenticate('jwt', { session: false })],
 
   async (req, res) => {
@@ -76,11 +75,11 @@ router.delete(
       const favorites = user.favorites
 
       const filtered = Object.keys(favorites)
-        .filter(key => key !== req.params.postId)
+        .filter((key) => key !== req.params.postId)
         .reduce((obj, key) => {
           return {
             ...obj,
-            [key]: favorites[key]
+            [key]: favorites[key],
           }
         }, {})
 
@@ -94,33 +93,5 @@ router.delete(
     }
   }
 )
-
-// @route  GET api/users/:id/posts
-// @desc   Remove post from user's favorites list
-// @access Public
-router.get('/:id/posts', [postSearch], async (req, res) => {
-  let posts = {}
-  let result = []
-
-  const {
-    conditions,
-    paginatedResults: { pagination, limit, startIndex }
-  } = req
-
-  try {
-    result = await Post.find(conditions)
-      .limit(limit)
-      .skip(startIndex)
-      .sort({ date: -1 })
-
-    posts.result = result
-    posts.pagination = pagination
-
-    res.json(posts)
-  } catch (error) {
-    console.error(error.message)
-    res.status(500).send('Server error...')
-  }
-})
 
 module.exports = router

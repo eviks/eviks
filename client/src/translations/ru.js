@@ -229,6 +229,7 @@ const translation = {
       next: 'Далее',
       submit: 'Разместить объявление',
       postIsPublished: 'Ваше объявление опубликовано!',
+      postIsUpdated: 'Ваше объявление обновлено!',
       success: 'Готово!',
       generalInfo: {
         title: 'Общая информация',
@@ -329,7 +330,7 @@ const translation = {
       titles: {
         profile: 'Мой профиль',
         posts: 'Мои объявления',
-        favorites: 'Понравившиеся',
+        favorites: 'Избранное',
         settings: 'Настройки',
       },
     },

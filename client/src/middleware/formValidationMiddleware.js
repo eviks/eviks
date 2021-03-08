@@ -2,8 +2,10 @@ import formValidationErrors from '../utils/formValidationErrors'
 import getRequiredFields from '../utils/getRequiredFields'
 import { POST_VALIDATION_ERROR } from '../actions/types'
 
-const formValidationMiddleware = ({ dispatch, getState }) => next => action => {
-  if (action.type !== 'FORM_NEXT_STEP' && action.type !== 'ADD_POST_API') {
+const formValidationMiddleware = ({ dispatch, getState }) => (next) => (
+  action
+) => {
+  if (action.type !== 'FORM_NEXT_STEP') {
     return next(action)
   }
 
@@ -21,7 +23,7 @@ const formValidationMiddleware = ({ dispatch, getState }) => next => action => {
 
   let formIsValid = true
 
-  Object.values(validationErrors).forEach(value => {
+  Object.values(validationErrors).forEach((value) => {
     if (value) formIsValid = false
   })
 

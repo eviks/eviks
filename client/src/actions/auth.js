@@ -175,7 +175,11 @@ export const addPostToFavorites = (postId) => async (dispatch) => {
 
   try {
     dispatch(asyncActionStart(`POST_ITEM_${postId}`))
-    const res = await axios.post(`/api/users/favorites`, { postId }, config)
+    const res = await axios.put(
+      `/api/users/add_to_favorites/${postId}`,
+      null,
+      config
+    )
     dispatch({ type: ADD_POST_TO_FAVORITES, payload: res.data.favorites })
     dispatch(asyncActionFinish(`POST_ITEM_${postId}`))
     return {
@@ -198,7 +202,7 @@ export const addPostToFavorites = (postId) => async (dispatch) => {
 export const removePostFromFavorites = (postId) => async (dispatch) => {
   try {
     dispatch(asyncActionStart(`POST_ITEM_${postId}`))
-    const res = await axios.delete(`/api/users/favorites/${postId}`)
+    const res = await axios.put(`/api/users/remove_from_favorites/${postId}`)
     dispatch({ type: REMOVE_POST_FROM_FAVORITES, payload: res.data.favorites })
     dispatch(asyncActionFinish(`POST_ITEM_${postId}`))
   } catch (error) {

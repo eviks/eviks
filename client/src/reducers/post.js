@@ -4,6 +4,7 @@ import {
   GET_POST,
   POST_ERROR,
   ADD_POST,
+  UPDATE_POST,
   UPDATE_POST_FORM,
   GET_POST_FORM_DATA,
   FORM_NEXT_STEP,
@@ -31,6 +32,16 @@ const postReducer = (state = initialState, action) => {
         ...state,
         posts: { ...state.posts, result: [...state.posts.result, payload] },
         postForm: initialState.postForm,
+      }
+    case UPDATE_POST:
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          result: state.posts.result.map((post) =>
+            post._id === payload.id ? payload : post
+          ),
+        },
       }
     case UPDATE_POST_FORM:
       return {

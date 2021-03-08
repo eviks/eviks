@@ -45,7 +45,7 @@ router.get('/', [postSearch], async (req, res) => {
 // @desc  Get single post
 // @access Public
 router.get('/post/:id', async (req, res) => {
-  postId = req.params.id
+  const postId = req.params.id
 
   // Id validation
   if (!mongoose.Types.ObjectId.isValid(postId)) {
@@ -100,6 +100,73 @@ router.post(
   }
 )
 
+// @route PUT api/posts
+// @desc  Update post
+// @access Private
+router.put(
+  '/:id',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    const postId = req.params.id
+
+    // Id validation
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+      return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
+    }
+
+    try {
+      const post = await Post.findById(postId)
+
+      // Post not found
+      if (!post) {
+        return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
+      }
+
+      // Check user
+      if (req.user.id !== post.user.toString()) {
+        return res
+          .status(401)
+          .json({ errors: [{ msg: 'User not authorized' }] })
+      }
+
+      // Update images
+      for (let image of req.body.images) {
+        if (!post.images.find((value) => value === image)) {
+          try {
+            await fs.promises.rename(
+              `${__dirname}/../../uploads/temp/post_images/${image}`,
+              `${__dirname}/../../uploads/post_images/${image}`
+            )
+          } catch (error) {
+            console.error(error.message)
+            return res.status(500).send('Server error...')
+          }
+        }
+      }
+
+      post.images.forEach(async (image) => {
+        if (!req.body.images.find((value) => value === image)) {
+          const directory = `${__dirname}/../../uploads/post_images/${image}`
+          const fileExists = await checkFileExists(directory)
+          if (fileExists) {
+            rimraf(directory, (error) => {
+              if (error) return res.status(500).send('Server error...')
+            })
+          }
+        }
+      })
+
+      // Update post itself
+      const updatedPost = await Post.findByIdAndUpdate(postId, { ...req.body })
+
+      res.json(updatedPost)
+    } catch (error) {
+      console.error(error.message)
+      return res.status(500).send('Server error...')
+    }
+  }
+)
+
 // @route DELETE api/posts
 // @desc  Delete post
 // @access Private
@@ -107,7 +174,7 @@ router.delete(
   '/:id',
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
-    postId = req.params.id
+    const postId = req.params.id
 
     // Id validation
     if (!mongoose.Types.ObjectId.isValid(postId)) {

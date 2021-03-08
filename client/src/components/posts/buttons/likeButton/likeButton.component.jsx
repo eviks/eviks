@@ -6,9 +6,9 @@ import {
 import { connect } from 'react-redux'
 import Auth from '../../../auth/auth.component'
 import { toastr } from 'react-redux-toastr'
-import { Player } from '@lottiefiles/react-lottie-player'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
+import { Player } from '@lottiefiles/react-lottie-player'
 import heartAnimation from '../../../../assets/lottiefilesSources/heart.json'
 import PropTypes from 'prop-types'
 
