@@ -16,7 +16,7 @@ import './navbar.style.scss'
 const Navbar = ({
   auth: { isAuthenticated, loading, user },
   logout,
-  navRef
+  navRef,
 }) => {
   const ulRef = useRef(null)
 
@@ -34,7 +34,7 @@ const Navbar = ({
     setState({ showAuthModal: false })
   }
 
-  const changeLanguage = lng => {
+  const changeLanguage = (lng) => {
     i18n.changeLanguage(lng)
   }
 
@@ -48,7 +48,7 @@ const Navbar = ({
   const authLinks = (
     <Fragment>
       <li>
-        <Link className="link" to={`${baseUrl}/`}>
+        <Link className="link" to={`${baseUrl}/favorites`}>
           <i className="fas fa-heart"></i> {t('navbar.favorites')}
         </Link>
       </li>
@@ -121,11 +121,11 @@ const Navbar = ({
 
 logout.propTypes = {
   auth: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 })
 
 export default connect(mapStateToProps, { logout })(Navbar)

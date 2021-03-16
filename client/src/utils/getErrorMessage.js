@@ -7,6 +7,14 @@ const getErrorMessage = (fieldName, fields) => {
     return 'createPost.mapInfo.wrongCity'
   }
 
+  if (fieldName === 'password') {
+    return 'userMenu.passwordError'
+  }
+
+  if (fieldName === 'passwordConfirmation') {
+    return 'userMenu.passwordConfirmationError'
+  }
+
   return 'form.requiredField'
 }
 

@@ -6,12 +6,13 @@ import {
   VERIFICATION_FAIL,
   RESET_TOKEN_CHECK_SUCCESS,
   RESET_TOKEN_CHECK_FAIL,
-  RESETPASSWORD_SUCCESS,
+  RESET_PASSWORD_SUCCESS,
   RESETPASSWORD_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   USER_LOADED,
   LOGOUT,
+  UPDATE_USER,
   ADD_POST_TO_FAVORITES,
   REMOVE_POST_FROM_FAVORITES,
   AUTH_ERROR,
@@ -36,14 +37,14 @@ export const loadUser = () => async (dispatch) => {
 
 // Register user
 export const registerUser = (credentials) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+  const body = JSON.stringify(credentials)
+  dispatch(asyncActionStart())
   try {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    const body = JSON.stringify(credentials)
-    dispatch(asyncActionStart())
     await axios.post('/api/users/', body, config)
     dispatch(asyncActionFinish())
     return true
@@ -63,8 +64,8 @@ export const registerUser = (credentials) => async (dispatch) => {
 
 // Verify user email
 export const verifyEmail = (activationToken) => async (dispatch) => {
+  dispatch(asyncActionStart())
   try {
-    dispatch(asyncActionStart())
     const res = await axios.post(`/api/auth/verification/${activationToken}`)
     dispatch({ type: VERIFICATION_SUCCESS, payload: res.data })
     dispatch(asyncActionFinish())
@@ -77,14 +78,14 @@ export const verifyEmail = (activationToken) => async (dispatch) => {
 
 // Login user
 export const login = (email, password) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+  const body = JSON.stringify({ email, password })
+  dispatch(asyncActionStart())
   try {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    const body = JSON.stringify({ email, password })
-    dispatch(asyncActionStart())
     const res = await axios.post('/api/auth', body, config)
     dispatch({ type: LOGIN_SUCCESS, payload: res.data })
     dispatch(loadUser())
@@ -101,14 +102,14 @@ export const login = (email, password) => async (dispatch) => {
 
 // Send reset password token
 export const sendResetPasswordToken = (email) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+  const body = JSON.stringify({ email })
+  dispatch(asyncActionStart())
   try {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    const body = JSON.stringify({ email })
-    dispatch(asyncActionStart())
     await axios.post('/api/auth/create_reset_password_token/', body, config)
     dispatch(asyncActionFinish())
     return true
@@ -121,8 +122,8 @@ export const sendResetPasswordToken = (email) => async (dispatch) => {
 
 // Check reset password token
 export const checkResetPasswordToken = (token) => async (dispatch) => {
+  dispatch(asyncActionStart())
   try {
-    dispatch(asyncActionStart())
     await axios.post(`/api/auth/check_reset_password_token/${token}`)
     dispatch({ type: RESET_TOKEN_CHECK_SUCCESS })
     dispatch(asyncActionFinish())
@@ -136,21 +137,20 @@ export const checkResetPasswordToken = (token) => async (dispatch) => {
 export const resetPassword = (token, password, confirm, history) => async (
   dispatch
 ) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+  dispatch(asyncActionStart())
   try {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    dispatch(asyncActionStart())
-    console.log(password, confirm)
     const body = JSON.stringify({ password, confirm })
     const res = await axios.post(
       `/api/auth/password_reset/${token}`,
       body,
       config
     )
-    dispatch({ type: RESETPASSWORD_SUCCESS, payload: res.data })
+    dispatch({ type: RESET_PASSWORD_SUCCESS, payload: res.data })
     dispatch(loadUser())
     dispatch(asyncActionFinish())
     history.push(`${baseUrl}/`)
@@ -165,6 +165,34 @@ export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT })
 }
 
+// Update user settings
+export const updateUser = (userData) => async (dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    dispatch(asyncActionStart())
+    try {
+      const result = await axios.put('/api/users/', userData, config)
+      dispatch({ type: UPDATE_USER, payload: result })
+      resolve(true)
+    } catch (error) {
+      dispatch(asyncActionError())
+      dispatch({
+        type: AUTH_ERROR,
+        payload: {
+          message: error.response.statusText,
+          status: error.response,
+        },
+      })
+      reject(false)
+    }
+  })
+}
+
 // Add post to user's favorites list
 export const addPostToFavorites = (postId) => async (dispatch) => {
   const config = {
@@ -173,8 +201,8 @@ export const addPostToFavorites = (postId) => async (dispatch) => {
     },
   }
 
+  dispatch(asyncActionStart(`POST_ITEM_${postId}`))
   try {
-    dispatch(asyncActionStart(`POST_ITEM_${postId}`))
     const res = await axios.put(
       `/api/users/add_to_favorites/${postId}`,
       null,
@@ -200,8 +228,8 @@ export const addPostToFavorites = (postId) => async (dispatch) => {
 
 // Remove post from user's favorites list
 export const removePostFromFavorites = (postId) => async (dispatch) => {
+  dispatch(asyncActionStart(`POST_ITEM_${postId}`))
   try {
-    dispatch(asyncActionStart(`POST_ITEM_${postId}`))
     const res = await axios.put(`/api/users/remove_from_favorites/${postId}`)
     dispatch({ type: REMOVE_POST_FROM_FAVORITES, payload: res.data.favorites })
     dispatch(asyncActionFinish(`POST_ITEM_${postId}`))

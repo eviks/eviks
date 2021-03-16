@@ -28,6 +28,7 @@ const translation = {
       displayName: 'Имя',
       email: 'E-mail',
       password: 'Пароль',
+      passwordError: 'Пароль должен содержать не менее 6 символов',
       signIn: 'Войти',
       signUp: 'Зарегистрироваться',
       forgotPassword: 'Упс! Я забыл пароль',
@@ -141,6 +142,7 @@ const translation = {
       },
       buttons: {
         like: 'Добавить в избранное',
+        isLiked: 'Избранное',
         edit: 'Редактировать',
         delete: 'Удалить',
       },
@@ -333,6 +335,12 @@ const translation = {
         favorites: 'Избранное',
         settings: 'Настройки',
       },
+      displayName: 'Имя пользователя',
+      password: 'Новый пароль',
+      passwordError: 'Пароль должен содержать не менее 6 символов',
+      passwordConfirmation: 'Подтвердите новый пароль',
+      passwordConfirmationError: 'Пароли не совпадают',
+      submit: 'Обновить профиль',
     },
     assets: {
       formats: {

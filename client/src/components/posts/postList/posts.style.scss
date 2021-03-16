@@ -6,6 +6,12 @@
   grid-gap: 1rem;
 }
 
+.cards-container-sm {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+}
+
 .quick-filter-wrapper {
   margin-top: 0.7rem;
   padding: 1.5rem;

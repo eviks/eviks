@@ -15,7 +15,7 @@ const Sidebar = ({ user, isAuthenticated }) => {
   return (
     <div>
       <aside className="user-menu-sidebar">
-        <div className="py-2 px-1">
+        <div className="py-2 px-2">
           <ul>
             <li className="mb-05">
               <Link to={`${baseUrl}/users/${userId}`} className="py-1 px-1">

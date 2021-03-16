@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import PrivateRoute from '../../routing/privateRoute.component'
 import Sidebar from './sidebar/sidebar.component'
 import User from './user/user.component'
 import UserPosts from './userPosts/userPosts.component'
@@ -11,9 +12,9 @@ import './userMenu.style.scss'
 
 const UserMenu = () => {
   return (
-    <div>
+    <div className="user-menu-container">
       <Sidebar />
-      <div className="user-menu-container py-2 px-2">
+      <div className="py-2 px-2">
         <Switch>
           <Route exact path={`${baseUrl}/users/:id`} component={User} />
           <Route
@@ -21,8 +22,16 @@ const UserMenu = () => {
             path={`${baseUrl}/users/:id/posts`}
             component={UserPosts}
           />
-          <Route exact path={`${baseUrl}/favorites`} component={Favorites} />
-          <Route exact path={`${baseUrl}/settings`} component={Settings} />
+          <PrivateRoute
+            exact
+            path={`${baseUrl}/favorites`}
+            component={Favorites}
+          />
+          <PrivateRoute
+            exact
+            path={`${baseUrl}/settings`}
+            component={Settings}
+          />
         </Switch>
       </div>
     </div>

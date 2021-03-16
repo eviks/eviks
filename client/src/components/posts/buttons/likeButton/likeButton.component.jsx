@@ -74,7 +74,13 @@ const LikeButton = ({
         onClick={handleOnClick}
       >
         <i className={'fas fa-heart'}></i>
-        {lg && <span className="ml-05">{t('post.buttons.like')}</span>}
+        {lg && (
+          <span className="ml-05">
+            {favorites[postId]
+              ? t('post.buttons.isLiked')
+              : t('post.buttons.like')}
+          </span>
+        )}
       </button>
       <ReactModal
         isOpen={showModal}

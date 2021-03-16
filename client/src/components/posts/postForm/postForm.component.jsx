@@ -75,7 +75,7 @@ const PostForm = ({
           icon: (
             <Player
               autoplay
-              loop={false}
+              loop={true}
               src={successAnimation}
               style={{ height: '70px', width: '70px' }}
             />

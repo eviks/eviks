@@ -1,16 +1,17 @@
-const getRequiredFields = (formName, currentStep = null, estateType = null) => {
+const getRequiredFields = (formName, additionalData = null) => {
   switch (formName) {
     case 'POST_FORM':
-      switch (currentStep) {
+      switch (additionalData.currentStep) {
         case 0:
           let fileds = ['userType', 'estateType', 'dealType']
-          if (estateType === 'apartment') fileds = [...fileds, 'apartmentType']
+          if (additionalData.estateType === 'apartment')
+            fileds = [...fileds, 'apartmentType']
           return fileds
         case 1:
           return ['city', 'address']
         case 2:
           let fields = ['rooms', 'sqm', 'maintenance']
-          if (estateType === 'apartment') {
+          if (additionalData.estateType === 'apartment') {
             fields = [...fields, 'floor', 'totalFloors']
           } else {
             fields = [...fields, 'lotSqm']
@@ -27,6 +28,8 @@ const getRequiredFields = (formName, currentStep = null, estateType = null) => {
         default:
           return []
       }
+    case 'USER_SETTINGS':
+      return ['displayName', 'password', 'passwordConfirmation']
     default:
       return []
   }

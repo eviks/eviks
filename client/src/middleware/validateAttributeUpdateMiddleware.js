@@ -2,10 +2,9 @@ import getRequiredFields from '../utils/getRequiredFields'
 import attribueIsValid from '../utils/attribueIsValid'
 import getErrorMessage from '../utils/getErrorMessage'
 
-const validateAttributeUpdateMiddleware = ({
-  dispatch,
-  getState
-}) => next => action => {
+const validateAttributeUpdateMiddleware = ({ dispatch, getState }) => (
+  next
+) => (action) => {
   if (action.type !== 'UPDATE_POST_FORM') {
     return next(action)
   }
@@ -20,11 +19,10 @@ const validateAttributeUpdateMiddleware = ({
     attrName = Object.keys(payload)[0]
   }
 
-  const requiredFields = getRequiredFields(
-    'POST_FORM',
-    state.post.formSteps.currentStep,
-    state.post.postForm.estateType
-  )
+  const requiredFields = getRequiredFields('POST_FORM', {
+    currentStep: state.post.formSteps.currentStep,
+    estateType: state.post.postForm.estateType,
+  })
 
   if (!requiredFields.includes(attrName)) {
     return next(action)
@@ -36,7 +34,7 @@ const validateAttributeUpdateMiddleware = ({
   action.validationErrors = {
     [attrName]: !attribueIsValid(updatedForm, attrName)
       ? getErrorMessage(attrName, updatedForm)
-      : null
+      : null,
   }
 
   next(action)

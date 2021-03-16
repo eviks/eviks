@@ -41,8 +41,10 @@ const Favorites = ({
 
   return (
     <div>
-      <h5 className="lead">{t('userMenu.titles.favorites')}</h5>
-      <div className="cards-container my-1">
+      <h5 className="lead">
+        <i className="fas fa-heart"></i> {t('userMenu.titles.favorites')}
+      </h5>
+      <div className="cards-container-sm my-1">
         {(loading && loadingElements.includes('POST_LIST')) ||
         initialLoading ? (
           <SkeletonPostList />

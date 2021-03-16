@@ -3,7 +3,7 @@ import {
   VERIFICATION_FAIL,
   RESET_TOKEN_CHECK_SUCCESS,
   RESET_TOKEN_CHECK_FAIL,
-  RESETPASSWORD_SUCCESS,
+  RESET_PASSWORD_SUCCESS,
   RESETPASSWORD_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -33,7 +33,7 @@ const authReducer = (state = initialState, action) => {
         user: payload,
       }
     case VERIFICATION_SUCCESS:
-    case RESETPASSWORD_SUCCESS:
+    case RESET_PASSWORD_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token)
       return {

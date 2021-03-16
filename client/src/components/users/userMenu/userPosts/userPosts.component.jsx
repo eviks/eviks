@@ -35,8 +35,10 @@ const UserPosts = ({
 
   return (
     <div>
-      <h5 className="lead">{t('userMenu.titles.posts')}</h5>
-      <div className="cards-container my-1">
+      <h5 className="lead">
+        <i className="fas fa-sticky-note"></i> {t('userMenu.titles.posts')}
+      </h5>
+      <div className="cards-container-sm my-1">
         {(loading && loadingElements.includes('POST_LIST')) ||
         initialLoading ? (
           <SkeletonPostList />

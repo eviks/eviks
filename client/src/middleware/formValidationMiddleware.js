@@ -12,11 +12,10 @@ const formValidationMiddleware = ({ dispatch, getState }) => (next) => (
   const state = getState()
 
   const fields = state.post.postForm
-  const requiredFields = getRequiredFields(
-    'POST_FORM',
-    state.post.formSteps.currentStep,
-    fields.estateType
-  )
+  const requiredFields = getRequiredFields('POST_FORM', {
+    currentStep: state.post.formSteps.currentStep,
+    estateType: fields.estateType,
+  })
 
   const validationErrors = formValidationErrors(fields, requiredFields)
   dispatch({ type: POST_VALIDATION_ERROR, payload: validationErrors })
