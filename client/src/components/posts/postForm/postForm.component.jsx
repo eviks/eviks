@@ -23,7 +23,6 @@ import successAnimation from '../../../assets/lottiefilesSources/success.json'
 import Ripple from '../../layout/ripple/ripple.component'
 import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import { useTranslation } from 'react-i18next'
-import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 import './postForm.style.scss'
@@ -37,6 +36,7 @@ const PostForm = ({
   createUpdatePost,
   cleanPostForm,
   loading,
+  locale,
   match,
 }) => {
   const history = useHistory()
@@ -87,7 +87,7 @@ const PostForm = ({
           t(`createPost.${postForm._id ? 'postIsUpdated' : 'postIsPublished'}`),
           toastrOptions
         )
-        history.push(`${baseUrl}/`)
+        history.push(`/${locale}/`)
       }
     } catch (error) {
       console.log(error)
@@ -189,12 +189,14 @@ PostForm.propTypes = {
   formPrevStep: PropTypes.func.isRequired,
   cleanPostForm: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
+  locale: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   postForm: state.post.postForm,
   formSteps: state.post.formSteps,
   loading: state.async.loading,
+  locale: state.locale.locale,
 })
 
 export default connect(mapStateToProps, {

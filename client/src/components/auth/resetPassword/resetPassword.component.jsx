@@ -9,7 +9,6 @@ import { setAlert, deleteAllAlerts } from '../../../actions/alert'
 import { toastr } from 'react-redux-toastr'
 import MessageIcon from '../../layout/icons/messageIcon.component'
 import { useTranslation } from 'react-i18next'
-import { baseUrl } from '../../../App'
 import uuid from 'uuid'
 import PasswordImage from '../../../img/illustrations/password.jpg'
 import PropTypes from 'prop-types'
@@ -18,6 +17,7 @@ import '../auth.style.scss'
 
 const ResetPassword = ({
   loading,
+  locale,
   setAlert,
   deleteAllAlerts,
   sendResetPasswordToken,
@@ -51,7 +51,7 @@ const ResetPassword = ({
     )
 
     // Go to landing page
-    history.push(`${baseUrl}/`)
+    history.push(`/${locale}/`)
   }
 
   const [t] = useTranslation()
@@ -100,14 +100,17 @@ const ResetPassword = ({
 }
 
 ResetPassword.propTypes = {
-  sendResetPasswordToken: PropTypes.func.isRequired,
-  deleteAllAlerts: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  locale: PropTypes.string.isRequired,
+  setAlert: PropTypes.func.isRequired,
+  deleteAllAlerts: PropTypes.func.isRequired,
+  sendResetPasswordToken: PropTypes.func.isRequired,
   showAlert: PropTypes.bool,
 }
 
 const mapStateToProps = (state) => ({
   loading: state.async.loading,
+  locale: state.locale.locale,
 })
 
 export default connect(mapStateToProps, {

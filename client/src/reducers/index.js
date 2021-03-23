@@ -4,6 +4,7 @@ import alert from './alert'
 import auth from './auth'
 import post from './post'
 import locality from './locality'
+import locale from './locale'
 import 'moment/locale/ru'
 import 'moment/locale/az'
 import { reducer as toastr } from 'react-redux-toastr'
@@ -14,5 +15,6 @@ export default combineReducers({
   auth,
   post,
   locality,
+  locale,
   toastr,
 })

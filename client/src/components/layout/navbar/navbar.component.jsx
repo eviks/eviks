@@ -1,14 +1,16 @@
 import React, { Fragment, useState, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../../actions/auth'
 import Auth from '../../auth/auth.component'
 import LocalitySelect from './localitySelect.component'
+import DropdownMenu from '../dropdownMenu/dropdownMenu.component'
 import MenuButton from '../menuButton/menuButton.component'
 import ReactModal from 'react-modal'
+import LocalizedLink from '../../../LocalizedLink'
+import { locales } from '../../../config/i18n'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useTranslation } from 'react-i18next'
-import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 import './navbar.style.scss'
@@ -22,7 +24,7 @@ const Navbar = ({
 
   const [state, setState] = useState({ showAuthModal: false })
   const [showMenu, toggleMenu] = useState(false)
-  const [t, i18n] = useTranslation()
+  const [t] = useTranslation()
   const { showAuthModal } = state
   const location = useLocation()
 
@@ -34,10 +36,6 @@ const Navbar = ({
     setState({ showAuthModal: false })
   }
 
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng)
-  }
-
   const handleMenuToggle = () => {
     const newValue = !showMenu
     toggleMenu(newValue)
@@ -45,23 +43,39 @@ const Navbar = ({
     if (!newValue && ulRef) enableBodyScroll(ulRef.current)
   }
 
+  const dropdownOptions = [
+    <LocalizedLink className="link" to={`/users/${user && user._id}`}>
+      <i className="fas fa-user-circle mr-1"></i>
+      {t('userMenu.titles.profile')}
+    </LocalizedLink>,
+    <LocalizedLink className="link" to={`/users/${user && user._id}/posts`}>
+      <i className="fas fa-sticky-note mr-1"></i>
+      {t('userMenu.titles.posts')}
+    </LocalizedLink>,
+    <LocalizedLink className="link" to={'/settings'}>
+      <i className="fas fa-cog mr-1"></i>
+      {t('userMenu.titles.settings')}
+    </LocalizedLink>,
+    <a className="link" href="#!" onClick={logout}>
+      <i className="fas fa-sign-out-alt"></i> {t('navbar.logout')}
+    </a>,
+  ]
+
   const authLinks = (
     <Fragment>
       <li>
-        <Link className="link" to={`${baseUrl}/favorites`}>
+        <LocalizedLink className="link" to={'/favorites'}>
           <i className="fas fa-heart"></i> {t('navbar.favorites')}
-        </Link>
+        </LocalizedLink>
       </li>
-      <li>
-        <Link className="link" to={`${baseUrl}/users/${user && user._id}`}>
-          <i className="fas fa-user"></i> {user && user.displayName}
-        </Link>
-      </li>
-      <li>
-        <a className="link" href="#!" onClick={logout}>
-          <i className="fas fa-sign-out-alt"></i> {t('navbar.logout')}
-        </a>
-      </li>
+      <DropdownMenu
+        label={
+          <span>
+            <i className="fas fa-user"></i> {user && user.displayName}
+          </span>
+        }
+        menuOptions={dropdownOptions}
+      />
     </Fragment>
   )
 
@@ -79,13 +93,13 @@ const Navbar = ({
         <MenuButton onClick={handleMenuToggle} />
         <div className="right-block">
           <h1>
-            <Link to={`${baseUrl}/`}>
+            <LocalizedLink to={'/'}>
               {' '}
               <span className="text-primary">
                 {' '}
                 <i className="fas fa-home"></i> Eviks{' '}
               </span>
-            </Link>
+            </LocalizedLink>
           </h1>
           <LocalitySelect />
         </div>
@@ -94,16 +108,13 @@ const Navbar = ({
             <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
           )}
           <div className="lang">
-            <li>
-              <button className="link" onClick={() => changeLanguage('az')}>
-                AZ
-              </button>
-            </li>
-            <li>
-              <button className="link" onClick={() => changeLanguage('ru')}>
-                RU
-              </button>
-            </li>
+            {locales.map((element, index) => (
+              <li key={index}>
+                <Link to={`/${element.code}`}>
+                  {element.code.toUpperCase()}
+                </Link>
+              </li>
+            ))}
           </div>
         </ul>
       </nav>

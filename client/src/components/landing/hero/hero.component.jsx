@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import Ripple from '../../layout/ripple/ripple.component'
 import { useTranslation } from 'react-i18next'
-import { baseUrl } from '../../../App'
+import LocalizedLink from '../../../LocalizedLink'
 import PropTypes from 'prop-types'
 
 const Hero = ({ city }) => {
@@ -15,21 +14,21 @@ const Hero = ({ city }) => {
           <h1 className="x-large">{t('landing.title')}</h1>
           <p className="lead">{t('landing.slogan')}</p>
           <div className="buttons">
-            <Link
-              to={`${baseUrl}/create_post`}
+            <LocalizedLink
+              to={'/create_post'}
               className="btn btn-ghost"
               style={{ marginRight: '0.5rem' }}
             >
               {t('landing.sell')}
               <Ripple />
-            </Link>
-            <Link
-              to={`${baseUrl}/${city.routeName}/sale`}
+            </LocalizedLink>
+            <LocalizedLink
+              to={`/${city.routeName}/sale`}
               className="btn btn-primary"
             >
               {t('landing.search')}
               <Ripple />
-            </Link>
+            </LocalizedLink>
           </div>
         </div>
       </div>
@@ -38,11 +37,11 @@ const Hero = ({ city }) => {
 }
 
 Hero.propTypes = {
-  city: PropTypes.object.isRequired
+  city: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
-  city: state.locality.currentLocality.city
+const mapStateToProps = (state) => ({
+  city: state.locality.currentLocality.city,
 })
 
 export default connect(mapStateToProps)(Hero)

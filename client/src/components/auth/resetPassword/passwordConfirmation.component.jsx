@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import { checkResetPasswordToken, resetPassword } from '../../../actions/auth'
 import Spinner from '../../layout/spinner/spinner.component'
 import { useTranslation } from 'react-i18next'
-import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 import '../auth.style.scss'
@@ -17,8 +16,9 @@ const PasswordConfirmation = ({
   resetPassword,
   validResetPasswordToken,
   loading,
+  locale,
   match,
-  history
+  history,
 }) => {
   const resetPasswordToken = match.params.resetPasswordToken
 
@@ -27,7 +27,7 @@ const PasswordConfirmation = ({
   }, [
     match.params.resetPasswordToken,
     checkResetPasswordToken,
-    resetPasswordToken
+    resetPasswordToken,
   ])
 
   const [form, setForm] = useState({ password: '', passwordConfirm: '' })
@@ -52,17 +52,17 @@ const PasswordConfirmation = ({
     return (
       <Redirect
         to={{
-          pathname: `${baseUrl}/reset_password`,
-          state: { showAlert: true }
+          pathname: `/${locale}/reset_password`,
+          state: { showAlert: true },
         }}
       />
     )
 
-  const onChange = e => {
+  const onChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault()
 
     resetPassword(resetPasswordToken, password, passwordConfirm, history)
@@ -75,7 +75,7 @@ const PasswordConfirmation = ({
     >
       <form
         className="new-password-form shadow-border"
-        onSubmit={e => onSubmit(e)}
+        onSubmit={(e) => onSubmit(e)}
       >
         <h1 className="my-1">{t('auth.resetPassword.changePasswordTitle')}</h1>
         <Input
@@ -89,7 +89,7 @@ const PasswordConfirmation = ({
           options={{
             type: 'password',
             name: 'password',
-            value: password
+            value: password,
           }}
           main={true}
           onChange={onChange}
@@ -105,7 +105,7 @@ const PasswordConfirmation = ({
           options={{
             type: 'password',
             name: 'passwordConfirm',
-            value: passwordConfirm
+            value: passwordConfirm,
           }}
           main={true}
           onChange={onChange}
@@ -125,17 +125,20 @@ const PasswordConfirmation = ({
 }
 
 PasswordConfirmation.propTypes = {
-  checkResetPasswordToken: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  locale: PropTypes.string.isRequired,
   validResetPasswordToken: PropTypes.bool,
-  loading: PropTypes.bool
+  checkResetPasswordToken: PropTypes.func.isRequired,
+  resetPassword: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
+  loading: state.async.loading,
+  locale: state.locale.locale,
   validResetPasswordToken: state.auth.validResetPasswordToken,
-  loading: state.async.loading
 })
 
 export default connect(mapStateToProps, {
   checkResetPasswordToken,
-  resetPassword
+  resetPassword,
 })(PasswordConfirmation)

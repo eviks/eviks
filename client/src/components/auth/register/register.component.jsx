@@ -12,7 +12,6 @@ import MessageIcon from '../../layout/icons/messageIcon.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInRight } from 'react-animations'
 import { useTranslation } from 'react-i18next'
-import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 const FadeInRightAnimation = keyframes`${fadeInRight}`
@@ -24,14 +23,15 @@ const Register = ({
   handleCloseModal,
   registerUser,
   loading,
-  deleteAllAlerts
+  locale,
+  deleteAllAlerts,
 }) => {
   const history = useHistory()
 
   const [formData, setFormData] = useState({
     displayName: '',
     email: '',
-    password: ''
+    password: '',
   })
   const [t] = useTranslation()
   const { displayName, email, password } = formData
@@ -42,10 +42,10 @@ const Register = ({
     }
   }, [deleteAllAlerts])
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault()
 
     const success = await registerUser({ displayName, email, password })
@@ -54,7 +54,7 @@ const Register = ({
       const toastrOptions = {
         timeOut: 0,
         icon: <MessageIcon />,
-        status: 'info'
+        status: 'info',
       }
       toastr.light(
         t('auth.checkEmailTitle'),
@@ -64,7 +64,7 @@ const Register = ({
       if (handleCloseModal !== undefined) {
         handleCloseModal()
       } else {
-        history.push(`${baseUrl}/`)
+        history.push(`/${locale}/`)
       }
     }
   }
@@ -74,7 +74,7 @@ const Register = ({
   }
 
   return (
-    <FadeInRightForm onSubmit={e => onSubmit(e)}>
+    <FadeInRightForm onSubmit={(e) => onSubmit(e)}>
       <div className="inner-container">
         <h3 className="lead" style={{ marginBottom: '1rem' }}>
           {t('auth.registerTitle')}
@@ -90,7 +90,7 @@ const Register = ({
           options={{
             type: 'text',
             name: 'displayName',
-            value: displayName
+            value: displayName,
           }}
           main={true}
           onChange={onChange}
@@ -105,7 +105,7 @@ const Register = ({
           options={{
             type: 'email',
             name: 'email',
-            value: email
+            value: email,
           }}
           main={true}
           onChange={onChange}
@@ -120,7 +120,7 @@ const Register = ({
           options={{
             type: 'password',
             name: 'password',
-            value: password
+            value: password,
           }}
           main={true}
           onChange={onChange}
@@ -142,11 +142,14 @@ const Register = ({
 Register.propTypes = {
   handleCloseModal: PropTypes.func,
   registerUser: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  deleteAllAlerts: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  locale: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => ({
-  loading: state.async.loading
+const mapStateToProps = (state) => ({
+  loading: state.async.loading,
+  locale: state.locale.locale,
 })
 
 export default connect(mapStateToProps, { registerUser, deleteAllAlerts })(

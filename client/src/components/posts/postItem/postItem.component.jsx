@@ -15,7 +15,6 @@ import StairsIcon from '../../layout/icons/stairsIcon.component'
 import GardenWorksIcon from '../../layout/icons/gardenWorksIcon.component'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
-import { baseUrl } from '../../../App'
 import PropTypes from 'prop-types'
 
 import './postItem.style.scss'
@@ -41,11 +40,12 @@ const PostItem = ({
     mortgage,
     user,
   },
+  locale,
 }) => {
   const history = useHistory()
   const [t] = useTranslation()
 
-  const redirectToPost = () => history.push(`${baseUrl}/posts/${_id}`)
+  const redirectToPost = () => history.push(`/${locale}/posts/${_id}`)
 
   const priceStr = price.toLocaleString('az-AZ', {
     style: 'decimal',
@@ -142,10 +142,12 @@ const PostItem = ({
 PostItem.propTypes = {
   auth: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  locale: state.locale.locale,
 })
 
 export default connect(mapStateToProps)(PostItem)

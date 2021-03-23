@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import LocalizedLink from '../../../LocalizedLink'
 import PropTypes from 'prop-types'
 
 import './quickLinks.style.scss'
@@ -17,9 +17,9 @@ const QuickLinks = ({ links, title, img }) => {
         <div className="quick-links-content-inner">
           <h4>{title}</h4>
           {links.map((link, index) => (
-            <Link to={link.url} className="link link-blue" key={index}>
+            <LocalizedLink to={link.url} className="link link-blue" key={index}>
               {link.name}
-            </Link>
+            </LocalizedLink>
           ))}
         </div>
       </div>
@@ -30,7 +30,7 @@ const QuickLinks = ({ links, title, img }) => {
 QuickLinks.propTypes = {
   links: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
-  img: PropTypes.string.isRequired
+  img: PropTypes.string.isRequired,
 }
 
 export default QuickLinks

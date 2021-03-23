@@ -1,8 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { baseUrl } from '../../../../App'
 import { useTranslation } from 'react-i18next'
+import LocalizedLink from '../../../../LocalizedLink'
 import PropTypes from 'prop-types'
 
 import './sidebar.style.scss'
@@ -18,31 +17,31 @@ const Sidebar = ({ user, isAuthenticated }) => {
         <div className="py-2 px-2">
           <ul>
             <li className="mb-05">
-              <Link to={`${baseUrl}/users/${userId}`} className="py-1 px-1">
+              <LocalizedLink to={`/users/${userId}`} className="py-1 px-1">
                 <i className="fas fa-user-circle mr-1"></i>
                 {t('userMenu.titles.profile')}
-              </Link>
+              </LocalizedLink>
             </li>
             <li className="mb-05">
-              <Link
-                to={`${baseUrl}/users/${userId}/posts`}
+              <LocalizedLink
+                to={`/users/${userId}/posts`}
                 className="py-1 px-1"
               >
                 <i className="fas fa-sticky-note mr-1"></i>
                 {t('userMenu.titles.posts')}
-              </Link>
+              </LocalizedLink>
             </li>
             <li className="mb-05">
-              <Link to={`${baseUrl}/favorites`} className="py-1 px-1">
+              <LocalizedLink to={`/favorites`} className="py-1 px-1">
                 <i className="fas fa-heart mr-1"></i>
                 {t('userMenu.titles.favorites')}
-              </Link>
+              </LocalizedLink>
             </li>
             <li className="mb-05">
-              <Link to={`${baseUrl}/settings`} className="py-1 px-1">
+              <LocalizedLink to={`/settings`} className="py-1 px-1">
                 <i className="fas fa-cog mr-1"></i>
                 {t('userMenu.titles.settings')}
-              </Link>
+              </LocalizedLink>
             </li>
           </ul>
         </div>
