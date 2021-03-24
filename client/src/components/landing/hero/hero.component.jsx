@@ -16,7 +16,7 @@ const Hero = ({ city }) => {
           <div className="buttons">
             <LocalizedLink
               to={'/create_post'}
-              className="btn btn-ghost"
+              className="btn btn-ghost mr-1"
               style={{ marginRight: '0.5rem' }}
             >
               {t('landing.sell')}

@@ -1,35 +1,15 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
+import useOutsideClick from '../../../../utils/hooks/useOutsideClick'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-
-const useOutsideAlerter = (ref, filterButtonRef, filterOnClick) => {
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target) &&
-        !filterButtonRef.current.contains(event.target)
-      ) {
-        filterOnClick()
-      }
-    }
-
-    // Bind the event listener
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [ref, filterOnClick, filterButtonRef])
-}
 
 const QuickFilter = ({
   component: Component,
   filterButtonRef,
-  filterOnClick
+  filterOnClick,
 }) => {
   const wrapperRef = useRef(null)
-  useOutsideAlerter(wrapperRef, filterButtonRef, filterOnClick)
+  useOutsideClick([wrapperRef, filterButtonRef], filterOnClick)
 
   const [t] = useTranslation()
 
@@ -50,7 +30,7 @@ const QuickFilter = ({
 
 QuickFilter.propTypes = {
   filterButtonRef: PropTypes.object.isRequired,
-  filterOnClick: PropTypes.func.isRequired
+  filterOnClick: PropTypes.func.isRequired,
 }
 
 export default QuickFilter

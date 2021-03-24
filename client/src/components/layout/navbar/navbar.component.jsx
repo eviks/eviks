@@ -24,6 +24,7 @@ const Navbar = ({
 
   const [state, setState] = useState({ showAuthModal: false })
   const [showMenu, toggleMenu] = useState(false)
+  const [showDropdownMenu, toggleDropdownMenu] = useState(false)
   const [t] = useTranslation()
   const { showAuthModal } = state
   const location = useLocation()
@@ -43,21 +44,43 @@ const Navbar = ({
     if (!newValue && ulRef) enableBodyScroll(ulRef.current)
   }
 
+  const closeDropdownMenu = () => toggleDropdownMenu(false)
+
   const dropdownOptions = [
-    <LocalizedLink className="link" to={`/users/${user && user._id}`}>
+    <LocalizedLink
+      className="link"
+      to={`/users/${user && user._id}`}
+      onClick={closeDropdownMenu}
+    >
       <i className="fas fa-user-circle mr-1"></i>
       {t('userMenu.titles.profile')}
     </LocalizedLink>,
-    <LocalizedLink className="link" to={`/users/${user && user._id}/posts`}>
+    <LocalizedLink
+      className="link"
+      to={`/users/${user && user._id}/posts`}
+      onClick={closeDropdownMenu}
+    >
       <i className="fas fa-sticky-note mr-1"></i>
       {t('userMenu.titles.posts')}
     </LocalizedLink>,
-    <LocalizedLink className="link" to={'/settings'}>
+    <LocalizedLink
+      className="link"
+      to={'/settings'}
+      onClick={closeDropdownMenu}
+    >
       <i className="fas fa-cog mr-1"></i>
       {t('userMenu.titles.settings')}
     </LocalizedLink>,
-    <a className="link" href="#!" onClick={logout}>
-      <i className="fas fa-sign-out-alt"></i> {t('navbar.logout')}
+    <a
+      className="link"
+      href="#!"
+      onClick={() => {
+        closeDropdownMenu()
+        logout()
+      }}
+    >
+      <i className="fas fa-sign-out-alt mr-1"></i>
+      {t('navbar.logout')}
     </a>,
   ]
 
@@ -69,12 +92,17 @@ const Navbar = ({
         </LocalizedLink>
       </li>
       <DropdownMenu
+        isOpen={showDropdownMenu}
         label={
-          <span>
+          <button
+            className="link"
+            onClick={() => toggleDropdownMenu(!showDropdownMenu)}
+          >
             <i className="fas fa-user"></i> {user && user.displayName}
-          </span>
+          </button>
         }
         menuOptions={dropdownOptions}
+        onRequestClose={closeDropdownMenu}
       />
     </Fragment>
   )
