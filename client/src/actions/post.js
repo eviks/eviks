@@ -19,7 +19,7 @@ import {
   CLEAN_POSTS,
   DELETE_POST,
 } from './types'
-import { setURLParams } from '../utils/urlParams'
+import { setURLParams } from '../services/util'
 
 // Get posts
 export const getPosts = (filters) => async (dispatch) => {

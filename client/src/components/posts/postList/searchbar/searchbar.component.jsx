@@ -11,7 +11,7 @@ import MoreFilters from '../filters/moreFilters.component'
 import LocationsFilter from '../filters/locationFilters/locationsFilter.component'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
-import { getURLParams } from '../../../../utils/urlParams'
+import { getURLParams } from '../../../../services/util'
 import {
   getDealTypeFilterTitle,
   getPriceFilterTitle,

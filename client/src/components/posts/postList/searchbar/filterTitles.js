@@ -1,32 +1,32 @@
-import { priceFormatter } from '../../../../utils/formatters'
+import { priceFormatter } from '../../../../services/util'
 import i18n from 'i18next'
 
-export const getDealTypeFilterTitle = dealType => {
+export const getDealTypeFilterTitle = (dealType) => {
   return dealType
     ? i18n.t(`postList.dealTypes.${dealType}`)
     : i18n.t(`postList.dealTypes.sale`)
 }
 
-export const getPriceFilterTitle = urlParameters => {
+export const getPriceFilterTitle = (urlParameters) => {
   const { priceMin, priceMax } = urlParameters
 
   if (priceMin && priceMax)
     return i18n.t('postList.filters.priceRange', {
       priceMin: priceFormatter(priceMin),
-      priceMax: priceFormatter(priceMax)
+      priceMax: priceFormatter(priceMax),
     })
   if (priceMax)
     return i18n.t('postList.filters.priceUpTo', {
-      priceMax: priceFormatter(priceMax)
+      priceMax: priceFormatter(priceMax),
     })
   if (priceMin)
     return i18n.t('postList.filters.priceFrom', {
-      priceMin: priceFormatter(priceMin)
+      priceMin: priceFormatter(priceMin),
     })
   return i18n.t('postList.filters.price')
 }
 
-export const getRoomsFilterTitle = urlParameters => {
+export const getRoomsFilterTitle = (urlParameters) => {
   const { roomsMin, roomsMax } = urlParameters
 
   if (roomsMin && roomsMax)
@@ -36,7 +36,7 @@ export const getRoomsFilterTitle = urlParameters => {
   return i18n.t('postList.filters.rooms')
 }
 
-export const estateTypeFilterTitle = urlParameters => {
+export const estateTypeFilterTitle = (urlParameters) => {
   const { estateType, apartmentType } = urlParameters
 
   if (apartmentType) return i18n.t(`postList.estateTypes.${apartmentType}`)

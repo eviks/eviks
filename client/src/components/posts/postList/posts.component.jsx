@@ -13,8 +13,8 @@ import {
   cleanPosts,
 } from '../../../actions/post'
 import { setCurrentLocality } from '../../../actions/locality'
-import useWindowDimensions from '../../../utils/hooks/useWindowDimensions'
-import { getURLParams } from '../../../utils/urlParams'
+import useWindowDimensions from '../../../services/hooks/useWindowDimensions'
+import { getURLParams } from '../../../services/util'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import PropTypes from 'prop-types'

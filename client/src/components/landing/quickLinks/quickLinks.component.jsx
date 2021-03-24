@@ -1,5 +1,5 @@
 import React from 'react'
-import LocalizedLink from '../../../LocalizedLink'
+import LocalizedLink from '../../../components/localization/LocalizedLink.component'
 import PropTypes from 'prop-types'
 
 import './quickLinks.style.scss'

@@ -1,13 +1,13 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { setUiLocale } from './services/i18n'
-import { switchHtmlLocale, getLocaleFromPath } from './services/i18n/util'
+import { setUiLocale } from '../../services/i18n'
+import { switchHtmlLocale, getLocaleFromPath } from '../../services/i18n/util'
 import {
   changeLocale,
   setUiTranslationsLoaded,
   setUiTranslationsLoading,
-} from './actions/locale'
+} from '../../actions/locale'
 
 class Localizer extends Component {
   constructor(props) {

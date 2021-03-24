@@ -5,14 +5,14 @@ import defaultLocality from '../../../reducers/initialStates/localityInitialStat
 import Localities from './localities.component'
 import Ripple from '../ripple/ripple.component'
 import ReactModal from 'react-modal'
-import useIsMount from '../../../utils/hooks/useIsMount'
+import useIsMount from '../../../services/hooks/useIsMount'
 import { useTranslation } from 'react-i18next'
 import { CSSTransition } from 'react-transition-group'
 import PropTypes from 'prop-types'
 
 const LocalitiesQuestion = ({
   currentLocality: reduxCurrentLocality,
-  setCurrentLocality
+  setCurrentLocality,
 }) => {
   const isMounted = useIsMount()
 
@@ -41,14 +41,14 @@ const LocalitiesQuestion = ({
   const selectCapital = () => {
     setCurrentLocality({
       nextQuestionDate: new Date(Date.now() + 86400000 * 365),
-      city: defaultLocality.currentLocality.city
+      city: defaultLocality.currentLocality.city,
     })
   }
 
   const onCloseClick = () => {
     setCurrentLocality({
       nextQuestionDate: new Date(Date.now() + 86400000),
-      city: defaultLocality.currentLocality.city
+      city: defaultLocality.currentLocality.city,
     })
   }
 
@@ -104,11 +104,11 @@ const LocalitiesQuestion = ({
 
 LocalitiesQuestion.propTypes = {
   currentLocality: PropTypes.object.isRequired,
-  setCurrentLocality: PropTypes.func.isRequired
+  setCurrentLocality: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  currentLocality: state.locality.currentLocality
+const mapStateToProps = (state) => ({
+  currentLocality: state.locality.currentLocality,
 })
 
 export default connect(mapStateToProps, { setCurrentLocality })(

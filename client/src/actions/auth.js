@@ -17,7 +17,7 @@ import {
   REMOVE_POST_FROM_FAVORITES,
   AUTH_ERROR,
 } from './types'
-import setAuthToken from '../utils/setAuthToken'
+import { setAuthToken } from '../services/util'
 import uuid from 'uuid'
 
 // Load user

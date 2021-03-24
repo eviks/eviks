@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import LocalizedLink from '../../../../LocalizedLink'
+import LocalizedLink from '../../../../components/localization/LocalizedLink.component'
 import PropTypes from 'prop-types'
 
 const EditButton = ({ postId, lg = false }) => {

@@ -3,8 +3,8 @@ import Hero from './hero/hero.component'
 import QuickLinks from './quickLinks/quickLinks.component'
 import SwipeBlock from './swipeBlock/swipeBlock.component'
 import { useTranslation } from 'react-i18next'
-import QuickLinkApartment from '../../img/QuickLinkApartment.jpg'
-import quickLinkHouseImg from '../../img/QuickLinkHouse.jpg'
+import QuickLinkApartment from '../../assets/img/photos/QuickLinkApartment.jpg'
+import quickLinkHouseImg from '../../assets/img/photos/QuickLinkHouse.jpg'
 
 import './landing.style.scss'
 
@@ -16,12 +16,12 @@ const Landing = () => {
     { name: t('landing.twoRoom'), url: '/posts?rooms=2&estateType=apartment' },
     {
       name: t('landing.threeRoom'),
-      url: '/posts?rooms=3&estateType=apartment'
+      url: '/posts?rooms=3&estateType=apartment',
     },
     {
       name: t('landing.documented'),
-      url: '/posts?documented=true&estateType=apartment'
-    }
+      url: '/posts?documented=true&estateType=apartment',
+    },
   ]
 
   const buyHouseLinks = [
@@ -30,8 +30,8 @@ const Landing = () => {
     { name: t('landing.threeRoom'), url: '/posts?rooms=3&estateType=house' },
     {
       name: t('landing.documented'),
-      url: '/posts?documented=true&estateType=house'
-    }
+      url: '/posts?documented=true&estateType=house',
+    },
   ]
 
   return (

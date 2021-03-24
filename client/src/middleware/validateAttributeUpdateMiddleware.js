@@ -1,6 +1,6 @@
-import getRequiredFields from '../utils/getRequiredFields'
-import attribueIsValid from '../utils/attribueIsValid'
-import getErrorMessage from '../utils/getErrorMessage'
+import getRequiredFields from '../services/formValidation/getRequiredFields'
+import attribueIsValid from '../services/formValidation/attribueIsValid'
+import getErrorMessage from '../services/formValidation/getErrorMessage'
 
 const validateAttributeUpdateMiddleware = ({ dispatch, getState }) => (
   next

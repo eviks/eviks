@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import useOutsideClick from '../../../utils/hooks/useOutsideClick'
+import useOutsideClick from '../../../services/hooks/useOutsideClick'
 import { CSSTransition } from 'react-transition-group'
 import PropTypes from 'prop-types'
 

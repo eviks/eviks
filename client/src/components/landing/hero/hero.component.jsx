@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Ripple from '../../layout/ripple/ripple.component'
 import { useTranslation } from 'react-i18next'
-import LocalizedLink from '../../../LocalizedLink'
+import LocalizedLink from '../../../components/localization/LocalizedLink.component'
 import PropTypes from 'prop-types'
 
 const Hero = ({ city }) => {

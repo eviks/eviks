@@ -6,7 +6,7 @@ import RoomFilter from '../filters/roomFilter.component'
 import EstateTypeFilter from '../filters/estateTypeFilter.component'
 import MoreFiltersForm from '../filters/moreFiltersForm.component'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import useIsMount from '../../../../utils/hooks/useIsMount'
+import useIsMount from '../../../../services/hooks/useIsMount'
 import PropTypes from 'prop-types'
 
 import './allFilters.style.scss'
@@ -51,11 +51,11 @@ const AllFilters = ({ filters, setSrearchFilters, toggleAllFilters }) => {
 AllFilters.propTypes = {
   filters: PropTypes.object.isRequired,
   setSrearchFilters: PropTypes.func.isRequired,
-  toggleAllFilters: PropTypes.func.isRequired
+  toggleAllFilters: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  filters: state.post.posts.filters
+const mapStateToProps = (state) => ({
+  filters: state.post.posts.filters,
 })
 
 export default connect(mapStateToProps, { setSrearchFilters })(AllFilters)

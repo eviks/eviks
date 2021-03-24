@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import LocalizedLink from '../../../../LocalizedLink'
+import LocalizedLink from '../../../../components/localization/LocalizedLink.component'
 import PropTypes from 'prop-types'
 
 import './sidebar.style.scss'

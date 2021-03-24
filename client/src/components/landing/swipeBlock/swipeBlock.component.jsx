@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import useIsMount from '../../../utils/hooks/useIsMount'
+import useIsMount from '../../../services/hooks/useIsMount'
 import ScrollMenu from 'react-horizontal-scrolling-menu'
 import PostItem from '../../posts/postItem/postItem.component'
 import SkeletonPostItem from '../../layout/skeleton/skeletonPostItem/skeletonPostItem.component'

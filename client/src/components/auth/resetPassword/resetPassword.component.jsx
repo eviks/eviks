@@ -10,7 +10,7 @@ import { toastr } from 'react-redux-toastr'
 import MessageIcon from '../../layout/icons/messageIcon.component'
 import { useTranslation } from 'react-i18next'
 import uuid from 'uuid'
-import PasswordImage from '../../../img/illustrations/password.jpg'
+import PasswordImage from '../../../assets/img/illustrations/password.jpg'
 import PropTypes from 'prop-types'
 
 import '../auth.style.scss'

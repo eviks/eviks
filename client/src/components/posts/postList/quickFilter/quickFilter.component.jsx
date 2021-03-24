@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import useOutsideClick from '../../../../utils/hooks/useOutsideClick'
+import useOutsideClick from '../../../../services/hooks/useOutsideClick'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 

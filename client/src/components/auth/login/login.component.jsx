@@ -10,7 +10,7 @@ import Input from '../../layout/form/input/input.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInLeft } from 'react-animations'
 import { useTranslation } from 'react-i18next'
-import LocalizedLink from '../../../LocalizedLink'
+import LocalizedLink from '../../../components/localization/LocalizedLink.component'
 import PropTypes from 'prop-types'
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`

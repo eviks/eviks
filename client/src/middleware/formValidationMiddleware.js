@@ -1,5 +1,5 @@
-import formValidationErrors from '../utils/formValidationErrors'
-import getRequiredFields from '../utils/getRequiredFields'
+import formValidationErrors from '../services/formValidation/formValidationErrors'
+import getRequiredFields from '../services/formValidation/getRequiredFields'
 import { POST_VALIDATION_ERROR } from '../actions/types'
 
 const formValidationMiddleware = ({ dispatch, getState }) => (next) => (

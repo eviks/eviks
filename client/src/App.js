@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import routes from './components/routing/routes.component'
-import Localizer from './Localizer'
+import Localizer from './components/localization/Localizer.component'
 import PrivateRoute from './components/routing/privateRoute.component'
 import ScrollToTop from './components/layout/scrollToTop/scrollToTop.component'
 import Navbar from './components/layout/navbar/navbar.component'
@@ -13,7 +13,7 @@ import ReduxToastr from 'react-redux-toastr'
 
 import { loadUser } from './actions/auth'
 import { setCurrentLocality } from './actions/locality'
-import setAuthToken from './utils/setAuthToken'
+import { setAuthToken } from './services/util'
 
 // Modal windows
 Modal.setAppElement('body')

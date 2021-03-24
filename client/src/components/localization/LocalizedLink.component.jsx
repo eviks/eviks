@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import React from 'react'
 
-import { prefixPath } from './services/util'
+import { prefixPath } from '../../services/util'
 
 const LocalizedLink = ({ to, locale, className, onClick, children }) => {
   return (

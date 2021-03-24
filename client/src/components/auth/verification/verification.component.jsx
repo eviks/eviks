@@ -3,8 +3,8 @@ import Spinner from '../../layout/spinner/spinner.component'
 import { connect } from 'react-redux'
 import { verifyEmail } from '../../../actions/auth'
 import { useTranslation } from 'react-i18next'
-import SuccessImage from '../../../img/illustrations/success.jpg'
-import QuestionImage from '../../../img/illustrations/question.jpg'
+import SuccessImage from '../../../assets/img/illustrations/success.jpg'
+import QuestionImage from '../../../assets/img/illustrations/question.jpg'
 import PropTypes from 'prop-types'
 
 const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
@@ -26,11 +26,7 @@ const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
     <div className="container container-center">
       {isAuthenticated ? (
         <div>
-          <img
-            style={{ width: '400px' }}
-            src={SuccessImage}
-            alt="success"
-          />
+          <img style={{ width: '400px' }} src={SuccessImage} alt="success" />
           <h1>
             {t('auth.verification.greeting')}
             <span role="img" aria-label="hello">
@@ -40,11 +36,7 @@ const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
         </div>
       ) : (
         <div>
-          <img
-            style={{ width: '400px' }}
-            src={QuestionImage}
-            alt="question"
-          />
+          <img style={{ width: '400px' }} src={QuestionImage} alt="question" />
           <h1>
             {t('auth.verification.error')}
             <span role="img" aria-label="broken heart">
