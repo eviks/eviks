@@ -10,6 +10,7 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT,
+  UPDATE_USER,
   ADD_POST_TO_FAVORITES,
   REMOVE_POST_FROM_FAVORITES,
 } from '../actions/types'
@@ -26,6 +27,7 @@ const authReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case USER_LOADED:
+    case UPDATE_USER:
       return {
         ...state,
         userIsLoading: false,

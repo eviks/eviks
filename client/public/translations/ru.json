@@ -332,7 +332,9 @@
       "passwordError": "Пароль должен содержать не менее 6 символов",
       "passwordConfirmation": "Подтвердите новый пароль",
       "passwordConfirmationError": "Пароли не совпадают",
-      "submit": "Обновить профиль"
+      "submit": "Обновить профиль",
+      "updateUserTitle": "Профиль обновлен",
+      "updateUser": "Новые настройки успешно сохранены"
     },
     "assets": {
       "formats": {

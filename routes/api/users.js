@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const { check, validationResult } = require('express-validator')
+const { check, oneOf, validationResult } = require('express-validator')
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 
-const Post = require('../../models/Post')
+const User = require('../../models/User')
 
 // @route  POST api/users
 // @desc   Register user
@@ -35,6 +36,55 @@ router.post(
       }
       res.json({ message: 'User created' })
     })(req, res, next)
+  }
+)
+
+// @route  PUT api/users
+// @desc   Update user
+// @access Private
+router.put(
+  '/',
+  [
+    check('displayName', 'Name is required').notEmpty(),
+    oneOf([
+      check('password', 'Password must be at least 6 characters long').isLength(
+        {
+          min: 6,
+        }
+      ),
+      check('password', '...').isEmpty(),
+    ]),
+    passport.authenticate('jwt', { session: false }),
+  ],
+  async (req, res) => {
+    // Validation
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      })
+    }
+
+    try {
+      let updateQuery = { ...req.body }
+
+      if (updateQuery.password) {
+        // Encrypt password
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+        updateQuery.password = hashedPassword
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(
+        req.user.id,
+        updateQuery,
+        { new: true }
+      ).select('-password')
+      res.json(updatedUser)
+    } catch (error) {
+      console.error(error.message)
+      return res.status(500).send('Server error...')
+    }
   }
 )
 

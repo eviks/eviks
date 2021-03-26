@@ -26,8 +26,8 @@ export const getPosts = (filters) => async (dispatch) => {
   const filtersObj = { ...filters }
   if (!filtersObj.page) filtersObj.page = 1
   const url = setURLParams(filtersObj)
+  dispatch(asyncActionStart('POST_LIST'))
   try {
-    dispatch(asyncActionStart('POST_LIST'))
     const res = await axios.get(`/api/posts/?${url && url + '&'}limit=${15}`)
     dispatch({ type: GET_POSTS, payload: res.data })
     dispatch(asyncActionFinish('POST_LIST'))
@@ -44,8 +44,8 @@ export const getPosts = (filters) => async (dispatch) => {
 
 // Get single post by ID
 export const getPost = (postId) => async (dispatch) => {
+  dispatch(asyncActionStart())
   try {
-    dispatch(asyncActionStart())
     const res = await axios.get(`/api/posts/post/${postId}`)
     dispatch({ type: GET_POST, payload: res.data })
     dispatch(asyncActionFinish())
@@ -60,6 +60,7 @@ export const getPost = (postId) => async (dispatch) => {
   }
 }
 
+// Create new / update existing post
 export const createUpdatePost = (data) => async (dispatch) => {
   return new Promise(async (resolve, reject) => {
     dispatch(asyncActionStart())
@@ -150,8 +151,8 @@ export const deletePost = (postId) => async (dispatch) => {
 
 // Get post form data to edit post
 export const getPostFormData = (postId, setImages) => async (dispatch) => {
+  dispatch(asyncActionStart())
   try {
-    dispatch(asyncActionStart())
     const res = await axios.get(`/api/posts/post/${postId}`)
     const data = res.data
 
@@ -243,6 +244,7 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
   }
 }
 
+// Get address by coords
 export const getAddressByCoords = (coords) => async (dispatch) => {
   dispatch(asyncActionStart('mapIsLoading'))
 
@@ -304,8 +306,8 @@ export const uploadImage = (data) => async (dispatch) => {
 
   const id = data.get('id')
 
+  dispatch(asyncActionStart(id))
   try {
-    dispatch(asyncActionStart(id))
     await axios.post('/api/posts/upload_image', data, config)
     dispatch({ type: UPLOAD_IMAGE, payload: id })
     dispatch(asyncActionFinish(id))
@@ -322,8 +324,8 @@ export const uploadImage = (data) => async (dispatch) => {
 
 // Delete image
 export const deleteImage = (postId, id) => async (dispatch) => {
+  dispatch(asyncActionStart(id))
   try {
-    dispatch(asyncActionStart(id))
     if (!postId) await axios.delete(`/api/posts/delete_image/${id}`)
     dispatch({ type: DELETE_IMAGE, payload: id })
     dispatch(asyncActionFinish(id))

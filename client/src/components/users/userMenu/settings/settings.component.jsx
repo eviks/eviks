@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { updateUser } from '../../../../actions/auth'
+import { toastr } from 'react-redux-toastr'
+import { Player } from '@lottiefiles/react-lottie-player'
+import successAnimation from '../../../../assets/lottiefilesSources/success.json'
 import Input from '../../../layout/form/input/input.component'
 import Ripple from '../../../layout/ripple/ripple.component'
 import ButtonSpinner from '../../../layout/spinner/buttonSpinner.component'
@@ -12,7 +16,7 @@ import PropTypes from 'prop-types'
 
 import './settings.style.scss'
 
-const Settings = ({ currentDisplayName, loading }) => {
+const Settings = ({ updateUser, currentDisplayName, loading }) => {
   const [state, setState] = useState({
     displayName: currentDisplayName,
     password: '',
@@ -55,7 +59,8 @@ const Settings = ({ currentDisplayName, loading }) => {
     })
   }
 
-  const submitForm = (event) => {
+  const submitForm = async (event) => {
+    event.preventDefault()
     const requiredFields = getRequiredFields('USER_SETTINGS')
     const updatedValidationErrors = formValidationErrors(state, requiredFields)
     setState({
@@ -72,12 +77,37 @@ const Settings = ({ currentDisplayName, loading }) => {
     if (!formIsValid) {
       return
     }
+
+    try {
+      const result = await updateUser({ displayName, password })
+      if (result) {
+        const toastrOptions = {
+          timeOut: 0,
+          icon: (
+            <Player
+              autoplay
+              loop={true}
+              src={successAnimation}
+              style={{ height: '70px', width: '70px' }}
+            />
+          ),
+          status: 'info',
+        }
+        toastr.light(
+          t('userMenu.updateUserTitle'),
+          t('userMenu.updateUser'),
+          toastrOptions
+        )
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const [t] = useTranslation()
 
   return (
-    <div>
+    <form onSubmit={submitForm}>
       <h5 className="lead">
         <i className="fas fa-cog"></i> {t('userMenu.titles.settings')}
       </h5>
@@ -126,7 +156,7 @@ const Settings = ({ currentDisplayName, loading }) => {
         <div className="divider" />
         <div className="mt-1">
           <button
-            type="button"
+            type="submit"
             onClick={submitForm}
             className={`btn btn-primary ${loading ? 'btn-loading' : ''}`}
             disabled={loading}
@@ -137,11 +167,12 @@ const Settings = ({ currentDisplayName, loading }) => {
           </button>
         </div>
       </div>
-    </div>
+    </form>
   )
 }
 
 const mapStateToProps = (state) => ({
+  updateUser: PropTypes.func.isRequired,
   currentDisplayName: state.auth.user.displayName,
   loading: state.async.loading,
 })
@@ -151,4 +182,4 @@ Settings.propTypes = {
   loading: PropTypes.bool,
 }
 
-export default connect(mapStateToProps)(Settings)
+export default connect(mapStateToProps, { updateUser })(Settings)

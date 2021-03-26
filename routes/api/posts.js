@@ -157,7 +157,11 @@ router.put(
       })
 
       // Update post itself
-      const updatedPost = await Post.findByIdAndUpdate(postId, { ...req.body })
+      const updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { ...req.body },
+        { new: true }
+      )
 
       res.json(updatedPost)
     } catch (error) {

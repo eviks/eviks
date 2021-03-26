@@ -167,7 +167,7 @@ export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT })
 }
 
-// Update user settings
+// Update user
 export const updateUser = (userData) => async (dispatch) => {
   return new Promise(async (resolve, reject) => {
     const config = {
@@ -179,7 +179,8 @@ export const updateUser = (userData) => async (dispatch) => {
     dispatch(asyncActionStart())
     try {
       const result = await axios.put('/api/users/', userData, config)
-      dispatch({ type: UPDATE_USER, payload: result })
+      dispatch({ type: UPDATE_USER, payload: result.data })
+      dispatch(asyncActionFinish())
       resolve(true)
     } catch (error) {
       dispatch(asyncActionError())
