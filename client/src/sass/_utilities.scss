@@ -16,6 +16,15 @@
   background: rgba($dark-color, 0.2);
 }
 
+.dark-overlay-strong {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba($dark-color, 0.4);
+}
+
 // Container
 .container {
   max-width: 1140px;
@@ -229,6 +238,14 @@
   &-blue {
     color: $link-color;
   }
+
+  &-light {
+    color: $light-color;
+
+    &:hover {
+      color: darken($light-color, 30%);
+    }
+  }
 }
 
 .field {
@@ -342,6 +359,10 @@ input[type='radio'].toggle {
 
   &-secondary {
     color: $grey-color;
+  }
+
+  &-light {
+    color: $light-color;
   }
 
   &-dark {

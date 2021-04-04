@@ -57,14 +57,19 @@
       "slogan": "Мы поможем найти то, что подходит именно вам",
       "search": "Найти",
       "sell": "Продать",
-      "quickLinks": "Быстрые ссылки",
       "newListings": "Новые объявления",
-      "oneRoom": "1-комнатные",
-      "twoRoom": "2-комнатные",
-      "threeRoom": "3-комнатные",
-      "documented": "Имеется купчая",
-      "buyAppartment": "Купить квартиру",
-      "buyHouse": "Купить дом"
+      "categories": {
+        "buyAppartment": "Купить квартиру",
+        "newBuildings": "Новостройки",
+        "rent": "Снять жилье",
+        "rentPerDay": "Снять посуточно",
+        "rentAppartment": "Квартиры",
+        "rentHousePerDay": "Дома",
+        "houses": "Дома и виллы",
+        "oneRoom": "1-комнатные",
+        "twoRoom": "2-комнатные",
+        "threeRoom": "3-комнатные"
+      }
     },
     "post": {
       "title": {

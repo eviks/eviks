@@ -30,9 +30,12 @@ const PasswordConfirmation = ({
     resetPasswordToken,
   ])
 
+  const [initialLoading, setInitialLoading] = useState(true)
   const [form, setForm] = useState({ password: '', passwordConfirm: '' })
   const [isValid, setValidation] = useState(false)
   const { password, passwordConfirm } = form
+
+  useEffect(() => setInitialLoading(false), [setInitialLoading])
 
   useEffect(() => {
     setValidation(password.length >= 6 && password === passwordConfirm)
@@ -40,7 +43,7 @@ const PasswordConfirmation = ({
 
   const [t] = useTranslation()
 
-  if (loading || validResetPasswordToken == null)
+  if (loading || initialLoading || validResetPasswordToken == null)
     return (
       <div className="container container-center">
         <Spinner style={{ width: '50px', marginBottom: '10rem' }} />
@@ -112,11 +115,13 @@ const PasswordConfirmation = ({
         />
         <button
           type="submit"
-          className={`btn btn-primary ${loading && 'btn-loading'}`}
-          disabled={loading || !isValid}
+          className={`btn btn-primary ${
+            (loading || initialLoading) && 'btn-loading'
+          }`}
+          disabled={loading || initialLoading || !isValid}
         >
           {t('auth.resetPassword.changePassword')}
-          {loading && <ButtonSpinner />}
+          {(loading || initialLoading) && <ButtonSpinner />}
           <Ripple />
         </button>
       </form>
