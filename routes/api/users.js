@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const router = express.Router()
 const { check, oneOf, validationResult } = require('express-validator')
 const passport = require('passport')
@@ -143,5 +144,31 @@ router.put(
     }
   }
 )
+
+// @route  POST api/users/:id
+// @desc   Get user info
+// @access Public
+router.get('/:id', async (req, res) => {
+  const id = req.params.id
+
+  // Id validation
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ errors: [{ msg: 'User not found' }] })
+  }
+
+  try {
+    const user = await User.findById(id, { displayName: 1, createdAt: 1 })
+
+    // User not found
+    if (!user) {
+      return res.status(404).json({ errors: [{ msg: 'User not found' }] })
+    }
+
+    return res.json(user)
+  } catch (error) {
+    console.error(error.message)
+    return res.status(500).send('Server error...')
+  }
+})
 
 module.exports = router

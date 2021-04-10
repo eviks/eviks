@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom'
 import PrivateRoute from '../../routing/privateRoute.component'
 import Sidebar from './sidebar/sidebar.component'
 import User from './user/user.component'
-import UserPosts from './userPosts/userPosts.component'
 import Favorites from './favorites/favorites.component'
 import Settings from './settings/settings.component'
 import PropTypes from 'prop-types'
@@ -17,11 +16,10 @@ const UserMenu = ({ locale }) => {
       <Sidebar />
       <div className="py-2 px-2">
         <Switch>
-          <Route exact path={`/${locale}/users/:id`} component={User} />
           <Route
             exact
-            path={`/${locale}/users/:id/posts`}
-            component={UserPosts}
+            path={[`/${locale}/users/:id`, `/${locale}/users/:id/posts`]}
+            component={User}
           />
           <PrivateRoute
             exact

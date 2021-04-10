@@ -23,15 +23,6 @@ const Sidebar = ({ user, isAuthenticated }) => {
               </LocalizedLink>
             </li>
             <li className="mb-05">
-              <LocalizedLink
-                to={`/users/${userId}/posts`}
-                className="py-1 px-1"
-              >
-                <i className="fas fa-sticky-note mr-1"></i>
-                {t('userMenu.titles.posts')}
-              </LocalizedLink>
-            </li>
-            <li className="mb-05">
               <LocalizedLink to={`/favorites`} className="py-1 px-1">
                 <i className="fas fa-heart mr-1"></i>
                 {t('userMenu.titles.favorites')}

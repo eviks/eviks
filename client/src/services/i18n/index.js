@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import moment from 'moment'
 
 export const setUiLocale = (locale) => {
   return fetch(`/translations/${locale}.json`)
@@ -12,6 +13,14 @@ export const setUiLocale = (locale) => {
               lng: locale,
               debug: true,
               resources: { [locale]: loadedResources },
+              interpolation: {
+                format(value, format, locale) {
+                  if (value instanceof Date) {
+                    return moment(value).locale(locale).format(format)
+                  }
+                  return value
+                },
+              },
             },
             (err, t) => {
               if (err) {

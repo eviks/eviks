@@ -7,7 +7,7 @@ const PostItemSkeleton = () => {
   return (
     <div className="card">
       <div className="skeleton-images">
-        <div className="skeleton-image">
+        <div className="skeleton-image px-1 py-1">
           <i className="fas fa-home fa-5x"></i>
           <SkeletonLine />
         </div>

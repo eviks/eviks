@@ -328,7 +328,7 @@
     "userMenu": {
       "titles": {
         "profile": "Мой профиль",
-        "posts": "Мои объявления",
+        "posts": "Объявления",
         "favorites": "Избранное",
         "settings": "Настройки"
       },
@@ -339,7 +339,8 @@
       "passwordConfirmationError": "Пароли не совпадают",
       "submit": "Обновить профиль",
       "updateUserTitle": "Профиль обновлен",
-      "updateUser": "Новые настройки успешно сохранены"
+      "updateUser": "Новые настройки успешно сохранены",
+      "createdAt": "С нами с {{createdAt, D MMMM YYYY}}"
     },
     "assets": {
       "formats": {

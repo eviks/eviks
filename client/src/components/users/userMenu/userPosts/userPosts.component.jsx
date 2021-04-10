@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getPosts, cleanPosts } from '../../../../actions/post'
 import PostItem from '../../../posts/postItem/postItem.component'
 import SkeletonPostList from '../../../layout/skeleton/skeletonPostList/skeletonPostList.component'
 import Pagination from '../../../layout/pagination/pagination.component'
-import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 const UserPosts = ({
+  userId,
   posts,
   loading,
   loadingElements,
   getPosts,
   cleanPosts,
-  match,
 }) => {
   useEffect(() => {
-    getPosts({ user: match.params.id })
+    getPosts({ user: userId })
     // Set initial loading to false
     if (initialLoading) setInitialLoading(false)
     // eslint-disable-next-line
@@ -31,13 +30,8 @@ const UserPosts = ({
 
   const handlePaginationOnClick = () => {}
 
-  const [t] = useTranslation()
-
   return (
-    <div>
-      <h5 className="lead">
-        <i className="fas fa-sticky-note"></i> {t('userMenu.titles.posts')}
-      </h5>
+    <Fragment>
       <div className="cards-container-sm my-1">
         {(loading && loadingElements.includes('POST_LIST')) ||
         initialLoading ? (
@@ -47,11 +41,12 @@ const UserPosts = ({
         )}
       </div>
       <Pagination pagination={pagination} onClick={handlePaginationOnClick} />
-    </div>
+    </Fragment>
   )
 }
 
 UserPosts.propTypes = {
+  userId: PropTypes.string.isRequired,
   posts: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingElements: PropTypes.array.isRequired,
