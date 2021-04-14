@@ -3,16 +3,13 @@ import { setAlert } from './alert'
 import { asyncActionStart, asyncActionFinish, asyncActionError } from './async'
 import {
   VERIFICATION_SUCCESS,
-  VERIFICATION_FAIL,
   RESET_TOKEN_CHECK_SUCCESS,
-  RESET_TOKEN_CHECK_FAIL,
   RESET_PASSWORD_SUCCESS,
-  RESETPASSWORD_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL,
   USER_LOADED,
   LOGOUT,
   UPDATE_USER,
+  DELETE_USER,
   ADD_POST_TO_FAVORITES,
   REMOVE_POST_FROM_FAVORITES,
   AUTH_ERROR,
@@ -71,7 +68,7 @@ export const verifyEmail = (activationToken) => async (dispatch) => {
     dispatch(loadUser())
   } catch (error) {
     dispatch(asyncActionError())
-    dispatch({ type: VERIFICATION_FAIL })
+    dispatch({ type: AUTH_ERROR })
   }
 }
 
@@ -95,7 +92,7 @@ export const login = (email, password) => async (dispatch) => {
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')))
     }
-    dispatch({ type: LOGIN_FAIL })
+    dispatch({ type: AUTH_ERROR })
   }
 }
 
@@ -128,7 +125,7 @@ export const checkResetPasswordToken = (token) => async (dispatch) => {
     dispatch(asyncActionFinish())
   } catch (error) {
     dispatch(asyncActionError())
-    dispatch({ type: RESET_TOKEN_CHECK_FAIL })
+    dispatch({ type: AUTH_ERROR })
   }
 }
 
@@ -158,7 +155,7 @@ export const resetPassword = (token, password, confirm, history) => async (
     history.push(`${state.locale.locale}/`)
   } catch (error) {
     dispatch(asyncActionError())
-    dispatch({ type: RESETPASSWORD_FAIL })
+    dispatch({ type: AUTH_ERROR })
   }
 }
 
@@ -189,6 +186,28 @@ export const updateUser = (userData) => async (dispatch) => {
         payload: {
           message: error.response.statusText,
           status: error.response,
+        },
+      })
+      reject(false)
+    }
+  })
+}
+
+// Delete user
+export const deleteUser = () => async (dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    dispatch(asyncActionStart())
+    try {
+      await axios.delete(`/api/users`)
+      dispatch({ type: DELETE_USER })
+      dispatch(asyncActionFinish())
+      resolve(true)
+    } catch (error) {
+      dispatch(asyncActionError())
+      dispatch({
+        type: AUTH_ERROR,
+        payload: {
+          message: error.message,
         },
       })
       reject(false)

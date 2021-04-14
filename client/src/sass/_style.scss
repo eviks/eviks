@@ -1,0 +1,53 @@
+@import 'config';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  &::selection {
+    background-color: $primary-color;
+    color: $light-color;
+  }
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: $light-color;
+  color: $dark-color;
+}
+
+input,
+textarea,
+select,
+button,
+label,
+i {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: $dark-color;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+}
+
+/* MEDIA QUERIES */
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  h1 {
+    line-height: 1.1;
+  }
+}

@@ -1,11 +1,14 @@
+const fs = require('fs')
 const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router()
 const { check, oneOf, validationResult } = require('express-validator')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
+const rimraf = require('rimraf')
 
 const User = require('../../models/User')
+const Post = require('../../models/Post')
 
 // @route  POST api/users
 // @desc   Register user
@@ -170,5 +173,48 @@ router.get('/:id', async (req, res) => {
     return res.status(500).send('Server error...')
   }
 })
+
+// @route  DELETE api/users
+// @desc   Delete user
+// @access Private
+router.delete(
+  '/',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    try {
+      // Delete user posts first
+      const posts = await Post.find({ user: req.user.id })
+
+      posts.forEach(async (post) => {
+        post.images.forEach(async (image) => {
+          const directory = `${__dirname}/../../uploads/post_images/${image}`
+          const fileExists = await checkFileExists(directory)
+          if (fileExists) {
+            rimraf(directory, (error) => {
+              if (error) return res.status(500).send('Server error...')
+            })
+          }
+        })
+
+        await post.remove()
+      })
+
+      // Delete user
+      await User.findByIdAndDelete(req.user.id)
+
+      return res.json({ msg: 'User deleted' })
+    } catch (error) {
+      console.error(error.message)
+      return res.status(500).send('Server error...')
+    }
+  }
+)
+
+const checkFileExists = async (file) => {
+  return fs.promises
+    .access(file, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false)
+}
 
 module.exports = router

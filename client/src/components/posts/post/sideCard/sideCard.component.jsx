@@ -22,11 +22,11 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
   return (
     <div className="side-card-container">
       <div className="side-card light-shadow-border">
-        <div className="price-wrapper">
+        <div className="mb-1">
           <h2 className="price large">{formattedPrice} ₼</h2>
           <span>{t('post.price.priceForSqm', { priceForSqm })}</span>
         </div>
-        <div className="user-info">
+        <div className="card-user-info">
           <i className={`fas fa-${userIcon} fa-2x`}></i>
           <div className="user-name-and-type">
             <span className="user-name">{userName}</span>
