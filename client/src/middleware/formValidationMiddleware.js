@@ -17,7 +17,11 @@ const formValidationMiddleware = ({ dispatch, getState }) => (next) => (
     estateType: fields.estateType,
   })
 
-  const validationErrors = formValidationErrors(fields, requiredFields)
+  const validationErrors = formValidationErrors(
+    'POST_FORM',
+    fields,
+    requiredFields
+  )
   dispatch({ type: POST_VALIDATION_ERROR, payload: validationErrors })
 
   let formIsValid = true

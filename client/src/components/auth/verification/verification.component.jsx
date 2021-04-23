@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Spinner from '../../layout/spinner/spinner.component'
 import { connect } from 'react-redux'
 import { verifyEmail } from '../../../actions/auth'
@@ -8,6 +8,10 @@ import QuestionImage from '../../../assets/img/illustrations/question.jpg'
 import PropTypes from 'prop-types'
 
 const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
+  const [initialLoading, setInitialLoading] = useState(true)
+
+  useEffect(() => setInitialLoading(false), [setInitialLoading])
+
   useEffect(() => {
     const activationToken = match.params.activationToken
     verifyEmail(activationToken)
@@ -15,7 +19,7 @@ const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
 
   const [t] = useTranslation()
 
-  if (loading)
+  if (loading || initialLoading)
     return (
       <div className="container container-center">
         <Spinner style={{ width: '50px', marginBottom: '10rem' }} />

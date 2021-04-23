@@ -11,7 +11,7 @@ const DropdownMenu = ({ isOpen, menuOptions, label, onRequestClose }) => {
   useOutsideClick([wrapperRef], onRequestClose)
 
   return (
-    <div className="dropdown-menu" ref={wrapperRef}>
+    <ul className="dropdown-menu" ref={wrapperRef}>
       {label}
       <CSSTransition
         in={isOpen}
@@ -19,15 +19,15 @@ const DropdownMenu = ({ isOpen, menuOptions, label, onRequestClose }) => {
         classNames="dropdown-transition-ease-in"
         unmountOnExit
       >
-        <div className="dropdown-content light-shadow-border">
+        <li className="dropdown-content light-shadow-border">
           {menuOptions.map((option, index) => (
             <div key={index} className="py-05 px-05">
               {option}
             </div>
           ))}
-        </div>
+        </li>
       </CSSTransition>
-    </div>
+    </ul>
   )
 }
 

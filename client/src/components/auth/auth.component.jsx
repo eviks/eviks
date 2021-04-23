@@ -34,7 +34,7 @@ const Auth = ({ handleCloseModal, showOverlay }) => {
 
   return (
     <FadeInDiv
-      className={`popup ${showOverlay ? 'popup-with-overlay' : ''}`}
+      className={`popup ${showOverlay ? 'popup-with-overlay' : 'mt-1'}`}
       ref={containerRef}
     >
       <div

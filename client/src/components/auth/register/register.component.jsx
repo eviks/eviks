@@ -12,6 +12,10 @@ import MessageIcon from '../../layout/icons/messageIcon.component'
 import styled, { keyframes } from 'styled-components'
 import { fadeInRight } from 'react-animations'
 import { useTranslation } from 'react-i18next'
+import {
+  validationAttributeOnChange,
+  validationOnSubmit,
+} from '../../../services/formValidation/validationEvents'
 import PropTypes from 'prop-types'
 
 const FadeInRightAnimation = keyframes`${fadeInRight}`
@@ -28,13 +32,15 @@ const Register = ({
 }) => {
   const history = useHistory()
 
-  const [formData, setFormData] = useState({
+  const [state, setState] = useState({
+    username: '',
     displayName: '',
     email: '',
     password: '',
+    validationErrors: {},
   })
-  const [t] = useTranslation()
-  const { displayName, email, password } = formData
+
+  const { username, displayName, email, password, validationErrors } = state
 
   useEffect(() => {
     return () => {
@@ -42,15 +48,33 @@ const Register = ({
     }
   }, [deleteAllAlerts])
 
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+  const onChange = (event) => {
+    validationAttributeOnChange(
+      'REGISTER',
+      event.target.name,
+      event.target.value,
+      state,
+      setState
+    )
+  }
 
-  const onSubmit = async (e) => {
-    e.preventDefault()
+  const onSubmit = async (event) => {
+    event.preventDefault()
 
-    const success = await registerUser({ displayName, email, password })
+    const formIsValid = validationOnSubmit('REGISTER', state, setState)
 
-    if (success) {
+    if (!formIsValid) {
+      return
+    }
+
+    try {
+      await registerUser({
+        username,
+        displayName,
+        email,
+        password,
+      })
+
       const toastrOptions = {
         timeOut: 0,
         icon: <MessageIcon />,
@@ -66,12 +90,20 @@ const Register = ({
       } else {
         history.push(`/${locale}/`)
       }
+    } catch (errors) {
+      setState({
+        ...state,
+        validationErrors: Object.assign(
+          validationErrors,
+          ...errors.errors.map((error) => ({
+            [error.param]: error.msg,
+          }))
+        ),
+      })
     }
   }
 
-  const formIsValid = () => {
-    return email.length > 0 && password.length >= 6 && displayName.length > 0
-  }
+  const [t] = useTranslation()
 
   return (
     <FadeInRightForm onSubmit={(e) => onSubmit(e)}>
@@ -80,6 +112,24 @@ const Register = ({
           {t('auth.registerTitle')}
         </h3>
         <Alert />
+        {/* Username */}
+        <Input
+          mask={false}
+          fieldName={
+            <Fragment>
+              <i className="fas fa-user"></i> {t('auth.username')}
+            </Fragment>
+          }
+          options={{
+            type: 'text',
+            name: 'username',
+            value: username,
+          }}
+          main={true}
+          onChange={onChange}
+          error={validationErrors.username}
+        />
+        {/* Display name */}
         <Input
           mask={false}
           fieldName={
@@ -94,7 +144,9 @@ const Register = ({
           }}
           main={true}
           onChange={onChange}
+          error={validationErrors.displayName}
         />
+        {/* Email */}
         <Input
           mask={false}
           fieldName={
@@ -109,7 +161,9 @@ const Register = ({
           }}
           main={true}
           onChange={onChange}
+          error={validationErrors.email}
         />
+        {/* Password */}
         <Input
           mask={false}
           fieldName={
@@ -124,11 +178,12 @@ const Register = ({
           }}
           main={true}
           onChange={onChange}
+          error={validationErrors.password}
         />
         <button
           type="submit"
-          className={`btn btn-primary ${loading && 'btn-loading'}`}
-          disabled={loading || !formIsValid()}
+          className={`btn btn-primary mb-1 ${loading ? 'btn-loading' : ''}`}
+          disabled={loading}
         >
           {t('auth.signUp')}
           {loading && <ButtonSpinner />}

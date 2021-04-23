@@ -47,7 +47,12 @@ const routes = [
     component: PasswordConfirmation,
   },
   {
-    path: ['/users/:id', '/users/:id/posts', '/favorites', '/settings'],
+    path: [
+      '/users/:username',
+      '/users/:username/posts',
+      '/favorites',
+      '/settings',
+    ],
     component: UserMenu,
   },
   {

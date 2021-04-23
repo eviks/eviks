@@ -89,7 +89,7 @@ const initialState = {
     prepayment: false,
     municipalServices: false,
     images: [],
-    userName: '',
+    username: '',
     contact: '',
   },
   formSteps: { currentStep: 0, totalSteps: 7 },

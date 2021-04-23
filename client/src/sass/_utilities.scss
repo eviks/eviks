@@ -606,10 +606,15 @@ input[type='radio'].toggle {
   z-index: 10;
   border: none;
   background: transparent;
-  color: $dark-color;
+  color: lighten($dark-color, 30);
   transition: background-color 0.4s ease-in-out;
   outline: none;
   cursor: pointer;
+  transition: color ease 0.3s;
+
+  &:hover {
+    color: $dark-color;
+  }
 }
 
 // TOASTR

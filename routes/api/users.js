@@ -16,6 +16,7 @@ const Post = require('../../models/Post')
 router.post(
   '/',
   [
+    check('username', 'Username is required').notEmpty(),
     check('displayName', 'Name is required').notEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password must be at least 6 characters long').isLength({
@@ -36,7 +37,7 @@ router.post(
         console.error(err.message)
         return res.status(500).send('Server error...')
       } else if (info) {
-        return res.status(400).json({ errors: [info] })
+        return res.status(400).json({ errors: info })
       }
       res.json({ message: 'User created' })
     })(req, res, next)
@@ -148,19 +149,17 @@ router.put(
   }
 )
 
-// @route  POST api/users/:id
+// @route  POST api/users/:username
 // @desc   Get user info
 // @access Public
-router.get('/:id', async (req, res) => {
-  const id = req.params.id
-
-  // Id validation
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ errors: [{ msg: 'User not found' }] })
-  }
+router.get('/:username', async (req, res) => {
+  const username = req.params.username
 
   try {
-    const user = await User.findById(id, { displayName: 1, createdAt: 1 })
+    const user = await User.findOne(
+      { username },
+      { displayName: 1, createdAt: 1 }
+    )
 
     // User not found
     if (!user) {

@@ -18,7 +18,10 @@ const UserMenu = ({ locale }) => {
         <Switch>
           <Route
             exact
-            path={[`/${locale}/users/:id`, `/${locale}/users/:id/posts`]}
+            path={[
+              `/${locale}/users/:username`,
+              `/${locale}/users/:username/posts`,
+            ]}
             component={User}
           />
           <PrivateRoute

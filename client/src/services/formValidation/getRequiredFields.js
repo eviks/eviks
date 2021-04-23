@@ -24,12 +24,14 @@ const getRequiredFields = (formName, additionalData = null) => {
         case 6:
           return ['price']
         case 7:
-          return ['userName', 'contact']
+          return ['username', 'contact']
         default:
           return []
       }
     case 'USER_SETTINGS':
       return ['displayName', 'password', 'passwordConfirmation']
+    case 'REGISTER':
+      return ['username', 'displayName', 'email', 'password']
     default:
       return []
   }

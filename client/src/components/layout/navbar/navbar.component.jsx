@@ -49,19 +49,11 @@ const Navbar = ({
   const dropdownOptions = [
     <LocalizedLink
       className="link"
-      to={`/users/${user && user._id}`}
+      to={`/users/${user && user.username}`}
       onClick={closeDropdownMenu}
     >
       <i className="fas fa-user-circle mr-1"></i>
       {t('userMenu.titles.profile')}
-    </LocalizedLink>,
-    <LocalizedLink
-      className="link"
-      to={`/users/${user && user._id}/posts`}
-      onClick={closeDropdownMenu}
-    >
-      <i className="fas fa-sticky-note mr-1"></i>
-      {t('userMenu.titles.posts')}
     </LocalizedLink>,
     <LocalizedLink
       className="link"

@@ -7,7 +7,7 @@ const PostSchema = new mongoose.Schema(
       ref: 'user',
       required: true,
     },
-    userName: { type: String, required: true },
+    username: { type: String, required: true },
     userType: { type: String, required: true },
     city: {
       type: {

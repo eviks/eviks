@@ -1,5 +1,5 @@
 import getRequiredFields from '../services/formValidation/getRequiredFields'
-import attribueIsValid from '../services/formValidation/attribueIsValid'
+import attributeIsValid from '../services/formValidation/attributeIsValid'
 import getErrorMessage from '../services/formValidation/getErrorMessage'
 
 const validateAttributeUpdateMiddleware = ({ dispatch, getState }) => (
@@ -32,7 +32,7 @@ const validateAttributeUpdateMiddleware = ({ dispatch, getState }) => (
   let updatedForm = { ...form, ...payload }
 
   action.validationErrors = {
-    [attrName]: !attribueIsValid(updatedForm, attrName)
+    [attrName]: !attributeIsValid('POST_FORM', updatedForm, attrName)
       ? getErrorMessage(attrName, updatedForm)
       : null,
   }

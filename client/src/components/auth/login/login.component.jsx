@@ -26,9 +26,9 @@ const Login = ({
   locale,
   deleteAllAlerts,
 }) => {
-  const [formData, setFormData] = useState({ email: '', password: '' })
+  const [formData, setFormData] = useState({ username: '', password: '' })
   const [t] = useTranslation()
-  const { email, password } = formData
+  const { username, password } = formData
 
   useEffect(() => {
     return () => {
@@ -41,11 +41,11 @@ const Login = ({
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    login(email, password)
+    login(username, password)
   }
 
   const formIsValid = () => {
-    return email.length > 0 && password.length > 0
+    return username.length > 0 && password.length > 0
   }
 
   if (isAuthenticated) {
@@ -77,13 +77,13 @@ const Login = ({
           mask={false}
           fieldName={
             <Fragment>
-              <i className="fas fa-at"></i> {t('auth.email')}
+              <i className="fas fa-user"></i> {t('auth.usernameOrEmail')}
             </Fragment>
           }
           options={{
-            type: 'email',
-            name: 'email',
-            value: email,
+            type: 'username',
+            name: 'username',
+            value: username,
           }}
           main={true}
           onChange={onChange}
@@ -105,7 +105,7 @@ const Login = ({
         />
         <button
           type="submit"
-          className={`btn btn-primary ${loading && 'btn-loading'}`}
+          className={`btn btn-primary mb-1 ${loading ? 'btn-loading' : ''}`}
           disabled={loading || !formIsValid()}
         >
           {t('auth.signIn')}

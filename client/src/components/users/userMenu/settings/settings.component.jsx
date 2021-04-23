@@ -11,10 +11,10 @@ import ButtonSpinner from '../../../layout/spinner/buttonSpinner.component'
 import DeleteUserMessage from './deleteUserMessage/deleteUserMessage.component'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
-import getRequiredFields from '../../../../services/formValidation/getRequiredFields'
-import attribueIsValid from '../../../../services/formValidation/attribueIsValid'
-import formValidationErrors from '../../../../services/formValidation/formValidationErrors'
-import getErrorMessage from '../../../../services/formValidation/getErrorMessage'
+import {
+  validationAttributeOnChange,
+  validationOnSubmit,
+} from '../../../../services/formValidation/validationEvents'
 import PropTypes from 'prop-types'
 
 import './settings.style.scss'
@@ -39,47 +39,19 @@ const Settings = ({ updateUser, deleteUser, currentDisplayName, loading }) => {
   } = state
 
   const onChange = (event) => {
-    const attrName = event.target.name
-
-    const requiredFields = getRequiredFields('USER_SETTINGS')
-
-    if (!requiredFields.includes(event.target.name)) {
-      setState({
-        ...state,
-        [attrName]: event.target.value,
-      })
-      return
-    }
-
-    const updatedState = { ...state, [attrName]: event.target.value }
-
-    const updatedValidationErrors = {
-      [attrName]: !attribueIsValid(updatedState, attrName)
-        ? getErrorMessage(attrName, updatedState)
-        : null,
-    }
-
-    setState({
-      ...state,
-      [attrName]: event.target.value,
-      validationErrors: { ...validationErrors, ...updatedValidationErrors },
-    })
+    validationAttributeOnChange(
+      'USER_SETTINGS',
+      event.target.name,
+      event.target.value,
+      state,
+      setState
+    )
   }
 
   const submitForm = async (event) => {
     event.preventDefault()
-    const requiredFields = getRequiredFields('USER_SETTINGS')
-    const updatedValidationErrors = formValidationErrors(state, requiredFields)
-    setState({
-      ...state,
-      validationErrors: { ...validationErrors, ...updatedValidationErrors },
-    })
 
-    let formIsValid = true
-
-    Object.values(updatedValidationErrors).forEach((value) => {
-      if (value) formIsValid = false
-    })
+    const formIsValid = validationOnSubmit('USER_SETTINGS', state, setState)
 
     if (!formIsValid) {
       return

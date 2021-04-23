@@ -3,10 +3,10 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from './async'
 import { GET_USER, USER_ERROR } from './types'
 
 // Get user
-export const getUser = (id) => async (dispatch) => {
+export const getUser = (username) => async (dispatch) => {
   dispatch(asyncActionStart('USER_PROFILE'))
   try {
-    const res = await axios.get(`/api/users/${id}`)
+    const res = await axios.get(`/api/users/${username}`)
     dispatch({ type: GET_USER, payload: res.data })
     dispatch(asyncActionFinish('USER_PROFILE'))
   } catch (error) {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import './sideCard.style.scss'
 
-const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
+const SideCard = ({ post: { price, sqm, username, userType, contact } }) => {
   const [showPhone, setShowPhone] = useState(false)
 
   const handleOnClick = () => setShowPhone(!showPhone)
@@ -29,7 +29,7 @@ const SideCard = ({ post: { price, sqm, userName, userType, contact } }) => {
         <div className="card-user-info">
           <i className={`fas fa-${userIcon} fa-2x`}></i>
           <div className="user-name-and-type">
-            <span className="user-name">{userName}</span>
+            <span className="user-name">{username}</span>
             <span className="text-secondary">
               {t(`post.price.userType.${userType}`)}
             </span>

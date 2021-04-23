@@ -11,7 +11,7 @@ import './user.style.scss'
 
 const User = ({ user, getUser, loading, loadingElements, match }) => {
   useEffect(() => {
-    getUser(match.params.id)
+    getUser(match.params.username)
     // Set initial loading to false
     if (initialLoading) setInitialLoading(false)
     // eslint-disable-next-line

@@ -4,12 +4,12 @@
   border-radius: 20px;
   position: relative;
   overflow: hidden;
-  height: 480px;
+  height: 550px;
   width: 400px;
   background-color: $light-color;
 
   &-with-overlay {
-    width: 700px;
+    width: 800px;
   }
 
   .form-container {
@@ -86,7 +86,7 @@
 .auth-background {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
   background: url('../../assets/img/photos/AuthBackground.jpg') no-repeat center
     center/cover;

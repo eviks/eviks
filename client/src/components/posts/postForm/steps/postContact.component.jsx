@@ -15,14 +15,14 @@ const FadeInDiv = styled.div`
 
 const PostContact = ({
   contact,
-  userName,
+  username,
   displayName,
   validationErrors,
-  updatePostFormAttributes
+  updatePostFormAttributes,
 }) => {
   useEffect(() => {
-    if (userName === '') {
-      updatePostFormAttributes({ userName: displayName })
+    if (username === '') {
+      updatePostFormAttributes({ username: displayName })
     }
     // eslint-disable-next-line
   }, [])
@@ -46,7 +46,7 @@ const PostContact = ({
     /\d/,
     '-',
     /\d/,
-    /\d/
+    /\d/,
   ]
 
   return (
@@ -54,15 +54,15 @@ const PostContact = ({
       <h3 className="step-title my-1">{t('createPost.contact.title')}</h3>
       {/* User name */}
       <Input
-        fieldName={t('createPost.contact.userName')}
+        fieldName={t('createPost.contact.username')}
         mask={false}
         options={{
           type: 'text',
-          name: 'userName',
-          value: userName
+          name: 'username',
+          value: username,
         }}
-        onChange={e => updatePostFormAttributes({ userName: e.target.value })}
-        error={validationErrors.userName}
+        onChange={(e) => updatePostFormAttributes({ username: e.target.value })}
+        error={validationErrors.username}
       />
       {/* Contact */}
       <Input
@@ -73,9 +73,9 @@ const PostContact = ({
           name: 'contact',
           value: contact,
           placeholder: '+994 77 777-77-77',
-          style: { width: '200px' }
+          style: { width: '200px' },
         }}
-        onChange={e => updatePostFormAttributes({ contact: e.target.value })}
+        onChange={(e) => updatePostFormAttributes({ contact: e.target.value })}
         error={validationErrors.contact}
       />
     </FadeInDiv>
@@ -84,17 +84,17 @@ const PostContact = ({
 
 PostContact.propTypes = {
   contact: PropTypes.string.isRequired,
-  userName: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
   updatePostFormAttributes: PropTypes.func.isRequired,
   validationErrors: PropTypes.object.isRequired,
-  displayName: PropTypes.string.isRequired
+  displayName: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   contact: state.post.postForm.contact,
-  userName: state.post.postForm.userName,
+  username: state.post.postForm.username,
   validationErrors: state.post.validationErrors,
-  displayName: state.auth.user.displayName
+  displayName: state.auth.user.displayName,
 })
 
 export default connect(mapStateToProps, { updatePostFormAttributes })(
