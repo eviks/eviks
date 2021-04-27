@@ -3,7 +3,6 @@ const express = require('express')
 const router = express.Router()
 const { check, validationResult } = require('express-validator')
 const passport = require('passport')
-const mongoose = require('mongoose')
 const uuid = require('uuid')
 const axios = require('axios')
 const config = require('config')
@@ -12,6 +11,7 @@ const rimraf = require('rimraf')
 const postSearch = require('../../middleware/postSearch')
 
 const Post = require('../../models/Post')
+const Counter = require('../../models/Counter')
 
 // @route GET api/posts
 // @desc  Get all posts
@@ -47,11 +47,6 @@ router.get('/', [postSearch], async (req, res) => {
 router.get('/post/:id', async (req, res) => {
   const postId = req.params.id
 
-  // Id validation
-  if (!mongoose.Types.ObjectId.isValid(postId)) {
-    return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
-  }
-
   try {
     const post = await Post.findById(postId)
 
@@ -76,7 +71,11 @@ router.post(
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select('-password')
-      const post = new Post({ ...req.body, user })
+      const post = new Post({
+        user,
+        ...req.body,
+      })
+      post._id = await getNextSequence('postid')
       await post.save()
 
       // Move post images from temp to main folder
@@ -108,11 +107,6 @@ router.put(
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
     const postId = req.params.id
-
-    // Id validation
-    if (!mongoose.Types.ObjectId.isValid(postId)) {
-      return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
-    }
 
     try {
       const post = await Post.findById(postId)
@@ -179,11 +173,6 @@ router.delete(
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
     const postId = req.params.id
-
-    // Id validation
-    if (!mongoose.Types.ObjectId.isValid(postId)) {
-      return res.status(404).json({ errors: [{ msg: 'Post not found' }] })
-    }
 
     try {
       const post = await Post.findById(postId)
@@ -387,6 +376,21 @@ const checkFileExists = async (file) => {
     .access(file, fs.constants.F_OK)
     .then(() => true)
     .catch(() => false)
+}
+
+const getNextSequence = (name) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const counter = await Counter.findByIdAndUpdate(
+        name,
+        { $inc: { seq: 1 } },
+        { new: true, upsert: true }
+      )
+      resolve(counter.seq)
+    } catch (error) {
+      reject(error)
+    }
+  })
 }
 
 module.exports = router

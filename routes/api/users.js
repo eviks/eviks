@@ -1,6 +1,5 @@
 const fs = require('fs')
 const express = require('express')
-const mongoose = require('mongoose')
 const router = express.Router()
 const { check, oneOf, validationResult } = require('express-validator')
 const passport = require('passport')

@@ -1,5 +1,8 @@
 import { useEffect } from 'react'
-import { getAddressByCoords } from '../../../../actions/post'
+import {
+  getAddressByCoords,
+  updatePostFormAttributes,
+} from '../../../../actions/post'
 import { Vector as VectorLayer } from 'ol/layer'
 import { connect } from 'react-redux'
 import { fromEPSG4326, toEPSG4326 } from 'ol/proj/epsg3857'
@@ -20,6 +23,7 @@ const VectorLayerComponent = ({
   map,
   postForm: { location },
   getAddressByCoords,
+  updatePostFormAttributes,
 }) => {
   useEffect(() => {
     if (location[0] === 0 || location[1] === 0) {
@@ -39,9 +43,15 @@ const VectorLayerComponent = ({
     getAddressByCoords(toEPSG4326(event.coordinate))
   }
 
+  const onMapMove = () => {
+    const centerPosition = map.getView().targetCenter_
+    updatePostFormAttributes({ searchArea: toEPSG4326(centerPosition) })
+  }
+
   const isMounted = useIsMount()
   if (isMounted) {
     map.on('singleclick', (event) => onMapClick(event))
+    map.on('moveend', () => onMapMove())
     map.addLayer(layer)
   }
 
@@ -52,12 +62,14 @@ VectorLayerComponent.propTypes = {
   map: PropTypes.object.isRequired,
   postForm: PropTypes.object.isRequired,
   getAddressByCoords: PropTypes.func.isRequired,
+  updatePostFormAttributes: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   postForm: state.post.postForm,
 })
 
-export default connect(mapStateToProps, { getAddressByCoords })(
-  VectorLayerComponent
-)
+export default connect(mapStateToProps, {
+  getAddressByCoords,
+  updatePostFormAttributes,
+})(VectorLayerComponent)

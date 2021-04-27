@@ -8,6 +8,7 @@ import PrivateRoute from './components/routing/privateRoute.component'
 import ScrollToTop from './components/layout/scrollToTop/scrollToTop.component'
 import Navbar from './components/layout/navbar/navbar.component'
 import LocalitiesQuestion from './components/layout/localities/localitiesQuestion.component'
+import Spinner from './components/layout/spinner/spinner.component'
 import Modal from 'react-modal'
 import ReduxToastr from 'react-redux-toastr'
 
@@ -38,7 +39,9 @@ const App = ({ uiTranslationsLoaded, loadUser, setCurrentLocality }) => {
     <Fragment>
       <Router>
         <Localizer>
-          {uiTranslationsLoaded && (
+          {!uiTranslationsLoaded ? (
+            <Spinner className="centered-spinner" />
+          ) : (
             <Fragment>
               <ScrollToTop />
               <Navbar navRef={navRef} />

@@ -33,6 +33,13 @@
   overflow: hidden;
   padding: 0 2rem;
 
+  &-lg {
+    max-width: 1440px;
+    margin: 1rem auto;
+    overflow: hidden;
+    padding: 0 2rem;
+  }
+
   &-center {
     display: flex;
     justify-content: flex-start;
@@ -337,10 +344,6 @@ input[type='radio'].toggle {
 
   &-2x {
     font-size: 1.5rem;
-  }
-
-  &-3x {
-    font-size: 2rem;
   }
 
   &-bold {

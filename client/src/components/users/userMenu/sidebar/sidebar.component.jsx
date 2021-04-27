@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import './sidebar.style.scss'
 
 const Sidebar = ({ user, isAuthenticated }) => {
-  const userId = user && isAuthenticated ? user._id : null
+  const username = user && isAuthenticated ? user.username : ''
 
   const [t] = useTranslation()
 
@@ -17,7 +17,7 @@ const Sidebar = ({ user, isAuthenticated }) => {
         <div className="py-2 px-2">
           <ul>
             <li className="mb-05">
-              <LocalizedLink to={`/users/${userId}`} className="py-1 px-1">
+              <LocalizedLink to={`/users/${username}`} className="py-1 px-1">
                 <i className="fas fa-user-circle mr-1"></i>
                 {t('userMenu.titles.profile')}
               </LocalizedLink>

@@ -205,16 +205,7 @@ export const updateAddressSuggestions = (text, setDropdownList) => async (
   getState
 ) => {
   const state = getState()
-
-  let searchArea
-  if (
-    state.post.postForm.location[0] === 0 &&
-    state.post.postForm.location[1] === 0
-  ) {
-    searchArea = state.post.postForm.searchArea
-  } else {
-    searchArea = state.post.postForm.location
-  }
+  const searchArea = state.post.postForm.searchArea
 
   if (text.length < 3) {
     setDropdownList([])

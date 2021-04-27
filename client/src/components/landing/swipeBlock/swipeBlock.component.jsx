@@ -47,7 +47,7 @@ const SwipeBlock = () => {
   return (
     <div>
       <div className="swipe-block-header">
-        <h4 className="lead-2x px-05">{t('landing.newListings')}</h4>
+        <h4 className="lead px-05">{t('landing.newListings')}</h4>
         <div className="arrows-block">
           <ArrowButton
             type={'left'}

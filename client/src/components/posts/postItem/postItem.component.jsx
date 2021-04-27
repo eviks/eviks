@@ -83,9 +83,9 @@ const PostItem = ({
         </div>
       </div>
       <div className="card-info" onClick={redirectToPost}>
-        <div className="lead-2x lead-bold">{`${priceStr} ₼`}</div>
+        <div className="lead lead-bold">{`${priceStr} ₼`}</div>
         <div className="mb-05">
-          <div className="lead-2x">
+          <div className="lead">
             {subdistrict ? subdistrict.name : district.name}
           </div>
           <div className="text-secondary">

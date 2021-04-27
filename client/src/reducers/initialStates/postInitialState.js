@@ -42,7 +42,7 @@ const initialState = {
     district: '',
     subdistrict: '',
     address: '',
-    searchArea: [49.867092, 40.409264],
+    searchArea: [0, 0],
     location: [0, 0],
     estateType: '',
     apartmentType: '',

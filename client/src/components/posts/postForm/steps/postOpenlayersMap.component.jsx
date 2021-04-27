@@ -2,7 +2,7 @@ import React, { Fragment, useState, useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
 import {
   updatePostFormAttributes,
-  updateAddressSuggestions
+  updateAddressSuggestions,
 } from '../../../../actions/post'
 import LocalitySelect from './localitySelect.component'
 import Input from '../../../layout/form/input/input.component'
@@ -26,10 +26,11 @@ const FadeInDiv = styled.div`
 
 const OpenlayersMap = ({
   postForm: { searchArea, address, location },
+  currentLocality,
   async: { loading, loadingElements },
   updatePostFormAttributes,
   updateAddressSuggestions,
-  validationErrors
+  validationErrors,
 }) => {
   const mapRef = useRef(null)
   const [map, setMap] = useState(null)
@@ -37,7 +38,7 @@ const OpenlayersMap = ({
 
   const getLocalityLocation = () => {
     if (searchArea[0] !== 0 && searchArea[1] !== 0) return searchArea
-    return [49.867092, 40.409264]
+    return currentLocality.city.location
   }
 
   const localityLocation = getLocalityLocation()
@@ -66,13 +67,13 @@ const OpenlayersMap = ({
       map.getView().animate({
         center: fromEPSG4326(location),
         zoom: 18,
-        duration: 1000
+        duration: 1000,
       })
     } else {
       map.getView().animate({
         center: fromEPSG4326(localityLocation),
         zoom: 13,
-        duration: 1000
+        duration: 1000,
       })
     }
     // eslint-disable-next-line
@@ -81,7 +82,7 @@ const OpenlayersMap = ({
   // Timer for typing delay
   let timerRef = useRef(null)
 
-  const handleAddressChange = event => {
+  const handleAddressChange = (event) => {
     event.persist()
 
     updatePostFormAttributes({ [event.target.name]: event.target.value })
@@ -110,7 +111,7 @@ const OpenlayersMap = ({
             name: 'address',
             value: address,
             placeholder: t('form.addressPlaceholder'),
-            style: { width: '100%' }
+            style: { width: '100%' },
           }}
           onChange={handleAddressChange}
           loading={loading}
@@ -137,18 +138,20 @@ const OpenlayersMap = ({
 
 OpenlayersMap.propTypes = {
   postForm: PropTypes.object.isRequired,
+  currentLocality: PropTypes.object.isRequired,
   async: PropTypes.object.isRequired,
   validationErrors: PropTypes.object.isRequired,
-  updatePostFormAttributes: PropTypes.func.isRequired
+  updatePostFormAttributes: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   postForm: state.post.postForm,
+  currentLocality: state.locality.currentLocality,
   async: state.async,
-  validationErrors: state.post.validationErrors
+  validationErrors: state.post.validationErrors,
 })
 
 export default connect(mapStateToProps, {
   updatePostFormAttributes,
-  updateAddressSuggestions
+  updateAddressSuggestions,
 })(OpenlayersMap)
