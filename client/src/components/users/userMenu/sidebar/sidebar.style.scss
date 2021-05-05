@@ -1,7 +1,7 @@
 @import '../../../../sass/config';
 
 .user-menu-sidebar {
-  width: 300px;
+  width: $sidebar-width;
   height: 100%;
   background: transparent;
   z-index: 100;

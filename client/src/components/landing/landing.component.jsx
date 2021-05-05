@@ -90,7 +90,7 @@ const Landing = ({ city }) => {
   return (
     <Fragment>
       <Hero />
-      <div className="container-lg">
+      <div className="container">
         <div className="category-card-wrapper my-2">
           <CategoryCard
             links={saleAppartmentLinks}

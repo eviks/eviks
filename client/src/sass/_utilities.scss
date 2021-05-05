@@ -28,16 +28,14 @@
 
 // Container
 .container {
-  max-width: 1140px;
-  margin: 1rem auto;
+  max-width: $max-width;
+  margin: 2rem auto;
   overflow: hidden;
   padding: 0 2rem;
+  min-height: 100vh;
 
-  &-lg {
-    max-width: 1440px;
-    margin: 1rem auto;
-    overflow: hidden;
-    padding: 0 2rem;
+  &-sm {
+    max-width: 1140px;
   }
 
   &-center {
@@ -74,7 +72,7 @@
   align-items: center;
   cursor: pointer;
   padding: 0.7rem 1.3rem;
-  border-radius: 50px;
+  border-radius: 8px;
   font-size: 1rem;
   outline: none;
   transition: all 0.5s;
@@ -343,7 +341,7 @@ input[type='radio'].toggle {
   font-size: 1.5rem;
 
   &-2x {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   &-bold {
@@ -412,6 +410,11 @@ input[type='radio'].toggle {
     padding-bottom: 0.5rem;
   }
 
+  &-2 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
   &-1 {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -433,11 +436,6 @@ input[type='radio'].toggle {
     margin-right: 2rem;
     margin-left: 2rem;
   }
-
-  &-12 {
-    margin-left: 12rem;
-    margin-right: 12rem;
-  }
 }
 
 .my {
@@ -455,6 +453,9 @@ input[type='radio'].toggle {
 .mt {
   &-1 {
     margin-top: 1rem;
+  }
+  &-4 {
+    margin-top: 4rem;
   }
 }
 

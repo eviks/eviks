@@ -12,32 +12,30 @@ const Sidebar = ({ user, isAuthenticated }) => {
   const [t] = useTranslation()
 
   return (
-    <div>
-      <aside className="user-menu-sidebar">
-        <div className="py-2 px-2">
-          <ul>
-            <li className="mb-05">
-              <LocalizedLink to={`/users/${username}`} className="py-1 px-1">
-                <i className="fas fa-user-circle mr-1"></i>
-                {t('userMenu.titles.profile')}
-              </LocalizedLink>
-            </li>
-            <li className="mb-05">
-              <LocalizedLink to={`/favorites`} className="py-1 px-1">
-                <i className="fas fa-heart mr-1"></i>
-                {t('userMenu.titles.favorites')}
-              </LocalizedLink>
-            </li>
-            <li className="mb-05">
-              <LocalizedLink to={`/settings`} className="py-1 px-1">
-                <i className="fas fa-cog mr-1"></i>
-                {t('userMenu.titles.settings')}
-              </LocalizedLink>
-            </li>
-          </ul>
-        </div>
-      </aside>
-    </div>
+    <aside className="user-menu-sidebar">
+      <div className="py-2 px-2">
+        <ul>
+          <li className="mb-05">
+            <LocalizedLink to={`/users/${username}`} className="py-1 px-1">
+              <i className="fas fa-user-circle mr-1"></i>
+              {t('userMenu.titles.profile')}
+            </LocalizedLink>
+          </li>
+          <li className="mb-05">
+            <LocalizedLink to={`/favorites`} className="py-1 px-1">
+              <i className="fas fa-heart mr-1"></i>
+              {t('userMenu.titles.favorites')}
+            </LocalizedLink>
+          </li>
+          <li className="mb-05">
+            <LocalizedLink to={`/settings`} className="py-1 px-1">
+              <i className="fas fa-cog mr-1"></i>
+              {t('userMenu.titles.settings')}
+            </LocalizedLink>
+          </li>
+        </ul>
+      </div>
+    </aside>
   )
 }
 

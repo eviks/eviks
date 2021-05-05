@@ -1,4 +1,13 @@
-.user-menu-container {
-  display: flex;
-  flex-direction: row;
+@import '../../../sass/config';
+
+.user-menu {
+  &-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+  }
+
+  &-content {
+    width: calc(100vw - #{$sidebar-width});
+  }
 }

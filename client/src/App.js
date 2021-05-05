@@ -7,6 +7,7 @@ import Localizer from './components/localization/Localizer.component'
 import PrivateRoute from './components/routing/privateRoute.component'
 import ScrollToTop from './components/layout/scrollToTop/scrollToTop.component'
 import Navbar from './components/layout/navbar/navbar.component'
+import Footer from './components/layout/footer/footer.component'
 import LocalitiesQuestion from './components/layout/localities/localitiesQuestion.component'
 import Spinner from './components/layout/spinner/spinner.component'
 import Modal from 'react-modal'
@@ -69,6 +70,7 @@ const App = ({ uiTranslationsLoaded, loadUser, setCurrentLocality }) => {
                   )
                 )}
               </Switch>
+              <Footer />
             </Fragment>
           )}
         </Localizer>

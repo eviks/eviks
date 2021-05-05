@@ -37,7 +37,7 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
   return loading || initialLoading || post == null ? (
     <SkeletonPost />
   ) : (
-    <div className="container">
+    <div className="container container-sm">
       <PostHead post={post} />
       <ImageGallery
         items={getPostImages()}

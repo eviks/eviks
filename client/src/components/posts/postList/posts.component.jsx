@@ -113,10 +113,10 @@ const Posts = ({
   const [t] = useTranslation()
 
   return (
-    <div>
+    <Fragment>
       {width > 768 ? <Searchbar navRef={navRef} /> : <SearchbarSmall />}
       {!loading && !initialLoading && result.length === 0 ? (
-        <div className="container-center">
+        <div className="container container-center">
           <div className="no-results-img" />
           <span className="lead text-secondary">
             {t('postList.noResults')} <i className="fas fa-search"></i>
@@ -138,7 +138,7 @@ const Posts = ({
           />
         </Fragment>
       )}
-    </div>
+    </Fragment>
   )
 }
 

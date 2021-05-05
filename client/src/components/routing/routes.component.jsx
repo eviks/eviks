@@ -10,6 +10,7 @@ import UserMenu from '../users/userMenu/userMenu.component'
 import Posts from '../posts/postList/posts.component'
 import Post from '../posts/post/post.component'
 import PostForm from '../posts/postForm/postForm.component'
+import NotFound from '../layout/notFound/notFound.Component'
 
 import { defaultLocale } from '../../config/i18n'
 import { localizeRoutes } from '../../services/i18n/util'
@@ -76,6 +77,9 @@ const routes = [
     path: '/:city/:dealType',
     useNavRef: true,
     component: Posts,
+  },
+  {
+    component: NotFound,
   },
 ]
 

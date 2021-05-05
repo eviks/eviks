@@ -3,7 +3,7 @@ import SkeletonLine from '../skeletonLine.component'
 
 const SkeletonPost = () => {
   return (
-    <div className="container">
+    <div className="container container-sm">
       <div className="my-1 px-2">
         <SkeletonLine />
       </div>

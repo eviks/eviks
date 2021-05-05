@@ -14,7 +14,7 @@ const UserMenu = ({ locale }) => {
   return (
     <div className="user-menu-container">
       <Sidebar />
-      <div className="py-2 px-2">
+      <div className="user-menu-content py-2 px-2">
         <Switch>
           <Route
             exact

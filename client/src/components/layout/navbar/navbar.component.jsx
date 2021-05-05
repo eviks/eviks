@@ -109,34 +109,36 @@ const Navbar = ({
 
   return (
     <Fragment>
-      <nav className="navbar light-shadow-border" id="navbar" ref={navRef}>
-        <MenuButton onClick={handleMenuToggle} />
-        <div className="right-block">
-          <h1>
-            <LocalizedLink to={'/'}>
-              {' '}
-              <span className="text-primary">
-                {' '}
-                <i className="fas fa-home"></i> Eviks{' '}
-              </span>
-            </LocalizedLink>
-          </h1>
+      <nav className="navbar light-shadow-border px-05 py-2" ref={navRef}>
+        <div className="navbar-left-block">
+          <MenuButton onClick={handleMenuToggle} />
           <LocalitySelect />
         </div>
-        <ul className={showMenu ? 'checked' : ''} ref={ulRef}>
-          {!loading && (
-            <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-          )}
-          <div className="lang">
-            {locales.map((element, index) => (
-              <li key={index}>
-                <Link to={`/${element.code}`}>
-                  {element.code.toUpperCase()}
-                </Link>
-              </li>
-            ))}
-          </div>
-        </ul>
+        <div className="logo">
+          <LocalizedLink to={'/'}>
+            {' '}
+            <span className="lead-2x lead-bold text-primary">
+              {' '}
+              <i className="fas fa-home"></i> Eviks{' '}
+            </span>
+          </LocalizedLink>
+        </div>
+        <div className="navbar-right-block">
+          <ul className={showMenu ? 'checked' : ''} ref={ulRef}>
+            {!loading && (
+              <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+            )}
+            <ul className="lang">
+              {locales.map((element, index) => (
+                <li key={index}>
+                  <Link to={`/${element.code}`}>
+                    {element.code.toUpperCase()}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </ul>
+        </div>
       </nav>
       <ReactModal
         isOpen={showAuthModal}
