@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import './checkboxCard.style.scss'
 
-const CheckboxCard = ({ label, options, onChange, iconClass }) => {
+const CheckboxCard = ({ label, options, onChange, icon: Icon }) => {
   return (
     <label
       htmlFor={options.id}
@@ -12,7 +12,9 @@ const CheckboxCard = ({ label, options, onChange, iconClass }) => {
         options.checked ? 'checked' : ''
       }`}
     >
-      <i className={iconClass}></i>
+      <div className="mx-05">
+        <Icon />
+      </div>
       <input {...options} type="checkbox" onChange={onChange} />
       {label}
       <Ripple />
@@ -24,7 +26,7 @@ CheckboxCard.propTypes = {
   label: PropTypes.string,
   options: PropTypes.object,
   onChange: PropTypes.func,
-  iconClass: PropTypes.string
+  icon: PropTypes.elementType,
 }
 
 export default CheckboxCard

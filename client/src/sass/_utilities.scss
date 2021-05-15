@@ -182,12 +182,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: $grey-color;
+  color: darken($grey-color, 20);
   cursor: pointer;
   transition: 0.4s;
 
   &:hover {
-    color: darken($grey-color, 20);
+    color: $grey-color;
   }
 }
 
@@ -201,12 +201,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: $grey-color;
+  color: darken($grey-color, 20);
   cursor: pointer;
   transition: 0.4s;
 
   &:hover {
-    color: darken($grey-color, 20);
+    color: $grey-color;
   }
 }
 
@@ -427,6 +427,11 @@ input[type='radio'].toggle {
 }
 
 .mx {
+  &-05 {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
   &-1 {
     margin-right: 1rem;
     margin-left: 1rem;
@@ -472,6 +477,9 @@ input[type='radio'].toggle {
 }
 
 .mr {
+  &-05 {
+    margin-right: 0.5rem;
+  }
   &-1 {
     margin-right: 1rem;
   }
@@ -574,6 +582,7 @@ input[type='radio'].toggle {
   &:hover {
     .tooltip-text {
       visibility: visible;
+      line-height: normal;
     }
   }
 }
@@ -619,6 +628,10 @@ input[type='radio'].toggle {
   &:hover {
     color: $dark-color;
   }
+}
+
+.svg-icon {
+  vertical-align: sub;
 }
 
 // TOASTR

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { updateURLParams } from '../../../../../actions/post'
 import LocalitiesFilter from './localitiesFilter/localitiesFilter.component'
 import Ripple from '../../../../layout/ripple/ripple.component'
+import { SvgClose } from '../../../../layout/icons'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
@@ -13,7 +14,7 @@ const LocationsFilter = ({
   cityName,
   locationIds,
   updateURLParams,
-  closeFilter
+  closeFilter,
 }) => {
   const [selectedLocalities, setSelectedLocalities] = useState(
     locationIds.split(',')
@@ -33,7 +34,7 @@ const LocationsFilter = ({
           <span className="text-bold">{cityName}</span>
         </div>
         <button className="close-modal" onClick={closeFilter}>
-          <i className="fas fa-times"></i>
+          <SvgClose />
         </button>
       </div>
       <LocalitiesFilter
@@ -50,16 +51,16 @@ const LocationsFilter = ({
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   cityName: state.locality.currentLocality.city.name,
-  locationIds: state.post.posts.filters.locationIds
+  locationIds: state.post.posts.filters.locationIds,
 })
 
 LocationsFilter.propTypes = {
   cityName: PropTypes.string.isRequired,
   locationIds: PropTypes.string.isRequired,
   updateURLParams: PropTypes.func.isRequired,
-  closeFilter: PropTypes.func.isRequired
+  closeFilter: PropTypes.func.isRequired,
 }
 
 export default connect(mapStateToProps, { updateURLParams })(LocationsFilter)

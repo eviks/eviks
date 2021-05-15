@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import Ripple from '../../../../layout/ripple/ripple.component'
+import { SvgClose } from '../../../../layout/icons'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
 import { useTranslation } from 'react-i18next'
@@ -33,7 +34,7 @@ const DeleteMessage = ({ onOk, onCancel }) => {
     <FadeInDiv ref={containerRef}>
       <div className="delete-post-wrapper">
         <button className="close-modal" onClick={onCancel}>
-          <i className="fas fa-times"></i>
+          <SvgClose />
         </button>
         <div className="delete-post-img" />
         <div className="delete-post-msg">

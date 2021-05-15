@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Spinner from '../../../layout/spinner/spinner.component'
+import { SvgGarbage } from '../../../layout/icons'
 import { connect } from 'react-redux'
 import { uploadImage, deleteImage } from '../../../../actions/post'
 import PropTypes from 'prop-types'
@@ -45,7 +46,7 @@ const UploadedImage = ({
           </div>
         )}
         <div className="icon-background" onClick={() => handleDeleteImage()}>
-          <i className="fas fa-trash"></i>
+          <SvgGarbage />
         </div>
       </div>
     </div>
@@ -56,7 +57,7 @@ UploadedImage.propTypes = {
   async: PropTypes.object.isRequired,
   image: PropTypes.object.isRequired,
   uploadedImages: PropTypes.array.isRequired,
-  postId: PropTypes.string,
+  postId: PropTypes.number,
   uploadImage: PropTypes.func.isRequired,
   deleteImage: PropTypes.func.isRequired,
   deleteImageFromState: PropTypes.func.isRequired,

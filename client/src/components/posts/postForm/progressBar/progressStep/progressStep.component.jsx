@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 
 import './progressStep.style.scss'
 
-const ProgressStep = ({ iconClass, stepClass }) => {
+const ProgressStep = ({ icon: Icon, stepClass }) => {
   return (
     <div className={`progress-step ${stepClass}`}>
       <div className="circle">
         <div className="progress-icon">
-          <i className={iconClass}></i>
+          <Icon />
         </div>
       </div>
     </div>
@@ -16,8 +16,8 @@ const ProgressStep = ({ iconClass, stepClass }) => {
 }
 
 ProgressStep.propTypes = {
-  iconClass: PropTypes.string.isRequired,
-  stepClass: PropTypes.string.isRequired
+  icon: PropTypes.elementType.isRequired,
+  stepClass: PropTypes.string.isRequired,
 }
 
 export default ProgressStep

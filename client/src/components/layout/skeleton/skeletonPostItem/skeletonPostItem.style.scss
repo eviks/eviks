@@ -1,7 +1,14 @@
+@import '../../../../sass/config';
+
 .skeleton {
   &-content {
     width: 100%;
     padding: 0 1rem;
+  }
+
+  &-icon {
+    color: $light-color;
+    position: absolute;
   }
 
   &-images {
@@ -25,10 +32,5 @@
     align-items: center;
     height: 100%;
     width: 100%;
-
-    > i {
-      position: absolute;
-      color: #fff;
-    }
   }
 }

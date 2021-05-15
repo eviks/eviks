@@ -1,4 +1,5 @@
 import React from 'react'
+import { SvgArrowLeft, SvgArrowRight } from '../icons'
 import PropTypes from 'prop-types'
 
 const PaginationItem = ({
@@ -6,15 +7,15 @@ const PaginationItem = ({
   next = false,
   prev = false,
   onClick,
-  className
+  className,
 }) => {
   const getItemText = () => {
     if (next) {
-      return <i className="fas fa-angle-right"></i>
+      return <SvgArrowRight />
     }
 
     if (prev) {
-      return <i className="fas fa-angle-left"></i>
+      return <SvgArrowLeft />
     }
 
     return page
@@ -37,7 +38,7 @@ PaginationItem.propTypes = {
   next: PropTypes.bool,
   prev: PropTypes.bool,
   onClick: PropTypes.func,
-  className: PropTypes.string.isRequired
+  className: PropTypes.string.isRequired,
 }
 
 export default PaginationItem

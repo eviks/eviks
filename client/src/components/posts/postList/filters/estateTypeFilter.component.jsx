@@ -3,6 +3,13 @@ import { useHistory } from 'react-router-dom'
 import { updateURLParams } from '../../../../actions/post'
 import { connect } from 'react-redux'
 import Radio from '../../../layout/form/radio/radio.component'
+import {
+  SvgApartment,
+  SvgNewBuilding,
+  SvgSecondaryBuilding,
+  SvgHouse,
+  SvgInfinity,
+} from '../../../layout/icons'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
@@ -13,7 +20,7 @@ const EstateTypeFilter = ({ filters, updateURLParams }) => {
 
   const { estateType, apartmentType } = filters
 
-  const filtersOnChange = e => {
+  const filtersOnChange = (e) => {
     const value = e.target.value
     if (value === 'newBuilding' || value === 'secondaryBuilding') {
       updateURLParams(
@@ -24,7 +31,7 @@ const EstateTypeFilter = ({ filters, updateURLParams }) => {
       updateURLParams(
         {
           estateType: value === 'any' ? null : value,
-          apartmentType: ''
+          apartmentType: '',
         },
         history
       )
@@ -39,51 +46,51 @@ const EstateTypeFilter = ({ filters, updateURLParams }) => {
         id: `any`,
         name: 'estateType',
         value: `any`,
-        checked: estateType === 'any' || estateType == null
+        checked: estateType === 'any' || estateType == null,
       },
       label: t('postList.estateTypes.any'),
-      icon: <i className="fas fa-infinity fa-2x"></i>
+      icon: <SvgInfinity width={'2em'} height={'2em'} />,
     },
     {
       input: {
         id: `apartment`,
         name: 'estateType',
         value: `apartment`,
-        checked: estateType === 'apartment' && !apartmentType
+        checked: estateType === 'apartment' && !apartmentType,
       },
       label: t('postList.estateTypes.apartment'),
-      icon: <i className="far fa-building fa-2x"></i>
+      icon: <SvgApartment width={'2em'} height={'2em'} />,
     },
     {
       input: {
         id: `newBuilding`,
         name: 'estateType',
         value: `newBuilding`,
-        checked: apartmentType === 'newBuilding'
+        checked: apartmentType === 'newBuilding',
       },
       label: t('postList.estateTypes.newBuilding'),
-      icon: <i className="far fa-building fa-2x"></i>
+      icon: <SvgNewBuilding width={'2em'} height={'2em'} />,
     },
     {
       input: {
         id: `secondaryBuilding`,
         name: 'estateType',
         value: `secondaryBuilding`,
-        checked: apartmentType === 'secondaryBuilding'
+        checked: apartmentType === 'secondaryBuilding',
       },
       label: t('postList.estateTypes.secondaryBuilding'),
-      icon: <i className="far fa-building fa-2x"></i>
+      icon: <SvgSecondaryBuilding width={'2em'} height={'2em'} />,
     },
     {
       input: {
         id: `house`,
         name: 'estateType',
         value: `house`,
-        checked: estateType === 'house'
+        checked: estateType === 'house',
       },
       label: t('postList.estateTypes.house'),
-      icon: <i className="fas fa-home fa-2x"></i>
-    }
+      icon: <SvgHouse width={'2em'} height={'2em'} />,
+    },
   ]
 
   return (
@@ -98,11 +105,11 @@ const EstateTypeFilter = ({ filters, updateURLParams }) => {
 
 EstateTypeFilter.propTypes = {
   filters: PropTypes.object.isRequired,
-  updateURLParams: PropTypes.func.isRequired
+  updateURLParams: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  filters: state.post.posts.filters
+const mapStateToProps = (state) => ({
+  filters: state.post.posts.filters,
 })
 
 export default connect(mapStateToProps, { updateURLParams })(EstateTypeFilter)

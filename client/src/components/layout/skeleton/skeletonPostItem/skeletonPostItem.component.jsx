@@ -1,4 +1,5 @@
 import React from 'react'
+import { SvgLogo } from '../../icons'
 import SkeletonLine from '../skeletonLine.component'
 
 import './skeletonPostItem.style.scss'
@@ -8,7 +9,7 @@ const PostItemSkeleton = () => {
     <div className="card">
       <div className="skeleton-images">
         <div className="skeleton-image px-1 py-1">
-          <i className="fas fa-home fa-5x"></i>
+          <SvgLogo width={'6em'} height={'6em'} className="skeleton-icon" />
           <SkeletonLine />
         </div>
       </div>

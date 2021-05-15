@@ -47,34 +47,25 @@
   width: 40px;
   height: 40px;
   display: flex;
-  padding: 1rem;
   align-items: center;
   justify-content: center;
   position: relative;
   transition: all 0.3s ease-in;
+  color: $grey-color;
 
   .current & {
     background-color: $primary-color;
     border-color: $primary-color;
-
-    i {
-      color: $light-color;
-      transition: all 0.3s ease-in;
-    }
+    color: $light-color;
   }
 
   .previous & {
     background-color: $primary-color;
     border-color: $primary-color;
-
-    i {
-      color: $light-color;
-    }
+    color: $light-color;
   }
 
   .next & {
-    i {
-      color: $grey-color;
-    }
+    color: $grey-color;
   }
 }

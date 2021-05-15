@@ -3,8 +3,8 @@ import Spinner from '../../layout/spinner/spinner.component'
 import { connect } from 'react-redux'
 import { verifyEmail } from '../../../actions/auth'
 import { useTranslation } from 'react-i18next'
-import SuccessImage from '../../../assets/img/illustrations/success.jpg'
-import QuestionImage from '../../../assets/img/illustrations/question.jpg'
+import SuccessImage from '../../../assets/img/illustrations/success.svg'
+import QuestionImage from '../../../assets/img/illustrations/question.svg'
 import PropTypes from 'prop-types'
 
 const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {

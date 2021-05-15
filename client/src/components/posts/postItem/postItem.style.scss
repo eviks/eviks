@@ -52,11 +52,11 @@
   &-feature {
     position: relative;
     display: flex;
+    border: 1px solid $primary-color;
     border-radius: 50%;
-    background: $primary-color;
-    color: $light-color;
-    height: 30px;
-    width: 30px;
+    color: $primary-color;
+    height: 35px;
+    width: 35px;
     justify-content: center;
     align-items: center;
     margin: 0 0.2rem;
@@ -66,7 +66,7 @@
     }
   }
 
-  .features {
+  &-features {
     position: absolute;
     display: flex;
     right: 50%;

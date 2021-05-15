@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
+import { SvgMapMarker } from '../icons'
 import Localities from '../localities/localities.component'
 import PropTypes from 'prop-types'
 
@@ -13,7 +14,7 @@ const LocalitySelect = ({ currentLocality }) => {
         className="locality-select text-secondary medium link"
         onClick={() => setOpenModal(true)}
       >
-        <i className="fas fa-map-marker-alt"></i> {currentLocality.city.name}
+        <SvgMapMarker /> {currentLocality.city.name}
       </button>
       <ReactModal
         isOpen={openModal}
@@ -31,11 +32,11 @@ const LocalitySelect = ({ currentLocality }) => {
 }
 
 LocalitySelect.propTypes = {
-  currentLocality: PropTypes.object.isRequired
+  currentLocality: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
-  currentLocality: state.locality.currentLocality
+const mapStateToProps = (state) => ({
+  currentLocality: state.locality.currentLocality,
 })
 
 export default connect(mapStateToProps)(LocalitySelect)

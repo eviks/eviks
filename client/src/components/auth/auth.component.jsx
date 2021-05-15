@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Register from './register/register.component'
 import Login from './login/login.component'
+import { SvgClose } from '../layout/icons'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
 import { useTranslation } from 'react-i18next'
@@ -74,7 +75,7 @@ const Auth = ({ handleCloseModal, showOverlay }) => {
       {showOverlay && <FadeInDiv className="overlay-container"></FadeInDiv>}
       {showOverlay && (
         <button className="close-modal" onClick={() => handleCloseModal()}>
-          <i className="fas fa-times"></i>
+          <SvgClose />
         </button>
       )}
     </FadeInDiv>

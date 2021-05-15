@@ -5,6 +5,7 @@ import PriceFilter from '../filters/priceFilter.component'
 import RoomFilter from '../filters/roomFilter.component'
 import EstateTypeFilter from '../filters/estateTypeFilter.component'
 import MoreFiltersForm from '../filters/moreFiltersForm.component'
+import { SvgClose } from '../../../layout/icons'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import useIsMount from '../../../../services/hooks/useIsMount'
 import PropTypes from 'prop-types'
@@ -37,7 +38,7 @@ const AllFilters = ({ filters, setSrearchFilters, toggleAllFilters }) => {
     <div className="all-filters-wrapper">
       <div className="all-filters" ref={allFiltersRef}>
         <button className="x-large close-btn" onClick={closeFilters}>
-          <i className="fas fa-times"></i>
+          <SvgClose />
         </button>
         <PriceFilter />
         <RoomFilter />

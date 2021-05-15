@@ -1,16 +1,10 @@
 @import '../../../../sass/config';
 
 .features {
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(2, 1fr);
-
-  &-special {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 1rem;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
 }
 
 .feature-item-icon {
@@ -22,7 +16,7 @@
   height: 16px;
 }
 
-.special {
+.feature-item {
   display: flex;
   align-items: center;
 }

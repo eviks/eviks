@@ -2,12 +2,7 @@ const mongoose = require('mongoose')
 
 const PostSchema = new mongoose.Schema(
   {
-    _id: {
-      type: Number,
-      require: true,
-      unique: true,
-      index: true,
-    },
+    _id: Number,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',

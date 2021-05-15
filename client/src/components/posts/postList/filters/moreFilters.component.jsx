@@ -1,5 +1,6 @@
 import React from 'react'
 import MoreFiltersForm from './moreFiltersForm.component'
+import { SvgClose } from '../../../layout/icons'
 import styled, { keyframes } from 'styled-components'
 import { fadeInDown } from 'react-animations'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +27,7 @@ const MoreFilters = ({ filterOnClick }) => {
               </span>
             </div>
             <button className="close-modal" onClick={() => filterOnClick()}>
-              <i className="fas fa-times"></i>
+              <SvgClose />
             </button>
           </div>
           <MoreFiltersForm />
@@ -47,7 +48,7 @@ const MoreFilters = ({ filterOnClick }) => {
 }
 
 MoreFilters.propTypes = {
-  filterOnClick: PropTypes.func.isRequired
+  filterOnClick: PropTypes.func.isRequired,
 }
 
 export default MoreFilters

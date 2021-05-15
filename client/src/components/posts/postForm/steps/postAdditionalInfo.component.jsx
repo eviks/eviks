@@ -3,6 +3,27 @@ import { connect } from 'react-redux'
 import { updatePostFormAttributes } from '../../../../actions/post'
 import TextArea from '../../../layout/form/textarea/textarea.component'
 import CheckboxCard from '../../../layout/form/checkboxCard/checkboxCard.component'
+import {
+  SvgAirConditioner,
+  SvgBalcony,
+  SvgDishwasher,
+  SvgElectricity,
+  SvgFridge,
+  SvgGarage,
+  SvgGas,
+  SvgHotTube,
+  SvgOven,
+  SvgPaw,
+  SvgPool,
+  SvgRadiator,
+  SvgShower,
+  SvgSofa,
+  SvgStroller,
+  SvgTelephone,
+  SvgTv,
+  SvgWashingMachine,
+  SvgWifi,
+} from '../../../layout/icons'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
 import { useTranslation } from 'react-i18next'
@@ -19,7 +40,7 @@ const FadeInDiv = styled.div`
 const PostAdditionalInfo = ({
   postForm,
   validationErrors,
-  updatePostFormAttributes
+  updatePostFormAttributes,
 }) => {
   const {
     estateType,
@@ -44,10 +65,10 @@ const PostAdditionalInfo = ({
     pool,
     bathhouse,
     kidsAllowed,
-    petsAllowed
+    petsAllowed,
   } = postForm
 
-  const onChange = event => {
+  const onChange = (event) => {
     let { name, type, value } = event.target
     const fieldValue = type === 'checkbox' ? event.target.checked : value
 
@@ -55,7 +76,7 @@ const PostAdditionalInfo = ({
       [name]:
         type === 'number'
           ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
-          : fieldValue
+          : fieldValue,
     }
 
     updatePostFormAttributes(newAttributes)
@@ -80,7 +101,7 @@ const PostAdditionalInfo = ({
             name: 'description',
             placeholder: t('createPost.additionalInfo.hint'),
             maxLength: 1000,
-            value: description
+            value: description,
           }}
           onChange={onChange}
           wrapperStyle={{ marginBottom: '0' }}
@@ -97,10 +118,10 @@ const PostAdditionalInfo = ({
               options={{
                 name: 'kidsAllowed',
                 id: 'kidsAllowed',
-                checked: kidsAllowed
+                checked: kidsAllowed,
               }}
               onChange={onChange}
-              iconClass={'fas fa-baby-carriage'}
+              icon={SvgStroller}
             />
             {/* Pets allowed */}
             <CheckboxCard
@@ -108,10 +129,10 @@ const PostAdditionalInfo = ({
               options={{
                 name: 'petsAllowed',
                 id: 'petsAllowed',
-                checked: petsAllowed
+                checked: petsAllowed,
               }}
               onChange={onChange}
-              iconClass={'fas fa-paw'}
+              icon={SvgPaw}
             />
           </Fragment>
         )}
@@ -123,10 +144,10 @@ const PostAdditionalInfo = ({
               options={{
                 name: 'garage',
                 id: 'garage',
-                checked: garage
+                checked: garage,
               }}
               onChange={onChange}
-              iconClass={'fas fa-car'}
+              icon={SvgGarage}
             />
             {/* Pool */}
             <CheckboxCard
@@ -134,10 +155,10 @@ const PostAdditionalInfo = ({
               options={{
                 name: 'pool',
                 id: 'pool',
-                checked: pool
+                checked: pool,
               }}
               onChange={onChange}
-              iconClass={'fas fa-swimming-pool'}
+              icon={SvgPool}
             />
             {/* Bathhouse */}
             <CheckboxCard
@@ -145,10 +166,10 @@ const PostAdditionalInfo = ({
               options={{
                 name: 'bathhouse',
                 id: 'bathhouse',
-                checked: bathhouse
+                checked: bathhouse,
               }}
               onChange={onChange}
-              iconClass={'fas fa-hot-tub'}
+              icon={SvgHotTube}
             />
           </Fragment>
         )}
@@ -157,14 +178,14 @@ const PostAdditionalInfo = ({
           label={t('createPost.additionalInfo.balcony')}
           options={{ name: 'balcony', id: 'balcony', checked: balcony }}
           onChange={onChange}
-          iconClass={'fas fa-building'}
+          icon={SvgBalcony}
         />
         {/* Furniture */}
         <CheckboxCard
           label={t('createPost.additionalInfo.furniture')}
           options={{ name: 'furniture', id: 'furniture', checked: furniture }}
           onChange={onChange}
-          iconClass={'fas fa-couch'}
+          icon={SvgSofa}
         />
         {/* Kitchen furniture */}
         <CheckboxCard
@@ -172,31 +193,31 @@ const PostAdditionalInfo = ({
           options={{
             name: 'kitchenFurniture',
             id: 'kitchenFurniture',
-            checked: kitchenFurniture
+            checked: kitchenFurniture,
           }}
           onChange={onChange}
-          iconClass={'fas fa-utensils'}
+          icon={SvgOven}
         />
         {/* CCTV */}
         <CheckboxCard
           label={t('createPost.additionalInfo.cctv')}
           options={{ name: 'cctv', id: 'cctv', checked: cctv }}
           onChange={onChange}
-          iconClass={'fas fa-tv'}
+          icon={SvgTv}
         />
         {/* Phone */}
         <CheckboxCard
           label={t('createPost.additionalInfo.phone')}
           options={{ name: 'phone', id: 'phone', checked: phone }}
           onChange={onChange}
-          iconClass={'fas fa-phone-alt'}
+          icon={SvgTelephone}
         />
         {/* Internet */}
         <CheckboxCard
           label={t('createPost.additionalInfo.internet')}
           options={{ name: 'internet', id: 'internet', checked: internet }}
           onChange={onChange}
-          iconClass={'fas fa-wifi'}
+          icon={SvgWifi}
         />
         {/* Electricity */}
         <CheckboxCard
@@ -204,38 +225,38 @@ const PostAdditionalInfo = ({
           options={{
             name: 'electricity',
             id: 'electricity',
-            checked: electricity
+            checked: electricity,
           }}
           onChange={onChange}
-          iconClass={'fas fa-bolt'}
+          icon={SvgElectricity}
         />
         {/* Gas */}
         <CheckboxCard
           label={t('createPost.additionalInfo.gas')}
           options={{ name: 'gas', id: 'gas', checked: gas }}
           onChange={onChange}
-          iconClass={'fas fa-burn'}
+          icon={SvgGas}
         />
         {/* Water */}
         <CheckboxCard
           label={t('createPost.additionalInfo.water')}
           options={{ name: 'water', id: 'water', checked: water }}
           onChange={onChange}
-          iconClass={'fas fa-shower'}
+          icon={SvgShower}
         />
         {/* Heating */}
         <CheckboxCard
           label={t('createPost.additionalInfo.heating')}
           options={{ name: 'heating', id: 'heating', checked: heating }}
           onChange={onChange}
-          iconClass={'fas fa-fire'}
+          icon={SvgRadiator}
         />
         {/* TV */}
         <CheckboxCard
           label={t('createPost.additionalInfo.tv')}
           options={{ name: 'tv', id: 'tv', checked: tv }}
           onChange={onChange}
-          iconClass={'fas fa-tv'}
+          icon={SvgTv}
         />
         {/* Conditioner */}
         <CheckboxCard
@@ -243,10 +264,10 @@ const PostAdditionalInfo = ({
           options={{
             name: 'conditioner',
             id: 'conditioner',
-            checked: conditioner
+            checked: conditioner,
           }}
           onChange={onChange}
-          iconClass={'fas fa-wind'}
+          icon={SvgAirConditioner}
         />
         {/* Washing machine */}
         <CheckboxCard
@@ -254,10 +275,10 @@ const PostAdditionalInfo = ({
           options={{
             name: 'washingMachine',
             id: 'washingMachine',
-            checked: washingMachine
+            checked: washingMachine,
           }}
           onChange={onChange}
-          iconClass={'fas fa-recycle'}
+          icon={SvgWashingMachine}
         />
         {/* Dishwasher */}
         <CheckboxCard
@@ -265,10 +286,10 @@ const PostAdditionalInfo = ({
           options={{
             name: 'dishwasher',
             id: 'dishwasher',
-            checked: dishwasher
+            checked: dishwasher,
           }}
           onChange={onChange}
-          iconClass={'fas fa-soap'}
+          icon={SvgDishwasher}
         />
         {/* Refrigerator */}
         <CheckboxCard
@@ -276,10 +297,10 @@ const PostAdditionalInfo = ({
           options={{
             name: 'refrigerator',
             id: 'refrigerator',
-            checked: refrigerator
+            checked: refrigerator,
           }}
           onChange={onChange}
-          iconClass={'fas fa-snowflake'}
+          icon={SvgFridge}
         />
       </div>
     </FadeInDiv>
@@ -289,12 +310,12 @@ const PostAdditionalInfo = ({
 PostAdditionalInfo.propTypes = {
   postForm: PropTypes.object.isRequired,
   updatePostFormAttributes: PropTypes.func.isRequired,
-  validationErrors: PropTypes.object.isRequired
+  validationErrors: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   postForm: state.post.postForm,
-  validationErrors: state.post.validationErrors
+  validationErrors: state.post.validationErrors,
 })
 
 export default connect(mapStateToProps, { updatePostFormAttributes })(

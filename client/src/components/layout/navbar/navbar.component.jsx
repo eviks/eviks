@@ -6,6 +6,14 @@ import Auth from '../../auth/auth.component'
 import LocalitySelect from './localitySelect.component'
 import DropdownMenu from '../dropdownMenu/dropdownMenu.component'
 import MenuButton from '../menuButton/menuButton.component'
+import {
+  SvgHeart,
+  SvgUser,
+  SvgSettings,
+  SvgLogo,
+  SvgSignOut,
+  SvgSignIn,
+} from '../icons'
 import ReactModal from 'react-modal'
 import LocalizedLink from '../../../components/localization/LocalizedLink.component'
 import { locales } from '../../../config/i18n'
@@ -52,7 +60,7 @@ const Navbar = ({
       to={`/users/${user && user.username}`}
       onClick={closeDropdownMenu}
     >
-      <i className="fas fa-user-circle mr-1"></i>
+      <SvgUser className="mr-1" />
       {t('userMenu.titles.profile')}
     </LocalizedLink>,
     <LocalizedLink
@@ -60,7 +68,7 @@ const Navbar = ({
       to={'/settings'}
       onClick={closeDropdownMenu}
     >
-      <i className="fas fa-cog mr-1"></i>
+      <SvgSettings className="mr-1" />
       {t('userMenu.titles.settings')}
     </LocalizedLink>,
     <a
@@ -71,7 +79,7 @@ const Navbar = ({
         logout()
       }}
     >
-      <i className="fas fa-sign-out-alt mr-1"></i>
+      <SvgSignOut className="mr-1" />
       {t('navbar.logout')}
     </a>,
   ]
@@ -80,7 +88,7 @@ const Navbar = ({
     <Fragment>
       <li>
         <LocalizedLink className="link" to={'/favorites'}>
-          <i className="fas fa-heart"></i> {t('navbar.favorites')}
+          <SvgHeart /> {t('navbar.favorites')}
         </LocalizedLink>
       </li>
       <DropdownMenu
@@ -90,7 +98,7 @@ const Navbar = ({
             className="link"
             onClick={() => toggleDropdownMenu(!showDropdownMenu)}
           >
-            <i className="fas fa-user"></i> {user && user.displayName}
+            <SvgUser /> {user && user.displayName}
           </button>
         }
         menuOptions={dropdownOptions}
@@ -102,7 +110,7 @@ const Navbar = ({
   const guestLinks = location.pathname !== '/auth' && (
     <li>
       <button className="link" onClick={() => handleOpenModal()}>
-        <i className="fas fa-sign-in-alt"></i> {t('navbar.joinOrSignIn')}
+        <SvgSignIn /> {t('navbar.joinOrSignIn')}
       </button>
     </li>
   )
@@ -119,7 +127,7 @@ const Navbar = ({
             {' '}
             <span className="lead-2x lead-bold text-primary">
               {' '}
-              <i className="fas fa-home"></i> Eviks{' '}
+              <SvgLogo /> Eviks{' '}
             </span>
           </LocalizedLink>
         </div>

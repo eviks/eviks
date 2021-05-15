@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getPosts } from '../../../../actions/post'
 import AllFilters from '../allFilters/allFilters.component'
 import Ripple from '../../../layout/ripple/ripple.component'
+import { SvgSearch } from '../../../layout/icons'
 import { CSSTransition } from 'react-transition-group'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -39,7 +40,7 @@ const SearchbarSmall = ({ filters, getPosts }) => {
 
       <section className="searchbar-small light-border">
         <button className="mobile-button" onClick={() => handleOnClick()}>
-          <i className="fas fa-search"></i>{' '}
+          <SvgSearch />{' '}
           {t(`postList.filters.${showAllFilters ? 'search' : 'allFilters'}`)}
           <Ripple />
         </button>
@@ -50,11 +51,11 @@ const SearchbarSmall = ({ filters, getPosts }) => {
 
 SearchbarSmall.propTypes = {
   filters: PropTypes.object.isRequired,
-  getPosts: PropTypes.func.isRequired
+  getPosts: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  filters: state.post.posts.filters
+const mapStateToProps = (state) => ({
+  filters: state.post.posts.filters,
 })
 
 export default connect(mapStateToProps, { getPosts })(SearchbarSmall)

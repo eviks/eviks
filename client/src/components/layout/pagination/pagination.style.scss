@@ -27,12 +27,6 @@
       color: $dark-color;
       cursor: pointer;
     }
-
-    &-skip {
-      border: 1px solid lighten($dark-color, 50%);
-      background-color: $light-color;
-      color: $grey-color;
-    }
   }
 }
 

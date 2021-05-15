@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import { deletePost } from '../../../../actions/post'
+import { SvgGarbage } from '../../../layout/icons'
 import { Player } from '@lottiefiles/react-lottie-player'
 import DeleteMessage from './deleteMessage/deleteMessage.component'
 import ReactModal from 'react-modal'
@@ -46,7 +47,7 @@ const DeleteButton = ({ postId, lg = false, deletePost }) => {
         className={`post-btn${lg ? '-lg' : ''} shadow-border`}
         onClick={() => setShowModal(true)}
       >
-        <i className="fas fa-trash"></i>
+        <SvgGarbage />
         {lg && <span className="ml-05">{t('post.buttons.delete')}</span>}
       </button>
       <ReactModal
@@ -65,7 +66,7 @@ const DeleteButton = ({ postId, lg = false, deletePost }) => {
 }
 
 DeleteButton.propTypes = {
-  postId: PropTypes.string.isRequired,
+  postId: PropTypes.number.isRequired,
   lg: PropTypes.bool,
 }
 

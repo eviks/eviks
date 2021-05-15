@@ -5,6 +5,7 @@ import {
 } from '../../../../actions/auth'
 import { connect } from 'react-redux'
 import Auth from '../../../auth/auth.component'
+import { SvgHeart } from '../../../layout/icons'
 import { toastr } from 'react-redux-toastr'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
@@ -73,7 +74,7 @@ const LikeButton = ({
         }`}
         onClick={handleOnClick}
       >
-        <i className={'fas fa-heart'}></i>
+        <SvgHeart />
         {lg && (
           <span className="ml-05">
             {favorites[postId]
@@ -95,7 +96,7 @@ const LikeButton = ({
 }
 
 LikeButton.propTypes = {
-  postId: PropTypes.string.isRequired,
+  postId: PropTypes.number.isRequired,
   lg: PropTypes.bool,
   isAuthenticated: PropTypes.bool,
   user: PropTypes.object,

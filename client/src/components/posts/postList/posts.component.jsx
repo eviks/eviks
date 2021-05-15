@@ -1,10 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Searchbar from './searchbar/searchbar.component'
-import SearchbarSmall from './searchbar/searchbarSmall.component'
-import Pagination from '../../layout/pagination/pagination.component'
-import SkeletonPostList from '../../layout/skeleton/skeletonPostList/skeletonPostList.component'
 import PostItem from '../postItem/postItem.component'
 import {
   getPosts,
@@ -13,6 +9,11 @@ import {
   cleanPosts,
 } from '../../../actions/post'
 import { setCurrentLocality } from '../../../actions/locality'
+import Searchbar from './searchbar/searchbar.component'
+import SearchbarSmall from './searchbar/searchbarSmall.component'
+import Pagination from '../../layout/pagination/pagination.component'
+import SkeletonPostList from '../../layout/skeleton/skeletonPostList/skeletonPostList.component'
+import { SvgSearch } from '../../layout/icons'
 import useWindowDimensions from '../../../services/hooks/useWindowDimensions'
 import { getURLParams } from '../../../services/util'
 import { useTranslation } from 'react-i18next'
@@ -119,7 +120,7 @@ const Posts = ({
         <div className="container container-center">
           <div className="no-results-img" />
           <span className="lead text-secondary">
-            {t('postList.noResults')} <i className="fas fa-search"></i>
+            {t('postList.noResults')} <SvgSearch />
           </span>
         </div>
       ) : (

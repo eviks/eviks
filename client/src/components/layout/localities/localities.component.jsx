@@ -4,6 +4,7 @@ import { getLocalities, clearLocalities } from '../../../actions/locality'
 import { updatePostFormAttributes } from '../../../actions/post'
 import Locality from './locality.component'
 import Spinner from '../spinner/spinner.component'
+import { SvgClose } from '../icons'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import styled, { keyframes } from 'styled-components'
 import { fadeIn, fadeOut } from 'react-animations'
@@ -25,14 +26,14 @@ const Localities = ({
   citySelectMode = false,
   clearLocalities,
   updatePostFormAttributes,
-  handleCloseModal
+  handleCloseModal,
 }) => {
   const containerRef = useRef(null)
 
   const [selectedLocality, setSelectedLocality] = useState({
     city: { name: '', id: '', location: [0, 0] },
     district: { name: '', id: '', location: [0, 0] },
-    subdistrict: { name: '', id: '', location: [0, 0] }
+    subdistrict: { name: '', id: '', location: [0, 0] },
   })
 
   const { city, district, subdistrict } = selectedLocality
@@ -50,8 +51,8 @@ const Localities = ({
         [getTypeName(localities[0])]: {
           name: localities[0].name,
           id: localities[0].id,
-          location: [localities[0].x, localities[0].y]
-        }
+          location: [localities[0].x, localities[0].y],
+        },
       })
     }
     // eslint-disable-next-line
@@ -67,7 +68,7 @@ const Localities = ({
     return () => enableBodyScroll(currentRef)
   })
 
-  const getTypeName = locality => {
+  const getTypeName = (locality) => {
     if (locality.type === '2') return 'city'
     if (
       locality.type === '8' ||
@@ -96,7 +97,7 @@ const Localities = ({
       subdistrict: subdistrict.name,
       address: '',
       searchArea: getSearchArea(),
-      location: [0, 0]
+      location: [0, 0],
     })
     handleCloseModal()
   }
@@ -110,7 +111,7 @@ const Localities = ({
           <span className="text-bold">{t('localities.form.menuText')}</span>
         </div>
         <button className="close-modal" onClick={handleCloseModal}>
-          <i className="fas fa-times"></i>
+          <SvgClose />
         </button>
       </div>
       <div className="localities-container">
@@ -131,10 +132,10 @@ const Localities = ({
             )}
             <ul className={'localities-list'}>
               {localities &&
-                localities.map(locality =>
+                localities.map((locality) =>
                   city.id !== '' ? (
                     locality.children &&
-                    locality.children.map(locality => (
+                    locality.children.map((locality) => (
                       <li key={locality.id} className="localities-item">
                         <Locality
                           locality={locality}
@@ -168,16 +169,16 @@ Localities.propTypes = {
   citySelectMode: PropTypes.bool,
   updatePostFormAttributes: PropTypes.func.isRequired,
   clearLocalities: PropTypes.func.isRequired,
-  handleCloseModal: PropTypes.func.isRequired
+  handleCloseModal: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.async.loading,
-  localities: state.locality.localities
+  localities: state.locality.localities,
 })
 
 export default connect(mapStateToProps, {
   getLocalities,
   clearLocalities,
-  updatePostFormAttributes
+  updatePostFormAttributes,
 })(Localities)

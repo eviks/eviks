@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import LikeButton from '../../buttons/likeButton/likeButton.component'
 import EditButton from '../../buttons/editButton/editButton.component'
 import DeleteButton from '../../buttons/deleteButton/deleteButton.component'
+import { SvgMapMarker } from '../../../layout/icons'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -28,7 +29,7 @@ const PostHead = ({
         })}
       </h1>
       <div>
-        <i className="fas fa-map-marker-alt"></i> {`${city.name}, ${address}`}
+        <SvgMapMarker /> {`${city.name}, ${address}`}
       </div>
       <div className="post-head-pannel">
         <div className="text-secondary">

@@ -2,13 +2,14 @@ import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { updateUser, deleteUser } from '../../../../actions/auth'
-import { toastr } from 'react-redux-toastr'
-import { Player } from '@lottiefiles/react-lottie-player'
-import successAnimation from '../../../../assets/lottiefilesSources/success.json'
+import DeleteUserMessage from './deleteUserMessage/deleteUserMessage.component'
 import Input from '../../../layout/form/input/input.component'
 import Ripple from '../../../layout/ripple/ripple.component'
 import ButtonSpinner from '../../../layout/spinner/buttonSpinner.component'
-import DeleteUserMessage from './deleteUserMessage/deleteUserMessage.component'
+import { SvgSettings, SvgGarbage } from '../../../layout/icons'
+import { toastr } from 'react-redux-toastr'
+import { Player } from '@lottiefiles/react-lottie-player'
+import successAnimation from '../../../../assets/lottiefilesSources/success.json'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
 import {
@@ -31,12 +32,8 @@ const Settings = ({ updateUser, deleteUser, currentDisplayName, loading }) => {
 
   const [showModal, setShowModal] = useState(false)
 
-  const {
-    displayName,
-    password,
-    passwordConfirmation,
-    validationErrors,
-  } = state
+  const { displayName, password, passwordConfirmation, validationErrors } =
+    state
 
   const onChange = (event) => {
     validationAttributeOnChange(
@@ -99,7 +96,7 @@ const Settings = ({ updateUser, deleteUser, currentDisplayName, loading }) => {
     <Fragment>
       <form onSubmit={submitForm}>
         <h5 className="lead">
-          <i className="fas fa-cog"></i> {t('userMenu.titles.settings')}
+          <SvgSettings /> {t('userMenu.titles.settings')}
         </h5>
         <div className="form-settings">
           <div className="mt-1">
@@ -165,7 +162,7 @@ const Settings = ({ updateUser, deleteUser, currentDisplayName, loading }) => {
           className="link text-secondary"
           disabled={loading}
         >
-          <i className="fas fa-trash"></i> {t('userMenu.deleteUser')}
+          <SvgGarbage /> {t('userMenu.deleteUser')}
         </button>
         <ReactModal
           isOpen={showModal}

@@ -4,6 +4,7 @@ import { getPosts, cleanPosts } from '../../../../actions/post'
 import PostItem from '../../../posts/postItem/postItem.component'
 import SkeletonPostList from '../../../layout/skeleton/skeletonPostList/skeletonPostList.component'
 import Pagination from '../../../layout/pagination/pagination.component'
+import { SvgHeart } from '../../../layout/icons'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
@@ -42,7 +43,7 @@ const Favorites = ({
   return (
     <div>
       <h5 className="lead">
-        <i className="fas fa-heart"></i> {t('userMenu.titles.favorites')}
+        <SvgHeart /> {t('userMenu.titles.favorites')}
       </h5>
       <div className="cards-container-sm my-1">
         {(loading && loadingElements.includes('POST_LIST')) ||

@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {
+  formNextStep,
+  formPrevStep,
+  getPostFormData,
+  createUpdatePost,
+  cleanPostForm,
+} from '../../../actions/post'
 import ProgressBar from './progressBar/progressBar.component'
 import PostGeneralInfo from './steps/postGeneralInfo.component'
 import PostOpenlayersMap from './steps/postOpenlayersMap.component'
@@ -9,19 +17,12 @@ import PostAdditionalInfo from './steps/postAdditionalInfo.component'
 import PostPrice from './steps/postPrice.component'
 import PostImages from './steps/postImages.component'
 import PostContact from './steps/postContact.component'
-import { connect } from 'react-redux'
-import {
-  formNextStep,
-  formPrevStep,
-  getPostFormData,
-  createUpdatePost,
-  cleanPostForm,
-} from '../../../actions/post'
+import Ripple from '../../layout/ripple/ripple.component'
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
+import { SvgBroom } from '../../layout/icons'
 import { toastr } from 'react-redux-toastr'
 import { Player } from '@lottiefiles/react-lottie-player'
 import successAnimation from '../../../assets/lottiefilesSources/success.json'
-import Ripple from '../../layout/ripple/ripple.component'
-import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
@@ -132,7 +133,7 @@ const PostForm = ({
       <div className="helpers-button-box">
         <div className="tooltip">
           <div className="clean light-border" onClick={cleanPostForm}>
-            <i className="fas fa-broom"></i>
+            <SvgBroom />
           </div>
           <div className="tooltip-text tooltip-text-bottom">
             {t('createPost.clean')}

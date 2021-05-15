@@ -1,10 +1,11 @@
 import React from 'react'
 import ArrowButton from './arrowButton.component'
+import { SvgArrowLeft, SvgArrowRight } from '../icons'
 
 export const renderLeftNav = (onClick, disabled) => {
   return (
     <ArrowButton
-      type="left"
+      icon={SvgArrowLeft}
       onClick={onClick}
       disabled={disabled}
       classNameWrapper="arrow-wrapper-transparent arrow-wrapper-transparent-left"
@@ -16,7 +17,7 @@ export const renderLeftNav = (onClick, disabled) => {
 export const renderRightNav = (onClick, disabled) => {
   return (
     <ArrowButton
-      type="right"
+      icon={SvgArrowRight}
       onClick={onClick}
       disabled={disabled}
       classNameWrapper="arrow-wrapper-transparent arrow-wrapper-transparent-right"

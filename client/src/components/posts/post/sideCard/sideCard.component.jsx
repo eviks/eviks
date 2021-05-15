@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { SvgUser, SvgAgent } from '../../../layout/icons'
 import PropTypes from 'prop-types'
 
 import './sideCard.style.scss'
@@ -15,8 +16,6 @@ const SideCard = ({ post: { price, sqm, username, userType, contact } }) => {
 
   const priceForSqm = Math.round((price / sqm + Number.EPSILON) * 100) / 100
 
-  const userIcon = userType === 'agent' ? 'user-tie' : 'user'
-
   const [t] = useTranslation()
 
   return (
@@ -27,7 +26,11 @@ const SideCard = ({ post: { price, sqm, username, userType, contact } }) => {
           <span>{t('post.price.priceForSqm', { priceForSqm })}</span>
         </div>
         <div className="card-user-info">
-          <i className={`fas fa-${userIcon} fa-2x`}></i>
+          {userType === 'agent' ? (
+            <SvgAgent width={'2em'} height={'2em'} />
+          ) : (
+            <SvgUser width={'2em'} height={'2em'} />
+          )}
           <div className="user-name-and-type">
             <span className="user-name">{username}</span>
             <span className="text-secondary">

@@ -4,26 +4,26 @@ import PropTypes from 'prop-types'
 import './arrowButton.style.scss'
 
 const ArrowButton = ({
-  type,
+  icon: Icon,
   onClick,
   disabled = false,
   classNameWrapper = '',
-  classNameButton = ''
+  classNameButton = '',
 }) => {
   return (
     <div className={classNameWrapper} onClick={onClick}>
       <button disabled={disabled} className={classNameButton}>
-        <i className={`fas fa-arrow-${type}`}></i>
+        <Icon />
       </button>
     </div>
   )
 }
 
 ArrowButton.propTypes = {
-  type: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 export default ArrowButton

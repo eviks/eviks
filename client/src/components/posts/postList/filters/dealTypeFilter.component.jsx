@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import Radio from '../../../layout/form/radio/radio.component'
+import { SvgSale, SvgRent, SvgRentPerDay } from '../../../layout/icons'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
@@ -26,7 +27,7 @@ const DealTypeFilter = ({ dealType, locale }) => {
         checked: dealType === 'sale' || !dealType,
       },
       label: t('postList.dealTypes.sale'),
-      icon: <i className="fas fa-home fa-2x"></i>,
+      icon: <SvgSale width={'2em'} height={'2em'} />,
     },
     {
       input: {
@@ -36,7 +37,7 @@ const DealTypeFilter = ({ dealType, locale }) => {
         checked: dealType === 'rent',
       },
       label: t('postList.dealTypes.rent'),
-      icon: <i className="fas fa-home fa-2x"></i>,
+      icon: <SvgRent width={'2em'} height={'2em'} />,
     },
     {
       input: {
@@ -46,7 +47,7 @@ const DealTypeFilter = ({ dealType, locale }) => {
         checked: dealType === 'rentPerDay',
       },
       label: t('postList.dealTypes.rentPerDay'),
-      icon: <i className="fas fa-home fa-2x"></i>,
+      icon: <SvgRentPerDay width={'2em'} height={'2em'} />,
     },
   ]
 

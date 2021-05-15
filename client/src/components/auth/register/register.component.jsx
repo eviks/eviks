@@ -7,8 +7,10 @@ import { deleteAllAlerts } from '../../../actions/alert'
 import Ripple from '../../layout/ripple/ripple.component'
 import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import Input from '../../layout/form/input/input.component'
+import { SvgUser, SvgPadlock, SvgEmail } from '../../layout/icons'
 import { toastr } from 'react-redux-toastr'
-import MessageIcon from '../../layout/icons/messageIcon.component'
+import { Player } from '@lottiefiles/react-lottie-player'
+import paperPlaneAnimation from '../../../assets/lottiefilesSources/paperPlane.json'
 import styled, { keyframes } from 'styled-components'
 import { fadeInRight } from 'react-animations'
 import { useTranslation } from 'react-i18next'
@@ -77,7 +79,14 @@ const Register = ({
 
       const toastrOptions = {
         timeOut: 0,
-        icon: <MessageIcon />,
+        icon: (
+          <Player
+            autoplay
+            loop={true}
+            src={paperPlaneAnimation}
+            style={{ height: '70px', width: '70px' }}
+          />
+        ),
         status: 'info',
       }
       toastr.light(
@@ -117,7 +126,7 @@ const Register = ({
           mask={false}
           fieldName={
             <Fragment>
-              <i className="fas fa-user"></i> {t('auth.username')}
+              <SvgUser /> {t('auth.username')}
             </Fragment>
           }
           options={{
@@ -134,7 +143,7 @@ const Register = ({
           mask={false}
           fieldName={
             <Fragment>
-              <i className="fas fa-user"></i> {t('auth.displayName')}
+              <SvgUser /> {t('auth.displayName')}
             </Fragment>
           }
           options={{
@@ -151,7 +160,7 @@ const Register = ({
           mask={false}
           fieldName={
             <Fragment>
-              <i className="fas fa-at"></i> {t('auth.email')}
+              <SvgEmail /> {t('auth.email')}
             </Fragment>
           }
           options={{
@@ -168,7 +177,7 @@ const Register = ({
           mask={false}
           fieldName={
             <Fragment>
-              <i className="fas fa-lock"></i> {t('auth.password')}
+              <SvgPadlock /> {t('auth.password')}
             </Fragment>
           }
           options={{

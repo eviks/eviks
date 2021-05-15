@@ -7,10 +7,11 @@ import { sendResetPasswordToken } from '../../../actions/auth'
 import Alert from '../../layout/alert/alert.component'
 import { setAlert, deleteAllAlerts } from '../../../actions/alert'
 import { toastr } from 'react-redux-toastr'
-import MessageIcon from '../../layout/icons/messageIcon.component'
+import paperPlaneAnimation from '../../../assets/lottiefilesSources/paperPlane.json'
+import { Player } from '@lottiefiles/react-lottie-player'
 import { useTranslation } from 'react-i18next'
 import uuid from 'uuid'
-import PasswordImage from '../../../assets/img/illustrations/password.jpg'
+import PasswordImage from '../../../assets/img/illustrations/password.svg'
 import PropTypes from 'prop-types'
 
 import '../auth.style.scss'
@@ -41,7 +42,14 @@ const ResetPassword = ({
     // Toaster
     const toastrOptions = {
       timeOut: 0,
-      icon: <MessageIcon />,
+      icon: (
+        <Player
+          autoplay
+          loop={true}
+          src={paperPlaneAnimation}
+          style={{ height: '70px', width: '70px' }}
+        />
+      ),
       status: 'info',
     }
     toastr.light(

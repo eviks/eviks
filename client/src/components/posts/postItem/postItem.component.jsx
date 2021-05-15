@@ -9,10 +9,14 @@ import {
 import LikeButton from '../buttons/likeButton/likeButton.component'
 import EditButton from '../buttons/editButton/editButton.component'
 import DeleteButton from '../buttons/deleteButton/deleteButton.component'
-import DoorIcon from '../../layout/icons/doorIcon.component'
-import SqmIcon from '../../layout/icons/sqmIcon.component'
-import StairsIcon from '../../layout/icons/stairsIcon.component'
-import GardenWorksIcon from '../../layout/icons/gardenWorksIcon.component'
+import {
+  SvgDocument,
+  SvgMortgage,
+  SvgDoor,
+  SvgGarden,
+  SvgSqm,
+  SvgStairs,
+} from '../../layout/icons'
 import Moment from 'react-moment'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -94,18 +98,18 @@ const PostItem = ({
         </div>
         <div className="card-param-wrapper mb-05">
           <div className="card-param">
-            <SqmIcon width={'1.2rem'} /> {sqm} m²
+            <SvgSqm /> {sqm} m²
           </div>
           <div className="card-param">
-            <DoorIcon width={'1.2rem'} /> {rooms} {t('postList.room')}
+            <SvgDoor /> {rooms} {t('postList.room')}
           </div>
           {estateType === 'apartment' ? (
             <div className="card-param">
-              <StairsIcon width={'1.2rem'} /> {floor}/{totalFloors}
+              <SvgStairs /> {floor}/{totalFloors}
             </div>
           ) : (
             <div className="card-param">
-              <GardenWorksIcon width={'1.2rem'} /> {lotSqm} m²
+              <SvgGarden /> {lotSqm} m²
             </div>
           )}
         </div>
@@ -114,10 +118,10 @@ const PostItem = ({
             <Moment format="DD.MM.YY">{date}</Moment>
           </div>
           <div className="card-feature-wrapper">
-            <div className="features">
+            <div className="card-features">
               {documented && (
                 <div className="card-feature tooltip">
-                  <i className="fas fa-stamp"></i>
+                  <SvgDocument />
                   <div className="tooltip-text tooltip-text-left">
                     {t('postList.documented')}
                   </div>
@@ -125,7 +129,7 @@ const PostItem = ({
               )}
               {mortgage && (
                 <div className="card-feature tooltip">
-                  <i className="fas fa-percent"></i>
+                  <SvgMortgage />
                   <div className="tooltip-text tooltip-text-left">
                     {t('postList.mortgage')}
                   </div>

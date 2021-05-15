@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { SvgHeart, SvgUser, SvgSettings } from '../../../layout/icons'
 import LocalizedLink from '../../../../components/localization/LocalizedLink.component'
 import PropTypes from 'prop-types'
 
@@ -17,19 +18,18 @@ const Sidebar = ({ user, isAuthenticated }) => {
         <ul>
           <li className="mb-05">
             <LocalizedLink to={`/users/${username}`} className="py-1 px-1">
-              <i className="fas fa-user-circle mr-1"></i>
+              <SvgUser className="mr-1" />
               {t('userMenu.titles.profile')}
             </LocalizedLink>
           </li>
           <li className="mb-05">
             <LocalizedLink to={`/favorites`} className="py-1 px-1">
-              <i className="fas fa-heart mr-1"></i>
-              {t('userMenu.titles.favorites')}
+              <SvgHeart className="mr-1" /> {t('userMenu.titles.favorites')}
             </LocalizedLink>
           </li>
           <li className="mb-05">
             <LocalizedLink to={`/settings`} className="py-1 px-1">
-              <i className="fas fa-cog mr-1"></i>
+              <SvgSettings className="mr-1" />
               {t('userMenu.titles.settings')}
             </LocalizedLink>
           </li>

@@ -1,12 +1,13 @@
 import React from 'react'
 import SkeletonLine from '../skeletonLine.component'
+import { SvgUser } from '../../icons'
 
 const SkeletonAvatar = () => {
   return (
     <div className="user-profile py-1">
       <div className="user-avatar-wrapper">
-        <div className="skeleton-image">
-          <i className="fas fa-user fa-3x"></i>
+        <div className="skeleton-image text-light">
+          <SvgUser width="4em" height="4em" style={{ position: 'absolute' }} />
           <SkeletonLine />
         </div>
       </div>

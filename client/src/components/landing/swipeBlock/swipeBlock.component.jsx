@@ -4,6 +4,7 @@ import ScrollMenu from 'react-horizontal-scrolling-menu'
 import PostItem from '../../posts/postItem/postItem.component'
 import SkeletonPostItem from '../../layout/skeleton/skeletonPostItem/skeletonPostItem.component'
 import ArrowButton from '../../layout/arrowButtons/arrowButton.component'
+import { SvgArrowLeft, SvgArrowRight } from '../../layout/icons'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import uuid from 'uuid'
@@ -50,13 +51,13 @@ const SwipeBlock = () => {
         <h4 className="lead px-05">{t('landing.newListings')}</h4>
         <div className="arrows-block">
           <ArrowButton
-            type={'left'}
+            icon={SvgArrowLeft}
             onClick={onLeftArrowClick}
             classNameWrapper="arrow-wrapper"
             classNameButton="arrow-btn"
           />
           <ArrowButton
-            type={'right'}
+            icon={SvgArrowRight}
             onClick={onRightArrowClick}
             classNameWrapper="arrow-wrapper"
             classNameButton="arrow-btn"

@@ -7,7 +7,7 @@ import './pagination.style.scss'
 const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
   const [state, setState] = useState({
     prevPages: [],
-    nextPages: []
+    nextPages: [],
   })
   const { prevPages, nextPages } = state
 
@@ -29,7 +29,7 @@ const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
 
     setState({
       prevPages: newPrevPages,
-      nextPages: newNextPages
+      nextPages: newNextPages,
     })
   }, [current, skipped, total])
 
@@ -52,13 +52,10 @@ const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
             page={1}
             onClick={onClick}
           />
-          <div className="pagination-item pagination-item-skip">
-            <i className="fas fa-ellipsis-h"></i>
-          </div>
         </Fragment>
       )}
       {/* Prev */}
-      {prevPages.map(pageNumber => (
+      {prevPages.map((pageNumber) => (
         <PaginationItem
           key={pageNumber}
           className={'pagination-item pagination-item-page'}
@@ -72,7 +69,7 @@ const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
         className={'pagination-item pagination-item-current'}
       />
       {/* Next */}
-      {nextPages.map(pageNumber => (
+      {nextPages.map((pageNumber) => (
         <PaginationItem
           key={pageNumber}
           className={'pagination-item pagination-item-page'}
@@ -83,9 +80,6 @@ const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
       {/* Last Page */}
       {total && !nextPages.includes(total) && (
         <Fragment>
-          <div className="pagination-item pagination-item-skip">
-            <i className="fas fa-ellipsis-h"></i>
-          </div>
           <PaginationItem
             className={'pagination-item pagination-item-page'}
             page={total}
@@ -108,7 +102,7 @@ const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
 
 Pagination.propTypes = {
   pagination: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 export default Pagination

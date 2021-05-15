@@ -4,6 +4,7 @@ import { setCurrentLocality } from '../../../actions/locality'
 import defaultLocality from '../../../reducers/initialStates/localityInitialState'
 import Localities from './localities.component'
 import Ripple from '../ripple/ripple.component'
+import { SvgClose } from '../icons'
 import ReactModal from 'react-modal'
 import useIsMount from '../../../services/hooks/useIsMount'
 import { useTranslation } from 'react-i18next'
@@ -65,7 +66,7 @@ const LocalitiesQuestion = ({
     >
       <div className="localities-question-wrapper shadow-border">
         <button type="button" className="close-button" onClick={onCloseClick}>
-          <i className="fas fa-times"></i>
+          <SvgClose />
         </button>
         <div className="question">{t('localities.question.text')}</div>
         <div className="button-box">

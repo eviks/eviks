@@ -7,6 +7,7 @@ import { deleteAllAlerts } from '../../../actions/alert'
 import Ripple from '../../layout/ripple/ripple.component'
 import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import Input from '../../layout/form/input/input.component'
+import { SvgUser, SvgPadlock } from '../../layout/icons'
 import styled, { keyframes } from 'styled-components'
 import { fadeInLeft } from 'react-animations'
 import { useTranslation } from 'react-i18next'
@@ -65,19 +66,12 @@ const Login = ({
       <div className="inner-container">
         <h3 className="lead">{t('auth.loginTitle')}</h3>
         <Alert />
-        <div className="social-container">
-          <LocalizedLink to="#" className="social">
-            <i className="fab fa-facebook-f"></i>
-          </LocalizedLink>
-          <LocalizedLink to="#" className="social">
-            <i className="fab fa-google-plus-g"></i>
-          </LocalizedLink>
-        </div>
+        <div className="social-container"></div>
         <Input
           mask={false}
           fieldName={
             <Fragment>
-              <i className="fas fa-user"></i> {t('auth.usernameOrEmail')}
+              <SvgUser /> {t('auth.usernameOrEmail')}
             </Fragment>
           }
           options={{
@@ -92,7 +86,7 @@ const Login = ({
           mask={false}
           fieldName={
             <Fragment>
-              <i className="fas fa-lock"></i> {t('auth.password')}
+              <SvgPadlock /> {t('auth.password')}
             </Fragment>
           }
           options={{

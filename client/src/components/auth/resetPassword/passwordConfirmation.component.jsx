@@ -6,6 +6,7 @@ import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
 import { connect } from 'react-redux'
 import { checkResetPasswordToken, resetPassword } from '../../../actions/auth'
 import Spinner from '../../layout/spinner/spinner.component'
+import { SvgPadlock } from '../../layout/icons'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 
@@ -85,8 +86,7 @@ const PasswordConfirmation = ({
           mask={false}
           fieldName={
             <Fragment>
-              <i className="fas fa-lock"></i>{' '}
-              {t('auth.resetPassword.newPassword')}
+              <SvgPadlock /> {t('auth.resetPassword.newPassword')}
             </Fragment>
           }
           options={{
@@ -101,8 +101,7 @@ const PasswordConfirmation = ({
           mask={false}
           fieldName={
             <Fragment>
-              <i className="fas fa-lock"></i>{' '}
-              {t('auth.resetPassword.passwordConfirm')}
+              <SvgPadlock /> {t('auth.resetPassword.passwordConfirm')}
             </Fragment>
           }
           options={{

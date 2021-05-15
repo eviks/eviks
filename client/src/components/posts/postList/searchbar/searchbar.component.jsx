@@ -9,6 +9,7 @@ import RoomFilter from '../filters/roomFilter.component'
 import EstateTypeFilter from '../filters/estateTypeFilter.component'
 import MoreFilters from '../filters/moreFilters.component'
 import LocationsFilter from '../filters/locationFilters/locationsFilter.component'
+import { SvgBroom } from '../../../layout/icons'
 import ReactModal from 'react-modal'
 import { useTranslation } from 'react-i18next'
 import { getURLParams } from '../../../../services/util'
@@ -156,7 +157,7 @@ const Searchbar = ({ navRef, removeAllFilters, dealType }) => {
               className="btn btn-ghost-sd btn-md"
               onClick={handleRemoveFilters}
             >
-              <i className="fas fa-broom"></i> {t('postList.filters.remove')}
+              <SvgBroom className="mr-05" /> {t('postList.filters.remove')}
             </button>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { SvgLogo } from '../../icons'
 import SkeletonLine from '../skeletonLine.component'
 
 const SkeletonPost = () => {
@@ -10,9 +11,9 @@ const SkeletonPost = () => {
       <div className="my-1 px-2">
         <SkeletonLine />
       </div>
-      <div style={{ position: 'relative', height: '70vh' }}>
+      <div style={{ position: 'relative', height: '50vh' }}>
         <div className="skeleton-image px-2">
-          <i className="fas fa-home fa-5x"></i>
+          <SvgLogo width={'6em'} height={'6em'} className="skeleton-icon" />
           <SkeletonLine />
         </div>
       </div>
