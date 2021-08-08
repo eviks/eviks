@@ -31,7 +31,7 @@ router.get('/', async (req, res, next) => {
 router.post(
   '/',
   [
-    check('username', 'Username or email address is required').exists(),
+    check('email', 'Email address is required').isEmail(),
     check('password', 'Password is required').exists(),
   ],
   async (req, res, next) => {
@@ -74,6 +74,9 @@ router.post('/verification/:activationToken', async (req, res, next) => {
     let user = await User.findOne({
       active: false,
       activationToken: activationToken,
+      activationTokenExpires: {
+        $gt: Date.now(),
+      },
     })
 
     // User not found
@@ -86,6 +89,7 @@ router.post('/verification/:activationToken', async (req, res, next) => {
     // Update user
     user.active = true
     user.activationToken = undefined
+    user.activationTokenExpires = undefined
     await user.save()
 
     // Login user

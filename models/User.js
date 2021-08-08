@@ -28,7 +28,12 @@ const UserSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    activationToken: { type: String, trim: true, index: true },
+    activationToken: {
+      type: String,
+      trim: true,
+      index: true,
+      unique: true,
+    },
     active: {
       type: Boolean,
       default: false,
@@ -40,6 +45,7 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
+    activationTokenExpires: Date,
     resetPasswordExpires: Date,
     favorites: Object,
   },

@@ -24,7 +24,6 @@
       "registerTitle": "Давайте знакомиться",
       "username": "Имя пользователя",
       "displayName": "Имя",
-      "usernameOrEmail": "Имя пользователя или E-mail",
       "email": "E-mail",
       "password": "Пароль",
       "invalidUserName": "Имя пользователя может содержать только латинские буквы, цифры от 0 до 9, а также символы - и _",

@@ -20,6 +20,7 @@ passport.use(
     async (req, email, password, done) => {
       try {
         const errorMessages = []
+        const { pinMode, username, displayName } = req.body
 
         // Check if user already exists
         let user = await User.findOne({ email: email })
@@ -31,7 +32,7 @@ passport.use(
         }
 
         // Check if username is unique
-        let userByUsername = await User.findOne({ username: req.body.username })
+        let userByUsername = await User.findOne({ username: username })
         if (
           userByUsername &&
           (user && !user.active ? !userByUsername._id.equals(user._id) : true)
@@ -48,14 +49,29 @@ passport.use(
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        // Generate activation token
-        const activationToken = randomstring.generate()
+        // Generate unique activation token
+        let activationToken = ''
+        let tokenIsUnique = false
+        while (!tokenIsUnique) {
+          if (pinMode) {
+            activationToken = randomstring.generate({
+              length: 5,
+              charset: 'numeric',
+            })
+          } else {
+            activationToken = randomstring.generate()
+          }
+          const userWithSameToken = await User.findOne({ activationToken })
+          tokenIsUnique = !userWithSameToken
+        }
+        const activationTokenExpires = pinMode ? Date.now() + 180000 : 10800000
 
         if (user) {
-          user.username = req.body.username
-          user.displayName = req.body.displayName
+          user.username = username
+          user.displayName = displayName
           user.password = hashedPassword
           user.activationToken = activationToken
+          user.activationTokenExpires = activationTokenExpires
         } else {
           user = new User({
             username: req.body.username,
@@ -63,6 +79,7 @@ passport.use(
             email,
             password: hashedPassword,
             activationToken,
+            activationTokenExpires,
           })
         }
 
@@ -71,7 +88,7 @@ passport.use(
 
         // Send verification email
         const result = await emailSender({
-          emailType: 'verification',
+          emailType: pinMode ? 'pin-mode-verification' : 'verification',
           subject: 'Email Verification',
           receivers: email,
           context: {
@@ -93,15 +110,15 @@ passport.use(
   'local-signin',
   new localStrategy(
     {
-      usernameField: 'username',
+      usernameField: 'email',
       passwordField: 'password',
       passReqToCallback: true,
     },
-    async (req, username, password, done) => {
+    async (req, email, password, done) => {
       try {
         // Check if user exist
         let user = await User.findOne({
-          $or: [{ email: username }, { username }],
+          email,
         })
         if (!user) {
           return done(null, false, {

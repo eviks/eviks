@@ -68,13 +68,13 @@ export const verifyEmail = (activationToken) => async (dispatch) => {
 }
 
 // Login user
-export const login = (username, password) => async (dispatch) => {
+export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   }
-  const body = JSON.stringify({ username, password })
+  const body = JSON.stringify({ email, password })
   dispatch(asyncActionStart())
   try {
     const res = await axios.post('/api/auth', body, config)
@@ -125,34 +125,32 @@ export const checkResetPasswordToken = (token) => async (dispatch) => {
 }
 
 // Reset password
-export const resetPassword = (token, password, confirm, history) => async (
-  dispatch,
-  getState
-) => {
-  const state = getState()
+export const resetPassword =
+  (token, password, confirm, history) => async (dispatch, getState) => {
+    const state = getState()
 
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    dispatch(asyncActionStart())
+    try {
+      const body = JSON.stringify({ password, confirm })
+      const res = await axios.post(
+        `/api/auth/password_reset/${token}`,
+        body,
+        config
+      )
+      dispatch({ type: RESET_PASSWORD_SUCCESS, payload: res.data })
+      dispatch(loadUser())
+      dispatch(asyncActionFinish())
+      history.push(`${state.locale.locale}/`)
+    } catch (error) {
+      dispatch(asyncActionError())
+      dispatch({ type: AUTH_ERROR })
+    }
   }
-  dispatch(asyncActionStart())
-  try {
-    const body = JSON.stringify({ password, confirm })
-    const res = await axios.post(
-      `/api/auth/password_reset/${token}`,
-      body,
-      config
-    )
-    dispatch({ type: RESET_PASSWORD_SUCCESS, payload: res.data })
-    dispatch(loadUser())
-    dispatch(asyncActionFinish())
-    history.push(`${state.locale.locale}/`)
-  } catch (error) {
-    dispatch(asyncActionError())
-    dispatch({ type: AUTH_ERROR })
-  }
-}
 
 // Logout
 export const logout = () => (dispatch) => {
