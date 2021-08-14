@@ -113,7 +113,7 @@ const setPostsFilters = (req) => {
   if (user && mongoose.Types.ObjectId.isValid(user)) conditions.user = user
 
   // Ids
-  if (ids) conditions._id = { $in: ids }
+  if (ids) conditions._id = { $in: ids.split(',') }
 
   return conditions
 }
