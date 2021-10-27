@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const axios = require('axios')
+const config = require('config')
 
 const Locality = require('../../models/Locality')
 
@@ -10,13 +12,13 @@ router.get('/', async (req, res) => {
   try {
     const localities = await Locality.aggregate([
       { $match: req.query },
-      { $sort: { name: 1 } }
+      { $sort: { name: 1 } },
     ])
 
     localities.forEach(
-      locality =>
+      (locality) =>
         locality.children &&
-        locality.children.sort((a, b) => a.name.localeCompare(b.name))
+        locality.children.sort((a, b) => a.name.localeCompare(b.name)),
     )
 
     // Localities not found
@@ -55,6 +57,46 @@ router.get('/getByIds/', async (req, res) => {
   } catch (error) {
     console.error(error.message)
     res.status(500).send('Server Error...')
+  }
+})
+
+// @route POST api/localities/getAddressByCoords
+// @desc  Get address
+// @access Private
+router.post('/getAddressByCoords', async (req, res) => {
+  const axiosConfig = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  try {
+    const result = await axios.post(
+      'http://api.gomap.az/Main.asmx/getAddressByCoords',
+      { ...req.body, guid: config.get('goMapGUID') },
+      axiosConfig,
+    )
+    res.json(JSON.parse(result.data.replace('{"d":null}', '')))
+  } catch (error) {
+    console.error(error.message)
+    return res.status(500).send('Server error...')
+  }
+})
+
+// @route GET api/localities/geocoder
+// @desc  Search on map by query
+// @access Public
+router.get('/geocoder', async (req, res) => {
+  const urlParams = new URLSearchParams(req.query).toString()
+
+  try {
+    const result = await axios.post(
+      `https://gomap.az/maps/search/index/az?${urlParams}`,
+    )
+    res.json(result.data)
+  } catch (error) {
+    console.error(error.message)
+    return res.status(500).send('Server error...')
   }
 })
 

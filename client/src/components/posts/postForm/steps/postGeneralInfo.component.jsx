@@ -79,13 +79,13 @@ const PostGeneralInfo = ({
     },
     {
       input: {
-        id: 'secondaryBuilding',
+        id: 'resale',
         name: 'apartmentType',
         type: 'radio',
-        value: 'secondaryBuilding',
-        checked: apartmentType === 'secondaryBuilding'
+        value: 'resale',
+        checked: apartmentType === 'resale'
       },
-      label: t('createPost.generalInfo.secondaryBuilding')
+      label: t('createPost.generalInfo.resale')
     }
   ]
 

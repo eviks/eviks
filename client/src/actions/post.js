@@ -73,7 +73,7 @@ export const createUpdatePost = (data) => async (dispatch) => {
 
       // Request for city ID.
       const cityRequest = await axios.get(
-        `/api/localities/?type=2&name=${data.city}`
+        `/api/localities/?type=2&name=${data.city}`,
       )
 
       const city = cityRequest.data[0]
@@ -86,20 +86,20 @@ export const createUpdatePost = (data) => async (dispatch) => {
       // District ID
       if (post.district) {
         post.district = city.children.filter(
-          (child) => child.name === post.district
+          (child) => child.name === post.district,
         )[0]
       }
 
       // Request for subdistrict ID
       if (post.subdistrict) {
         const districtRequest = await axios.get(
-          `/api/localities/?id=${post.district.id}`
+          `/api/localities/?id=${post.district.id}`,
         )
 
         const district = districtRequest.data[0]
 
         post.subdistrict = district.children.filter(
-          (child) => child.name === post.subdistrict
+          (child) => child.name === post.subdistrict,
         )[0]
       }
 
@@ -167,7 +167,7 @@ export const getPostFormData = (postId, setImages) => async (dispatch) => {
           id: image,
           preview: `/uploads/post_images/${image}/image_320.png`,
         }
-      })
+      }),
     )
 
     dispatch({ type: GET_POST_FORM_DATA, payload: data })
@@ -200,47 +200,45 @@ export const formPrevStep = (newStep) => async (dispatch) => {
 }
 
 // Update address suggestions
-export const updateAddressSuggestions = (text, setDropdownList) => async (
-  dispatch,
-  getState
-) => {
-  const state = getState()
-  const searchArea = state.post.postForm.searchArea
+export const updateAddressSuggestions =
+  (text, setDropdownList) => async (dispatch, getState) => {
+    const state = getState()
+    const searchArea = state.post.postForm.searchArea
 
-  if (text.length < 3) {
-    setDropdownList([])
-    return
+    if (text.length < 3) {
+      setDropdownList([])
+      return
+    }
+
+    dispatch(asyncActionStart())
+
+    try {
+      const res = await axios.get(
+        `/api/localities/geocoder?q=${text}&lon=${searchArea[0]}&lat=${searchArea[1]}`,
+      )
+
+      const list = res.data.rows
+        .filter((row) => row.nm !== 'Yeni ünvan')
+        .slice(0, 5)
+      setDropdownList(list)
+      dispatch(asyncActionFinish())
+    } catch (error) {
+      dispatch(asyncActionError())
+      dispatch({
+        type: POST_ERROR,
+        payload: {
+          message: error.message,
+        },
+      })
+    }
   }
-
-  dispatch(asyncActionStart())
-
-  try {
-    const res = await axios.get(
-      `/api/posts/geocoder?q=${text}&lon=${searchArea[0]}&lat=${searchArea[1]}`
-    )
-
-    const list = res.data.rows
-      .filter((row) => row.nm !== 'Yeni ünvan')
-      .slice(0, 5)
-    setDropdownList(list)
-    dispatch(asyncActionFinish())
-  } catch (error) {
-    dispatch(asyncActionError())
-    dispatch({
-      type: POST_ERROR,
-      payload: {
-        message: error.message,
-      },
-    })
-  }
-}
 
 // Get address by coords
 export const getAddressByCoords = (coords) => async (dispatch) => {
   dispatch(asyncActionStart('mapIsLoading'))
 
   try {
-    const res = await axios.post('/api/posts/getAddressByCoords', {
+    const res = await axios.post('/api/localities/getAddressByCoords', {
       lng: 'az',
       x: coords[0],
       y: coords[1],
@@ -350,24 +348,23 @@ export const removeAllFilters = () => async (dispatch, getState) => {
 }
 
 // Update search parameters in URL
-export const updateURLParams = (newFilters, history, page = 1) => async (
-  dispatch,
-  getState
-) => {
-  const state = getState()
+export const updateURLParams =
+  (newFilters, history, page = 1) =>
+  async (dispatch, getState) => {
+    const state = getState()
 
-  const filters = { ...state.post.posts.filters, ...newFilters }
-  delete filters.cityId
-  delete filters.dealType
+    const filters = { ...state.post.posts.filters, ...newFilters }
+    delete filters.cityId
+    delete filters.dealType
 
-  delete filters.page
-  filters.page = page
+    delete filters.page
+    filters.page = page
 
-  Object.keys(filters).forEach((key) => !filters[key] && delete filters[key])
+    Object.keys(filters).forEach((key) => !filters[key] && delete filters[key])
 
-  const url = setURLParams(filters)
-  history.push(`?${url || ''}`)
-}
+    const url = setURLParams(filters)
+    history.push(`?${url || ''}`)
+  }
 
 // Clean post form attributes
 export const cleanPostForm = () => async (dispatch) => {

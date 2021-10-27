@@ -12,7 +12,6 @@
   "author": "Kamran Veliev",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.819.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "config": "^3.2.4",
@@ -20,7 +19,6 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "express-validator": "^6.3.1",
-    "gridfs-stream": "^1.1.1",
     "handlebars": "^4.7.6",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.3",
@@ -31,8 +29,7 @@
     "passport-local": "^1.0.0",
     "randomstring": "^1.1.5",
     "rimraf": "^3.0.2",
-    "sharp": "^0.25.2",
-    "text-mask-addons": "^3.8.0",
+    "sharp": "^0.29.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

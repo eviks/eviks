@@ -64,7 +64,8 @@ passport.use(
           const userWithSameToken = await User.findOne({ activationToken })
           tokenIsUnique = !userWithSameToken
         }
-        const activationTokenExpires = pinMode ? Date.now() + 180000 : 10800000
+        const activationTokenExpires =
+          Date.now() + (pinMode ? +180000 : 10800000)
 
         if (user) {
           user.username = username
@@ -102,8 +103,8 @@ passport.use(
       } catch (error) {
         return done(error)
       }
-    }
-  )
+    },
+  ),
 )
 
 passport.use(
@@ -145,8 +146,8 @@ passport.use(
       } catch (error) {
         return done(error)
       }
-    }
-  )
+    },
+  ),
 )
 
 passport.use(
@@ -168,6 +169,6 @@ passport.use(
       } catch (error) {
         return done(error)
       }
-    }
-  )
+    },
+  ),
 )

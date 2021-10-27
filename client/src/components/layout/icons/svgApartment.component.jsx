@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-function SvgSecondaryBuilding({ className = '', ...props }) {
+function SvgResale({ className = '', ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -57,4 +57,4 @@ function SvgSecondaryBuilding({ className = '', ...props }) {
   )
 }
 
-export default SvgSecondaryBuilding
+export default SvgResale

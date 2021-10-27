@@ -10,7 +10,7 @@ const getRequiredFields = (formName, additionalData = null) => {
         case 1:
           return ['city', 'address']
         case 2:
-          let fields = ['rooms', 'sqm', 'maintenance']
+          let fields = ['rooms', 'sqm', 'renovation']
           if (additionalData.estateType === 'apartment') {
             fields = [...fields, 'floor', 'totalFloors']
           } else {

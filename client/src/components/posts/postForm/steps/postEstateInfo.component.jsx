@@ -31,42 +31,42 @@ const PostEstateInfo = ({
     lotSqm,
     floor,
     totalFloors,
-    maintenance,
+    renovation,
     redevelopment,
     documented,
     mortgage
   } = postForm
 
-  const maintenanceOptions = [
+  const renovationOptions = [
     {
       input: {
-        id: 'redecorated',
-        name: 'maintenance',
+        id: 'cosmetic',
+        name: 'renovation',
         type: 'radio',
-        value: 'redecorated',
-        checked: maintenance === 'redecorated'
+        value: 'cosmetic',
+        checked: renovation === 'cosmetic'
       },
-      label: t('createPost.estateInfo.redecorated')
+      label: t('createPost.estateInfo.cosmetic')
     },
     {
       input: {
-        id: 'designed',
-        name: 'maintenance',
+        id: 'designer',
+        name: 'renovation',
         type: 'radio',
-        value: 'designed',
-        checked: maintenance === 'designed'
+        value: 'designer',
+        checked: renovation === 'designer'
       },
-      label: t('createPost.estateInfo.designed')
+      label: t('createPost.estateInfo.designer')
     },
     {
       input: {
-        id: 'noMaintenance',
-        name: 'maintenance',
+        id: 'noRenovation',
+        name: 'renovation',
         type: 'radio',
-        value: 'noMaintenance',
-        checked: maintenance === 'noMaintenance'
+        value: 'noRenovation',
+        checked: renovation === 'noRenovation'
       },
-      label: t('createPost.estateInfo.noMaintenance')
+      label: t('createPost.estateInfo.noRenovation')
     }
   ]
 
@@ -171,12 +171,12 @@ const PostEstateInfo = ({
         onChange={onChange}
         error={validationErrors.totalFloors}
       />
-      {/* Maintenance */}
+      {/* Renovation */}
       <SwitchInput
-        fieldName={t('createPost.estateInfo.maintenance')}
-        options={maintenanceOptions}
+        fieldName={t('createPost.estateInfo.renovation')}
+        options={renovationOptions}
         onChange={onChange}
-        error={validationErrors.maintenance}
+        error={validationErrors.renovation}
       />
       {/* Redevelopment */}
       <Checkbox

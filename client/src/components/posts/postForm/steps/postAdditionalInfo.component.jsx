@@ -49,7 +49,7 @@ const PostAdditionalInfo = ({
     balcony,
     furniture,
     kitchenFurniture,
-    cctv,
+    cabelTv,
     phone,
     internet,
     electricity,
@@ -198,10 +198,10 @@ const PostAdditionalInfo = ({
           onChange={onChange}
           icon={SvgOven}
         />
-        {/* CCTV */}
+        {/* Cabel TV */}
         <CheckboxCard
-          label={t('createPost.additionalInfo.cctv')}
-          options={{ name: 'cctv', id: 'cctv', checked: cctv }}
+          label={t('createPost.additionalInfo.cabelTv')}
+          options={{ name: 'cabelTv', id: 'cabelTv', checked: cabelTv }}
           onChange={onChange}
           icon={SvgTv}
         />

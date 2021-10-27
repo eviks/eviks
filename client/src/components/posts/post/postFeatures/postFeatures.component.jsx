@@ -42,7 +42,7 @@ const PostFeatures = ({
   post: {
     documented,
     mortgage,
-    maintenance,
+    renovation,
     redevelopment,
     estateType,
     balcony,
@@ -51,7 +51,7 @@ const PostFeatures = ({
     garage,
     pool,
     bathhouse,
-    cctv,
+    cabelTv,
     phone,
     internet,
     electricity,
@@ -71,9 +71,9 @@ const PostFeatures = ({
     <div className="my-1">
       <div className="features my-1">
         <Feature
-          flag={maintenance}
+          flag={renovation}
           icon={SvgPaintRoller}
-          name={t(`post.features.maintenance.${maintenance}`)}
+          name={t(`post.features.renovation.${renovation}`)}
           special={true}
         />
         <Feature
@@ -132,7 +132,7 @@ const PostFeatures = ({
           icon={SvgOven}
           name={t('post.features.kitchenFurniture')}
         />
-        <Feature flag={cctv} icon={SvgTv} name={t('post.features.cctv')} />
+        <Feature flag={cabelTv} icon={SvgTv} name={t('post.features.cabelTv')} />
         <Feature
           flag={phone}
           icon={SvgTelephone}

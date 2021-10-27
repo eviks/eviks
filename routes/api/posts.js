@@ -4,8 +4,6 @@ const router = express.Router()
 const { check, validationResult } = require('express-validator')
 const passport = require('passport')
 const uuid = require('uuid')
-const axios = require('axios')
-const config = require('config')
 const sharp = require('sharp')
 const rimraf = require('rimraf')
 const postSearch = require('../../middleware/postSearch')
@@ -83,7 +81,7 @@ router.post(
         try {
           await fs.promises.rename(
             `${__dirname}/../../uploads/temp/post_images/${image}`,
-            `${__dirname}/../../uploads/post_images/${image}`
+            `${__dirname}/../../uploads/post_images/${image}`,
           )
         } catch (error) {
           console.error(error.message)
@@ -96,7 +94,7 @@ router.post(
       console.error(error.message)
       return res.status(500).send('Server error...')
     }
-  }
+  },
 )
 
 // @route PUT api/posts
@@ -129,7 +127,7 @@ router.put(
           try {
             await fs.promises.rename(
               `${__dirname}/../../uploads/temp/post_images/${image}`,
-              `${__dirname}/../../uploads/post_images/${image}`
+              `${__dirname}/../../uploads/post_images/${image}`,
             )
           } catch (error) {
             console.error(error.message)
@@ -154,7 +152,7 @@ router.put(
       const updatedPost = await Post.findByIdAndUpdate(
         postId,
         { ...req.body },
-        { new: true }
+        { new: true },
       )
 
       res.json(updatedPost)
@@ -162,7 +160,7 @@ router.put(
       console.error(error.message)
       return res.status(500).send('Server error...')
     }
-  }
+  },
 )
 
 // @route DELETE api/posts
@@ -208,7 +206,7 @@ router.delete(
       console.error(error.message)
       return res.status(500).send('Server error...')
     }
-  }
+  },
 )
 
 // @route GET api/posts/generate_upload_id
@@ -238,7 +236,7 @@ router.get(
     }
 
     res.json({ id })
-  }
+  },
 )
 
 // @route POST api/posts/upload_image
@@ -299,7 +297,7 @@ router.post(
       })
       res.status(500).send('Server error...')
     }
-  }
+  },
 )
 
 // @route DELETE api/posts/delete_image/:id
@@ -324,52 +322,8 @@ router.delete(
     })
 
     res.json({ msg: 'Image successfully deleted', id })
-  }
+  },
 )
-
-// @route POST api/posts/getAddressByCoords
-// @desc  Get address
-// @access Private
-router.post(
-  '/getAddressByCoords',
-  [passport.authenticate('jwt', { session: false })],
-  async (req, res) => {
-    const axiosConfig = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-
-    try {
-      const result = await axios.post(
-        'http://api.gomap.az/Main.asmx/getAddressByCoords',
-        { ...req.body, guid: config.get('goMapGUID') },
-        axiosConfig
-      )
-      res.json(JSON.parse(result.data.replace('{"d":null}', '')))
-    } catch (error) {
-      console.error(error.message)
-      return res.status(500).send('Server error...')
-    }
-  }
-)
-
-// @route GET api/posts/geocoder
-// @desc  Search on map by query
-// @access Public
-router.get('/geocoder', async (req, res) => {
-  const urlParams = new URLSearchParams(req.query).toString()
-
-  try {
-    const result = await axios.post(
-      `https://gomap.az/maps/search/index/az?${urlParams}`
-    )
-    res.json(result.data)
-  } catch (error) {
-    console.error(error.message)
-    return res.status(500).send('Server error...')
-  }
-})
 
 const checkFileExists = async (file) => {
   return fs.promises
@@ -384,7 +338,7 @@ const getNextSequence = (name) => {
       const counter = await Counter.findByIdAndUpdate(
         name,
         { $inc: { seq: 1 } },
-        { new: true, upsert: true }
+        { new: true, upsert: true },
       )
       resolve(counter.seq)
     } catch (error) {

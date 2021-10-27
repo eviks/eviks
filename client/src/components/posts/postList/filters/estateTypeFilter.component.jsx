@@ -6,7 +6,7 @@ import Radio from '../../../layout/form/radio/radio.component'
 import {
   SvgApartment,
   SvgNewBuilding,
-  SvgSecondaryBuilding,
+  SvgResale,
   SvgHouse,
   SvgInfinity,
 } from '../../../layout/icons'
@@ -22,7 +22,7 @@ const EstateTypeFilter = ({ filters, updateURLParams }) => {
 
   const filtersOnChange = (e) => {
     const value = e.target.value
-    if (value === 'newBuilding' || value === 'secondaryBuilding') {
+    if (value === 'newBuilding' || value === 'resale') {
       updateURLParams(
         { apartmentType: value, estateType: 'apartment' },
         history
@@ -73,13 +73,13 @@ const EstateTypeFilter = ({ filters, updateURLParams }) => {
     },
     {
       input: {
-        id: `secondaryBuilding`,
+        id: `resale`,
         name: 'estateType',
-        value: `secondaryBuilding`,
-        checked: apartmentType === 'secondaryBuilding',
+        value: `resale`,
+        checked: apartmentType === 'resale',
       },
-      label: t('postList.estateTypes.secondaryBuilding'),
-      icon: <SvgSecondaryBuilding width={'2em'} height={'2em'} />,
+      label: t('postList.estateTypes.resale'),
+      icon: <SvgResale width={'2em'} height={'2em'} />,
     },
     {
       input: {

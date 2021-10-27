@@ -32,7 +32,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       trim: true,
       index: true,
-      unique: true,
     },
     active: {
       type: Boolean,
@@ -40,7 +39,6 @@ const UserSchema = new mongoose.Schema(
     },
     resetPasswordToken: {
       type: String,
-      unique: true,
       sparse: true,
       trim: true,
       index: true,
@@ -49,7 +47,9 @@ const UserSchema = new mongoose.Schema(
     resetPasswordExpires: Date,
     favorites: Object,
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  },
 )
 
 module.exports = User = mongoose.model('user', UserSchema)

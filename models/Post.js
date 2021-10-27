@@ -9,8 +9,15 @@ const PostSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    username: { type: String, required: true },
-    userType: { type: String, required: true, index: true },
+    username: {
+      type: String,
+      required: true,
+    },
+    userType: {
+      type: String,
+      required: true,
+      index: true,
+    },
     city: {
       type: {
         name: String,
@@ -34,60 +41,222 @@ const PostSchema = new mongoose.Schema(
       },
       index: true,
     },
-    address: { type: String, required: true, index: true },
-    location: { type: [Number, Number], required: true, index: true },
-    estateType: { type: String, required: true, index: true },
-    apartmentType: { type: String, index: true },
-    dealType: { type: String, required: true, index: true },
-    rooms: { type: Number, required: true, index: true },
-    sqm: { type: Number, required: true, index: true },
-    livingRoomsSqm: { type: Number, index: true },
-    kitchenSqm: { type: Number, index: true },
-    lotSqm: { type: Number, index: true },
-    floor: { type: Number, index: true },
-    totalFloors: { type: Number, index: true },
-    maintenance: { type: String, index: true },
-    redevelopment: { type: Boolean, index: true },
-    ceilingHeight: { type: Number, index: true },
-    yearBuild: { type: Number, index: true },
-    elevator: { type: Boolean, index: true },
-    parkingLot: { type: Boolean, index: true },
-    documented: { type: Boolean, index: true },
-    mortgage: { type: Boolean, index: true },
-    kidsAllowed: { type: Boolean, index: true },
-    petsAllowed: { type: Boolean, index: true },
-    balcony: { type: Boolean, index: true },
-    bathroomType: { type: String, index: true },
-    windows: { type: Number, index: true },
-    frontWindow: { type: Boolean, index: true },
-    rearWindow: { type: Boolean, index: true },
-    furniture: { type: Boolean, index: true },
-    kitchenFurniture: { type: Boolean, index: true },
-    cctv: { type: Boolean, index: true },
-    phone: { type: Boolean, index: true },
-    internet: { type: Boolean, index: true },
-    electricity: { type: Boolean, index: true },
-    gas: { type: Boolean, index: true },
-    water: { type: Boolean, index: true },
-    heating: { type: Boolean, index: true },
-    tv: { type: Boolean, index: true },
-    conditioner: { type: Boolean, index: true },
-    washingMachine: { type: Boolean, index: true },
-    dishwasher: { type: Boolean, index: true },
-    refrigerator: { type: Boolean, index: true },
-    garage: { type: Boolean, index: true },
-    pool: { type: Boolean, index: true },
-    bathhouse: { type: Boolean, index: true },
-    description: { type: String, required: true },
-    price: { type: Number, required: true },
-    bargain: { type: Boolean, index: true },
-    progressPayment: { type: Boolean, index: true },
-    prepayment: { type: Boolean, index: true },
+    address: {
+      type: String,
+      required: true,
+      index: true,
+    },
+    location: {
+      type: [Number, Number],
+      required: true,
+      index: true,
+    },
+    estateType: {
+      type: String,
+      required: true,
+      index: true,
+    },
+    apartmentType: {
+      type: String,
+      index: true,
+    },
+    dealType: {
+      type: String,
+      required: true,
+      index: true,
+    },
+    rooms: {
+      type: Number,
+      required: true,
+      index: true,
+    },
+    sqm: {
+      type: Number,
+      required: true,
+      index: true,
+    },
+    livingRoomsSqm: {
+      type: Number,
+      index: true,
+    },
+    kitchenSqm: {
+      type: Number,
+      index: true,
+    },
+    lotSqm: {
+      type: Number,
+      index: true,
+    },
+    floor: {
+      type: Number,
+      index: true,
+    },
+    totalFloors: {
+      type: Number,
+      index: true,
+    },
+    renovation: {
+      type: String,
+      index: true,
+    },
+    redevelopment: {
+      type: Boolean,
+      index: true,
+    },
+    ceilingHeight: {
+      type: Number,
+      index: true,
+    },
+    yearBuild: {
+      type: Number,
+      index: true,
+    },
+    elevator: {
+      type: Boolean,
+      index: true,
+    },
+    parkingLot: {
+      type: Boolean,
+      index: true,
+    },
+    documented: {
+      type: Boolean,
+      index: true,
+    },
+    mortgage: {
+      type: Boolean,
+      index: true,
+    },
+    kidsAllowed: {
+      type: Boolean,
+      index: true,
+    },
+    petsAllowed: {
+      type: Boolean,
+      index: true,
+    },
+    balcony: {
+      type: Boolean,
+      index: true,
+    },
+    bathroomType: {
+      type: String,
+      index: true,
+    },
+    windows: {
+      type: Number,
+      index: true,
+    },
+    frontWindow: {
+      type: Boolean,
+      index: true,
+    },
+    rearWindow: {
+      type: Boolean,
+      index: true,
+    },
+    furniture: {
+      type: Boolean,
+      index: true,
+    },
+    kitchenFurniture: {
+      type: Boolean,
+      index: true,
+    },
+    cabelTv: {
+      type: Boolean,
+      index: true,
+    },
+    phone: {
+      type: Boolean,
+      index: true,
+    },
+    internet: {
+      type: Boolean,
+      index: true,
+    },
+    electricity: {
+      type: Boolean,
+      index: true,
+    },
+    gas: {
+      type: Boolean,
+      index: true,
+    },
+    water: {
+      type: Boolean,
+      index: true,
+    },
+    heating: {
+      type: Boolean,
+      index: true,
+    },
+    tv: {
+      type: Boolean,
+      index: true,
+    },
+    conditioner: {
+      type: Boolean,
+      index: true,
+    },
+    washingMachine: {
+      type: Boolean,
+      index: true,
+    },
+    dishwasher: {
+      type: Boolean,
+      index: true,
+    },
+    refrigerator: {
+      type: Boolean,
+      index: true,
+    },
+    garage: {
+      type: Boolean,
+      index: true,
+    },
+    pool: {
+      type: Boolean,
+      index: true,
+    },
+    bathhouse: {
+      type: Boolean,
+      index: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    bargain: {
+      type: Boolean,
+      index: true,
+    },
+    progressPayment: {
+      type: Boolean,
+      index: true,
+    },
+    prepayment: {
+      type: Boolean,
+      index: true,
+    },
     municipalServices: Boolean,
-    images: { type: Array, required: true },
-    contact: { type: String, required: true, index: true },
+    images: {
+      type: Array,
+      required: true,
+    },
+    contact: {
+      type: String,
+      required: true,
+      index: true,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  },
 )
 
 module.exports = Post = mongoose.model('post', PostSchema)

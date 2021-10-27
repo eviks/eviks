@@ -100,10 +100,10 @@
       },
       "features": {
         "title": "Дополнительные удобства",
-        "maintenance": {
-          "redecorated": "Косметический ремонт",
-          "designed": "Дизайнерский ремонт",
-          "noMaintenance": "Требуется ремонт"
+        "renovation": {
+          "cosmetic": "Косметический ремонт",
+          "designer": "Дизайнерский ремонт",
+          "noRenovation": "Требуется ремонт"
         },
         "mortgage": "Ипотека",
         "documented": "Есть купчая",
@@ -111,7 +111,7 @@
         "balcony": "Балкон",
         "furniture": "Мебель",
         "kitchenFurniture": "Кухонная мебель",
-        "cctv": "Кабельное",
+        "cabelTv": "Кабельное",
         "phone": "Телефон",
         "internet": "Интернет",
         "electricity": "Электричество",
@@ -192,7 +192,7 @@
         "any": "Любой",
         "apartment": "Квартира",
         "newBuilding": "Новостройка",
-        "secondaryBuilding": "Вторичка",
+        "resale": "Вторичка",
         "house": "Дом"
       },
       "room": "комната",
@@ -241,7 +241,7 @@
         "house": "Дом",
         "apartmentType": "Новостройка или вторичка?",
         "newBuilding": "Новостройка",
-        "secondaryBuilding": "Вторичка",
+        "resale": "Вторичка",
         "dealType": "Тип сделки",
         "sale": "Продать",
         "rent": "Сдать",
@@ -264,10 +264,10 @@
         "floor": "Этаж",
         "totalFloors": "Всего этажей",
         "lotSqm": "Площадь участка, соток",
-        "maintenance": "Ремонт",
-        "redecorated": "Косметический ремонт",
-        "designed": "Дизайнерский ремонт",
-        "noMaintenance": "Без ремонта",
+        "renovation": "Ремонт",
+        "cosmetic": "Косметический ремонт",
+        "designer": "Дизайнерский ремонт",
+        "noRenovation": "Без ремонта",
         "redevelopment": "Перепланировка",
         "documented": "Имеется купчая",
         "mortgage": "Имеется кредит"
@@ -287,7 +287,7 @@
         "balcony": "Балкон",
         "furniture": "Мебель",
         "kitchenFurniture": "Кухонная мебель",
-        "cctv": "Кабельное",
+        "cabelTv": "Кабельное",
         "phone": "Телефон",
         "internet": "Интернет",
         "electricity": "Электричество",
