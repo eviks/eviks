@@ -27,7 +27,7 @@ router.get('/', [postSearch], async (req, res) => {
     result = await Post.find(conditions)
       .limit(limit)
       .skip(startIndex)
-      .sort({ date: -1 })
+      .sort({ updatedAt: -1 })
 
     posts.result = result
     posts.pagination = pagination

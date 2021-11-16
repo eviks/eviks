@@ -23,10 +23,10 @@ const PostPrice = ({
   const {
     dealType,
     price,
-    bargain,
-    progressPayment,
+    haggle,
+    installmentOfPayment,
     prepayment,
-    municipalServices
+    municipalServicesIncluded
   } = postForm
 
   const onChange = event => {
@@ -81,20 +81,20 @@ const PostPrice = ({
         onChange={onChange}
         error={validationErrors.price}
       />
-      {/* Bargain */}
+      {/* Haggle */}
       <Checkbox
-        label={t('createPost.price.bargain')}
-        options={{ name: 'bargain', id: 'bargain', checked: bargain }}
+        label={t('createPost.price.haggle')}
+        options={{ name: 'haggle', id: 'haggle', checked: haggle }}
         onChange={onChange}
       />
       {dealType === 'sale' ? (
-        // Progress payment
+        // Installment of payment
         <Checkbox
-          label={t('createPost.price.progressPayment')}
+          label={t('createPost.price.installmentOfPayment')}
           options={{
-            name: 'progressPayment',
-            id: 'progressPayment',
-            checked: progressPayment
+            name: 'installmentOfPayment',
+            id: 'installmentOfPayment',
+            checked: installmentOfPayment
           }}
           onChange={onChange}
         />
@@ -112,11 +112,11 @@ const PostPrice = ({
           />
           {/* Municipal services */}
           <Checkbox
-            label={t('createPost.price.municipalServices')}
+            label={t('createPost.price.municipalServicesIncluded')}
             options={{
-              name: 'municipalServices',
-              id: 'municipalServices',
-              checked: municipalServices
+              name: 'municipalServicesIncluded',
+              id: 'municipalServicesIncluded',
+              checked: municipalServicesIncluded
             }}
             onChange={onChange}
           />

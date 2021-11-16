@@ -42,7 +42,7 @@ const setPostsFilters = (req) => {
     documented,
     mortgage,
     redevelopment,
-    bargain,
+    haggle,
     notFirstFloor,
     notLastFloor,
     user,
@@ -100,8 +100,8 @@ const setPostsFilters = (req) => {
   // Redevelopment
   if (redevelopment) conditions.redevelopment = true
 
-  // Bargain
-  if (bargain) conditions.bargain = true
+  // Haggle
+  if (haggle) conditions.haggle = true
 
   // Not first floor
   if (notFirstFloor) conditions.notFirstFloor = { $ne: 1 }

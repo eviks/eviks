@@ -13,7 +13,7 @@ import './filters.style.scss'
 const PriceFilter = ({ filters, setSrearchFilters, updateURLParams }) => {
   const history = useHistory()
 
-  const { bargain } = filters
+  const { haggle } = filters
 
   const filtersOnChange = event => {
     const { name, value } = event.target
@@ -66,11 +66,11 @@ const PriceFilter = ({ filters, setSrearchFilters, updateURLParams }) => {
         }}
       />
       <Checkbox
-        label={t('postList.filters.bargain')}
+        label={t('postList.filters.haggle')}
         options={{
-          name: 'bargain',
-          id: 'bargain',
-          checked: bargain
+          name: 'haggle',
+          id: 'haggle',
+          checked: haggle
         }}
         onChange={checkboxOnChange}
       />

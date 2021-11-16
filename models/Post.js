@@ -3,6 +3,11 @@ const mongoose = require('mongoose')
 const PostSchema = new mongoose.Schema(
   {
     _id: Number,
+    active: {
+      type: Boolean,
+      required: true,
+      index: true,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
@@ -231,11 +236,11 @@ const PostSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    bargain: {
+    haggle: {
       type: Boolean,
       index: true,
     },
-    progressPayment: {
+    installmentOfPayment: {
       type: Boolean,
       index: true,
     },
@@ -243,7 +248,7 @@ const PostSchema = new mongoose.Schema(
       type: Boolean,
       index: true,
     },
-    municipalServices: Boolean,
+    municipalServicesIncluded: Boolean,
     images: {
       type: Array,
       required: true,

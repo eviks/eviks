@@ -136,7 +136,7 @@ const PostGeneralInfo = ({
       newAttributes.kidsAllowed = false
       newAttributes.petsAllowed = false
       newAttributes.prepayment = false
-      newAttributes.municipalServices = false
+      newAttributes.municipalServicesIncluded = false
     }
     updatePostFormAttributes(newAttributes)
   }
