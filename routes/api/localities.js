@@ -1,64 +1,73 @@
-const express = require('express')
-const router = express.Router()
-const axios = require('axios')
-const config = require('config')
+const express = require('express');
+const router = express.Router();
+const axios = require('axios');
+const config = require('config');
 
-const Locality = require('../../models/Locality')
+const Locality = require('../../models/Locality');
 
 // @route GET api/localities/
 // @desc  Get localities
 // @access Public
 router.get('/', async (req, res) => {
   try {
+    query = req.query;
+    if (query['id']) {
+      query['id'] = { $in: query['id'].split(',') };
+    }
+
     const localities = await Locality.aggregate([
-      { $match: req.query },
+      { $match: query },
       { $sort: { name: 1 } },
-    ])
+    ]);
 
     localities.forEach(
       (locality) =>
         locality.children &&
         locality.children.sort((a, b) => a.name.localeCompare(b.name)),
-    )
+    );
 
     // Localities not found
     if (!localities) {
-      return res.status(404).json({ errors: [{ msg: 'Localities not found' }] })
+      return res
+        .status(404)
+        .json({ errors: [{ msg: 'Localities not found' }] });
     }
 
-    return res.json(localities)
+    return res.json(localities);
   } catch (error) {
-    console.error(error.message)
-    res.status(500).send('Server Error...')
+    console.error(error.message);
+    res.status(500).send('Server Error...');
   }
-})
+});
 
 // @route GET api/localities/getByIds/
 // @desc  Get localities by list of ids
 // @access Public
 router.get('/getByIds/', async (req, res) => {
   try {
-    const ids = req.query.ids
+    const ids = req.query.ids;
 
     if (!ids) {
       return res
         .status(400)
-        .json({ errors: [{ msg: 'ids parameter must be specified' }] })
+        .json({ errors: [{ msg: 'ids parameter must be specified' }] });
     }
 
-    const localities = await Locality.find({ id: { $in: ids.split(',') } })
+    const localities = await Locality.find({ id: { $in: ids.split(',') } });
 
     // Localities not found
     if (!localities) {
-      return res.status(404).json({ errors: [{ msg: 'Localities not found' }] })
+      return res
+        .status(404)
+        .json({ errors: [{ msg: 'Localities not found' }] });
     }
 
-    return res.json(localities)
+    return res.json(localities);
   } catch (error) {
-    console.error(error.message)
-    res.status(500).send('Server Error...')
+    console.error(error.message);
+    res.status(500).send('Server Error...');
   }
-})
+});
 
 // @route POST api/localities/getAddressByCoords
 // @desc  Get address
@@ -68,36 +77,36 @@ router.post('/getAddressByCoords', async (req, res) => {
     headers: {
       'Content-Type': 'application/json',
     },
-  }
+  };
 
   try {
     const result = await axios.post(
       'http://api.gomap.az/Main.asmx/getAddressByCoords',
       { ...req.body, guid: config.get('goMapGUID') },
       axiosConfig,
-    )
-    res.json(JSON.parse(result.data.replace('{"d":null}', '')))
+    );
+    res.json(JSON.parse(result.data.replace('{"d":null}', '')));
   } catch (error) {
-    console.error(error.message)
-    return res.status(500).send('Server error...')
+    console.error(error.message);
+    return res.status(500).send('Server error...');
   }
-})
+});
 
 // @route GET api/localities/geocoder
 // @desc  Search on map by query
 // @access Public
 router.get('/geocoder', async (req, res) => {
-  const urlParams = new URLSearchParams(req.query).toString()
+  const urlParams = new URLSearchParams(req.query).toString();
 
   try {
     const result = await axios.post(
       `https://gomap.az/maps/search/index/az?${urlParams}`,
-    )
-    res.json(result.data)
+    );
+    res.json(result.data);
   } catch (error) {
-    console.error(error.message)
-    return res.status(500).send('Server error...')
+    console.error(error.message);
+    return res.status(500).send('Server error...');
   }
-})
+});
 
-module.exports = router
+module.exports = router;

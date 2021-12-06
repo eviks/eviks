@@ -1,4 +1,4 @@
-export const defaultLocale = 'az'
+export const defaultLocale = 'az';
 
 export const locales = [
   {
@@ -9,4 +9,4 @@ export const locales = [
     code: 'ru',
     name: 'Russian',
   },
-]
+];

@@ -1,44 +1,44 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { updateURLParams } from '../../../../actions/post'
-import { connect } from 'react-redux'
-import Radio from '../../../layout/form/radio/radio.component'
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { updateURLParams } from '../../../../actions/post';
+import { connect } from 'react-redux';
+import Radio from '../../../layout/form/radio/radio.component';
 import {
   SvgApartment,
   SvgNewBuilding,
   SvgResale,
   SvgHouse,
   SvgInfinity,
-} from '../../../layout/icons'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+} from '../../../layout/icons';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './filters.style.scss'
+import './filters.style.scss';
 
 const EstateTypeFilter = ({ filters, updateURLParams }) => {
-  const history = useHistory()
+  const history = useHistory();
 
-  const { estateType, apartmentType } = filters
+  const { estateType, apartmentType } = filters;
 
   const filtersOnChange = (e) => {
-    const value = e.target.value
+    const value = e.target.value;
     if (value === 'newBuilding' || value === 'resale') {
       updateURLParams(
         { apartmentType: value, estateType: 'apartment' },
-        history
-      )
+        history,
+      );
     } else {
       updateURLParams(
         {
           estateType: value === 'any' ? null : value,
           apartmentType: '',
         },
-        history
-      )
+        history,
+      );
     }
-  }
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   const options = [
     {
@@ -91,7 +91,7 @@ const EstateTypeFilter = ({ filters, updateURLParams }) => {
       label: t('postList.estateTypes.house'),
       icon: <SvgHouse width={'2em'} height={'2em'} />,
     },
-  ]
+  ];
 
   return (
     <form>
@@ -100,16 +100,16 @@ const EstateTypeFilter = ({ filters, updateURLParams }) => {
         <Radio options={options} size="lg" onChange={filtersOnChange} />
       </div>
     </form>
-  )
-}
+  );
+};
 
 EstateTypeFilter.propTypes = {
   filters: PropTypes.object.isRequired,
   updateURLParams: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   filters: state.post.posts.filters,
-})
+});
 
-export default connect(mapStateToProps, { updateURLParams })(EstateTypeFilter)
+export default connect(mapStateToProps, { updateURLParams })(EstateTypeFilter);

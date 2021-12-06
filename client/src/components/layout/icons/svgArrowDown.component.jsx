@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgArrowDown({ className = '', ...props }) {
   return (
@@ -18,7 +18,7 @@ function SvgArrowDown({ className = '', ...props }) {
 		c4.74-4.752,4.74-12.463,0-17.215C232.528,52.915,224.828,52.915,220.088,57.667z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgArrowDown
+export default SvgArrowDown;

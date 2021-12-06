@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgArrowRight({ className = '', ...props }) {
   return (
@@ -18,7 +18,7 @@ function SvgArrowRight({ className = '', ...props }) {
 		C187.881,124.315,187.881,116.495,183.189,111.816z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgArrowRight
+export default SvgArrowRight;

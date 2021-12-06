@@ -1,10 +1,10 @@
-import React from 'react'
-import MinMaxFilter from '../minMaxFilter.component'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React from 'react';
+import MinMaxFilter from '../minMaxFilter.component';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 const Square = ({ filtersOnChange, filtersOnBlur }) => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div className="filter-group">
@@ -15,11 +15,11 @@ const Square = ({ filtersOnChange, filtersOnBlur }) => {
         onBlur={filtersOnBlur}
         minInput={{
           name: 'sqmMin',
-          placeholder: t('postList.filters.min')
+          placeholder: t('postList.filters.min'),
         }}
         maxInput={{
           name: 'sqmMax',
-          placeholder: t('postList.filters.max')
+          placeholder: t('postList.filters.max'),
         }}
       />
       {/* Living sqm */}
@@ -29,11 +29,11 @@ const Square = ({ filtersOnChange, filtersOnBlur }) => {
         onBlur={filtersOnBlur}
         minInput={{
           name: 'livingSqmMin',
-          placeholder: t('postList.filters.min')
+          placeholder: t('postList.filters.min'),
         }}
         maxInput={{
           name: 'livingSqmMax',
-          placeholder: t('postList.filters.max')
+          placeholder: t('postList.filters.max'),
         }}
       />
       {/* Kitchen sqm */}
@@ -43,20 +43,20 @@ const Square = ({ filtersOnChange, filtersOnBlur }) => {
         onBlur={filtersOnBlur}
         minInput={{
           name: 'kitchenSqmMin',
-          placeholder: t('postList.filters.min')
+          placeholder: t('postList.filters.min'),
         }}
         maxInput={{
           name: 'kitchenSqmMax',
-          placeholder: t('postList.filters.max')
+          placeholder: t('postList.filters.max'),
         }}
       />
     </div>
-  )
-}
+  );
+};
 
 Square.propTypes = {
   filtersOnChange: PropTypes.func.isRequired,
-  filtersOnBlur: PropTypes.func.isRequired
-}
+  filtersOnBlur: PropTypes.func.isRequired,
+};
 
-export default Square
+export default Square;

@@ -1,9 +1,9 @@
-import React, { useRef } from 'react'
-import MoreFilters from '../filters/moreFilters.component'
-import QuickFilter from '../quickFilter/quickFilter.component'
-import ReactModal from 'react-modal'
-import { CSSTransition } from 'react-transition-group'
-import PropTypes from 'prop-types'
+import React, { useRef } from 'react';
+import MoreFilters from '../filters/moreFilters.component';
+import QuickFilter from '../quickFilter/quickFilter.component';
+import ReactModal from 'react-modal';
+import { CSSTransition } from 'react-transition-group';
+import PropTypes from 'prop-types';
 
 const FilterButton = ({
   title,
@@ -11,19 +11,19 @@ const FilterButton = ({
   filter,
   setFilter,
   component: Component,
-  moreFilters
+  moreFilters,
 }) => {
   const filterOnClick = () => {
     if (filter === name) {
-      setFilter('')
+      setFilter('');
     } else {
-      setFilter(name)
+      setFilter(name);
     }
-  }
+  };
 
-  const isOpen = filter === name
+  const isOpen = filter === name;
 
-  const filterButtonRef = useRef(null)
+  const filterButtonRef = useRef(null);
 
   return (
     <div ref={filterButtonRef} style={{ position: 'relative' }}>
@@ -37,7 +37,7 @@ const FilterButton = ({
         <ReactModal
           isOpen={isOpen}
           onRequestClose={() => {
-            setFilter('')
+            setFilter('');
           }}
           className="modal"
           overlayClassName="modal-overlay"
@@ -59,19 +59,19 @@ const FilterButton = ({
         </CSSTransition>
       )}
     </div>
-  )
-}
+  );
+};
 
 FilterButton.defaultProps = {
-  moreFilters: false
-}
+  moreFilters: false,
+};
 
 FilterButton.propTypes = {
   title: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
   setFilter: PropTypes.func.isRequired,
-  moreFilters: PropTypes.bool
-}
+  moreFilters: PropTypes.bool,
+};
 
-export default FilterButton
+export default FilterButton;

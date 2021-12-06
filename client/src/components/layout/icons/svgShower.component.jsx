@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgShower({ className = '', ...props }) {
   return (
@@ -82,7 +82,7 @@ function SvgShower({ className = '', ...props }) {
 			C456.638,222.083,456.348,228.162,456.348,244.87z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgShower
+export default SvgShower;

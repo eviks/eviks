@@ -1,22 +1,22 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import Radio from '../../../layout/form/radio/radio.component'
-import { SvgSale, SvgRent, SvgRentPerDay } from '../../../layout/icons'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Radio from '../../../layout/form/radio/radio.component';
+import { SvgSale, SvgRent, SvgRentPerDay } from '../../../layout/icons';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './filters.style.scss'
+import './filters.style.scss';
 
 const DealTypeFilter = ({ dealType, locale }) => {
-  const history = useHistory()
+  const history = useHistory();
 
   const filtersOnChange = (e) => {
-    const value = e.target.value
-    history.push(`/${locale}/baku/${value}`)
-  }
+    const value = e.target.value;
+    history.push(`/${locale}/baku/${value}`);
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   const options = [
     {
@@ -49,7 +49,7 @@ const DealTypeFilter = ({ dealType, locale }) => {
       label: t('postList.dealTypes.rentPerDay'),
       icon: <SvgRentPerDay width={'2em'} height={'2em'} />,
     },
-  ]
+  ];
 
   return (
     <form>
@@ -58,17 +58,17 @@ const DealTypeFilter = ({ dealType, locale }) => {
         <Radio options={options} size="lg" onChange={filtersOnChange} />
       </div>
     </form>
-  )
-}
+  );
+};
 
 DealTypeFilter.propTypes = {
   dealType: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   dealType: state.post.posts.filters.dealType,
   locale: state.locale.locale,
-})
+});
 
-export default connect(mapStateToProps)(DealTypeFilter)
+export default connect(mapStateToProps)(DealTypeFilter);

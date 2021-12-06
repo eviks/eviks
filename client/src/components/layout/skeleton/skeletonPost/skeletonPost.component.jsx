@@ -1,6 +1,6 @@
-import React from 'react'
-import { SvgLogo } from '../../icons'
-import SkeletonLine from '../skeletonLine.component'
+import React from 'react';
+import { SvgLogo } from '../../icons';
+import SkeletonLine from '../skeletonLine.component';
 
 const SkeletonPost = () => {
   return (
@@ -27,7 +27,7 @@ const SkeletonPost = () => {
         <SkeletonLine />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SkeletonPost
+export default SkeletonPost;

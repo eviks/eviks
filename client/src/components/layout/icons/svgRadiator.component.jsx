@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgRadiator({ className = '', ...props }) {
   return (
@@ -26,7 +26,7 @@ function SvgRadiator({ className = '', ...props }) {
 			s30,13.458,30,30V421z M482,331v30h-31v-30H482z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgRadiator
+export default SvgRadiator;

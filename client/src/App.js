@@ -1,40 +1,40 @@
-import React, { Fragment, useEffect, useRef } from 'react'
-import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import React, { Fragment, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import routes from './components/routing/routes.component'
-import Localizer from './components/localization/Localizer.component'
-import PrivateRoute from './components/routing/privateRoute.component'
-import ScrollToTop from './components/layout/scrollToTop/scrollToTop.component'
-import Navbar from './components/layout/navbar/navbar.component'
-import Footer from './components/layout/footer/footer.component'
-import LocalitiesQuestion from './components/layout/localities/localitiesQuestion.component'
-import Spinner from './components/layout/spinner/spinner.component'
-import Modal from 'react-modal'
-import ReduxToastr from 'react-redux-toastr'
+import routes from './components/routing/routes.component';
+import Localizer from './components/localization/Localizer.component';
+import PrivateRoute from './components/routing/privateRoute.component';
+import ScrollToTop from './components/layout/scrollToTop/scrollToTop.component';
+import Navbar from './components/layout/navbar/navbar.component';
+import Footer from './components/layout/footer/footer.component';
+import LocalitiesQuestion from './components/layout/localities/localitiesQuestion.component';
+import Spinner from './components/layout/spinner/spinner.component';
+import Modal from 'react-modal';
+import ReduxToastr from 'react-redux-toastr';
 
-import { loadUser } from './actions/auth'
-import { setCurrentLocality } from './actions/locality'
-import { setAuthToken } from './services/util'
+import { loadUser } from './actions/auth';
+import { setCurrentLocality } from './actions/locality';
+import { setAuthToken } from './services/util';
 
 // Modal windows
-Modal.setAppElement('body')
+Modal.setAppElement('body');
 
 // User token
 if (localStorage.token) {
-  setAuthToken(localStorage.token)
+  setAuthToken(localStorage.token);
 }
 
 const App = ({ uiTranslationsLoaded, loadUser, setCurrentLocality }) => {
   // Reference to navbar element
-  let navRef = useRef(null)
+  let navRef = useRef(null);
 
   useEffect(() => {
-    loadUser()
+    loadUser();
 
     if (localStorage.currentLocality)
-      setCurrentLocality(JSON.parse(localStorage.currentLocality))
-  }, [loadUser, setCurrentLocality])
+      setCurrentLocality(JSON.parse(localStorage.currentLocality));
+  }, [loadUser, setCurrentLocality]);
 
   return (
     <Fragment>
@@ -67,7 +67,7 @@ const App = ({ uiTranslationsLoaded, loadUser, setCurrentLocality }) => {
                           : route.component
                       }
                     />
-                  )
+                  ),
                 )}
               </Switch>
               <Footer />
@@ -87,11 +87,11 @@ const App = ({ uiTranslationsLoaded, loadUser, setCurrentLocality }) => {
         closeOnToastrClick
       />
     </Fragment>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => ({
   uiTranslationsLoaded: state.locale.uiTranslationsLoaded,
-})
+});
 
-export default connect(mapStateToProps, { loadUser, setCurrentLocality })(App)
+export default connect(mapStateToProps, { loadUser, setCurrentLocality })(App);

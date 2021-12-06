@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgPaintRoller({ className = '', ...props }) {
   return (
@@ -26,7 +26,7 @@ function SvgPaintRoller({ className = '', ...props }) {
 			 M289.391,328.348v37.788h-66.783v-37.788H289.391z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgPaintRoller
+export default SvgPaintRoller;

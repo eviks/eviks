@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
-import { updatePostFormAttributes } from '../../../../actions/post'
-import Input from '../../../layout/form/input/input.component'
-import styled, { keyframes } from 'styled-components'
-import { fadeIn, fadeOut } from 'react-animations'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { updatePostFormAttributes } from '../../../../actions/post';
+import Input from '../../../layout/form/input/input.component';
+import styled, { keyframes } from 'styled-components';
+import { fadeIn, fadeOut } from 'react-animations';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-const FadeInAnimation = keyframes`${fadeIn}`
-const FadeOutAnimation = keyframes`${fadeOut}`
+const FadeInAnimation = keyframes`${fadeIn}`;
+const FadeOutAnimation = keyframes`${fadeOut}`;
 const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
-`
+`;
 
 const PostContact = ({
   contact,
@@ -22,12 +22,12 @@ const PostContact = ({
 }) => {
   useEffect(() => {
     if (username === '') {
-      updatePostFormAttributes({ username: displayName })
+      updatePostFormAttributes({ username: displayName });
     }
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   const phoneMask = [
     '+',
@@ -47,7 +47,7 @@ const PostContact = ({
     '-',
     /\d/,
     /\d/,
-  ]
+  ];
 
   return (
     <FadeInDiv className="px-4">
@@ -79,8 +79,8 @@ const PostContact = ({
         error={validationErrors.contact}
       />
     </FadeInDiv>
-  )
-}
+  );
+};
 
 PostContact.propTypes = {
   contact: PropTypes.string.isRequired,
@@ -88,15 +88,15 @@ PostContact.propTypes = {
   updatePostFormAttributes: PropTypes.func.isRequired,
   validationErrors: PropTypes.object.isRequired,
   displayName: PropTypes.string.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   contact: state.post.postForm.contact,
   username: state.post.postForm.username,
   validationErrors: state.post.validationErrors,
   displayName: state.auth.user.displayName,
-})
+});
 
 export default connect(mapStateToProps, { updatePostFormAttributes })(
-  PostContact
-)
+  PostContact,
+);

@@ -10,7 +10,7 @@ import {
   DELETE_USER,
   ADD_POST_TO_FAVORITES,
   REMOVE_POST_FROM_FAVORITES,
-} from '../actions/types'
+} from '../actions/types';
 
 const initialState = {
   userIsLoading: true,
@@ -18,10 +18,10 @@ const initialState = {
   isAuthenticated: null,
   user: null,
   validResetPasswordToken: null,
-}
+};
 
 const authReducer = (state = initialState, action) => {
-  const { type, payload } = action
+  const { type, payload } = action;
   switch (type) {
     case USER_LOADED:
     case UPDATE_USER:
@@ -30,30 +30,30 @@ const authReducer = (state = initialState, action) => {
         userIsLoading: false,
         isAuthenticated: true,
         user: payload,
-      }
+      };
     case VERIFICATION_SUCCESS:
     case RESET_PASSWORD_SUCCESS:
     case LOGIN_SUCCESS:
-      localStorage.setItem('token', payload.token)
+      localStorage.setItem('token', payload.token);
       return {
         ...state,
         ...payload,
         userIsLoading: false,
         isAuthenticated: true,
-      }
+      };
     case RESET_TOKEN_CHECK_SUCCESS:
-      return { ...state, userIsLoading: false, validResetPasswordToken: true }
+      return { ...state, userIsLoading: false, validResetPasswordToken: true };
     case AUTH_ERROR:
     case LOGOUT:
     case DELETE_USER:
-      localStorage.removeItem('token')
+      localStorage.removeItem('token');
       return {
         ...state,
         userIsLoading: false,
         token: null,
         isAuthenticated: false,
         validResetPasswordToken: false,
-      }
+      };
     case ADD_POST_TO_FAVORITES:
     case REMOVE_POST_FROM_FAVORITES:
       return {
@@ -63,10 +63,10 @@ const authReducer = (state = initialState, action) => {
           ...state.user,
           favorites: payload,
         },
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default authReducer
+export default authReducer;

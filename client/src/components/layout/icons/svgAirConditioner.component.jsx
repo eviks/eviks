@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgAirConditioner({ className = '', ...props }) {
   return (
@@ -54,7 +54,7 @@ function SvgAirConditioner({ className = '', ...props }) {
 			c0,8.284,6.716,15,15,15s15-6.716,15-15v-15h15c8.284,0,15-6.716,15-15S113.284,375.466,105,375.466z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgAirConditioner
+export default SvgAirConditioner;

@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import Input from '../../layout/form/input/input.component'
-import Ripple from '../../layout/ripple/ripple.component'
-import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
-import { connect } from 'react-redux'
-import { sendResetPasswordToken } from '../../../actions/auth'
-import Alert from '../../layout/alert/alert.component'
-import { setAlert, deleteAllAlerts } from '../../../actions/alert'
-import { toastr } from 'react-redux-toastr'
-import paperPlaneAnimation from '../../../assets/lottiefilesSources/paperPlane.json'
-import { Player } from '@lottiefiles/react-lottie-player'
-import { useTranslation } from 'react-i18next'
-import uuid from 'uuid'
-import PasswordImage from '../../../assets/img/illustrations/password.svg'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react';
+import Input from '../../layout/form/input/input.component';
+import Ripple from '../../layout/ripple/ripple.component';
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component';
+import { connect } from 'react-redux';
+import { sendResetPasswordToken } from '../../../actions/auth';
+import Alert from '../../layout/alert/alert.component';
+import { setAlert, deleteAllAlerts } from '../../../actions/alert';
+import { toastr } from 'react-redux-toastr';
+import paperPlaneAnimation from '../../../assets/lottiefilesSources/paperPlane.json';
+import { Player } from '@lottiefiles/react-lottie-player';
+import { useTranslation } from 'react-i18next';
+import uuid from 'uuid';
+import PasswordImage from '../../../assets/img/illustrations/password.svg';
+import PropTypes from 'prop-types';
 
-import '../auth.style.scss'
+import '../auth.style.scss';
 
 const ResetPassword = ({
   loading,
@@ -27,17 +27,17 @@ const ResetPassword = ({
 }) => {
   useEffect(() => {
     return () => {
-      deleteAllAlerts()
-    }
-  }, [deleteAllAlerts])
+      deleteAllAlerts();
+    };
+  }, [deleteAllAlerts]);
 
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('');
 
   const onSubmit = async () => {
     // Send reset-password-token
-    const result = await sendResetPasswordToken(email)
+    const result = await sendResetPasswordToken(email);
 
-    if (!result) return
+    if (!result) return;
 
     // Toaster
     const toastrOptions = {
@@ -51,22 +51,22 @@ const ResetPassword = ({
         />
       ),
       status: 'info',
-    }
+    };
     toastr.light(
       t('auth.resetPassword.checkEmailTitle'),
       t('auth.resetPassword.checkEmail', { email }),
-      toastrOptions
-    )
+      toastrOptions,
+    );
 
     // Go to landing page
-    history.push(`/${locale}/`)
-  }
+    history.push(`/${locale}/`);
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   if (location.state && location.state.showAlert) {
-    location.state.showAlert = false
-    setAlert(t('auth.resetPassword.invalidToken'), 'danger', uuid.v4())
+    location.state.showAlert = false;
+    setAlert(t('auth.resetPassword.invalidToken'), 'danger', uuid.v4());
   }
 
   return (
@@ -104,8 +104,8 @@ const ResetPassword = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 ResetPassword.propTypes = {
   loading: PropTypes.bool,
@@ -114,15 +114,15 @@ ResetPassword.propTypes = {
   deleteAllAlerts: PropTypes.func.isRequired,
   sendResetPasswordToken: PropTypes.func.isRequired,
   showAlert: PropTypes.bool,
-}
+};
 
 const mapStateToProps = (state) => ({
   loading: state.async.loading,
   locale: state.locale.locale,
-})
+});
 
 export default connect(mapStateToProps, {
   setAlert,
   deleteAllAlerts,
   sendResetPasswordToken,
-})(ResetPassword)
+})(ResetPassword);

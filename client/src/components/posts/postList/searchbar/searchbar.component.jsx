@@ -1,93 +1,93 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { removeAllFilters } from '../../../../actions/post'
-import { connect } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import FilterButton from '../filterButton/filterButton.component'
-import DealTypeFilter from '../filters/dealTypeFilter.component'
-import PriceFilter from '../filters/priceFilter.component'
-import RoomFilter from '../filters/roomFilter.component'
-import EstateTypeFilter from '../filters/estateTypeFilter.component'
-import MoreFilters from '../filters/moreFilters.component'
-import LocationsFilter from '../filters/locationFilters/locationsFilter.component'
-import { SvgBroom } from '../../../layout/icons'
-import ReactModal from 'react-modal'
-import { useTranslation } from 'react-i18next'
-import { getURLParams } from '../../../../services/util'
+import React, { useState, useEffect, useRef } from 'react';
+import { removeAllFilters } from '../../../../actions/post';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import FilterButton from '../filterButton/filterButton.component';
+import DealTypeFilter from '../filters/dealTypeFilter.component';
+import PriceFilter from '../filters/priceFilter.component';
+import RoomFilter from '../filters/roomFilter.component';
+import EstateTypeFilter from '../filters/estateTypeFilter.component';
+import MoreFilters from '../filters/moreFilters.component';
+import LocationsFilter from '../filters/locationFilters/locationsFilter.component';
+import { SvgBroom } from '../../../layout/icons';
+import ReactModal from 'react-modal';
+import { useTranslation } from 'react-i18next';
+import { getURLParams } from '../../../../services/util';
 import {
   getDealTypeFilterTitle,
   getPriceFilterTitle,
   getRoomsFilterTitle,
   estateTypeFilterTitle,
-} from './filterTitles'
-import PropTypes from 'prop-types'
+} from './filterTitles';
+import PropTypes from 'prop-types';
 
-import './searchbar.style.scss'
+import './searchbar.style.scss';
 
-let prevScrollPos = window.pageYOffset
+let prevScrollPos = window.pageYOffset;
 
 const Searchbar = ({ navRef, removeAllFilters, dealType }) => {
-  const history = useHistory()
+  const history = useHistory();
   const urlParameters = Object.fromEntries(
-    getURLParams(history.location.search)
-  )
+    getURLParams(history.location.search),
+  );
 
-  let containerRef = useRef(null)
+  let containerRef = useRef(null);
 
-  const [classes, setClasses] = useState('')
-  const [filter, setFilter] = useState('')
-  const [filterIsOpen, setFilterIsOpen] = useState(false)
-  const [showLocationsFilter, setShowLocationsFilter] = useState(false)
-  const [t] = useTranslation()
+  const [classes, setClasses] = useState('');
+  const [filter, setFilter] = useState('');
+  const [filterIsOpen, setFilterIsOpen] = useState(false);
+  const [showLocationsFilter, setShowLocationsFilter] = useState(false);
+  const [t] = useTranslation();
 
   useEffect(() => {
-    setFilterIsOpen(filter !== '')
-  }, [filter])
+    setFilterIsOpen(filter !== '');
+  }, [filter]);
 
   useEffect(() => {
     const onScroll = () => {
-      let currentScrollPos = window.pageYOffset
-      let scrollUp = prevScrollPos > currentScrollPos
-      prevScrollPos = currentScrollPos
+      let currentScrollPos = window.pageYOffset;
+      let scrollUp = prevScrollPos > currentScrollPos;
+      prevScrollPos = currentScrollPos;
       if (
         !navRef ||
         !containerRef ||
         isInViewport(navRef.current) ||
         (isInViewport(containerRef.current) && !scrollUp)
       ) {
-        setClasses('searchbar-relative')
+        setClasses('searchbar-relative');
       } else {
         if (classes === 'searchbar-relative') {
-          setClasses('searchbar-fixed searchbar-hidden searchbar-transition')
+          setClasses('searchbar-fixed searchbar-hidden searchbar-transition');
         } else {
           setClasses(
             `searchbar-fixed ${
               !scrollUp && !filterIsOpen ? 'searchbar-hidden' : ''
-            }`
-          )
+            }`,
+          );
         }
       }
-    }
+    };
 
     const isInViewport = (element) => {
-      const bounding = element.getBoundingClientRect()
-      return bounding.bottom >= 0
-    }
+      const bounding = element.getBoundingClientRect();
+      return bounding.bottom >= 0;
+    };
 
     const watchScroll = () => {
-      window.addEventListener('scroll', onScroll)
-    }
+      window.addEventListener('scroll', onScroll);
+    };
 
-    watchScroll()
+    watchScroll();
 
     return () => {
-      window.removeEventListener('scroll', onScroll)
-    }
-  }, [classes, navRef, filterIsOpen])
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [classes, navRef, filterIsOpen]);
 
   const handleRemoveFilters = () => {
-    removeAllFilters()
-    history.push('?')
-  }
+    removeAllFilters();
+    history.push('?');
+  };
 
   return (
     <div ref={containerRef} className="searchbar-wrapper">
@@ -163,17 +163,17 @@ const Searchbar = ({ navRef, removeAllFilters, dealType }) => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
 Searchbar.propTypes = {
   navRef: PropTypes.object.isRequired,
   removeAllFilters: PropTypes.func.isRequired,
   dealType: PropTypes.string.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   dealType: state.post.posts.filters.dealType,
-})
+});
 
-export default connect(mapStateToProps, { removeAllFilters })(Searchbar)
+export default connect(mapStateToProps, { removeAllFilters })(Searchbar);

@@ -1,20 +1,20 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import Hero from './hero/hero.component'
-import CategoryCard from './categoryCard/categoryCard.component'
-import SwipeBlock from './swipeBlock/swipeBlock.component'
-import { useTranslation } from 'react-i18next'
-import categorySale from '../../assets/img/photos/CategorySale.jpg'
-import categoryNewBuildingsImg from '../../assets/img/photos/CategoryNewBuildings.jpg'
-import categoryRentImg from '../../assets/img/photos/CategoryRent.jpg'
-import categoryRentByDayImg from '../../assets/img/photos/CategoryRentByDay.jpg'
-import categoryHouseImg from '../../assets/img/photos/CategoryHouse.jpg'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import Hero from './hero/hero.component';
+import CategoryCard from './categoryCard/categoryCard.component';
+import SwipeBlock from './swipeBlock/swipeBlock.component';
+import { useTranslation } from 'react-i18next';
+import categorySale from '../../assets/img/photos/CategorySale.jpg';
+import categoryNewBuildingsImg from '../../assets/img/photos/CategoryNewBuildings.jpg';
+import categoryRentImg from '../../assets/img/photos/CategoryRent.jpg';
+import categoryRentByDayImg from '../../assets/img/photos/CategoryRentByDay.jpg';
+import categoryHouseImg from '../../assets/img/photos/CategoryHouse.jpg';
+import PropTypes from 'prop-types';
 
-import './landing.style.scss'
+import './landing.style.scss';
 
 const Landing = ({ city }) => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   const saleAppartmentLinks = [
     {
@@ -29,7 +29,7 @@ const Landing = ({ city }) => {
       name: t('landing.categories.threeRoom'),
       url: `/${city.routeName}/sale?rooms=3&estateType=apartment`,
     },
-  ]
+  ];
 
   const newBuildingsLinks = [
     {
@@ -44,7 +44,7 @@ const Landing = ({ city }) => {
       name: t('landing.categories.threeRoom'),
       url: `/${city.routeName}/sale?rooms=3&estateType=apartment&apartmentType=newBuilding`,
     },
-  ]
+  ];
 
   const rentLinks = [
     {
@@ -59,7 +59,7 @@ const Landing = ({ city }) => {
       name: t('landing.categories.threeRoom'),
       url: `/${city.routeName}/rent?rooms=3`,
     },
-  ]
+  ];
 
   const rentPerDayLinks = [
     {
@@ -70,7 +70,7 @@ const Landing = ({ city }) => {
       name: t('landing.categories.rentHousePerDay'),
       url: `/${city.routeName}/rentPerDay?estateType=house`,
     },
-  ]
+  ];
 
   const HousesLinks = [
     {
@@ -85,7 +85,7 @@ const Landing = ({ city }) => {
       name: t('landing.categories.threeRoom'),
       url: `/${city.routeName}/sale?rooms=3&estateType=house`,
     },
-  ]
+  ];
 
   return (
     <Fragment>
@@ -121,15 +121,15 @@ const Landing = ({ city }) => {
         <SwipeBlock />
       </div>
     </Fragment>
-  )
-}
+  );
+};
 
 Landing.propTypes = {
   city: PropTypes.object.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   city: state.locality.currentLocality.city,
-})
+});
 
-export default connect(mapStateToProps)(Landing)
+export default connect(mapStateToProps)(Landing);

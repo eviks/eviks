@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgRent({ className = '', ...props }) {
   return (
@@ -34,7 +34,7 @@ function SvgRent({ className = '', ...props }) {
       />
       <circle fill="currentColor" cx="105.737" cy="83.477" r="16.695" />
     </svg>
-  )
+  );
 }
 
-export default SvgRent
+export default SvgRent;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgLogo({ className = '', ...props }) {
   return (
@@ -29,7 +29,7 @@ function SvgLogo({ className = '', ...props }) {
 			c8.681,8.681,158.347,158.347,166.957,166.957V467.479z M422.957,171.172l-33.391-33.391v-26.476h33.391V171.172z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgLogo
+export default SvgLogo;

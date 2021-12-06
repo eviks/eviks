@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgUser({ className = '', ...props }) {
   return (
@@ -19,7 +19,7 @@ function SvgUser({ className = '', ...props }) {
         d="M423.966,358.195C387.006,320.667,338.009,300,286,300h-60c-52.008,0-101.006,20.667-137.966,58.195    C51.255,395.539,31,444.833,31,497c0,8.284,6.716,15,15,15h420c8.284,0,15-6.716,15-15    C481,444.833,460.745,395.539,423.966,358.195z M61.66,482c7.515-85.086,78.351-152,164.34-152h60    c85.989,0,156.825,66.914,164.34,152H61.66z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgUser
+export default SvgUser;

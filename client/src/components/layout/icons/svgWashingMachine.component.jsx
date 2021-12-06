@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgWashingMachine({ className = '', ...props }) {
   return (
@@ -29,7 +29,7 @@ function SvgWashingMachine({ className = '', ...props }) {
 			c7.863-7.863,18.792-11.293,29.423-9.656C330.964,344.38,331,345.686,331,347C331,388.355,297.355,422,256,422z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgWashingMachine
+export default SvgWashingMachine;

@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import Ripple from '../../layout/ripple/ripple.component'
-import { useTranslation } from 'react-i18next'
-import LocalizedLink from '../../../components/localization/LocalizedLink.component'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { connect } from 'react-redux';
+import Ripple from '../../layout/ripple/ripple.component';
+import { useTranslation } from 'react-i18next';
+import LocalizedLink from '../../../components/localization/LocalizedLink.component';
+import PropTypes from 'prop-types';
 
 const Hero = ({ city }) => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
   return (
     <section className="landing">
       <div className="dark-overlay">
@@ -33,15 +33,15 @@ const Hero = ({ city }) => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 Hero.propTypes = {
   city: PropTypes.object.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   city: state.locality.currentLocality.city,
-})
+});
 
-export default connect(mapStateToProps)(Hero)
+export default connect(mapStateToProps)(Hero);

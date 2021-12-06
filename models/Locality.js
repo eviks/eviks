@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const LocalitySchema = new mongoose.Schema({
   id: {
@@ -29,6 +29,6 @@ const LocalitySchema = new mongoose.Schema({
     required: true,
   },
   children: Array,
-})
+});
 
-module.exports = Locality = mongoose.model('localities', LocalitySchema)
+module.exports = Locality = mongoose.model('localities', LocalitySchema);

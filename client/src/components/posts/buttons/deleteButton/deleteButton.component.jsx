@@ -1,24 +1,24 @@
-import React, { Fragment, useState } from 'react'
-import { connect } from 'react-redux'
-import { deletePost } from '../../../../actions/post'
-import { SvgGarbage } from '../../../layout/icons'
-import { Player } from '@lottiefiles/react-lottie-player'
-import DeleteMessage from './deleteMessage/deleteMessage.component'
-import ReactModal from 'react-modal'
-import { toastr } from 'react-redux-toastr'
-import { useTranslation } from 'react-i18next'
-import trashAnimation from '../../../../assets/lottiefilesSources/trash.json'
-import PropTypes from 'prop-types'
+import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
+import { deletePost } from '../../../../actions/post';
+import { SvgGarbage } from '../../../layout/icons';
+import { Player } from '@lottiefiles/react-lottie-player';
+import DeleteMessage from './deleteMessage/deleteMessage.component';
+import ReactModal from 'react-modal';
+import { toastr } from 'react-redux-toastr';
+import { useTranslation } from 'react-i18next';
+import trashAnimation from '../../../../assets/lottiefilesSources/trash.json';
+import PropTypes from 'prop-types';
 
 const DeleteButton = ({ postId, lg = false, deletePost }) => {
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   const onDeleteConfirm = async () => {
-    setShowModal(false)
+    setShowModal(false);
     try {
-      const result = await deletePost(postId)
+      const result = await deletePost(postId);
       if (result) {
         toastr.light(
           t('postList.buttons.delete.toastrTitle'),
@@ -33,13 +33,13 @@ const DeleteButton = ({ postId, lg = false, deletePost }) => {
                 style={{ height: '70px', width: '70px' }}
               />
             ),
-          }
-        )
+          },
+        );
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <Fragment>
@@ -62,12 +62,12 @@ const DeleteButton = ({ postId, lg = false, deletePost }) => {
         />
       </ReactModal>
     </Fragment>
-  )
-}
+  );
+};
 
 DeleteButton.propTypes = {
   postId: PropTypes.number.isRequired,
   lg: PropTypes.bool,
-}
+};
 
-export default connect(null, { deletePost })(DeleteButton)
+export default connect(null, { deletePost })(DeleteButton);

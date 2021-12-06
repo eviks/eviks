@@ -1,6 +1,6 @@
-import i18next from 'i18next'
-import { initReactI18next } from 'react-i18next'
-import moment from 'moment'
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import moment from 'moment';
 
 export const setUiLocale = (locale) => {
   return fetch(`/translations/${locale}.json`)
@@ -16,23 +16,23 @@ export const setUiLocale = (locale) => {
               interpolation: {
                 format(value, format, locale) {
                   if (value instanceof Date) {
-                    return moment(value).locale(locale).format(format)
+                    return moment(value).locale(locale).format(format);
                   }
-                  return value
+                  return value;
                 },
               },
             },
             (err, t) => {
               if (err) {
-                reject(err)
-                return
+                reject(err);
+                return;
               }
-              resolve()
-            }
-          )
-        })
+              resolve();
+            },
+          );
+        }),
     )
-    .catch((err) => Promise.reject(err))
-}
+    .catch((err) => Promise.reject(err));
+};
 
-export default i18next
+export default i18next;

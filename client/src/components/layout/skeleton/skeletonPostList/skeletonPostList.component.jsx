@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react'
-import SkeletonPostItem from '../skeletonPostItem/skeletonPostItem.component'
+import React, { Fragment } from 'react';
+import SkeletonPostItem from '../skeletonPostItem/skeletonPostItem.component';
 
 const SekeletonPostList = () => {
   return (
@@ -11,7 +11,7 @@ const SekeletonPostList = () => {
       <SkeletonPostItem />
       <SkeletonPostItem />
     </Fragment>
-  )
-}
+  );
+};
 
-export default SekeletonPostList
+export default SekeletonPostList;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgGarage({ className = '', ...props }) {
   return (
@@ -35,7 +35,7 @@ function SvgGarage({ className = '', ...props }) {
 			c9.22,0,16.696-7.475,16.696-16.696S304.177,345.043,294.957,345.043z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgGarage
+export default SvgGarage;

@@ -1,14 +1,14 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import ImageGallery from 'react-image-gallery'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ImageGallery from 'react-image-gallery';
 import {
   renderLeftNav,
   renderRightNav,
-} from '../../layout/arrowButtons/galleryButtons.component'
-import LikeButton from '../buttons/likeButton/likeButton.component'
-import EditButton from '../buttons/editButton/editButton.component'
-import DeleteButton from '../buttons/deleteButton/deleteButton.component'
+} from '../../layout/arrowButtons/galleryButtons.component';
+import LikeButton from '../buttons/likeButton/likeButton.component';
+import EditButton from '../buttons/editButton/editButton.component';
+import DeleteButton from '../buttons/deleteButton/deleteButton.component';
 import {
   SvgDocument,
   SvgMortgage,
@@ -16,12 +16,12 @@ import {
   SvgGarden,
   SvgSqm,
   SvgStairs,
-} from '../../layout/icons'
-import Moment from 'react-moment'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+} from '../../layout/icons';
+import Moment from 'react-moment';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './postItem.style.scss'
+import './postItem.style.scss';
 
 const PostItem = ({
   auth,
@@ -46,20 +46,20 @@ const PostItem = ({
   },
   locale,
 }) => {
-  const history = useHistory()
-  const [t] = useTranslation()
+  const history = useHistory();
+  const [t] = useTranslation();
 
-  const redirectToPost = () => history.push(`/${locale}/posts/${_id}`)
+  const redirectToPost = () => history.push(`/${locale}/posts/${_id}`);
 
   const priceStr = price.toLocaleString('az-AZ', {
     style: 'decimal',
-  })
+  });
 
   const getPostImages = () => {
     return images.map((id) => ({
       original: `/uploads/post_images/${id}/image_320.png`,
-    }))
-  }
+    }));
+  };
 
   return (
     <div className="card light-border">
@@ -140,18 +140,18 @@ const PostItem = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 PostItem.propTypes = {
   auth: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   locale: state.locale.locale,
-})
+});
 
-export default connect(mapStateToProps)(PostItem)
+export default connect(mapStateToProps)(PostItem);

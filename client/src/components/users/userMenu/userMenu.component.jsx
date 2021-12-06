@@ -1,14 +1,14 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Switch, Route } from 'react-router-dom'
-import PrivateRoute from '../../routing/privateRoute.component'
-import Sidebar from './sidebar/sidebar.component'
-import User from './user/user.component'
-import Favorites from './favorites/favorites.component'
-import Settings from './settings/settings.component'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+import PrivateRoute from '../../routing/privateRoute.component';
+import Sidebar from './sidebar/sidebar.component';
+import User from './user/user.component';
+import Favorites from './favorites/favorites.component';
+import Settings from './settings/settings.component';
+import PropTypes from 'prop-types';
 
-import './userMenu.style.scss'
+import './userMenu.style.scss';
 
 const UserMenu = ({ locale }) => {
   return (
@@ -37,15 +37,15 @@ const UserMenu = ({ locale }) => {
         </Switch>
       </div>
     </div>
-  )
-}
+  );
+};
 
 UserMenu.propTypes = {
   locale: PropTypes.string.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   locale: state.locale.locale,
-})
+});
 
-export default connect(mapStateToProps)(UserMenu)
+export default connect(mapStateToProps)(UserMenu);

@@ -10,6 +10,6 @@ module.exports = (emailType, context) => {
 
   return {
     text: '',
-    html
+    html,
   };
 };

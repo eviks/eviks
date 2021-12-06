@@ -1,44 +1,39 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { updatePostFormAttributes } from '../../../../actions/post'
-import Input from '../../../layout/form/input/input.component'
-import createNumberMask from 'text-mask-addons/dist/createNumberMask'
-import Checkbox from '../../../layout/form/checkbox/checkbox.component'
-import styled, { keyframes } from 'styled-components'
-import { fadeIn, fadeOut } from 'react-animations'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { updatePostFormAttributes } from '../../../../actions/post';
+import Input from '../../../layout/form/input/input.component';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import Checkbox from '../../../layout/form/checkbox/checkbox.component';
+import styled, { keyframes } from 'styled-components';
+import { fadeIn, fadeOut } from 'react-animations';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-const FadeInAnimation = keyframes`${fadeIn}`
-const FadeOutAnimation = keyframes`${fadeOut}`
+const FadeInAnimation = keyframes`${fadeIn}`;
+const FadeOutAnimation = keyframes`${fadeOut}`;
 const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
-`
+`;
 
 const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
-  const {
-    estateType,
-    ceilingHeight,
-    yearBuild,
-    elevator,
-    parkingLot
-  } = postForm
+  const { estateType, ceilingHeight, yearBuild, elevator, parkingLot } =
+    postForm;
 
-  const onChange = event => {
-    let { name, type, value } = event.target
-    const fieldValue = type === 'checkbox' ? event.target.checked : value
+  const onChange = (event) => {
+    let { name, type, value } = event.target;
+    const fieldValue = type === 'checkbox' ? event.target.checked : value;
 
     const newAttributes = {
       [name]:
         typeof fieldValue === 'number'
           ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
-          : fieldValue
-    }
+          : fieldValue,
+    };
 
-    updatePostFormAttributes(newAttributes)
-  }
+    updatePostFormAttributes(newAttributes);
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   const heightFormat = createNumberMask({
     prefix: '',
@@ -50,8 +45,8 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
     decimalLimit: 2, // how many digits allowed after the decimal
     integerLimit: 15, // limit length of integer numbers
     allowNegative: false,
-    allowLeadingZeroes: false
-  })
+    allowLeadingZeroes: false,
+  });
 
   return (
     <FadeInDiv className="px-4">
@@ -65,7 +60,7 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
           name: 'ceilingHeight',
           placeholder: '2,2',
           value: ceilingHeight === 0 ? '' : ceilingHeight,
-          min: '0'
+          min: '0',
         }}
         onChange={onChange}
       />
@@ -76,7 +71,7 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
           type: 'text',
           name: 'yearBuild',
           value: yearBuild === 0 ? '' : yearBuild,
-          min: '0'
+          min: '0',
         }}
         onChange={onChange}
       />
@@ -93,25 +88,25 @@ const PostBuildingInfo = ({ postForm, updatePostFormAttributes }) => {
             options={{
               name: 'parkingLot',
               id: 'parkingLot',
-              checked: parkingLot
+              checked: parkingLot,
             }}
             onChange={onChange}
           />
         </Fragment>
       )}
     </FadeInDiv>
-  )
-}
+  );
+};
 
 PostBuildingInfo.propTypes = {
   postForm: PropTypes.object.isRequired,
-  updatePostFormAttributes: PropTypes.func.isRequired
-}
+  updatePostFormAttributes: PropTypes.func.isRequired,
+};
 
-const mapStateToProps = state => ({
-  postForm: state.post.postForm
-})
+const mapStateToProps = (state) => ({
+  postForm: state.post.postForm,
+});
 
 export default connect(mapStateToProps, { updatePostFormAttributes })(
-  PostBuildingInfo
-)
+  PostBuildingInfo,
+);

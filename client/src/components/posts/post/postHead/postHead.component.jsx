@@ -1,23 +1,23 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import LikeButton from '../../buttons/likeButton/likeButton.component'
-import EditButton from '../../buttons/editButton/editButton.component'
-import DeleteButton from '../../buttons/deleteButton/deleteButton.component'
-import { SvgMapMarker } from '../../../layout/icons'
-import Moment from 'react-moment'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import LikeButton from '../../buttons/likeButton/likeButton.component';
+import EditButton from '../../buttons/editButton/editButton.component';
+import DeleteButton from '../../buttons/deleteButton/deleteButton.component';
+import { SvgMapMarker } from '../../../layout/icons';
+import Moment from 'react-moment';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './postHead.style.scss'
+import './postHead.style.scss';
 
 const PostHead = ({
   auth,
   post: { _id, city, dealType, estateType, date, address, rooms, sqm, user },
 }) => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1)
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   return (
@@ -49,16 +49,16 @@ const PostHead = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 PostHead.propTypes = {
   auth: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-})
+});
 
-export default connect(mapStateToProps)(PostHead)
+export default connect(mapStateToProps)(PostHead);

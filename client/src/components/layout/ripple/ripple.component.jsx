@@ -1,6 +1,6 @@
-import React, { useState, useLayoutEffect } from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
+import React, { useState, useLayoutEffect } from 'react';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const RippleContainer = styled.div`
   position: absolute;
@@ -14,9 +14,9 @@ const RippleContainer = styled.div`
     border-radius: 100%;
     position: absolute;
     opacity: 0.75;
-    background-color: ${props => props.color};
+    background-color: ${(props) => props.color};
     animation-name: ripple;
-    animation-duration: ${props => props.duration}ms;
+    animation-duration: ${(props) => props.duration}ms;
   }
 
   @keyframes ripple {
@@ -25,47 +25,47 @@ const RippleContainer = styled.div`
       transform: scale(2);
     }
   }
-`
+`;
 
 const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
   useLayoutEffect(() => {
-    let bounce = null
+    let bounce = null;
     if (rippleCount > 0) {
-      clearTimeout(bounce)
+      clearTimeout(bounce);
 
       bounce = setTimeout(() => {
-        cleanUpFunction()
-        clearTimeout(bounce)
-      }, duration * 4)
+        cleanUpFunction();
+        clearTimeout(bounce);
+      }, duration * 4);
     }
 
-    return () => clearTimeout(bounce)
-  }, [rippleCount, duration, cleanUpFunction])
-}
+    return () => clearTimeout(bounce);
+  }, [rippleCount, duration, cleanUpFunction]);
+};
 
 const Ripple = ({ duration = 850, color = '#fff' }) => {
-  const [rippleArray, setRippleArray] = useState([])
+  const [rippleArray, setRippleArray] = useState([]);
 
   useDebouncedRippleCleanUp(rippleArray.length, duration, () => {
-    setRippleArray([])
-  })
+    setRippleArray([]);
+  });
 
-  const addRipple = event => {
-    const rippleContainer = event.currentTarget.getBoundingClientRect()
+  const addRipple = (event) => {
+    const rippleContainer = event.currentTarget.getBoundingClientRect();
     const size =
       rippleContainer.width > rippleContainer.height
         ? rippleContainer.width
-        : rippleContainer.height
-    const x = event.pageX - window.pageXOffset - rippleContainer.x - size / 2
-    const y = event.pageY - window.pageYOffset - rippleContainer.y - size / 2
+        : rippleContainer.height;
+    const x = event.pageX - window.pageXOffset - rippleContainer.x - size / 2;
+    const y = event.pageY - window.pageYOffset - rippleContainer.y - size / 2;
     const newRipple = {
       x,
       y,
-      size
-    }
+      size,
+    };
 
-    setRippleArray([...rippleArray, newRipple])
-  }
+    setRippleArray([...rippleArray, newRipple]);
+  };
 
   return (
     <RippleContainer duration={duration} color={color} onMouseDown={addRipple}>
@@ -78,18 +78,18 @@ const Ripple = ({ duration = 850, color = '#fff' }) => {
                 top: ripple.y,
                 left: ripple.x,
                 width: ripple.size,
-                height: ripple.size
+                height: ripple.size,
               }}
             />
-          )
+          );
         })}
     </RippleContainer>
-  )
-}
+  );
+};
 
 Ripple.propTypes = {
   duration: PropTypes.number,
-  color: PropTypes.string
-}
+  color: PropTypes.string,
+};
 
-export default Ripple
+export default Ripple;

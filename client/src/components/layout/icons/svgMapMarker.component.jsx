@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgMapMarker({ className = '', ...props }) {
   return (
@@ -24,7 +24,7 @@ function SvgMapMarker({ className = '', ...props }) {
 			s150.261,67.407,150.261,150.261C406.261,239.551,393.41,259.681,256.001,465.261z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgMapMarker
+export default SvgMapMarker;

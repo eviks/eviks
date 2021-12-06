@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgEmail({ className = '', ...props }) {
   return (
@@ -31,7 +31,7 @@ function SvgEmail({ className = '', ...props }) {
         d="M176,353H80c-8.284,0-15,6.716-15,15v64c0,8.284,6.716,15,15,15h96c8.284,0,15-6.716,15-15v-64    C191,359.716,184.284,353,176,353z M161,417H95v-34h66V417z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgEmail
+export default SvgEmail;

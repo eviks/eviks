@@ -1,29 +1,29 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { useHistory } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { registerUser } from '../../../actions/auth'
-import Alert from '../../layout/alert/alert.component'
-import { deleteAllAlerts } from '../../../actions/alert'
-import Ripple from '../../layout/ripple/ripple.component'
-import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
-import Input from '../../layout/form/input/input.component'
-import { SvgUser, SvgPadlock, SvgEmail } from '../../layout/icons'
-import { toastr } from 'react-redux-toastr'
-import { Player } from '@lottiefiles/react-lottie-player'
-import paperPlaneAnimation from '../../../assets/lottiefilesSources/paperPlane.json'
-import styled, { keyframes } from 'styled-components'
-import { fadeInRight } from 'react-animations'
-import { useTranslation } from 'react-i18next'
+import React, { useState, useEffect, Fragment } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { registerUser } from '../../../actions/auth';
+import Alert from '../../layout/alert/alert.component';
+import { deleteAllAlerts } from '../../../actions/alert';
+import Ripple from '../../layout/ripple/ripple.component';
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component';
+import Input from '../../layout/form/input/input.component';
+import { SvgUser, SvgPadlock, SvgEmail } from '../../layout/icons';
+import { toastr } from 'react-redux-toastr';
+import { Player } from '@lottiefiles/react-lottie-player';
+import paperPlaneAnimation from '../../../assets/lottiefilesSources/paperPlane.json';
+import styled, { keyframes } from 'styled-components';
+import { fadeInRight } from 'react-animations';
+import { useTranslation } from 'react-i18next';
 import {
   validationAttributeOnChange,
   validationOnSubmit,
-} from '../../../services/formValidation/validationEvents'
-import PropTypes from 'prop-types'
+} from '../../../services/formValidation/validationEvents';
+import PropTypes from 'prop-types';
 
-const FadeInRightAnimation = keyframes`${fadeInRight}`
+const FadeInRightAnimation = keyframes`${fadeInRight}`;
 const FadeInRightForm = styled.form`
   animation: 0.5s ${FadeInRightAnimation};
-`
+`;
 
 const Register = ({
   handleCloseModal,
@@ -32,7 +32,7 @@ const Register = ({
   locale,
   deleteAllAlerts,
 }) => {
-  const history = useHistory()
+  const history = useHistory();
 
   const [state, setState] = useState({
     username: '',
@@ -40,15 +40,15 @@ const Register = ({
     email: '',
     password: '',
     validationErrors: {},
-  })
+  });
 
-  const { username, displayName, email, password, validationErrors } = state
+  const { username, displayName, email, password, validationErrors } = state;
 
   useEffect(() => {
     return () => {
-      deleteAllAlerts()
-    }
-  }, [deleteAllAlerts])
+      deleteAllAlerts();
+    };
+  }, [deleteAllAlerts]);
 
   const onChange = (event) => {
     validationAttributeOnChange(
@@ -56,17 +56,17 @@ const Register = ({
       event.target.name,
       event.target.value,
       state,
-      setState
-    )
-  }
+      setState,
+    );
+  };
 
   const onSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const formIsValid = validationOnSubmit('REGISTER', state, setState)
+    const formIsValid = validationOnSubmit('REGISTER', state, setState);
 
     if (!formIsValid) {
-      return
+      return;
     }
 
     try {
@@ -75,7 +75,7 @@ const Register = ({
         displayName,
         email,
         password,
-      })
+      });
 
       const toastrOptions = {
         timeOut: 0,
@@ -88,16 +88,16 @@ const Register = ({
           />
         ),
         status: 'info',
-      }
+      };
       toastr.light(
         t('auth.checkEmailTitle'),
         t('auth.checkEmail', { email }),
-        toastrOptions
-      )
+        toastrOptions,
+      );
       if (handleCloseModal !== undefined) {
-        handleCloseModal()
+        handleCloseModal();
       } else {
-        history.push(`/${locale}/`)
+        history.push(`/${locale}/`);
       }
     } catch (errors) {
       setState({
@@ -106,13 +106,13 @@ const Register = ({
           validationErrors,
           ...errors.errors.map((error) => ({
             [error.param]: error.msg,
-          }))
+          })),
         ),
-      })
+      });
     }
-  }
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <FadeInRightForm onSubmit={(e) => onSubmit(e)}>
@@ -200,8 +200,8 @@ const Register = ({
         </button>
       </div>
     </FadeInRightForm>
-  )
-}
+  );
+};
 
 Register.propTypes = {
   handleCloseModal: PropTypes.func,
@@ -209,13 +209,13 @@ Register.propTypes = {
   deleteAllAlerts: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   loading: state.async.loading,
   locale: state.locale.locale,
-})
+});
 
 export default connect(mapStateToProps, { registerUser, deleteAllAlerts })(
-  Register
-)
+  Register,
+);

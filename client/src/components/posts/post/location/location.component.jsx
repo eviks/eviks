@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react'
-import VectorLayer from './vectorLayer.component'
-import { initMap } from '../../../layout/mapAssets/initMap'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, useRef } from 'react';
+import VectorLayer from './vectorLayer.component';
+import { initMap } from '../../../layout/mapAssets/initMap';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import 'ol/ol.css'
+import 'ol/ol.css';
 
 const Location = ({ location }) => {
-  const mapRef = useRef(null)
-  const [map, setMap] = useState(null)
+  const mapRef = useRef(null);
+  const [map, setMap] = useState(null);
 
   useEffect(() => {
-    if (mapRef.current) setMap(initMap(mapRef.current, location, 14))
+    if (mapRef.current) setMap(initMap(mapRef.current, location, 14));
     // eslint-disable-next-line
-  }, [mapRef])
+  }, [mapRef]);
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div className="my-1">
@@ -24,11 +24,11 @@ const Location = ({ location }) => {
         {map && <VectorLayer map={map} location={location} />}
       </div>
     </div>
-  )
-}
+  );
+};
 
 Location.propTypes = {
   location: PropTypes.array.isRequired,
-}
+};
 
-export default Location
+export default Location;

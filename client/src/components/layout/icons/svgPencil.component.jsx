@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgPencil({ className = '', ...props }) {
   return (
@@ -19,7 +19,7 @@ function SvgPencil({ className = '', ...props }) {
 			l254.559-254.558l63.64,63.64L155.589,420.051z M431.361,144.28l-63.64-63.64l44.427-44.427l63.64,63.64L431.361,144.28z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgPencil
+export default SvgPencil;

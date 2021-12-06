@@ -1,12 +1,12 @@
-import React from 'react'
-import Checkbox from '../../../../layout/form/checkbox/checkbox.component'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React from 'react';
+import Checkbox from '../../../../layout/form/checkbox/checkbox.component';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 const Square = ({ filters, checkboxOnChange }) => {
-  const { documented, mortgage, redevelopment } = filters
+  const { documented, mortgage, redevelopment } = filters;
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div className="filter-group">
@@ -16,7 +16,7 @@ const Square = ({ filters, checkboxOnChange }) => {
           options={{
             name: 'documented',
             id: 'documented',
-            checked: documented
+            checked: documented,
           }}
           onChange={checkboxOnChange}
         />
@@ -25,7 +25,7 @@ const Square = ({ filters, checkboxOnChange }) => {
           options={{
             name: 'mortgage',
             id: 'mortgage',
-            checked: mortgage
+            checked: mortgage,
           }}
           onChange={checkboxOnChange}
         />
@@ -34,18 +34,18 @@ const Square = ({ filters, checkboxOnChange }) => {
           options={{
             name: 'redevelopment',
             id: 'redevelopment',
-            checked: redevelopment
+            checked: redevelopment,
           }}
           onChange={checkboxOnChange}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 Square.propTypes = {
   filters: PropTypes.object.isRequired,
-  checkboxOnChange: PropTypes.func.isRequired
-}
+  checkboxOnChange: PropTypes.func.isRequired,
+};
 
-export default Square
+export default Square;

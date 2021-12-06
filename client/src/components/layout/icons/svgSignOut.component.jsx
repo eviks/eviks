@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgSignOut({ className = '', ...props }) {
   return (
@@ -23,7 +23,7 @@ function SvgSignOut({ className = '', ...props }) {
 			c4.704,4.752,12.319,4.752,17.011,0l82.997-84.2C386.113,196.588,386.161,188.756,381.481,184.088z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgSignOut
+export default SvgSignOut;

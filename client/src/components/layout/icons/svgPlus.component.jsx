@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgPlus({ className = '', ...props }) {
   return (
@@ -16,7 +16,7 @@ function SvgPlus({ className = '', ...props }) {
 	485,257.5 "
       />
     </svg>
-  )
+  );
 }
 
-export default SvgPlus
+export default SvgPlus;

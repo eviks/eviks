@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { SvgImage } from '../../../layout/icons'
-import axios from 'axios'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { SvgImage } from '../../../layout/icons';
+import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './dropzone.style.scss'
+import './dropzone.style.scss';
 
 const Dropzone = ({ images, setImages }) => {
   const onDrop = useCallback(
@@ -14,36 +14,36 @@ const Dropzone = ({ images, setImages }) => {
         await Promise.all(
           acceptedFiles.map(async (image) => {
             try {
-              const result = await axios.get('/api/posts/generate_upload_id')
-              const id = result.data.id
+              const result = await axios.get('/api/posts/generate_upload_id');
+              const id = result.data.id;
 
               Object.assign(image, {
                 preview: URL.createObjectURL(image),
                 id,
-              })
+              });
 
-              return image
+              return image;
             } catch (error) {
-              console.log(error)
-              return null
+              console.log(error);
+              return null;
             }
-          })
+          }),
         )
-      ).filter((image) => image !== null)
+      ).filter((image) => image !== null);
 
-      setImages([...images, ...newImages])
+      setImages([...images, ...newImages]);
     },
-    [images, setImages]
-  )
+    [images, setImages],
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: true,
     accept: 'image/*',
     maxSize: 10485760,
-  })
+  });
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div
@@ -57,12 +57,12 @@ const Dropzone = ({ images, setImages }) => {
       <p>{t('dropzone.drag')}</p>
       <input {...getInputProps()} />
     </div>
-  )
-}
+  );
+};
 
 Dropzone.propTypes = {
   images: PropTypes.array.isRequired,
   setImages: PropTypes.func.isRequired,
-}
+};
 
-export default Dropzone
+export default Dropzone;

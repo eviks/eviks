@@ -1,19 +1,19 @@
-import React from 'react'
-import { Redirect } from 'react-router-dom'
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 
-import Landing from '../landing/landing.component'
-import AuthForm from '../auth/authForm.component'
-import Verification from '../auth/verification/verification.component'
-import ResetPassword from '../auth/resetPassword/resetPassword.component'
-import PasswordConfirmation from '../auth/resetPassword/passwordConfirmation.component'
-import UserMenu from '../users/userMenu/userMenu.component'
-import Posts from '../posts/postList/posts.component'
-import Post from '../posts/post/post.component'
-import PostForm from '../posts/postForm/postForm.component'
-import NotFound from '../layout/notFound/notFound.Component'
+import Landing from '../landing/landing.component';
+import AuthForm from '../auth/authForm.component';
+import Verification from '../auth/verification/verification.component';
+import ResetPassword from '../auth/resetPassword/resetPassword.component';
+import PasswordConfirmation from '../auth/resetPassword/passwordConfirmation.component';
+import UserMenu from '../users/userMenu/userMenu.component';
+import Posts from '../posts/postList/posts.component';
+import Post from '../posts/post/post.component';
+import PostForm from '../posts/postForm/postForm.component';
+import NotFound from '../layout/notFound/notFound.Component';
 
-import { defaultLocale } from '../../config/i18n'
-import { localizeRoutes } from '../../services/i18n/util'
+import { defaultLocale } from '../../config/i18n';
+import { localizeRoutes } from '../../services/i18n/util';
 
 const routes = [
   {
@@ -81,6 +81,6 @@ const routes = [
   {
     component: NotFound,
   },
-]
+];
 
-export default localizeRoutes(routes)
+export default localizeRoutes(routes);

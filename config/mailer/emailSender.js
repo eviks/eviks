@@ -1,15 +1,15 @@
-const nodemailer = require('nodemailer')
-const mailgunTransport = require('nodemailer-mailgun-transport')
-const emailTemplates = require('./emailTemplates')
-const config = require('config')
-const mailgunOptions = config.get('mailgunOptions')
+const nodemailer = require('nodemailer');
+const mailgunTransport = require('nodemailer-mailgun-transport');
+const emailTemplates = require('./emailTemplates');
+const config = require('config');
+const mailgunOptions = config.get('mailgunOptions');
 
 module.exports = async (params) => {
   return new Promise(async (resolve, reject) => {
-    const { emailType, subject, receivers, context } = params
-    const { text, html } = emailTemplates(emailType, context)
-    const mailgunTransporter = mailgunTransport(mailgunOptions)
-    const transporter = nodemailer.createTransport(mailgunTransporter)
+    const { emailType, subject, receivers, context } = params;
+    const { text, html } = emailTemplates(emailType, context);
+    const mailgunTransporter = mailgunTransport(mailgunOptions);
+    const transporter = nodemailer.createTransport(mailgunTransporter);
 
     try {
       const info = await transporter.sendMail({
@@ -18,14 +18,14 @@ module.exports = async (params) => {
         subject,
         text,
         html,
-      })
+      });
 
-      console.log('Message sent: %s', info.messageId)
+      console.log('Message sent: %s', info.messageId);
 
-      resolve({ success: true, info })
+      resolve({ success: true, info });
     } catch (error) {
-      console.error(error)
-      reject({ success: false, error })
+      console.error(error);
+      reject({ success: false, error });
     }
-  })
-}
+  });
+};

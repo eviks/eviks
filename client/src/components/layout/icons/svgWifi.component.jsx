@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgWifi({ className = '', ...props }) {
   return (
@@ -41,7 +41,7 @@ function SvgWifi({ className = '', ...props }) {
 			L449.375,206.601z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgWifi
+export default SvgWifi;

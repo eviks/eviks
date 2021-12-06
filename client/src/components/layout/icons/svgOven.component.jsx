@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgOven({ className = '', ...props }) {
   return (
@@ -36,7 +36,7 @@ function SvgOven({ className = '', ...props }) {
 			C421,337.716,414.284,331,406,331z M391,422H121v-61h270V422z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgOven
+export default SvgOven;

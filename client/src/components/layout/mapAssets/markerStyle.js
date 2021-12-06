@@ -1,6 +1,6 @@
-import Style from 'ol/style/Style'
-import Icon from 'ol/style/Icon'
-import marker from './marker.svg'
+import Style from 'ol/style/Style';
+import Icon from 'ol/style/Icon';
+import marker from './marker.svg';
 
 export default new Style({
   image: new Icon({
@@ -8,4 +8,4 @@ export default new Style({
     src: marker,
     scale: 0.3,
   }),
-})
+});

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgGarden({ className = '', ...props }) {
   return (
@@ -25,7 +25,7 @@ function SvgGarden({ className = '', ...props }) {
 			C479.824,117.12,479.823,127.816,473.214,134.426z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgGarden
+export default SvgGarden;

@@ -1,12 +1,12 @@
-import React, { Fragment, useState } from 'react'
-import { connect } from 'react-redux'
-import ReactModal from 'react-modal'
-import { SvgMapMarker } from '../icons'
-import Localities from '../localities/localities.component'
-import PropTypes from 'prop-types'
+import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
+import ReactModal from 'react-modal';
+import { SvgMapMarker } from '../icons';
+import Localities from '../localities/localities.component';
+import PropTypes from 'prop-types';
 
 const LocalitySelect = ({ currentLocality }) => {
-  const [openModal, setOpenModal] = useState(false)
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <Fragment>
@@ -28,15 +28,15 @@ const LocalitySelect = ({ currentLocality }) => {
         />
       </ReactModal>
     </Fragment>
-  )
-}
+  );
+};
 
 LocalitySelect.propTypes = {
   currentLocality: PropTypes.object.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   currentLocality: state.locality.currentLocality,
-})
+});
 
-export default connect(mapStateToProps)(LocalitySelect)
+export default connect(mapStateToProps)(LocalitySelect);

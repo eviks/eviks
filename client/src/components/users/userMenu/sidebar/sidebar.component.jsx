@@ -1,16 +1,16 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { useTranslation } from 'react-i18next'
-import { SvgHeart, SvgUser, SvgSettings } from '../../../layout/icons'
-import LocalizedLink from '../../../../components/localization/LocalizedLink.component'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { SvgHeart, SvgUser, SvgSettings } from '../../../layout/icons';
+import LocalizedLink from '../../../../components/localization/LocalizedLink.component';
+import PropTypes from 'prop-types';
 
-import './sidebar.style.scss'
+import './sidebar.style.scss';
 
 const Sidebar = ({ user, isAuthenticated }) => {
-  const username = user && isAuthenticated ? user.username : ''
+  const username = user && isAuthenticated ? user.username : '';
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <aside className="user-menu-sidebar">
@@ -36,17 +36,17 @@ const Sidebar = ({ user, isAuthenticated }) => {
         </ul>
       </div>
     </aside>
-  )
-}
+  );
+};
 
 Sidebar.propTypes = {
   user: PropTypes.object,
   isAuthenticated: PropTypes.bool,
-}
+};
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   isAuthenticated: state.auth.isAuthenticated,
-})
+});
 
-export default connect(mapStateToProps)(Sidebar)
+export default connect(mapStateToProps)(Sidebar);

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgGas({ className = '', ...props }) {
   return (
@@ -27,7 +27,7 @@ function SvgGas({ className = '', ...props }) {
 			V181h270V362z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgGas
+export default SvgGas;

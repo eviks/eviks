@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgCamera({ className = '', ...props }) {
   return (
@@ -20,7 +20,7 @@ function SvgCamera({ className = '', ...props }) {
       />
       <circle fill="currentColor" cx="433" cy="176" r="16" />
     </svg>
-  )
+  );
 }
 
-export default SvgCamera
+export default SvgCamera;

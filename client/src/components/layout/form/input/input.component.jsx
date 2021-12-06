@@ -1,19 +1,19 @@
-import React, { forwardRef } from 'react'
-import MaskedInput from 'react-text-mask'
-import createNumberMask from 'text-mask-addons/dist/createNumberMask'
-import ButtonSpinner from '../../spinner/buttonSpinner.component'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { forwardRef } from 'react';
+import MaskedInput from 'react-text-mask';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import ButtonSpinner from '../../spinner/buttonSpinner.component';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './input.style.scss'
+import './input.style.scss';
 
 const spinerStyle = {
   position: 'absolute',
   width: '20px',
   bottom: '50%',
   right: '1%',
-  transform: 'translateY(50%)'
-}
+  transform: 'translateY(50%)',
+};
 
 const Input = ({
   fieldName,
@@ -25,23 +25,23 @@ const Input = ({
   onFocus,
   loading = false,
   error = null,
-  forwardedRef
+  forwardedRef,
 }) => {
-  const handleOnChange = event => {
-    if (onChange) onChange(event)
-  }
+  const handleOnChange = (event) => {
+    if (onChange) onChange(event);
+  };
 
-  const handleOnBlur = event => {
-    if (onBlur) onBlur(event)
-  }
+  const handleOnBlur = (event) => {
+    if (onBlur) onBlur(event);
+  };
 
-  const handleOnFocus = event => {
-    if (onFocus) onFocus(event)
-  }
+  const handleOnFocus = (event) => {
+    if (onFocus) onFocus(event);
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
-  const defaultMask = value => value.split('').map(() => /./)
+  const defaultMask = (value) => value.split('').map(() => /./);
 
   return (
     <div className="field">
@@ -66,8 +66,8 @@ const Input = ({
       </div>
       {error && <div className="field-required">{t(error)}</div>}
     </div>
-  )
-}
+  );
+};
 
 Input.defaultProps = {
   mask: createNumberMask({
@@ -80,10 +80,10 @@ Input.defaultProps = {
     decimalLimit: 0, // how many digits allowed after the decimal
     integerLimit: 15, // limit length of integer numbers
     allowNegative: false,
-    allowLeadingZeroes: false
+    allowLeadingZeroes: false,
   }),
-  main: false
-}
+  main: false,
+};
 
 Input.propTypes = {
   fieldName: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -93,9 +93,9 @@ Input.propTypes = {
   onFocus: PropTypes.func,
   main: PropTypes.bool,
   loading: PropTypes.bool,
-  error: PropTypes.string
-}
+  error: PropTypes.string,
+};
 
 export default forwardRef((props, ref) => (
   <Input {...props} forwardedRef={ref} />
-))
+));

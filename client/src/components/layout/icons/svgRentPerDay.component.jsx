@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgRentPerDay({ className = '', ...props }) {
   return (
@@ -27,7 +27,7 @@ function SvgRentPerDay({ className = '', ...props }) {
 			c-13.137-13.138-13.424-33.998-0.651-47.49l95.075-100.441c12.379-13.078,29.807-20.579,47.814-20.579h114.737V320.539z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgRentPerDay
+export default SvgRentPerDay;

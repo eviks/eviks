@@ -1,8 +1,8 @@
-import React from 'react'
-import { SvgLogo } from '../../icons'
-import SkeletonLine from '../skeletonLine.component'
+import React from 'react';
+import { SvgLogo } from '../../icons';
+import SkeletonLine from '../skeletonLine.component';
 
-import './skeletonPostItem.style.scss'
+import './skeletonPostItem.style.scss';
 
 const PostItemSkeleton = () => {
   return (
@@ -25,7 +25,7 @@ const PostItemSkeleton = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PostItemSkeleton
+export default PostItemSkeleton;

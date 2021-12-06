@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   formNextStep,
   formPrevStep,
   getPostFormData,
   createUpdatePost,
   cleanPostForm,
-} from '../../../actions/post'
-import ProgressBar from './progressBar/progressBar.component'
-import PostGeneralInfo from './steps/postGeneralInfo.component'
-import PostOpenlayersMap from './steps/postOpenlayersMap.component'
-import PostEstateInfo from './steps/postEstateInfo.component'
-import PostBuidingInfo from './steps/postBuildingInfo.component'
-import PostAdditionalInfo from './steps/postAdditionalInfo.component'
-import PostPrice from './steps/postPrice.component'
-import PostImages from './steps/postImages.component'
-import PostContact from './steps/postContact.component'
-import Ripple from '../../layout/ripple/ripple.component'
-import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
-import { SvgBroom } from '../../layout/icons'
-import { toastr } from 'react-redux-toastr'
-import { Player } from '@lottiefiles/react-lottie-player'
-import successAnimation from '../../../assets/lottiefilesSources/success.json'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+} from '../../../actions/post';
+import ProgressBar from './progressBar/progressBar.component';
+import PostGeneralInfo from './steps/postGeneralInfo.component';
+import PostOpenlayersMap from './steps/postOpenlayersMap.component';
+import PostEstateInfo from './steps/postEstateInfo.component';
+import PostBuidingInfo from './steps/postBuildingInfo.component';
+import PostAdditionalInfo from './steps/postAdditionalInfo.component';
+import PostPrice from './steps/postPrice.component';
+import PostImages from './steps/postImages.component';
+import PostContact from './steps/postContact.component';
+import Ripple from '../../layout/ripple/ripple.component';
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component';
+import { SvgBroom } from '../../layout/icons';
+import { toastr } from 'react-redux-toastr';
+import { Player } from '@lottiefiles/react-lottie-player';
+import successAnimation from '../../../assets/lottiefilesSources/success.json';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './postForm.style.scss'
+import './postForm.style.scss';
 
 const PostForm = ({
   postForm,
@@ -40,35 +40,35 @@ const PostForm = ({
   locale,
   match,
 }) => {
-  const history = useHistory()
+  const history = useHistory();
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
-  const { currentStep, totalSteps } = formSteps
+  const { currentStep, totalSteps } = formSteps;
 
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     if (match.params.id) {
-      getPostFormData(match.params.id, setImages)
+      getPostFormData(match.params.id, setImages);
     }
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   // Scroll to top when step has changed
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [currentStep])
+    window.scrollTo(0, 0);
+  }, [currentStep]);
 
   useEffect(() => {
     return () => {
-      cleanPostForm()
-    }
-  }, [cleanPostForm])
+      cleanPostForm();
+    };
+  }, [cleanPostForm]);
 
   const submitForm = async () => {
     try {
-      const result = await createUpdatePost(postForm)
+      const result = await createUpdatePost(postForm);
 
       if (result) {
         const toastrOptions = {
@@ -82,50 +82,50 @@ const PostForm = ({
             />
           ),
           status: 'info',
-        }
+        };
         toastr.light(
           t('createPost.success'),
           t(`createPost.${postForm._id ? 'postIsUpdated' : 'postIsPublished'}`),
-          toastrOptions
-        )
-        history.push(`/${locale}/`)
+          toastrOptions,
+        );
+        history.push(`/${locale}/`);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const stepChange = (e, inc = false) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (inc) {
-      formNextStep(currentStep + 1)
+      formNextStep(currentStep + 1);
     } else {
-      formPrevStep(currentStep - 1)
+      formPrevStep(currentStep - 1);
     }
-  }
+  };
 
   const renderSwitch = () => {
     switch (currentStep) {
       case 1:
-        return <PostOpenlayersMap />
+        return <PostOpenlayersMap />;
       case 2:
-        return <PostEstateInfo />
+        return <PostEstateInfo />;
       case 3:
-        return <PostBuidingInfo />
+        return <PostBuidingInfo />;
       case 4:
-        return <PostAdditionalInfo />
+        return <PostAdditionalInfo />;
       case 5:
-        return <PostImages images={images} setImages={setImages} />
+        return <PostImages images={images} setImages={setImages} />;
       case 6:
-        return <PostPrice />
+        return <PostPrice />;
       case 7:
-        return <PostContact />
+        return <PostContact />;
       case 0:
       default:
-        return <PostGeneralInfo />
+        return <PostGeneralInfo />;
     }
-  }
+  };
 
   return (
     <div className="post-form-container px-2 light-border">
@@ -178,8 +178,8 @@ const PostForm = ({
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
 PostForm.propTypes = {
   postForm: PropTypes.object.isRequired,
@@ -191,14 +191,14 @@ PostForm.propTypes = {
   cleanPostForm: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   postForm: state.post.postForm,
   formSteps: state.post.formSteps,
   loading: state.async.loading,
   locale: state.locale.locale,
-})
+});
 
 export default connect(mapStateToProps, {
   formNextStep,
@@ -206,4 +206,4 @@ export default connect(mapStateToProps, {
   getPostFormData,
   createUpdatePost,
   cleanPostForm,
-})(PostForm)
+})(PostForm);

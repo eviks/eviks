@@ -1,17 +1,17 @@
-import initialState from './initialStates/userInitialState'
-import { GET_USER, USER_ERROR } from '../actions/types'
+import initialState from './initialStates/userInitialState';
+import { GET_USER, USER_ERROR } from '../actions/types';
 
 const userReducer = (state = initialState, action) => {
-  const { type, payload } = action
+  const { type, payload } = action;
 
   switch (type) {
     case GET_USER:
-      return { ...state, ...payload }
+      return { ...state, ...payload };
     case USER_ERROR:
-      return { ...state, error: payload }
+      return { ...state, error: payload };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default userReducer
+export default userReducer;

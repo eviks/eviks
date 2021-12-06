@@ -1,26 +1,26 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { useHistory } from 'react-router-dom'
-import { connect } from 'react-redux'
-import PostItem from '../postItem/postItem.component'
+import React, { useState, useEffect, Fragment } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PostItem from '../postItem/postItem.component';
 import {
   getPosts,
   setSrearchFiltersFromURL,
   removeAllFilters,
   cleanPosts,
-} from '../../../actions/post'
-import { setCurrentLocality } from '../../../actions/locality'
-import Searchbar from './searchbar/searchbar.component'
-import SearchbarSmall from './searchbar/searchbarSmall.component'
-import Pagination from '../../layout/pagination/pagination.component'
-import SkeletonPostList from '../../layout/skeleton/skeletonPostList/skeletonPostList.component'
-import { SvgSearch } from '../../layout/icons'
-import useWindowDimensions from '../../../services/hooks/useWindowDimensions'
-import { getURLParams } from '../../../services/util'
-import { useTranslation } from 'react-i18next'
-import axios from 'axios'
-import PropTypes from 'prop-types'
+} from '../../../actions/post';
+import { setCurrentLocality } from '../../../actions/locality';
+import Searchbar from './searchbar/searchbar.component';
+import SearchbarSmall from './searchbar/searchbarSmall.component';
+import Pagination from '../../layout/pagination/pagination.component';
+import SkeletonPostList from '../../layout/skeleton/skeletonPostList/skeletonPostList.component';
+import { SvgSearch } from '../../layout/icons';
+import useWindowDimensions from '../../../services/hooks/useWindowDimensions';
+import { getURLParams } from '../../../services/util';
+import { useTranslation } from 'react-i18next';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
-import './posts.style.scss'
+import './posts.style.scss';
 
 const Posts = ({
   posts,
@@ -34,33 +34,33 @@ const Posts = ({
   loadingElements,
   navRef,
 }) => {
-  const { result, pagination } = posts
+  const { result, pagination } = posts;
 
-  const [initialLoading, setInitialLoading] = useState(true)
-  const [smallWidth, setSmallWidth] = useState(true)
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [smallWidth, setSmallWidth] = useState(true);
 
-  const history = useHistory()
+  const history = useHistory();
 
-  const { width } = useWindowDimensions()
-  if (width <= 768 && !smallWidth) setSmallWidth(true)
-  if (width > 768 && smallWidth) setSmallWidth(false)
+  const { width } = useWindowDimensions();
+  if (width <= 768 && !smallWidth) setSmallWidth(true);
+  if (width > 768 && smallWidth) setSmallWidth(false);
 
   useEffect(() => {
     return () => {
-      cleanPosts()
-      removeAllFilters()
-    }
-  }, [cleanPosts, removeAllFilters])
+      cleanPosts();
+      removeAllFilters();
+    };
+  }, [cleanPosts, removeAllFilters]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const path = history.location.pathname
-      const pathArray = path.split('/')
+      const path = history.location.pathname;
+      const pathArray = path.split('/');
 
       try {
         const result = await axios.get(
-          `/api/localities?routeName=${pathArray[2]}`
-        )
+          `/api/localities?routeName=${pathArray[2]}`,
+        );
 
         // City ID & deal type are required
         let searchParams = {
@@ -69,20 +69,20 @@ const Posts = ({
               ? result.data[0].id
               : currentLocality.city.id,
           dealType: pathArray[3],
-        }
+        };
 
         // Other filters
-        const query = history.location.search
+        const query = history.location.search;
         if (query) {
           searchParams = {
             ...searchParams,
             ...Object.fromEntries(getURLParams(query)),
-          }
+          };
         }
 
         // Update state
-        setSrearchFiltersFromURL(searchParams)
-        getPosts(searchParams)
+        setSrearchFiltersFromURL(searchParams);
+        getPosts(searchParams);
 
         // Update current locality if needed
         if (
@@ -92,26 +92,26 @@ const Posts = ({
           setCurrentLocality({
             nextQuestionDate: new Date(Date.now() + 86400000 * 365),
             city: result.data[0],
-          })
+          });
         }
 
         // Set initial loading to false
-        if (initialLoading) setInitialLoading(false)
+        if (initialLoading) setInitialLoading(false);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
 
-    fetchData()
+    fetchData();
 
     // eslint-disable-next-line
-  }, [history.location.search, history.location.pathname])
+  }, [history.location.search, history.location.pathname]);
 
   const handlePaginationOnClick = (page) => {
     // getPosts({ ...filters, page }, history)
-  }
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <Fragment>
@@ -140,8 +140,8 @@ const Posts = ({
         </Fragment>
       )}
     </Fragment>
-  )
-}
+  );
+};
 
 Posts.propTypes = {
   posts: PropTypes.object.isRequired,
@@ -153,14 +153,14 @@ Posts.propTypes = {
   setCurrentLocality: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingElements: PropTypes.array.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   posts: state.post.posts,
   currentLocality: state.locality.currentLocality,
   loading: state.async.loading,
   loadingElements: state.async.loadingElements,
-})
+});
 
 export default connect(mapStateToProps, {
   getPosts,
@@ -168,4 +168,4 @@ export default connect(mapStateToProps, {
   removeAllFilters,
   cleanPosts,
   setCurrentLocality,
-})(Posts)
+})(Posts);

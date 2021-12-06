@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgSofa({ className = '', ...props }) {
   return (
@@ -32,7 +32,7 @@ function SvgSofa({ className = '', ...props }) {
       <circle fill="currentColor" cx="347" cy="166" r="15" />
       <circle fill="currentColor" cx="256" cy="166" r="15" />
     </svg>
-  )
+  );
 }
 
-export default SvgSofa
+export default SvgSofa;

@@ -1,22 +1,22 @@
-import React, { Fragment, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { SvgUser, SvgAgent } from '../../../layout/icons'
-import PropTypes from 'prop-types'
+import React, { Fragment, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { SvgUser, SvgAgent } from '../../../layout/icons';
+import PropTypes from 'prop-types';
 
-import './sideCard.style.scss'
+import './sideCard.style.scss';
 
 const SideCard = ({ post: { price, sqm, username, userType, contact } }) => {
-  const [showPhone, setShowPhone] = useState(false)
+  const [showPhone, setShowPhone] = useState(false);
 
-  const handleOnClick = () => setShowPhone(!showPhone)
+  const handleOnClick = () => setShowPhone(!showPhone);
 
   const formattedPrice = price.toLocaleString('az-AZ', {
     style: 'decimal',
-  })
+  });
 
-  const priceForSqm = Math.round((price / sqm + Number.EPSILON) * 100) / 100
+  const priceForSqm = Math.round((price / sqm + Number.EPSILON) * 100) / 100;
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div className="side-card-container">
@@ -54,11 +54,11 @@ const SideCard = ({ post: { price, sqm, username, userType, contact } }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 SideCard.propTypes = {
   post: PropTypes.object.isRequired,
-}
+};
 
-export default SideCard
+export default SideCard;

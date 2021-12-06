@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const SkeletonPulse = styled.div`
   display: inline-block;
@@ -15,5 +15,5 @@ const SkeletonPulse = styled.div`
       background-position: -135% 0%;
     }
   }
-`
-export default SkeletonPulse
+`;
+export default SkeletonPulse;

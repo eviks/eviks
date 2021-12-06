@@ -1,8 +1,8 @@
-import React from 'react'
-import LocalizedLink from '../../localization/LocalizedLink.component'
-import PropTypes from 'prop-types'
+import React from 'react';
+import LocalizedLink from '../../localization/LocalizedLink.component';
+import PropTypes from 'prop-types';
 
-import './categoryCard.style.scss'
+import './categoryCard.style.scss';
 
 const CategoryCard = ({ links, title, img }) => {
   return (
@@ -27,13 +27,13 @@ const CategoryCard = ({ links, title, img }) => {
       </picture>
       <div className="dark-overlay-strong"></div>
     </div>
-  )
-}
+  );
+};
 
 CategoryCard.propTypes = {
   links: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
   img: PropTypes.string.isRequired,
-}
+};
 
-export default CategoryCard
+export default CategoryCard;

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-import Spinner from '../../../layout/spinner/spinner.component'
-import { SvgGarbage } from '../../../layout/icons'
-import { connect } from 'react-redux'
-import { uploadImage, deleteImage } from '../../../../actions/post'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react';
+import Spinner from '../../../layout/spinner/spinner.component';
+import { SvgGarbage } from '../../../layout/icons';
+import { connect } from 'react-redux';
+import { uploadImage, deleteImage } from '../../../../actions/post';
+import PropTypes from 'prop-types';
 
-import './uploadedImage.style.scss'
+import './uploadedImage.style.scss';
 
 const UploadedImage = ({
   image,
@@ -21,20 +21,20 @@ const UploadedImage = ({
       !loadingElements.includes(image.id) &&
       !uploadedImages.find((obj) => obj.id === image.id)
     ) {
-      const data = new FormData()
-      data.append('image', image)
-      data.append('id', image.id)
-      uploadImage(data)
+      const data = new FormData();
+      data.append('image', image);
+      data.append('id', image.id);
+      uploadImage(data);
     }
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  const imageIsUploading = loading && loadingElements.includes(image.id)
+  const imageIsUploading = loading && loadingElements.includes(image.id);
 
   const handleDeleteImage = () => {
-    deleteImage(postId, image.id)
-    deleteImageFromState(image.id)
-  }
+    deleteImage(postId, image.id);
+    deleteImageFromState(image.id);
+  };
 
   return (
     <div className="image-container">
@@ -50,8 +50,8 @@ const UploadedImage = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 UploadedImage.propTypes = {
   async: PropTypes.object.isRequired,
@@ -61,14 +61,14 @@ UploadedImage.propTypes = {
   uploadImage: PropTypes.func.isRequired,
   deleteImage: PropTypes.func.isRequired,
   deleteImageFromState: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   async: state.async,
   uploadedImages: state.post.postForm.images,
   postId: state.post.postForm._id,
-})
+});
 
 export default connect(mapStateToProps, { uploadImage, deleteImage })(
-  UploadedImage
-)
+  UploadedImage,
+);

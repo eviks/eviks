@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import { getPosts, cleanPosts } from '../../../../actions/post'
-import PostItem from '../../../posts/postItem/postItem.component'
-import SkeletonPostList from '../../../layout/skeleton/skeletonPostList/skeletonPostList.component'
-import Pagination from '../../../layout/pagination/pagination.component'
-import { SvgHeart } from '../../../layout/icons'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getPosts, cleanPosts } from '../../../../actions/post';
+import PostItem from '../../../posts/postItem/postItem.component';
+import SkeletonPostList from '../../../layout/skeleton/skeletonPostList/skeletonPostList.component';
+import Pagination from '../../../layout/pagination/pagination.component';
+import { SvgHeart } from '../../../layout/icons';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 const Favorites = ({
   auth,
@@ -20,25 +20,25 @@ const Favorites = ({
     if (auth.user && auth.user && auth.user.favorites) {
       getPosts({
         ids: Object.keys(auth.user.favorites).filter(
-          (key) => auth.user.favorites[key]
+          (key) => auth.user.favorites[key],
         ),
-      })
+      });
     }
     // Set initial loading to false
-    if (initialLoading) setInitialLoading(false)
+    if (initialLoading) setInitialLoading(false);
     // eslint-disable-next-line
-  }, [auth])
+  }, [auth]);
 
   useEffect(() => {
-    return () => cleanPosts()
-  }, [cleanPosts])
+    return () => cleanPosts();
+  }, [cleanPosts]);
 
-  const [initialLoading, setInitialLoading] = useState(true)
-  const { result, pagination } = posts
+  const [initialLoading, setInitialLoading] = useState(true);
+  const { result, pagination } = posts;
 
-  const handlePaginationOnClick = () => {}
+  const handlePaginationOnClick = () => {};
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div>
@@ -55,8 +55,8 @@ const Favorites = ({
       </div>
       <Pagination pagination={pagination} onClick={handlePaginationOnClick} />
     </div>
-  )
-}
+  );
+};
 
 Favorites.propTypes = {
   auth: PropTypes.object.isRequired,
@@ -65,13 +65,13 @@ Favorites.propTypes = {
   loadingElements: PropTypes.array.isRequired,
   getPosts: PropTypes.func.isRequired,
   cleanPosts: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   posts: state.post.posts,
   loading: state.async.loading,
   loadingElements: state.async.loadingElements,
-})
+});
 
-export default connect(mapStateToProps, { getPosts, cleanPosts })(Favorites)
+export default connect(mapStateToProps, { getPosts, cleanPosts })(Favorites);

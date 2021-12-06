@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   SvgAirConditioner,
   SvgBalcony,
@@ -22,10 +22,10 @@ import {
   SvgTv,
   SvgWashingMachine,
   SvgWifi,
-} from '../../../layout/icons'
-import PropTypes from 'prop-types'
+} from '../../../layout/icons';
+import PropTypes from 'prop-types';
 
-import './postFeatures.style.scss'
+import './postFeatures.style.scss';
 
 const Feature = ({ flag, icon: Icon, name, special = false }) => {
   return flag ? (
@@ -35,8 +35,8 @@ const Feature = ({ flag, icon: Icon, name, special = false }) => {
       </div>
       {name}
     </div>
-  ) : null
-}
+  ) : null;
+};
 
 const PostFeatures = ({
   post: {
@@ -65,7 +65,7 @@ const PostFeatures = ({
     refrigerator,
   },
 }) => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div className="my-1">
@@ -132,7 +132,11 @@ const PostFeatures = ({
           icon={SvgOven}
           name={t('post.features.kitchenFurniture')}
         />
-        <Feature flag={cabelTv} icon={SvgTv} name={t('post.features.cabelTv')} />
+        <Feature
+          flag={cabelTv}
+          icon={SvgTv}
+          name={t('post.features.cabelTv')}
+        />
         <Feature
           flag={phone}
           icon={SvgTelephone}
@@ -183,11 +187,11 @@ const PostFeatures = ({
       </div>
       <div className="divider" />
     </div>
-  )
-}
+  );
+};
 
 PostFeatures.propTypes = {
   post: PropTypes.object.isRequired,
-}
+};
 
-export default PostFeatures
+export default PostFeatures;

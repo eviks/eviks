@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgTelephone({ className = '', ...props }) {
   return (
@@ -61,7 +61,7 @@ function SvgTelephone({ className = '', ...props }) {
         d="M437,406h-30c-8.284,0-15,6.716-15,15s6.716,15,15,15h30c8.284,0,15-6.716,15-15S445.284,406,437,406z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgTelephone
+export default SvgTelephone;

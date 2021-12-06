@@ -1,23 +1,23 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { login } from '../../../actions/auth'
-import Alert from '../../layout/alert/alert.component'
-import { deleteAllAlerts } from '../../../actions/alert'
-import Ripple from '../../layout/ripple/ripple.component'
-import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
-import Input from '../../layout/form/input/input.component'
-import { SvgUser, SvgPadlock } from '../../layout/icons'
-import styled, { keyframes } from 'styled-components'
-import { fadeInLeft } from 'react-animations'
-import { useTranslation } from 'react-i18next'
-import LocalizedLink from '../../../components/localization/LocalizedLink.component'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, Fragment } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login } from '../../../actions/auth';
+import Alert from '../../layout/alert/alert.component';
+import { deleteAllAlerts } from '../../../actions/alert';
+import Ripple from '../../layout/ripple/ripple.component';
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component';
+import Input from '../../layout/form/input/input.component';
+import { SvgUser, SvgPadlock } from '../../layout/icons';
+import styled, { keyframes } from 'styled-components';
+import { fadeInLeft } from 'react-animations';
+import { useTranslation } from 'react-i18next';
+import LocalizedLink from '../../../components/localization/LocalizedLink.component';
+import PropTypes from 'prop-types';
 
-const FadeInLeftAnimation = keyframes`${fadeInLeft}`
+const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
 const FadeInLeftForm = styled.form`
   animation: 0.5s ${FadeInLeftAnimation};
-`
+`;
 
 const Login = ({
   handleCloseModal,
@@ -27,39 +27,39 @@ const Login = ({
   locale,
   deleteAllAlerts,
 }) => {
-  const [formData, setFormData] = useState({ email: '', password: '' })
-  const [t] = useTranslation()
-  const { email, password } = formData
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [t] = useTranslation();
+  const { email, password } = formData;
 
   useEffect(() => {
     return () => {
-      deleteAllAlerts()
-    }
-  }, [deleteAllAlerts])
+      deleteAllAlerts();
+    };
+  }, [deleteAllAlerts]);
 
   const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
-    e.preventDefault()
-    login(email, password)
-  }
+    e.preventDefault();
+    login(email, password);
+  };
 
   const formIsValid = () => {
-    return email.length > 0 && password.length > 0
-  }
+    return email.length > 0 && password.length > 0;
+  };
 
   if (isAuthenticated) {
     if (handleCloseModal !== undefined) {
-      handleCloseModal()
+      handleCloseModal();
     } else {
-      return <Redirect to={`/${locale}/`} />
+      return <Redirect to={`/${locale}/`} />;
     }
   }
 
   const resetPasswordOnClick = () => {
-    if (handleCloseModal !== undefined) handleCloseModal()
-  }
+    if (handleCloseModal !== undefined) handleCloseModal();
+  };
 
   return (
     <FadeInLeftForm onSubmit={(e) => onSubmit(e)}>
@@ -111,8 +111,8 @@ const Login = ({
         </LocalizedLink>
       </div>
     </FadeInLeftForm>
-  )
-}
+  );
+};
 
 Login.propTypes = {
   handleCloseModal: PropTypes.func,
@@ -120,12 +120,12 @@ Login.propTypes = {
   isAuthenticated: PropTypes.bool,
   loading: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   loading: state.async.loading,
   locale: state.locale.locale,
-})
+});
 
-export default connect(mapStateToProps, { login, deleteAllAlerts })(Login)
+export default connect(mapStateToProps, { login, deleteAllAlerts })(Login);

@@ -1,49 +1,49 @@
-import React, { useState, useRef } from 'react'
-import useIsMount from '../../../services/hooks/useIsMount'
-import ScrollMenu from 'react-horizontal-scrolling-menu'
-import PostItem from '../../posts/postItem/postItem.component'
-import SkeletonPostItem from '../../layout/skeleton/skeletonPostItem/skeletonPostItem.component'
-import ArrowButton from '../../layout/arrowButtons/arrowButton.component'
-import { SvgArrowLeft, SvgArrowRight } from '../../layout/icons'
-import { useTranslation } from 'react-i18next'
-import axios from 'axios'
-import uuid from 'uuid'
+import React, { useState, useRef } from 'react';
+import useIsMount from '../../../services/hooks/useIsMount';
+import ScrollMenu from 'react-horizontal-scrolling-menu';
+import PostItem from '../../posts/postItem/postItem.component';
+import SkeletonPostItem from '../../layout/skeleton/skeletonPostItem/skeletonPostItem.component';
+import ArrowButton from '../../layout/arrowButtons/arrowButton.component';
+import { SvgArrowLeft, SvgArrowRight } from '../../layout/icons';
+import { useTranslation } from 'react-i18next';
+import axios from 'axios';
+import uuid from 'uuid';
 
-import './swipeBlock.style.scss'
+import './swipeBlock.style.scss';
 
 const SwipeBlock = () => {
-  const swipeBlockRef = useRef(null)
+  const swipeBlockRef = useRef(null);
   const [list, setList] = useState([
     <SkeletonPostItem key={uuid.v4()} />,
     <SkeletonPostItem key={uuid.v4()} />,
     <SkeletonPostItem key={uuid.v4()} />,
-  ])
+  ]);
 
   const onLeftArrowClick = () => {
-    if (swipeBlockRef) swipeBlockRef.current.handleArrowClick()
-  }
+    if (swipeBlockRef) swipeBlockRef.current.handleArrowClick();
+  };
 
   const onRightArrowClick = () => {
-    if (swipeBlockRef) swipeBlockRef.current.handleArrowClickRight()
-  }
+    if (swipeBlockRef) swipeBlockRef.current.handleArrowClickRight();
+  };
 
   const getPosts = async () => {
     try {
-      const res = await axios.get('/api/posts/?limit=20&page=1')
+      const res = await axios.get('/api/posts/?limit=20&page=1');
       setList(
-        res.data.result.map((post) => <PostItem key={post._id} post={post} />)
-      )
+        res.data.result.map((post) => <PostItem key={post._id} post={post} />),
+      );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  let isMounted = useIsMount()
+  let isMounted = useIsMount();
   if (isMounted) {
-    getPosts()
+    getPosts();
   }
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div>
@@ -76,7 +76,7 @@ const SwipeBlock = () => {
         itemClass={'swipe-block-item'}
       />
     </div>
-  )
-}
+  );
+};
 
-export default SwipeBlock
+export default SwipeBlock;

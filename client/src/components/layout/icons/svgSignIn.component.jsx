@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgSignIn({ className = '', ...props }) {
   return (
@@ -23,7 +23,7 @@ function SvgSignIn({ className = '', ...props }) {
 			l62.558,63.46H12.03C5.39,180.503,0,185.94,0,192.653c0,6.713,5.39,12.151,12.03,12.151h247.74L197.213,268.276z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgSignIn
+export default SvgSignIn;

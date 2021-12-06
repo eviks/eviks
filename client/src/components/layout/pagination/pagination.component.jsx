@@ -1,37 +1,37 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import PaginationItem from './paginationItem.component'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, Fragment } from 'react';
+import PaginationItem from './paginationItem.component';
+import PropTypes from 'prop-types';
 
-import './pagination.style.scss'
+import './pagination.style.scss';
 
 const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
   const [state, setState] = useState({
     prevPages: [],
     nextPages: [],
-  })
-  const { prevPages, nextPages } = state
+  });
+  const { prevPages, nextPages } = state;
 
   useEffect(() => {
-    const newPrevPages = []
-    const newNextPages = []
+    const newPrevPages = [];
+    const newNextPages = [];
 
     for (
       let i = current;
       i > Math.min(current + 1, skipped) && current > 1;
       i--
     ) {
-      newPrevPages.push(i - 1)
+      newPrevPages.push(i - 1);
     }
 
     for (let i = current; i < Math.min(current + 1, total); i++) {
-      newNextPages.push(i + 1)
+      newNextPages.push(i + 1);
     }
 
     setState({
       prevPages: newPrevPages,
       nextPages: newNextPages,
-    })
-  }, [current, skipped, total])
+    });
+  }, [current, skipped, total]);
 
   return (
     <div className="pagination">
@@ -97,12 +97,12 @@ const Pagination = ({ pagination: { skipped, current, total }, onClick }) => {
         />
       )}
     </div>
-  )
-}
+  );
+};
 
 Pagination.propTypes = {
   pagination: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
-}
+};
 
-export default Pagination
+export default Pagination;

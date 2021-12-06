@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './mainInfo.style.scss'
+import './mainInfo.style.scss';
 
 const MainInfo = ({
   post: {
@@ -16,7 +16,7 @@ const MainInfo = ({
     totalFloors,
   },
 }) => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <Fragment>
@@ -57,11 +57,11 @@ const MainInfo = ({
       </div>
       <div className="divider" />
     </Fragment>
-  )
-}
+  );
+};
 
 MainInfo.propTypes = {
   post: PropTypes.object.isRequired,
-}
+};
 
-export default MainInfo
+export default MainInfo;

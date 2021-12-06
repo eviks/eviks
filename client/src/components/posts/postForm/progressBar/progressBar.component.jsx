@@ -1,6 +1,6 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import ProgressStep from './progressStep/progressStep.component'
+import React from 'react';
+import { connect } from 'react-redux';
+import ProgressStep from './progressStep/progressStep.component';
 import {
   SvgInformation,
   SvgLocation,
@@ -10,10 +10,10 @@ import {
   SvgCamera,
   SvgWallet,
   SvgHandPhone,
-} from '../../../layout/icons'
-import PropTypes from 'prop-types'
+} from '../../../layout/icons';
+import PropTypes from 'prop-types';
 
-import './progressBar.style.scss'
+import './progressBar.style.scss';
 
 const ProgressBar = ({ formSteps: { currentStep } }) => {
   return (
@@ -67,15 +67,15 @@ const ProgressBar = ({ formSteps: { currentStep } }) => {
         }
       />
     </div>
-  )
-}
+  );
+};
 
 ProgressBar.propTypes = {
   formSteps: PropTypes.object.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   formSteps: state.post.formSteps,
-})
+});
 
-export default connect(mapStateToProps)(ProgressBar)
+export default connect(mapStateToProps)(ProgressBar);

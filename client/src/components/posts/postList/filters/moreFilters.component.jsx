@@ -1,20 +1,20 @@
-import React from 'react'
-import MoreFiltersForm from './moreFiltersForm.component'
-import { SvgClose } from '../../../layout/icons'
-import styled, { keyframes } from 'styled-components'
-import { fadeInDown } from 'react-animations'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React from 'react';
+import MoreFiltersForm from './moreFiltersForm.component';
+import { SvgClose } from '../../../layout/icons';
+import styled, { keyframes } from 'styled-components';
+import { fadeInDown } from 'react-animations';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './filters.style.scss'
+import './filters.style.scss';
 
-const FadeInDownAnimation = keyframes`${fadeInDown}`
+const FadeInDownAnimation = keyframes`${fadeInDown}`;
 const FadeInDownDiv = styled.div`
   animation: 0.5s ${FadeInDownAnimation};
-`
+`;
 
 const MoreFilters = ({ filterOnClick }) => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <FadeInDownDiv>
@@ -35,7 +35,7 @@ const MoreFilters = ({ filterOnClick }) => {
             <button
               className="btn btn-white btn-md"
               onClick={() => {
-                filterOnClick()
+                filterOnClick();
               }}
             >
               {t('postList.filters.doneButton')}
@@ -44,11 +44,11 @@ const MoreFilters = ({ filterOnClick }) => {
         </div>
       </div>
     </FadeInDownDiv>
-  )
-}
+  );
+};
 
 MoreFilters.propTypes = {
   filterOnClick: PropTypes.func.isRequired,
-}
+};
 
-export default MoreFilters
+export default MoreFilters;

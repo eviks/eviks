@@ -1,23 +1,23 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
-import { connect } from 'react-redux'
-import { getLocalities, clearLocalities } from '../../../actions/locality'
-import { updatePostFormAttributes } from '../../../actions/post'
-import Locality from './locality.component'
-import Spinner from '../spinner/spinner.component'
-import { SvgClose } from '../icons'
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import styled, { keyframes } from 'styled-components'
-import { fadeIn, fadeOut } from 'react-animations'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { getLocalities, clearLocalities } from '../../../actions/locality';
+import { updatePostFormAttributes } from '../../../actions/post';
+import Locality from './locality.component';
+import Spinner from '../spinner/spinner.component';
+import { SvgClose } from '../icons';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import styled, { keyframes } from 'styled-components';
+import { fadeIn, fadeOut } from 'react-animations';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './localities.style.scss'
+import './localities.style.scss';
 
-const FadeInAnimation = keyframes`${fadeIn}`
-const FadeOutAnimation = keyframes`${fadeOut}`
+const FadeInAnimation = keyframes`${fadeIn}`;
+const FadeOutAnimation = keyframes`${fadeOut}`;
 const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
-`
+`;
 
 const Localities = ({
   loading,
@@ -28,21 +28,21 @@ const Localities = ({
   updatePostFormAttributes,
   handleCloseModal,
 }) => {
-  const containerRef = useRef(null)
+  const containerRef = useRef(null);
 
   const [selectedLocality, setSelectedLocality] = useState({
     city: { name: '', id: '', location: [0, 0] },
     district: { name: '', id: '', location: [0, 0] },
     subdistrict: { name: '', id: '', location: [0, 0] },
-  })
+  });
 
-  const { city, district, subdistrict } = selectedLocality
+  const { city, district, subdistrict } = selectedLocality;
 
   useEffect(() => {
-    getLocalities({ type: 2 })
-    return () => clearLocalities()
+    getLocalities({ type: 2 });
+    return () => clearLocalities();
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (localities.length === 1) {
@@ -53,42 +53,42 @@ const Localities = ({
           id: localities[0].id,
           location: [localities[0].x, localities[0].y],
         },
-      })
+      });
     }
     // eslint-disable-next-line
-  }, [localities])
+  }, [localities]);
 
   // Disable body scroll
   useEffect(() => {
-    let currentRef
-    if (containerRef) currentRef = containerRef.current
+    let currentRef;
+    if (containerRef) currentRef = containerRef.current;
     if (currentRef) {
-      disableBodyScroll(currentRef)
+      disableBodyScroll(currentRef);
     }
-    return () => enableBodyScroll(currentRef)
-  })
+    return () => enableBodyScroll(currentRef);
+  });
 
   const getTypeName = (locality) => {
-    if (locality.type === '2') return 'city'
+    if (locality.type === '2') return 'city';
     if (
       locality.type === '8' ||
       (locality.type === '32' && selectedLocality.district.id === '')
     )
-      return 'district'
-    return 'subdistrict'
-  }
+      return 'district';
+    return 'subdistrict';
+  };
 
   const getTitle = () => {
-    if (subdistrict.id !== '') return subdistrict.name
-    if (district.id !== '') return district.name
-    if (city.id !== '') return city.name
-  }
+    if (subdistrict.id !== '') return subdistrict.name;
+    if (district.id !== '') return district.name;
+    if (city.id !== '') return city.name;
+  };
 
   const getSearchArea = () => {
-    if (subdistrict.id !== '') return subdistrict.location
-    if (district.id !== '') return district.location
-    if (city.id !== '') return city.location
-  }
+    if (subdistrict.id !== '') return subdistrict.location;
+    if (district.id !== '') return district.location;
+    if (city.id !== '') return city.location;
+  };
 
   const selectLocality = () => {
     updatePostFormAttributes({
@@ -98,11 +98,11 @@ const Localities = ({
       address: '',
       searchArea: getSearchArea(),
       location: [0, 0],
-    })
-    handleCloseModal()
-  }
+    });
+    handleCloseModal();
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <FadeInDiv className="localities-wrapper" ref={containerRef}>
@@ -152,15 +152,15 @@ const Localities = ({
                         handleCloseModal={handleCloseModal}
                       />
                     </li>
-                  )
+                  ),
                 )}
             </ul>
           </Fragment>
         )}
       </div>
     </FadeInDiv>
-  )
-}
+  );
+};
 
 Localities.propTypes = {
   loading: PropTypes.bool.isRequired,
@@ -170,15 +170,15 @@ Localities.propTypes = {
   updatePostFormAttributes: PropTypes.func.isRequired,
   clearLocalities: PropTypes.func.isRequired,
   handleCloseModal: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   loading: state.async.loading,
   localities: state.locality.localities,
-})
+});
 
 export default connect(mapStateToProps, {
   getLocalities,
   clearLocalities,
   updatePostFormAttributes,
-})(Localities)
+})(Localities);

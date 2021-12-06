@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgPaw({ className = '', ...props }) {
   return (
@@ -60,7 +60,7 @@ function SvgPaw({ className = '', ...props }) {
 			c5.38-2.021,10.757-0.458,14.32,1.208c9.69,4.535,18.195,15.027,22.75,28.067C88.496,252.825,83.444,275.258,70.456,280.137z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgPaw
+export default SvgPaw;

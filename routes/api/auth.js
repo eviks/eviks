@@ -1,14 +1,14 @@
-const express = require('express')
-const router = express.Router()
-const { check, validationResult } = require('express-validator')
-const jwt = require('jsonwebtoken')
-const config = require('config')
-const passport = require('passport')
-const randomstring = require('randomstring')
-const emailSender = require('../../config/mailer/emailSender')
-const bcrypt = require('bcryptjs')
+const express = require('express');
+const router = express.Router();
+const { check, validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const passport = require('passport');
+const randomstring = require('randomstring');
+const emailSender = require('../../config/mailer/emailSender');
+const bcrypt = require('bcryptjs');
 
-const User = require('../../models/User')
+const User = require('../../models/User');
 
 // @route GET api/auth
 // @desc  Get user info via token
@@ -16,14 +16,14 @@ const User = require('../../models/User')
 router.get('/', async (req, res, next) => {
   passport.authenticate('jwt', (err, user, info) => {
     if (err) {
-      console.error(err.message)
-      return res.status(500).send('Server error...')
+      console.error(err.message);
+      return res.status(500).send('Server error...');
     } else if (info) {
-      return res.status(400).json({ errors: [info] })
+      return res.status(400).json({ errors: [info] });
     }
-    res.json(user)
-  })(req, res, next)
-})
+    res.json(user);
+  })(req, res, next);
+});
 
 // @route POST api/auth
 // @desc  Authericate user & get user
@@ -36,39 +36,39 @@ router.post(
   ],
   async (req, res, next) => {
     // Validation
-    const errors = validationResult(req)
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array(),
-      })
+      });
     }
 
     passport.authenticate('local-signin', (err, user, info) => {
       if (err) {
-        console.error(err.message)
-        return res.status(500).send('Server error...')
+        console.error(err.message);
+        return res.status(500).send('Server error...');
       } else if (info) {
-        return res.status(400).json({ errors: [info] })
+        return res.status(400).json({ errors: [info] });
       }
       const payload = {
         user: {
           id: user.id,
         },
-      }
+      };
       const token = jwt.sign(payload, config.get('jwtSecret'), {
         expiresIn: 360000,
-      })
-      res.json({ token })
-    })(req, res, next)
-  }
-)
+      });
+      res.json({ token });
+    })(req, res, next);
+  },
+);
 
 // @route POST api/auth/verification/:activationToken
 // @desc  Email verification
 // @access Public
 router.post('/verification/:activationToken', async (req, res, next) => {
   try {
-    const { activationToken } = req.params
+    const { activationToken } = req.params;
 
     // Find user by activation token
     let user = await User.findOne({
@@ -77,36 +77,36 @@ router.post('/verification/:activationToken', async (req, res, next) => {
       activationTokenExpires: {
         $gt: Date.now(),
       },
-    })
+    });
 
     // User not found
     if (!user) {
       return res.status(400).json({
         errors: [{ msg: 'Wrong activation token' }],
-      })
+      });
     }
 
     // Update user
-    user.active = true
-    user.activationToken = undefined
-    user.activationTokenExpires = undefined
-    await user.save()
+    user.active = true;
+    user.activationToken = undefined;
+    user.activationTokenExpires = undefined;
+    await user.save();
 
     // Login user
     const payload = {
       user: {
         id: user.id,
       },
-    }
+    };
     const token = jwt.sign(payload, config.get('jwtSecret'), {
       expiresIn: 360000,
-    })
-    res.json({ token })
+    });
+    res.json({ token });
   } catch (error) {
-    console.error(error.message)
-    return res.status(500).send('Server error...')
+    console.error(error.message);
+    return res.status(500).send('Server error...');
   }
-})
+});
 
 // @route POST api/auth/create_reset_password_token
 // @desc  Create reset password token
@@ -116,35 +116,35 @@ router.post(
   [check('email', 'Please include a valid email').isEmail()],
   async (req, res, next) => {
     // Validation
-    const errors = validationResult(req)
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array(),
-      })
+      });
     }
 
     try {
-      const { email } = req.body
+      const { email } = req.body;
 
       // Find user by email address
       let user = await User.findOne({
         email: email,
-      })
+      });
 
       // User not found
       if (!user) {
         return res.status(400).json({
           errors: [{ msg: 'No account with that email address exist' }],
-        })
+        });
       }
 
       // Create reset password token
-      const resetPasswordToken = randomstring.generate()
+      const resetPasswordToken = randomstring.generate();
 
       // Update user
-      user.resetPasswordToken = resetPasswordToken
-      user.resetPasswordExpires = Date.now() + 3600000
-      await user.save()
+      user.resetPasswordToken = resetPasswordToken;
+      user.resetPasswordExpires = Date.now() + 3600000;
+      await user.save();
 
       // Send password reset email
       const result = await emailSender({
@@ -154,20 +154,20 @@ router.post(
         context: {
           resetPasswordToken,
         },
-      })
+      });
 
-      if (!result.success) throw result.error
+      if (!result.success) throw result.error;
 
-      return res.send('Reset password email sent')
+      return res.send('Reset password email sent');
     } catch (error) {
-      console.error(error.message)
-      return res.status(500).send('Server error...')
+      console.error(error.message);
+      return res.status(500).send('Server error...');
     }
-  }
-)
+  },
+);
 
 router.post('/check_reset_password_token/:token', async (req, res) => {
-  const resetPasswordToken = req.params.token
+  const resetPasswordToken = req.params.token;
 
   try {
     // Find user by reset password token
@@ -176,21 +176,21 @@ router.post('/check_reset_password_token/:token', async (req, res) => {
       resetPasswordExpires: {
         $gt: Date.now(),
       },
-    })
+    });
 
     // User not found
     if (!user) {
       return res.status(400).json({
         errors: [{ msg: 'Wrong reset password token' }],
-      })
+      });
     }
 
-    res.send('Reset-password-token is valid')
+    res.send('Reset-password-token is valid');
   } catch (error) {
-    console.error(error.message)
-    return res.status(500).send('Server error...')
+    console.error(error.message);
+    return res.status(500).send('Server error...');
   }
-})
+});
 
 // @route POST api/auth/password_reset
 // @desc  Resets users password
@@ -203,21 +203,21 @@ router.post(
   ],
   async (req, res, next) => {
     // Validation
-    const errors = validationResult(req)
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array(),
-      })
+      });
     }
 
     try {
-      const resetPasswordToken = req.params.token
-      const { password, confirm } = req.body
+      const resetPasswordToken = req.params.token;
+      const { password, confirm } = req.body;
 
       if (password !== confirm) {
         return res.status(400).json({
           errors: [{ msg: 'Passwords do not match' }],
-        })
+        });
       }
 
       // Find user by reset password token
@@ -226,40 +226,40 @@ router.post(
         resetPasswordExpires: {
           $gt: Date.now(),
         },
-      })
+      });
 
       // User not found
       if (!user) {
         return res.status(400).json({
           errors: [{ msg: 'Wrong reset password token' }],
-        })
+        });
       }
 
       // Encrypt password
-      const salt = await bcrypt.genSalt(10)
-      const hashedPassword = await bcrypt.hash(password, salt)
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
 
       // Update user
-      user.password = hashedPassword
-      user.resetPasswordToken = undefined
-      user.resetPasswordExpires = undefined
-      await user.save()
+      user.password = hashedPassword;
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+      await user.save();
 
       // Login user
       const payload = {
         user: {
           id: user.id,
         },
-      }
+      };
       const token = jwt.sign(payload, config.get('jwtSecret'), {
         expiresIn: 360000,
-      })
-      res.json({ token })
+      });
+      res.json({ token });
     } catch (error) {
-      console.error(error.message)
-      return res.status(500).send('Server error...')
+      console.error(error.message);
+      return res.status(500).send('Server error...');
     }
-  }
-)
+  },
+);
 
-module.exports = router
+module.exports = router;

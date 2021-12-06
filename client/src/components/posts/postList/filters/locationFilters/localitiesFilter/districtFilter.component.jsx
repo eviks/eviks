@@ -1,54 +1,56 @@
-import React from 'react'
-import Checkbox from '../../../../../layout/form/checkbox/checkbox.component'
-import PropTypes from 'prop-types'
+import React from 'react';
+import Checkbox from '../../../../../layout/form/checkbox/checkbox.component';
+import PropTypes from 'prop-types';
 
 const DistrictFilter = ({
   district,
   selectedLocalities,
-  setSelectedLocalities
+  setSelectedLocalities,
 }) => {
-  const children = district.children
-  const districtHasChildren = children && children.length > 0
-  const childrenIds = districtHasChildren ? children.map(child => child.id) : []
+  const children = district.children;
+  const districtHasChildren = children && children.length > 0;
+  const childrenIds = districtHasChildren
+    ? children.map((child) => child.id)
+    : [];
 
   const inspectChildren = () => {
-    if (!districtHasChildren) return selectedLocalities.includes(district.id)
+    if (!districtHasChildren) return selectedLocalities.includes(district.id);
 
     for (let index = 0; index < childrenIds.length; index++) {
       if (!selectedLocalities.includes(childrenIds[index])) {
-        return false
+        return false;
       }
     }
 
-    return true
-  }
+    return true;
+  };
 
-  const districtIsSelected = inspectChildren()
+  const districtIsSelected = inspectChildren();
 
   const districtOnChange = () => {
     if (!districtHasChildren) {
-      toggleLocality(district.id)
-      return
+      toggleLocality(district.id);
+      return;
     }
 
     if (districtIsSelected) {
       setSelectedLocalities(
-        selectedLocalities.filter(id => !childrenIds.includes(id))
-      )
+        selectedLocalities.filter((id) => !childrenIds.includes(id)),
+      );
     } else {
-      setSelectedLocalities([...selectedLocalities, ...childrenIds])
+      setSelectedLocalities([...selectedLocalities, ...childrenIds]);
     }
-  }
+  };
 
-  const toggleLocality = id => {
+  const toggleLocality = (id) => {
     if (selectedLocalities.includes(id)) {
       setSelectedLocalities(
-        selectedLocalities.filter(locality => locality !== id)
-      )
+        selectedLocalities.filter((locality) => locality !== id),
+      );
     } else {
-      setSelectedLocalities([...selectedLocalities, id])
+      setSelectedLocalities([...selectedLocalities, id]);
     }
-  }
+  };
 
   return (
     <div className="distric-filter-block">
@@ -58,21 +60,21 @@ const DistrictFilter = ({
           options={{
             name: district.id,
             id: district.id,
-            checked: districtIsSelected
+            checked: districtIsSelected,
           }}
           onChange={() => districtOnChange()}
         />
       </div>
       {districtHasChildren && (
         <div className="subdistricts-filter-wrapper">
-          {children.map(subdistrict => (
+          {children.map((subdistrict) => (
             <div key={subdistrict.id}>
               <Checkbox
                 label={subdistrict.name}
                 options={{
                   name: subdistrict.id,
                   id: subdistrict.id,
-                  checked: selectedLocalities.includes(subdistrict.id)
+                  checked: selectedLocalities.includes(subdistrict.id),
                 }}
                 onChange={() => toggleLocality(subdistrict.id)}
               />
@@ -81,13 +83,13 @@ const DistrictFilter = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 DistrictFilter.propTypes = {
   district: PropTypes.object.isRequired,
   selectedLocalities: PropTypes.array.isRequired,
-  setSelectedLocalities: PropTypes.func.isRequired
-}
+  setSelectedLocalities: PropTypes.func.isRequired,
+};
 
-export default DistrictFilter
+export default DistrictFilter;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgStairs({ className = '', ...props }) {
   return (
@@ -27,7 +27,7 @@ function SvgStairs({ className = '', ...props }) {
 			h244.87V133.565z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgStairs
+export default SvgStairs;

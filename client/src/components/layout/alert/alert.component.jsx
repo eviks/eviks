@@ -1,8 +1,8 @@
-import React from 'react'
-import { deleteAlert } from '../../../actions/alert'
-import { connect } from 'react-redux'
-import { SvgClose } from '../icons'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { deleteAlert } from '../../../actions/alert';
+import { connect } from 'react-redux';
+import { SvgClose } from '../icons';
+import PropTypes from 'prop-types';
 
 const Alert = ({ alerts, deleteAlert }) =>
   alerts !== null &&
@@ -12,15 +12,15 @@ const Alert = ({ alerts, deleteAlert }) =>
       {alert.message}
       <SvgClose className="alert-close" onClick={() => deleteAlert(alert.id)} />
     </div>
-  ))
+  ));
 
 Alert.propTypes = {
   alerts: PropTypes.array.isRequired,
   deleteAlert: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   alerts: state.alert,
-})
+});
 
-export default connect(mapStateToProps, { deleteAlert })(Alert)
+export default connect(mapStateToProps, { deleteAlert })(Alert);

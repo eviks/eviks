@@ -1,38 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import ImageGallery from 'react-image-gallery'
-import SideCard from './sideCard/sideCard.component'
-import PostHead from './postHead/postHead.component'
-import MainInfo from './mainInfo/mainInfo.component'
-import PostFeatures from './postFeatures/postFeatures.component'
-import BuildingInfo from './buildingInfo/buildingInfo.component'
-import PostDescription from './postDescription/postDescription.component'
-import Location from './location/location.component'
-import SkeletonPost from '../../layout/skeleton/skeletonPost/skeletonPost.component'
-import { connect } from 'react-redux'
-import { getPost } from '../../../actions/post'
+import React, { useState, useEffect } from 'react';
+import ImageGallery from 'react-image-gallery';
+import SideCard from './sideCard/sideCard.component';
+import PostHead from './postHead/postHead.component';
+import MainInfo from './mainInfo/mainInfo.component';
+import PostFeatures from './postFeatures/postFeatures.component';
+import BuildingInfo from './buildingInfo/buildingInfo.component';
+import PostDescription from './postDescription/postDescription.component';
+import Location from './location/location.component';
+import SkeletonPost from '../../layout/skeleton/skeletonPost/skeletonPost.component';
+import { connect } from 'react-redux';
+import { getPost } from '../../../actions/post';
 import {
   renderLeftNav,
   renderRightNav,
-} from '../../layout/arrowButtons/galleryButtons.component'
-import PropTypes from 'prop-types'
+} from '../../layout/arrowButtons/galleryButtons.component';
+import PropTypes from 'prop-types';
 
-import './post.style.scss'
-import './gallery.style.scss'
+import './post.style.scss';
+import './gallery.style.scss';
 
 const Post = ({ post: { post }, getPost, loading, match }) => {
-  const [initialLoading, setInitialLoading] = useState(true)
+  const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
-    getPost(match.params.id)
-    setInitialLoading(false)
-  }, [getPost, match.params.id])
+    getPost(match.params.id);
+    setInitialLoading(false);
+  }, [getPost, match.params.id]);
 
   const getPostImages = () => {
     return post.images.map((id) => ({
       original: `/uploads/post_images/${id}/image_640.png`,
       thumbnail: `/uploads/post_images/${id}/image_160.png`,
-    }))
-  }
+    }));
+  };
 
   return loading || initialLoading || post == null ? (
     <SkeletonPost />
@@ -60,18 +60,18 @@ const Post = ({ post: { post }, getPost, loading, match }) => {
       </div>
       <Location location={post.location} />
     </div>
-  )
-}
+  );
+};
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
   loading: PropTypes.bool,
   getPost: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   post: state.post,
   loading: state.async.loading,
-})
+});
 
-export default connect(mapStateToProps, { getPost })(Post)
+export default connect(mapStateToProps, { getPost })(Post);

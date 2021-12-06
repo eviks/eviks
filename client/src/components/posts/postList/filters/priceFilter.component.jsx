@@ -1,37 +1,37 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { setSrearchFilters, updateURLParams } from '../../../../actions/post'
-import { connect } from 'react-redux'
-import MinMaxFilter from './minMaxFilter.component'
-import Checkbox from '../../../layout/form/checkbox/checkbox.component'
-import createNumberMask from 'text-mask-addons/dist/createNumberMask'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { setSrearchFilters, updateURLParams } from '../../../../actions/post';
+import { connect } from 'react-redux';
+import MinMaxFilter from './minMaxFilter.component';
+import Checkbox from '../../../layout/form/checkbox/checkbox.component';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './filters.style.scss'
+import './filters.style.scss';
 
 const PriceFilter = ({ filters, setSrearchFilters, updateURLParams }) => {
-  const history = useHistory()
+  const history = useHistory();
 
-  const { haggle } = filters
+  const { haggle } = filters;
 
-  const filtersOnChange = event => {
-    const { name, value } = event.target
+  const filtersOnChange = (event) => {
+    const { name, value } = event.target;
 
-    const numericValue = value.replace(/\s/g, '').replace(/₼/g, '')
+    const numericValue = value.replace(/\s/g, '').replace(/₼/g, '');
     setSrearchFilters({
-      [name]: parseInt(numericValue === '' ? 0 : numericValue, 10)
-    })
-  }
+      [name]: parseInt(numericValue === '' ? 0 : numericValue, 10),
+    });
+  };
 
-  const filtersOnBlur = event => {
-    updateURLParams({}, history)
-  }
+  const filtersOnBlur = (event) => {
+    updateURLParams({}, history);
+  };
 
-  const checkboxOnChange = event => {
-    const { name, checked } = event.target
-    updateURLParams({ [name]: checked }, history)
-  }
+  const checkboxOnChange = (event) => {
+    const { name, checked } = event.target;
+    updateURLParams({ [name]: checked }, history);
+  };
 
   const priceMask = createNumberMask({
     prefix: '',
@@ -43,10 +43,10 @@ const PriceFilter = ({ filters, setSrearchFilters, updateURLParams }) => {
     decimalLimit: 0, // how many digits allowed after the decimal
     integerLimit: 15, // limit length of integer numbers
     allowNegative: false,
-    allowLeadingZeroes: false
-  })
+    allowLeadingZeroes: false,
+  });
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <form>
@@ -58,11 +58,11 @@ const PriceFilter = ({ filters, setSrearchFilters, updateURLParams }) => {
         onBlur={filtersOnBlur}
         minInput={{
           name: 'priceMin',
-          placeholder: t('postList.filters.min')
+          placeholder: t('postList.filters.min'),
         }}
         maxInput={{
           name: 'priceMax',
-          placeholder: t('postList.filters.max')
+          placeholder: t('postList.filters.max'),
         }}
       />
       <Checkbox
@@ -70,24 +70,24 @@ const PriceFilter = ({ filters, setSrearchFilters, updateURLParams }) => {
         options={{
           name: 'haggle',
           id: 'haggle',
-          checked: haggle
+          checked: haggle,
         }}
         onChange={checkboxOnChange}
       />
     </form>
-  )
-}
+  );
+};
 
 PriceFilter.propTypes = {
   filters: PropTypes.object.isRequired,
   setSrearchFilters: PropTypes.func.isRequired,
-  updateURLParams: PropTypes.func.isRequired
-}
+  updateURLParams: PropTypes.func.isRequired,
+};
 
-const mapStateToProps = state => ({
-  filters: state.post.posts.filters
-})
+const mapStateToProps = (state) => ({
+  filters: state.post.posts.filters,
+});
 
 export default connect(mapStateToProps, { setSrearchFilters, updateURLParams })(
-  PriceFilter
-)
+  PriceFilter,
+);

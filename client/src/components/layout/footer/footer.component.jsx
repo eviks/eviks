@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import './footer.style.scss'
+import './footer.style.scss';
 
 const Footer = () => {
   return (
@@ -12,7 +12,7 @@ const Footer = () => {
         <span>&#169; 2021 Eviks</span>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

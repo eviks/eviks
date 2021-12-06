@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgImage({ className = '', ...props }) {
   return (
@@ -23,7 +23,7 @@ function SvgImage({ className = '', ...props }) {
         d="M432,81H80c-8.284,0-15,6.716-15,15v320c0,8.284,6.716,15,15,15h352c8.284,0,15-6.716,15-15V96    C447,87.716,440.284,81,432,81z M95,401v-10.787l113-113L331.787,401H95z M417,401h-42.787l-65-65L336,309.213l81,81V401z     M417,347.787l-70.394-70.394c-5.857-5.858-15.355-5.858-21.213,0L288,314.787l-69.394-69.394c-5.857-5.858-15.355-5.858-21.213,0    L95,347.787V111h322V347.787z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgImage
+export default SvgImage;

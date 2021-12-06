@@ -1,18 +1,18 @@
-import React, { Fragment } from 'react'
-import MinMaxFilter from '../minMaxFilter.component'
-import Checkbox from '../../../../layout/form/checkbox/checkbox.component'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react';
+import MinMaxFilter from '../minMaxFilter.component';
+import Checkbox from '../../../../layout/form/checkbox/checkbox.component';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 const Square = ({
   filters,
   filtersOnChange,
   filtersOnBlur,
-  checkboxOnChange
+  checkboxOnChange,
 }) => {
-  const { estateType, notFirstFloor, notLastFloor } = filters
+  const { estateType, notFirstFloor, notLastFloor } = filters;
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div className="filter-group">
@@ -25,11 +25,11 @@ const Square = ({
             onBlur={filtersOnBlur}
             minInput={{
               name: 'floorMin',
-              placeholder: t('postList.filters.min')
+              placeholder: t('postList.filters.min'),
             }}
             maxInput={{
               name: 'floorMax',
-              placeholder: t('postList.filters.max')
+              placeholder: t('postList.filters.max'),
             }}
           />
         </Fragment>
@@ -41,11 +41,11 @@ const Square = ({
         onBlur={filtersOnBlur}
         minInput={{
           name: 'totalFloorMin',
-          placeholder: t('postList.filters.min')
+          placeholder: t('postList.filters.min'),
         }}
         maxInput={{
           name: 'totalFloorMax',
-          placeholder: t('postList.filters.max')
+          placeholder: t('postList.filters.max'),
         }}
       />
       {/* Checkboxes */}
@@ -56,7 +56,7 @@ const Square = ({
             options={{
               name: 'notFirstFloor',
               id: 'notFirstFloor',
-              checked: notFirstFloor
+              checked: notFirstFloor,
             }}
             onChange={checkboxOnChange}
           />
@@ -65,21 +65,21 @@ const Square = ({
             options={{
               name: 'notLastFloor',
               id: 'notLastFloor',
-              checked: notLastFloor
+              checked: notLastFloor,
             }}
             onChange={checkboxOnChange}
           />
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 Square.propTypes = {
   filters: PropTypes.object.isRequired,
   filtersOnChange: PropTypes.func.isRequired,
   filtersOnBlur: PropTypes.func.isRequired,
-  checkboxOnChange: PropTypes.func.isRequired
-}
+  checkboxOnChange: PropTypes.func.isRequired,
+};
 
-export default Square
+export default Square;

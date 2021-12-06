@@ -1,6 +1,6 @@
-import React from 'react'
-import SkeletonLine from '../skeletonLine.component'
-import { SvgUser } from '../../icons'
+import React from 'react';
+import SkeletonLine from '../skeletonLine.component';
+import { SvgUser } from '../../icons';
 
 const SkeletonAvatar = () => {
   return (
@@ -22,7 +22,7 @@ const SkeletonAvatar = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SkeletonAvatar
+export default SkeletonAvatar;

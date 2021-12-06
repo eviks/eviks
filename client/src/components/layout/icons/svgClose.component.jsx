@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgClose({ className = '', ...props }) {
   return (
@@ -19,7 +19,7 @@ function SvgClose({ className = '', ...props }) {
 		c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgClose
+export default SvgClose;

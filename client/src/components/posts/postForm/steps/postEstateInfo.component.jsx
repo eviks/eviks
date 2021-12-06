@@ -1,26 +1,26 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { updatePostFormAttributes } from '../../../../actions/post'
-import Input from '../../../layout/form/input/input.component'
-import SwitchInput from '../../../layout/form/switch/switchInput.component'
-import Checkbox from '../../../layout/form/checkbox/checkbox.component'
-import styled, { keyframes } from 'styled-components'
-import { fadeIn, fadeOut } from 'react-animations'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { connect } from 'react-redux';
+import { updatePostFormAttributes } from '../../../../actions/post';
+import Input from '../../../layout/form/input/input.component';
+import SwitchInput from '../../../layout/form/switch/switchInput.component';
+import Checkbox from '../../../layout/form/checkbox/checkbox.component';
+import styled, { keyframes } from 'styled-components';
+import { fadeIn, fadeOut } from 'react-animations';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-const FadeInAnimation = keyframes`${fadeIn}`
-const FadeOutAnimation = keyframes`${fadeOut}`
+const FadeInAnimation = keyframes`${fadeIn}`;
+const FadeOutAnimation = keyframes`${fadeOut}`;
 const FadeInDiv = styled.div`
   animation: 0.5s ${FadeInAnimation}, ${FadeOutAnimation};
-`
+`;
 
 const PostEstateInfo = ({
   postForm,
   validationErrors,
-  updatePostFormAttributes
+  updatePostFormAttributes,
 }) => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   const {
     estateType,
@@ -34,8 +34,8 @@ const PostEstateInfo = ({
     renovation,
     redevelopment,
     documented,
-    mortgage
-  } = postForm
+    mortgage,
+  } = postForm;
 
   const renovationOptions = [
     {
@@ -44,9 +44,9 @@ const PostEstateInfo = ({
         name: 'renovation',
         type: 'radio',
         value: 'cosmetic',
-        checked: renovation === 'cosmetic'
+        checked: renovation === 'cosmetic',
       },
-      label: t('createPost.estateInfo.cosmetic')
+      label: t('createPost.estateInfo.cosmetic'),
     },
     {
       input: {
@@ -54,9 +54,9 @@ const PostEstateInfo = ({
         name: 'renovation',
         type: 'radio',
         value: 'designer',
-        checked: renovation === 'designer'
+        checked: renovation === 'designer',
       },
-      label: t('createPost.estateInfo.designer')
+      label: t('createPost.estateInfo.designer'),
     },
     {
       input: {
@@ -64,25 +64,25 @@ const PostEstateInfo = ({
         name: 'renovation',
         type: 'radio',
         value: 'noRenovation',
-        checked: renovation === 'noRenovation'
+        checked: renovation === 'noRenovation',
       },
-      label: t('createPost.estateInfo.noRenovation')
-    }
-  ]
+      label: t('createPost.estateInfo.noRenovation'),
+    },
+  ];
 
-  const onChange = event => {
-    let { name, type, value } = event.target
-    const fieldValue = type === 'checkbox' ? event.target.checked : value
+  const onChange = (event) => {
+    let { name, type, value } = event.target;
+    const fieldValue = type === 'checkbox' ? event.target.checked : value;
 
     const newAttributes = {
       [name]:
         typeof fieldValue === 'number'
           ? parseInt(fieldValue === '' ? 0 : fieldValue, 10)
-          : fieldValue
-    }
+          : fieldValue,
+    };
 
-    updatePostFormAttributes(newAttributes)
-  }
+    updatePostFormAttributes(newAttributes);
+  };
 
   return (
     <FadeInDiv className="px-4">
@@ -94,7 +94,7 @@ const PostEstateInfo = ({
           type: 'text',
           name: 'rooms',
           value: rooms === 0 ? '' : rooms,
-          min: '0'
+          min: '0',
         }}
         onChange={onChange}
         error={validationErrors.rooms}
@@ -106,7 +106,7 @@ const PostEstateInfo = ({
           type: 'text',
           name: 'sqm',
           value: sqm === 0 ? '' : sqm,
-          min: '0'
+          min: '0',
         }}
         onChange={onChange}
         error={validationErrors.sqm}
@@ -118,7 +118,7 @@ const PostEstateInfo = ({
           type: 'text',
           name: 'livingRoomsSqm',
           value: livingRoomsSqm === 0 ? '' : livingRoomsSqm,
-          min: '0'
+          min: '0',
         }}
         onChange={onChange}
       />
@@ -129,7 +129,7 @@ const PostEstateInfo = ({
           type: 'text',
           name: 'kitchenSqm',
           value: kitchenSqm === 0 ? '' : kitchenSqm,
-          min: '0'
+          min: '0',
         }}
         onChange={onChange}
       />
@@ -141,7 +141,7 @@ const PostEstateInfo = ({
             type: 'text',
             name: 'floor',
             value: floor === 0 ? '' : floor,
-            min: '0'
+            min: '0',
           }}
           onChange={onChange}
           error={validationErrors.floor}
@@ -153,7 +153,7 @@ const PostEstateInfo = ({
             type: 'text',
             name: 'lotSqm',
             value: lotSqm === 0 ? '' : lotSqm,
-            min: '0'
+            min: '0',
           }}
           onChange={onChange}
           error={validationErrors.lotSqm}
@@ -166,7 +166,7 @@ const PostEstateInfo = ({
           type: 'text',
           name: 'totalFloors',
           value: totalFloors === 0 ? '' : totalFloors,
-          min: '0'
+          min: '0',
         }}
         onChange={onChange}
         error={validationErrors.totalFloors}
@@ -184,7 +184,7 @@ const PostEstateInfo = ({
         options={{
           name: 'redevelopment',
           id: 'redevelopment',
-          checked: redevelopment
+          checked: redevelopment,
         }}
         onChange={onChange}
       />
@@ -201,24 +201,24 @@ const PostEstateInfo = ({
           name: 'mortgage',
           id: 'mortgage',
           checked: mortgage,
-          style: { marginLeft: '200px' }
+          style: { marginLeft: '200px' },
         }}
         onChange={onChange}
       />
     </FadeInDiv>
-  )
-}
+  );
+};
 
 PostEstateInfo.propTypes = {
   postForm: PropTypes.object.isRequired,
-  updatePostFormAttributes: PropTypes.func.isRequired
-}
+  updatePostFormAttributes: PropTypes.func.isRequired,
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   postForm: state.post.postForm,
-  validationErrors: state.post.validationErrors
-})
+  validationErrors: state.post.validationErrors,
+});
 
 export default connect(mapStateToProps, { updatePostFormAttributes })(
-  PostEstateInfo
-)
+  PostEstateInfo,
+);

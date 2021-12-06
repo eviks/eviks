@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgHandPhone({ className = '', ...props }) {
   return (
@@ -37,7 +37,7 @@ function SvgHandPhone({ className = '', ...props }) {
 			c8.467,0,15.86-6.235,17.073-14.861C454.6,133.825,373.726,55.539,281.716,70.958z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgHandPhone
+export default SvgHandPhone;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgFridge({ className = '', ...props }) {
   return (
@@ -27,7 +27,7 @@ function SvgFridge({ className = '', ...props }) {
         d="M211,301h-60c-8.284,0-15,6.716-15,15s6.716,15,15,15h60c8.284,0,15-6.716,15-15S219.284,301,211,301z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgFridge
+export default SvgFridge;

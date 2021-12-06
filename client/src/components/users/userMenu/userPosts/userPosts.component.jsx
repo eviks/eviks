@@ -1,10 +1,10 @@
-import React, { Fragment, useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import { getPosts, cleanPosts } from '../../../../actions/post'
-import PostItem from '../../../posts/postItem/postItem.component'
-import SkeletonPostList from '../../../layout/skeleton/skeletonPostList/skeletonPostList.component'
-import Pagination from '../../../layout/pagination/pagination.component'
-import PropTypes from 'prop-types'
+import React, { Fragment, useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getPosts, cleanPosts } from '../../../../actions/post';
+import PostItem from '../../../posts/postItem/postItem.component';
+import SkeletonPostList from '../../../layout/skeleton/skeletonPostList/skeletonPostList.component';
+import Pagination from '../../../layout/pagination/pagination.component';
+import PropTypes from 'prop-types';
 
 const UserPosts = ({
   userId,
@@ -15,20 +15,20 @@ const UserPosts = ({
   cleanPosts,
 }) => {
   useEffect(() => {
-    getPosts({ user: userId })
+    getPosts({ user: userId });
     // Set initial loading to false
-    if (initialLoading) setInitialLoading(false)
+    if (initialLoading) setInitialLoading(false);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
-    return () => cleanPosts()
-  }, [cleanPosts])
+    return () => cleanPosts();
+  }, [cleanPosts]);
 
-  const [initialLoading, setInitialLoading] = useState(true)
-  const { result, pagination } = posts
+  const [initialLoading, setInitialLoading] = useState(true);
+  const { result, pagination } = posts;
 
-  const handlePaginationOnClick = () => {}
+  const handlePaginationOnClick = () => {};
 
   return (
     <Fragment>
@@ -42,8 +42,8 @@ const UserPosts = ({
       </div>
       <Pagination pagination={pagination} onClick={handlePaginationOnClick} />
     </Fragment>
-  )
-}
+  );
+};
 
 UserPosts.propTypes = {
   userId: PropTypes.string.isRequired,
@@ -52,12 +52,12 @@ UserPosts.propTypes = {
   loadingElements: PropTypes.array.isRequired,
   getPosts: PropTypes.func.isRequired,
   cleanPosts: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   posts: state.post.posts,
   loading: state.async.loading,
   loadingElements: state.async.loadingElements,
-})
+});
 
-export default connect(mapStateToProps, { getPosts, cleanPosts })(UserPosts)
+export default connect(mapStateToProps, { getPosts, cleanPosts })(UserPosts);

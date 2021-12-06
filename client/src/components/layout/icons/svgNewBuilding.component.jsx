@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgNewBuilding({ className = '', ...props }) {
   return (
@@ -58,7 +58,7 @@ function SvgNewBuilding({ className = '', ...props }) {
 			c-9.206,0-16.696-7.49-16.696-16.696s7.49-16.696,16.696-16.696c9.206,0,16.696,7.49,16.696,16.696S265.206,166.956,256,166.956z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgNewBuilding
+export default SvgNewBuilding;

@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import './checkbox.style.scss'
+import './checkbox.style.scss';
 
 const Checkbox = ({ label, options, onChange }) => {
   return (
@@ -12,13 +12,13 @@ const Checkbox = ({ label, options, onChange }) => {
         <div>{label}</div>
       </label>
     </div>
-  )
-}
+  );
+};
 
 Checkbox.propTypes = {
   label: PropTypes.string,
   options: PropTypes.object,
-  onChange: PropTypes.func
-}
+  onChange: PropTypes.func,
+};
 
-export default Checkbox
+export default Checkbox;

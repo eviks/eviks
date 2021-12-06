@@ -1,39 +1,39 @@
-import React, { Fragment, useState } from 'react'
-import { connect } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { updateUser, deleteUser } from '../../../../actions/auth'
-import DeleteUserMessage from './deleteUserMessage/deleteUserMessage.component'
-import Input from '../../../layout/form/input/input.component'
-import Ripple from '../../../layout/ripple/ripple.component'
-import ButtonSpinner from '../../../layout/spinner/buttonSpinner.component'
-import { SvgSettings, SvgGarbage } from '../../../layout/icons'
-import { toastr } from 'react-redux-toastr'
-import { Player } from '@lottiefiles/react-lottie-player'
-import successAnimation from '../../../../assets/lottiefilesSources/success.json'
-import ReactModal from 'react-modal'
-import { useTranslation } from 'react-i18next'
+import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { updateUser, deleteUser } from '../../../../actions/auth';
+import DeleteUserMessage from './deleteUserMessage/deleteUserMessage.component';
+import Input from '../../../layout/form/input/input.component';
+import Ripple from '../../../layout/ripple/ripple.component';
+import ButtonSpinner from '../../../layout/spinner/buttonSpinner.component';
+import { SvgSettings, SvgGarbage } from '../../../layout/icons';
+import { toastr } from 'react-redux-toastr';
+import { Player } from '@lottiefiles/react-lottie-player';
+import successAnimation from '../../../../assets/lottiefilesSources/success.json';
+import ReactModal from 'react-modal';
+import { useTranslation } from 'react-i18next';
 import {
   validationAttributeOnChange,
   validationOnSubmit,
-} from '../../../../services/formValidation/validationEvents'
-import PropTypes from 'prop-types'
+} from '../../../../services/formValidation/validationEvents';
+import PropTypes from 'prop-types';
 
-import './settings.style.scss'
+import './settings.style.scss';
 
 const Settings = ({ updateUser, deleteUser, currentDisplayName, loading }) => {
-  const history = useHistory()
+  const history = useHistory();
 
   const [state, setState] = useState({
     displayName: currentDisplayName,
     password: '',
     passwordConfirmation: '',
     validationErrors: {},
-  })
+  });
 
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   const { displayName, password, passwordConfirmation, validationErrors } =
-    state
+    state;
 
   const onChange = (event) => {
     validationAttributeOnChange(
@@ -41,21 +41,21 @@ const Settings = ({ updateUser, deleteUser, currentDisplayName, loading }) => {
       event.target.name,
       event.target.value,
       state,
-      setState
-    )
-  }
+      setState,
+    );
+  };
 
   const submitForm = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const formIsValid = validationOnSubmit('USER_SETTINGS', state, setState)
+    const formIsValid = validationOnSubmit('USER_SETTINGS', state, setState);
 
     if (!formIsValid) {
-      return
+      return;
     }
 
     try {
-      const result = await updateUser({ displayName, password })
+      const result = await updateUser({ displayName, password });
       if (result) {
         const toastrOptions = {
           timeOut: 0,
@@ -68,29 +68,29 @@ const Settings = ({ updateUser, deleteUser, currentDisplayName, loading }) => {
             />
           ),
           status: 'info',
-        }
+        };
         toastr.light(
           t('userMenu.updateUserTitle'),
           t('userMenu.updateUser'),
-          toastrOptions
-        )
+          toastrOptions,
+        );
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const onDeleteConfirm = async () => {
-    setShowModal(false)
+    setShowModal(false);
     try {
-      const result = await deleteUser()
-      if (result) history.push('/')
+      const result = await deleteUser();
+      if (result) history.push('/');
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <Fragment>
@@ -177,19 +177,19 @@ const Settings = ({ updateUser, deleteUser, currentDisplayName, loading }) => {
         </ReactModal>
       </div>
     </Fragment>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => ({
   updateUser: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
   currentDisplayName: state.auth.user.displayName,
   loading: state.async.loading,
-})
+});
 
 Settings.propTypes = {
   currentDisplayName: PropTypes.string.isRequired,
   loading: PropTypes.bool,
-}
+};
 
-export default connect(mapStateToProps, { updateUser, deleteUser })(Settings)
+export default connect(mapStateToProps, { updateUser, deleteUser })(Settings);

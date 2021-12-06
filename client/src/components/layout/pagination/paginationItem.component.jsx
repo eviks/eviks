@@ -1,6 +1,6 @@
-import React from 'react'
-import { SvgArrowLeft, SvgArrowRight } from '../icons'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { SvgArrowLeft, SvgArrowRight } from '../icons';
+import PropTypes from 'prop-types';
 
 const PaginationItem = ({
   page,
@@ -11,27 +11,27 @@ const PaginationItem = ({
 }) => {
   const getItemText = () => {
     if (next) {
-      return <SvgArrowRight />
+      return <SvgArrowRight />;
     }
 
     if (prev) {
-      return <SvgArrowLeft />
+      return <SvgArrowLeft />;
     }
 
-    return page
-  }
+    return page;
+  };
 
   const handleOnClick = () => {
-    if (!onClick) return
-    onClick(page)
-  }
+    if (!onClick) return;
+    onClick(page);
+  };
 
   return (
     <div className={className} onClick={handleOnClick}>
       {getItemText()}
     </div>
-  )
-}
+  );
+};
 
 PaginationItem.propTypes = {
   page: PropTypes.number.isRequired,
@@ -39,6 +39,6 @@ PaginationItem.propTypes = {
   prev: PropTypes.bool,
   onClick: PropTypes.func,
   className: PropTypes.string.isRequired,
-}
+};
 
-export default PaginationItem
+export default PaginationItem;

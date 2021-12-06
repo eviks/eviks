@@ -1,11 +1,11 @@
-import React, { Fragment, useState, useRef } from 'react'
-import { useLocation, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { logout } from '../../../actions/auth'
-import Auth from '../../auth/auth.component'
-import LocalitySelect from './localitySelect.component'
-import DropdownMenu from '../dropdownMenu/dropdownMenu.component'
-import MenuButton from '../menuButton/menuButton.component'
+import React, { Fragment, useState, useRef } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../../actions/auth';
+import Auth from '../../auth/auth.component';
+import LocalitySelect from './localitySelect.component';
+import DropdownMenu from '../dropdownMenu/dropdownMenu.component';
+import MenuButton from '../menuButton/menuButton.component';
 import {
   SvgHeart,
   SvgUser,
@@ -13,46 +13,46 @@ import {
   SvgLogo,
   SvgSignOut,
   SvgSignIn,
-} from '../icons'
-import ReactModal from 'react-modal'
-import LocalizedLink from '../../../components/localization/LocalizedLink.component'
-import { locales } from '../../../config/i18n'
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+} from '../icons';
+import ReactModal from 'react-modal';
+import LocalizedLink from '../../../components/localization/LocalizedLink.component';
+import { locales } from '../../../config/i18n';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './navbar.style.scss'
+import './navbar.style.scss';
 
 const Navbar = ({
   auth: { isAuthenticated, loading, user },
   logout,
   navRef,
 }) => {
-  const ulRef = useRef(null)
+  const ulRef = useRef(null);
 
-  const [state, setState] = useState({ showAuthModal: false })
-  const [showMenu, toggleMenu] = useState(false)
-  const [showDropdownMenu, toggleDropdownMenu] = useState(false)
-  const [t] = useTranslation()
-  const { showAuthModal } = state
-  const location = useLocation()
+  const [state, setState] = useState({ showAuthModal: false });
+  const [showMenu, toggleMenu] = useState(false);
+  const [showDropdownMenu, toggleDropdownMenu] = useState(false);
+  const [t] = useTranslation();
+  const { showAuthModal } = state;
+  const location = useLocation();
 
   const handleOpenModal = () => {
-    setState({ showAuthModal: true })
-  }
+    setState({ showAuthModal: true });
+  };
 
   const handleCloseModal = () => {
-    setState({ showAuthModal: false })
-  }
+    setState({ showAuthModal: false });
+  };
 
   const handleMenuToggle = () => {
-    const newValue = !showMenu
-    toggleMenu(newValue)
-    if (newValue && ulRef) disableBodyScroll(ulRef.current)
-    if (!newValue && ulRef) enableBodyScroll(ulRef.current)
-  }
+    const newValue = !showMenu;
+    toggleMenu(newValue);
+    if (newValue && ulRef) disableBodyScroll(ulRef.current);
+    if (!newValue && ulRef) enableBodyScroll(ulRef.current);
+  };
 
-  const closeDropdownMenu = () => toggleDropdownMenu(false)
+  const closeDropdownMenu = () => toggleDropdownMenu(false);
 
   const dropdownOptions = [
     <LocalizedLink
@@ -75,14 +75,14 @@ const Navbar = ({
       className="link"
       href="#!"
       onClick={() => {
-        closeDropdownMenu()
-        logout()
+        closeDropdownMenu();
+        logout();
       }}
     >
       <SvgSignOut className="mr-1" />
       {t('navbar.logout')}
     </a>,
-  ]
+  ];
 
   const authLinks = (
     <Fragment>
@@ -105,7 +105,7 @@ const Navbar = ({
         onRequestClose={closeDropdownMenu}
       />
     </Fragment>
-  )
+  );
 
   const guestLinks = location.pathname !== '/auth' && (
     <li>
@@ -113,7 +113,7 @@ const Navbar = ({
         <SvgSignIn /> {t('navbar.joinOrSignIn')}
       </button>
     </li>
-  )
+  );
 
   return (
     <Fragment>
@@ -157,16 +157,16 @@ const Navbar = ({
         <Auth handleCloseModal={handleCloseModal} showOverlay={true} />
       </ReactModal>
     </Fragment>
-  )
-}
+  );
+};
 
 logout.propTypes = {
   auth: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-})
+});
 
-export default connect(mapStateToProps, { logout })(Navbar)
+export default connect(mapStateToProps, { logout })(Navbar);

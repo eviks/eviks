@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import './menuButton.style.scss'
+import './menuButton.style.scss';
 
 const MenuButton = ({ onClick }) => {
   return (
@@ -11,11 +11,11 @@ const MenuButton = ({ onClick }) => {
       <span></span>
       <span></span>
     </div>
-  )
-}
+  );
+};
 
 MenuButton.propTypes = {
-  onClick: PropTypes.func
-}
+  onClick: PropTypes.func,
+};
 
-export default MenuButton
+export default MenuButton;

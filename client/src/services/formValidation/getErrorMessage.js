@@ -3,20 +3,20 @@ const getErrorMessage = (fieldName, errorCode = '') => {
     case 'username':
       switch (errorCode) {
         case '1':
-          return 'auth.invalidUserName'
+          return 'auth.invalidUserName';
         case '0':
         default:
-          return 'form.requiredField'
+          return 'form.requiredField';
       }
     case 'password':
-      return 'userMenu.passwordError'
+      return 'userMenu.passwordError';
     case 'passwordConfirmation':
-      return 'createPost.mapInfo.wrongAddress'
+      return 'createPost.mapInfo.wrongAddress';
     case 'city':
-      return 'createPost.mapInfo.wrongCity'
+      return 'createPost.mapInfo.wrongCity';
     default:
-      return 'form.requiredField'
+      return 'form.requiredField';
   }
-}
+};
 
-export default getErrorMessage
+export default getErrorMessage;

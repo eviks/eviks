@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import Spinner from '../../layout/spinner/spinner.component'
-import { connect } from 'react-redux'
-import { verifyEmail } from '../../../actions/auth'
-import { useTranslation } from 'react-i18next'
-import SuccessImage from '../../../assets/img/illustrations/success.svg'
-import QuestionImage from '../../../assets/img/illustrations/question.svg'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react';
+import Spinner from '../../layout/spinner/spinner.component';
+import { connect } from 'react-redux';
+import { verifyEmail } from '../../../actions/auth';
+import { useTranslation } from 'react-i18next';
+import SuccessImage from '../../../assets/img/illustrations/success.svg';
+import QuestionImage from '../../../assets/img/illustrations/question.svg';
+import PropTypes from 'prop-types';
 
 const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
-  const [initialLoading, setInitialLoading] = useState(true)
+  const [initialLoading, setInitialLoading] = useState(true);
 
-  useEffect(() => setInitialLoading(false), [setInitialLoading])
+  useEffect(() => setInitialLoading(false), [setInitialLoading]);
 
   useEffect(() => {
-    const activationToken = match.params.activationToken
-    verifyEmail(activationToken)
-  }, [match.params.activationToken, verifyEmail])
+    const activationToken = match.params.activationToken;
+    verifyEmail(activationToken);
+  }, [match.params.activationToken, verifyEmail]);
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   if (loading || initialLoading)
     return (
       <div className="container container-center">
         <Spinner style={{ width: '50px', marginBottom: '10rem' }} />
       </div>
-    )
+    );
 
   return (
     <div className="container container-center">
@@ -51,18 +51,18 @@ const Verification = ({ verifyEmail, loading, isAuthenticated, match }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 Verification.propTypes = {
   verifyEmail: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   isAuthenticated: PropTypes.bool,
-}
+};
 
 const mapStateToProps = (state) => ({
   loading: state.async.loading,
   isAuthenticated: state.auth.isAuthenticated,
-})
+});
 
-export default connect(mapStateToProps, { verifyEmail })(Verification)
+export default connect(mapStateToProps, { verifyEmail })(Verification);

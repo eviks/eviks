@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgBroom({ className = '', ...props }) {
   return (
@@ -25,7 +25,7 @@ function SvgBroom({ className = '', ...props }) {
 			c8.109-8.109,21.303-8.107,29.41,0C483.405,44.713,483.405,57.905,475.297,66.014z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgBroom
+export default SvgBroom;

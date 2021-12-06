@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgApartments({ className = '', ...props }) {
   return (
@@ -29,7 +29,7 @@ function SvgApartments({ className = '', ...props }) {
 			h33.391V200.348z M133.565,133.565h-33.391v-33.391h33.391V133.565z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgApartments
+export default SvgApartments;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgPadlock({ className = '', ...props }) {
   return (
@@ -19,7 +19,7 @@ function SvgPadlock({ className = '', ...props }) {
         d="M256,302c-24.813,0-45,20.187-45,45c0,19.555,12.541,36.228,30,42.42V437c0,8.284,6.716,15,15,15s15-6.716,15-15v-47.58    c17.459-6.192,30-22.865,30-42.42C301,322.187,280.813,302,256,302z M256,362c-8.271,0-15-6.729-15-15s6.729-15,15-15    s15,6.729,15,15S264.271,362,256,362z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgPadlock
+export default SvgPadlock;

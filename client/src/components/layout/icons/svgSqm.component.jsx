@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgSqm({ className = '', ...props }) {
   return (
@@ -35,7 +35,7 @@ function SvgSqm({ className = '', ...props }) {
 			c6.519,6.52,17.091,6.521,23.611,0l33.391-33.391c6.52-6.519,6.521-17.091,0-23.611C94.332,343.415,83.76,343.415,77.24,349.935z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgSqm
+export default SvgSqm;

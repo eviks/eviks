@@ -1,5 +1,5 @@
-import { defaultLocale } from '../../config/i18n'
-import { prefixPath } from '../util'
+import { defaultLocale } from '../../config/i18n';
+import { prefixPath } from '../util';
 
 export const localizeRoutes = (routes) => {
   return routes.map((route) => {
@@ -11,20 +11,20 @@ export const localizeRoutes = (routes) => {
           typeof route.path === 'object'
             ? route.path.map((path) => prefixPath(path, ':locale'))
             : prefixPath(route.path, ':locale'),
-      }
+      };
     }
-    return { ...route }
-  })
-}
+    return { ...route };
+  });
+};
 
 export const getLocaleFromPath = (path) => {
   if (path === '/') {
-    return defaultLocale
+    return defaultLocale;
   }
 
-  return path.split('/')[1]
-}
+  return path.split('/')[1];
+};
 
 export const switchHtmlLocale = (locale) => {
-  window.document.documentElement.lang = locale
-}
+  window.document.documentElement.lang = locale;
+};

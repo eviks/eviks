@@ -3,38 +3,38 @@ const getRequiredFields = (formName, additionalData = null) => {
     case 'POST_FORM':
       switch (additionalData.currentStep) {
         case 0:
-          let fileds = ['userType', 'estateType', 'dealType']
+          let fileds = ['userType', 'estateType', 'dealType'];
           if (additionalData.estateType === 'apartment')
-            fileds = [...fileds, 'apartmentType']
-          return fileds
+            fileds = [...fileds, 'apartmentType'];
+          return fileds;
         case 1:
-          return ['city', 'address']
+          return ['city', 'address'];
         case 2:
-          let fields = ['rooms', 'sqm', 'renovation']
+          let fields = ['rooms', 'sqm', 'renovation'];
           if (additionalData.estateType === 'apartment') {
-            fields = [...fields, 'floor', 'totalFloors']
+            fields = [...fields, 'floor', 'totalFloors'];
           } else {
-            fields = [...fields, 'lotSqm']
+            fields = [...fields, 'lotSqm'];
           }
-          return fields
+          return fields;
         case 4:
-          return ['description']
+          return ['description'];
         case 5:
-          return ['images']
+          return ['images'];
         case 6:
-          return ['price']
+          return ['price'];
         case 7:
-          return ['username', 'contact']
+          return ['username', 'contact'];
         default:
-          return []
+          return [];
       }
     case 'USER_SETTINGS':
-      return ['displayName', 'password', 'passwordConfirmation']
+      return ['displayName', 'password', 'passwordConfirmation'];
     case 'REGISTER':
-      return ['username', 'displayName', 'email', 'password']
+      return ['username', 'displayName', 'email', 'password'];
     default:
-      return []
+      return [];
   }
-}
+};
 
-export default getRequiredFields
+export default getRequiredFields;

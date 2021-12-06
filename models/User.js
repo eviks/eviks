@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema(
   {
@@ -30,6 +30,8 @@ const UserSchema = new mongoose.Schema(
     },
     activationToken: {
       type: String,
+      sparse: true,
+      unique: true,
       trim: true,
       index: true,
     },
@@ -40,6 +42,7 @@ const UserSchema = new mongoose.Schema(
     resetPasswordToken: {
       type: String,
       sparse: true,
+      unique: true,
       trim: true,
       index: true,
     },
@@ -50,6 +53,6 @@ const UserSchema = new mongoose.Schema(
   {
     timestamps: true,
   },
-)
+);
 
-module.exports = User = mongoose.model('user', UserSchema)
+module.exports = User = mongoose.model('user', UserSchema);

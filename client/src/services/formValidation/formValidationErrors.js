@@ -1,17 +1,17 @@
-import attributeIsValid from './attributeIsValid'
-import getErrorMessage from './getErrorMessage'
+import attributeIsValid from './attributeIsValid';
+import getErrorMessage from './getErrorMessage';
 
 const formValidationErrors = (formName, fields, requiredFields) => {
-  let errors = {}
+  let errors = {};
 
   requiredFields.forEach((requiredField) => {
-    const result = attributeIsValid(formName, fields, requiredField)
+    const result = attributeIsValid(formName, fields, requiredField);
     errors[requiredField] = !result.isValid
       ? getErrorMessage(requiredField, result.errorCode)
-      : null
-  })
+      : null;
+  });
 
-  return errors
-}
+  return errors;
+};
 
-export default formValidationErrors
+export default formValidationErrors;

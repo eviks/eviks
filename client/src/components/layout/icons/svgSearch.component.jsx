@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgSearch({ className = '', ...props }) {
   return (
@@ -30,7 +30,7 @@ function SvgSearch({ className = '', ...props }) {
 			s150.155,67.36,150.155,150.155S411.273,333.68,328.477,333.68z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgSearch
+export default SvgSearch;

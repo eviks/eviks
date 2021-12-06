@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import './progressStep.style.scss'
+import './progressStep.style.scss';
 
 const ProgressStep = ({ icon: Icon, stepClass }) => {
   return (
@@ -12,12 +12,12 @@ const ProgressStep = ({ icon: Icon, stepClass }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 ProgressStep.propTypes = {
   icon: PropTypes.elementType.isRequired,
   stepClass: PropTypes.string.isRequired,
-}
+};
 
-export default ProgressStep
+export default ProgressStep;

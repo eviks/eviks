@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgInformation({ className = '', ...props }) {
   return (
@@ -35,7 +35,7 @@ function SvgInformation({ className = '', ...props }) {
 			C420.342,478.404,378.396,470.597,334.051,446.596z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgInformation
+export default SvgInformation;

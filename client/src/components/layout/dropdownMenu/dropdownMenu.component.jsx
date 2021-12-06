@@ -1,14 +1,14 @@
-import React, { useRef } from 'react'
-import useOutsideClick from '../../../services/hooks/useOutsideClick'
-import { CSSTransition } from 'react-transition-group'
-import PropTypes from 'prop-types'
+import React, { useRef } from 'react';
+import useOutsideClick from '../../../services/hooks/useOutsideClick';
+import { CSSTransition } from 'react-transition-group';
+import PropTypes from 'prop-types';
 
-import './dropdownMenu.style.scss'
+import './dropdownMenu.style.scss';
 
 const DropdownMenu = ({ isOpen, menuOptions, label, onRequestClose }) => {
-  const wrapperRef = useRef(null)
+  const wrapperRef = useRef(null);
 
-  useOutsideClick([wrapperRef], onRequestClose)
+  useOutsideClick([wrapperRef], onRequestClose);
 
   return (
     <ul className="dropdown-menu" ref={wrapperRef}>
@@ -28,14 +28,14 @@ const DropdownMenu = ({ isOpen, menuOptions, label, onRequestClose }) => {
         </li>
       </CSSTransition>
     </ul>
-  )
-}
+  );
+};
 
 DropdownMenu.propTypes = {
   isOpen: PropTypes.bool,
   menuOptions: PropTypes.array.isRequired,
   label: PropTypes.object.isRequired,
   onRequestClose: PropTypes.func.isRequired,
-}
+};
 
-export default DropdownMenu
+export default DropdownMenu;

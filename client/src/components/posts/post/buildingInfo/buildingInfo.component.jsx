@@ -1,15 +1,16 @@
-import React, { Fragment } from 'react'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './buildingInfo.style.scss'
+import './buildingInfo.style.scss';
 
 const BuildingInfo = ({
   post: { estateType, ceilingHeight, yearBuild, elevator, parkingLot },
 }) => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
-  const hideComponent = !ceilingHeight && !yearBuild && !elevator && !parkingLot
+  const hideComponent =
+    !ceilingHeight && !yearBuild && !elevator && !parkingLot;
 
   return hideComponent ? null : (
     <Fragment>
@@ -44,11 +45,11 @@ const BuildingInfo = ({
       </div>
       <div className="divider" />
     </Fragment>
-  )
-}
+  );
+};
 
 BuildingInfo.propTypes = {
   post: PropTypes.object.isRequired,
-}
+};
 
-export default BuildingInfo
+export default BuildingInfo;

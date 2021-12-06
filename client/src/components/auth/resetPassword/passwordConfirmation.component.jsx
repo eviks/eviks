@@ -1,16 +1,16 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { Redirect } from 'react-router-dom'
-import Input from '../../layout/form/input/input.component'
-import Ripple from '../../layout/ripple/ripple.component'
-import ButtonSpinner from '../../layout/spinner/buttonSpinner.component'
-import { connect } from 'react-redux'
-import { checkResetPasswordToken, resetPassword } from '../../../actions/auth'
-import Spinner from '../../layout/spinner/spinner.component'
-import { SvgPadlock } from '../../layout/icons'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, Fragment } from 'react';
+import { Redirect } from 'react-router-dom';
+import Input from '../../layout/form/input/input.component';
+import Ripple from '../../layout/ripple/ripple.component';
+import ButtonSpinner from '../../layout/spinner/buttonSpinner.component';
+import { connect } from 'react-redux';
+import { checkResetPasswordToken, resetPassword } from '../../../actions/auth';
+import Spinner from '../../layout/spinner/spinner.component';
+import { SvgPadlock } from '../../layout/icons';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import '../auth.style.scss'
+import '../auth.style.scss';
 
 const PasswordConfirmation = ({
   checkResetPasswordToken,
@@ -21,35 +21,35 @@ const PasswordConfirmation = ({
   match,
   history,
 }) => {
-  const resetPasswordToken = match.params.resetPasswordToken
+  const resetPasswordToken = match.params.resetPasswordToken;
 
   useEffect(() => {
-    checkResetPasswordToken(resetPasswordToken)
+    checkResetPasswordToken(resetPasswordToken);
   }, [
     match.params.resetPasswordToken,
     checkResetPasswordToken,
     resetPasswordToken,
-  ])
+  ]);
 
-  const [initialLoading, setInitialLoading] = useState(true)
-  const [form, setForm] = useState({ password: '', passwordConfirm: '' })
-  const [isValid, setValidation] = useState(false)
-  const { password, passwordConfirm } = form
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [form, setForm] = useState({ password: '', passwordConfirm: '' });
+  const [isValid, setValidation] = useState(false);
+  const { password, passwordConfirm } = form;
 
-  useEffect(() => setInitialLoading(false), [setInitialLoading])
+  useEffect(() => setInitialLoading(false), [setInitialLoading]);
 
   useEffect(() => {
-    setValidation(password.length >= 6 && password === passwordConfirm)
-  }, [password, passwordConfirm, setValidation])
+    setValidation(password.length >= 6 && password === passwordConfirm);
+  }, [password, passwordConfirm, setValidation]);
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   if (loading || initialLoading || validResetPasswordToken == null)
     return (
       <div className="container container-center">
         <Spinner style={{ width: '50px', marginBottom: '10rem' }} />
       </div>
-    )
+    );
 
   // If token is invalid return to reset-password page
   if (!validResetPasswordToken)
@@ -60,17 +60,17 @@ const PasswordConfirmation = ({
           state: { showAlert: true },
         }}
       />
-    )
+    );
 
   const onChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    resetPassword(resetPasswordToken, password, passwordConfirm, history)
-  }
+    resetPassword(resetPasswordToken, password, passwordConfirm, history);
+  };
 
   return (
     <div
@@ -125,8 +125,8 @@ const PasswordConfirmation = ({
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 PasswordConfirmation.propTypes = {
   loading: PropTypes.bool,
@@ -134,15 +134,15 @@ PasswordConfirmation.propTypes = {
   validResetPasswordToken: PropTypes.bool,
   checkResetPasswordToken: PropTypes.func.isRequired,
   resetPassword: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   loading: state.async.loading,
   locale: state.locale.locale,
   validResetPasswordToken: state.auth.validResetPasswordToken,
-})
+});
 
 export default connect(mapStateToProps, {
   checkResetPasswordToken,
   resetPassword,
-})(PasswordConfirmation)
+})(PasswordConfirmation);

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgPool({ className = '', ...props }) {
   return (
@@ -39,7 +39,7 @@ function SvgPool({ className = '', ...props }) {
 			c37.141-18.571,81.491-18.571,118.633,0c46.99,23.495,112.633,23.497,159.628,0C410.844,422.636,414.187,412.607,410.063,404.36z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgPool
+export default SvgPool;

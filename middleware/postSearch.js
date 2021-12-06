@@ -1,27 +1,29 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Post = require('../models/Post')
+const Post = require('../models/Post');
 
 const postSearch = async (req, res, next) => {
   // userId validation
-  const user = req.query.user
+  const user = req.query.user;
   if (user && !mongoose.Types.ObjectId.isValid(user)) {
-    return res.status(404).json({ errors: [{ msg: 'User not found' }] })
+    return res.status(404).json({ errors: [{ msg: 'User not found' }] });
   }
 
   // Set filters
-  req.conditions = setPostsFilters(req)
+  req.conditions = setPostsFilters(req);
 
   // Pagination
-  req.paginatedResults = await getPaginatedResults(req)
+  req.paginatedResults = await getPaginatedResults(req);
 
-  next()
-}
+  next();
+};
 
 const setPostsFilters = (req) => {
   const {
     cityId,
     locationIds,
+    districtId,
+    subdistrictId,
     dealType,
     priceMin,
     priceMax,
@@ -47,118 +49,130 @@ const setPostsFilters = (req) => {
     notLastFloor,
     user,
     ids,
-  } = req.query
+  } = req.query;
 
-  const conditions = {}
+  const conditions = {};
 
   // Find specific user's posts
-  const userId = req.params.id
-  if (userId) conditions.user = userId
+  const userId = req.params.id;
+  if (userId) conditions.user = userId;
 
   // City
-  if (cityId) conditions['city.id'] = cityId
+  if (cityId) conditions['city.id'] = cityId;
 
   // Location IDs
   if (locationIds) {
-    const locationConditions = locationIds.split(',')
+    const locationConditions = locationIds.split(',');
     conditions.$or = [
       { 'district.id': { $in: locationConditions } },
       { 'subdistrict.id': { $in: locationConditions } },
-    ]
+    ];
+  }
+
+  // District & subdistrict
+  if (districtId && subdistrictId) {
+    conditions.$or = [
+      { 'district.id': { $in: districtId.split(',') } },
+      { 'subdistrict.id': { $in: subdistrictId.split(',') } },
+    ];
+  } else if (districtId) {
+    conditions['district.id'] = { $in: districtId.split(',') };
+  } else if (subdistrictId) {
+    conditions['subdistrict.id'] = { $in: subdistrictId.split(',') };
   }
 
   // Deal type
-  if (dealType) conditions.dealType = dealType
+  if (dealType) conditions.dealType = dealType;
 
   // Price
-  setMinMaxFilter(conditions, 'price', priceMin, priceMax)
+  setMinMaxFilter(conditions, 'price', priceMin, priceMax);
 
   // Rooms
-  setMinMaxFilter(conditions, 'rooms', roomsMin, roomsMax)
+  setMinMaxFilter(conditions, 'rooms', roomsMin, roomsMax);
 
   // Estate type
-  if (estateType) conditions.estateType = estateType
+  if (estateType) conditions.estateType = estateType;
 
   // Estate type
-  if (apartmentType) conditions.apartmentType = apartmentType
+  if (apartmentType) conditions.apartmentType = apartmentType;
 
   // Sqm
-  setMinMaxFilter(conditions, 'sqm', sqmMin, sqmMax)
-  setMinMaxFilter(conditions, 'livingRoomsSqm', livingSqmMin, livingSqmMax)
-  setMinMaxFilter(conditions, 'kitchenSqm', kitchenSqmMin, kitchenSqmMax)
+  setMinMaxFilter(conditions, 'sqm', sqmMin, sqmMax);
+  setMinMaxFilter(conditions, 'livingRoomsSqm', livingSqmMin, livingSqmMax);
+  setMinMaxFilter(conditions, 'kitchenSqm', kitchenSqmMin, kitchenSqmMax);
 
   // Floor
-  setMinMaxFilter(conditions, 'totalFloors', totalFloorMin, totalFloorMax)
-  setMinMaxFilter(conditions, 'floor', floorMin, floorMax)
+  setMinMaxFilter(conditions, 'totalFloors', totalFloorMin, totalFloorMax);
+  setMinMaxFilter(conditions, 'floor', floorMin, floorMax);
 
   // Documented
-  if (documented) conditions.documented = true
+  if (documented) conditions.documented = true;
 
   // Mortgage
-  if (mortgage) conditions.mortgage = true
+  if (mortgage) conditions.mortgage = true;
 
   // Redevelopment
-  if (redevelopment) conditions.redevelopment = true
+  if (redevelopment) conditions.redevelopment = true;
 
   // Haggle
-  if (haggle) conditions.haggle = true
+  if (haggle) conditions.haggle = true;
 
   // Not first floor
-  if (notFirstFloor) conditions.notFirstFloor = { $ne: 1 }
+  if (notFirstFloor) conditions.notFirstFloor = { $ne: 1 };
 
   // Not last floor
-  if (notLastFloor) conditions.$expr = { $ne: ['$floor', '$totalFloors'] }
+  if (notLastFloor) conditions.$expr = { $ne: ['$floor', '$totalFloors'] };
 
   // User
-  if (user && mongoose.Types.ObjectId.isValid(user)) conditions.user = user
+  if (user && mongoose.Types.ObjectId.isValid(user)) conditions.user = user;
 
   // Ids
-  if (ids) conditions._id = { $in: ids.split(',') }
+  if (ids) conditions._id = { $in: ids.split(',') };
 
-  return conditions
-}
+  return conditions;
+};
 
 const setMinMaxFilter = (conditions, name, min, max) => {
   if (min && max) {
-    conditions[name] = { $gte: min, $lte: max }
+    conditions[name] = { $gte: min, $lte: max };
   } else if (min) {
-    conditions[name] = { $gte: min }
+    conditions[name] = { $gte: min };
   } else if (max) {
-    conditions[name] = { $lte: max }
+    conditions[name] = { $lte: max };
   }
-}
+};
 
 const getPaginatedResults = (req, conditions) => {
   return new Promise(async (resolve, reject) => {
-    const page = parseInt(req.query.page)
-    const limit = parseInt(req.query.limit)
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
 
-    if (!page || !limit) resolve({})
+    if (!page || !limit) resolve({});
 
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
 
-    let numberOfElements
+    let numberOfElements;
     try {
-      numberOfElements = await Post.find(conditions).countDocuments().exec()
+      numberOfElements = await Post.find(conditions).countDocuments().exec();
     } catch (error) {
-      reject(error.message)
+      reject(error.message);
     }
 
-    const pagination = {}
+    const pagination = {};
 
     if (endIndex < numberOfElements) {
-      pagination.total = Math.ceil(numberOfElements / limit)
+      pagination.total = Math.ceil(numberOfElements / limit);
     }
 
     if (startIndex > 0) {
-      pagination.skipped = Math.ceil(startIndex / limit)
+      pagination.skipped = Math.ceil(startIndex / limit);
     }
 
-    pagination.current = page
+    pagination.current = page;
 
-    resolve({ pagination, limit, startIndex })
-  })
-}
+    resolve({ pagination, limit, startIndex });
+  });
+};
 
-module.exports = postSearch
+module.exports = postSearch;

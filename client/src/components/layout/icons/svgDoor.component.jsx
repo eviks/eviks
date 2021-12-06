@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgDoor({ className = '', ...props }) {
   return (
@@ -25,7 +25,7 @@ function SvgDoor({ className = '', ...props }) {
 			c9.22,0,16.695-7.475,16.695-16.695C239.304,246.77,231.829,239.295,222.609,239.295z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgDoor
+export default SvgDoor;

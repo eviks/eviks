@@ -1,8 +1,8 @@
-import React from 'react'
-import SkeletonPulse from './skeletonPulse.component'
+import React from 'react';
+import SkeletonPulse from './skeletonPulse.component';
 
 const SkeletonLine = () => {
-  return <SkeletonPulse className="skeleton-line" />
-}
+  return <SkeletonPulse className="skeleton-line" />;
+};
 
-export default SkeletonLine
+export default SkeletonLine;

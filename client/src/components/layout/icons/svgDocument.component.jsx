@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgDocument({ className = '', ...props }) {
   return (
@@ -47,7 +47,7 @@ function SvgDocument({ className = '', ...props }) {
 			c9.22,0,16.696-7.475,16.696-16.696S137.207,264.947,127.987,264.947z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgDocument
+export default SvgDocument;

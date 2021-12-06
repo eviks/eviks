@@ -1,4 +1,4 @@
-import initialState from './initialStates/postInitialState'
+import initialState from './initialStates/postInitialState';
 import {
   GET_POSTS,
   GET_POST,
@@ -18,31 +18,31 @@ import {
   CLEAN_FORM,
   CLEAN_POSTS,
   DELETE_POST,
-} from '../actions/types'
+} from '../actions/types';
 
 const postReducer = (state = initialState, action) => {
-  const { type, payload } = action
+  const { type, payload } = action;
   switch (type) {
     case GET_POSTS:
-      return { ...state, posts: { ...state.posts, ...payload } }
+      return { ...state, posts: { ...state.posts, ...payload } };
     case GET_POST:
-      return { ...state, post: payload }
+      return { ...state, post: payload };
     case ADD_POST:
       return {
         ...state,
         posts: { ...state.posts, result: [...state.posts.result, payload] },
         postForm: initialState.postForm,
-      }
+      };
     case UPDATE_POST:
       return {
         ...state,
         posts: {
           ...state.posts,
           result: state.posts.result.map((post) =>
-            post._id === payload.id ? payload : post
+            post._id === payload.id ? payload : post,
           ),
         },
-      }
+      };
     case UPDATE_POST_FORM:
       return {
         ...state,
@@ -54,25 +54,25 @@ const postReducer = (state = initialState, action) => {
           ...state.validationErrors,
           ...action.validationErrors,
         },
-      }
+      };
     case GET_POST_FORM_DATA:
       return {
         ...state,
         postForm: { ...payload },
         formSteps: { ...initialState.formSteps },
         validationErrors: { ...initialState.validationErrors },
-      }
+      };
     case FORM_NEXT_STEP:
     case FORM_PREV_STEP:
       return {
         ...state,
         formSteps: { ...state.formSteps, currentStep: payload },
-      }
+      };
     case POST_VALIDATION_ERROR:
       return {
         ...state,
         validationErrors: payload,
-      }
+      };
     case UPLOAD_IMAGE:
       return {
         ...state,
@@ -80,7 +80,7 @@ const postReducer = (state = initialState, action) => {
           ...state.postForm,
           images: [...state.postForm.images, payload],
         },
-      }
+      };
     case DELETE_IMAGE:
       return {
         ...state,
@@ -88,7 +88,7 @@ const postReducer = (state = initialState, action) => {
           ...state.postForm,
           images: state.postForm.images.filter((image) => image !== payload),
         },
-      }
+      };
     case SET_FILTER:
       return {
         ...state,
@@ -96,7 +96,7 @@ const postReducer = (state = initialState, action) => {
           ...state.posts,
           filters: { ...state.posts.filters, ...payload },
         },
-      }
+      };
     case SET_FILTER_FROM_URL:
     case REMOVE_ALL_FILTERS:
       return {
@@ -105,16 +105,16 @@ const postReducer = (state = initialState, action) => {
           ...state.posts,
           filters: { ...initialState.posts.filters, ...payload },
         },
-      }
+      };
     case CLEAN_FORM:
       return {
         ...state,
         postForm: { ...initialState.postForm },
         formSteps: { ...initialState.formSteps },
         validationErrors: { ...initialState.validationErrors },
-      }
+      };
     case CLEAN_POSTS:
-      return { ...state, posts: { ...state.posts, result: [] } }
+      return { ...state, posts: { ...state.posts, result: [] } };
     case DELETE_POST:
       return {
         ...state,
@@ -122,12 +122,12 @@ const postReducer = (state = initialState, action) => {
           ...state.posts,
           result: state.posts.result.filter((post) => post._id !== payload),
         },
-      }
+      };
     case POST_ERROR:
-      return { ...state, error: payload }
+      return { ...state, error: payload };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default postReducer
+export default postReducer;

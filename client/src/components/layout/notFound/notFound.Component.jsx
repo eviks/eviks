@@ -1,12 +1,12 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import Ripple from '../ripple/ripple.component'
-import LocalizedLink from '../../localization/LocalizedLink.component'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import Ripple from '../ripple/ripple.component';
+import LocalizedLink from '../../localization/LocalizedLink.component';
 
-import './notFound.style.scss'
+import './notFound.style.scss';
 
 const NotFound = () => {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <div className="container container-center">
@@ -20,7 +20,7 @@ const NotFound = () => {
         </LocalizedLink>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NotFound
+export default NotFound;

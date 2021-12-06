@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgRedevelopment({ className = '', ...props }) {
   return (
@@ -27,7 +27,7 @@ function SvgRedevelopment({ className = '', ...props }) {
 			C404.211,81.963,370.637,82.371,339.478,92.173z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgRedevelopment
+export default SvgRedevelopment;

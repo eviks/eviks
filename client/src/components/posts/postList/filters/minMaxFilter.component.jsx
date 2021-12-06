@@ -1,7 +1,7 @@
-import React from 'react'
-import Input from '../../../layout/form/input/input.component'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import React from 'react';
+import Input from '../../../layout/form/input/input.component';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const MinMaxFilter = ({
   filters,
@@ -11,7 +11,7 @@ const MinMaxFilter = ({
   onChange,
   onBlur,
   minInput,
-  maxInput
+  maxInput,
 }) => {
   const getInputOptions = (inputName, placeholder = '') => {
     return {
@@ -19,17 +19,17 @@ const MinMaxFilter = ({
       min: 0,
       name: inputName,
       value: filters[inputName] === 0 ? '' : filters[inputName],
-      placeholder: placeholder
-    }
-  }
+      placeholder: placeholder,
+    };
+  };
 
-  const handleOnChange = event => {
-    if (onChange) onChange(event)
-  }
+  const handleOnChange = (event) => {
+    if (onChange) onChange(event);
+  };
 
-  const handleOnBlur = event => {
-    if (onBlur) onBlur(event)
-  }
+  const handleOnBlur = (event) => {
+    if (onBlur) onBlur(event);
+  };
 
   return (
     <div className={className}>
@@ -52,8 +52,8 @@ const MinMaxFilter = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 MinMaxFilter.propTypes = {
   filters: PropTypes.object.isRequired,
@@ -62,11 +62,11 @@ MinMaxFilter.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   minInput: PropTypes.object.isRequired,
-  maxInput: PropTypes.object.isRequired
-}
+  maxInput: PropTypes.object.isRequired,
+};
 
-const mapStateToProps = state => ({
-  filters: state.post.posts.filters
-})
+const mapStateToProps = (state) => ({
+  filters: state.post.posts.filters,
+});
 
-export default connect(mapStateToProps)(MinMaxFilter)
+export default connect(mapStateToProps)(MinMaxFilter);

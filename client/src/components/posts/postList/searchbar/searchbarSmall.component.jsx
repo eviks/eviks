@@ -1,31 +1,31 @@
-import React, { Fragment, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { getPosts } from '../../../../actions/post'
-import AllFilters from '../allFilters/allFilters.component'
-import Ripple from '../../../layout/ripple/ripple.component'
-import { SvgSearch } from '../../../layout/icons'
-import { CSSTransition } from 'react-transition-group'
-import { useTranslation } from 'react-i18next'
-import PropTypes from 'prop-types'
+import React, { Fragment, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getPosts } from '../../../../actions/post';
+import AllFilters from '../allFilters/allFilters.component';
+import Ripple from '../../../layout/ripple/ripple.component';
+import { SvgSearch } from '../../../layout/icons';
+import { CSSTransition } from 'react-transition-group';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import './searchbar.style.scss'
+import './searchbar.style.scss';
 
 const SearchbarSmall = ({ filters, getPosts }) => {
-  const history = useHistory()
+  const history = useHistory();
 
-  const [showAllFilters, toggleAllFilters] = useState(false)
+  const [showAllFilters, toggleAllFilters] = useState(false);
 
   const handleOnClick = () => {
     if (!showAllFilters) {
-      toggleAllFilters(true)
+      toggleAllFilters(true);
     } else {
-      getPosts({ ...filters, page: 1 }, history)
-      toggleAllFilters(false)
+      getPosts({ ...filters, page: 1 }, history);
+      toggleAllFilters(false);
     }
-  }
+  };
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   return (
     <Fragment>
@@ -46,16 +46,16 @@ const SearchbarSmall = ({ filters, getPosts }) => {
         </button>
       </section>
     </Fragment>
-  )
-}
+  );
+};
 
 SearchbarSmall.propTypes = {
   filters: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   filters: state.post.posts.filters,
-})
+});
 
-export default connect(mapStateToProps, { getPosts })(SearchbarSmall)
+export default connect(mapStateToProps, { getPosts })(SearchbarSmall);

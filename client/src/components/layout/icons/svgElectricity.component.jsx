@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgElectricity({ className = '', ...props }) {
   return (
@@ -25,7 +25,7 @@ function SvgElectricity({ className = '', ...props }) {
 			l47.508-87.818v48.537c0,9.297,7.537,16.834,16.834,16.834h58.893L261.616,337.456z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgElectricity
+export default SvgElectricity;

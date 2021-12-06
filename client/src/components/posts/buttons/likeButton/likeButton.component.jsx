@@ -1,19 +1,19 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react';
 import {
   addPostToFavorites,
   removePostFromFavorites,
-} from '../../../../actions/auth'
-import { connect } from 'react-redux'
-import Auth from '../../../auth/auth.component'
-import { SvgHeart } from '../../../layout/icons'
-import { toastr } from 'react-redux-toastr'
-import ReactModal from 'react-modal'
-import { useTranslation } from 'react-i18next'
-import { Player } from '@lottiefiles/react-lottie-player'
-import heartAnimation from '../../../../assets/lottiefilesSources/heart.json'
-import PropTypes from 'prop-types'
+} from '../../../../actions/auth';
+import { connect } from 'react-redux';
+import Auth from '../../../auth/auth.component';
+import { SvgHeart } from '../../../layout/icons';
+import { toastr } from 'react-redux-toastr';
+import ReactModal from 'react-modal';
+import { useTranslation } from 'react-i18next';
+import { Player } from '@lottiefiles/react-lottie-player';
+import heartAnimation from '../../../../assets/lottiefilesSources/heart.json';
+import PropTypes from 'prop-types';
 
-import './likeButton.style.scss'
+import './likeButton.style.scss';
 
 const LikeButton = ({
   postId,
@@ -23,19 +23,19 @@ const LikeButton = ({
   addPostToFavorites,
   removePostFromFavorites,
 }) => {
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   const favorites =
-    isAuthenticated && user && user.favorites ? user.favorites : {}
+    isAuthenticated && user && user.favorites ? user.favorites : {};
 
-  const [t] = useTranslation()
+  const [t] = useTranslation();
 
   const handleOnClick = async () => {
     if (isAuthenticated) {
       if (favorites[postId] === true) {
-        removePostFromFavorites(postId)
+        removePostFromFavorites(postId);
       } else {
-        const result = await addPostToFavorites(postId)
+        const result = await addPostToFavorites(postId);
 
         if (result.success) {
           toastr.light(
@@ -53,16 +53,16 @@ const LikeButton = ({
                   style={{ height: '70px', width: '70px' }}
                 />
               ),
-            }
-          )
+            },
+          );
         }
       }
     } else {
-      setShowModal(true)
+      setShowModal(true);
     }
-  }
+  };
 
-  const handleCloseModal = () => setShowModal(false)
+  const handleCloseModal = () => setShowModal(false);
 
   return (
     <Fragment>
@@ -92,22 +92,22 @@ const LikeButton = ({
         <Auth handleCloseModal={handleCloseModal} showOverlay={true} />
       </ReactModal>
     </Fragment>
-  )
-}
+  );
+};
 
 LikeButton.propTypes = {
   postId: PropTypes.number.isRequired,
   lg: PropTypes.bool,
   isAuthenticated: PropTypes.bool,
   user: PropTypes.object,
-}
+};
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
-})
+});
 
 export default connect(mapStateToProps, {
   addPostToFavorites,
   removePostFromFavorites,
-})(LikeButton)
+})(LikeButton);

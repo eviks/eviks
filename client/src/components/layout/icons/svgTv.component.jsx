@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgTv({ className = '', ...props }) {
   return (
@@ -39,7 +39,7 @@ function SvgTv({ className = '', ...props }) {
         d="M422,376c-16.542,0-30,13.458-30,30s13.458,30,30,30s30-13.458,30-30S438.542,376,422,376z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgTv
+export default SvgTv;

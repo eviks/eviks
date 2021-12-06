@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 function SvgResale({ className = '', ...props }) {
   return (
@@ -54,7 +54,7 @@ function SvgResale({ className = '', ...props }) {
 			h33.391V411.826z"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgResale
+export default SvgResale;

@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import './arrowButton.style.scss'
+import './arrowButton.style.scss';
 
 const ArrowButton = ({
   icon: Icon,
@@ -16,14 +16,14 @@ const ArrowButton = ({
         <Icon />
       </button>
     </div>
-  )
-}
+  );
+};
 
 ArrowButton.propTypes = {
   icon: PropTypes.elementType.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
   className: PropTypes.string,
-}
+};
 
-export default ArrowButton
+export default ArrowButton;
