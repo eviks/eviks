@@ -33,12 +33,14 @@ const setPostsFilters = (req) => {
     apartmentType,
     sqmMin,
     sqmMax,
-    livingSqmMin,
-    livingSqmMax,
+    livingRoomsMin,
+    livingRoomsMax,
     kitchenSqmMin,
     kitchenSqmMax,
-    totalFloorMin,
-    totalFloorMax,
+    lotSqmMin,
+    lotSqmMax,
+    totalFloorsMin,
+    totalFloorsMax,
     floorMin,
     floorMax,
     documented,
@@ -98,11 +100,12 @@ const setPostsFilters = (req) => {
 
   // Sqm
   setMinMaxFilter(conditions, 'sqm', sqmMin, sqmMax);
-  setMinMaxFilter(conditions, 'livingRoomsSqm', livingSqmMin, livingSqmMax);
+  setMinMaxFilter(conditions, 'livingRoomsSqm', livingRoomsMin, livingRoomsMax);
   setMinMaxFilter(conditions, 'kitchenSqm', kitchenSqmMin, kitchenSqmMax);
+  setMinMaxFilter(conditions, 'lotSqm', lotSqmMin, lotSqmMax);
 
   // Floor
-  setMinMaxFilter(conditions, 'totalFloors', totalFloorMin, totalFloorMax);
+  setMinMaxFilter(conditions, 'totalFloors', totalFloorsMin, totalFloorsMax);
   setMinMaxFilter(conditions, 'floor', floorMin, floorMax);
 
   // Documented
@@ -142,7 +145,7 @@ const setMinMaxFilter = (conditions, name, min, max) => {
   }
 };
 
-const getPaginatedResults = (req, conditions) => {
+const getPaginatedResults = (req) => {
   return new Promise(async (resolve, reject) => {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
@@ -150,20 +153,23 @@ const getPaginatedResults = (req, conditions) => {
     if (!page || !limit) resolve({});
 
     const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
 
     let numberOfElements;
     try {
-      numberOfElements = await Post.find(conditions).countDocuments().exec();
+      numberOfElements = await Post.find(req.conditions, {})
+        .skip(startIndex)
+        .limit(limit * 10)
+        .countDocuments()
+        .exec();
     } catch (error) {
       reject(error.message);
     }
 
     const pagination = {};
 
-    if (endIndex < numberOfElements) {
-      pagination.total = Math.ceil(numberOfElements / limit);
-    }
+    pagination.available = page - 1 + Math.ceil(numberOfElements / limit);
+    if (pagination.available === page || pagination.available === 0)
+      delete pagination.available;
 
     if (startIndex > 0) {
       pagination.skipped = Math.ceil(startIndex / limit);

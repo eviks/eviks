@@ -1,6 +1,7 @@
 const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
-const jwtStrategy = require('passport-jwt').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
 const bcrypt = require('bcryptjs');
 const extractJwt = require('passport-jwt').ExtractJwt;
 const config = require('config');
@@ -11,7 +12,7 @@ const User = require('../models/User');
 
 passport.use(
   'local-signup',
-  new localStrategy(
+  new LocalStrategy(
     {
       usernameField: 'email',
       passwordField: 'password',
@@ -19,31 +20,20 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        const errorMessages = [];
-        const { pinMode, username, displayName } = req.body;
+        const { pinMode, displayName } = req.body;
 
         // Check if user already exists
-        let user = await User.findOne({ email: email });
+        let user = await User.findOne({
+          email: new RegExp(['^', email, '$'].join(''), 'i'),
+        });
         if (user && user.active) {
-          errorMessages.push({
-            param: 'email',
-            msg: 'This email is already taken',
-          });
+          return done(null, null, [
+            {
+              param: 'email',
+              msg: 'This email is already taken',
+            },
+          ]);
         }
-
-        // Check if username is unique
-        let userByUsername = await User.findOne({ username: username });
-        if (
-          userByUsername &&
-          (user && !user.active ? !userByUsername._id.equals(user._id) : true)
-        ) {
-          errorMessages.push({
-            param: 'username',
-            msg: 'This username is already taken',
-          });
-        }
-
-        if (errorMessages.length > 0) return done(null, false, errorMessages);
 
         // Encrypt password
         const salt = await bcrypt.genSalt(10);
@@ -68,14 +58,12 @@ passport.use(
           Date.now() + (pinMode ? +180000 : 10800000);
 
         if (user) {
-          user.username = username;
           user.displayName = displayName;
           user.password = hashedPassword;
           user.activationToken = activationToken;
           user.activationTokenExpires = activationTokenExpires;
         } else {
           user = new User({
-            username: req.body.username,
             displayName: req.body.displayName,
             email,
             password: hashedPassword,
@@ -109,7 +97,7 @@ passport.use(
 
 passport.use(
   'local-signin',
-  new localStrategy(
+  new LocalStrategy(
     {
       usernameField: 'email',
       passwordField: 'password',
@@ -122,7 +110,7 @@ passport.use(
           email: new RegExp(['^', email, '$'].join(''), 'i'),
         });
         if (!user) {
-          return done(null, false, {
+          return done(null, null, {
             msg: 'Invalid credentials',
           });
         }
@@ -130,14 +118,14 @@ passport.use(
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-          return done(null, false, {
+          return done(null, null, {
             msg: 'Invalid credentials',
           });
         }
 
         // Check if user is activated
         if (!user.active) {
-          return done(null, false, {
+          return done(null, null, {
             msg: 'User email is not verified',
           });
         }
@@ -151,8 +139,56 @@ passport.use(
 );
 
 passport.use(
+  new GoogleStrategy(
+    {
+      clientID: config.get('googleClientId'),
+      clientSecret: config.get('googleClientSecret'),
+      callbackURL: 'http://localhost:5000/api/auth/google/callback',
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      const { id, displayName, emails } = profile;
+      const email = emails[0].value;
+
+      try {
+        // If there is a user with such Google ID then just sign in.
+        let user = await User.findOne({ googleId: id });
+        if (user) {
+          return done(null, user);
+        }
+
+        // Notify if email is already in use.
+        user = await User.findOne({
+          email: new RegExp(['^', email, '$'].join(''), 'i'),
+        });
+        if (user && user.active) {
+          return done(null, null, {
+            param: 'email',
+            msg: 'This email is already taken',
+          });
+        }
+
+        // Create new user
+        user = new User({
+          displayName: displayName,
+          email,
+          active: true,
+          googleId: id,
+          activationToken: undefined,
+          activationTokenExpires: undefined,
+        });
+        await user.save();
+
+        return done(null, user);
+      } catch (error) {
+        return done(error);
+      }
+    },
+  ),
+);
+
+passport.use(
   'jwt',
-  new jwtStrategy(
+  new JwtStrategy(
     {
       jwtFromRequest: extractJwt.fromAuthHeaderWithScheme('JWT'),
       secretOrKey: config.get('jwtSecret'),
@@ -161,7 +197,7 @@ passport.use(
       try {
         user = await User.findById(jwtPayload.user.id).select('-password');
         if (!user) {
-          return done(null, false, {
+          return done(null, null, {
             msg: 'Authorization denied',
           });
         }

@@ -26,7 +26,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // @route POST api/auth
-// @desc  Authericate user & get user
+// @desc  Authenticate user & get user
 // @access Public
 router.post(
   '/',
@@ -55,13 +55,115 @@ router.post(
           id: user.id,
         },
       };
-      const token = jwt.sign(payload, config.get('jwtSecret'), {
-        expiresIn: 360000,
-      });
+      const token = jwt.sign(payload, config.get('jwtSecret'));
       res.json({ token });
     })(req, res, next);
   },
 );
+
+// @route GET api/auth/google
+// @desc  Authenticate with Google
+// @access Public
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
+);
+
+// @route POST api/auth/login_with_google
+// @desc  Authenticate user with Google credentials (used for mobile apps). Credentials are retrieved from Firebase.
+// @access Public
+router.post(
+  '/login_with_google',
+  [
+    check('displayName', 'Name is required').notEmpty(),
+    check('email', 'Please include a valid email').isEmail(),
+    check('googleId', 'Google ID is required').notEmpty(),
+  ],
+  async (req, res) => {
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    const { displayName, email, googleId, picture } = req.body;
+
+    try {
+      // If there is a user with such Google ID then just sign in.
+      let user = await User.findOne({ googleId });
+      if (user) {
+        const payload = {
+          user: {
+            id: user.id,
+          },
+        };
+        const token = jwt.sign(payload, config.get('jwtSecret'));
+        return res.json({ token });
+      }
+
+      // Notify if email is already in use.
+      user = await User.findOne({
+        email: new RegExp(['^', email, '$'].join(''), 'i'),
+      });
+      if (user && user.active) {
+        return res.status(400).json({
+          errors: [
+            {
+              param: 'email',
+              msg: 'This email is already taken',
+            },
+          ],
+        });
+      }
+
+      // Create new user
+      user = new User({
+        displayName: displayName,
+        email,
+        active: true,
+        googleId,
+        activationToken: undefined,
+        activationTokenExpires: undefined,
+        picture: picture !== null ? picture : null,
+      });
+      await user.save();
+
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+      const token = jwt.sign(payload, config.get('jwtSecret'));
+      return res.json({ token });
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
+
+// @route GET api/auth/google/callback
+// @desc  Google auth callback
+// @access Public
+router.get('/google/callback', (req, res, next) => {
+  return passport.authenticate('google', (err, user, info) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Server error...');
+    } else if (info && Object.keys(info).length > 0) {
+      return res.status(400).json({ errors: [info] });
+    }
+    const payload = {
+      user: {
+        id: user.id,
+      },
+    };
+    const token = jwt.sign(payload, config.get('jwtSecret'));
+    res.json({ token });
+  })(req, res, next);
+});
 
 // @route POST api/auth/verification/:activationToken
 // @desc  Email verification
@@ -98,9 +200,7 @@ router.post('/verification/:activationToken', async (req, res, next) => {
         id: user.id,
       },
     };
-    const token = jwt.sign(payload, config.get('jwtSecret'), {
-      expiresIn: 360000,
-    });
+    const token = jwt.sign(payload, config.get('jwtSecret'));
     res.json({ token });
   } catch (error) {
     console.error(error.message);
@@ -123,9 +223,9 @@ router.post(
       });
     }
 
-    try {
-      const { email } = req.body;
+    const { email } = req.body;
 
+    try {
       // Find user by email address
       let user = await User.findOne({
         email: email,
@@ -251,9 +351,7 @@ router.post(
           id: user.id,
         },
       };
-      const token = jwt.sign(payload, config.get('jwtSecret'), {
-        expiresIn: 360000,
-      });
+      const token = jwt.sign(payload, config.get('jwtSecret'));
       res.json({ token });
     } catch (error) {
       console.error(error.message);

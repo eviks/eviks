@@ -4,9 +4,9 @@ const UserSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
-      validate: /^[a-zA-Z0-9_-]+$/,
+      sparse: true,
       unique: true,
+      validate: /^[a-zA-Z0-9_-]+$/,
       trim: true,
       index: true,
     },
@@ -25,8 +25,11 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
       trim: true,
+    },
+    active: {
+      type: Boolean,
+      default: false,
     },
     activationToken: {
       type: String,
@@ -35,10 +38,7 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
-    active: {
-      type: Boolean,
-      default: false,
-    },
+    activationTokenExpires: Date,
     resetPasswordToken: {
       type: String,
       sparse: true,
@@ -46,8 +46,15 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
-    activationTokenExpires: Date,
     resetPasswordExpires: Date,
+    googleId: {
+      type: String,
+      sparse: true,
+      unique: true,
+      trim: true,
+      index: true,
+    },
+    picture: String,
     favorites: Object,
   },
   {

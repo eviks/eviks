@@ -25,6 +25,7 @@
     "nodemailer": "^6.4.2",
     "nodemailer-mailgun-transport": "^2.0.0",
     "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "randomstring": "^1.1.5",
@@ -33,7 +34,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "concurrently": "^5.0.2",
+    "concurrently": "^6.5.1",
     "nodemon": "^2.0.2"
   }
 }

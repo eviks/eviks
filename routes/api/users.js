@@ -15,7 +15,6 @@ const Post = require('../../models/Post');
 router.post(
   '/',
   [
-    check('username', 'Username is required').notEmpty(),
     check('displayName', 'Name is required').notEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password must be at least 6 characters long').isLength({
@@ -148,17 +147,14 @@ router.put(
   },
 );
 
-// @route  POST api/users/:username
+// @route  POST api/users/:id
 // @desc   Get user info
 // @access Public
-router.get('/:username', async (req, res) => {
-  const username = req.params.username;
+router.get('/:id', async (req, res) => {
+  const id = req.params.id;
 
   try {
-    const user = await User.findOne(
-      { username },
-      { displayName: 1, createdAt: 1 },
-    );
+    const user = await User.findById(id, { displayName: 1, createdAt: 1 });
 
     // User not found
     if (!user) {
