@@ -2,14 +2,6 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      sparse: true,
-      unique: true,
-      validate: /^[a-zA-Z0-9_-]+$/,
-      trim: true,
-      index: true,
-    },
     displayName: {
       type: String,
       required: true,

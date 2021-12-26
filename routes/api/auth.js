@@ -1,14 +1,15 @@
 const express = require('express');
-const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const passport = require('passport');
 const randomstring = require('randomstring');
-const emailSender = require('../../config/mailer/emailSender');
 const bcrypt = require('bcryptjs');
+const emailSender = require('../../config/mailer/emailSender');
 
 const User = require('../../models/User');
+
+const router = express.Router();
 
 // @route GET api/auth
 // @desc  Get user info via token
@@ -18,10 +19,11 @@ router.get('/', async (req, res, next) => {
     if (err) {
       console.error(err.message);
       return res.status(500).send('Server error...');
-    } else if (info) {
+    }
+    if (info) {
       return res.status(400).json({ errors: [info] });
     }
-    res.json(user);
+    return res.json(user);
   })(req, res, next);
 });
 
@@ -43,11 +45,12 @@ router.post(
       });
     }
 
-    passport.authenticate('local-signin', (err, user, info) => {
+    return passport.authenticate('local-signin', (err, user, info) => {
       if (err) {
         console.error(err.message);
         return res.status(500).send('Server error...');
-      } else if (info) {
+      }
+      if (info) {
         return res.status(400).json({ errors: [info] });
       }
       const payload = {
@@ -56,7 +59,7 @@ router.post(
         },
       };
       const token = jwt.sign(payload, config.get('jwtSecret'));
-      res.json({ token });
+      return res.json({ token });
     })(req, res, next);
   },
 );
@@ -120,7 +123,7 @@ router.post(
 
       // Create new user
       user = new User({
-        displayName: displayName,
+        displayName,
         email,
         active: true,
         googleId,
@@ -147,12 +150,13 @@ router.post(
 // @route GET api/auth/google/callback
 // @desc  Google auth callback
 // @access Public
-router.get('/google/callback', (req, res, next) => {
-  return passport.authenticate('google', (err, user, info) => {
+router.get('/google/callback', (req, res, next) =>
+  passport.authenticate('google', (err, user, info) => {
     if (err) {
       console.error(err.message);
       return res.status(500).send('Server error...');
-    } else if (info && Object.keys(info).length > 0) {
+    }
+    if (info && Object.keys(info).length > 0) {
       return res.status(400).json({ errors: [info] });
     }
     const payload = {
@@ -161,21 +165,21 @@ router.get('/google/callback', (req, res, next) => {
       },
     };
     const token = jwt.sign(payload, config.get('jwtSecret'));
-    res.json({ token });
-  })(req, res, next);
-});
+    return res.json({ token });
+  })(req, res, next),
+);
 
 // @route POST api/auth/verification/:activationToken
 // @desc  Email verification
 // @access Public
-router.post('/verification/:activationToken', async (req, res, next) => {
+router.post('/verification/:activationToken', async (req, res) => {
   try {
     const { activationToken } = req.params;
 
     // Find user by activation token
-    let user = await User.findOne({
+    const user = await User.findOne({
       active: false,
-      activationToken: activationToken,
+      activationToken,
       activationTokenExpires: {
         $gt: Date.now(),
       },
@@ -201,7 +205,7 @@ router.post('/verification/:activationToken', async (req, res, next) => {
       },
     };
     const token = jwt.sign(payload, config.get('jwtSecret'));
-    res.json({ token });
+    return res.json({ token });
   } catch (error) {
     console.error(error.message);
     return res.status(500).send('Server error...');
@@ -214,7 +218,7 @@ router.post('/verification/:activationToken', async (req, res, next) => {
 router.post(
   '/create_reset_password_token',
   [check('email', 'Please include a valid email').isEmail()],
-  async (req, res, next) => {
+  async (req, res) => {
     // Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -227,8 +231,8 @@ router.post(
 
     try {
       // Find user by email address
-      let user = await User.findOne({
-        email: email,
+      const user = await User.findOne({
+        email,
       });
 
       // User not found
@@ -271,8 +275,8 @@ router.post('/check_reset_password_token/:token', async (req, res) => {
 
   try {
     // Find user by reset password token
-    let user = await User.findOne({
-      resetPasswordToken: resetPasswordToken,
+    const user = await User.findOne({
+      resetPasswordToken,
       resetPasswordExpires: {
         $gt: Date.now(),
       },
@@ -285,7 +289,7 @@ router.post('/check_reset_password_token/:token', async (req, res) => {
       });
     }
 
-    res.send('Reset-password-token is valid');
+    return res.send('Reset-password-token is valid');
   } catch (error) {
     console.error(error.message);
     return res.status(500).send('Server error...');
@@ -301,7 +305,7 @@ router.post(
     check('password', 'Password is required').exists(),
     check('confirm', 'Password confirm is required').exists(),
   ],
-  async (req, res, next) => {
+  async (req, res) => {
     // Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -321,8 +325,8 @@ router.post(
       }
 
       // Find user by reset password token
-      let user = await User.findOne({
-        resetPasswordToken: resetPasswordToken,
+      const user = await User.findOne({
+        resetPasswordToken,
         resetPasswordExpires: {
           $gt: Date.now(),
         },
@@ -352,7 +356,7 @@ router.post(
         },
       };
       const token = jwt.sign(payload, config.get('jwtSecret'));
-      res.json({ token });
+      return res.json({ token });
     } catch (error) {
       console.error(error.message);
       return res.status(500).send('Server error...');

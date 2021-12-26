@@ -4,3 +4,4 @@ config/default.json
 client/.eslintcache
 client/debug.log
 .vscode/
+.env

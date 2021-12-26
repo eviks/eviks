@@ -8,4 +8,6 @@ const CounterSchema = new mongoose.Schema({
   },
 });
 
-module.exports = Counter = mongoose.model('counters', CounterSchema);
+const Counter = mongoose.model('counters', CounterSchema);
+
+module.exports = Counter;

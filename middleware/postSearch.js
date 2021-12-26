@@ -2,20 +2,46 @@ const mongoose = require('mongoose');
 
 const Post = require('../models/Post');
 
-const postSearch = async (req, res, next) => {
-  // userId validation
-  const user = req.query.user;
-  if (user && !mongoose.Types.ObjectId.isValid(user)) {
-    return res.status(404).json({ errors: [{ msg: 'User not found' }] });
+const setMinMaxFilter = (min, max) => {
+  if (min && max) {
+    return { $gte: min, $lte: max };
+  }
+  if (min) {
+    return { $gte: min };
+  }
+  if (max) {
+    return { $lte: max };
+  }
+  return null;
+};
+
+const getPaginatedResults = async (req) => {
+  const page = parseInt(req.query.page, 10);
+  const limit = parseInt(req.query.limit, 10);
+
+  if (!page || !limit) return null;
+
+  const startIndex = (page - 1) * limit;
+
+  const numberOfElements = await Post.find(req.conditions, {})
+    .skip(startIndex)
+    .limit(limit * 10)
+    .countDocuments()
+    .exec();
+
+  const pagination = {};
+
+  pagination.available = page - 1 + Math.ceil(numberOfElements / limit);
+  if (pagination.available === page || pagination.available === 0)
+    delete pagination.available;
+
+  if (startIndex > 0) {
+    pagination.skipped = Math.ceil(startIndex / limit);
   }
 
-  // Set filters
-  req.conditions = setPostsFilters(req);
+  pagination.current = page;
 
-  // Pagination
-  req.paginatedResults = await getPaginatedResults(req);
-
-  next();
+  return { pagination, limit, startIndex };
 };
 
 const setPostsFilters = (req) => {
@@ -33,8 +59,8 @@ const setPostsFilters = (req) => {
     apartmentType,
     sqmMin,
     sqmMax,
-    livingRoomsMin,
-    livingRoomsMax,
+    livingRoomsSqmMin,
+    livingRoomsSqmMax,
     kitchenSqmMin,
     kitchenSqmMax,
     lotSqmMin,
@@ -87,10 +113,10 @@ const setPostsFilters = (req) => {
   if (dealType) conditions.dealType = dealType;
 
   // Price
-  setMinMaxFilter(conditions, 'price', priceMin, priceMax);
+  conditions.price = setMinMaxFilter(priceMin, priceMax);
 
   // Rooms
-  setMinMaxFilter(conditions, 'rooms', roomsMin, roomsMax);
+  conditions.rooms = setMinMaxFilter(roomsMin, roomsMax);
 
   // Estate type
   if (estateType) conditions.estateType = estateType;
@@ -99,14 +125,17 @@ const setPostsFilters = (req) => {
   if (apartmentType) conditions.apartmentType = apartmentType;
 
   // Sqm
-  setMinMaxFilter(conditions, 'sqm', sqmMin, sqmMax);
-  setMinMaxFilter(conditions, 'livingRoomsSqm', livingRoomsMin, livingRoomsMax);
-  setMinMaxFilter(conditions, 'kitchenSqm', kitchenSqmMin, kitchenSqmMax);
-  setMinMaxFilter(conditions, 'lotSqm', lotSqmMin, lotSqmMax);
+  conditions.sqm = setMinMaxFilter(sqmMin, sqmMax);
+  conditions.livingRoomsSqm = setMinMaxFilter(
+    livingRoomsSqmMin,
+    livingRoomsSqmMax,
+  );
+  conditions.kitchenSqm = setMinMaxFilter(kitchenSqmMin, kitchenSqmMax);
+  conditions.lotSqm = setMinMaxFilter(lotSqmMin, lotSqmMax);
 
   // Floor
-  setMinMaxFilter(conditions, 'totalFloors', totalFloorsMin, totalFloorsMax);
-  setMinMaxFilter(conditions, 'floor', floorMin, floorMax);
+  conditions.totalFloors = setMinMaxFilter(totalFloorsMin, totalFloorsMax);
+  conditions.floor = setMinMaxFilter(floorMin, floorMax);
 
   // Documented
   if (documented) conditions.documented = true;
@@ -130,55 +159,29 @@ const setPostsFilters = (req) => {
   if (user && mongoose.Types.ObjectId.isValid(user)) conditions.user = user;
 
   // Ids
-  if (ids) conditions._id = { $in: ids.split(',') };
+  if (ids) conditions.id = { $in: ids.split(',') };
 
   return conditions;
 };
 
-const setMinMaxFilter = (conditions, name, min, max) => {
-  if (min && max) {
-    conditions[name] = { $gte: min, $lte: max };
-  } else if (min) {
-    conditions[name] = { $gte: min };
-  } else if (max) {
-    conditions[name] = { $lte: max };
+const postSearch = async (req, res, next) => {
+  // userId validation
+  const { user } = req.query;
+  if (user && !mongoose.Types.ObjectId.isValid(user)) {
+    return res.status(404).json({ errors: [{ msg: 'User not found' }] });
   }
-};
 
-const getPaginatedResults = (req) => {
-  return new Promise(async (resolve, reject) => {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
+  // Set filters
+  req.conditions = setPostsFilters(req);
 
-    if (!page || !limit) resolve({});
+  // Pagination
+  try {
+    req.paginatedResults = await getPaginatedResults(req);
+  } catch (error) {
+    // No pagination info
+  }
 
-    const startIndex = (page - 1) * limit;
-
-    let numberOfElements;
-    try {
-      numberOfElements = await Post.find(req.conditions, {})
-        .skip(startIndex)
-        .limit(limit * 10)
-        .countDocuments()
-        .exec();
-    } catch (error) {
-      reject(error.message);
-    }
-
-    const pagination = {};
-
-    pagination.available = page - 1 + Math.ceil(numberOfElements / limit);
-    if (pagination.available === page || pagination.available === 0)
-      delete pagination.available;
-
-    if (startIndex > 0) {
-      pagination.skipped = Math.ceil(startIndex / limit);
-    }
-
-    pagination.current = page;
-
-    resolve({ pagination, limit, startIndex });
-  });
+  return next();
 };
 
 module.exports = postSearch;

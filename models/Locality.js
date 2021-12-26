@@ -31,4 +31,6 @@ const LocalitySchema = new mongoose.Schema({
   children: Array,
 });
 
-module.exports = Locality = mongoose.model('localities', LocalitySchema);
+const Locality = mongoose.model('localities', LocalitySchema);
+
+module.exports = Locality;

@@ -1,6 +1,5 @@
 const fs = require('fs');
 const express = require('express');
-const router = express.Router();
 const { check, oneOf, validationResult } = require('express-validator');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
@@ -8,6 +7,14 @@ const rimraf = require('rimraf');
 
 const User = require('../../models/User');
 const Post = require('../../models/Post');
+
+const router = express.Router();
+
+const checkFileExists = async (file) =>
+  fs.promises
+    .access(file, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
 
 // @route  POST api/users
 // @desc   Register user
@@ -30,14 +37,16 @@ router.post(
       });
     }
 
-    passport.authenticate('local-signup', (err, user, info) => {
+    return passport.authenticate('local-signup', (err, user, info) => {
       if (err) {
         console.error(err.message);
         return res.status(500).send('Server error...');
-      } else if (info) {
+      }
+      if (info) {
         return res.status(400).json({ errors: info });
       }
-      res.json({ message: 'User created' });
+
+      return res.json({ message: 'User created' });
     })(req, res, next);
   },
 );
@@ -69,7 +78,7 @@ router.put(
     }
 
     try {
-      let updateQuery = { ...req.body };
+      const updateQuery = { ...req.body };
 
       if (updateQuery.password) {
         // Encrypt password
@@ -83,7 +92,7 @@ router.put(
         updateQuery,
         { new: true },
       ).select('-password');
-      res.json(updatedUser);
+      return res.json(updatedUser);
     } catch (error) {
       console.error(error.message);
       return res.status(500).send('Server error...');
@@ -104,7 +113,7 @@ router.put(
       user.favorites = { ...user.favorites, [req.params.postId]: true };
       await user.save();
 
-      res.json({ favorites: user.favorites });
+      return res.json({ favorites: user.favorites });
     } catch (error) {
       console.error(error.message);
       return res.status(500).send('Server error...');
@@ -125,21 +134,22 @@ router.put(
 
       if (!user.favorites) return res.json({ favorites: {} });
 
-      const favorites = user.favorites;
+      const { favorites } = user;
 
       const filtered = Object.keys(favorites)
         .filter((key) => key !== req.params.postId)
-        .reduce((obj, key) => {
-          return {
+        .reduce(
+          (obj, key) => ({
             ...obj,
             [key]: favorites[key],
-          };
-        }, {});
+          }),
+          {},
+        );
 
       user.favorites = filtered;
       await user.save();
 
-      res.json({ favorites: user.favorites });
+      return res.json({ favorites: user.favorites });
     } catch (error) {
       console.error(error.message);
       return res.status(500).send('Server error...');
@@ -151,7 +161,7 @@ router.put(
 // @desc   Get user info
 // @access Public
 router.get('/:id', async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
 
   try {
     const user = await User.findById(id, { displayName: 1, createdAt: 1 });
@@ -179,19 +189,25 @@ router.delete(
       // Delete user posts first
       const posts = await Post.find({ user: req.user.id });
 
+      let imagesDeleted = true;
+
       posts.forEach(async (post) => {
         post.images.forEach(async (image) => {
           const directory = `${__dirname}/../../uploads/post_images/${image}`;
           const fileExists = await checkFileExists(directory);
           if (fileExists) {
             rimraf(directory, (error) => {
-              if (error) return res.status(500).send('Server error...');
+              if (error) imagesDeleted = false;
             });
           }
         });
 
-        await post.remove();
+        if (imagesDeleted) {
+          await post.remove();
+        }
       });
+
+      if (!imagesDeleted) return res.status(500).send('Server error...');
 
       // Delete user
       await User.findByIdAndDelete(req.user.id);
@@ -203,12 +219,5 @@ router.delete(
     }
   },
 );
-
-const checkFileExists = async (file) => {
-  return fs.promises
-    .access(file, fs.constants.F_OK)
-    .then(() => true)
-    .catch(() => false);
-};
 
 module.exports = router;

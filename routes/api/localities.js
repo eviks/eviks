@@ -1,18 +1,19 @@
 const express = require('express');
-const router = express.Router();
 const axios = require('axios');
 const config = require('config');
 
 const Locality = require('../../models/Locality');
+
+const router = express.Router();
 
 // @route GET api/localities/
 // @desc  Get localities
 // @access Public
 router.get('/', async (req, res) => {
   try {
-    query = req.query;
-    if (query['id']) {
-      query['id'] = { $in: query['id'].split(',') };
+    const { query } = req;
+    if (query.id) {
+      query.id = { $in: query.id.split(',') };
     }
 
     const localities = await Locality.aggregate([
@@ -36,7 +37,7 @@ router.get('/', async (req, res) => {
     return res.json(localities);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Server Error...');
+    return res.status(500).send('Server Error...');
   }
 });
 
@@ -45,7 +46,7 @@ router.get('/', async (req, res) => {
 // @access Public
 router.get('/getByIds/', async (req, res) => {
   try {
-    const ids = req.query.ids;
+    const { ids } = req.query;
 
     if (!ids) {
       return res
@@ -65,7 +66,7 @@ router.get('/getByIds/', async (req, res) => {
     return res.json(localities);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Server Error...');
+    return res.status(500).send('Server Error...');
   }
 });
 
@@ -85,7 +86,7 @@ router.post('/getAddressByCoords', async (req, res) => {
       { ...req.body, guid: config.get('goMapGUID') },
       axiosConfig,
     );
-    res.json(JSON.parse(result.data.replace('{"d":null}', '')));
+    return res.json(JSON.parse(result.data.replace('{"d":null}', '')));
   } catch (error) {
     console.error(error.message);
     return res.status(500).send('Server error...');
@@ -102,7 +103,7 @@ router.get('/geocoder', async (req, res) => {
     const result = await axios.post(
       `https://gomap.az/maps/search/index/az?${urlParams}`,
     );
-    res.json(result.data);
+    return res.json(result.data);
   } catch (error) {
     console.error(error.message);
     return res.status(500).send('Server error...');

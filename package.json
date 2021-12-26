@@ -11,6 +11,9 @@
   },
   "author": "Kamran Veliev",
   "license": "MIT",
+  "engines": {
+    "node": ">=16.13.1"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
@@ -29,12 +32,20 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "randomstring": "^1.1.5",
+    "react-redux-toastr": "^7.6.6",
     "rimraf": "^3.0.2",
     "sharp": "^0.29.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "concurrently": "^6.5.1",
-    "nodemon": "^2.0.2"
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.2",
+    "prettier": "^2.5.1"
   }
 }

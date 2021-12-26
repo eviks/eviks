@@ -1,18 +1,16 @@
-const express = require('express');
+require('./middleware/passport');
 const cors = require('cors');
+const express = require('express');
+const fileUpload = require('express-fileupload');
+const passport = require('passport');
+const connectDB = require('./config/db');
+
 const app = express();
 
-const passport = require('passport');
-const fileUpload = require('express-fileupload');
-
-const connectDB = require('./config/db');
 const PORT = process.env.PORT || 5000;
 
 // Connect database
 connectDB();
-
-// Passport config
-require('./middleware/passport');
 
 // Init middlewares & 3rd party libraries
 app.use(express.json({ extended: false }));

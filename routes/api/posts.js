@@ -1,6 +1,5 @@
 const fs = require('fs');
 const express = require('express');
-const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const passport = require('passport');
 const uuid = require('uuid');
@@ -9,13 +8,31 @@ const rimraf = require('rimraf');
 const postSearch = require('../../middleware/postSearch');
 
 const Post = require('../../models/Post');
+const User = require('../../models/User');
 const Counter = require('../../models/Counter');
+
+const router = express.Router();
+
+const checkFileExists = async (file) =>
+  fs.promises
+    .access(file, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
+
+const getNextSequence = async (name) => {
+  const counter = await Counter.findByIdAndUpdate(
+    name,
+    { $inc: { seq: 1 } },
+    { new: true, upsert: true },
+  );
+  return counter.seq;
+};
 
 // @route GET api/posts
 // @desc  Get all posts
 // @access Public
 router.get('/', [postSearch], async (req, res) => {
-  let posts = {};
+  const posts = {};
   let result = [];
 
   const {
@@ -73,23 +90,18 @@ router.post(
         user,
         ...req.body,
       });
-      post._id = await getNextSequence('postid');
+      post.id = await getNextSequence('postid');
       await post.save();
 
       // Move post images from temp to main folder
-      for (let image of req.body.images) {
-        try {
-          await fs.promises.rename(
-            `${__dirname}/../../uploads/temp/post_images/${image}`,
-            `${__dirname}/../../uploads/post_images/${image}`,
-          );
-        } catch (error) {
-          console.error(error.message);
-          return res.status(500).send('Server error...');
-        }
-      }
+      await req.body.images.map(async (image) => {
+        await fs.promises.rename(
+          `${__dirname}/../../uploads/temp/post_images/${image}`,
+          `${__dirname}/../../uploads/post_images/${image}`,
+        );
+      });
 
-      res.json(post);
+      return res.json(post);
     } catch (error) {
       console.error(error.message);
       return res.status(500).send('Server error...');
@@ -122,31 +134,31 @@ router.put(
       }
 
       // Update images
-      for (let image of req.body.images) {
+      await req.body.images.map(async (image) => {
         if (!post.images.find((value) => value === image)) {
-          try {
-            await fs.promises.rename(
-              `${__dirname}/../../uploads/temp/post_images/${image}`,
-              `${__dirname}/../../uploads/post_images/${image}`,
-            );
-          } catch (error) {
-            console.error(error.message);
-            return res.status(500).send('Server error...');
-          }
+          await fs.promises.rename(
+            `${__dirname}/../../uploads/temp/post_images/${image}`,
+            `${__dirname}/../../uploads/post_images/${image}`,
+          );
         }
-      }
+      });
 
+      let imagesDeleted = true;
       post.images.forEach(async (image) => {
         if (!req.body.images.find((value) => value === image)) {
           const directory = `${__dirname}/../../uploads/post_images/${image}`;
           const fileExists = await checkFileExists(directory);
           if (fileExists) {
             rimraf(directory, (error) => {
-              if (error) return res.status(500).send('Server error...');
+              if (error) imagesDeleted = false;
             });
           }
         }
       });
+
+      if (!imagesDeleted) {
+        return res.status(500).send('Server error...');
+      }
 
       // Update post itself
       const updatedPost = await Post.findByIdAndUpdate(
@@ -155,7 +167,7 @@ router.put(
         { new: true },
       );
 
-      res.json(updatedPost);
+      return res.json(updatedPost);
     } catch (error) {
       console.error(error.message);
       return res.status(500).send('Server error...');
@@ -188,15 +200,20 @@ router.delete(
       }
 
       // Delete post images first
+      let imagesDeleted = true;
       post.images.forEach(async (image) => {
         const directory = `${__dirname}/../../uploads/post_images/${image}`;
         const fileExists = await checkFileExists(directory);
         if (fileExists) {
           rimraf(directory, (error) => {
-            if (error) return res.status(500).send('Server error...');
+            if (error) imagesDeleted = false;
           });
         }
       });
+
+      if (!imagesDeleted) {
+        return res.status(500).send('Server error...');
+      }
 
       // Delete post
       await post.remove();
@@ -221,7 +238,9 @@ router.get(
     const tempDirectory = `${__dirname}/../../uploads/temp/post_images/${id}`;
     const mainDirectory = `${__dirname}/../../uploads/post_images/${id}`;
     while (
+      // eslint-disable-next-line no-await-in-loop
       (await checkFileExists(tempDirectory)) ||
+      // eslint-disable-next-line no-await-in-loop
       (await checkFileExists(mainDirectory))
     ) {
       id = uuid.v4();
@@ -235,7 +254,7 @@ router.get(
       return res.status(500).send('Server error...');
     }
 
-    res.json({ id });
+    return res.json({ id });
   },
 );
 
@@ -262,8 +281,8 @@ router.post(
       return res.status(400).json({ errors: [{ msg: 'No file uploaded' }] });
     }
 
-    const image = req.files.image;
-    const id = req.body.id;
+    const { image } = req.files;
+    const { id } = req.body;
     const directory = `${__dirname}/../../uploads/temp/post_images/${id}`;
 
     // Check if id is correct
@@ -290,13 +309,12 @@ router.post(
     });
 
     if (!serverError) {
-      res.json({ msg: 'Image successfully uploaded', id });
-    } else {
-      rimraf(directory, (error) => {
-        if (error) return res.status(500).send('Server error...');
-      });
-      res.status(500).send('Server error...');
+      return res.json({ msg: 'Image successfully uploaded', id });
     }
+
+    rimraf(directory);
+
+    return res.status(500).send('Server error...');
   },
 );
 
@@ -307,7 +325,7 @@ router.delete(
   '/delete_image/:id',
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
-    id = req.params.id;
+    const { id } = req.params;
 
     const directory = `${__dirname}/../../uploads/temp/post_images/${id}`;
 
@@ -317,34 +335,17 @@ router.delete(
     }
 
     // Delete folder with all image sizes
+    let result = true;
     rimraf(directory, (error) => {
-      if (error) return res.status(500).send('Server error...');
+      if (error) result = false;
     });
 
-    res.json({ msg: 'Image successfully deleted', id });
+    if (!result) {
+      return res.status(500).send('Server error...');
+    }
+
+    return res.json({ msg: 'Image successfully deleted', id });
   },
 );
-
-const checkFileExists = async (file) => {
-  return fs.promises
-    .access(file, fs.constants.F_OK)
-    .then(() => true)
-    .catch(() => false);
-};
-
-const getNextSequence = (name) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const counter = await Counter.findByIdAndUpdate(
-        name,
-        { $inc: { seq: 1 } },
-        { new: true, upsert: true },
-      );
-      resolve(counter.seq);
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
 
 module.exports = router;

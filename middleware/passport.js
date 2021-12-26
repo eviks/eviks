@@ -42,6 +42,7 @@ passport.use(
         // Generate unique activation token
         let activationToken = '';
         let tokenIsUnique = false;
+
         while (!tokenIsUnique) {
           if (pinMode) {
             activationToken = randomstring.generate({
@@ -51,6 +52,7 @@ passport.use(
           } else {
             activationToken = randomstring.generate();
           }
+          // eslint-disable-next-line no-await-in-loop
           const userWithSameToken = await User.findOne({ activationToken });
           tokenIsUnique = !userWithSameToken;
         }
@@ -106,7 +108,7 @@ passport.use(
     async (req, email, password, done) => {
       try {
         // Check if user exist
-        let user = await User.findOne({
+        const user = await User.findOne({
           email: new RegExp(['^', email, '$'].join(''), 'i'),
         });
         if (!user) {
@@ -169,7 +171,7 @@ passport.use(
 
         // Create new user
         user = new User({
-          displayName: displayName,
+          displayName,
           email,
           active: true,
           googleId: id,
@@ -195,7 +197,9 @@ passport.use(
     },
     async (jwtPayload, done) => {
       try {
-        user = await User.findById(jwtPayload.user.id).select('-password');
+        const user = await User.findById(jwtPayload.user.id).select(
+          '-password',
+        );
         if (!user) {
           return done(null, null, {
             msg: 'Authorization denied',
