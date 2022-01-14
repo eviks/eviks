@@ -59,12 +59,13 @@ router.put(
   [
     check('displayName', 'Name is required').notEmpty(),
     oneOf([
-      check('password', 'Password must be at least 6 characters long').isLength(
-        {
-          min: 6,
-        },
-      ),
-      check('password', '...').isEmpty(),
+      check(
+        'newPassword',
+        'Password must be at least 6 characters long',
+      ).isLength({
+        min: 6,
+      }),
+      check('newPassword', '...').isEmpty(),
     ]),
     passport.authenticate('jwt', { session: false }),
   ],
@@ -78,12 +79,28 @@ router.put(
     }
 
     try {
-      const updateQuery = { ...req.body };
+      const updateQuery = {};
+      updateQuery.displayName = req.body.displayName;
 
-      if (updateQuery.password) {
-        // Encrypt password
+      if (req.body.newPassword) {
+        // Check previous password
+        const { password } = req.body;
+        if (!password) {
+          return res
+            .status(401)
+            .json({ errors: [{ msg: 'Previous password is required' }] });
+        }
+        const user = await User.findById(req.user.id);
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return res
+            .status(401)
+            .json({ errors: [{ msg: 'Invalid credentials' }] });
+        }
+
+        // Encrypt new password
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        const hashedPassword = await bcrypt.hash(req.body.newPassword, salt);
         updateQuery.password = hashedPassword;
       }
 

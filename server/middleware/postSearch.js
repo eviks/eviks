@@ -75,15 +75,15 @@ const setPostsFilters = (req) => {
     haggle,
     notFirstFloor,
     notLastFloor,
-    user,
+    userId,
     ids,
+    active,
   } = req.query;
 
   const conditions = {};
 
-  // Find specific user's posts
-  const userId = req.params.id;
-  if (userId) conditions.user = userId;
+  // City
+  if (active) conditions.active = active;
 
   // City
   if (cityId) conditions['city.id'] = cityId;
@@ -181,7 +181,8 @@ const setPostsFilters = (req) => {
   if (notLastFloor) conditions.$expr = { $ne: ['$floor', '$totalFloors'] };
 
   // User
-  if (user && mongoose.Types.ObjectId.isValid(user)) conditions.user = user;
+  if (userId && mongoose.Types.ObjectId.isValid(userId))
+    conditions.user = userId;
 
   // Ids
   // eslint-disable-next-line no-underscore-dangle

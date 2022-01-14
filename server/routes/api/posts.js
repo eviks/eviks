@@ -29,7 +29,7 @@ const getNextSequence = async (name) => {
 };
 
 // @route GET api/posts
-// @desc  Get all posts
+// @desc  Get posts
 // @access Public
 router.get('/', [postSearch], async (req, res) => {
   const posts = {};
@@ -148,6 +148,42 @@ router.put(
       );
 
       return res.json(updatedPost);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
+
+// @route PUT api/posts
+// @desc  Update post
+// @access Private
+router.put(
+  '/deactivate/:id',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    const postId = req.params.id;
+
+    try {
+      const post = await Post.findById(postId);
+
+      // Post not found
+      if (!post) {
+        return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+      }
+
+      // Check user
+      if (req.user.id !== post.user.toString()) {
+        return res
+          .status(401)
+          .json({ errors: [{ msg: 'User not authorized' }] });
+      }
+
+      // Mark post as deactivated
+      post.active = false;
+      await post.save();
+
+      return res.json(post);
     } catch (error) {
       console.error(error.message);
       return res.status(500).send('Server error...');

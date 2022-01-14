@@ -12,7 +12,7 @@ module.exports = async (params) => {
   const transporter = nodemailer.createTransport(mailgunTransporter);
 
   const info = await transporter.sendMail({
-    from: `Eviks <postmaster@sandboxb7e2acbe200e4d28b100fc8557f041d1.mailgun.org>`,
+    from: `Eviks <info@eviks.xyz>`,
     to: receivers,
     subject,
     text,

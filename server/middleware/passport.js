@@ -20,11 +20,11 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        const { pinMode, displayName } = req.body;
+        const { displayName } = req.body;
 
         // Check if user already exists
         let user = await User.findOne({
-          email: new RegExp(['^', email, '$'].join(''), 'i'),
+          email: email.toLowerCase(),
         });
         if (user && user.active) {
           return done(null, null, [
@@ -44,20 +44,15 @@ passport.use(
         let tokenIsUnique = false;
 
         while (!tokenIsUnique) {
-          if (pinMode) {
-            activationToken = randomstring.generate({
-              length: 5,
-              charset: 'numeric',
-            });
-          } else {
-            activationToken = randomstring.generate();
-          }
+          activationToken = randomstring.generate({
+            length: 5,
+            charset: 'numeric',
+          });
           // eslint-disable-next-line no-await-in-loop
           const userWithSameToken = await User.findOne({ activationToken });
           tokenIsUnique = !userWithSameToken;
         }
-        const activationTokenExpires =
-          Date.now() + (pinMode ? +180000 : 10800000);
+        const activationTokenExpires = Date.now() + 180000;
 
         if (user) {
           user.displayName = displayName;
@@ -67,7 +62,7 @@ passport.use(
         } else {
           user = new User({
             displayName: req.body.displayName,
-            email,
+            email: email.toLowerCase(),
             password: hashedPassword,
             activationToken,
             activationTokenExpires,
@@ -79,7 +74,7 @@ passport.use(
 
         // Send verification email
         const result = await emailSender({
-          emailType: pinMode ? 'pin-mode-verification' : 'verification',
+          emailType: 'verification',
           subject: 'Email Verification',
           receivers: email,
           context: {
@@ -109,7 +104,7 @@ passport.use(
       try {
         // Check if user exist
         const user = await User.findOne({
-          email: new RegExp(['^', email, '$'].join(''), 'i'),
+          email: email.toLowerCase(),
         });
         if (!user) {
           return done(null, null, {
@@ -117,13 +112,14 @@ passport.use(
           });
         }
 
-        // Check password
+        // Check if it's a Google user
         if (!user.password) {
           return done(null, null, {
             msg: 'There is already a Google account that belongs to you',
           });
         }
 
+        // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
           return done(null, null, {
@@ -166,7 +162,7 @@ passport.use(
 
         // Notify if email is already in use.
         user = await User.findOne({
-          email: new RegExp(['^', email, '$'].join(''), 'i'),
+          email: email.toLowerCase(),
         });
         if (user && user.active) {
           return done(null, null, {
@@ -178,7 +174,7 @@ passport.use(
         // Create new user
         user = new User({
           displayName,
-          email,
+          email: email.toLowerCase(),
           active: true,
           googleId: id,
           activationToken: undefined,

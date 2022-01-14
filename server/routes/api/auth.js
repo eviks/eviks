@@ -108,7 +108,7 @@ router.post(
 
       // Notify if email is already in use.
       user = await User.findOne({
-        email: new RegExp(['^', email, '$'].join(''), 'i'),
+        email: email.toLowerCase(),
       });
       if (user && user.active) {
         return res.status(400).json({
@@ -169,15 +169,16 @@ router.get('/google/callback', (req, res, next) =>
   })(req, res, next),
 );
 
-// @route POST api/auth/verification/:activationToken
+// @route POST api/auth/verification/
 // @desc  Email verification
 // @access Public
-router.post('/verification/:activationToken', async (req, res) => {
+router.post('/verification', async (req, res) => {
   try {
-    const { activationToken } = req.params;
+    const { email, activationToken } = req.body;
 
     // Find user by activation token
     const user = await User.findOne({
+      email: email.toLowerCase(),
       active: false,
       activationToken,
       activationTokenExpires: {
@@ -188,7 +189,7 @@ router.post('/verification/:activationToken', async (req, res) => {
     // User not found
     if (!user) {
       return res.status(400).json({
-        errors: [{ msg: 'Wrong activation token' }],
+        errors: [{ msg: 'Invalid activation token' }],
       });
     }
 
@@ -232,7 +233,7 @@ router.post(
     try {
       // Find user by email address
       const user = await User.findOne({
-        email,
+        email: email.toLowerCase(),
       });
 
       // User not found
@@ -242,12 +243,33 @@ router.post(
         });
       }
 
-      // Create reset password token
-      const resetPasswordToken = randomstring.generate();
+      // Check if it's a Google user
+      if (!user.password) {
+        return res.status(400).json({
+          errors: [
+            { msg: 'There is already a Google account that belongs to you' },
+          ],
+        });
+      }
+
+      // Generate unique reset password token
+      let resetPasswordToken = '';
+      let tokenIsUnique = false;
+
+      while (!tokenIsUnique) {
+        resetPasswordToken = randomstring.generate({
+          length: 5,
+          charset: 'numeric',
+        });
+        // eslint-disable-next-line no-await-in-loop
+        const userWithSameToken = await User.findOne({ resetPasswordToken });
+        tokenIsUnique = !userWithSameToken;
+      }
+      const resetPasswordTokenExpires = Date.now() + 180000;
 
       // Update user
       user.resetPasswordToken = resetPasswordToken;
-      user.resetPasswordExpires = Date.now() + 3600000;
+      user.resetPasswordExpires = resetPasswordTokenExpires;
       await user.save();
 
       // Send password reset email
@@ -270,40 +292,52 @@ router.post(
   },
 );
 
-router.post('/check_reset_password_token/:token', async (req, res) => {
-  const resetPasswordToken = req.params.token;
+// @route POST api/auth/check_reset_password_token
+// @desc  Check reset password token
+// @access Public
+router.post(
+  '/check_reset_password_token',
+  [
+    check('email', 'Please include a valid email').isEmail(),
+    check('resetPasswordToken', 'Reset password token is required').exists(),
+  ],
+  async (req, res) => {
+    const { email, resetPasswordToken } = req.body;
 
-  try {
-    // Find user by reset password token
-    const user = await User.findOne({
-      resetPasswordToken,
-      resetPasswordExpires: {
-        $gt: Date.now(),
-      },
-    });
-
-    // User not found
-    if (!user) {
-      return res.status(400).json({
-        errors: [{ msg: 'Wrong reset password token' }],
+    try {
+      // Find user by reset password token
+      const user = await User.findOne({
+        email: email.toLowerCase(),
+        resetPasswordToken,
+        resetPasswordExpires: {
+          $gt: Date.now(),
+        },
       });
+
+      // User not found
+      if (!user) {
+        return res.status(400).json({
+          errors: [{ msg: 'Invalid reset password token' }],
+        });
+      }
+
+      return res.send('Reset-password-token is valid');
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).send('Server error...');
     }
+  },
+);
 
-    return res.send('Reset-password-token is valid');
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).send('Server error...');
-  }
-});
-
-// @route POST api/auth/password_reset
+// @route POST api/auth/reset_password
 // @desc  Resets users password
 // @access Public
 router.post(
-  '/password_reset/:token',
+  '/reset_password',
   [
+    check('email', 'Please include a valid email').isEmail(),
+    check('resetPasswordToken', 'Reset password token is required').exists(),
     check('password', 'Password is required').exists(),
-    check('confirm', 'Password confirm is required').exists(),
   ],
   async (req, res) => {
     // Validation
@@ -315,17 +349,11 @@ router.post(
     }
 
     try {
-      const resetPasswordToken = req.params.token;
-      const { password, confirm } = req.body;
-
-      if (password !== confirm) {
-        return res.status(400).json({
-          errors: [{ msg: 'Passwords do not match' }],
-        });
-      }
+      const { email, resetPasswordToken, password } = req.body;
 
       // Find user by reset password token
       const user = await User.findOne({
+        email: email.toLowerCase(),
         resetPasswordToken,
         resetPasswordExpires: {
           $gt: Date.now(),
@@ -335,7 +363,7 @@ router.post(
       // User not found
       if (!user) {
         return res.status(400).json({
-          errors: [{ msg: 'Wrong reset password token' }],
+          errors: [{ msg: 'Invalid reset password token' }],
         });
       }
 
