@@ -4,6 +4,7 @@ const { check, oneOf, validationResult } = require('express-validator');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const rimraf = require('rimraf');
+const logger = require('../../utils/logger');
 
 const User = require('../../models/User');
 const Post = require('../../models/Post');
@@ -39,7 +40,7 @@ router.post(
 
     return passport.authenticate('local-signup', (err, user, info) => {
       if (err) {
-        console.error(err.message);
+        logger.error(err.message);
         return res.status(500).send('Server error...');
       }
       if (info) {
@@ -111,7 +112,7 @@ router.put(
       ).select('-password');
       return res.json(updatedUser);
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -132,7 +133,7 @@ router.put(
 
       return res.json({ favorites: user.favorites });
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -168,7 +169,7 @@ router.put(
 
       return res.json({ favorites: user.favorites });
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -190,7 +191,7 @@ router.get('/:id', async (req, res) => {
 
     return res.json(user);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return res.status(500).send('Server error...');
   }
 });
@@ -231,7 +232,7 @@ router.delete(
 
       return res.json({ msg: 'User deleted' });
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },

@@ -6,6 +6,7 @@ const passport = require('passport');
 const randomstring = require('randomstring');
 const bcrypt = require('bcryptjs');
 const emailSender = require('../../config/mailer/emailSender');
+const logger = require('../../utils/logger');
 
 const User = require('../../models/User');
 
@@ -17,7 +18,7 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   passport.authenticate('jwt', (err, user, info) => {
     if (err) {
-      console.error(err.message);
+      logger.error(err.message);
       return res.status(500).send('Server error...');
     }
     if (info) {
@@ -47,7 +48,7 @@ router.post(
 
     return passport.authenticate('local-signin', (err, user, info) => {
       if (err) {
-        console.error(err.message);
+        logger.error(err.message);
         return res.status(500).send('Server error...');
       }
       if (info) {
@@ -141,7 +142,7 @@ router.post(
       const token = jwt.sign(payload, config.get('jwtSecret'));
       return res.json({ token });
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -153,7 +154,7 @@ router.post(
 router.get('/google/callback', (req, res, next) =>
   passport.authenticate('google', (err, user, info) => {
     if (err) {
-      console.error(err.message);
+      logger.error(err.message);
       return res.status(500).send('Server error...');
     }
     if (info && Object.keys(info).length > 0) {
@@ -208,7 +209,7 @@ router.post('/verification', async (req, res) => {
     const token = jwt.sign(payload, config.get('jwtSecret'));
     return res.json({ token });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return res.status(500).send('Server error...');
   }
 });
@@ -286,7 +287,7 @@ router.post(
 
       return res.send('Reset password email sent');
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -323,7 +324,7 @@ router.post(
 
       return res.send('Reset-password-token is valid');
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -386,7 +387,7 @@ router.post(
       const token = jwt.sign(payload, config.get('jwtSecret'));
       return res.json({ token });
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },

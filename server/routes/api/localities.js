@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const config = require('config');
+const logger = require('../../utils/logger');
 
 const Locality = require('../../models/Locality');
 
@@ -36,7 +37,7 @@ router.get('/', async (req, res) => {
 
     return res.json(localities);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return res.status(500).send('Server Error...');
   }
 });
@@ -65,7 +66,7 @@ router.get('/getByIds/', async (req, res) => {
 
     return res.json(localities);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return res.status(500).send('Server Error...');
   }
 });
@@ -88,7 +89,7 @@ router.post('/getAddressByCoords', async (req, res) => {
     );
     return res.json(JSON.parse(result.data.replace('{"d":null}', '')));
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return res.status(500).send('Server error...');
   }
 });
@@ -105,7 +106,7 @@ router.get('/geocoder', async (req, res) => {
     );
     return res.json(result.data);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return res.status(500).send('Server error...');
   }
 });

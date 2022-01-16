@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const mailgunTransport = require('nodemailer-mailgun-transport');
 const config = require('config');
 const emailTemplates = require('./emailTemplates');
+const logger = require('../../utils/logger');
 
 const mailgunOptions = config.get('mailgunOptions');
 
@@ -19,7 +20,7 @@ module.exports = async (params) => {
     html,
   });
 
-  console.log('Message sent: %s', info.messageId);
+  logger.info('Message sent: %s', info.messageId);
 
   return { success: true, info };
 };

@@ -6,6 +6,7 @@ const uuid = require('uuid');
 const sharp = require('sharp');
 const rimraf = require('rimraf');
 const postSearch = require('../../middleware/postSearch');
+const logger = require('../../utils/logger');
 
 const Post = require('../../models/Post');
 const User = require('../../models/User');
@@ -51,7 +52,7 @@ router.get('/', [postSearch], async (req, res) => {
 
     res.json(posts);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     res.status(500).send('Server error...');
   }
 });
@@ -83,7 +84,7 @@ router.post(
 
       return res.json(post);
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -149,7 +150,7 @@ router.put(
 
       return res.json(updatedPost);
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -185,7 +186,7 @@ router.put(
 
       return res.json(post);
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -236,7 +237,7 @@ router.delete(
 
       return res.json({ msg: 'Post deleted' });
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
   },
@@ -266,7 +267,7 @@ router.get(
     try {
       await fs.promises.mkdir(tempDirectory);
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send('Server error...');
     }
 
@@ -319,7 +320,7 @@ router.post(
           .png()
           .toFile(`${directory}/image_${size}.png`);
       } catch (error) {
-        console.log(error);
+        logger.error(error);
         serverError = true;
       }
     });
