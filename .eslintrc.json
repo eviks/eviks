@@ -1,0 +1,17 @@
+{
+  "extends": ["airbnb-base", "next/core-web-vitals", "prettier"],
+  "rules": {
+    "arrow-body-style": ["error", "always"],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "class-methods-use-this": "off"
+  }
+}
