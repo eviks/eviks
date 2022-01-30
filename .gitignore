@@ -38,3 +38,4 @@ yarn-error.log*
 
 /uploads
 /server/config/default.json
+/server/node_modules
