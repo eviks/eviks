@@ -22,11 +22,14 @@ router.get('/', async (req, res) => {
       { $sort: { name: 1 } },
     ]);
 
-    localities.forEach(
-      (locality) =>
+    localities.forEach((locality) => {
+      return (
         locality.children &&
-        locality.children.sort((a, b) => a.name.localeCompare(b.name)),
-    );
+        locality.children.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        })
+      );
+    });
 
     // Localities not found
     if (!localities) {

@@ -3,7 +3,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import Switch from '@mui/material/Switch';
 import Head from 'next/head';
 import Cookies from 'js-cookie';
@@ -54,8 +54,7 @@ const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
           </div>
         </Toolbar>
       </AppBar>
-      <Box sx={{ my: 10 }} />
-      {children}
+      <Container sx={{ my: 10 }}>{children}</Container>
     </ThemeProvider>
   );
 };

@@ -151,8 +151,8 @@ router.post(
 // @route GET api/auth/google/callback
 // @desc  Google auth callback
 // @access Public
-router.get('/google/callback', (req, res, next) =>
-  passport.authenticate('google', (err, user, info) => {
+router.get('/google/callback', (req, res, next) => {
+  return passport.authenticate('google', (err, user, info) => {
     if (err) {
       logger.error(err.message);
       return res.status(500).send('Server error...');
@@ -167,8 +167,8 @@ router.get('/google/callback', (req, res, next) =>
     };
     const token = jwt.sign(payload, config.get('jwtSecret'));
     return res.json({ token });
-  })(req, res, next),
-);
+  })(req, res, next);
+});
 
 // @route POST api/auth/verification/
 // @desc  Email verification

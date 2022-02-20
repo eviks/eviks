@@ -11,11 +11,16 @@ const Post = require('../../models/Post');
 
 const router = express.Router();
 
-const checkFileExists = async (file) =>
-  fs.promises
+const checkFileExists = async (file) => {
+  return fs.promises
     .access(file, fs.constants.F_OK)
-    .then(() => true)
-    .catch(() => false);
+    .then(() => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
+};
 
 // @route  POST api/users
 // @desc   Register user
@@ -155,14 +160,15 @@ router.put(
       const { favorites } = user;
 
       const filtered = Object.keys(favorites)
-        .filter((key) => key !== req.params.postId)
-        .reduce(
-          (obj, key) => ({
+        .filter((key) => {
+          return key !== req.params.postId;
+        })
+        .reduce((obj, key) => {
+          return {
             ...obj,
             [key]: favorites[key],
-          }),
-          {},
-        );
+          };
+        }, {});
 
       user.favorites = filtered;
       await user.save();

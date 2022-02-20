@@ -12,6 +12,7 @@
         "tsx": "never"
       }
     ],
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "global-require": "off"
   }
 }

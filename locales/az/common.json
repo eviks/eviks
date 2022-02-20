@@ -1,3 +1,4 @@
 {
-  "greeting": "Salam!"
+  "greeting": "Salam!",
+  "errorRequiredField": "Bu sahə boş ola bilməz"
 }

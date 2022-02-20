@@ -1,3 +1,4 @@
 {
-  "greeting": "Привет!"
+  "greeting": "Привет!",
+  "errorRequiredField": "Пожалуйста, заполните это поле"
 }

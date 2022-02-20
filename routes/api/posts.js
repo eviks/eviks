@@ -14,11 +14,16 @@ const Counter = require('../../models/Counter');
 
 const router = express.Router();
 
-const checkFileExists = async (file) =>
-  fs.promises
+const checkFileExists = async (file) => {
+  return fs.promises
     .access(file, fs.constants.F_OK)
-    .then(() => true)
-    .catch(() => false);
+    .then(() => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
+};
 
 const getNextSequence = async (name) => {
   const counter = await Counter.findByIdAndUpdate(
@@ -116,7 +121,11 @@ router.put(
 
       // Update images
       await req.body.images.map(async (image) => {
-        if (!post.images.find((value) => value === image)) {
+        if (
+          !post.images.find((value) => {
+            return value === image;
+          })
+        ) {
           await fs.promises.rename(
             `${__dirname}/../../../uploads/temp/post_images/${image}`,
             `${__dirname}/../../../uploads/post_images/${image}`,
@@ -126,7 +135,11 @@ router.put(
 
       let imagesDeleted = true;
       post.images.forEach(async (image) => {
-        if (!req.body.images.find((value) => value === image)) {
+        if (
+          !req.body.images.find((value) => {
+            return value === image;
+          })
+        ) {
           const directory = `${__dirname}/../../../uploads/post_images/${image}`;
           const fileExists = await checkFileExists(directory);
           if (fileExists) {
