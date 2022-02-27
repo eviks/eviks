@@ -3,8 +3,8 @@ import { createTheme } from '@mui/material/styles';
 const primaryColor = '#FF337A';
 const lightPrimaryColor = '#FF4788';
 const lightColor = '#FFFFFF';
-const lightGreyColor = '#D8D8D8';
 const darkColor = '#151316';
+const softDarkColor = '#342E37';
 
 export const lightTheme = createTheme({
   palette: {
@@ -27,7 +27,7 @@ export const darkTheme = createTheme({
       main: lightPrimaryColor,
     },
     secondary: {
-      main: lightGreyColor,
+      main: softDarkColor,
     },
   },
 });

@@ -1,4 +1,4 @@
 {
-  "greeting": "Привет!",
-  "errorRequiredField": "Пожалуйста, заполните это поле"
+  "errorRequiredField": "Пожалуйста, заполните это поле",
+  "authButton": "Войти"
 }

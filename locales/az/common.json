@@ -1,4 +1,4 @@
 {
-  "greeting": "Salam!",
-  "errorRequiredField": "Bu sahə boş ola bilməz"
+  "errorRequiredField": "Bu sahə boş ola bilməz",
+  "authButton": "Daxil olmaq"
 }

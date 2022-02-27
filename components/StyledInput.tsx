@@ -8,27 +8,29 @@ import { ValidatorComponent } from 'react-material-ui-form-validator';
 
 const Input = styled(InputBase)(({ theme }) => {
   return {
-    'label + &': {
-      marginTop: theme.spacing(2.5),
-    },
-    '& .MuiInputBase-input': {
+    '&': {
       borderRadius: 4,
-      position: 'relative',
+      border: 'none',
       backgroundColor:
         theme.palette.mode === 'light' ? theme.palette.grey[100] : '#49414E',
-      border: 'none',
-      fontSize: 16,
-      padding: '10px 12px',
       transition: theme.transitions.create([
         'border-color',
         'background-color',
         'box-shadow',
       ]),
-      '&:focus': {
-        boxShadow: `${theme.palette.primary.main} 0 0 0 0.1rem`,
-        borderColor: theme.palette.primary.main,
-        backgroundColor: theme.palette.background.default,
-      },
+    },
+    '&.Mui-focused': {
+      boxShadow: `${theme.palette.primary.main} 0 0 0 0.1rem`,
+      borderColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.background.default,
+    },
+    'label + &': {
+      marginTop: theme.spacing(2.5),
+    },
+    '& .MuiInputBase-input': {
+      position: 'relative',
+      fontSize: 16,
+      padding: '10px 12px',
     },
   };
 });
@@ -41,11 +43,11 @@ const ErrorTypography = styled('div')(({ theme }) => {
 
 class StyledInput extends ValidatorComponent {
   state = {
-    isValid: false,
+    isValid: true,
   };
 
   renderValidatorComponent() {
-    const { label, input } = this.props;
+    const { name, value, label, input } = this.props;
 
     return (
       <FormControl fullWidth={input?.fullWidth} variant="standard">
@@ -54,7 +56,7 @@ class StyledInput extends ValidatorComponent {
             {label}
           </InputLabel>
         )}
-        <Input {...input} />
+        <Input name={name} value={value} {...input} />
         <div>{this.errorText()}</div>
         <Box sx={{ mb: 2 }}></Box>
       </FormControl>

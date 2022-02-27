@@ -9,22 +9,24 @@ import StyledInput from './StyledInput';
 import ShowPassword from './icons/ShowPassword';
 import HidePassword from './icons/HidePassword';
 
-interface LoginState {
+interface RegisterState {
+  displayName: string;
   email: string;
   password: string;
   showPassword: boolean;
 }
 
-const Login = () => {
+const Register = () => {
   const { t } = useTranslation();
 
-  const [state, setState] = useState<LoginState>({
+  const [state, setState] = useState<RegisterState>({
+    displayName: '',
     email: '',
     password: '',
     showPassword: false,
   });
 
-  const { email, password, showPassword } = state;
+  const { displayName, email, password, showPassword } = state;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -47,8 +49,21 @@ const Login = () => {
       }}
     >
       <Typography variant="h1" fontSize={32} align="center">
-        {t('auth:signInSubtitle')}
+        {t('auth:signUpSubtitle')}
       </Typography>
+      <StyledInput
+        validators={['required']}
+        value={displayName}
+        name="displayName"
+        errorMessages={[t('common:errorRequiredField')]}
+        label={t('auth:displayName')}
+        input={{
+          id: 'displayName',
+          fullWidth: true,
+          type: 'text',
+          onChange: handleChange,
+        }}
+      />
       <StyledInput
         validators={['required', 'isEmail']}
         value={email}
@@ -95,10 +110,10 @@ const Login = () => {
         fullWidth
         style={{ marginTop: '1rem' }}
       >
-        {t('auth:loginButton')}
+        {t('auth:registerButton')}
       </Button>
     </ValidatorForm>
   );
 };
 
-export default Login;
+export default Register;
