@@ -1,4 +1,6 @@
 {
   "errorRequiredField": "Bu sahə boş ola bilməz",
-  "authButton": "Daxil olmaq"
+  "authButton": "Daxil olmaq",
+  "serverError": "Səhv baş verib, amma biz artıq onu düzəldirik 🔨 Xahiş edirik, bir az gözləyin 🙏",
+  "unknownError": "Ups...səhv baş verib 😕"
 }
