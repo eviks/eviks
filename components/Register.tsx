@@ -9,8 +9,9 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import StyledInput from './StyledInput';
-import ShowPassword from './icons/ShowPassword';
-import HidePassword from './icons/HidePassword';
+import ShowPasswordIcon from './icons/ShowPasswordIcon';
+import HidePasswordIcon from './icons/HidePasswordIcon';
+import CloseIcon from './icons/CloseIcon';
 import { registerUser } from '../actions/auth';
 import Failure from '../utils/failure';
 import ServerError from '../utils/serverError';
@@ -54,8 +55,8 @@ const Register = () => {
     setLoading(true);
 
     try {
-      await registerUser({ displayName, email, password });
-      router.push('/');
+      await registerUser(displayName, email, password);
+      router.push({ pathname: '/verification', query: { email } });
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {
@@ -146,13 +147,10 @@ const Register = () => {
             <InputAdornment position="end">
               <IconButton
                 aria-label="toggle password visibility"
+                size="small"
                 onClick={handleClickShowPassword}
               >
-                {showPassword ? (
-                  <HidePassword width={'24px'} height={'24px'} />
-                ) : (
-                  <ShowPassword width={'24px'} height={'24px'} />
-                )}
+                {showPassword ? <HidePasswordIcon /> : <ShowPasswordIcon />}
               </IconButton>
             </InputAdornment>
           ),
@@ -176,6 +174,15 @@ const Register = () => {
           onClose={closeAlert}
           severity="error"
           sx={{ width: '100%', mt: 2 }}
+          action={
+            <IconButton aria-label="close" size="small" onClick={closeAlert}>
+              <CloseIcon
+                viewBox="0 0 241.171 241.171"
+                fontSize="inherit"
+                sx={{ p: 0.2 }}
+              />
+            </IconButton>
+          }
         >
           {errorAlert.message}
         </Alert>

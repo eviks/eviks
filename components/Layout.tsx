@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
 import { Link as MaterialLink } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { lightTheme, darkTheme } from '../utils/theme';
-import Logo from './icons/Logo';
+import LogoIcon from './icons/LogoIcon';
 
 const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
   <Head>
@@ -56,7 +56,7 @@ const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
                   flexWrap: 'wrap',
                 }}
               >
-                <Logo
+                <LogoIcon
                   viewBox="0 0 512.001 512.001"
                   fontSize="large"
                   color="primary"

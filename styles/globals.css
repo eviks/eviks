@@ -14,3 +14,43 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.pin > input {
+  text-align: center;
+  border-radius: 8px;
+  border: none;
+  margin: 0.5rem;
+  width: 3rem;
+  height: 4rem;
+  font-size: 2rem;
+  box-sizing: border-box;
+}
+
+.pin > input:focus-visible {
+  outline: none;
+}
+
+.pin-light > input {
+  background-color: #d8d8d8;
+}
+
+.pin-light > input:focus-visible {
+  border: 2px solid #ff337a;
+  background-color: transparent;
+}
+
+.pin-dark > input {
+  background-color: #49414e;
+  color: #ffffff;
+}
+
+.pin-dark > input:focus-visible {
+  border: 2px solid #ff4788;
+  background-color: transparent;
+}
+
+@media only screen and (max-width: 600px) {
+  .pin > input {
+    margin: 0.3rem;
+  }
+}

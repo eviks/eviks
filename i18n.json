@@ -3,6 +3,7 @@
   "defaultLocale": "az",
   "pages": {
     "*": ["common"],
-    "/auth": ["auth"]
+    "/auth": ["auth"],
+    "/verification": ["verification"]
   }
 }

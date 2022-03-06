@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 
-const ShowPassword = (props: SvgIconProps) => {
+const ShowPasswordIcon = (props: SvgIconProps) => {
   return (
     <SvgIcon {...props}>
       <path fill="none" d="M0 0h24v24H0z" />
@@ -10,4 +10,4 @@ const ShowPassword = (props: SvgIconProps) => {
   );
 };
 
-export default ShowPassword;
+export default ShowPasswordIcon;
