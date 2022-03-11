@@ -25,7 +25,7 @@ app.prepare().then(() => {
   server.use(passport.initialize());
   server.use(cors());
   server.use(fileUpload());
-  server.use('/uploads', express.static('../uploads'));
+  server.use('/uploads', express.static('./uploads'));
   server.use(compression());
 
   // Define routes

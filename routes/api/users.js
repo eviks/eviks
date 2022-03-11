@@ -217,7 +217,7 @@ router.delete(
 
       posts.forEach(async (post) => {
         post.images.forEach(async (image) => {
-          const directory = `${__dirname}/../../../uploads/post_images/${image}`;
+          const directory = `${__dirname}/../../uploads/post_images/${image}`;
           const fileExists = await checkFileExists(directory);
           if (fileExists) {
             rimraf(directory, (error) => {

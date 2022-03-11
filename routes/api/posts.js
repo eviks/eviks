@@ -82,8 +82,8 @@ router.post(
       // Move post images from temp to main folder
       await req.body.images.map(async (image) => {
         await fs.promises.rename(
-          `${__dirname}/../../../uploads/temp/post_images/${image}`,
-          `${__dirname}/../../../uploads/post_images/${image}`,
+          `${__dirname}/../../uploads/temp/post_images/${image}`,
+          `${__dirname}/../../uploads/post_images/${image}`,
         );
       });
 
@@ -127,8 +127,8 @@ router.put(
           })
         ) {
           await fs.promises.rename(
-            `${__dirname}/../../../uploads/temp/post_images/${image}`,
-            `${__dirname}/../../../uploads/post_images/${image}`,
+            `${__dirname}/../../uploads/temp/post_images/${image}`,
+            `${__dirname}/../../uploads/post_images/${image}`,
           );
         }
       });
@@ -140,7 +140,7 @@ router.put(
             return value === image;
           })
         ) {
-          const directory = `${__dirname}/../../../uploads/post_images/${image}`;
+          const directory = `${__dirname}/../uploads/post_images/${image}`;
           const fileExists = await checkFileExists(directory);
           if (fileExists) {
             rimraf(directory, (error) => {
@@ -232,7 +232,7 @@ router.delete(
       // Delete post images first
       let imagesDeleted = true;
       post.images.forEach(async (image) => {
-        const directory = `${__dirname}/../../../uploads/post_images/${image}`;
+        const directory = `${__dirname}/../../uploads/post_images/${image}`;
         const fileExists = await checkFileExists(directory);
         if (fileExists) {
           rimraf(directory, (error) => {
@@ -265,8 +265,8 @@ router.get(
   async (req, res) => {
     // Generate unique id
     let id = uuid.v4();
-    const tempDirectory = `${__dirname}/../../../uploads/temp/post_images/${id}`;
-    const mainDirectory = `${__dirname}/../../../uploads/post_images/${id}`;
+    const tempDirectory = `${__dirname}/../../uploads/temp/post_images/${id}`;
+    const mainDirectory = `${__dirname}/../../uploads/post_images/${id}`;
     while (
       // eslint-disable-next-line no-await-in-loop
       (await checkFileExists(tempDirectory)) ||
@@ -313,7 +313,7 @@ router.post(
 
     const { image } = req.files;
     const { id } = req.body;
-    const directory = `${__dirname}/../../../uploads/temp/post_images/${id}`;
+    const directory = `${__dirname}/../../uploads/temp/post_images/${id}`;
 
     // Check if id is correct
     const fileExists = await checkFileExists(directory);
@@ -357,7 +357,7 @@ router.delete(
   async (req, res) => {
     const { id } = req.params;
 
-    const directory = `${__dirname}/../../../uploads/temp/post_images/${id}`;
+    const directory = `${__dirname}/../../uploads/temp/post_images/${id}`;
 
     // Check if id is correct
     if (!(await checkFileExists(directory))) {
