@@ -22,6 +22,7 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
       index: true,
+      enum: ['owner', 'agent'],
     },
     city: {
       type: {
@@ -60,15 +61,18 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
       index: true,
+      enum: ['apartment', 'house'],
     },
     apartmentType: {
       type: String,
       index: true,
+      enum: ['newBuilding', 'secondaryBuilding'],
     },
     dealType: {
       type: String,
       required: true,
       index: true,
+      enum: ['sale', 'rent', 'rentPerDay'],
     },
     rooms: {
       type: Number,
@@ -103,6 +107,7 @@ const PostSchema = new mongoose.Schema(
     renovation: {
       type: String,
       index: true,
+      enum: ['cosmetic', 'designer', 'noRenovation'],
     },
     redevelopment: {
       type: Boolean,

@@ -15,8 +15,13 @@ import { Link as MaterialLink } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { lightTheme, darkTheme } from '../utils/theme';
 import LogoIcon from './icons/LogoIcon';
+import { User } from '../types';
 
-const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
+const Layout: FC<{ user: User; initDarkMode: boolean }> = ({
+  user,
+  initDarkMode,
+  children,
+}) => {
   <Head>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
   </Head>;

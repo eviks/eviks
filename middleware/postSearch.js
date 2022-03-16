@@ -82,7 +82,7 @@ const setPostsFilters = (req) => {
 
   const conditions = {};
 
-  // City
+  // Active
   if (active) conditions.active = active;
 
   // City

@@ -12,8 +12,8 @@ import useTranslation from 'next-translate/useTranslation';
 import { useTheme } from '@mui/material/styles';
 import CloseIcon from '../components/icons/CloseIcon';
 import { verifyUser } from '../actions/auth';
-import Failure from '../utils/failure';
-import ServerError from '../utils/serverError';
+import Failure from '../utils/errors/failure';
+import ServerError from '../utils/errors/serverError';
 
 const ReactCodeInput = dynamic(import('react-code-input'), { ssr: false });
 
@@ -76,7 +76,7 @@ const Verification = () => {
   };
 
   const closeAlert = (
-    event?: React.SyntheticEvent | Event,
+    _event?: React.SyntheticEvent | Event,
     reason?: string,
   ) => {
     if (reason === 'clickaway') {

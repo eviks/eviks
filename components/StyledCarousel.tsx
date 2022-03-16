@@ -10,7 +10,8 @@ const StyledCarousel: FC<{
   images: string[];
   imageSize: number;
   thumbSize: number;
-}> = ({ images, imageSize, thumbSize }) => {
+  onClickItem?: (index: number, item: React.ReactNode) => void;
+}> = ({ images, imageSize, thumbSize, onClickItem }) => {
   const theme = useTheme();
   const { width } = useWindowSize();
 
@@ -22,10 +23,10 @@ const StyledCarousel: FC<{
           objectFit="cover"
           src={`${
             process.env.NEXT_PUBLIC_BASE_URL
-          }/uploads/post_images/${image}/image_${320}.png`}
+          }/uploads/post_images/${image}/image_${160}.png`}
           width={thumbSize}
           height={thumbSize}
-          alt={`post-image-${image}-${320}`}
+          alt={`post-image-${image}-${160}`}
         />
       );
     });
@@ -77,6 +78,7 @@ const StyledCarousel: FC<{
       renderThumbs={renderThumbs}
       swipeScrollTolerance={50}
       preventMovementUntilSwipeScrollTolerance={true}
+      onClickItem={onClickItem}
     >
       {images.map((image) => {
         return (

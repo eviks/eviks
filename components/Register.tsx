@@ -13,8 +13,8 @@ import ShowPasswordIcon from './icons/ShowPasswordIcon';
 import HidePasswordIcon from './icons/HidePasswordIcon';
 import CloseIcon from './icons/CloseIcon';
 import { registerUser } from '../actions/auth';
-import Failure from '../utils/failure';
-import ServerError from '../utils/serverError';
+import Failure from '../utils/errors/failure';
+import ServerError from '../utils/errors/serverError';
 
 interface RegisterState {
   displayName: string;
@@ -89,7 +89,7 @@ const Register = () => {
   };
 
   const closeAlert = (
-    event?: React.SyntheticEvent | Event,
+    _event?: React.SyntheticEvent | Event,
     reason?: string,
   ) => {
     if (reason === 'clickaway') {

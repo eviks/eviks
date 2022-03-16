@@ -15,6 +15,17 @@
     "class-methods-use-this": "off",
     "global-require": "off",
     "import/prefer-default-export": "off",
-    "no-underscore-dangle": "off"
-  }
+    "no-underscore-dangle": "off",
+    "no-shadow": "off",
+    "no-unused-vars": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {
+        "no-shadow": "error",
+        "no-unused-vars": "error"
+      }
+    }
+  ]
 }

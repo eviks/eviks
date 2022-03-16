@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Failure from '../utils/failure';
-import ServerError from '../utils/serverError';
-import getErrorMessage from '../utils/getErrorMessage';
+import Failure from '../utils/errors/failure';
+import ServerError from '../utils/errors/serverError';
+import getErrorMessage from '../utils/errors/getErrorMessage';
 
 export const registerUser = async (
   displayName: string,
