@@ -70,3 +70,17 @@ export interface User {
   googleId?: String;
   favorites?: { [key: string]: boolean };
 }
+
+export interface PostsContext {
+  posts: Post[];
+}
+
+export interface AuthContext {
+  token?: string;
+  user?: User;
+}
+
+export interface ErrorAlert {
+  message: string;
+  open: boolean;
+}

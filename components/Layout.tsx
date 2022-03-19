@@ -1,4 +1,11 @@
-import React, { FC, Fragment, useState } from 'react';
+import React, {
+  FC,
+  Fragment,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+} from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
@@ -13,18 +20,29 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Link as MaterialLink } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
+import { AppContext } from '../store/appContext';
+import { loadUser } from '../actions/auth';
 import { lightTheme, darkTheme } from '../utils/theme';
 import LogoIcon from './icons/LogoIcon';
-import { User } from '../types';
 
-const Layout: FC<{ user: User; initDarkMode: boolean }> = ({
-  user,
-  initDarkMode,
-  children,
-}) => {
+const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
   <Head>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
   </Head>;
+
+  const { dispatch } = useContext(AppContext);
+
+  const loadUserFromToken = useCallback(async () => {
+    try {
+      await loadUser()(dispatch);
+    } catch (error) {
+      //
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadUserFromToken();
+  }, [loadUserFromToken]);
 
   const { t } = useTranslation();
 

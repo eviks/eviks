@@ -6,18 +6,14 @@ import CardActions from '@mui/material/CardActions';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
-import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import useTranslation from 'next-translate/useTranslation';
+import FavoriteButton from './post_buttons/favoriteButton';
 import StyledCarousel from './StyledCarousel';
-import HeartIcon from './icons/HeartIcon';
 import { Post } from '../types';
 import useWindowSize from '../utils/hooks/useWindowSize';
 
-const PostItem: FC<{ post: Post; isFavorite: boolean }> = ({
-  post,
-  isFavorite,
-}) => {
+const PostItem: FC<{ post: Post }> = ({ post }) => {
   const [elevation, setElevation] = useState<number>(0);
 
   const { t } = useTranslation();
@@ -155,20 +151,7 @@ const PostItem: FC<{ post: Post; isFavorite: boolean }> = ({
           }}
         >
           <CardActions>
-            <IconButton
-              aria-label="favorite"
-              sx={{
-                backgroundColor: isFavorite ? theme.palette.primary.main : null,
-                color: isFavorite ? theme.palette.background.default : null,
-                '&:hover, &.Mui-focusVisible': {
-                  backgroundColor: isFavorite
-                    ? theme.palette.primary.light
-                    : null,
-                },
-              }}
-            >
-              <HeartIcon viewBox="0 0 512 512" />
-            </IconButton>
+            <FavoriteButton postId={post._id} />
           </CardActions>
         </Grid>
       </Grid>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 import type { NextPage } from 'next';
 import Container from '@mui/material/Container';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import PostItem from '../components/PostItem';
-import { User, Post } from '../types';
+import { AppContext } from '../store/appContext';
+import { Types } from '../store/reducers';
 import { setURLParams } from '../utils/urlParams';
 
 interface QueryParams {
@@ -13,16 +14,14 @@ interface QueryParams {
 
 type StringQueryParams = Record<keyof QueryParams, string>;
 
-const Home: NextPage<{ user?: User }> = ({ user }) => {
+const Home: NextPage = () => {
+  const { state, dispatch } = useContext(AppContext);
+  const { posts } = state.posts;
+
   const router = useRouter();
   const { slug } = router.query as StringQueryParams;
 
   const { 0: city, 1: dealType } = slug;
-
-  const [posts, setPosts] = useState<Post[]>();
-  const [favoritePosts, setFavoritePosts] = useState<{
-    [key: string]: boolean;
-  }>(user?.favorites ? user.favorites : {});
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -44,11 +43,11 @@ const Home: NextPage<{ user?: User }> = ({ user }) => {
       const response = await axios.get(
         `/api/posts/?${url && `${url}&`}limit=${15}&page=1`,
       );
-      setPosts(response.data.result);
+      dispatch({ type: Types.GetPosts, payload: response.data.result });
     } catch (error) {
       //
     }
-  }, [city, dealType]);
+  }, [city, dealType, dispatch]);
 
   useEffect(() => {
     fetchPosts();
@@ -59,13 +58,7 @@ const Home: NextPage<{ user?: User }> = ({ user }) => {
       {`City: ${city} Deal type: ${dealType}`}
       {posts &&
         posts.map((post) => {
-          return (
-            <PostItem
-              key={post._id}
-              post={post}
-              isFavorite={favoritePosts[post._id]}
-            />
-          );
+          return <PostItem key={post._id} post={post} />;
         })}
     </Container>
   );

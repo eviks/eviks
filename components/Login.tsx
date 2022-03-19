@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -11,9 +11,11 @@ import StyledInput from './StyledInput';
 import ShowPasswordIcon from './icons/ShowPasswordIcon';
 import HidePasswordIcon from './icons/HidePasswordIcon';
 import CloseIcon from './icons/CloseIcon';
+import { AppContext } from '../store/appContext';
 import { loginUser } from '../actions/auth';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
+import { ErrorAlert } from '../types';
 
 interface LoginState {
   email: string;
@@ -21,12 +23,9 @@ interface LoginState {
   showPassword: boolean;
 }
 
-interface ErrorAlert {
-  message: string;
-  open: boolean;
-}
-
 const Login = () => {
+  const { dispatch } = useContext(AppContext);
+
   const { t } = useTranslation();
 
   const [data, setData] = useState<LoginState>({
@@ -50,7 +49,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await loginUser(email, password);
+      await loginUser(email, password)(dispatch);
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {
