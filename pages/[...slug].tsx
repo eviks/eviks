@@ -14,7 +14,7 @@ interface QueryParams {
 
 type StringQueryParams = Record<keyof QueryParams, string>;
 
-const Home: NextPage = () => {
+const Posts: NextPage = () => {
   const { state, dispatch } = useContext(AppContext);
   const { posts } = state.posts;
 
@@ -64,4 +64,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Posts;

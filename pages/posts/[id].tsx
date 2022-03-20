@@ -1,4 +1,5 @@
 import React from 'react';
+import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
 interface QueryParams {
@@ -7,7 +8,7 @@ interface QueryParams {
 
 type StringQueryParams = Record<keyof QueryParams, string>;
 
-const PostDetailed = () => {
+const PostDetailed: NextPage = () => {
   const router = useRouter();
   const { id } = router.query as StringQueryParams;
 

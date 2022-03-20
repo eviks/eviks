@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
 import { useTheme } from '@mui/material/styles';
 import useTranslation from 'next-translate/useTranslation';
-import FavoriteButton from './post_buttons/favoriteButton';
+import FavoriteButton from './postButtons/favoriteButton';
 import StyledCarousel from './StyledCarousel';
 import { Post } from '../types';
 import useWindowSize from '../utils/hooks/useWindowSize';

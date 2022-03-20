@@ -1,4 +1,5 @@
 import React from 'react';
+import type { NextPage } from 'next';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -36,7 +37,7 @@ function a11yProps(index: number) {
   };
 }
 
-const Auth = () => {
+const Auth: NextPage = () => {
   const [value, setValue] = React.useState(0);
 
   const { t } = useTranslation();

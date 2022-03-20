@@ -40,6 +40,11 @@ MyApp.getInitialProps = async ({ ctx }: AppContext) => {
   // Theme mode
   pageProps.initDarkMode = darkMode === 'ON';
 
+  if (ctx.pathname === '/') {
+    ctx.res?.writeHead(302, { Location: `${ctx.locale}/baku/sale` });
+    ctx.res?.end();
+  }
+
   return { pageProps };
 };
 

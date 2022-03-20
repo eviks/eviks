@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from '@mui/material/styles';
 import useTranslation from 'next-translate/useTranslation';
+import { useSnackbar } from 'notistack';
 import { AppContext } from '../../store/appContext';
 import {
   addPostToFavorites,
@@ -11,7 +12,6 @@ import {
 import HeartIcon from '../icons/HeartIcon';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
-import { ErrorAlert } from '../../types';
 
 const FavoriteButton: FC<{ postId: number }> = ({ postId }) => {
   const { state, dispatch } = useContext(AppContext);
@@ -29,10 +29,7 @@ const FavoriteButton: FC<{ postId: number }> = ({ postId }) => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [errorAlert, setErrorAlert] = useState<ErrorAlert>({
-    message: '',
-    open: false,
-  });
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = async () => {
     if (!state.auth.token) {
@@ -56,8 +53,9 @@ const FavoriteButton: FC<{ postId: number }> = ({ postId }) => {
       } else {
         errorMessage = t('common:unknownError');
       }
-      setErrorAlert((prevState) => {
-        return { ...prevState, open: true, message: errorMessage };
+      enqueueSnackbar(errorMessage, {
+        variant: 'error',
+        autoHideDuration: 3000,
       });
     }
 

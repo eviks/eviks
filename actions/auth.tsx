@@ -57,7 +57,9 @@ export const registerUser = async (
 };
 
 export const loginUser = (email: string, password: string) => {
-  return async (dispatch: Dispatch<{ type: Types.Login; payload: string }>) => {
+  return async (
+    dispatch: Dispatch<{ type: Types.LoginUser; payload: string }>,
+  ) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -71,7 +73,7 @@ export const loginUser = (email: string, password: string) => {
         config,
       );
       Cookies.set('token', response.data.token);
-      dispatch({ type: Types.Login, payload: response.data.token });
+      dispatch({ type: Types.LoginUser, payload: response.data.token });
     } catch (error) {
       if (axios.isAxiosError(error) && error.code === '500')
         throw new ServerError(error.message);
@@ -82,27 +84,35 @@ export const loginUser = (email: string, password: string) => {
   };
 };
 
-export const verifyUser = async (email: string, activationToken: string) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+export const verifyUser = (email: string, activationToken: string) => {
+  return async (
+    dispatch: Dispatch<{
+      type: Types.VerifyUser;
+      payload: string;
+    }>,
+  ) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
 
-  try {
-    const response = await axios.post(
-      '/api/auth/verification',
-      { email, activationToken },
-      config,
-    );
-    Cookies.set('token', response.data.token);
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.code === '500')
-      throw new ServerError(error.message);
-    else {
-      throw new Failure(getErrorMessage(error));
+    try {
+      const response = await axios.post(
+        '/api/auth/verification',
+        { email, activationToken },
+        config,
+      );
+      Cookies.set('token', response.data.token);
+      dispatch({ type: Types.VerifyUser, payload: response.data.token });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.code === '500')
+        throw new ServerError(error.message);
+      else {
+        throw new Failure(getErrorMessage(error));
+      }
     }
-  }
+  };
 };
 
 export const addPostToFavorites = (postId: number, token: string) => {

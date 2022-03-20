@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import type { NextPage } from 'next';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -11,7 +12,8 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useTheme } from '@mui/material/styles';
 import CloseIcon from '../components/icons/CloseIcon';
-import { verifyUser } from '../actions/auth';
+import { verifyUser, loadUser } from '../actions/auth';
+import { AppContext } from '../store/appContext';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 
@@ -28,7 +30,9 @@ interface QueryParams {
 
 type StringQueryParams = Record<keyof QueryParams, string>;
 
-const Verification = () => {
+const Verification: NextPage = () => {
+  const { dispatch } = useContext(AppContext);
+
   const { t } = useTranslation();
 
   const theme = useTheme();
@@ -52,7 +56,9 @@ const Verification = () => {
     setLoading(true);
 
     try {
-      await verifyUser(email, pin);
+      await verifyUser(email, pin)(dispatch);
+      await loadUser()(dispatch);
+      router.push({ pathname: '/baku/sale' });
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {

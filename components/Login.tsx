@@ -6,13 +6,14 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { ValidatorForm } from 'react-material-ui-form-validator';
+import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import StyledInput from './StyledInput';
 import ShowPasswordIcon from './icons/ShowPasswordIcon';
 import HidePasswordIcon from './icons/HidePasswordIcon';
 import CloseIcon from './icons/CloseIcon';
 import { AppContext } from '../store/appContext';
-import { loginUser } from '../actions/auth';
+import { loadUser, loginUser } from '../actions/auth';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 import { ErrorAlert } from '../types';
@@ -27,6 +28,8 @@ const Login = () => {
   const { dispatch } = useContext(AppContext);
 
   const { t } = useTranslation();
+
+  const router = useRouter();
 
   const [data, setData] = useState<LoginState>({
     email: '',
@@ -50,6 +53,8 @@ const Login = () => {
 
     try {
       await loginUser(email, password)(dispatch);
+      await loadUser()(dispatch);
+      router.push({ pathname: '/baku/sale' });
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {

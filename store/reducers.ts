@@ -14,28 +14,33 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 export enum Types {
   GetPosts = 'GET_POSTS',
+  LoadUser = 'LOAD_USER',
+  LoginUser = 'LOGIN_USER',
+  VerifyUser = 'VERIFY_USER',
   AddPostToFavorites = 'ADD_POST_TO_FAVORITES',
   RemovePostFromFavorites = 'REMOVE_POST_FROM_FAVORITES',
-  LoadUser = 'LOAD_USER',
-  Login = 'LOGIN',
 }
 
+// PAYLOAD TYPES
 type PostsPayload = {
   [Types.GetPosts]: Post[];
 };
 
 type AuthPayload = {
   [Types.LoadUser]: AuthContext;
-  [Types.Login]: string;
+  [Types.LoginUser]: string;
+  [Types.VerifyUser]: string;
   [Types.AddPostToFavorites]: { [key: string]: boolean };
   [Types.RemovePostFromFavorites]: { [key: string]: boolean };
 };
 
+// ACTION TYPES
 export type PostsActions =
   ActionMap<PostsPayload>[keyof ActionMap<PostsPayload>];
 
 export type AuthActions = ActionMap<AuthPayload>[keyof ActionMap<AuthPayload>];
 
+// REDUCERS
 export const postsReducer: Reducer<PostsContext, PostsActions | AuthActions> = (
   state,
   action,
@@ -60,7 +65,8 @@ export const authReducer: Reducer<AuthContext, PostsActions | AuthActions> = (
       return {
         ...action.payload,
       };
-    case Types.Login:
+    case Types.LoginUser:
+    case Types.VerifyUser:
       return {
         ...state,
         token: action.payload,

@@ -5,6 +5,7 @@ import React, {
   useContext,
   useEffect,
   useCallback,
+  createRef,
 } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,14 +17,23 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Link as MaterialLink } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
+import { SnackbarProvider, SnackbarKey } from 'notistack';
+import { makeStyles } from '@mui/styles/';
 import { AppContext } from '../store/appContext';
 import { loadUser } from '../actions/auth';
-import { lightTheme, darkTheme } from '../utils/theme';
+import {
+  lightTheme,
+  darkTheme,
+  primaryColor,
+  lightPrimaryColor,
+} from '../utils/theme';
 import LogoIcon from './icons/LogoIcon';
+import CloseIcon from './icons/CloseIcon';
 
 const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
   <Head>
@@ -60,62 +70,107 @@ const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
     router.push(router.asPath, undefined, { locale });
   };
 
+  const notistackRef = createRef<SnackbarProvider>();
+  const onClickDismiss = (key: SnackbarKey) => {
+    return () => {
+      if (notistackRef.current) notistackRef.current.closeSnackbar(key);
+    };
+  };
+
+  const useStyles = makeStyles(() => {
+    return {
+      variantError: {
+        backgroundColor: `${
+          darkMode ? lightPrimaryColor : primaryColor
+        } !important`,
+      },
+    };
+  });
+  const classes = useStyles();
+
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <CssBaseline />
-      <AppBar color="secondary">
-        <Toolbar
-          sx={{
-            justifyContent: 'space-between',
-          }}
-        >
-          <Box />
-          <Link href="/" passHref>
-            <MaterialLink underline="none">
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexWrap: 'wrap',
-                }}
-              >
-                <LogoIcon
-                  viewBox="0 0 512.001 512.001"
-                  fontSize="large"
-                  color="primary"
-                  sx={{ mx: 1 }}
-                />
-                <Typography variant="h6" color="primary" fontSize="1.5rem">
-                  Eviks
-                </Typography>
-              </Box>
-            </MaterialLink>
-          </Link>
-          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-            <Link href="/auth" passHref>
-              <Button> {t('common:authButton')}</Button>
+      <SnackbarProvider
+        ref={notistackRef}
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        hideIconVariant={true}
+        classes={{
+          variantError: classes.variantError,
+        }}
+        action={(key) => {
+          return (
+            <IconButton onClick={onClickDismiss(key)}>
+              <CloseIcon
+                color={'secondary'}
+                viewBox="0 0 241.171 241.171"
+                fontSize="small"
+                sx={{ p: 0.2 }}
+              />
+            </IconButton>
+          );
+        }}
+      >
+        <CssBaseline />
+        <AppBar color="secondary">
+          <Toolbar
+            sx={{
+              justifyContent: 'space-between',
+            }}
+          >
+            <Box />
+            <Link href="/" passHref>
+              <MaterialLink underline="none">
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                  }}
+                >
+                  <LogoIcon
+                    viewBox="0 0 512.001 512.001"
+                    fontSize="large"
+                    color="primary"
+                    sx={{ mx: 1 }}
+                  />
+                  <Typography variant="h6" color="primary" fontSize="1.5rem">
+                    Eviks
+                  </Typography>
+                </Box>
+              </MaterialLink>
             </Link>
-            <Switch checked={darkMode} onChange={darkModeToggle} />
-            <div>
-              {router.locales?.map((locale) => {
-                return router.locale !== locale ? (
-                  <Button
-                    key={locale}
-                    variant="text"
-                    color="inherit"
-                    onClick={() => {
-                      return switchLanguage(locale);
-                    }}
-                  >
-                    {locale}
-                  </Button>
-                ) : null;
-              })}
-            </div>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Fragment>{children}</Fragment>
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}
+            >
+              <Link href="/auth" passHref>
+                <Button> {t('common:authButton')}</Button>
+              </Link>
+              <Switch checked={darkMode} onChange={darkModeToggle} />
+              <div>
+                {router.locales?.map((locale) => {
+                  return router.locale !== locale ? (
+                    <Button
+                      key={locale}
+                      variant="text"
+                      color="inherit"
+                      onClick={() => {
+                        return switchLanguage(locale);
+                      }}
+                    >
+                      {locale}
+                    </Button>
+                  ) : null;
+                })}
+              </div>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        <Fragment>{children}</Fragment>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 };

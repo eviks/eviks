@@ -1,3 +1,8 @@
+export interface ErrorAlert {
+  message: string;
+  open: boolean;
+}
+
 export enum UserType {
   owner = 'owner',
   agent = 'agent',
@@ -78,9 +83,4 @@ export interface PostsContext {
 export interface AuthContext {
   token?: string;
   user?: User;
-}
-
-export interface ErrorAlert {
-  message: string;
-  open: boolean;
 }
