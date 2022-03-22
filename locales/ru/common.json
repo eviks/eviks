@@ -7,5 +7,9 @@
     "apartment": "{{rooms}}-комн. кв., {{sqm}} м², {{floor}}/{{totalFloors}} этаж",
     "house": "{{rooms}}-комн. дом, {{sqm}} м², {{lotSqm}} сот."
   },
-  "favoriteButton": "Добавить в избранное"
+  "favoriteButton": "Добавить в избранное",
+  "bottomNavigationSearch": "Поиск",
+  "bottomNavigationFavorites": "Избранное",
+  "bottomNavigationScreenCreate": "Добавить",
+  "bottomNavigationScreenProfile": "Профиль"
 }

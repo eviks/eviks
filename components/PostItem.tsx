@@ -6,6 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
+import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import useTranslation from 'next-translate/useTranslation';
 import FavoriteButton from './postButtons/favoriteButton';
@@ -74,12 +75,29 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
             return e.stopPropagation();
           }}
         >
-          <StyledCarousel
-            images={post.images}
-            imageSize={320}
-            thumbSize={150}
-            onClickItem={openPost}
-          />
+          <Box
+            sx={{
+              position: 'relative',
+            }}
+          >
+            <StyledCarousel
+              images={post.images}
+              imageSize={320}
+              thumbSize={150}
+              onClickItem={openPost}
+            />
+            <Hidden mdUp>
+              <CardActions
+                sx={{
+                  position: 'absolute',
+                  right: '0',
+                  bottom: '0',
+                }}
+              >
+                <FavoriteButton postId={post._id} />
+              </CardActions>
+            </Hidden>
+          </Box>
         </Grid>
         <Grid item xs={12} md={6}>
           <CardActionArea
@@ -150,9 +168,11 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
             return e.stopPropagation();
           }}
         >
-          <CardActions>
-            <FavoriteButton postId={post._id} />
-          </CardActions>
+          <Hidden mdDown>
+            <CardActions>
+              <FavoriteButton postId={post._id} />
+            </CardActions>
+          </Hidden>
         </Grid>
       </Grid>
     </Card>

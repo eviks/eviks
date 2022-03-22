@@ -34,6 +34,7 @@ import {
 } from '../utils/theme';
 import LogoIcon from './icons/LogoIcon';
 import CloseIcon from './icons/CloseIcon';
+import StyledBottomNavigation from './StyledBottomNavigation';
 
 const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
   <Head>
@@ -115,7 +116,7 @@ const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
         }}
       >
         <CssBaseline />
-        <AppBar color="secondary">
+        <AppBar color="secondary" elevation={0}>
           <Toolbar
             sx={{
               justifyContent: 'space-between',
@@ -170,6 +171,7 @@ const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
           </Toolbar>
         </AppBar>
         <Fragment>{children}</Fragment>
+        <StyledBottomNavigation />
       </SnackbarProvider>
     </ThemeProvider>
   );

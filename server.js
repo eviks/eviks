@@ -11,9 +11,10 @@ const connectDB = require('./config/db');
 // Connect database
 connectDB();
 
+const hostname = 'localhost';
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
+const app = next({ dev, hostname, port });
 
 const handle = app.getRequestHandler();
 

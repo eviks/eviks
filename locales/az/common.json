@@ -7,5 +7,9 @@
     "apartment": "{{rooms}}-otaqlı mənzil, {{sqm}} м², {{floor}}/{{totalFloors}} mərtəbə",
     "house": "{{rooms}}-otaqlı ev, {{sqm}} м², {{lotSqm}} sot"
   },
-  "favoriteButton": "Seçilmişlərə əlavə et"
+  "favoriteButton": "Seçilmişlərə əlavə et",
+  "bottomNavigationSearch": "Axtarış",
+  "bottomNavigationFavorites": "Seçilmişlər",
+  "bottomNavigationScreenCreate": "Yeni elan",
+  "bottomNavigationScreenProfile": "Profil"
 }

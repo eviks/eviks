@@ -70,10 +70,15 @@ const FavoriteButton: FC<{ postId: number }> = ({ postId }) => {
         aria-label="favorite"
         size="large"
         sx={{
-          backgroundColor: isFavorite ? theme.palette.primary.main : null,
+          zIndex: '200',
+          backgroundColor: isFavorite
+            ? theme.palette.primary.main
+            : theme.palette.background.default,
           color: isFavorite ? theme.palette.background.default : null,
           '&:hover, &.Mui-focusVisible': {
-            backgroundColor: isFavorite ? theme.palette.primary.light : null,
+            backgroundColor: isFavorite
+              ? theme.palette.primary.light
+              : theme.palette.background.default,
           },
         }}
       >

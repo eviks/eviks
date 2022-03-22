@@ -73,10 +73,10 @@ const StyledCarousel: FC<{
     <Carousel
       infiniteLoop={true}
       showStatus={false}
-      showThumbs={width ? width >= 600 : false}
+      showThumbs={width ? width >= 900 : false}
       renderIndicator={renderIndicator}
       renderThumbs={renderThumbs}
-      swipeScrollTolerance={50}
+      swipeScrollTolerance={100}
       preventMovementUntilSwipeScrollTolerance={true}
       onClickItem={onClickItem}
     >
