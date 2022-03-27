@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useContext } from 'react';
 import type { NextPage } from 'next';
-import Container from '@mui/material/Container';
 import { useRouter } from 'next/router';
+import Container from '@mui/material/Container';
 import axios from 'axios';
 import PostItem from '../components/PostItem';
 import { AppContext } from '../store/appContext';

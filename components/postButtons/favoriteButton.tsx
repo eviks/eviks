@@ -1,8 +1,8 @@
 import React, { FC, useContext, useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from '@mui/material/styles';
-import useTranslation from 'next-translate/useTranslation';
 import { useSnackbar } from 'notistack';
 import { AppContext } from '../../store/appContext';
 import {
@@ -82,7 +82,7 @@ const FavoriteButton: FC<{ postId: number }> = ({ postId }) => {
           },
         }}
       >
-        <HeartIcon viewBox="0 0 512 512" />
+        <HeartIcon />
       </IconButton>
     </Tooltip>
   );

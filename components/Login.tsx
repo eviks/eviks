@@ -1,4 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { FC, useState, useContext } from 'react';
+import { useRouter } from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -6,8 +8,6 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { ValidatorForm } from 'react-material-ui-form-validator';
-import { useRouter } from 'next/router';
-import useTranslation from 'next-translate/useTranslation';
 import StyledInput from './StyledInput';
 import ShowPasswordIcon from './icons/ShowPasswordIcon';
 import HidePasswordIcon from './icons/HidePasswordIcon';
@@ -24,7 +24,7 @@ interface LoginState {
   showPassword: boolean;
 }
 
-const Login = () => {
+const Login: FC = () => {
   const { dispatch } = useContext(AppContext);
 
   const { t } = useTranslation();
@@ -160,11 +160,7 @@ const Login = () => {
           sx={{ width: '100%', mt: 2 }}
           action={
             <IconButton aria-label="close" size="small" onClick={closeAlert}>
-              <CloseIcon
-                viewBox="0 0 241.171 241.171"
-                fontSize="inherit"
-                sx={{ p: 0.2 }}
-              />
+              <CloseIcon fontSize="inherit" sx={{ p: 0.2 }} />
             </IconButton>
           }
         >

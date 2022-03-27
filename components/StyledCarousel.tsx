@@ -1,17 +1,18 @@
 import React, { FC } from 'react';
-import { Carousel } from 'react-responsive-carousel';
+import Image from 'next/image';
 import CardMedia from '@mui/material/CardMedia';
 import { useTheme } from '@mui/material/styles';
-import Image from 'next/image';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Carousel } from 'react-responsive-carousel';
 import useWindowSize from '../utils/hooks/useWindowSize';
 
 const StyledCarousel: FC<{
   images: string[];
   imageSize: number;
   thumbSize: number;
+  height: string;
   onClickItem?: (index: number, item: React.ReactNode) => void;
-}> = ({ images, imageSize, thumbSize, onClickItem }) => {
+}> = ({ images, imageSize, thumbSize, height, onClickItem }) => {
   const theme = useTheme();
   const { width } = useWindowSize();
 
@@ -83,6 +84,9 @@ const StyledCarousel: FC<{
       {images.map((image) => {
         return (
           <CardMedia
+            sx={{
+              height,
+            }}
             key={image}
             component="img"
             height={imageSize}

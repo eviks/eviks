@@ -9,7 +9,11 @@
   },
   "favoriteButton": "Добавить в избранное",
   "bottomNavigationSearch": "Поиск",
-  "bottomNavigationFavorites": "Избранное",
   "bottomNavigationScreenCreate": "Добавить",
-  "bottomNavigationScreenProfile": "Профиль"
+  "bottomNavigationScreenProfile": "Профиль",
+  "myPosts": "Мои объявления",
+  "favorites": "Избранное",
+  "profile": "Изменить профиль",
+  "logout": "Выйти",
+  "openUserMenu": "Открыть меню"
 }

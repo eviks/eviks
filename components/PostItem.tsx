@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -8,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import useTranslation from 'next-translate/useTranslation';
 import FavoriteButton from './postButtons/favoriteButton';
 import StyledCarousel from './StyledCarousel';
 import { Post } from '../types';
@@ -84,6 +84,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               images={post.images}
               imageSize={320}
               thumbSize={150}
+              height={'320px'}
               onClickItem={openPost}
             />
             <Hidden mdUp>

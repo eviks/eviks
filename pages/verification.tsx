@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react';
 import type { NextPage } from 'next';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
-import Image from 'next/image';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import useTranslation from 'next-translate/useTranslation';
 import { useTheme } from '@mui/material/styles';
 import CloseIcon from '../components/icons/CloseIcon';
 import { verifyUser, loadUser } from '../actions/auth';
@@ -161,11 +161,7 @@ const Verification: NextPage = () => {
             sx={{ width: '100%', mt: 2 }}
             action={
               <IconButton aria-label="close" size="small" onClick={closeAlert}>
-                <CloseIcon
-                  viewBox="0 0 241.171 241.171"
-                  fontSize="inherit"
-                  sx={{ p: 0.2 }}
-                />
+                <CloseIcon fontSize="inherit" sx={{ p: 0.2 }} />
               </IconButton>
             }
           >

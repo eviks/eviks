@@ -9,7 +9,11 @@
   },
   "favoriteButton": "Seçilmişlərə əlavə et",
   "bottomNavigationSearch": "Axtarış",
-  "bottomNavigationFavorites": "Seçilmişlər",
   "bottomNavigationScreenCreate": "Yeni elan",
-  "bottomNavigationScreenProfile": "Profil"
+  "bottomNavigationScreenProfile": "Profil",
+  "myPosts": "Mənim elanlarım",
+  "favorites": "Seçilmişlər",
+  "profile": "Profili dəyişmək",
+  "logout": "Çıxmaq",
+  "openUserMenu": "Menyu açıq"
 }

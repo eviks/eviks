@@ -4,6 +4,7 @@
   "pages": {
     "*": ["common"],
     "/auth": ["auth"],
-    "/verification": ["verification"]
+    "/verification": ["verification"],
+    "/posts/[id]": ["postDetailed"]
   }
 }

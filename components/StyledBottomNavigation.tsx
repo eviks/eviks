@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Hidden from '@mui/material/Hidden';
 import Paper from '@mui/material/Paper';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import { useTheme, alpha } from '@mui/material/styles';
 import HeartIcon from './icons/HeartIcon';
 import SettingsIcon from './icons/SettingsIcon';
 import PlusIcon from './icons/PlusIcon';
 import SearchIcon from './icons/SearchIcon';
 
-const StyledBottomNavigation = () => {
+const StyledBottomNavigation: FC = () => {
   const { t } = useTranslation();
 
   const router = useRouter();
+
+  const theme = useTheme();
 
   const [value, setValue] = useState<number>(0);
 
@@ -31,25 +34,38 @@ const StyledBottomNavigation = () => {
   return (
     <Hidden mdUp>
       <Paper
-        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: '500' }}
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: '500',
+          backdropFilter: 'blur(20px)',
+          backgroundColor: alpha(theme.palette.background.default, 0.7),
+        }}
         elevation={0}
       >
-        <BottomNavigation showLabels value={value} onChange={handleChange}>
+        <BottomNavigation
+          showLabels
+          value={value}
+          onChange={handleChange}
+          sx={{ backgroundColor: 'transparent' }}
+        >
           <BottomNavigationAction
             label={t('common:bottomNavigationSearch')}
-            icon={<SearchIcon viewBox="0 0 512 512" />}
+            icon={<SearchIcon />}
           />
           <BottomNavigationAction
-            label={t('common:bottomNavigationFavorites')}
-            icon={<HeartIcon viewBox="0 0 512 512" />}
+            label={t('common:favorites')}
+            icon={<HeartIcon />}
           />
           <BottomNavigationAction
             label={t('common:bottomNavigationScreenCreate')}
-            icon={<PlusIcon viewBox="0 0 426.667 426.667" />}
+            icon={<PlusIcon />}
           />
           <BottomNavigationAction
             label={t('common:bottomNavigationScreenProfile')}
-            icon={<SettingsIcon viewBox="0 0 512.001 512.001" />}
+            icon={<SettingsIcon />}
           />
         </BottomNavigation>
       </Paper>

@@ -61,7 +61,7 @@ export interface Post {
 }
 
 export interface User {
-  id: String;
+  _id: String;
   displayName: String;
   email: String;
   createdAt: Date;

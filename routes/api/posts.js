@@ -62,6 +62,27 @@ router.get('/', [postSearch], async (req, res) => {
   }
 });
 
+// @route GET api/posts/:id
+// @desc  Get single post
+// @access Public
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const post = await Post.findById(id);
+
+    // Post not found
+    if (!post) {
+      return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+    }
+
+    return res.json(post);
+  } catch (error) {
+    logger.error(error.message);
+    return res.status(500).send('Server error...');
+  }
+});
+
 // @route POST api/posts
 // @desc  Create post
 // @access Private

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { styled } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
 import InputBase from '@mui/material/InputBase';
@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
 import { ValidatorComponent } from 'react-material-ui-form-validator';
 
-const Input = styled(InputBase)(({ theme }) => {
+const Input: FC = styled(InputBase)(({ theme }) => {
   return {
     '&': {
       borderRadius: 4,

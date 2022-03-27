@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -6,8 +8,6 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { ValidatorForm } from 'react-material-ui-form-validator';
-import useTranslation from 'next-translate/useTranslation';
-import { useRouter } from 'next/router';
 import StyledInput from './StyledInput';
 import ShowPasswordIcon from './icons/ShowPasswordIcon';
 import HidePasswordIcon from './icons/HidePasswordIcon';
@@ -28,7 +28,7 @@ interface ErrorAlert {
   open: boolean;
 }
 
-const Register = () => {
+const Register: FC = () => {
   const router = useRouter();
 
   const { t } = useTranslation();
@@ -176,11 +176,7 @@ const Register = () => {
           sx={{ width: '100%', mt: 2 }}
           action={
             <IconButton aria-label="close" size="small" onClick={closeAlert}>
-              <CloseIcon
-                viewBox="0 0 241.171 241.171"
-                fontSize="inherit"
-                sx={{ p: 0.2 }}
-              />
+              <CloseIcon fontSize="inherit" sx={{ p: 0.2 }} />
             </IconButton>
           }
         >

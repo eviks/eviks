@@ -1,12 +1,12 @@
 import React from 'react';
 import type { NextPage } from 'next';
+import Image from 'next/image';
+import useTranslation from 'next-translate/useTranslation';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Image from 'next/image';
-import useTranslation from 'next-translate/useTranslation';
 import Login from '../components/Login';
 import Register from '../components/Register';
 
