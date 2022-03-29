@@ -5,6 +5,7 @@
     "*": ["common"],
     "/auth": ["auth"],
     "/verification": ["verification"],
-    "/posts/[id]": ["postDetailed"]
+    "/posts/[id]": ["post"],
+    "/create_post": ["post"]
   }
 }

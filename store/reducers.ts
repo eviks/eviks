@@ -1,4 +1,5 @@
 import { Reducer } from 'react';
+import { defaultPost } from '../utils/defaultSettlements';
 import { Post, PostsContext, AuthContext } from '../types';
 
 type ActionMap<M extends { [index: string]: any }> = {
@@ -19,6 +20,7 @@ export enum Types {
   VerifyUser = 'VERIFY_USER',
   AddPostToFavorites = 'ADD_POST_TO_FAVORITES',
   RemovePostFromFavorites = 'REMOVE_POST_FROM_FAVORITES',
+  InitPost = 'INIT_POST',
 }
 
 // PAYLOAD TYPES
@@ -34,17 +36,23 @@ type AuthPayload = {
   [Types.RemovePostFromFavorites]: { [key: string]: boolean };
 };
 
+type PostPayload = {
+  [Types.InitPost]: null;
+};
+
 // ACTION TYPES
 export type PostsActions =
   ActionMap<PostsPayload>[keyof ActionMap<PostsPayload>];
 
 export type AuthActions = ActionMap<AuthPayload>[keyof ActionMap<AuthPayload>];
 
+export type PostActions = ActionMap<PostPayload>[keyof ActionMap<PostPayload>];
+
 // REDUCERS
-export const postsReducer: Reducer<PostsContext, PostsActions | AuthActions> = (
-  state,
-  action,
-) => {
+export const postsReducer: Reducer<
+  PostsContext,
+  PostsActions | AuthActions | PostActions
+> = (state, action) => {
   switch (action.type) {
     case Types.GetPosts:
       return {
@@ -56,10 +64,10 @@ export const postsReducer: Reducer<PostsContext, PostsActions | AuthActions> = (
   }
 };
 
-export const authReducer: Reducer<AuthContext, PostsActions | AuthActions> = (
-  state,
-  action,
-) => {
+export const authReducer: Reducer<
+  AuthContext,
+  PostsActions | AuthActions | PostActions
+> = (state, action) => {
   switch (action.type) {
     case Types.LoadUser:
       return {
@@ -79,6 +87,18 @@ export const authReducer: Reducer<AuthContext, PostsActions | AuthActions> = (
           ? { ...state.user, favorites: action.payload }
           : undefined,
       };
+    default:
+      return state;
+  }
+};
+
+export const postReducer: Reducer<
+  Post,
+  PostsActions | AuthActions | PostActions
+> = (state, action) => {
+  switch (action.type) {
+    case Types.InitPost:
+      return defaultPost;
     default:
       return state;
   }

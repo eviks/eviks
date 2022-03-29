@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -19,6 +20,10 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
 
   const { t } = useTranslation();
 
+  const router = useRouter();
+  const locale =
+    router.defaultLocale !== router.locale ? `/${router.locale}` : '';
+
   const theme = useTheme();
   const { width } = useWindowSize();
 
@@ -38,7 +43,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
   });
 
   const openPost = () => {
-    window.open(`/posts/${post._id}`, '_blank');
+    window.open(`${locale}/posts/${post._id}`, '_blank');
   };
 
   const actionAreaOnClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -102,7 +107,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
         </Grid>
         <Grid item xs={12} md={6}>
           <CardActionArea
-            href={`/posts/${post._id}`}
+            href={`${locale}/posts/${post._id}`}
             target={'_blank'}
             onClick={actionAreaOnClick}
             disableRipple={true}

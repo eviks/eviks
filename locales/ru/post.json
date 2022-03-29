@@ -1,0 +1,19 @@
+{
+  "next": "Далее",
+  "back": "Назад",
+  "userTypeTitle": "Кто вы?",
+  "owner": "Владелец",
+  "agent": "Агент",
+  "estateTypeTitle": "Вид недвижимости",
+  "apartment": "Квартира",
+  "house": "Дом / вилла",
+  "apartmentTypeTitle": "Новостройка или вторичка?",
+  "newBuilding": "Новостройка",
+  "resale": "Вторичка",
+  "dealTypeTitle": "Вид сделки",
+  "sale": "Продать",
+  "rent": "Сдать",
+  "rentPerDay": "Сдать посуточно",
+  "generalInfo": "Общая информация",
+  "location": "Расположение"
+}

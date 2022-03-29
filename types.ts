@@ -58,6 +58,8 @@ export interface Post {
   description: string;
   images: string[];
   price: number;
+  step?: number;
+  lastStep?: number;
 }
 
 export interface User {

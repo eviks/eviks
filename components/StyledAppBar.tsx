@@ -15,6 +15,7 @@ import Cookies from 'js-cookie';
 import UserMenu from './UserMenu';
 import { AppContext } from '../store/appContext';
 import LogoIcon from './icons/LogoIcon';
+import PlusIcon from './icons/PlusIcon';
 
 const StyledAppbar: FC<{
   darkMode: boolean;
@@ -95,6 +96,15 @@ const StyledAppbar: FC<{
               onChange={darkModeToggle}
               sx={{ mr: 2 }}
             />
+            <Link href="/create_post" passHref>
+              <Button
+                variant={'contained'}
+                startIcon={<PlusIcon sx={{ fontSize: '0.85rem !important' }} />}
+                sx={{ mx: 4 }}
+              >
+                {t('common:createPost')}
+              </Button>
+            </Link>
             {auth.user ? (
               <UserMenu user={auth.user} />
             ) : (

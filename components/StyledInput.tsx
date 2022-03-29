@@ -5,6 +5,7 @@ import InputBase from '@mui/material/InputBase';
 import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
 import { ValidatorComponent } from 'react-material-ui-form-validator';
+import ErrorTypography from './ErrorTypography';
 
 const Input: FC = styled(InputBase)(({ theme }) => {
   return {
@@ -35,12 +36,6 @@ const Input: FC = styled(InputBase)(({ theme }) => {
   };
 });
 
-const ErrorTypography = styled('div')(({ theme }) => {
-  return {
-    color: theme.palette.error.main,
-  };
-});
-
 class StyledInput extends ValidatorComponent {
   state = {
     isValid: true,
@@ -57,8 +52,7 @@ class StyledInput extends ValidatorComponent {
           </InputLabel>
         )}
         <Input name={name} value={value} {...input} />
-        <div>{this.errorText()}</div>
-        <Box sx={{ mb: 2 }}></Box>
+        <Box sx={{ mb: 2 }}>{this.errorText()}</Box>
       </FormControl>
     );
   }

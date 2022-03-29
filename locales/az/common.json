@@ -1,5 +1,6 @@
 {
   "errorRequiredField": "Bu sahə boş ola bilməz",
+  "fieldIsRequired": "Zəhmət olmasa, bu sahəni doldurun",
   "authButton": "Daxil olmaq",
   "serverError": "Səhv baş verib, amma biz artıq onu düzəldirik 🔨 Xahiş edirik, bir az gözləyin 🙏",
   "unknownError": "Ups...səhv baş verib 😕",
@@ -15,5 +16,6 @@
   "favorites": "Seçilmişlər",
   "profile": "Profili dəyişmək",
   "logout": "Çıxmaq",
-  "openUserMenu": "Menyu açıq"
+  "openUserMenu": "Menyu açıq",
+  "createPost": "Elanı yerləşdirmək"
 }

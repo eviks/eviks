@@ -1,0 +1,19 @@
+{
+  "next": "Davam etmək",
+  "back": "Geri",
+  "userTypeTitle": "Siz kimsiz?",
+  "owner": "Sahib",
+  "agent": "Agent",
+  "estateTypeTitle": "Emlakın növü",
+  "apartment": "Mənzil",
+  "house": "Ev / villa",
+  "apartmentTypeTitle": "Yeni tikili yoxsa köhnə?",
+  "newBuilding": "Yeni tikili",
+  "resale": "Köhnə tikili",
+  "dealTypeTitle": "Sazişin növü",
+  "sale": "Satış",
+  "rent": "Kirayə",
+  "rentPerDay": "Günlük kirayə",
+  "generalInfo": "Ümumi məlumat",
+  "location": "Xəritə"
+}

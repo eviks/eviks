@@ -42,7 +42,7 @@ const PostDetailed: NextPage<PostDetailedProps> = ({ post }) => {
         fontSize={'1.5rem'}
         margin={'40px 0 4px'}
       >
-        {t('postDetailed:location')}
+        {t('post:location')}
       </Typography>
       <PostDetailedMap post={post} height={mapHeight} />
     </Container>
