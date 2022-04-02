@@ -18,10 +18,11 @@ class StyledToggleButton extends ValidatorComponent {
   };
 
   renderValidatorComponent() {
-    const { value, onChange, values } = this.props;
+    const { value, title, onChange, values } = this.props;
 
     return (
       <Fragment>
+        <Typography>{title}</Typography>
         <ToggleButtonGroup
           color="primary"
           value={value}
@@ -30,7 +31,14 @@ class StyledToggleButton extends ValidatorComponent {
         >
           {(values as Values[]).map((element, index) => {
             return (
-              <ToggleButton key={index} value={element.value}>
+              <ToggleButton
+                key={index}
+                value={element.value}
+                sx={{
+                  width: { xs: '110px', md: '120px' },
+                  height: { xs: '110px', md: '120px' },
+                }}
+              >
                 <Box
                   sx={{
                     display: 'flex',

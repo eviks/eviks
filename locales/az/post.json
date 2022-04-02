@@ -9,11 +9,12 @@
   "house": "Ev / villa",
   "apartmentTypeTitle": "Yeni tikili yoxsa köhnə?",
   "newBuilding": "Yeni tikili",
-  "resale": "Köhnə tikili",
+  "secondaryBuilding": "Köhnə tikili",
   "dealTypeTitle": "Sazişin növü",
   "sale": "Satış",
   "rent": "Kirayə",
   "rentPerDay": "Günlük kirayə",
   "generalInfo": "Ümumi məlumat",
-  "location": "Xəritə"
+  "location": "Xəritə",
+  "address": "Ünvan"
 }

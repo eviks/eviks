@@ -9,11 +9,12 @@
   "house": "Дом / вилла",
   "apartmentTypeTitle": "Новостройка или вторичка?",
   "newBuilding": "Новостройка",
-  "resale": "Вторичка",
+  "secondaryBuilding": "Вторичка",
   "dealTypeTitle": "Вид сделки",
   "sale": "Продать",
   "rent": "Сдать",
   "rentPerDay": "Сдать посуточно",
   "generalInfo": "Общая информация",
-  "location": "Расположение"
+  "location": "Расположение",
+  "address": "Адрес"
 }
