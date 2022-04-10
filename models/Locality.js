@@ -11,9 +11,20 @@ const LocalitySchema = new mongoose.Schema({
     required: true,
     index: true,
   },
+  nameRu: {
+    type: String,
+    required: true,
+    index: true,
+  },
+  nameEn: {
+    type: String,
+    required: true,
+    index: true,
+  },
   routeName: {
     type: String,
     index: true,
+    required: true,
   },
   type: {
     type: String,

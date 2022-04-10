@@ -67,7 +67,7 @@ export const loginUser = (email: string, password: string) => {
     };
 
     try {
-      const response = await axios.post(
+      const response = await axios.post<{ token: string }>(
         '/api/auth',
         { email, password },
         config,
@@ -98,7 +98,7 @@ export const verifyUser = (email: string, activationToken: string) => {
     };
 
     try {
-      const response = await axios.post(
+      const response = await axios.post<{ token: string }>(
         '/api/auth/verification',
         { email, activationToken },
         config,
@@ -129,11 +129,9 @@ export const addPostToFavorites = (postId: number, token: string) => {
     };
 
     try {
-      const response = await axios.put(
-        `/api/users/add_to_favorites/${postId}`,
-        null,
-        config,
-      );
+      const response = await axios.put<{
+        favorites: { [key: string]: boolean };
+      }>(`/api/users/add_to_favorites/${postId}`, null, config);
 
       dispatch({
         type: Types.AddPostToFavorites,
@@ -163,11 +161,9 @@ export const removePostFromFavorites = (postId: number, token: string) => {
     };
 
     try {
-      const response = await axios.put(
-        `/api/users/remove_from_favorites/${postId}`,
-        null,
-        config,
-      );
+      const response = await axios.put<{
+        favorites: { [key: string]: boolean };
+      }>(`/api/users/remove_from_favorites/${postId}`, null, config);
 
       dispatch({
         type: Types.AddPostToFavorites,

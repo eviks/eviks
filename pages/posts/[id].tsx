@@ -18,7 +18,7 @@ const PostDetailed: NextPage<PostDetailedProps> = ({ post }) => {
 
   const { width } = useWindowSize();
 
-  const mapHeight = width && width > 900 ? 400 : 200;
+  const mapHeight = width && width >= 900 ? 400 : 200;
 
   const PostDetailedMap = useMemo(() => {
     return dynamic(import('../../components/post/PostDetailedMap'), {
@@ -32,9 +32,9 @@ const PostDetailed: NextPage<PostDetailedProps> = ({ post }) => {
     <Container sx={{ pt: 10 }}>
       <StyledCarousel
         images={post.images}
-        imageSize={width && width > 900 ? 640 : 320}
+        imageSize={width && width >= 900 ? 640 : 320}
         thumbSize={150}
-        height={width && width > 900 ? '500px' : '320px'}
+        height={width && width >= 900 ? '500px' : '320px'}
       />
       <Typography
         variant={'h2'}

@@ -33,8 +33,11 @@ export enum Renovation {
 export interface Settlement {
   id: string;
   name: string;
-  x?: number;
-  y?: number;
+  nameRu: string;
+  nameEn: string;
+  routeName: string;
+  x: number;
+  y: number;
   children?: Settlement[];
 }
 
@@ -45,7 +48,7 @@ export interface Post {
   estateType: EstateType;
   apartmentType?: ApartmentType;
   dealType: DealType;
-  location: number[];
+  location: [number, number];
   city: Settlement;
   district: Settlement;
   subdistrict?: Settlement;
@@ -85,4 +88,19 @@ export interface PostsContext {
 export interface AuthContext {
   token?: string;
   user?: User;
+}
+
+export interface MapState {
+  location: [number, number];
+  city: Settlement;
+  district?: Settlement;
+  subdistrict?: Settlement;
+  address: string;
+}
+
+export interface Address {
+  name: string;
+  address: string;
+  longitude: number;
+  latitude: number;
 }

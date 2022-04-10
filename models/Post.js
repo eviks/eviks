@@ -27,6 +27,8 @@ const PostSchema = new mongoose.Schema(
     city: {
       type: {
         name: String,
+        nameRu: String,
+        nameEn: String,
         id: String,
       },
       required: true,
@@ -35,6 +37,8 @@ const PostSchema = new mongoose.Schema(
     district: {
       type: {
         name: String,
+        nameRu: String,
+        nameEn: String,
         id: String,
       },
       required: true,
@@ -43,6 +47,8 @@ const PostSchema = new mongoose.Schema(
     subdistrict: {
       type: {
         name: String,
+        nameRu: String,
+        nameEn: String,
         id: String,
       },
       index: true,

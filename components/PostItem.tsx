@@ -14,6 +14,7 @@ import FavoriteButton from './postButtons/favoriteButton';
 import StyledCarousel from './StyledCarousel';
 import { Post } from '../types';
 import useWindowSize from '../utils/hooks/useWindowSize';
+import getSettlementPresentation from '../utils/getSettlementPresentation';
 
 const PostItem: FC<{ post: Post }> = ({ post }) => {
   const [elevation, setElevation] = useState<number>(0);
@@ -146,7 +147,9 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                 {formatter.format(post.price)}
               </Typography>
               <Typography variant="h5">
-                {post.subdistrict ? post.subdistrict.name : post.district.name}
+                {post.subdistrict
+                  ? getSettlementPresentation(post.subdistrict)
+                  : getSettlementPresentation(post.district)}
               </Typography>
               <Hidden smDown>
                 <Typography color={theme.palette.grey[500]}>

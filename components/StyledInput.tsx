@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import { ValidatorComponent } from 'react-material-ui-form-validator';
 import ErrorTypography from './ErrorTypography';
 
-const Input: FC = styled(InputBase)(({ theme }) => {
+const StyledInputBase: FC = styled(InputBase)(({ theme }) => {
   return {
     '&': {
       borderRadius: 4,
@@ -51,7 +51,7 @@ class StyledInput extends ValidatorComponent {
             {label}
           </InputLabel>
         )}
-        <Input name={name} value={value} {...input} />
+        <StyledInputBase name={name} value={value} {...input} />
         <Box sx={{ mb: 2 }}>{this.errorText()}</Box>
       </FormControl>
     );

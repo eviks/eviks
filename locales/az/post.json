@@ -16,5 +16,6 @@
   "rentPerDay": "Günlük kirayə",
   "generalInfo": "Ümumi məlumat",
   "location": "Xəritə",
-  "address": "Ünvan"
+  "address": "Ünvan",
+  "errorAddress": "Zəhmət olmasa, emlakın ünvanı göstərin"
 }

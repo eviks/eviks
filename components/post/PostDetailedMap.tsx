@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import L from 'leaflet';
+import { icon } from 'leaflet';
 import { Post } from '../../types';
 import 'leaflet/dist/leaflet.css';
 
@@ -8,7 +8,7 @@ const PostDetailedMap: FC<{ post: Post; height: number }> = ({
   post,
   height,
 }) => {
-  const customIcon = L.icon({
+  const customIcon = icon({
     iconUrl: '/svg/location.svg',
     iconSize: [60, 55],
     iconAnchor: [30, 50],

@@ -7,6 +7,7 @@ import PostItem from '../components/PostItem';
 import { AppContext } from '../store/appContext';
 import { Types } from '../store/reducers';
 import { setURLParams } from '../utils/urlParams';
+import { Post } from '../types';
 
 interface QueryParams {
   slug: string[];
@@ -40,7 +41,7 @@ const Posts: NextPage = () => {
 
       const url = setURLParams(searchParams);
 
-      const response = await axios.get(
+      const response = await axios.get<{ result: Post[] }>(
         `/api/posts/?${url && `${url}&`}limit=${15}&page=1`,
       );
       dispatch({ type: Types.GetPosts, payload: response.data.result });
