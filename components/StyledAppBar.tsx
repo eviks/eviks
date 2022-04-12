@@ -96,7 +96,7 @@ const StyledAppbar: FC<{
               onChange={darkModeToggle}
               sx={{ mr: 2 }}
             />
-            <Link href="/create_post" passHref>
+            <Link href="/edit_post" passHref>
               <Button
                 variant={'contained'}
                 startIcon={<PlusIcon sx={{ fontSize: '0.85rem !important' }} />}

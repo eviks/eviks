@@ -7,10 +7,11 @@ import Hidden from '@mui/material/Hidden';
 import { AppContext } from '../store/appContext';
 import EditPostStepper from '../components/editPost/EditPostStepper';
 import EditPostGeneralInfo from '../components/editPost/EditPostGeneralInfo';
+import EditPostMetro from '../components/editPost/EditPostMetro';
 import { initPost } from '../actions/post';
 import useWindowSize from '../utils/hooks/useWindowSize';
 
-const CreatePost: NextPage = () => {
+const EditPost: NextPage = () => {
   const {
     state: { post },
     dispatch,
@@ -39,6 +40,8 @@ const CreatePost: NextPage = () => {
         return <EditPostGeneralInfo />;
       case 1:
         return <EditPostMap height={mapHeight} />;
+      case 2:
+        return <EditPostMetro />;
       default:
         return <EditPostGeneralInfo />;
     }
@@ -59,4 +62,4 @@ const CreatePost: NextPage = () => {
   );
 };
 
-export default CreatePost;
+export default EditPost;

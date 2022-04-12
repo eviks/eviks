@@ -1,18 +1,26 @@
 import React, { FC, useContext, useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Hidden from '@mui/material/Hidden';
+import Button from '@mui/material/Button';
 import { useTheme, alpha } from '@mui/material/styles';
 import LocationMarker from './LocationMarker';
 import AddressInput from './AddressInput';
 import { AppContext } from '../../../store/appContext';
+import { updatePost } from '../../../actions/post';
 import { MapState } from '../../../types';
 import 'leaflet/dist/leaflet.css';
 
 const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
+  const { t } = useTranslation();
+
   const {
     state: { post },
+    dispatch,
   } = useContext(AppContext);
 
   const theme = useTheme();
@@ -27,7 +35,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { city, district, subdistrict, location, address } = mapstate;
+  const { city, district, location, address } = mapstate;
 
   const mapCenter: [number, number] =
     post.location[0] === 0 && post.location[1] === 0
@@ -36,19 +44,67 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    updatePost({
+      ...post,
+      ...mapstate,
+      step: 2,
+      lastStep: Math.max(1, post.lastStep ?? 1),
+    })(dispatch);
+  };
+
+  const handlePrevStepClick = () => {
+    updatePost({ ...post, ...mapstate, step: 0, lastStep: 1 })(dispatch);
   };
 
   return (
     <Container
       disableGutters
-      sx={{ py: { md: 5, xs: 0 }, px: { md: 10, sx: 0 } }}
+      sx={{
+        py: { md: 5, xs: 0 },
+        px: { md: 10, sx: 0 },
+        height: { xs: '100vh', md: 'auto' },
+      }}
     >
       <ValidatorForm onSubmit={handleSubmit}>
-        {`${city.name} ${district?.name}`}
-        <AddressInput city={city} address={address} setMapState={setMapState} />
+        <Hidden mdUp>
+          <Box
+            sx={{
+              position: 'absolute',
+              display: 'flex',
+              alignItems: 'end',
+              zIndex: 1000,
+              px: 3,
+              width: '100%',
+              pt: 10,
+              overflow: 'auto',
+              backgroundColor: theme.palette.background.default,
+              borderRadius: '0px 0px 24px 24px',
+            }}
+          >
+            <Box sx={{ width: '100%' }}>
+              {`${city.name} ${district?.name}`}
+              <AddressInput
+                city={city}
+                address={address}
+                setMapState={setMapState}
+                setMapStateLoading={setLoading}
+              />
+            </Box>
+          </Box>
+        </Hidden>
+        <Hidden mdDown>
+          <AddressInput
+            city={city}
+            address={address}
+            setMapState={setMapState}
+            setMapStateLoading={setLoading}
+          />
+        </Hidden>
         <MapContainer
           center={mapCenter}
           zoom={13}
+          zoomControl={false}
           style={{
             height,
             width: '100%',
@@ -82,6 +138,29 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
             setLoading={setLoading}
           />
         </MapContainer>
+        <Container
+          sx={{
+            position: { xs: 'absolute', md: 'initial' },
+            bottom: 0,
+            display: 'flex',
+            justifyContent: 'space-between',
+            mb: { xs: 10, md: 0 },
+            zIndex: 1000,
+          }}
+        >
+          <Button
+            type={'button'}
+            variant="contained"
+            color="secondary"
+            sx={{ mt: 1, py: 1 }}
+            onClick={handlePrevStepClick}
+          >
+            {t('post:back')}
+          </Button>
+          <Button type="submit" variant="contained" sx={{ mt: 1, py: 1 }}>
+            {t('post:next')}
+          </Button>
+        </Container>
       </ValidatorForm>
     </Container>
   );

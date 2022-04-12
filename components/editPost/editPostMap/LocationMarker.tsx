@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Marker, useMapEvents } from 'react-leaflet';
 import { icon } from 'leaflet';
 import { getAddressByCoords } from '../../../actions/post';
@@ -16,8 +16,6 @@ const LocationMarker: FC<{
       setMapState((prevState) => {
         return { ...prevState, location: [event.latlng.lng, event.latlng.lat] };
       });
-
-      map.flyTo(event.latlng, map.getZoom());
 
       try {
         const response = await getAddressByCoords({
@@ -39,6 +37,11 @@ const LocationMarker: FC<{
       setLoading(false);
     },
   });
+
+  useEffect(() => {
+    if (location[0] !== 0 && location[1] !== 0)
+      map.flyTo([location[1], location[0]], map.getZoom());
+  }, [map, location]);
 
   const customIcon = icon({
     iconUrl: '/svg/location.svg',

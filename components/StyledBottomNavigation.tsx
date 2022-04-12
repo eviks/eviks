@@ -27,7 +27,7 @@ const StyledBottomNavigation: FC = () => {
     setValue(newValue);
     if (newValue === 0) router.push({ pathname: '/' });
     if (newValue === 1) router.push({ pathname: '/favorites' });
-    if (newValue === 2) router.push({ pathname: '/create_post' });
+    if (newValue === 2) router.push({ pathname: '/edit_post' });
     if (newValue === 3) router.push({ pathname: '/profile' });
   };
 
@@ -39,7 +39,7 @@ const StyledBottomNavigation: FC = () => {
           bottom: 0,
           left: 0,
           right: 0,
-          zIndex: '500',
+          zIndex: '1000',
           backdropFilter: 'blur(20px)',
           backgroundColor: alpha(theme.palette.background.default, 0.7),
         }}

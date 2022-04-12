@@ -90,9 +90,12 @@ const EditPostGeneralInfo: FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    updatePost({ ...post, ...generalInfoState, step: 1, lastStep: 0 })(
-      dispatch,
-    );
+    updatePost({
+      ...post,
+      ...generalInfoState,
+      step: 1,
+      lastStep: Math.max(0, post.lastStep ?? 0),
+    })(dispatch);
   };
 
   return (

@@ -3,16 +3,22 @@ import useTranslation from 'next-translate/useTranslation';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 import StyledInput from '../../StyledInput';
-import { geocoder } from '../../../actions/post';
+import { geocoder, getAddressByCoords } from '../../../actions/post';
 import { MapState, Settlement, Address } from '../../../types';
 
 const AddressInput: FC<{
   city: Settlement;
   address: string;
   setMapState: React.Dispatch<React.SetStateAction<MapState>>;
-}> = ({ city, address, setMapState }) => {
+  setMapStateLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ city, address, setMapState, setMapStateLoading }) => {
   const { t } = useTranslation();
+
+  const theme = useTheme();
 
   const [open, setOpen] = useState<boolean>(false);
   const [options, setOptions] = useState<Address[]>([]);
@@ -48,6 +54,35 @@ const AddressInput: FC<{
     }, duration);
   };
 
+  const handleAutocompleteChange = async (
+    _event: React.SyntheticEvent<Element, Event>,
+    newValue: Address | string,
+  ) => {
+    if (typeof newValue === 'string') return;
+
+    setMapStateLoading(true);
+
+    try {
+      const response = await getAddressByCoords({
+        lng: 'az',
+        x: newValue.longitude,
+        y: newValue.latitude,
+      });
+
+      setMapState((prevState) => {
+        return {
+          ...prevState,
+          ...response,
+          location: [newValue.longitude, newValue.latitude],
+        };
+      });
+    } catch (error) {
+      // no user notification
+    }
+
+    setMapStateLoading(false);
+  };
+
   useEffect(() => {
     if (!open) {
       setOptions([]);
@@ -76,26 +111,9 @@ const AddressInput: FC<{
       }}
       options={options}
       fullWidth
-      onChange={(
-        _event: React.SyntheticEvent<Element, Event>,
-        newValue: Address | string,
-      ) => {
-        setMapState((prevState) => {
-          return {
-            ...prevState,
-            address:
-              typeof newValue === 'string' ? newValue : newValue?.address ?? '',
-          };
-        });
-      }}
+      onChange={handleAutocompleteChange}
       PaperComponent={(props) => {
         return <Paper sx={{ mt: 1 }} {...props} />;
-      }}
-      sx={{
-        position: { xs: 'absolute', md: 'initial' },
-        zIndex: 1000,
-        mt: { xs: 10, md: 0 },
-        px: { xs: 3, md: 0 },
       }}
       renderInput={(params) => {
         const inputProps = { ...params.inputProps, value: address };
@@ -129,7 +147,16 @@ const AddressInput: FC<{
         );
       }}
       renderOption={(props, option) => {
-        return <li {...props}>{option.address}</li>;
+        return (
+          <li {...props}>
+            <Box>
+              <Typography>{option.address}</Typography>
+              <Typography variant="subtitle1" color={theme.palette.grey[500]}>
+                {option.name}
+              </Typography>
+            </Box>
+          </li>
+        );
       }}
     />
   );
