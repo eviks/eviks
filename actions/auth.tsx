@@ -114,6 +114,19 @@ export const verifyUser = (email: string, activationToken: string) => {
     }
   };
 };
+export const logout = () => {
+  return async (
+    dispatch: Dispatch<{
+      type: Types.Logout;
+      payload: null;
+    }>,
+  ) => {
+    dispatch({
+      type: Types.Logout,
+      payload: null,
+    });
+  };
+};
 
 export const addPostToFavorites = (postId: number, token: string) => {
   return async (

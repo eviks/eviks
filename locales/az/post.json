@@ -17,5 +17,7 @@
   "generalInfo": "Ümumi məlumat",
   "location": "Xəritə",
   "address": "Ünvan",
-  "errorAddress": "Zəhmət olmasa, emlakın ünvanı göstərin"
+  "errorAddress": "Zəhmət olmasa, emlakın ünvanı göstərin",
+  "metroStation": "Metro stansiyası",
+  "metro": "Metro"
 }

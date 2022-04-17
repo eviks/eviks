@@ -11,6 +11,8 @@ import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { makeStyles } from '@mui/styles/';
 import { SnackbarProvider, SnackbarKey } from 'notistack';
 import { AppContext } from '../store/appContext';
@@ -32,19 +34,21 @@ const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
 
   const { dispatch } = useContext(AppContext);
 
+  const [darkMode, setDarkMode] = useState(initDarkMode);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const loadUserFromToken = useCallback(async () => {
     try {
       await loadUser()(dispatch);
     } catch (error) {
       //
     }
+    setLoading(false);
   }, [dispatch]);
 
   useEffect(() => {
     loadUserFromToken();
   }, [loadUserFromToken]);
-
-  const [darkMode, setDarkMode] = useState(initDarkMode);
 
   const notistackRef = createRef<SnackbarProvider>();
   const onClickDismiss = (key: SnackbarKey) => {
@@ -87,7 +91,23 @@ const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
       >
         <CssBaseline />
         <StyledAppbar darkMode={darkMode} setDarkMode={setDarkMode} />
-        <Fragment>{children}</Fragment>
+        <Fragment>
+          {loading ? (
+            <Backdrop
+              open={true}
+              sx={{
+                color: '#fff',
+                zIndex: (theme) => {
+                  return theme.zIndex.drawer + 1;
+                },
+              }}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          ) : (
+            children
+          )}
+        </Fragment>
         <StyledBottomNavigation />
       </SnackbarProvider>
     </ThemeProvider>

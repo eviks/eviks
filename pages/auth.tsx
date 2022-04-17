@@ -7,8 +7,8 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Login from '../components/Login';
-import Register from '../components/Register';
+import Login from '../components/auth/Login';
+import Register from '../components/auth/Register';
 
 interface TabPanelProps {
   children?: React.ReactNode;

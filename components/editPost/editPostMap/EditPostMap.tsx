@@ -48,7 +48,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
     updatePost({
       ...post,
       ...mapstate,
-      step: 2,
+      step: city.metroStations ? 2 : 3,
       lastStep: Math.max(1, post.lastStep ?? 1),
     })(dispatch);
   };

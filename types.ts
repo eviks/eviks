@@ -30,6 +30,16 @@ export enum Renovation {
   noRenovation = 'noRenovation',
 }
 
+export interface MetroStation {
+  _id: String;
+  cityId: string;
+  name: string;
+  nameRu: string;
+  nameEn: string;
+  x: number;
+  y: number;
+}
+
 export interface Settlement {
   id: string;
   name: string;
@@ -39,6 +49,7 @@ export interface Settlement {
   x: number;
   y: number;
   children?: Settlement[];
+  metroStations?: MetroStation[];
 }
 
 export interface Post {
@@ -53,6 +64,7 @@ export interface Post {
   district: Settlement;
   subdistrict?: Settlement;
   address: string;
+  metroStation?: MetroStation;
   rooms: number;
   lotSqm: number;
   floor: number;

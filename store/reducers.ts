@@ -18,6 +18,7 @@ export enum Types {
   LoadUser = 'LOAD_USER',
   LoginUser = 'LOGIN_USER',
   VerifyUser = 'VERIFY_USER',
+  Logout = 'LOGOUT',
   AddPostToFavorites = 'ADD_POST_TO_FAVORITES',
   RemovePostFromFavorites = 'REMOVE_POST_FROM_FAVORITES',
   InitPost = 'INIT_POST',
@@ -33,6 +34,7 @@ type AuthPayload = {
   [Types.LoadUser]: AuthContext;
   [Types.LoginUser]: string;
   [Types.VerifyUser]: string;
+  [Types.Logout]: null;
   [Types.AddPostToFavorites]: { [key: string]: boolean };
   [Types.RemovePostFromFavorites]: { [key: string]: boolean };
 };
@@ -81,6 +83,8 @@ export const authReducer: Reducer<
         ...state,
         token: action.payload,
       };
+    case Types.Logout:
+      return {};
     case Types.AddPostToFavorites:
     case Types.RemovePostFromFavorites:
       return {

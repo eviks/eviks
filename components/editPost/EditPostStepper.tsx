@@ -10,11 +10,12 @@ import StepConnector, {
 } from '@mui/material/StepConnector';
 import InformationIcon from '../icons/InformationIcon';
 import MarkerIcon from '../icons/MarkerIcon';
+import MetroIcon from '../icons/MetroIcon';
 
 const EditPostStepper: FC<{ step: number }> = ({ step }) => {
   const { t } = useTranslation();
 
-  const steps = [t('post:generalInfo'), t('post:address')];
+  const steps = [t('post:generalInfo'), t('post:address'), t('post:metro')];
 
   const ColorlibConnector = styled(StepConnector)(({ theme }) => {
     return {
@@ -75,6 +76,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
     const icons: { [index: string]: React.ReactElement } = {
       1: <InformationIcon />,
       2: <MarkerIcon />,
+      3: <MetroIcon />,
     };
 
     return (

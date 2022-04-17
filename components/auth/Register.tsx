@@ -8,13 +8,13 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { ValidatorForm } from 'react-material-ui-form-validator';
-import StyledInput from './StyledInput';
-import ShowPasswordIcon from './icons/ShowPasswordIcon';
-import HidePasswordIcon from './icons/HidePasswordIcon';
-import CloseIcon from './icons/CloseIcon';
-import { registerUser } from '../actions/auth';
-import Failure from '../utils/errors/failure';
-import ServerError from '../utils/errors/serverError';
+import StyledInput from '../StyledInput';
+import ShowPasswordIcon from '../icons/ShowPasswordIcon';
+import HidePasswordIcon from '../icons/HidePasswordIcon';
+import CloseIcon from '../icons/CloseIcon';
+import { registerUser } from '../../actions/auth';
+import Failure from '../../utils/errors/failure';
+import ServerError from '../../utils/errors/serverError';
 
 interface RegisterState {
   displayName: string;

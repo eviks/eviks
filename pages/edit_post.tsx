@@ -1,5 +1,6 @@
-import React, { useEffect, useContext, useMemo } from 'react';
+import React, { useEffect, useContext, useMemo, useState } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -12,10 +13,23 @@ import { initPost } from '../actions/post';
 import useWindowSize from '../utils/hooks/useWindowSize';
 
 const EditPost: NextPage = () => {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState<boolean>(true);
+
   const {
-    state: { post },
+    state: { post, auth },
     dispatch,
   } = useContext(AppContext);
+
+  useEffect(() => {
+    // Check user authentication
+    if (!auth.token) {
+      router.replace('/auth');
+    } else {
+      setLoading(false);
+    }
+  }, [auth.token, router]);
 
   useEffect(() => {
     initPost()(dispatch);
@@ -46,6 +60,8 @@ const EditPost: NextPage = () => {
         return <EditPostGeneralInfo />;
     }
   };
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <Container

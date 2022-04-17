@@ -39,6 +39,41 @@ const LocalitySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  metroStations: {
+    type: [
+      {
+        id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'metroStations',
+          required: true,
+        },
+        cityId: {
+          type: String,
+          required: true,
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+        nameRu: {
+          type: String,
+          required: true,
+        },
+        nameEn: {
+          type: String,
+          required: true,
+        },
+        x: {
+          type: Number,
+          required: true,
+        },
+        y: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+  },
   children: Array,
 });
 

@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
+      ref: 'users',
       required: true,
       index: true,
     },
@@ -26,30 +26,36 @@ const PostSchema = new mongoose.Schema(
     },
     city: {
       type: {
+        id: String,
         name: String,
         nameRu: String,
         nameEn: String,
-        id: String,
+        x: Number,
+        y: Number,
       },
       required: true,
       index: true,
     },
     district: {
       type: {
+        id: String,
         name: String,
         nameRu: String,
         nameEn: String,
-        id: String,
+        x: Number,
+        y: Number,
       },
       required: true,
       index: true,
     },
     subdistrict: {
       type: {
+        id: String,
         name: String,
         nameRu: String,
         nameEn: String,
-        id: String,
+        x: Number,
+        y: Number,
       },
       index: true,
     },
@@ -57,6 +63,38 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
       index: true,
+    },
+    metroStation: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'metroStations',
+        required: true,
+        index: true,
+      },
+      cityId: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      nameRu: {
+        type: String,
+        required: true,
+      },
+      nameEn: {
+        type: String,
+        required: true,
+      },
+      x: {
+        type: Number,
+        required: true,
+      },
+      y: {
+        type: Number,
+        required: true,
+      },
     },
     location: {
       type: [Number, Number],
@@ -275,6 +313,6 @@ const PostSchema = new mongoose.Schema(
   },
 );
 
-const Post = mongoose.model('post', PostSchema);
+const Post = mongoose.model('posts', PostSchema);
 
 module.exports = Post;

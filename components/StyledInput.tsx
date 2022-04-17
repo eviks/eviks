@@ -47,7 +47,7 @@ class StyledInput extends ValidatorComponent {
     return (
       <FormControl fullWidth={input?.fullWidth} variant="standard">
         {label && (
-          <InputLabel shrink htmlFor={input.id}>
+          <InputLabel shrink htmlFor={input.id} sx={{ fontSize: '1.2rem' }}>
             {label}
           </InputLabel>
         )}

@@ -1,4 +1,4 @@
-import React, { Fragment, FC, useState } from 'react';
+import React, { Fragment, FC, useState, useContext } from 'react';
 import Link from 'next/link';
 import useTranslation from 'next-translate/useTranslation';
 import Avatar from '@mui/material/Avatar';
@@ -15,10 +15,14 @@ import HeartIcon from './icons/HeartIcon';
 import SettingsIcon from './icons/SettingsIcon';
 import LogoutIcon from './icons/LogoutIcon';
 import BookmarkIcon from './icons/BookmarkIcon';
+import { logout } from '../actions/auth';
+import { AppContext } from '../store/appContext';
 import { User } from '../types';
 
 const UserMenu: FC<{ user: User }> = ({ user }) => {
   const { t } = useTranslation();
+
+  const { dispatch } = useContext(AppContext);
 
   const settings = [
     {
@@ -36,12 +40,6 @@ const UserMenu: FC<{ user: User }> = ({ user }) => {
       route: '/settings',
       icon: <SettingsIcon />,
     },
-    {
-      name: t('common:logout'),
-      route: '/logout',
-      icon: <LogoutIcon />,
-      divider: true,
-    },
   ];
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -52,6 +50,10 @@ const UserMenu: FC<{ user: User }> = ({ user }) => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    logout()(dispatch);
   };
 
   return (
@@ -84,7 +86,6 @@ const UserMenu: FC<{ user: User }> = ({ user }) => {
         {settings.map((setting, index) => {
           return (
             <Box key={index}>
-              {setting.divider && <Divider sx={{ my: 1 }} />}
               <Link href={setting.route} passHref>
                 <a>
                   <MenuItem onClick={handleCloseUserMenu}>
@@ -96,6 +97,15 @@ const UserMenu: FC<{ user: User }> = ({ user }) => {
             </Box>
           );
         })}
+        <Box>
+          <Divider sx={{ my: 1 }} />
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText>{t('common:logout')}</ListItemText>
+          </MenuItem>
+        </Box>
       </Menu>
     </Fragment>
   );

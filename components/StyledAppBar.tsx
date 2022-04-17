@@ -16,6 +16,7 @@ import UserMenu from './UserMenu';
 import { AppContext } from '../store/appContext';
 import LogoIcon from './icons/LogoIcon';
 import PlusIcon from './icons/PlusIcon';
+import useWindowSize from '../utils/hooks/useWindowSize';
 
 const StyledAppbar: FC<{
   darkMode: boolean;
@@ -25,6 +26,9 @@ const StyledAppbar: FC<{
   const router = useRouter();
 
   const theme = useTheme();
+  const { width } = useWindowSize();
+
+  const lgScreen = (width && width > 1280) || false;
 
   const {
     state: { auth },
@@ -53,12 +57,22 @@ const StyledAppbar: FC<{
     >
       <Toolbar
         sx={{
-          justifyContent: 'space-between',
+          justifyContent: {
+            md: lgScreen ? 'end' : 'space-between',
+            xs: 'center',
+          },
         }}
       >
-        <Box />
         <Link href="/" passHref>
-          <MaterialLink underline="none">
+          <MaterialLink
+            underline="none"
+            sx={{
+              position: lgScreen ? 'absolute' : 'initial',
+              top: lgScreen ? '50%' : 'auto',
+              left: lgScreen ? '50%' : 'auto',
+              transform: lgScreen ? 'translate(-50%, -50%)' : 'auto',
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
@@ -75,27 +89,7 @@ const StyledAppbar: FC<{
         </Link>
         <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
           <Hidden mdDown>
-            <Box sx={{ mr: 2 }}>
-              {router.locales?.map((locale) => {
-                return router.locale !== locale ? (
-                  <Button
-                    key={locale}
-                    variant="text"
-                    color="inherit"
-                    onClick={() => {
-                      return switchLanguage(locale);
-                    }}
-                  >
-                    {locale}
-                  </Button>
-                ) : null;
-              })}
-            </Box>
-            <Switch
-              checked={darkMode}
-              onChange={darkModeToggle}
-              sx={{ mr: 2 }}
-            />
+            <Switch checked={darkMode} onChange={darkModeToggle} />
             <Link href="/edit_post" passHref>
               <Button
                 variant={'contained'}
@@ -112,6 +106,22 @@ const StyledAppbar: FC<{
                 <Button> {t('common:authButton')}</Button>
               </Link>
             )}
+            <Box sx={{ mx: 2 }}>
+              {router.locales?.map((locale) => {
+                return router.locale !== locale ? (
+                  <Button
+                    key={locale}
+                    variant="text"
+                    color="inherit"
+                    onClick={() => {
+                      return switchLanguage(locale);
+                    }}
+                  >
+                    {locale}
+                  </Button>
+                ) : null;
+              })}
+            </Box>
           </Hidden>
         </Box>
       </Toolbar>

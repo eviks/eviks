@@ -8,15 +8,15 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { ValidatorForm } from 'react-material-ui-form-validator';
-import StyledInput from './StyledInput';
-import ShowPasswordIcon from './icons/ShowPasswordIcon';
-import HidePasswordIcon from './icons/HidePasswordIcon';
-import CloseIcon from './icons/CloseIcon';
-import { AppContext } from '../store/appContext';
-import { loadUser, loginUser } from '../actions/auth';
-import Failure from '../utils/errors/failure';
-import ServerError from '../utils/errors/serverError';
-import { ErrorAlert } from '../types';
+import StyledInput from '../StyledInput';
+import ShowPasswordIcon from '../icons/ShowPasswordIcon';
+import HidePasswordIcon from '../icons/HidePasswordIcon';
+import CloseIcon from '../icons/CloseIcon';
+import { AppContext } from '../../store/appContext';
+import { loadUser, loginUser } from '../../actions/auth';
+import Failure from '../../utils/errors/failure';
+import ServerError from '../../utils/errors/serverError';
+import { ErrorAlert } from '../../types';
 
 interface LoginState {
   email: string;
