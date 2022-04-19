@@ -47,12 +47,18 @@ class StyledInput extends ValidatorComponent {
     return (
       <FormControl fullWidth={input?.fullWidth} variant="standard">
         {label && (
-          <InputLabel shrink htmlFor={input.id} sx={{ fontSize: '1.2rem' }}>
+          <InputLabel
+            shrink
+            htmlFor={input.id}
+            sx={{ transform: 'translate(0, -3.5px)' }}
+          >
             {label}
           </InputLabel>
         )}
         <StyledInputBase name={name} value={value} {...input} />
-        <Box sx={{ mb: 2 }}>{this.errorText()}</Box>
+        <Box sx={{ mb: 2, width: input.sx?.width || 'auto' }}>
+          {this.errorText()}
+        </Box>
       </FormControl>
     );
   }

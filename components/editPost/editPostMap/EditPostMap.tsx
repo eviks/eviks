@@ -54,7 +54,12 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
   };
 
   const handlePrevStepClick = () => {
-    updatePost({ ...post, ...mapstate, step: 0, lastStep: 1 })(dispatch);
+    updatePost({
+      ...post,
+      ...mapstate,
+      step: 0,
+      lastStep: Math.max(1, post.lastStep ?? 1),
+    })(dispatch);
   };
 
   return (

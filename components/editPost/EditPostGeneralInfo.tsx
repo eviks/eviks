@@ -93,6 +93,8 @@ const EditPostGeneralInfo: FC = () => {
     updatePost({
       ...post,
       ...generalInfoState,
+      lotSqm:
+        generalInfoState.estateType !== EstateType.house ? 0 : post.lotSqm,
       step: 1,
       lastStep: Math.max(0, post.lastStep ?? 0),
     })(dispatch);
@@ -115,6 +117,9 @@ const EditPostGeneralInfo: FC = () => {
           name="userType"
           title={t('post:userTypeTitle')}
           value={userType}
+          width={{ xs: '110px', md: '120px' }}
+          height={{ xs: '110px', md: '120px' }}
+          padding={3}
           onChange={handleUserTypeChange}
           values={[
             {
@@ -136,6 +141,9 @@ const EditPostGeneralInfo: FC = () => {
           name="estateType"
           title={t('post:estateTypeTitle')}
           value={estateType}
+          width={{ xs: '110px', md: '120px' }}
+          height={{ xs: '110px', md: '120px' }}
+          padding={3}
           onChange={handleEstateTypeChange}
           values={[
             {
@@ -158,6 +166,9 @@ const EditPostGeneralInfo: FC = () => {
             name="apartmentType"
             title={t('post:apartmentTypeTitle')}
             value={apartmentType}
+            width={{ xs: '110px', md: '120px' }}
+            height={{ xs: '110px', md: '120px' }}
+            padding={3}
             onChange={handleApartmentTypeChange}
             values={[
               {
@@ -180,6 +191,9 @@ const EditPostGeneralInfo: FC = () => {
           name="dealType"
           title={t('post:dealTypeTitle')}
           value={dealType}
+          width={{ xs: '110px', md: '120px' }}
+          height={{ xs: '110px', md: '120px' }}
+          padding={3}
           onChange={handleDealTypeChange}
           values={[
             {

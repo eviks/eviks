@@ -19,5 +19,19 @@
   "address": "Ünvan",
   "errorAddress": "Zəhmət olmasa, emlakın ünvanı göstərin",
   "metroStation": "Metro stansiyası",
-  "metro": "Metro"
+  "metro": "Metro",
+  "estateInfo": "Emlak üzrə məlumat",
+  "rooms": "Otaqların sayı",
+  "sqm": "Ümumi sahə, м²",
+  "livingRoomsSqm": "Yaşayış sahəsi, м²",
+  "kitchenSqm": "Mətbəx sahəsi, м²",
+  "lotSqm": "Torpaq sahəsi, sot",
+  "floor": "Mərtəbə",
+  "totalFloors": "Mərtəbələrin sayı",
+  "errorFloor": "Mərtəbə düzgün göstərilməyib",
+  "renovation": "Təmir",
+  "cosmetic": "Kosmetik",
+  "designer": "Xüsusi dizayn",
+  "noRenovation": "Təmir tələb olunur",
+  "redevelopment": "Planlaşdırılma dəyişdirildi"
 }

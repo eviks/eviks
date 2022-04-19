@@ -58,7 +58,7 @@ const EditPostMetro: FC = () => {
       ...metroState,
       metroStation: metroStation || undefined,
       step: 1,
-      lastStep: 2,
+      lastStep: Math.max(2, post.lastStep ?? 2),
     })(dispatch);
   };
 

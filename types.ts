@@ -66,10 +66,15 @@ export interface Post {
   address: string;
   metroStation?: MetroStation;
   rooms: number;
-  lotSqm: number;
-  floor: number;
-  totalFloors: number;
   sqm: number;
+  livingRoomsSqm?: number;
+  kitchenSqm?: number;
+  lotSqm?: number;
+  floor?: number;
+  totalFloors?: number;
+  renovation: Renovation;
+  documented?: boolean;
+  redevelopment?: boolean;
   description: string;
   images: string[];
   price: number;
