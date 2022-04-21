@@ -82,7 +82,6 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
               px: 3,
               width: '100%',
               pt: 10,
-              overflow: 'auto',
               backgroundColor: theme.palette.background.default,
               borderRadius: '0px 0px 24px 24px',
             }}

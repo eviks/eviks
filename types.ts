@@ -75,6 +75,10 @@ export interface Post {
   renovation: Renovation;
   documented?: boolean;
   redevelopment?: boolean;
+  yearBuild?: number;
+  ceilingHeight?: number;
+  elevator?: boolean;
+  parkingLot: boolean;
   description: string;
   images: string[];
   price: number;

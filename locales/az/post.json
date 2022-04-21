@@ -33,5 +33,10 @@
   "cosmetic": "Kosmetik",
   "designer": "Xüsusi dizayn",
   "noRenovation": "Təmir tələb olunur",
-  "redevelopment": "Planlaşdırılma dəyişdirildi"
+  "redevelopment": "Planlaşdırılma dəyişdirildi",
+  "buildingInfo": "Bina haqqında məlumat",
+  "yearBuild": "Tikiliş ili",
+  "ceilingHeight": "Tavanın hündürlüyü, m",
+  "elevator": "Lift",
+  "parkingLot": "Avtodayanacaq"
 }
