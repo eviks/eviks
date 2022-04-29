@@ -100,14 +100,14 @@ const EditPostEstateInfo: FC = () => {
   } = estateInfoState;
 
   useEffect(() => {
-    ValidatorForm.addValidationRule('floorIsCorrect', (value) => {
+    ValidatorForm.addValidationRule('floorIsValid', (value) => {
       return Number(value) <= Number(totalFloors);
     });
   }, [totalFloors]);
 
   useLayoutEffect(() => {
     return () => {
-      ValidatorForm.removeValidationRule('floorIsCorrect');
+      ValidatorForm.removeValidationRule('floorIsValid');
     };
   }, []);
 
@@ -298,7 +298,7 @@ const EditPostEstateInfo: FC = () => {
             }}
           >
             <StyledInput
-              validators={['required', 'minNumber: 1', 'floorIsCorrect']}
+              validators={['required', 'minNumber: 1', 'floorIsValid']}
               value={floor}
               name="floor"
               errorMessages={[

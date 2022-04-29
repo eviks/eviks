@@ -105,6 +105,22 @@ const EditPostGeneralInfo: FC = () => {
         generalInfoState.estateType === EstateType.house
           ? false
           : post.parkingLot,
+      kidsAllowed:
+        generalInfoState.dealType === DealType.sale ? false : post.kidsAllowed,
+      petsAllowed:
+        generalInfoState.dealType === DealType.sale ? false : post.kidsAllowed,
+      garage:
+        generalInfoState.estateType === EstateType.apartment
+          ? false
+          : post.garage,
+      pool:
+        generalInfoState.estateType === EstateType.apartment
+          ? false
+          : post.pool,
+      bathhouse:
+        generalInfoState.estateType === EstateType.apartment
+          ? false
+          : post.bathhouse,
       step: 1,
       lastStep: Math.max(0, post.lastStep ?? 0),
     })(dispatch);

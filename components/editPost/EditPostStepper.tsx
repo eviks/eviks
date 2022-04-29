@@ -13,6 +13,7 @@ import MarkerIcon from '../icons/MarkerIcon';
 import MetroIcon from '../icons/MetroIcon';
 import HouseIcon from '../icons/HouseIcon';
 import ApartmentIcon from '../icons/ApartmentIcon';
+import PlusIcon from '../icons/PlusIcon';
 
 const EditPostStepper: FC<{ step: number }> = ({ step }) => {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
     t('post:metro'),
     t('post:estateInfo'),
     t('post:buildingInfo'),
+    t('post:additionalInfo'),
   ];
 
   const ColorlibConnector = styled(StepConnector)(({ theme }) => {
@@ -61,7 +63,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
           ? theme.palette.grey[300]
           : theme.palette.grey[800],
       zIndex: 1,
-      color: '#fff',
+      color: theme.palette.primary.contrastText,
       width: 50,
       height: 50,
       display: 'flex',
@@ -87,6 +89,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
       3: <MetroIcon />,
       4: <HouseIcon />,
       5: <ApartmentIcon />,
+      6: <PlusIcon />,
     };
 
     return (

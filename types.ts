@@ -45,11 +45,12 @@ export interface Settlement {
   name: string;
   nameRu: string;
   nameEn: string;
+  type: string;
   routeName: string;
   x: number;
   y: number;
-  children?: Settlement[];
   metroStations?: MetroStation[];
+  children?: Settlement[];
 }
 
 export interface Post {
@@ -78,8 +79,28 @@ export interface Post {
   yearBuild?: number;
   ceilingHeight?: number;
   elevator?: boolean;
-  parkingLot: boolean;
-  description: string;
+  parkingLot?: boolean;
+  description?: string;
+  balcony?: boolean;
+  furniture?: boolean;
+  kitchenFurniture?: boolean;
+  cableTv?: boolean;
+  phone?: boolean;
+  internet?: boolean;
+  electricity?: boolean;
+  gas?: boolean;
+  water?: boolean;
+  heating?: boolean;
+  tv?: boolean;
+  conditioner?: boolean;
+  washingMachine?: boolean;
+  dishwasher?: boolean;
+  refrigerator?: boolean;
+  kidsAllowed?: boolean;
+  petsAllowed?: boolean;
+  garage?: boolean;
+  pool?: boolean;
+  bathhouse?: boolean;
   images: string[];
   price: number;
   step?: number;

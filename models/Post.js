@@ -217,7 +217,7 @@ const PostSchema = new mongoose.Schema(
       type: Boolean,
       index: true,
     },
-    cabelTv: {
+    cableTv: {
       type: Boolean,
       index: true,
     },
@@ -279,7 +279,6 @@ const PostSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
     },
     price: {
       type: Number,
