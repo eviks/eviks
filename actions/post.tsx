@@ -53,6 +53,14 @@ interface CoordsResponse {
   success: boolean;
 }
 
+interface GetAddressResult {
+  city: Settlement;
+  district?: Settlement;
+  subdistrict?: Settlement;
+  address: string;
+  metroStation?: null;
+}
+
 export const initPost = () => {
   return async (
     dispatch: Dispatch<{ type: Types.InitPost; payload: null }>,
@@ -182,12 +190,18 @@ export const getAddressByCoords = async (data: Coords) => {
       });
     }
 
-    return {
+    const state: GetAddressResult = {
       city,
       district,
       subdistrict,
       address,
     };
+
+    if (!city.metroStations) {
+      state.metroStation = null;
+    }
+
+    return state;
   } catch (error) {
     if (axios.isAxiosError(error) && error.code === '500')
       throw new ServerError(error.message);

@@ -138,6 +138,7 @@ export interface MapState {
   district?: Settlement;
   subdistrict?: Settlement;
   address: string;
+  metroStation?: MetroStation | null;
 }
 
 export interface Address {

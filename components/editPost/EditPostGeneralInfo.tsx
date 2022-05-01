@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import StepTitle from './StepTitle';
 import StyledToggleButton from '../StyledToggleButton';
 import { AppContext } from '../../store/appContext';
 import { updatePost } from '../../actions/post';
@@ -132,12 +133,12 @@ const EditPostGeneralInfo: FC = () => {
         disableGutters
         sx={{
           py: { md: 5 },
-          px: { md: 20, sx: 0 },
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'start',
         }}
       >
+        <StepTitle title={t('post:generalInfo')} />
         {/* User type */}
         <StyledToggleButton
           name="userType"

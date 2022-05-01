@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import StepTitle from './StepTitle';
 import StyledInput from '../StyledInput';
 import StyledSingleToogleButton from '../StyledSingleToogleButton';
 import { AppContext } from '../../store/appContext';
@@ -63,30 +64,30 @@ const EditPostAdditionalInfo: FC = () => {
   } = useContext(AppContext);
 
   const [additionalInfoState, setAdditionalInfo] = useState<AdditionalInfo>({
-    description: (post.lastStep || -1) >= 5 ? post.description ?? '' : '',
-    balcony: (post.lastStep || -1) >= 5 ? post.balcony ?? false : false,
-    furniture: (post.lastStep || -1) >= 5 ? post.furniture ?? false : false,
+    description: (post.lastStep || -1) >= 4 ? post.description ?? '' : '',
+    balcony: (post.lastStep || -1) >= 4 ? post.balcony ?? false : false,
+    furniture: (post.lastStep || -1) >= 4 ? post.furniture ?? false : false,
     kitchenFurniture:
-      (post.lastStep || -1) >= 5 ? post.kitchenFurniture ?? false : false,
-    cableTv: (post.lastStep || -1) >= 5 ? post.cableTv ?? false : false,
-    phone: (post.lastStep || -1) >= 5 ? post.phone ?? false : false,
-    internet: (post.lastStep || -1) >= 5 ? post.internet ?? false : false,
-    electricity: (post.lastStep || -1) >= 5 ? post.electricity ?? false : false,
-    gas: (post.lastStep || -1) >= 5 ? post.gas ?? false : false,
-    water: (post.lastStep || -1) >= 5 ? post.water ?? false : false,
-    heating: (post.lastStep || -1) >= 5 ? post.heating ?? false : false,
-    tv: (post.lastStep || -1) >= 5 ? post.tv ?? false : false,
-    conditioner: (post.lastStep || -1) >= 5 ? post.conditioner ?? false : false,
+      (post.lastStep || -1) >= 4 ? post.kitchenFurniture ?? false : false,
+    cableTv: (post.lastStep || -1) >= 4 ? post.cableTv ?? false : false,
+    phone: (post.lastStep || -1) >= 4 ? post.phone ?? false : false,
+    internet: (post.lastStep || -1) >= 4 ? post.internet ?? false : false,
+    electricity: (post.lastStep || -1) >= 4 ? post.electricity ?? false : false,
+    gas: (post.lastStep || -1) >= 4 ? post.gas ?? false : false,
+    water: (post.lastStep || -1) >= 4 ? post.water ?? false : false,
+    heating: (post.lastStep || -1) >= 4 ? post.heating ?? false : false,
+    tv: (post.lastStep || -1) >= 4 ? post.tv ?? false : false,
+    conditioner: (post.lastStep || -1) >= 4 ? post.conditioner ?? false : false,
     washingMachine:
-      (post.lastStep || -1) >= 5 ? post.washingMachine ?? false : false,
-    dishwasher: (post.lastStep || -1) >= 5 ? post.dishwasher ?? false : false,
+      (post.lastStep || -1) >= 4 ? post.washingMachine ?? false : false,
+    dishwasher: (post.lastStep || -1) >= 4 ? post.dishwasher ?? false : false,
     refrigerator:
-      (post.lastStep || -1) >= 5 ? post.refrigerator ?? false : false,
-    kidsAllowed: (post.lastStep || -1) >= 5 ? post.kidsAllowed ?? false : false,
-    petsAllowed: (post.lastStep || -1) >= 5 ? post.petsAllowed ?? false : false,
-    garage: (post.lastStep || -1) >= 5 ? post.garage ?? false : false,
-    pool: (post.lastStep || -1) >= 5 ? post.pool ?? false : false,
-    bathhouse: (post.lastStep || -1) >= 5 ? post.bathhouse ?? false : false,
+      (post.lastStep || -1) >= 4 ? post.refrigerator ?? false : false,
+    kidsAllowed: (post.lastStep || -1) >= 4 ? post.kidsAllowed ?? false : false,
+    petsAllowed: (post.lastStep || -1) >= 4 ? post.petsAllowed ?? false : false,
+    garage: (post.lastStep || -1) >= 4 ? post.garage ?? false : false,
+    pool: (post.lastStep || -1) >= 4 ? post.pool ?? false : false,
+    bathhouse: (post.lastStep || -1) >= 4 ? post.bathhouse ?? false : false,
   });
 
   const {
@@ -138,7 +139,7 @@ const EditPostAdditionalInfo: FC = () => {
       pool,
       bathhouse,
       step,
-      lastStep: Math.max(5, post.lastStep ?? 5),
+      lastStep: Math.max(4, post.lastStep ?? 4),
     })(dispatch);
   };
 
@@ -165,11 +166,11 @@ const EditPostAdditionalInfo: FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    updatePostAndDispatch(6);
+    updatePostAndDispatch(5);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(4);
+    updatePostAndDispatch(3);
   };
 
   return (
@@ -177,13 +178,13 @@ const EditPostAdditionalInfo: FC = () => {
       <Container
         disableGutters
         sx={{
-          py: { md: 5 },
-          px: { md: 20, sx: 0 },
+          py: { md: 4 },
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'start',
         }}
       >
+        <StepTitle title={t('post:additionalInfo')} />
         <StyledInput
           value={description}
           name="description"

@@ -3,12 +3,12 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Hidden from '@mui/material/Hidden';
 import { AppContext } from '../store/appContext';
 import EditPostStepper from '../components/editPost/EditPostStepper';
 import EditPostGeneralInfo from '../components/editPost/EditPostGeneralInfo';
-import EditPostMetro from '../components/editPost/EditPostMetro';
 import EditPostEstateInfo from '../components/editPost/EditPostEstateInfo';
 import EditPostBuildingInfo from '../components/editPost/EditPostBuildingInfo';
 import EditPostAdditionalInfo from '../components/editPost/EditPostAdditionalInfo';
@@ -58,12 +58,10 @@ const EditPost: NextPage = () => {
       case 1:
         return <EditPostMap height={mapHeight} />;
       case 2:
-        return <EditPostMetro />;
-      case 3:
         return <EditPostEstateInfo />;
-      case 4:
+      case 3:
         return <EditPostBuildingInfo />;
-      case 5:
+      case 4:
         return <EditPostAdditionalInfo />;
       default:
         return <EditPostGeneralInfo />;
@@ -73,17 +71,20 @@ const EditPost: NextPage = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <Container
-      disableGutters={fullScreenMode}
-      sx={{ py: fullScreenMode ? 0 : 10 }}
-    >
-      <Paper elevation={width && width >= 900 ? 1 : 0} sx={{ p: { xs: 0 } }}>
-        <Hidden mdDown>
-          <EditPostStepper step={post.step ?? 0} />
-        </Hidden>
-        {renderStep()}
-      </Paper>
-    </Container>
+    <Grid container sx={{ py: fullScreenMode ? 0 : 10 }}>
+      <Hidden mdDown>
+        <Grid item xs={0} md={2}>
+          <Container disableGutters={fullScreenMode}>
+            <EditPostStepper step={post.step ?? 0} />
+          </Container>
+        </Grid>
+      </Hidden>
+      <Grid item xs={12} md={10}>
+        <Container disableGutters={fullScreenMode}>
+          <Box sx={{ p: { xs: 0 } }}>{renderStep()}</Box>
+        </Container>
+      </Grid>
+    </Grid>
   );
 };
 

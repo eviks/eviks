@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import StepTitle from './StepTitle';
 import StyledInput from '../StyledInput';
 import CalendarIcon from '../icons/CalendarIcon';
 import MeasuringIcon from '../icons/MeasuringIcon';
@@ -31,10 +32,10 @@ const getDefaultState = (post: Post): BuildingInfo => {
     Number(post.ceilingHeight) > 0 ? post.ceilingHeight?.toString() ?? '' : '';
 
   return {
-    yearBuild: (post.lastStep || -1) >= 4 ? defaultYearBuild : '',
-    ceilingHeight: (post.lastStep || -1) >= 4 ? defaultCeilingHeight : '',
-    elevator: (post.lastStep || -1) >= 4 ? post.elevator ?? false : false,
-    parkingLot: (post.lastStep || -1) >= 4 ? post.parkingLot ?? false : false,
+    yearBuild: (post.lastStep || -1) >= 3 ? defaultYearBuild : '',
+    ceilingHeight: (post.lastStep || -1) >= 3 ? defaultCeilingHeight : '',
+    elevator: (post.lastStep || -1) >= 3 ? post.elevator ?? false : false,
+    parkingLot: (post.lastStep || -1) >= 3 ? post.parkingLot ?? false : false,
   };
 };
 
@@ -60,7 +61,7 @@ const EditPostBuildingInfo: FC = () => {
       elevator,
       parkingLot,
       step,
-      lastStep: Math.max(4, post.lastStep ?? 4),
+      lastStep: Math.max(3, post.lastStep ?? 3),
     })(dispatch);
   };
 
@@ -77,11 +78,11 @@ const EditPostBuildingInfo: FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    updatePostAndDispatch(5);
+    updatePostAndDispatch(4);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(3);
+    updatePostAndDispatch(2);
   };
 
   return (
@@ -90,12 +91,12 @@ const EditPostBuildingInfo: FC = () => {
         disableGutters
         sx={{
           py: { md: 5 },
-          px: { md: 20, sx: 0 },
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'start',
         }}
       >
+        <StepTitle title={t('post:buildingInfo')} />
         {/* Year build */}
         <StyledInput
           value={yearBuild}

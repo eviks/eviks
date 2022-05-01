@@ -5,12 +5,8 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { styled } from '@mui/material/styles';
-import StepConnector, {
-  stepConnectorClasses,
-} from '@mui/material/StepConnector';
 import InformationIcon from '../icons/InformationIcon';
 import MarkerIcon from '../icons/MarkerIcon';
-import MetroIcon from '../icons/MetroIcon';
 import HouseIcon from '../icons/HouseIcon';
 import ApartmentIcon from '../icons/ApartmentIcon';
 import PlusIcon from '../icons/PlusIcon';
@@ -21,38 +17,10 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
   const steps = [
     t('post:generalInfo'),
     t('post:address'),
-    t('post:metro'),
     t('post:estateInfo'),
     t('post:buildingInfo'),
     t('post:additionalInfo'),
   ];
-
-  const ColorlibConnector = styled(StepConnector)(({ theme }) => {
-    return {
-      [`&.${stepConnectorClasses.alternativeLabel}`]: {
-        top: 22,
-      },
-      [`&.${stepConnectorClasses.active}`]: {
-        [`& .${stepConnectorClasses.line}`]: {
-          backgroundColor: theme.palette.primary.main,
-        },
-      },
-      [`&.${stepConnectorClasses.completed}`]: {
-        [`& .${stepConnectorClasses.line}`]: {
-          backgroundColor: theme.palette.primary.main,
-        },
-      },
-      [`& .${stepConnectorClasses.line}`]: {
-        height: 3,
-        border: 0,
-        backgroundColor:
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[300]
-            : theme.palette.grey[800],
-        borderRadius: 1,
-      },
-    };
-  });
 
   const ColorlibStepIconRoot = styled('div')<{
     ownerState: { completed?: boolean; active?: boolean };
@@ -64,8 +32,8 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
           : theme.palette.grey[800],
       zIndex: 1,
       color: theme.palette.primary.contrastText,
-      width: 50,
-      height: 50,
+      width: 40,
+      height: 40,
       display: 'flex',
       borderRadius: '50%',
       justifyContent: 'center',
@@ -86,10 +54,9 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
     const icons: { [index: string]: React.ReactElement } = {
       1: <InformationIcon />,
       2: <MarkerIcon />,
-      3: <MetroIcon />,
-      4: <HouseIcon />,
-      5: <ApartmentIcon />,
-      6: <PlusIcon />,
+      3: <HouseIcon />,
+      4: <ApartmentIcon />,
+      5: <PlusIcon />,
     };
 
     return (
@@ -104,15 +71,18 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
 
   return (
     <Stepper
-      sx={{ pt: 5 }}
+      sx={{ pt: 5, display: 'flex', alignItems: 'center' }}
       activeStep={step ?? 0 + 1}
       alternativeLabel
-      connector={<ColorlibConnector />}
+      orientation={'vertical'}
+      connector={null}
     >
       {steps.map((label) => {
         return (
           <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+            <StepLabel StepIconComponent={ColorlibStepIcon} sx={{ mt: 0 }}>
+              {label}
+            </StepLabel>
           </Step>
         );
       })}

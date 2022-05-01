@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import StepTitle from './StepTitle';
 import StyledInput from '../StyledInput';
 import StyledToggleButton from '../StyledToggleButton';
 import DoorIcon from '../icons/DoorIcon';
@@ -57,17 +58,17 @@ const getDefaultState = (post: Post): EstateInfo => {
     Number(post.totalFloors) > 0 ? post.totalFloors?.toString() ?? '' : '';
 
   return {
-    rooms: (post.lastStep || -1) >= 3 ? defaultRooms : '',
-    sqm: (post.lastStep || -1) >= 3 ? defaultSqm : '',
-    livingRoomsSqm: (post.lastStep || -1) >= 3 ? defaultLivingRoomsSqm : '',
-    kitchenSqm: (post.lastStep || -1) >= 3 ? defaultKithcenSqm : '',
-    lotSqm: (post.lastStep || -1) >= 3 ? defaultLotSqm : '',
-    floor: (post.lastStep || -1) >= 3 ? defaultFloor : '',
-    totalFloors: (post.lastStep || -1) >= 3 ? defultTotalFloors : '',
-    renovation: (post.lastStep || -1) >= 3 ? post.renovation : undefined,
-    documented: (post.lastStep || -1) >= 3 ? post.documented ?? false : false,
+    rooms: (post.lastStep || -1) >= 2 ? defaultRooms : '',
+    sqm: (post.lastStep || -1) >= 2 ? defaultSqm : '',
+    livingRoomsSqm: (post.lastStep || -1) >= 2 ? defaultLivingRoomsSqm : '',
+    kitchenSqm: (post.lastStep || -1) >= 2 ? defaultKithcenSqm : '',
+    lotSqm: (post.lastStep || -1) >= 2 ? defaultLotSqm : '',
+    floor: (post.lastStep || -1) >= 2 ? defaultFloor : '',
+    totalFloors: (post.lastStep || -1) >= 2 ? defultTotalFloors : '',
+    renovation: (post.lastStep || -1) >= 2 ? post.renovation : undefined,
+    documented: (post.lastStep || -1) >= 2 ? post.documented ?? false : false,
     redevelopment:
-      (post.lastStep || -1) >= 3 ? post.redevelopment ?? false : false,
+      (post.lastStep || -1) >= 2 ? post.redevelopment ?? false : false,
   };
 };
 
@@ -135,18 +136,18 @@ const EditPostEstateInfo: FC = () => {
       documented,
       redevelopment,
       step,
-      lastStep: Math.max(3, post.lastStep ?? 3),
+      lastStep: Math.max(2, post.lastStep ?? 2),
     })(dispatch);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    updatePostAndDispatch(4);
+    updatePostAndDispatch(3);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(2);
+    updatePostAndDispatch(1);
   };
 
   const handleRenovationChange = (
@@ -164,12 +165,12 @@ const EditPostEstateInfo: FC = () => {
         disableGutters
         sx={{
           py: { md: 5 },
-          px: { md: 20, sx: 0 },
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'start',
         }}
       >
+        <StepTitle title={t('post:estateInfo')} />
         {/* Rooms */}
         <StyledInput
           validators={['required', 'minNumber: 1']}

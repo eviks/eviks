@@ -7,9 +7,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Hidden from '@mui/material/Hidden';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import { useTheme, alpha } from '@mui/material/styles';
 import LocationMarker from './LocationMarker';
 import AddressInput from './AddressInput';
+import MetroInput from './MetroInput';
+import StepTitle from '../StepTitle';
 import { AppContext } from '../../../store/appContext';
 import { updatePost } from '../../../actions/post';
 import { MapState } from '../../../types';
@@ -31,11 +34,12 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
     district: (post.lastStep || -1) >= 1 ? post.district : undefined,
     subdistrict: (post.lastStep || -1) >= 1 ? post.subdistrict : undefined,
     address: post.address,
+    metroStation: (post.lastStep || -1) >= 1 ? post.metroStation || null : null,
   });
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { city, district, location, address } = mapstate;
+  const { city, district, location, address, metroStation } = mapstate;
 
   const mapCenter: [number, number] =
     post.location[0] === 0 && post.location[1] === 0
@@ -48,7 +52,8 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
     updatePost({
       ...post,
       ...mapstate,
-      step: city.metroStations ? 2 : 3,
+      metroStation: metroStation || undefined,
+      step: 2,
       lastStep: Math.max(1, post.lastStep ?? 1),
     })(dispatch);
   };
@@ -57,6 +62,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
     updatePost({
       ...post,
       ...mapstate,
+      metroStation: metroStation || undefined,
       step: 0,
       lastStep: Math.max(1, post.lastStep ?? 1),
     })(dispatch);
@@ -67,11 +73,13 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
       disableGutters
       sx={{
         py: { md: 5, xs: 0 },
-        px: { md: 10, sx: 0 },
         height: { xs: '100vh', md: 'auto' },
       }}
     >
       <ValidatorForm onSubmit={handleSubmit}>
+        <Hidden mdDown>
+          <StepTitle title={t('post:address')} />
+        </Hidden>
         <Hidden mdUp>
           <Box
             sx={{
@@ -93,6 +101,11 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
                 address={address}
                 setMapState={setMapState}
                 setMapStateLoading={setLoading}
+              />
+              <MetroInput
+                city={city}
+                metroStation={metroStation}
+                setMapState={setMapState}
               />
             </Box>
           </Box>
@@ -142,6 +155,14 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
             setLoading={setLoading}
           />
         </MapContainer>
+        <Hidden mdDown>
+          {city.metroStations && <Divider sx={{ mb: 2 }} />}
+          <MetroInput
+            city={city}
+            metroStation={metroStation}
+            setMapState={setMapState}
+          />
+        </Hidden>
         <Container
           sx={{
             position: { xs: 'absolute', md: 'initial' },
