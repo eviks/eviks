@@ -12,6 +12,7 @@ import EditPostGeneralInfo from '../components/editPost/EditPostGeneralInfo';
 import EditPostEstateInfo from '../components/editPost/EditPostEstateInfo';
 import EditPostBuildingInfo from '../components/editPost/EditPostBuildingInfo';
 import EditPostAdditionalInfo from '../components/editPost/EditPostAdditionalInfo';
+import EditPostImages from '../components/editPost/editPostImages/EditPostImages';
 import { initPost } from '../actions/post';
 import useWindowSize from '../utils/hooks/useWindowSize';
 
@@ -63,6 +64,8 @@ const EditPost: NextPage = () => {
         return <EditPostBuildingInfo />;
       case 4:
         return <EditPostAdditionalInfo />;
+      case 5:
+        return <EditPostImages />;
       default:
         return <EditPostGeneralInfo />;
     }
@@ -74,7 +77,7 @@ const EditPost: NextPage = () => {
     <Grid container sx={{ py: fullScreenMode ? 0 : 10 }}>
       <Hidden mdDown>
         <Grid item xs={0} md={2}>
-          <Container disableGutters={fullScreenMode}>
+          <Container disableGutters={fullScreenMode} sx={{ mx: 5 }}>
             <EditPostStepper step={post.step ?? 0} />
           </Container>
         </Grid>

@@ -10,6 +10,7 @@ import MarkerIcon from '../icons/MarkerIcon';
 import HouseIcon from '../icons/HouseIcon';
 import ApartmentIcon from '../icons/ApartmentIcon';
 import PlusIcon from '../icons/PlusIcon';
+import CameraIcon from '../icons/CameraIcon';
 
 const EditPostStepper: FC<{ step: number }> = ({ step }) => {
   const { t } = useTranslation();
@@ -20,6 +21,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
     t('post:estateInfo'),
     t('post:buildingInfo'),
     t('post:additionalInfo'),
+    t('post:images'),
   ];
 
   const ColorlibStepIconRoot = styled('div')<{
@@ -57,6 +59,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
       3: <HouseIcon />,
       4: <ApartmentIcon />,
       5: <PlusIcon />,
+      6: <CameraIcon />,
     };
 
     return (
@@ -71,9 +74,8 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
 
   return (
     <Stepper
-      sx={{ pt: 5, display: 'flex', alignItems: 'center' }}
+      sx={{ pt: 5, display: 'flex', alignItems: 'start' }}
       activeStep={step ?? 0 + 1}
-      alternativeLabel
       orientation={'vertical'}
       connector={null}
     >

@@ -62,5 +62,9 @@
   "garage": "Qaraj",
   "pool": "Hovuz",
   "bathhouse": "Hamam",
-  "descriptionMinLength": "Təsvir ən azı 50 simvoldan ibarət olmalıdır."
+  "descriptionMinLength": "Təsvir ən azı 50 simvoldan ibarət olmalıdır.",
+  "images": "Şəkillər",
+  "addImage": "Şəkili əlavə et",
+  "imagesError": "Ən azı 3 şəkili əlavə etmək lazımdır",
+  "dropzoneHint": "Şəkilləri əlavə etmək üçün buraya basın və ya bu sahəyə onları keçirin"
 }

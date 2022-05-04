@@ -102,6 +102,7 @@ export interface Post {
   pool?: boolean;
   bathhouse?: boolean;
   images: string[];
+  originalImages: string[];
   price: number;
   step?: number;
   lastStep?: number;
@@ -146,4 +147,15 @@ export interface Address {
   address: string;
   longitude: number;
   latitude: number;
+}
+
+export interface FileWithPreview extends File {
+  preview: string;
+}
+
+export interface ImageData {
+  file?: FileWithPreview;
+  id: string;
+  isTemp: boolean;
+  isUploaded: boolean;
 }

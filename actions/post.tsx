@@ -6,7 +6,7 @@ import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 import AddressNotFound from '../utils/errors/addressNotFound';
 import getErrorMessage from '../utils/errors/getErrorMessage';
-import { Post, Address, Settlement } from '../types';
+import { Post, Address, Settlement, ImageData } from '../types';
 
 interface GeocoderResponse {
   rows: [
@@ -202,6 +202,73 @@ export const getAddressByCoords = async (data: Coords) => {
     }
 
     return state;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};
+
+export const getImageUploadId = async (token: string) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+    },
+  };
+
+  try {
+    const result = await axios.get<{ id: string }>(
+      '/api/posts/generate_upload_id',
+      config,
+    );
+    return result.data.id;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};
+
+export const uploadImage = async (token: string, imageData: ImageData) => {
+  const formData = new FormData();
+  formData.append('image', imageData.file ?? '');
+  formData.append('id', imageData.id);
+
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+
+  try {
+    await axios.post<{ id: string }>(
+      '/api/posts/upload_image',
+      formData,
+      config,
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};
+
+export const deleteImage = async (token: string, id: string) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+    },
+  };
+
+  try {
+    await axios.delete<{ id: string }>(`/api/posts/delete_image/${id}`, config);
   } catch (error) {
     if (axios.isAxiosError(error) && error.code === '500')
       throw new ServerError(error.message);
