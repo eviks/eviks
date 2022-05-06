@@ -4,6 +4,8 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
 import PostImageDropzone from './PostImageDropzone';
 import UploadedPostImage from './UploadedPostImage';
 import StepTitle from '../StepTitle';
@@ -35,6 +37,8 @@ const EditPostImages = () => {
       : [],
   );
 
+  const [displayError, setDisplayError] = useState<boolean>(false);
+
   const updatePostAndDispatch = (step: number) => {
     updatePost({
       ...post,
@@ -48,6 +52,11 @@ const EditPostImages = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (images.length < 3) {
+      setDisplayError(true);
+      return;
+    }
 
     updatePostAndDispatch(6);
   };
@@ -69,6 +78,11 @@ const EditPostImages = () => {
       >
         <StepTitle title={t('post:images')} />
         <PostImageDropzone images={images} setImages={setImages} />
+        {displayError && (
+          <Box sx={{ mb: 2, width: '100%' }}>
+            {<Typography color={'error'}>{t('post:imagesError')}</Typography>}
+          </Box>
+        )}
         {images.length > 0 && (
           <Grid
             container

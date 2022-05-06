@@ -386,5 +386,5 @@ export const defaultPost: Post = {
   images: [],
   originalImages: [],
   price: 0,
-  step: 5,
+  step: 6,
 };

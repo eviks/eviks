@@ -13,6 +13,7 @@ import EditPostEstateInfo from '../components/editPost/EditPostEstateInfo';
 import EditPostBuildingInfo from '../components/editPost/EditPostBuildingInfo';
 import EditPostAdditionalInfo from '../components/editPost/EditPostAdditionalInfo';
 import EditPostImages from '../components/editPost/editPostImages/EditPostImages';
+import EditPostPrice from '../components/editPost/EditPostPrice';
 import { initPost } from '../actions/post';
 import useWindowSize from '../utils/hooks/useWindowSize';
 
@@ -66,23 +67,25 @@ const EditPost: NextPage = () => {
         return <EditPostAdditionalInfo />;
       case 5:
         return <EditPostImages />;
+      case 6:
+        return <EditPostPrice />;
       default:
         return <EditPostGeneralInfo />;
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return null;
 
   return (
-    <Grid container sx={{ py: fullScreenMode ? 0 : 10 }}>
+    <Grid container sx={{ py: fullScreenMode ? 0 : 10 }} columns={10}>
       <Hidden mdDown>
         <Grid item xs={0} md={2}>
-          <Container disableGutters={fullScreenMode} sx={{ mx: 5 }}>
+          <Container disableGutters={fullScreenMode} sx={{ mx: 1 }}>
             <EditPostStepper step={post.step ?? 0} />
           </Container>
         </Grid>
       </Hidden>
-      <Grid item xs={12} md={10}>
+      <Grid item xs={10} md={8}>
         <Container disableGutters={fullScreenMode}>
           <Box sx={{ p: { xs: 0 } }}>{renderStep()}</Box>
         </Container>

@@ -104,6 +104,10 @@ export interface Post {
   images: string[];
   originalImages: string[];
   price: number;
+  haggle?: boolean;
+  installmentOfPayment?: boolean;
+  prepayment?: boolean;
+  municipalServicesIncluded?: boolean;
   step?: number;
   lastStep?: number;
 }

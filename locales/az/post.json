@@ -66,5 +66,11 @@
   "images": "Şəkillər",
   "addImage": "Şəkili əlavə et",
   "imagesError": "Ən azı 3 şəkili əlavə etmək lazımdır",
-  "dropzoneHint": "Şəkilləri əlavə etmək üçün buraya basın və ya bu sahəyə onları keçirin"
+  "dropzoneHint": "Şəkilləri əlavə etmək üçün buraya basın və ya bu sahəyə onları keçirin",
+  "price": "Qiymət",
+  "haggle": "Endirim mümkündür",
+  "installmentOfPayment": "Hissə-hissə ödəniş mümkündür",
+  "prepayment": "Əvvəlcədən ödəniş tələb olunur",
+  "municipalServicesIncluded": "Kommunal xidmətlər daxildir",
+  "priceTitle": "Qiymət"
 }

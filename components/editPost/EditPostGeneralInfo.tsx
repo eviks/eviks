@@ -122,6 +122,16 @@ const EditPostGeneralInfo: FC = () => {
         generalInfoState.estateType === EstateType.apartment
           ? false
           : post.bathhouse,
+      installmentOfPayment:
+        generalInfoState.dealType !== DealType.sale
+          ? false
+          : post.installmentOfPayment,
+      prepayment:
+        generalInfoState.dealType === DealType.sale ? false : post.prepayment,
+      municipalServicesIncluded:
+        generalInfoState.dealType === DealType.sale
+          ? false
+          : post.municipalServicesIncluded,
       step: 1,
       lastStep: Math.max(0, post.lastStep ?? 0),
     })(dispatch);

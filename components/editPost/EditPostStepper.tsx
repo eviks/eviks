@@ -11,6 +11,7 @@ import HouseIcon from '../icons/HouseIcon';
 import ApartmentIcon from '../icons/ApartmentIcon';
 import PlusIcon from '../icons/PlusIcon';
 import CameraIcon from '../icons/CameraIcon';
+import MoneyIcon from '../icons/MoneyIcon';
 
 const EditPostStepper: FC<{ step: number }> = ({ step }) => {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
     t('post:buildingInfo'),
     t('post:additionalInfo'),
     t('post:images'),
+    t('post:priceTitle'),
   ];
 
   const ColorlibStepIconRoot = styled('div')<{
@@ -60,6 +62,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
       4: <ApartmentIcon />,
       5: <PlusIcon />,
       6: <CameraIcon />,
+      7: <MoneyIcon />,
     };
 
     return (
