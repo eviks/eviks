@@ -18,7 +18,18 @@ const StyledBottomNavigation: FC = () => {
 
   const theme = useTheme();
 
-  const [value, setValue] = useState<number>(0);
+  const defaultValue = () => {
+    switch (router.pathname) {
+      case '/favorites':
+        return 1;
+      case '/profile':
+        return 3;
+      default:
+        return 0;
+    }
+  };
+
+  const [value, setValue] = useState<number>(defaultValue());
 
   const handleChange = (
     _event: React.SyntheticEvent<Element, Event>,
@@ -28,7 +39,7 @@ const StyledBottomNavigation: FC = () => {
     if (newValue === 0) router.push({ pathname: '/' });
     if (newValue === 1) router.push({ pathname: '/favorites' });
     if (newValue === 2) router.push({ pathname: '/edit_post' });
-    if (newValue === 3) router.push({ pathname: '/profile' });
+    if (newValue === 2) router.push({ pathname: '/profile' });
   };
 
   return (

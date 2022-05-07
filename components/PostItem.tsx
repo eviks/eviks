@@ -14,7 +14,7 @@ import FavoriteButton from './postButtons/favoriteButton';
 import StyledCarousel from './StyledCarousel';
 import { Post } from '../types';
 import useWindowSize from '../utils/hooks/useWindowSize';
-import getSettlementPresentation from '../utils/getSettlementPresentation';
+import { getSettlementPresentation } from '../utils';
 
 const PostItem: FC<{ post: Post }> = ({ post }) => {
   const [elevation, setElevation] = useState<number>(0);
@@ -29,7 +29,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
   const { width } = useWindowSize();
 
   const onMouseOver = () => {
-    return setElevation(width && width > 600 ? 6 : 0);
+    return setElevation(width && width >= 600 ? 6 : 0);
   };
 
   const onMouseOut = () => {
@@ -50,6 +50,8 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
   const actionAreaOnClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
   };
+
+  const height = width && width >= 900 ? '320px' : '250px';
 
   return (
     <Card
@@ -90,7 +92,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               images={post.images}
               imageSize={320}
               thumbSize={150}
-              height={'320px'}
+              height={height}
               onClickItem={openPost}
             />
             <Hidden mdUp>

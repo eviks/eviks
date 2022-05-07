@@ -3,7 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Autocomplete from '@mui/material/Autocomplete';
 import StyledInput from '../../StyledInput';
 import { MetroStation, MapState, Settlement } from '../../../types';
-import getMetroPresentation from '../../../utils/getMetroPresentation';
+import { getMetroPresentation } from '../../../utils';
 
 const MetroInput: FC<{
   city: Settlement;

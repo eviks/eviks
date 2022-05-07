@@ -1,5 +1,5 @@
 import { Reducer } from 'react';
-import { defaultPost } from '../utils/defaultSettlements';
+import { defaultPost } from '../utils/defaultValues';
 import { Post, PostsContext, AuthContext } from '../types';
 
 type ActionMap<M extends { [index: string]: any }> = {

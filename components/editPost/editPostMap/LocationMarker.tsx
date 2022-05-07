@@ -6,9 +6,10 @@ import { MapState } from '../../../types';
 
 const LocationMarker: FC<{
   location: [number, number];
+  mapCenter: [number, number];
   setMapState: React.Dispatch<React.SetStateAction<MapState>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ location, setMapState, setLoading }) => {
+}> = ({ location, mapCenter, setMapState, setLoading }) => {
   const map = useMapEvents({
     async click(event) {
       setLoading(true);
@@ -39,9 +40,12 @@ const LocationMarker: FC<{
   });
 
   useEffect(() => {
-    if (location[0] !== 0 && location[1] !== 0)
+    if (location[0] !== 0 && location[1] !== 0) {
       map.flyTo([location[1], location[0]], map.getZoom());
-  }, [map, location]);
+    } else {
+      map.flyTo([mapCenter[0], mapCenter[1]], map.getZoom());
+    }
+  }, [map, location, mapCenter]);
 
   const customIcon = icon({
     iconUrl: '/svg/location.svg',

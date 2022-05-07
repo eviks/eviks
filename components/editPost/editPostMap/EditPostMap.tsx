@@ -12,6 +12,7 @@ import { useTheme, alpha } from '@mui/material/styles';
 import LocationMarker from './LocationMarker';
 import AddressInput from './AddressInput';
 import MetroInput from './MetroInput';
+import SettlementSelect from './SettlementSelect';
 import StepTitle from '../StepTitle';
 import { AppContext } from '../../../store/appContext';
 import { updatePost } from '../../../actions/post';
@@ -39,12 +40,15 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { city, district, location, address, metroStation } = mapstate;
+  const { city, district, subdistrict, location, address, metroStation } =
+    mapstate;
 
-  const mapCenter: [number, number] =
+  const defaultmapCenter: [number, number] =
     post.location[0] === 0 && post.location[1] === 0
       ? [post.city.y ?? 0, post.city.x ?? 0]
       : [post.location[1], post.location[0]];
+
+  const [mapCenter, setMapCenter] = useState(defaultmapCenter);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -95,7 +99,13 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
             }}
           >
             <Box sx={{ width: '100%' }}>
-              {`${city.name} ${district?.name}`}
+              <SettlementSelect
+                city={city}
+                district={district}
+                subdistrict={subdistrict}
+                setMapState={setMapState}
+                setMapCenter={setMapCenter}
+              />
               <AddressInput
                 city={city}
                 address={address}
@@ -111,6 +121,13 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
           </Box>
         </Hidden>
         <Hidden mdDown>
+          <SettlementSelect
+            city={city}
+            district={district}
+            subdistrict={subdistrict}
+            setMapState={setMapState}
+            setMapCenter={setMapCenter}
+          />
           <AddressInput
             city={city}
             address={address}
@@ -125,7 +142,8 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
           style={{
             height,
             width: '100%',
-            borderRadius: '20px',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px',
             marginBottom: '2rem',
           }}
         >
@@ -151,6 +169,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
           />
           <LocationMarker
             location={location}
+            mapCenter={mapCenter}
             setMapState={setMapState}
             setLoading={setLoading}
           />
@@ -169,7 +188,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
             bottom: 0,
             display: 'flex',
             justifyContent: 'space-between',
-            mb: { xs: 10, md: 0 },
+            mb: 2,
             zIndex: 1000,
           }}
         >

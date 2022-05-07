@@ -4,13 +4,14 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { parseCookies } from 'nookies';
 import Layout from '../components/Layout';
 import createEmotionCache from '../utils/createEmotionCache';
-import { User } from '../types';
+import { User, CustomNextPage } from '../types';
 import AppProvider from '../store/appContext';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps extends AppProps {
+  Component: CustomNextPage;
   emotionCache?: EmotionCache;
 }
 
@@ -21,10 +22,14 @@ interface PageProps {
 
 const MyApp = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { displayBottomNavigationBar } = Component;
   return (
     <CacheProvider value={emotionCache}>
       <AppProvider>
-        <Layout {...pageProps}>
+        <Layout
+          displayBottomNavigationBar={displayBottomNavigationBar}
+          {...pageProps}
+        >
           <Component {...pageProps} />
         </Layout>
       </AppProvider>

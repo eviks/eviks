@@ -77,7 +77,11 @@ const EditPost: NextPage = () => {
   if (loading) return null;
 
   return (
-    <Grid container sx={{ py: fullScreenMode ? 0 : 10 }} columns={10}>
+    <Grid
+      container
+      sx={{ pt: fullScreenMode ? 0 : 10, pb: fullScreenMode ? 0 : 5 }}
+      columns={10}
+    >
       <Hidden mdDown>
         <Grid item xs={0} md={2}>
           <Container disableGutters={fullScreenMode} sx={{ mx: 1 }}>

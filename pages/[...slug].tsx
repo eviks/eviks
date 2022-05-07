@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback, useContext } from 'react';
-import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
 import axios from 'axios';
@@ -7,7 +6,7 @@ import PostItem from '../components/PostItem';
 import { AppContext } from '../store/appContext';
 import { Types } from '../store/reducers';
 import { setURLParams } from '../utils/urlParams';
-import { Post } from '../types';
+import { Post, CustomNextPage } from '../types';
 
 interface QueryParams {
   slug: string[];
@@ -15,7 +14,7 @@ interface QueryParams {
 
 type StringQueryParams = Record<keyof QueryParams, string>;
 
-const Posts: NextPage = () => {
+const Posts: CustomNextPage = () => {
   const { state, dispatch } = useContext(AppContext);
   const { posts } = state.posts;
 
@@ -64,5 +63,7 @@ const Posts: NextPage = () => {
     </Container>
   );
 };
+
+Posts.displayBottomNavigationBar = true;
 
 export default Posts;

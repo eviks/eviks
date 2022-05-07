@@ -1,6 +1,6 @@
 import { FC, Dispatch, createContext, useReducer } from 'react';
 import { PostsContext, AuthContext, Post } from '../types';
-import { defaultPost } from '../utils/defaultSettlements';
+import { defaultPost } from '../utils/defaultValues';
 import {
   postsReducer,
   authReducer,

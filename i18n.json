@@ -2,7 +2,7 @@
   "locales": ["az", "ru"],
   "defaultLocale": "az",
   "pages": {
-    "*": ["common"],
+    "*": ["common", "settlement"],
     "/auth": ["auth"],
     "/verification": ["verification"],
     "/posts/[id]": ["post"],

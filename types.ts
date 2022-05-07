@@ -1,3 +1,5 @@
+import { NextPage } from 'next';
+
 export interface ErrorAlert {
   message: string;
   open: boolean;
@@ -163,3 +165,7 @@ export interface ImageData {
   isTemp: boolean;
   isUploaded: boolean;
 }
+
+export type CustomNextPage = NextPage & {
+  displayBottomNavigationBar?: boolean;
+};

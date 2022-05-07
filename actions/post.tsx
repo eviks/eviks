@@ -1,5 +1,6 @@
 import { Dispatch } from 'react';
 import axios from 'axios';
+import { getLocalities } from './localities';
 import { Types } from '../store/reducers';
 import { setURLParams } from '../utils/urlParams';
 import Failure from '../utils/errors/failure';
@@ -99,22 +100,6 @@ export const geocoder = async (text: string, lon: number, lat: number) => {
     });
 
     return addresses;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.code === '500')
-      throw new ServerError(error.message);
-    else {
-      throw new Failure(getErrorMessage(error));
-    }
-  }
-};
-
-export const getLocalities = async (queryParameters: {
-  [key: string]: string;
-}) => {
-  const url = setURLParams(queryParameters);
-
-  try {
-    return await axios.get<Settlement[]>(`/api/localities/?${url}`);
   } catch (error) {
     if (axios.isAxiosError(error) && error.code === '500')
       throw new ServerError(error.message);

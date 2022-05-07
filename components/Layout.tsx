@@ -27,7 +27,10 @@ import {
 import CloseIcon from './icons/CloseIcon';
 import StyledBottomNavigation from './StyledBottomNavigation';
 
-const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
+const Layout: FC<{
+  displayBottomNavigationBar: boolean;
+  initDarkMode: boolean;
+}> = ({ displayBottomNavigationBar, initDarkMode, children }) => {
   <Head>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
   </Head>;
@@ -108,7 +111,7 @@ const Layout: FC<{ initDarkMode: boolean }> = ({ initDarkMode, children }) => {
             children
           )}
         </Fragment>
-        <StyledBottomNavigation />
+        {displayBottomNavigationBar && <StyledBottomNavigation />}
       </SnackbarProvider>
     </ThemeProvider>
   );
