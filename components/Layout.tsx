@@ -63,6 +63,7 @@ const Layout: FC<{
   const useStyles = makeStyles(() => {
     return {
       variantError: {
+        marginBottom: '2rem',
         backgroundColor: `${
           darkMode ? lightPrimaryColor : primaryColor
         } !important`,
@@ -77,7 +78,7 @@ const Layout: FC<{
         ref={notistackRef}
         maxSnack={3}
         anchorOrigin={{
-          vertical: 'top',
+          vertical: 'bottom',
           horizontal: 'right',
         }}
         hideIconVariant={true}

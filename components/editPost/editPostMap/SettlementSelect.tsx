@@ -1,9 +1,10 @@
-import React, { FC, useState } from 'react';
+import React, { FC, Fragment, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import CitySelect from '../../selections/CitySelect';
+import CitySelection from '../../selections/CitySelection';
+import DistrictSelection from '../../selections/DistrictSelection';
 import { getSettlementPresentation } from '../../../utils';
 import { MapState, Settlement } from '../../../types';
 
@@ -13,10 +14,22 @@ const SettlementSelect: FC<{
   subdistrict?: Settlement;
   setMapState: React.Dispatch<React.SetStateAction<MapState>>;
   setMapCenter: React.Dispatch<React.SetStateAction<[number, number]>>;
-}> = ({ city, district, subdistrict, setMapState, setMapCenter }) => {
+  addressError: string;
+  setAddressError: React.Dispatch<React.SetStateAction<string>>;
+}> = ({
+  city,
+  district,
+  subdistrict,
+  setMapState,
+  setMapCenter,
+  addressError,
+  setAddressError,
+}) => {
   const { t } = useTranslation();
 
-  const [openCitySelect, setOpenCitySelect] = useState<boolean>(false);
+  const [openCitySelection, setOpenCitySelection] = useState<boolean>(false);
+  const [openDistrictSelection, setOpenDistrictSelection] =
+    useState<boolean>(false);
 
   const getDistrictPresentation = () => {
     let presentation = '';
@@ -34,19 +47,19 @@ const SettlementSelect: FC<{
     return presentation;
   };
 
-  const handleCitySelectOnClick = (event: React.FormEvent) => {
+  const handleCitySelectionOnClick = (event: React.FormEvent) => {
     event.preventDefault();
-    setOpenCitySelect(true);
+    setOpenCitySelection(true);
   };
 
-  const handleCitySelectClose = (value?: Settlement) => {
-    setOpenCitySelect(false);
+  const handleCitySelectionClose = (value?: Settlement) => {
+    setOpenCitySelection(false);
+    setAddressError('');
     if (value) {
       setMapState((prevState) => {
         return {
           ...prevState,
           city: value,
-          address: '',
           location: [0, 0],
           district: undefined,
           subdistrict: undefined,
@@ -58,41 +71,78 @@ const SettlementSelect: FC<{
 
   const handleDistrictSelectOnClick = (event: React.FormEvent) => {
     event.preventDefault();
+    setOpenDistrictSelection(true);
+  };
+
+  const handleDistrictSelectionClose = (
+    districtValue?: Settlement,
+    subdistrictValue?: Settlement,
+  ) => {
+    setOpenDistrictSelection(false);
+    setAddressError('');
+    if (districtValue || subdistrictValue) {
+      setMapState((prevState) => {
+        return {
+          ...prevState,
+          district: districtValue,
+          subdistrict: subdistrictValue,
+        };
+      });
+    }
   };
 
   return (
-    <Box
-      sx={{
-        mb: { xs: 0, md: 2 },
-        display: 'flex',
-        flexDirection: { xs: 'row', md: 'column' },
-        gap: '10px',
-      }}
-    >
-      <Box sx={{ display: 'flex', mb: 1 }}>
-        <Typography sx={{ mr: 1 }}>{`${t('post:city')}:`}</Typography>
-        <Link
-          component="button"
-          variant="body1"
-          underline="none"
-          onClick={handleCitySelectOnClick}
-        >
-          {getSettlementPresentation(city)}
-        </Link>
-        <CitySelect open={openCitySelect} onClose={handleCitySelectClose} />
+    <Fragment>
+      <Box
+        sx={{
+          mb: { xs: 0, md: 2 },
+          display: 'flex',
+          alignItems: 'start',
+          flexDirection: { xs: 'row', md: 'column' },
+          gap: '10px',
+        }}
+      >
+        <Box sx={{ display: 'flex', mb: 1 }}>
+          <Typography sx={{ mr: 1 }}>{`${t('post:city')}:`}</Typography>
+          <Link
+            component="button"
+            variant="body1"
+            underline="none"
+            onClick={handleCitySelectionOnClick}
+          >
+            {getSettlementPresentation(city)}
+          </Link>
+          <CitySelection
+            open={openCitySelection}
+            onClose={handleCitySelectionClose}
+          />
+        </Box>
+        <Box sx={{ display: 'flex', mb: 1 }}>
+          <Typography sx={{ mr: 1 }}>{`${t('post:district')}:`}</Typography>
+          <Link
+            component="button"
+            variant="body1"
+            underline="none"
+            onClick={handleDistrictSelectOnClick}
+          >
+            {getDistrictPresentation()}
+          </Link>
+          <DistrictSelection
+            city={city}
+            defaultDistricts={[]}
+            defaultSubdistricts={[]}
+            multiple={false}
+            open={openDistrictSelection}
+            onClose={handleDistrictSelectionClose}
+          />
+        </Box>
       </Box>
-      <Box sx={{ display: 'flex', mb: 1 }}>
-        <Typography sx={{ mr: 1 }}>{`${t('post:district')}:`}</Typography>
-        <Link
-          component="button"
-          variant="body1"
-          underline="none"
-          onClick={handleDistrictSelectOnClick}
-        >
-          {getDistrictPresentation()}
-        </Link>
-      </Box>
-    </Box>
+      {addressError && (
+        <Box sx={{ mb: 2, width: '100%' }}>
+          {<Typography color={'error'}>{addressError}</Typography>}
+        </Box>
+      )}
+    </Fragment>
   );
 };
 

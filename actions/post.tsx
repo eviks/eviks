@@ -173,6 +173,8 @@ export const getAddressByCoords = async (data: Coords) => {
       subdistrict = district.children?.find((element) => {
         return element.name === subdistrictName;
       });
+    } else if (district?.children?.length === 1) {
+      [subdistrict] = district.children;
     }
 
     const state: GetAddressResult = {

@@ -39,6 +39,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
   });
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [addressError, setAddressError] = useState<string>('');
 
   const { city, district, subdistrict, location, address, metroStation } =
     mapstate;
@@ -52,6 +53,26 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (location[0] === 0 || location[1] === 0 || !city || !district) {
+      setAddressError(t('post:wrongAddress'));
+      return;
+    }
+
+    if (!city) {
+      setAddressError(t('post:cityError'));
+      return;
+    }
+
+    if (!district) {
+      setAddressError(t('post:districtError'));
+      return;
+    }
+
+    if ((district.children?.length ?? 0) > 0 && !subdistrict) {
+      setAddressError(t('post:subdistrictError'));
+      return;
+    }
 
     updatePost({
       ...post,
@@ -93,7 +114,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
               zIndex: 1000,
               px: 3,
               width: '100%',
-              pt: 10,
+              pt: 8,
               backgroundColor: theme.palette.background.default,
               borderRadius: '0px 0px 24px 24px',
             }}
@@ -105,6 +126,8 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
                 subdistrict={subdistrict}
                 setMapState={setMapState}
                 setMapCenter={setMapCenter}
+                addressError={addressError}
+                setAddressError={setAddressError}
               />
               <AddressInput
                 city={city}
@@ -127,6 +150,8 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
             subdistrict={subdistrict}
             setMapState={setMapState}
             setMapCenter={setMapCenter}
+            addressError={addressError}
+            setAddressError={setAddressError}
           />
           <AddressInput
             city={city}

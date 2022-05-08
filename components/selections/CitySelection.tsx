@@ -21,12 +21,12 @@ import CloseIcon from '../icons/CloseIcon';
 import SearchIcon from '../icons/SearchIcon';
 import { Settlement } from '../../types';
 
-interface CitySelectState {
+interface CitySelectionState {
   open: boolean;
   onClose: (value?: Settlement) => void;
 }
 
-const CitySelect: FC<CitySelectState> = ({ open, onClose }) => {
+const CitySelection: FC<CitySelectionState> = ({ open, onClose }) => {
   const { t } = useTranslation();
   const { width } = useWindowSize();
 
@@ -173,4 +173,4 @@ const CitySelect: FC<CitySelectState> = ({ open, onClose }) => {
   );
 };
 
-export default CitySelect;
+export default CitySelection;
