@@ -264,3 +264,22 @@ export const deleteImage = async (token: string, id: string) => {
     }
   }
 };
+
+export const createPost = async (token: string, post: Post) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    return await axios.post<Post>('/api/posts/', post, config);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};

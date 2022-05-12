@@ -68,32 +68,25 @@ const PostSchema = new mongoose.Schema(
       id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'metroStations',
-        required: true,
         index: true,
       },
       cityId: {
         type: String,
-        required: true,
       },
       name: {
         type: String,
-        required: true,
       },
       nameRu: {
         type: String,
-        required: true,
       },
       nameEn: {
         type: String,
-        required: true,
       },
       x: {
         type: Number,
-        required: true,
       },
       y: {
         type: Number,
-        required: true,
       },
     },
     location: {
@@ -301,7 +294,7 @@ const PostSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
-    contact: {
+    phoneNumber: {
       type: String,
       required: true,
       index: true,

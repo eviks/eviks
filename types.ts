@@ -33,7 +33,7 @@ export enum Renovation {
 }
 
 export interface MetroStation {
-  _id: String;
+  _id: string;
   cityId: string;
   name: string;
   nameRu: string;
@@ -110,23 +110,25 @@ export interface Post {
   installmentOfPayment?: boolean;
   prepayment?: boolean;
   municipalServicesIncluded?: boolean;
+  phoneNumber: string;
+  username: string;
   step?: number;
   lastStep?: number;
 }
 
 export interface User {
-  _id: String;
-  displayName: String;
-  email: String;
+  _id: string;
+  displayName: string;
+  email: string;
   createdAt: Date;
   updatedAt: Date;
   active?: boolean;
-  activationToken?: String;
+  activationToken?: string;
   activationTokenExpires?: Date;
-  resetPasswordToken?: String;
+  resetPasswordToken?: string;
   resetPasswordExpires?: Date;
-  picture?: String;
-  googleId?: String;
+  picture?: string;
+  googleId?: string;
   favorites?: { [key: string]: boolean };
 }
 

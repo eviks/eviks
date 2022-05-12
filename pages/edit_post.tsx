@@ -14,6 +14,7 @@ import EditPostBuildingInfo from '../components/editPost/EditPostBuildingInfo';
 import EditPostAdditionalInfo from '../components/editPost/EditPostAdditionalInfo';
 import EditPostImages from '../components/editPost/editPostImages/EditPostImages';
 import EditPostPrice from '../components/editPost/EditPostPrice';
+import EditPostContacts from '../components/editPost/EditPostContacts';
 import { initPost } from '../actions/post';
 import useWindowSize from '../utils/hooks/useWindowSize';
 
@@ -69,6 +70,8 @@ const EditPost: NextPage = () => {
         return <EditPostImages />;
       case 6:
         return <EditPostPrice />;
+      case 7:
+        return <EditPostContacts />;
       default:
         return <EditPostGeneralInfo />;
     }

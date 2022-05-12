@@ -51,10 +51,20 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
 
   const [mapCenter, setMapCenter] = useState(defaultmapCenter);
 
+  const updatePostAndDispatch = (step: number) => {
+    updatePost({
+      ...post,
+      ...mapstate,
+      metroStation: metroStation || undefined,
+      step,
+      lastStep: Math.max(1, post.lastStep ?? 1),
+    })(dispatch);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (location[0] === 0 || location[1] === 0 || !city || !district) {
+    if (location[0] === 0 || location[1] === 0) {
       setAddressError(t('post:wrongAddress'));
       return;
     }
@@ -74,23 +84,11 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
       return;
     }
 
-    updatePost({
-      ...post,
-      ...mapstate,
-      metroStation: metroStation || undefined,
-      step: 2,
-      lastStep: Math.max(1, post.lastStep ?? 1),
-    })(dispatch);
+    updatePostAndDispatch(2);
   };
 
   const handlePrevStepClick = () => {
-    updatePost({
-      ...post,
-      ...mapstate,
-      metroStation: metroStation || undefined,
-      step: 0,
-      lastStep: Math.max(1, post.lastStep ?? 1),
-    })(dispatch);
+    updatePostAndDispatch(0);
   };
 
   return (

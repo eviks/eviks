@@ -78,9 +78,17 @@
   "imagesError": "Нужно добавить хотя бы 3 фотографии",
   "dropzoneHint": "Нажмите, чтобы добавить фотографии или перетащите их в эту область",
   "price": "Цена",
+  "pricePerMonth": "Цена за месяц",
+  "pricePerDay": "Цена за сутки",
   "haggle": "Возможен торг",
   "installmentOfPayment": "Возможна оплата в несколько этапов",
   "prepayment": "Требуется предоплата",
   "municipalServicesIncluded": "Включены коммунальные услуги",
-  "priceTitle": "Цена"
+  "priceTitle": "Цена",
+  "phoneNumber": "Номер телефона",
+  "submitPost": "Разместить объявление",
+  "contactTitle": "Контакты",
+  "postAlmostCreated": "Почти готово!",
+  "postAlmostCreatedHint": "Осталось ввести ваши контактные данные",
+  "username": "Как вас представить?"
 }

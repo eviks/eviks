@@ -43,6 +43,7 @@
   "designer": "Xüsusi dizayn",
   "noRenovation": "Təmir tələb olunur",
   "redevelopment": "Planlaşdırılma dəyişdirildi",
+  "documented": "Kupça var",
   "buildingInfo": "Bina",
   "yearBuild": "Tikiliş ili",
   "ceilingHeight": "Tavanın hündürlüyü, m",
@@ -77,9 +78,17 @@
   "imagesError": "Ən azı 3 şəkili əlavə etmək lazımdır",
   "dropzoneHint": "Şəkilləri əlavə etmək üçün buraya basın və ya bu sahəyə onları keçirin",
   "price": "Qiymət",
+  "pricePerMonth": "Aylıq qiymət",
+  "pricePerDay": "Gündəlik qiymət",
   "haggle": "Endirim mümkündür",
   "installmentOfPayment": "Hissə-hissə ödəniş mümkündür",
   "prepayment": "Əvvəlcədən ödəniş tələb olunur",
   "municipalServicesIncluded": "Kommunal xidmətlər daxildir",
-  "priceTitle": "Qiymət"
+  "priceTitle": "Qiymət",
+  "phoneNumber": "Telefon nömrəsi",
+  "submitPost": "Elanı vermək",
+  "contactTitle": "Əlaqə",
+  "postAlmostCreated": "Demək olar ki, hazırdır!",
+  "postAlmostCreatedHint": "Ancaq əlaqə məlumatlarınızı daxil etmək qalır",
+  "username": "Sizi necə təqdim etmək?"
 }

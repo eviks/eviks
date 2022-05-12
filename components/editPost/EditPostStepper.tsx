@@ -12,6 +12,7 @@ import ApartmentIcon from '../icons/ApartmentIcon';
 import PlusIcon from '../icons/PlusIcon';
 import CameraIcon from '../icons/CameraIcon';
 import MoneyIcon from '../icons/MoneyIcon';
+import PhoneCallIcon from '../icons/PhoneCallIcon';
 
 const EditPostStepper: FC<{ step: number }> = ({ step }) => {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
     t('post:additionalInfo'),
     t('post:images'),
     t('post:priceTitle'),
+    t('post:contactTitle'),
   ];
 
   const ColorlibStepIconRoot = styled('div')<{
@@ -63,6 +65,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
       5: <PlusIcon />,
       6: <CameraIcon />,
       7: <MoneyIcon />,
+      8: <PhoneCallIcon />,
     };
 
     return (

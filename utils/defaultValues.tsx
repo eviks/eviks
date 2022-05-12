@@ -385,6 +385,8 @@ export const defaultPost: Post = {
   renovation: Renovation.cosmetic,
   images: [],
   originalImages: [],
+  phoneNumber: '',
+  username: '',
   price: 0,
-  step: 1,
+  step: 0,
 };

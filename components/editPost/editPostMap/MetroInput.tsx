@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Autocomplete from '@mui/material/Autocomplete';
+import InputAdornment from '@mui/material/InputAdornment';
 import StyledInput from '../../StyledInput';
+import MetroIcon from '../../icons/MetroIcon';
 import { MetroStation, MapState, Settlement } from '../../../types';
 import { getMetroPresentation } from '../../../utils';
 
@@ -57,6 +59,11 @@ const MetroInput: FC<{
               fullWidth: true,
               ref: params.InputProps.ref,
               inputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MetroIcon sx={{ mx: 2 }} />
+                </InputAdornment>
+              ),
             }}
           />
         );

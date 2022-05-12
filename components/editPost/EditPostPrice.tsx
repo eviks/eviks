@@ -61,6 +61,19 @@ const EditPostPrice: FC = () => {
     municipalServicesIncluded,
   } = priceState;
 
+  const getPriceLabel = () => {
+    switch (post.dealType) {
+      case DealType.sale:
+        return t('post:price');
+      case DealType.rentPerDay:
+        return t('post:pricePerDay');
+      case DealType.rent:
+        return t('post:pricePerMonth');
+      default:
+        return t('post:price');
+    }
+  };
+
   const updatePostAndDispatch = (step: number) => {
     updatePost({
       ...post,
@@ -70,7 +83,7 @@ const EditPostPrice: FC = () => {
       prepayment,
       municipalServicesIncluded,
       step,
-      lastStep: Math.max(3, post.lastStep ?? 6),
+      lastStep: Math.max(6, post.lastStep ?? 6),
     })(dispatch);
   };
 
@@ -112,7 +125,7 @@ const EditPostPrice: FC = () => {
           value={price}
           name="price"
           errorMessages={[t('common:errorRequiredField')]}
-          label={t('post:price')}
+          label={getPriceLabel()}
           input={{
             id: 'price',
             type: 'number',

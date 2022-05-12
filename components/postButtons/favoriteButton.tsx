@@ -14,6 +14,7 @@ import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
 
 const FavoriteButton: FC<{ postId: number }> = ({ postId }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const { state, dispatch } = useContext(AppContext);
 
   const favorites =
@@ -28,8 +29,6 @@ const FavoriteButton: FC<{ postId: number }> = ({ postId }) => {
   const theme = useTheme();
 
   const [loading, setLoading] = useState<boolean>(false);
-
-  const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = async () => {
     if (!state.auth.token) {

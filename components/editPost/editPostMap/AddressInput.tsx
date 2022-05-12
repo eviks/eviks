@@ -4,9 +4,11 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import InputAdornment from '@mui/material/InputAdornment';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import StyledInput from '../../StyledInput';
+import MarkerIcon from '../../icons/MarkerIcon';
 import { geocoder, getAddressByCoords } from '../../../actions/post';
 import { MapState, Settlement, Address } from '../../../types';
 
@@ -130,6 +132,11 @@ const AddressInput: FC<{
               fullWidth: true,
               ref: params.InputProps.ref,
               inputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MarkerIcon sx={{ mx: 2 }} />
+                </InputAdornment>
+              ),
               endAdornment: (
                 <Fragment>
                   {loading ? (
