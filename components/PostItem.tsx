@@ -11,7 +11,7 @@ import Hidden from '@mui/material/Hidden';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import FavoriteButton from './postButtons/favoriteButton';
-import StyledCarousel from './StyledCarousel';
+import StyledCarousel from './layout/StyledCarousel';
 import { Post } from '../types';
 import useWindowSize from '../utils/hooks/useWindowSize';
 import { getSettlementPresentation } from '../utils';

@@ -12,7 +12,7 @@ import Hidden from '@mui/material/Hidden';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import { useSnackbar } from 'notistack';
-import StyledInput from '../StyledInput';
+import StyledInput from '../layout/StyledInput';
 import PhoneCallIcon from '../icons/PhoneCallIcon';
 import UserIcon from '../icons/UserIcon';
 import CheckedIcon from '../icons/CheckedIcon';
@@ -51,6 +51,7 @@ const EditPostContacts: FC = () => {
       ...post,
       phoneNumber,
       username,
+      active: true,
       step,
       lastStep: Math.max(7, post.lastStep ?? 7),
     };

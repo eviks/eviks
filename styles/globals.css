@@ -79,7 +79,7 @@ a {
   padding-inline-start: 0;
 }
 
-.container1 {
+.dropzone-container {
   display: flex;
   flex-direction: column;
   font-family: sans-serif;
@@ -99,4 +99,25 @@ a {
   color: #bdbdbd;
   outline: none;
   transition: border 0.24s ease-in-out;
+}
+
+.searchbar-relative {
+  position: relative;
+}
+
+.searchbar-fixed {
+  transition: transform 0.3s ease;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 500;
+}
+
+.searchbar-hidden {
+  transform: translate3d(0, -100%, 0);
+}
+
+.searchbar-transition {
+  transition: none;
 }

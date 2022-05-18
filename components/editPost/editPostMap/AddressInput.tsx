@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import StyledInput from '../../StyledInput';
+import StyledInput from '../../layout/StyledInput';
 import MarkerIcon from '../../icons/MarkerIcon';
 import { geocoder, getAddressByCoords } from '../../../actions/post';
 import { MapState, Settlement, Address } from '../../../types';

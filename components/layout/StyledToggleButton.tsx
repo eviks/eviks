@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { withStyles } from '@mui/styles';
 import { ValidatorComponent } from 'react-material-ui-form-validator';
-import ErrorTypography from './ErrorTypography';
+import ErrorTypography from '../ErrorTypography';
 
 interface Values {
   value: string;

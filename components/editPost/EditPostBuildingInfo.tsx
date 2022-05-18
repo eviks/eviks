@@ -9,7 +9,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import StepTitle from './StepTitle';
-import StyledInput from '../StyledInput';
+import StyledInput from '../layout/StyledInput';
 import CalendarIcon from '../icons/CalendarIcon';
 import MeasuringIcon from '../icons/MeasuringIcon';
 import ElevatorIcon from '../icons/ElevatorIcon';

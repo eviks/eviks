@@ -15,22 +15,28 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { makeStyles } from '@mui/styles/';
 import { SnackbarProvider, SnackbarKey } from 'notistack';
-import { AppContext } from '../store/appContext';
-import { loadUser } from '../actions/auth';
+import { AppContext } from '../../store/appContext';
+import { loadUser } from '../../actions/auth';
 import StyledAppbar from './StyledAppBar';
 import {
   lightTheme,
   darkTheme,
   primaryColor,
   lightPrimaryColor,
-} from '../utils/theme';
-import CloseIcon from './icons/CloseIcon';
+} from '../../utils/theme';
+import CloseIcon from '../icons/CloseIcon';
 import StyledBottomNavigation from './StyledBottomNavigation';
 
 const Layout: FC<{
   displayBottomNavigationBar: boolean;
+  displaySearchBar: boolean;
   initDarkMode: boolean;
-}> = ({ displayBottomNavigationBar, initDarkMode, children }) => {
+}> = ({
+  displayBottomNavigationBar,
+  displaySearchBar,
+  initDarkMode,
+  children,
+}) => {
   <Head>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
   </Head>;
@@ -94,7 +100,11 @@ const Layout: FC<{
         }}
       >
         <CssBaseline />
-        <StyledAppbar darkMode={darkMode} setDarkMode={setDarkMode} />
+        <StyledAppbar
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+          displaySearchBar={displaySearchBar}
+        />
         <Fragment>
           {loading ? (
             <Backdrop

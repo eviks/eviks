@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Autocomplete from '@mui/material/Autocomplete';
 import InputAdornment from '@mui/material/InputAdornment';
-import StyledInput from '../../StyledInput';
+import StyledInput from '../../layout/StyledInput';
 import MetroIcon from '../../icons/MetroIcon';
 import { MetroStation, MapState, Settlement } from '../../../types';
 import { getMetroPresentation } from '../../../utils';
@@ -38,7 +38,7 @@ const MetroInput: FC<{
         return getMetroPresentation(option);
       }}
       value={metroStation}
-      options={city.metroStations!}
+      options={city.metroStations!.sort((a, b) => {return getMetroPresentation(a).localeCompare(getMetroPresentation(b))})}
       isOptionEqualToValue={(option, value) => {
         if (!value) return false;
         return option._id === value._id;

@@ -84,7 +84,7 @@ const PostImageDropzone: FC<{
   };
 
   return (
-    <section className="container1">
+    <section className="dropzone-container">
       <Box {...getRootProps()} sx={dropzoneStyle}>
         <input {...getInputProps()} />
         <ImageIcon color="disabled" sx={{ fontSize: '4rem', mb: 1 }} />

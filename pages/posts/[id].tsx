@@ -4,7 +4,7 @@ import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import StyledCarousel from '../../components/StyledCarousel';
+import StyledCarousel from '../../components/layout/StyledCarousel';
 import { fetchPost } from '../../actions/posts';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import { Post } from '../../types';

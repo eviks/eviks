@@ -4,7 +4,7 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import StepTitle from './StepTitle';
-import StyledToggleButton from '../StyledToggleButton';
+import StyledToggleButton from '../layout/StyledToggleButton';
 import { AppContext } from '../../store/appContext';
 import { updatePost } from '../../actions/post';
 import { UserType, EstateType, ApartmentType, DealType } from '../../types';

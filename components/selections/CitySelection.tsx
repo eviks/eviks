@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Box from '@mui/material/Box';
-import StyledInput from '../StyledInput';
+import StyledInput from '../layout/StyledInput';
 import { getLocalities } from '../../actions/localities';
 import { removeAzerbaijaniChars, getSettlementPresentation } from '../../utils';
 import useWindowSize from '../../utils/hooks/useWindowSize';

@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { ValidatorForm } from 'react-material-ui-form-validator';
-import StyledInput from '../StyledInput';
+import StyledInput from '../layout/StyledInput';
 import ShowPasswordIcon from '../icons/ShowPasswordIcon';
 import HidePasswordIcon from '../icons/HidePasswordIcon';
 import CloseIcon from '../icons/CloseIcon';

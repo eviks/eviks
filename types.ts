@@ -132,8 +132,16 @@ export interface User {
   favorites?: { [key: string]: boolean };
 }
 
+export interface PostFilters {
+  city: Settlement;
+  dealType: DealType;
+  priceMin: number;
+  priceMax: number;
+}
+
 export interface PostsContext {
   posts: Post[];
+  filters: PostFilters;
 }
 
 export interface AuthContext {
@@ -170,4 +178,5 @@ export interface ImageData {
 
 export type CustomNextPage = NextPage & {
   displayBottomNavigationBar?: boolean;
+  displaySearchBar?: boolean;
 };

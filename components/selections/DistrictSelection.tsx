@@ -13,7 +13,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Box from '@mui/material/Box';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import StyledInput from '../StyledInput';
+import StyledInput from '../layout/StyledInput';
 import TreeBranch from './TreeBranch';
 import { getLocalities } from '../../actions/localities';
 import { removeAzerbaijaniChars } from '../../utils';

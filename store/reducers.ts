@@ -1,6 +1,6 @@
 import { Reducer } from 'react';
 import { defaultPost } from '../utils/defaultValues';
-import { Post, PostsContext, AuthContext } from '../types';
+import { Post, PostFilters, PostsContext, AuthContext } from '../types';
 
 type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -15,6 +15,7 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 export enum Types {
   GetPosts = 'GET_POSTS',
+  SetFilters = 'SET_FILTERS',
   LoadUser = 'LOAD_USER',
   LoginUser = 'LOGIN_USER',
   VerifyUser = 'VERIFY_USER',
@@ -28,6 +29,7 @@ export enum Types {
 // PAYLOAD TYPES
 type PostsPayload = {
   [Types.GetPosts]: Post[];
+  [Types.SetFilters]: PostFilters;
 };
 
 type AuthPayload = {
@@ -62,6 +64,11 @@ export const postsReducer: Reducer<
       return {
         ...state,
         posts: action.payload,
+      };
+    case Types.SetFilters:
+      return {
+        ...state,
+        filters: { ...state.filters, ...action.payload },
       };
     default:
       return state;

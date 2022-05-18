@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import type { AppContext, AppProps } from 'next/app';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { parseCookies } from 'nookies';
-import Layout from '../components/Layout';
+import Layout from '../components/layout/Layout';
 import createEmotionCache from '../utils/createEmotionCache';
 import { User, CustomNextPage } from '../types';
 import AppProvider from '../store/appContext';
@@ -22,12 +22,13 @@ interface PageProps {
 
 const MyApp = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const { displayBottomNavigationBar } = Component;
+  const { displayBottomNavigationBar, displaySearchBar } = Component;
   return (
     <CacheProvider value={emotionCache}>
       <AppProvider>
         <Layout
           displayBottomNavigationBar={displayBottomNavigationBar}
+          displaySearchBar={displaySearchBar}
           {...pageProps}
         >
           <Component {...pageProps} />

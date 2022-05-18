@@ -8,7 +8,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import StepTitle from './StepTitle';
-import StyledInput from '../StyledInput';
+import StyledInput from '../layout/StyledInput';
 import MoneyIcon from '../icons/MoneyIcon';
 import { AppContext } from '../../store/appContext';
 import { updatePost } from '../../actions/post';

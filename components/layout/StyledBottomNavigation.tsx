@@ -6,10 +6,10 @@ import Paper from '@mui/material/Paper';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { useTheme, alpha } from '@mui/material/styles';
-import HeartIcon from './icons/HeartIcon';
-import SettingsIcon from './icons/SettingsIcon';
-import PlusIcon from './icons/PlusIcon';
-import SearchIcon from './icons/SearchIcon';
+import HeartIcon from '../icons/HeartIcon';
+import SettingsIcon from '../icons/SettingsIcon';
+import PlusIcon from '../icons/PlusIcon';
+import SearchIcon from '../icons/SearchIcon';
 
 const StyledBottomNavigation: FC = () => {
   const { t } = useTranslation();

@@ -5,7 +5,7 @@ import InputBase from '@mui/material/InputBase';
 import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
 import { ValidatorComponent } from 'react-material-ui-form-validator';
-import ErrorTypography from './ErrorTypography';
+import ErrorTypography from '../ErrorTypography';
 
 const StyledInputBase: FC = styled(InputBase)(({ theme }) => {
   return {

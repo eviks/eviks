@@ -4,7 +4,7 @@ import CardMedia from '@mui/material/CardMedia';
 import { useTheme } from '@mui/material/styles';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
-import useWindowSize from '../utils/hooks/useWindowSize';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 
 const StyledCarousel: FC<{
   images: string[];

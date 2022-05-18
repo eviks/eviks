@@ -5,6 +5,7 @@ import {
   EstateType,
   DealType,
   Renovation,
+  PostFilters,
 } from '../types';
 
 export const capitalCity: Settlement = {
@@ -389,4 +390,11 @@ export const defaultPost: Post = {
   username: '',
   price: 0,
   step: 0,
+};
+
+export const defaultPostFilters: PostFilters = {
+  city: capitalCity,
+  dealType: DealType.sale,
+  priceMin: 0,
+  priceMax: 0,
 };
