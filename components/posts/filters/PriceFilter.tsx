@@ -7,6 +7,7 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledInput from '../../layout/StyledInput';
 import MoneyIcon from '../../icons/MoneyIcon';
 import { AppContext } from '../../../store/appContext';
+import { pushToNewPostsRoute } from '../../../actions/posts';
 import { PostFilters } from '../../../types';
 
 interface PriceState {
@@ -53,6 +54,26 @@ const PriceFilter: FC = () => {
     });
   };
 
+  const setPriceFilters = () => {
+    pushToNewPostsRoute({
+      ...filters,
+      priceMin: Number(priceMin),
+      priceMax: Number(priceMax),
+    });
+  };
+
+  const handleBlur = (_event: React.ChangeEvent<HTMLInputElement>) => {
+    setPriceFilters();
+  };
+
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const target = event.target as HTMLInputElement;
+      target.blur();
+    }
+  };
+
   return (
     <ValidatorForm onSubmit={handleSubmit}>
       <Typography variant="body1" sx={{ mb: 2, fontWeight: 'bold' }}>
@@ -71,6 +92,8 @@ const PriceFilter: FC = () => {
               mr: 2,
             },
             onChange: handleChange,
+            onBlur: handleBlur,
+            onKeyUp: handleKeyUp,
             startAdornment: (
               <InputAdornment position="start">
                 <MoneyIcon sx={{ ml: 1 }} />
@@ -89,6 +112,8 @@ const PriceFilter: FC = () => {
               width: '140px',
             },
             onChange: handleChange,
+            onBlur: handleBlur,
+            onKeyUp: handleKeyUp,
           }}
         />
       </Box>

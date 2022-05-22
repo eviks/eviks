@@ -15,6 +15,8 @@ import { CustomNextPage, DealType } from '../types';
 
 interface QueryParams {
   slug: string[];
+  priceMin: string;
+  priceMax: string;
 }
 
 type StringQueryParams = Record<keyof QueryParams, string>;
@@ -26,12 +28,19 @@ const Posts: CustomNextPage = () => {
   const { posts, filters } = state.posts;
 
   const router = useRouter();
-  const { slug } = router.query as StringQueryParams;
 
   const [isInit, setIsInit] = useState<boolean>(false);
 
   const setFiltersFromURL = useCallback(
-    async (routeName, dealTypeString) => {
+    async (query: StringQueryParams) => {
+      const { slug, ...urlParams } = query;
+      const routeName = slug[0];
+      const dealTypeString = slug[1];
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      setIsInit(false);
+
       try {
         const localityResponse = await getLocalities({ routeName, type: '2' });
         const dealType = enumFromStringValue(DealType, dealTypeString);
@@ -45,6 +54,8 @@ const Posts: CustomNextPage = () => {
           ...defaultPostFilters,
           city: localityResponse.data[0],
           dealType,
+          priceMin: Number(urlParams.priceMin ?? 0),
+          priceMax: Number(urlParams.priceMax ?? 0),
         })(dispatch);
       } catch (error) {
         let errorMessage = '';
@@ -67,9 +78,9 @@ const Posts: CustomNextPage = () => {
   );
 
   useEffect(() => {
-    const { 0: city, 1: dealType } = slug;
-    setFiltersFromURL(city, dealType);
-  }, [setFiltersFromURL, slug]);
+    const query = router.query as StringQueryParams;
+    setFiltersFromURL(query);
+  }, [router.query, setFiltersFromURL]);
 
   const getPosts = useCallback(async () => {
     if (!isInit) return;
@@ -90,6 +101,7 @@ const Posts: CustomNextPage = () => {
         autoHideDuration: 3000,
       });
     }
+    setIsInit(false);
   }, [dispatch, enqueueSnackbar, filters, isInit, t]);
 
   useEffect(() => {

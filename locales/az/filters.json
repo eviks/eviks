@@ -1,4 +1,11 @@
 {
   "valueFrom": "min.",
-  "valueTo": "maks."
+  "valueTo": "maks.",
+  "price": "Qiymət",
+  "priceRange": "{{priceMin}} - {{priceMax}} ₼",
+  "priceUpTo": "{{priceMax}} ₼ qədər",
+  "priceFrom": "{{priceMin}}+ ₼",
+  "thousand": "min",
+  "million": "mln",
+  "billion": "mlrd"
 }

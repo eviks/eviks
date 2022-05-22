@@ -1,8 +1,10 @@
 import React from 'react';
-import { NextPage } from 'next';
+import { CustomNextPage } from '../types';
 
-const Profile: NextPage = () => {
+const Profile: CustomNextPage = () => {
   return <div>Profile</div>;
 };
+
+Profile.displayBottomNavigationBar = true;
 
 export default Profile;

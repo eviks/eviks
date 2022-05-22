@@ -1,4 +1,11 @@
 {
   "valueFrom": "от",
-  "valueTo": "до"
+  "valueTo": "до",
+  "price": "Цена",
+  "priceRange": "{{priceMin}} - {{priceMax}} ₼",
+  "priceUpTo": "До {{priceMax}} ₼",
+  "priceFrom": "{{priceMin}}+ ₼",
+  "thousand": "тыс",
+  "million": "млн",
+  "billion": "млрд"
 }

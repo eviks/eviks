@@ -1,20 +1,49 @@
-import React, { FC, useState, useEffect, useRef, useCallback } from 'react';
-import useTranslation from 'next-translate/useTranslation';
+import React, {
+  FC,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext,
+} from 'react';
+import { useRouter } from 'next/router';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import FilterButton from './FilterButton';
 import PriceFilter from '../filters/PriceFilter';
+import { AppContext } from '../../../store/appContext';
+import { getPriceFilterTitle } from '../../../utils/filterTitles';
 
 const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   appBarRef,
 }) => {
-  const { t } = useTranslation();
+  const router = useRouter();
 
   const searchBarRef = useRef(null);
 
+  const [priceTitle, setPriceTitle] = useState<string>('');
   const [classes, setClasses] = useState<string>('searchbar-relative');
   const [scrollPos, setScrollPos] = useState<number>(0);
+
+  const {
+    state: {
+      posts: { filters },
+    },
+  } = useContext(AppContext);
+
+  const getTitle = useCallback(async () => {
+    const title = await getPriceFilterTitle(
+      filters.priceMin,
+      filters.priceMax,
+      router.locale ?? 'az',
+    );
+    setPriceTitle(title);
+  }, [filters.priceMax, filters.priceMin, router.locale]);
+
+  useEffect(() => {
+    getTitle();
+  }, [getTitle]);
 
   const isInViewport = (element: any) => {
     const bounding = element.getBoundingClientRect();
@@ -47,7 +76,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   }, [onScroll]);
 
   return (
-    <Box ref={searchBarRef}>
+    <Box ref={searchBarRef} sx={{ height: '50px' }}>
       <AppBar
         variant={'outlined'}
         elevation={0}
@@ -58,7 +87,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
         className={classes}
       >
         <Toolbar>
-          <FilterButton title={t('post:price')}>
+          <FilterButton title={priceTitle}>
             <PriceFilter />
           </FilterButton>
         </Toolbar>

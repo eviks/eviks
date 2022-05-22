@@ -1,4 +1,5 @@
 import { Dispatch } from 'react';
+import Router from 'next/router';
 import axios from 'axios';
 import { Types } from '../store/reducers';
 import { setURLParams } from '../utils/urlParams';
@@ -18,17 +19,24 @@ export const fetchPost = async (postId: string) => {
   }
 };
 
+const getPostsQuery = (filters: PostFilters) => {
+  const searchParams: { [key: string]: string } = {};
+  if (filters.priceMin) searchParams.priceMin = filters.priceMin.toString();
+  if (filters.priceMax) searchParams.priceMax = filters.priceMax.toString();
+  return searchParams;
+};
+
 export const fetchPosts = (filters: PostFilters) => {
   return async (
     dispatch: Dispatch<{ type: Types.GetPosts; payload: Post[] }>,
   ) => {
     try {
-      const searchParams = {
-        cityId: filters.city.id,
-        dealType: filters.dealType,
-      };
+      const query = getPostsQuery(filters);
 
-      const url = setURLParams(searchParams);
+      query.cityId = filters.city.id;
+      query.dealType = filters.dealType;
+
+      const url = setURLParams(query);
 
       const response = await axios.get<{ result: Post[] }>(
         `/api/posts/?${url && `${url}&`}limit=${15}&page=1`,
@@ -51,4 +59,15 @@ export const setFilters = (postFilters: PostFilters) => {
   ) => {
     dispatch({ type: Types.SetFilters, payload: postFilters });
   };
+};
+
+export const pushToNewPostsRoute = (postFilters: PostFilters) => {
+  Router.push(
+    {
+      pathname: `/${postFilters.city.routeName}/${postFilters.dealType}`,
+      query: getPostsQuery(postFilters),
+    },
+    undefined,
+    { shallow: true },
+  );
 };
