@@ -161,7 +161,7 @@ const DistrictSelection: FC<DistrictSelectionState> = ({
             onChange: handleSearchStringChange,
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ mx: 2 }} />
+                <SearchIcon sx={{ ml: 1 }} />
               </InputAdornment>
             ),
           }}

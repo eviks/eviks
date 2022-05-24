@@ -17,6 +17,12 @@ interface QueryParams {
   slug: string[];
   priceMin: string;
   priceMax: string;
+  sqmMin: string;
+  sqmMax: string;
+  livingRoomsSqmMin: string;
+  livingRoomsSqmMax: string;
+  kitchenSqmMin: string;
+  kitchenSqmMax: string;
 }
 
 type StringQueryParams = Record<keyof QueryParams, string>;
@@ -56,6 +62,12 @@ const Posts: CustomNextPage = () => {
           dealType,
           priceMin: Number(urlParams.priceMin ?? 0),
           priceMax: Number(urlParams.priceMax ?? 0),
+          sqmMin: Number(urlParams.sqmMin ?? 0),
+          sqmMax: Number(urlParams.sqmMax ?? 0),
+          livingRoomsSqmMin: Number(urlParams.livingRoomsSqmMin ?? 0),
+          livingRoomsSqmMax: Number(urlParams.livingRoomsSqmMax ?? 0),
+          kitchenSqmMin: Number(urlParams.kitchenSqmMin ?? 0),
+          kitchenSqmMax: Number(urlParams.kitchenSqmMax ?? 0),
         })(dispatch);
       } catch (error) {
         let errorMessage = '';

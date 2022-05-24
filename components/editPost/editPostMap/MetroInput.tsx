@@ -38,7 +38,9 @@ const MetroInput: FC<{
         return getMetroPresentation(option);
       }}
       value={metroStation}
-      options={city.metroStations!.sort((a, b) => {return getMetroPresentation(a).localeCompare(getMetroPresentation(b))})}
+      options={city.metroStations!.sort((a, b) => {
+        return getMetroPresentation(a).localeCompare(getMetroPresentation(b));
+      })}
       isOptionEqualToValue={(option, value) => {
         if (!value) return false;
         return option._id === value._id;
@@ -61,7 +63,7 @@ const MetroInput: FC<{
               inputProps,
               startAdornment: (
                 <InputAdornment position="start">
-                  <MetroIcon sx={{ mx: 2 }} />
+                  <MetroIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
             }}

@@ -7,5 +7,10 @@
   "priceFrom": "{{priceMin}}+ ₼",
   "thousand": "тыс",
   "million": "млн",
-  "billion": "млрд"
+  "billion": "млрд",
+  "sqm": "Площадь",
+  "sqmRange": "{{sqmMin}} - {{sqmMax}} м²",
+  "sqmUpTo": "До {{sqmMax}} м²",
+  "sqmFrom": "{{sqmMin}}+ м²",
+  "showPosts": "Показать объявления"
 }

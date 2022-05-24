@@ -111,7 +111,7 @@ const EditPostBuildingInfo: FC = () => {
             onChange: handleChange,
             startAdornment: (
               <InputAdornment position="start">
-                <CalendarIcon sx={{ mx: 2 }} />
+                <CalendarIcon sx={{ ml: 1 }} />
               </InputAdornment>
             ),
           }}
@@ -130,7 +130,7 @@ const EditPostBuildingInfo: FC = () => {
             onChange: handleChange,
             startAdornment: (
               <InputAdornment position="start">
-                <MeasuringIcon sx={{ mx: 2 }} />
+                <MeasuringIcon sx={{ ml: 1 }} />
               </InputAdornment>
             ),
           }}

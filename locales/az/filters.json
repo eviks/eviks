@@ -7,5 +7,10 @@
   "priceFrom": "{{priceMin}}+ ₼",
   "thousand": "min",
   "million": "mln",
-  "billion": "mlrd"
+  "billion": "mlrd",
+  "sqm": "Sahə",
+  "sqmRange": "{{sqmMin}} - {{sqmMax}} м²",
+  "sqmUpTo": "До {{sqmMax}} м²",
+  "sqmFrom": "{{sqmMin}}+ м²",
+  "showPosts": "Elanları göstərmək"
 }

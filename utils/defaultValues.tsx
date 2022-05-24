@@ -397,4 +397,10 @@ export const defaultPostFilters: PostFilters = {
   dealType: DealType.sale,
   priceMin: 0,
   priceMax: 0,
+  sqmMin: 0,
+  sqmMax: 0,
+  livingRoomsSqmMin: 0,
+  livingRoomsSqmMax: 0,
+  kitchenSqmMin: 0,
+  kitchenSqmMax: 0,
 };

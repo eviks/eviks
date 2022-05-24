@@ -135,7 +135,7 @@ const EditPostPrice: FC = () => {
             onChange: handleChange,
             startAdornment: (
               <InputAdornment position="start">
-                <MoneyIcon sx={{ mx: 2 }} />
+                <MoneyIcon sx={{ ml: 1 }} />
               </InputAdornment>
             ),
           }}

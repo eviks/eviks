@@ -39,7 +39,14 @@ const FilterButton: FC<FilterButtonProps> = ({ title, children }) => {
           mt: 1,
         }}
       >
-        <Box sx={{ p: 2 }}>{children}</Box>
+        <Box sx={{ p: 2 }}>
+          {React.Children.map(children, (child) => {
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child, { handleClose });
+            }
+            return child;
+          })}
+        </Box>
       </Popover>
     </Fragment>
   );

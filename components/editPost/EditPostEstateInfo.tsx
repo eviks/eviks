@@ -190,7 +190,7 @@ const EditPostEstateInfo: FC = () => {
             onChange: handleChange,
             startAdornment: (
               <InputAdornment position="start">
-                <DoorIcon sx={{ mx: 2 }} />
+                <DoorIcon sx={{ ml: 1 }} />
               </InputAdornment>
             ),
           }}
@@ -220,7 +220,7 @@ const EditPostEstateInfo: FC = () => {
               onChange: handleChange,
               startAdornment: (
                 <InputAdornment position="start">
-                  <SqmIcon sx={{ mx: 2 }} />
+                  <SqmIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
             }}
@@ -239,7 +239,7 @@ const EditPostEstateInfo: FC = () => {
               onChange: handleChange,
               startAdornment: (
                 <InputAdornment position="start">
-                  <SqmIcon sx={{ mx: 2 }} />
+                  <SqmIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
             }}
@@ -258,7 +258,7 @@ const EditPostEstateInfo: FC = () => {
               onChange: handleChange,
               startAdornment: (
                 <InputAdornment position="start">
-                  <SqmIcon sx={{ mx: 2 }} />
+                  <SqmIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
             }}
@@ -284,7 +284,7 @@ const EditPostEstateInfo: FC = () => {
               onChange: handleChange,
               startAdornment: (
                 <InputAdornment position="start">
-                  <GardenIcon sx={{ mx: 2 }} />
+                  <GardenIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
             }}
@@ -317,7 +317,7 @@ const EditPostEstateInfo: FC = () => {
                 onChange: handleChange,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <ElevatorIcon sx={{ mx: 2 }} />
+                    <ElevatorIcon sx={{ ml: 1 }} />
                   </InputAdornment>
                 ),
               }}
@@ -355,7 +355,7 @@ const EditPostEstateInfo: FC = () => {
               onChange: handleChange,
               startAdornment: (
                 <InputAdornment position="start">
-                  <ElevatorIcon sx={{ mx: 2 }} />
+                  <ElevatorIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
             }}

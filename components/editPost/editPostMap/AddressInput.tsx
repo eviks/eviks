@@ -134,7 +134,7 @@ const AddressInput: FC<{
               inputProps,
               startAdornment: (
                 <InputAdornment position="start">
-                  <MarkerIcon sx={{ mx: 2 }} />
+                  <MarkerIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
               endAdornment: (

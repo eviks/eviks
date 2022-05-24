@@ -47,3 +47,26 @@ export const getPriceFilterTitle = async (
     });
   return t('price');
 };
+
+export const getSqmFilterTitle = async (
+  sqmMin: number,
+  sqmMax: number,
+  locale: string,
+) => {
+  const t = await getT(locale, 'filters');
+
+  if (sqmMin && sqmMax)
+    return t('sqmRange', {
+      sqmMin,
+      sqmMax,
+    });
+  if (sqmMax)
+    return t('sqmUpTo', {
+      sqmMax,
+    });
+  if (sqmMin)
+    return t('sqmFrom', {
+      sqmMin,
+    });
+  return t('sqm');
+};

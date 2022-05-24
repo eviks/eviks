@@ -152,7 +152,7 @@ const EditPostContacts: FC = () => {
                   onChange: handleChange,
                   startAdornment: (
                     <InputAdornment position="start">
-                      <UserIcon sx={{ mx: 2 }} />
+                      <UserIcon sx={{ ml: 1 }} />
                     </InputAdornment>
                   ),
                 }}
@@ -171,7 +171,7 @@ const EditPostContacts: FC = () => {
                   onChange: handleChange,
                   startAdornment: (
                     <InputAdornment position="start">
-                      <PhoneCallIcon sx={{ mx: 2 }} />
+                      <PhoneCallIcon sx={{ ml: 1 }} />
                     </InputAdornment>
                   ),
                 }}

@@ -1,6 +1,7 @@
 import React, { FC, useState, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ValidatorForm } from 'react-material-ui-form-validator';
@@ -27,7 +28,7 @@ const getDefaultState = (filters: PostFilters): PriceState => {
   };
 };
 
-const PriceFilter: FC = () => {
+const PriceFilter: FC<{ handleClose: () => void }> = ({ handleClose }) => {
   const { t } = useTranslation();
 
   const {
@@ -40,8 +41,18 @@ const PriceFilter: FC = () => {
 
   const { priceMin, priceMax } = state;
 
+  const setPriceFilters = () => {
+    pushToNewPostsRoute({
+      ...filters,
+      priceMin: Number(priceMin),
+      priceMax: Number(priceMax),
+    });
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setPriceFilters();
+    handleClose();
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,29 +65,9 @@ const PriceFilter: FC = () => {
     });
   };
 
-  const setPriceFilters = () => {
-    pushToNewPostsRoute({
-      ...filters,
-      priceMin: Number(priceMin),
-      priceMax: Number(priceMax),
-    });
-  };
-
-  const handleBlur = (_event: React.ChangeEvent<HTMLInputElement>) => {
-    setPriceFilters();
-  };
-
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      const target = event.target as HTMLInputElement;
-      target.blur();
-    }
-  };
-
   return (
     <ValidatorForm onSubmit={handleSubmit}>
-      <Typography variant="body1" sx={{ mb: 2, fontWeight: 'bold' }}>
+      <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
         {t('post:price')}
       </Typography>
       <Box sx={{ display: 'flex' }}>
@@ -92,8 +83,6 @@ const PriceFilter: FC = () => {
               mr: 2,
             },
             onChange: handleChange,
-            onBlur: handleBlur,
-            onKeyUp: handleKeyUp,
             startAdornment: (
               <InputAdornment position="start">
                 <MoneyIcon sx={{ ml: 1 }} />
@@ -112,11 +101,16 @@ const PriceFilter: FC = () => {
               width: '140px',
             },
             onChange: handleChange,
-            onBlur: handleBlur,
-            onKeyUp: handleKeyUp,
           }}
         />
       </Box>
+      <Button
+        variant={'contained'}
+        type="submit"
+        sx={{ display: 'block', mx: 'auto' }}
+      >
+        {t('filters:showPosts')}
+      </Button>
     </ValidatorForm>
   );
 };

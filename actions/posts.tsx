@@ -23,6 +23,16 @@ const getPostsQuery = (filters: PostFilters) => {
   const searchParams: { [key: string]: string } = {};
   if (filters.priceMin) searchParams.priceMin = filters.priceMin.toString();
   if (filters.priceMax) searchParams.priceMax = filters.priceMax.toString();
+  if (filters.sqmMin) searchParams.sqmMin = filters.sqmMin.toString();
+  if (filters.sqmMax) searchParams.sqmMax = filters.sqmMax.toString();
+  if (filters.livingRoomsSqmMin)
+    searchParams.livingRoomsSqmMin = filters.livingRoomsSqmMin.toString();
+  if (filters.livingRoomsSqmMax)
+    searchParams.livingRoomsSqmMax = filters.livingRoomsSqmMax.toString();
+  if (filters.kitchenSqmMin)
+    searchParams.kitchenSqmMin = filters.kitchenSqmMin.toString();
+  if (filters.kitchenSqmMax)
+    searchParams.kitchenSqmMax = filters.kitchenSqmMax.toString();
   return searchParams;
 };
 

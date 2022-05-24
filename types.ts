@@ -137,6 +137,12 @@ export interface PostFilters {
   dealType: DealType;
   priceMin: number;
   priceMax: number;
+  sqmMin: number;
+  sqmMax: number;
+  livingRoomsSqmMin: number;
+  livingRoomsSqmMax: number;
+  kitchenSqmMin: number;
+  kitchenSqmMax: number;
 }
 
 export interface PostsContext {
