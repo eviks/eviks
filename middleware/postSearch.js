@@ -55,6 +55,7 @@ const setPostsFilters = (req) => {
     priceMax,
     roomsMin,
     roomsMax,
+    rooms,
     estateType,
     apartmentType,
     sqmMin,
@@ -119,9 +120,13 @@ const setPostsFilters = (req) => {
   }
 
   // Rooms
-  const rooms = setMinMaxFilter(roomsMin, roomsMax);
   if (rooms) {
-    conditions.rooms = rooms;
+    conditions.rooms = { $in: rooms.split(',') };
+  } else {
+    const roomsFilter = setMinMaxFilter(roomsMin, roomsMax);
+    if (roomsFilter) {
+      conditions.rooms = roomsFilter;
+    }
   }
 
   // Estate type

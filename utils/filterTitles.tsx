@@ -48,6 +48,15 @@ export const getPriceFilterTitle = async (
   return t('price');
 };
 
+export const getRoomsFilterTitle = async (rooms: number[], locale: string) => {
+  const t = await getT(locale, 'filters');
+
+  if (rooms.length > 0) {
+    return t(`room`, { rooms: rooms.join(',') });
+  }
+  return t('rooms');
+};
+
 export const getSqmFilterTitle = async (
   sqmMin: number,
   sqmMax: number,

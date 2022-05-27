@@ -137,6 +137,9 @@ export interface PostFilters {
   dealType: DealType;
   priceMin: number;
   priceMax: number;
+  roomsMin: number;
+  roomsMax: number;
+  rooms: number[];
   sqmMin: number;
   sqmMax: number;
   livingRoomsSqmMin: number;

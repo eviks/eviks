@@ -23,6 +23,7 @@ interface QueryParams {
   livingRoomsSqmMax: string;
   kitchenSqmMin: string;
   kitchenSqmMax: string;
+  rooms: string;
 }
 
 type StringQueryParams = Record<keyof QueryParams, string>;
@@ -68,6 +69,11 @@ const Posts: CustomNextPage = () => {
           livingRoomsSqmMax: Number(urlParams.livingRoomsSqmMax ?? 0),
           kitchenSqmMin: Number(urlParams.kitchenSqmMin ?? 0),
           kitchenSqmMax: Number(urlParams.kitchenSqmMax ?? 0),
+          rooms: urlParams.rooms
+            ? urlParams.rooms.split(',').map((e) => {
+                return Number(e);
+              })
+            : [],
         })(dispatch);
       } catch (error) {
         let errorMessage = '';

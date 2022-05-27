@@ -12,5 +12,7 @@
   "sqmRange": "{{sqmMin}} - {{sqmMax}} м²",
   "sqmUpTo": "До {{sqmMax}} м²",
   "sqmFrom": "{{sqmMin}}+ м²",
-  "showPosts": "Elanları göstərmək"
+  "showPosts": "Elanları göstərmək",
+  "rooms": "Otaqlar",
+  "room": "{{rooms}}-otaqlı"
 }

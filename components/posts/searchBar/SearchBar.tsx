@@ -13,10 +13,12 @@ import Box from '@mui/material/Box';
 import FilterButton from './FilterButton';
 import PriceFilter from '../filters/PriceFilter';
 import SqmFilter from '../filters/SqmFilter';
+import RoomsFilter from '../filters/RoomsFilters';
 import { AppContext } from '../../../store/appContext';
 import {
   getPriceFilterTitle,
   getSqmFilterTitle,
+  getRoomsFilterTitle,
 } from '../../../utils/filterTitles';
 
 const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
@@ -27,6 +29,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   const searchBarRef = useRef(null);
 
   const [priceTitle, setPriceTitle] = useState<string>('');
+  const [roomsTitle, setRoomsTitle] = useState<string>('');
   const [sqmTitle, setSqmTitle] = useState<string>('');
   const [classes, setClasses] = useState<string>('searchbar-relative');
   const [scrollPos, setScrollPos] = useState<number>(0);
@@ -50,6 +53,19 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   useEffect(() => {
     getPriceTitle();
   }, [getPriceTitle]);
+
+  // Rooms title
+  const getRoomsTitle = useCallback(async () => {
+    const title = await getRoomsFilterTitle(
+      filters.rooms,
+      router.locale ?? 'az',
+    );
+    setRoomsTitle(title);
+  }, [filters.rooms, router.locale]);
+
+  useEffect(() => {
+    getRoomsTitle();
+  }, [getRoomsTitle]);
 
   // Sqm title
   const getSqmTitle = useCallback(async () => {
@@ -109,6 +125,9 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
         <Toolbar sx={{ gap: 2 }}>
           <FilterButton title={priceTitle}>
             <PriceFilter />
+          </FilterButton>
+          <FilterButton title={roomsTitle}>
+            <RoomsFilter />
           </FilterButton>
           <FilterButton title={sqmTitle}>
             <SqmFilter />

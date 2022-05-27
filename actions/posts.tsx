@@ -33,6 +33,7 @@ const getPostsQuery = (filters: PostFilters) => {
     searchParams.kitchenSqmMin = filters.kitchenSqmMin.toString();
   if (filters.kitchenSqmMax)
     searchParams.kitchenSqmMax = filters.kitchenSqmMax.toString();
+  if (filters.rooms.length > 0) searchParams.rooms = filters.rooms.join(',');
   return searchParams;
 };
 

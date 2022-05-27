@@ -28,7 +28,7 @@ const getDefaultState = (filters: PostFilters): PriceState => {
   };
 };
 
-const PriceFilter: FC<{ handleClose: () => void }> = ({ handleClose }) => {
+const PriceFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   const { t } = useTranslation();
 
   const {
@@ -52,7 +52,7 @@ const PriceFilter: FC<{ handleClose: () => void }> = ({ handleClose }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setPriceFilters();
-    handleClose();
+    if (handleClose) handleClose();
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -54,7 +54,7 @@ const getDefaultState = (filters: PostFilters): SqmState => {
   };
 };
 
-const SqmFilter: FC<{ handleClose: () => void }> = ({ handleClose }) => {
+const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   const { t } = useTranslation();
 
   const {
@@ -89,7 +89,7 @@ const SqmFilter: FC<{ handleClose: () => void }> = ({ handleClose }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setSqmFilters();
-    handleClose();
+    if (handleClose) handleClose();
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
