@@ -12,10 +12,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import FilterButton from './FilterButton';
 import PriceFilter from '../filters/PriceFilter';
+import EstateTypeFilter from '../filters/EstateTypeFilter';
 import SqmFilter from '../filters/SqmFilter';
 import RoomsFilter from '../filters/RoomsFilters';
 import { AppContext } from '../../../store/appContext';
 import {
+  getEstateTypeFilterTitle,
   getPriceFilterTitle,
   getSqmFilterTitle,
   getRoomsFilterTitle,
@@ -28,6 +30,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
 
   const searchBarRef = useRef(null);
 
+  const [estateTypeTitle, setEstateTypeTitle] = useState<string>('');
   const [priceTitle, setPriceTitle] = useState<string>('');
   const [roomsTitle, setRoomsTitle] = useState<string>('');
   const [sqmTitle, setSqmTitle] = useState<string>('');
@@ -39,6 +42,19 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
       posts: { filters },
     },
   } = useContext(AppContext);
+
+  // Estate type title
+  const getEstateTypeTitle = useCallback(async () => {
+    const title = await getEstateTypeFilterTitle(
+      filters.estateType,
+      router.locale ?? 'az',
+    );
+    setEstateTypeTitle(title);
+  }, [filters.estateType, router.locale]);
+
+  useEffect(() => {
+    getEstateTypeTitle();
+  }, [getEstateTypeTitle]);
 
   // Price title
   const getPriceTitle = useCallback(async () => {
@@ -123,6 +139,9 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
         className={classes}
       >
         <Toolbar sx={{ gap: 2 }}>
+          <FilterButton title={estateTypeTitle}>
+            <EstateTypeFilter />
+          </FilterButton>
           <FilterButton title={priceTitle}>
             <PriceFilter />
           </FilterButton>

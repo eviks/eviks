@@ -58,7 +58,7 @@ const Verification: NextPage = () => {
     try {
       await verifyUser(email, pin)(dispatch);
       await loadUser()(dispatch);
-      router.push({ pathname: '/baku/sale' });
+      router.push({ pathname: '/' });
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {

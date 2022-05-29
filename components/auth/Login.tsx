@@ -54,7 +54,7 @@ const Login: FC = () => {
     try {
       await loginUser(email, password)(dispatch);
       await loadUser()(dispatch);
-      router.push({ pathname: '/baku/sale' });
+      router.push({ pathname: '/' });
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {

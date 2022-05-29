@@ -45,6 +45,7 @@ export const fetchPosts = (filters: PostFilters) => {
       const query = getPostsQuery(filters);
 
       query.cityId = filters.city.id;
+      query.estateType = filters.estateType;
       query.dealType = filters.dealType;
 
       const url = setURLParams(query);
@@ -75,7 +76,7 @@ export const setFilters = (postFilters: PostFilters) => {
 export const pushToNewPostsRoute = (postFilters: PostFilters) => {
   Router.push(
     {
-      pathname: `/${postFilters.city.routeName}/${postFilters.dealType}`,
+      pathname: `/${postFilters.city.routeName}/${postFilters.estateType}/${postFilters.dealType}`,
       query: getPostsQuery(postFilters),
     },
     undefined,

@@ -5,7 +5,7 @@ export function middleware(req: NextRequest) {
   const localeString = defaultLocale !== locale ? `/${locale}` : '';
 
   if (pathname === '/') {
-    return NextResponse.redirect(`${localeString}/baku/sale`);
+    return NextResponse.redirect(`${localeString}/baku/apartment/sale`);
   }
   return NextResponse.next();
 }

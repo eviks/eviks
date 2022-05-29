@@ -4,7 +4,7 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import StepTitle from './StepTitle';
-import StyledToggleButton from '../layout/StyledToggleButton';
+import StyledToggleButtonRounded from '../layout/StyledToggleButtonRounded';
 import { AppContext } from '../../store/appContext';
 import { updatePost } from '../../actions/post';
 import { UserType, EstateType, ApartmentType, DealType } from '../../types';
@@ -150,7 +150,7 @@ const EditPostGeneralInfo: FC = () => {
       >
         <StepTitle title={t('post:generalInfo')} />
         {/* User type */}
-        <StyledToggleButton
+        <StyledToggleButtonRounded
           name="userType"
           title={t('post:userTypeTitle')}
           value={userType}
@@ -158,6 +158,7 @@ const EditPostGeneralInfo: FC = () => {
           height={{ xs: '110px', md: '120px' }}
           padding={3}
           onChange={handleUserTypeChange}
+          toggleProps={{ sx: { mb: 4 } }}
           values={[
             {
               value: UserType.owner,
@@ -174,7 +175,7 @@ const EditPostGeneralInfo: FC = () => {
           errorMessages={[t('common:fieldIsRequired')]}
         />
         {/* Estate type */}
-        <StyledToggleButton
+        <StyledToggleButtonRounded
           name="estateType"
           title={t('post:estateTypeTitle')}
           value={estateType}
@@ -182,6 +183,7 @@ const EditPostGeneralInfo: FC = () => {
           height={{ xs: '110px', md: '120px' }}
           padding={3}
           onChange={handleEstateTypeChange}
+          toggleProps={{ sx: { mb: 4 } }}
           values={[
             {
               value: EstateType.apartment,
@@ -199,7 +201,7 @@ const EditPostGeneralInfo: FC = () => {
         />
         {/* Apartment type */}
         {showApartmentType && (
-          <StyledToggleButton
+          <StyledToggleButtonRounded
             name="apartmentType"
             title={t('post:apartmentTypeTitle')}
             value={apartmentType}
@@ -207,6 +209,7 @@ const EditPostGeneralInfo: FC = () => {
             height={{ xs: '110px', md: '120px' }}
             padding={3}
             onChange={handleApartmentTypeChange}
+            toggleProps={{ sx: { mb: 4 } }}
             values={[
               {
                 value: ApartmentType.newBuilding,
@@ -224,7 +227,7 @@ const EditPostGeneralInfo: FC = () => {
           />
         )}
         {/* Deal type */}
-        <StyledToggleButton
+        <StyledToggleButtonRounded
           name="dealType"
           title={t('post:dealTypeTitle')}
           value={dealType}
@@ -232,6 +235,7 @@ const EditPostGeneralInfo: FC = () => {
           height={{ xs: '110px', md: '120px' }}
           padding={3}
           onChange={handleDealTypeChange}
+          toggleProps={{ sx: { mb: 4 } }}
           values={[
             {
               value: DealType.sale,

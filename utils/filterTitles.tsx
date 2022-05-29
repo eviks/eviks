@@ -1,4 +1,14 @@
 import getT from 'next-translate/getT';
+import { EstateType } from '../types';
+
+export const getEstateTypeFilterTitle = async (
+  estateType: EstateType,
+  locale: string,
+) => {
+  const t = await getT(locale, 'post');
+
+  return t(`${estateType}`);
+};
 
 export const priceFormatter = async (
   num: number,

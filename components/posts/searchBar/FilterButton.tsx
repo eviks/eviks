@@ -39,7 +39,7 @@ const FilterButton: FC<FilterButtonProps> = ({ title, children }) => {
           mt: 1,
         }}
       >
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 3 }}>
           {React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
               return React.cloneElement(child, { handleClose });
