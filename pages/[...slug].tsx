@@ -11,10 +11,11 @@ import { enumFromStringValue } from '../utils';
 import { defaultPostFilters } from '../utils/defaultValues';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
-import { CustomNextPage, DealType, EstateType } from '../types';
+import { ApartmentType, CustomNextPage, DealType, EstateType } from '../types';
 
 interface QueryParams {
   slug: string[];
+  apartmentType: string;
   priceMin: string;
   priceMax: string;
   sqmMin: string;
@@ -51,8 +52,8 @@ const Posts: CustomNextPage = () => {
 
       try {
         const localityResponse = await getLocalities({ routeName, type: '2' });
-        const estateType = enumFromStringValue(EstateType, estateTypeString);
         const dealType = enumFromStringValue(DealType, dealTypeString);
+        const estateType = enumFromStringValue(EstateType, estateTypeString);
 
         // City ID & deal type are required
         if (localityResponse.data.length === 0 || !dealType || !estateType) {
@@ -62,8 +63,12 @@ const Posts: CustomNextPage = () => {
         setFilters({
           ...defaultPostFilters,
           city: localityResponse.data[0],
-          estateType,
           dealType,
+          estateType,
+          apartmentType: enumFromStringValue(
+            ApartmentType,
+            urlParams.apartmentType,
+          ),
           priceMin: Number(urlParams.priceMin ?? 0),
           priceMax: Number(urlParams.priceMax ?? 0),
           sqmMin: Number(urlParams.sqmMin ?? 0),

@@ -1,5 +1,14 @@
 import getT from 'next-translate/getT';
-import { EstateType } from '../types';
+import { DealType, EstateType, ApartmentType } from '../types';
+
+export const getDealTypeFilterTitle = async (
+  estateType: DealType,
+  locale: string,
+) => {
+  const t = await getT(locale, 'post');
+
+  return t(`${estateType}`);
+};
 
 export const getEstateTypeFilterTitle = async (
   estateType: EstateType,
@@ -8,6 +17,20 @@ export const getEstateTypeFilterTitle = async (
   const t = await getT(locale, 'post');
 
   return t(`${estateType}`);
+};
+
+export const getApartmentTypeFilterTitle = async (
+  apartmentType: ApartmentType | undefined,
+  locale: string,
+) => {
+  const t = await getT(locale, 'filters');
+  if (apartmentType === ApartmentType.newBuilding) {
+    return t(`newBuildings`);
+  }
+  if (apartmentType === ApartmentType.secondaryBuilding) {
+    return t(`secondaryBuildings`);
+  }
+  return t(`allApartmentTypes`);
 };
 
 export const priceFormatter = async (

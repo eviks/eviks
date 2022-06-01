@@ -14,5 +14,8 @@
   "sqmFrom": "{{sqmMin}}+ м²",
   "showPosts": "Показать объявления",
   "rooms": "Комнаты",
-  "room": "{{rooms}}-комнат."
+  "room": "{{rooms}}-комнат.",
+  "allApartmentTypes": "Вторички и новостройки",
+  "newBuildings": "Новостройки",
+  "secondaryBuildings": "Вторички"
 }

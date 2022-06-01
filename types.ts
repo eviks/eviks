@@ -134,8 +134,9 @@ export interface User {
 
 export interface PostFilters {
   city: Settlement;
-  estateType: EstateType;
   dealType: DealType;
+  estateType: EstateType;
+  apartmentType?: ApartmentType;
   priceMin: number;
   priceMax: number;
   roomsMin: number;

@@ -14,5 +14,8 @@
   "sqmFrom": "{{sqmMin}}+ м²",
   "showPosts": "Elanları göstərmək",
   "rooms": "Otaqlar",
-  "room": "{{rooms}}-otaqlı"
+  "room": "{{rooms}}-otaqlı",
+  "allApartmentTypes": "Köhnə və yeni tikili",
+  "newBuildings": "Yeni tikili",
+  "secondaryBuildings": "Köhnə tikili"
 }

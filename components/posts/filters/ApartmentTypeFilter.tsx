@@ -6,11 +6,11 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledToggleButtonRounded from '../../layout/StyledToggleButtonRounded';
 import { AppContext } from '../../../store/appContext';
 import { pushToNewPostsRoute } from '../../../actions/posts';
-import ApartmentIcon from '../../icons/ApartmentIcon';
-import HouseIcon from '../../icons/HouseIcon';
-import { EstateType } from '../../../types';
+import NewBuildingIcon from '../../icons/NewBuildingIcon';
+import SecondaryBuildingIcon from '../../icons/SecondaryBuildingIcon';
+import { ApartmentType } from '../../../types';
 
-const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
+const ApartmentTypeFilter: FC<{ handleClose?: () => void }> = ({
   handleClose,
 }) => {
   const { t } = useTranslation();
@@ -21,38 +21,38 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
     },
   } = useContext(AppContext);
 
-  const [estateType, setEstateType] = useState<EstateType>(filters.estateType);
+  const [apartmentType, setApartmentType] = useState<ApartmentType | undefined>(
+    filters.apartmentType,
+  );
 
-  const setEstateTypeFilters = () => {
+  const setApartmentTypeFilters = () => {
     pushToNewPostsRoute({
       ...filters,
-      estateType,
-      apartmentType:
-        estateType === EstateType.apartment ? filters.apartmentType : undefined,
+      apartmentType,
     });
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setEstateTypeFilters();
+    setApartmentTypeFilters();
     if (handleClose) handleClose();
   };
 
   const handleChange = (
     _event: React.MouseEvent<HTMLElement>,
-    value: EstateType,
+    value: ApartmentType,
   ) => {
-    setEstateType(value);
+    setApartmentType(value);
   };
 
   return (
     <ValidatorForm onSubmit={handleSubmit}>
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
-        {t('post:estateTypeTitle')}
+        {t('post:apartmentTypeTitle')}
       </Typography>
       <StyledToggleButtonRounded
-        name="estateType"
-        value={estateType}
+        name="apartmentType"
+        value={apartmentType}
         width={{ xs: '110px', md: '120px' }}
         height={{ xs: '110px', md: '120px' }}
         padding={3}
@@ -62,14 +62,14 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
         }}
         values={[
           {
-            value: EstateType.apartment,
-            description: t('post:apartment'),
-            icon: <ApartmentIcon />,
+            value: ApartmentType.newBuilding,
+            description: t('post:newBuilding'),
+            icon: <NewBuildingIcon />,
           },
           {
-            value: EstateType.house,
-            description: t('post:house'),
-            icon: <HouseIcon />,
+            value: ApartmentType.secondaryBuilding,
+            description: t('post:secondaryBuilding'),
+            icon: <SecondaryBuildingIcon />,
           },
         ]}
       />
@@ -84,4 +84,4 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
   );
 };
 
-export default EstateTypeFilter;
+export default ApartmentTypeFilter;

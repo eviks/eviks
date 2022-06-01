@@ -21,6 +21,8 @@ export const fetchPost = async (postId: string) => {
 
 const getPostsQuery = (filters: PostFilters) => {
   const searchParams: { [key: string]: string } = {};
+  if (filters.apartmentType)
+    searchParams.apartmentType = filters.apartmentType.toString();
   if (filters.priceMin) searchParams.priceMin = filters.priceMin.toString();
   if (filters.priceMax) searchParams.priceMax = filters.priceMax.toString();
   if (filters.sqmMin) searchParams.sqmMin = filters.sqmMin.toString();

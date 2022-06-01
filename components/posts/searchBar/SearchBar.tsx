@@ -12,16 +12,21 @@ import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import FilterButton from './FilterButton';
 import PriceFilter from '../filters/PriceFilter';
+import DealTypeFilter from '../filters/DealTypeFilter';
 import EstateTypeFilter from '../filters/EstateTypeFilter';
+import ApartmentTypeFilter from '../filters/ApartmentTypeFilter';
 import SqmFilter from '../filters/SqmFilter';
 import RoomsFilter from '../filters/RoomsFilters';
 import { AppContext } from '../../../store/appContext';
 import {
+  getDealTypeFilterTitle,
   getEstateTypeFilterTitle,
+  getApartmentTypeFilterTitle,
   getPriceFilterTitle,
   getSqmFilterTitle,
   getRoomsFilterTitle,
 } from '../../../utils/filterTitles';
+import { EstateType } from '../../../types';
 
 const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   appBarRef,
@@ -30,7 +35,9 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
 
   const searchBarRef = useRef(null);
 
+  const [dealTypeTitle, setDealTypeTitle] = useState<string>('');
   const [estateTypeTitle, setEstateTypeTitle] = useState<string>('');
+  const [apartmentTypeTitle, setApartmentTypeTitle] = useState<string>('');
   const [priceTitle, setPriceTitle] = useState<string>('');
   const [roomsTitle, setRoomsTitle] = useState<string>('');
   const [sqmTitle, setSqmTitle] = useState<string>('');
@@ -42,6 +49,19 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
       posts: { filters },
     },
   } = useContext(AppContext);
+
+  // Deal type title
+  const getDealTypeTitle = useCallback(async () => {
+    const title = await getDealTypeFilterTitle(
+      filters.dealType,
+      router.locale ?? 'az',
+    );
+    setDealTypeTitle(title);
+  }, [filters.dealType, router.locale]);
+
+  useEffect(() => {
+    getDealTypeTitle();
+  }, [getDealTypeTitle]);
 
   // Estate type title
   const getEstateTypeTitle = useCallback(async () => {
@@ -55,6 +75,19 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   useEffect(() => {
     getEstateTypeTitle();
   }, [getEstateTypeTitle]);
+
+  // Apartment title
+  const getApartmentTypeTitle = useCallback(async () => {
+    const title = await getApartmentTypeFilterTitle(
+      filters.apartmentType,
+      router.locale ?? 'az',
+    );
+    setApartmentTypeTitle(title);
+  }, [filters.apartmentType, router.locale]);
+
+  useEffect(() => {
+    getApartmentTypeTitle();
+  }, [getApartmentTypeTitle]);
 
   // Price title
   const getPriceTitle = useCallback(async () => {
@@ -135,13 +168,22 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
         color="secondary"
         sx={{
           borderTop: 'none',
+          overflow: 'overlay',
         }}
         className={classes}
       >
-        <Toolbar sx={{ gap: 2 }}>
+        <Toolbar sx={{ gap: 2, width: 'max-content' }}>
+          <FilterButton title={dealTypeTitle}>
+            <DealTypeFilter />
+          </FilterButton>
           <FilterButton title={estateTypeTitle}>
             <EstateTypeFilter />
           </FilterButton>
+          {filters.estateType === EstateType.apartment && (
+            <FilterButton title={apartmentTypeTitle}>
+              <ApartmentTypeFilter />
+            </FilterButton>
+          )}
           <FilterButton title={priceTitle}>
             <PriceFilter />
           </FilterButton>

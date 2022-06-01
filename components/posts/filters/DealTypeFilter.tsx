@@ -6,13 +6,12 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledToggleButtonRounded from '../../layout/StyledToggleButtonRounded';
 import { AppContext } from '../../../store/appContext';
 import { pushToNewPostsRoute } from '../../../actions/posts';
-import ApartmentIcon from '../../icons/ApartmentIcon';
-import HouseIcon from '../../icons/HouseIcon';
-import { EstateType } from '../../../types';
+import SaleIcon from '../../icons/SaleIcon';
+import RentIcon from '../../icons/RentIcon';
+import RentPerDayIcon from '../../icons/RentPerDayIcon';
+import { DealType } from '../../../types';
 
-const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
-  handleClose,
-}) => {
+const DealTypeFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   const { t } = useTranslation();
 
   const {
@@ -21,55 +20,58 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
     },
   } = useContext(AppContext);
 
-  const [estateType, setEstateType] = useState<EstateType>(filters.estateType);
+  const [dealType, setDealType] = useState<DealType>(filters.dealType);
 
-  const setEstateTypeFilters = () => {
+  const setDealTypeFilters = () => {
     pushToNewPostsRoute({
       ...filters,
-      estateType,
-      apartmentType:
-        estateType === EstateType.apartment ? filters.apartmentType : undefined,
+      dealType,
     });
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setEstateTypeFilters();
+    setDealTypeFilters();
     if (handleClose) handleClose();
   };
 
   const handleChange = (
     _event: React.MouseEvent<HTMLElement>,
-    value: EstateType,
+    value: DealType,
   ) => {
-    setEstateType(value);
+    setDealType(value);
   };
 
   return (
     <ValidatorForm onSubmit={handleSubmit}>
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
-        {t('post:estateTypeTitle')}
+        {t('post:dealTypeTitle')}
       </Typography>
       <StyledToggleButtonRounded
-        name="estateType"
-        value={estateType}
+        name="dealType"
+        value={dealType}
         width={{ xs: '110px', md: '120px' }}
         height={{ xs: '110px', md: '120px' }}
         padding={3}
         onChange={handleChange}
         toggleProps={{
-          sx: { mb: 4, display: 'flex', justifyContent: 'center' },
+          sx: { mb: 6, display: 'flex', justifyContent: 'center' },
         }}
         values={[
           {
-            value: EstateType.apartment,
-            description: t('post:apartment'),
-            icon: <ApartmentIcon />,
+            value: DealType.sale,
+            description: t('post:sale'),
+            icon: <SaleIcon />,
           },
           {
-            value: EstateType.house,
-            description: t('post:house'),
-            icon: <HouseIcon />,
+            value: DealType.rent,
+            description: t('post:rent'),
+            icon: <RentIcon />,
+          },
+          {
+            value: DealType.rentPerDay,
+            description: t('post:rentPerDay'),
+            icon: <RentPerDayIcon />,
           },
         ]}
       />
@@ -84,4 +86,4 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
   );
 };
 
-export default EstateTypeFilter;
+export default DealTypeFilter;

@@ -347,17 +347,20 @@ router.post(
     const imageSizes = [1280, 640, 320, 160];
 
     let serverError = false;
-    imageSizes.forEach(async (size) => {
-      try {
-        await sharp(image.data)
-          .resize(size)
-          .png()
-          .toFile(`${directory}/image_${size}.png`);
-      } catch (error) {
-        logger.error(error);
-        serverError = true;
-      }
-    });
+
+    await Promise.all(
+      imageSizes.map(async (size) => {
+        try {
+          await sharp(image.data)
+            .resize(size)
+            .png()
+            .toFile(`${directory}/image_${size}.png`);
+        } catch (error) {
+          logger.error(error);
+          serverError = true;
+        }
+      }),
+    );
 
     if (!serverError) {
       return res.json({ msg: 'Image successfully uploaded', id });
