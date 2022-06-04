@@ -2,12 +2,14 @@ import getT from 'next-translate/getT';
 import { DealType, EstateType, ApartmentType } from '../types';
 
 export const getDealTypeFilterTitle = async (
-  estateType: DealType,
+  dealType: DealType,
   locale: string,
 ) => {
-  const t = await getT(locale, 'post');
+  const t = await getT(locale, 'filters');
 
-  return t(`${estateType}`);
+  if (dealType === DealType.rent) return t('rent');
+  if (dealType === DealType.rentPerDay) return t('rentPerDay');
+  return t('buy');
 };
 
 export const getEstateTypeFilterTitle = async (

@@ -1,4 +1,5 @@
 import React, { FC, useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useSnackbar } from 'notistack';
 import Dialog from '@mui/material/Dialog';
@@ -27,6 +28,7 @@ interface CitySelectionState {
 }
 
 const CitySelection: FC<CitySelectionState> = ({ open, onClose }) => {
+  const router = useRouter();
   const { t } = useTranslation();
   const { width } = useWindowSize();
 
@@ -78,7 +80,9 @@ const CitySelection: FC<CitySelectionState> = ({ open, onClose }) => {
 
     setFilteredCities(
       cities.filter((city) => {
-        return removeAzerbaijaniChars(getSettlementPresentation(city))
+        return removeAzerbaijaniChars(
+          getSettlementPresentation(city, router.locale),
+        )
           .toLocaleLowerCase()
           .includes(value.toLocaleLowerCase());
       }),
@@ -160,7 +164,7 @@ const CitySelection: FC<CitySelectionState> = ({ open, onClose }) => {
                   }}
                 >
                   <ListItemText
-                    primary={getSettlementPresentation(city)}
+                    primary={getSettlementPresentation(city, router.locale)}
                     sx={{ px: 2 }}
                   />
                 </ListItemButton>

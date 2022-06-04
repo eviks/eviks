@@ -17,5 +17,8 @@
   "room": "{{rooms}}-otaqlı",
   "allApartmentTypes": "Köhnə və yeni tikili",
   "newBuildings": "Yeni tikili",
-  "secondaryBuildings": "Köhnə tikili"
+  "secondaryBuildings": "Köhnə tikili",
+  "buy": "Almaq",
+  "rent": "Kirayə",
+  "rentPerDay": "Gündəlik kirayə"
 }

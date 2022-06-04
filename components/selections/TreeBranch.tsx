@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState, useCallback } from 'react';
+import { useRouter } from 'next/router';
 import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -34,6 +35,8 @@ const TreeBranch: FC<TreeBranchState> = ({
   updateSelectedSettlements,
   onSingleSelect,
 }) => {
+  const router = useRouter();
+
   const [parentValue, setParentValue] = useState<boolean | null>(null);
   const [childrenValue, setChildrenValue] = useState<boolean[]>([]);
 
@@ -85,16 +88,20 @@ const TreeBranch: FC<TreeBranchState> = ({
   }, [district, selectedDistricts, selectedSubdistricts]);
 
   useEffect(() => {
-    setParentMatches(searchStringMatch(getSettlementPresentation(district)));
+    setParentMatches(
+      searchStringMatch(getSettlementPresentation(district, router.locale)),
+    );
 
     setChildrenMatch((_prevState) => {
       return (
         district.children?.find((child) => {
-          return searchStringMatch(getSettlementPresentation(child));
+          return searchStringMatch(
+            getSettlementPresentation(child, router.locale),
+          );
         }) !== undefined
       );
     });
-  }, [district, searchString, searchStringMatch]);
+  }, [district, router.locale, searchString, searchStringMatch]);
 
   const manageTristate = (index: number) => {
     const value = !childrenValue[index];
@@ -171,7 +178,7 @@ const TreeBranch: FC<TreeBranchState> = ({
         <ListItemText
           primary={
             <Typography fontWeight={'bold'}>
-              {getSettlementPresentation(district)}
+              {getSettlementPresentation(district, router.locale)}
             </Typography>
           }
         />
@@ -189,8 +196,9 @@ const TreeBranch: FC<TreeBranchState> = ({
                 }}
                 sx={{
                   display:
-                    searchStringMatch(getSettlementPresentation(child)) ||
-                    parentMatches
+                    searchStringMatch(
+                      getSettlementPresentation(child, router.locale),
+                    ) || parentMatches
                       ? 'auto'
                       : 'none',
                 }}
@@ -198,7 +206,9 @@ const TreeBranch: FC<TreeBranchState> = ({
                 {multiple && (
                   <Checkbox checked={childrenValue[index]} disableRipple />
                 )}
-                <ListItemText primary={getSettlementPresentation(child)} />
+                <ListItemText
+                  primary={getSettlementPresentation(child, router.locale)}
+                />
               </ListItemButton>
             );
           })}

@@ -7,6 +7,9 @@ export const darkColor = '#151316';
 export const softDarkColor = '#342E37';
 
 export const lightTheme = createTheme({
+  typography: {
+    fontSize: 13,
+  },
   palette: {
     primary: {
       main: primaryColor,
@@ -19,6 +22,9 @@ export const lightTheme = createTheme({
 });
 
 export const darkTheme = createTheme({
+  typography: {
+    fontSize: 13,
+  },
   palette: {
     mode: 'dark',
     background: {

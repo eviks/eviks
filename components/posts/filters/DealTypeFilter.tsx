@@ -60,17 +60,17 @@ const DealTypeFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
         values={[
           {
             value: DealType.sale,
-            description: t('post:sale'),
+            description: t('filters:buy'),
             icon: <SaleIcon />,
           },
           {
             value: DealType.rent,
-            description: t('post:rent'),
+            description: t('filters:rent'),
             icon: <RentIcon />,
           },
           {
             value: DealType.rentPerDay,
-            description: t('post:rentPerDay'),
+            description: t('filters:rentPerDay'),
             icon: <RentPerDayIcon />,
           },
         ]}

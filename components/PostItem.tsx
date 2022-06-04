@@ -150,8 +150,8 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               </Typography>
               <Typography variant="h5">
                 {post.subdistrict
-                  ? getSettlementPresentation(post.subdistrict)
-                  : getSettlementPresentation(post.district)}
+                  ? getSettlementPresentation(post.subdistrict, router.locale)
+                  : getSettlementPresentation(post.district, router.locale)}
               </Typography>
               <Hidden smDown>
                 <Typography color={theme.palette.grey[500]}>

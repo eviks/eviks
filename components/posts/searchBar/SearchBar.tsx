@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import FilterButton from './FilterButton';
 import PriceFilter from '../filters/PriceFilter';
 import DealTypeFilter from '../filters/DealTypeFilter';
@@ -17,6 +18,7 @@ import EstateTypeFilter from '../filters/EstateTypeFilter';
 import ApartmentTypeFilter from '../filters/ApartmentTypeFilter';
 import SqmFilter from '../filters/SqmFilter';
 import RoomsFilter from '../filters/RoomsFilters';
+import CityFilter from '../filters/CityFilter';
 import { AppContext } from '../../../store/appContext';
 import {
   getDealTypeFilterTitle,
@@ -172,7 +174,9 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
         }}
         className={classes}
       >
-        <Toolbar sx={{ gap: 2, width: 'max-content' }}>
+        <Toolbar sx={{ gap: 2, width: 'max-content', mx: { lg: 10 } }}>
+          <CityFilter city={filters.city} />
+          <Divider orientation="vertical" sx={{ height: '30px' }} />
           <FilterButton title={dealTypeTitle}>
             <DealTypeFilter />
           </FilterButton>

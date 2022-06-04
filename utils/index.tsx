@@ -21,10 +21,13 @@ export const getMetroPresentation = (settlement: MetroStation) => {
   return settlement.name;
 };
 
-export const getSettlementPresentation = (settlement: Settlement) => {
-  if (Router.locale === 'az') return settlement.name;
-  if (Router.locale === 'ru' && settlement.nameRu) return settlement.nameRu;
-  if (Router.locale === 'en' && settlement.nameEn) return settlement.nameEn;
+export const getSettlementPresentation = (
+  settlement: Settlement,
+  locale: string = 'az',
+) => {
+  if (locale === 'az') return settlement.name;
+  if (locale === 'ru' && settlement.nameRu) return settlement.nameRu;
+  if (locale === 'en' && settlement.nameEn) return settlement.nameEn;
 
   return settlement.name;
 };

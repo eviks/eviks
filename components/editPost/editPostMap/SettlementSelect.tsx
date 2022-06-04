@@ -1,4 +1,5 @@
 import React, { FC, Fragment, useState } from 'react';
+import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
@@ -25,6 +26,8 @@ const SettlementSelect: FC<{
   addressError,
   setAddressError,
 }) => {
+  const router = useRouter();
+
   const { t } = useTranslation();
 
   const [openCitySelection, setOpenCitySelection] = useState<boolean>(false);
@@ -34,13 +37,13 @@ const SettlementSelect: FC<{
   const getDistrictPresentation = () => {
     let presentation = '';
     presentation = district
-      ? getSettlementPresentation(district)
+      ? getSettlementPresentation(district, router.locale)
       : t('post:districtNotSelected');
 
     if ((district?.children?.length ?? 0) > 0) {
       presentation = `${presentation}, ${
         subdistrict
-          ? getSettlementPresentation(subdistrict)
+          ? getSettlementPresentation(subdistrict, router.locale)
           : t('post:subdistrictNotSelected')
       }`;
     }
@@ -110,7 +113,7 @@ const SettlementSelect: FC<{
             underline="none"
             onClick={handleCitySelectionOnClick}
           >
-            {getSettlementPresentation(city)}
+            {getSettlementPresentation(city, router.locale)}
           </Link>
           <CitySelection
             open={openCitySelection}

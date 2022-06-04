@@ -17,5 +17,8 @@
   "room": "{{rooms}}-комнат.",
   "allApartmentTypes": "Вторички и новостройки",
   "newBuildings": "Новостройки",
-  "secondaryBuildings": "Вторички"
+  "secondaryBuildings": "Вторички",
+  "buy": "Купить",
+  "rent": "Снять",
+  "rentPerDay": "Снять посуточно"
 }
