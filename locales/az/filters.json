@@ -20,5 +20,7 @@
   "secondaryBuildings": "Köhnə tikili",
   "buy": "Almaq",
   "rent": "Kirayə",
-  "rentPerDay": "Gündəlik kirayə"
+  "rentPerDay": "Gündəlik kirayə",
+  "saveDistrictFilter": "Saxlamaq",
+  "district": "Rayon"
 }

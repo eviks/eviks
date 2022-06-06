@@ -4,9 +4,6 @@ import { useSnackbar } from 'notistack';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -16,7 +13,6 @@ import Button from '@mui/material/Button';
 import StyledInput from '../layout/StyledInput';
 import TreeBranch from './TreeBranch';
 import { getLocalities } from '../../actions/localities';
-import { removeAzerbaijaniChars } from '../../utils';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
@@ -30,7 +26,11 @@ interface DistrictSelectionState {
   defaultSubdistricts: Settlement[];
   multiple: boolean;
   open: boolean;
-  onClose: (district?: Settlement, subdistrict?: Settlement) => void;
+  onClose?: (district?: Settlement, subdistrict?: Settlement) => void;
+  onCloseMultiple?: (
+    districts?: Settlement[],
+    subdistricts?: Settlement[],
+  ) => void;
 }
 
 const DistrictSelection: FC<DistrictSelectionState> = ({
@@ -40,6 +40,7 @@ const DistrictSelection: FC<DistrictSelectionState> = ({
   multiple,
   open,
   onClose,
+  onCloseMultiple,
 }) => {
   const { t } = useTranslation();
   const { width } = useWindowSize();
@@ -55,6 +56,14 @@ const DistrictSelection: FC<DistrictSelectionState> = ({
   const [selectedSubdistricts, setSelectedSubdistricts] =
     useState<Settlement[]>(defaultSubdistricts);
   const [searchString, setSearchString] = useState<string>('');
+
+  useEffect(() => {
+    setSelectedDistricts(defaultDistricts);
+  }, [defaultDistricts]);
+
+  useEffect(() => {
+    setSelectedSubdistricts(defaultSubdistricts);
+  }, [defaultSubdistricts]);
 
   const fetchDistricts = useCallback(async () => {
     try {
@@ -89,7 +98,8 @@ const DistrictSelection: FC<DistrictSelectionState> = ({
   }, [fetchDistricts]);
 
   const handleClose = () => {
-    onClose();
+    if (!multiple && onClose) onClose();
+    if (multiple && onCloseMultiple) onCloseMultiple();
   };
 
   const handleSearchStringChange = (
@@ -101,14 +111,71 @@ const DistrictSelection: FC<DistrictSelectionState> = ({
   };
 
   const onSingleSelect = (district: Settlement, subdistrict?: Settlement) => {
-    onClose(district, subdistrict);
+    if (!multiple && onClose) onClose(district, subdistrict);
+  };
+
+  const onMultipleSelect = () => {
+    if (multiple && onCloseMultiple)
+      onCloseMultiple(selectedDistricts, selectedSubdistricts);
+  };
+
+  const settlementIsSelected = (list: Settlement[], settlement: Settlement) => {
+    return (
+      list.find((element) => {
+        return element.id === settlement.id;
+      }) !== undefined
+    );
   };
 
   const updateSelectedSettlements = (
     district: Settlement,
     parentValue: boolean | null,
     childrenValue: boolean[],
-  ) => {};
+  ) => {
+    if (parentValue) {
+      setSelectedDistricts((prevState) => {
+        return [...prevState, district];
+      });
+
+      district.children?.forEach((subdistrict) => {
+        setSelectedSubdistricts((prevState) => {
+          return prevState.filter((element) => {
+            return element.id !== subdistrict.id;
+          });
+        });
+      });
+    } else {
+      setSelectedDistricts((prevState) => {
+        return prevState.filter((element) => {
+          return element.id !== district.id;
+        });
+      });
+
+      let newSelected = selectedSubdistricts;
+
+      for (
+        let index = 0;
+        index < (district.children?.length ?? 0);
+        index += 1
+      ) {
+        if (
+          childrenValue[index] &&
+          !settlementIsSelected(newSelected, district.children![index])
+        ) {
+          newSelected.push(district.children![index]);
+        } else if (
+          !childrenValue[index] &&
+          settlementIsSelected(newSelected, district.children![index])
+        ) {
+          newSelected = newSelected.filter((element) => {
+            return element.id !== district.children![index].id;
+          });
+        }
+      }
+
+      setSelectedSubdistricts(newSelected);
+    }
+  };
 
   return (
     <Dialog
@@ -189,8 +256,8 @@ const DistrictSelection: FC<DistrictSelectionState> = ({
       </DialogContent>
       {multiple && (
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
+          <Button autoFocus onClick={onMultipleSelect}>
+            {t('filters:saveDistrictFilter')}
           </Button>
         </DialogActions>
       )}

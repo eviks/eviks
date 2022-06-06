@@ -8,7 +8,7 @@ import { pushToNewPostsRoute } from '../../../actions/posts';
 import { getSettlementPresentation } from '../../../utils';
 import { Settlement } from '../../../types';
 
-const CityFilter: FC<{ city: Settlement }> = ({ city }) => {
+const CityFilter: FC = () => {
   const router = useRouter();
 
   const {
@@ -38,7 +38,7 @@ const CityFilter: FC<{ city: Settlement }> = ({ city }) => {
     event.preventDefault();
   };
 
-  return city ? (
+  return filters.city ? (
     <ValidatorForm onSubmit={handleSubmit}>
       <Link
         component="button"
@@ -46,7 +46,7 @@ const CityFilter: FC<{ city: Settlement }> = ({ city }) => {
         underline="none"
         onClick={handleCitySelectionOnClick}
       >
-        {getSettlementPresentation(city, router.locale)}
+        {getSettlementPresentation(filters.city, router.locale)}
       </Link>
       <CitySelection
         open={openCitySelection}

@@ -53,7 +53,7 @@ const TreeBranch: FC<TreeBranchState> = ({
   );
 
   useEffect(() => {
-    const settlementIsSelected = (
+    const childIsSelected = (
       array: Settlement[],
       settlement: Settlement,
     ): boolean => {
@@ -66,7 +66,7 @@ const TreeBranch: FC<TreeBranchState> = ({
 
     const children = district.children ?? [];
 
-    if (settlementIsSelected(selectedDistricts, district)) {
+    if (childIsSelected(selectedDistricts, district)) {
       setParentValue(true);
       setChildrenValue(
         children.map((_subdistrict) => {
@@ -75,7 +75,7 @@ const TreeBranch: FC<TreeBranchState> = ({
       );
     } else {
       const newChildrenValue = children.map((subdistrict) => {
-        return settlementIsSelected(selectedSubdistricts, subdistrict);
+        return childIsSelected(selectedSubdistricts, subdistrict);
       });
       setChildrenValue(newChildrenValue);
 
@@ -113,21 +113,25 @@ const TreeBranch: FC<TreeBranchState> = ({
 
     setChildrenValue(newChildrenValue);
 
+    let newValue = null;
+
     if (value) {
       if (newChildrenValue.includes(false)) {
         // Some elements are still unselected
-        setParentValue(null);
+        newValue = null;
       } else {
         // All elements are selected
-        setParentValue(true);
+        newValue = true;
       }
     } else if (newChildrenValue.includes(true)) {
       // Some elements are still selected
-      setParentValue(null);
+      newValue = null;
     } else {
       // All elements are unselected
-      setParentValue(false);
+      newValue = false;
     }
+    setParentValue(newValue);
+    return { newValue, newChildrenValue };
   };
 
   const handleSubdistrictClick = (index?: number) => {
@@ -137,8 +141,12 @@ const TreeBranch: FC<TreeBranchState> = ({
         : undefined;
       onSingleSelect(district, subdistrict);
     } else {
-      manageTristate(index ?? 0);
-      updateSelectedSettlements(district, parentValue, childrenValue);
+      const response = manageTristate(index ?? 0);
+      updateSelectedSettlements(
+        district,
+        response.newValue,
+        response.newChildrenValue,
+      );
     }
   };
 
@@ -150,14 +158,13 @@ const TreeBranch: FC<TreeBranchState> = ({
       );
     } else {
       // Select / unselect all
-      setParentValue((prevState) => {
-        return !prevState;
+      const newParentValue = !parentValue;
+      const newChildrenValue = childrenValue.map(() => {
+        return newParentValue;
       });
-      setChildrenValue((prevState) => {
-        return prevState.map(() => {
-          return !parentValue;
-        });
-      });
+      setParentValue(newParentValue);
+      setChildrenValue(newChildrenValue);
+      updateSelectedSettlements(district, newParentValue, newChildrenValue);
     }
   };
 
@@ -217,4 +224,9 @@ const TreeBranch: FC<TreeBranchState> = ({
     </List>
   );
 };
-export default TreeBranch;
+
+export default React.memo(TreeBranch, (prevState, nextState) => {
+  return prevState.searchString === nextState.searchString;
+});
+
+// export default TreeBranch;

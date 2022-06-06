@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
+import type { ParsedUrlQuery } from 'querystring';
 import Container from '@mui/material/Container';
 import { useSnackbar } from 'notistack';
 import PostItem from '../components/PostItem';
@@ -11,10 +12,17 @@ import { enumFromStringValue } from '../utils';
 import { defaultPostFilters } from '../utils/defaultValues';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
-import { ApartmentType, CustomNextPage, DealType, EstateType } from '../types';
+import {
+  ApartmentType,
+  CustomNextPage,
+  DealType,
+  EstateType,
+  Settlement,
+} from '../types';
 
 interface QueryParams {
-  slug: string[];
+  districtId: string;
+  subdistrictId: string;
   apartmentType: string;
   priceMin: string;
   priceMax: string;
@@ -40,29 +48,88 @@ const Posts: CustomNextPage = () => {
   const [isInit, setIsInit] = useState<boolean>(false);
 
   const setFiltersFromURL = useCallback(
-    async (query: StringQueryParams) => {
-      const { slug, ...urlParams } = query;
-      const routeName = slug[0];
-      const estateTypeString = slug[1];
-      const dealTypeString = slug[2];
+    async (query: ParsedUrlQuery) => {
+      const { slug, ...otherParams } = query;
+      const mainParams = slug as string[];
+      const urlParams = otherParams as StringQueryParams;
+
+      let cityString = '';
+      let estateTypeString = '';
+      let dealTypeString = '';
+      let districtString = '';
+      let subdistrictString = '';
+
+      if (mainParams.length === 3) {
+        [cityString, estateTypeString, dealTypeString] = mainParams;
+      } else if (mainParams.length === 4) {
+        [cityString, districtString, estateTypeString, dealTypeString] =
+          mainParams;
+      } else if (mainParams.length === 5) {
+        [
+          cityString,
+          districtString,
+          subdistrictString,
+          estateTypeString,
+          dealTypeString,
+        ] = mainParams;
+      }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       setIsInit(false);
 
       try {
-        const localityResponse = await getLocalities({ routeName, type: '2' });
+        // Fetch city
+        const cityResponse = await getLocalities({
+          routeName: cityString,
+          type: '2',
+        });
+
+        // Fetch district
+        let districts: Settlement[] = [];
+        if (districtString) {
+          const districtResponse = await getLocalities({
+            routeName: districtString,
+            type: '8',
+          });
+          districts = [districtResponse.data[0]];
+        } else if (urlParams.districtId) {
+          const districtResponse = await getLocalities({
+            id: urlParams.districtId,
+            type: '8',
+          });
+          districts = districtResponse.data;
+        }
+
+        // Fetch subdistrict
+        let subdistricts: Settlement[] = [];
+        if (subdistrictString) {
+          const subdistrictResponse = await getLocalities({
+            routeName: subdistrictString,
+            type: '32',
+          });
+          subdistricts = [subdistrictResponse.data[0]];
+        } else if (urlParams.subdistrictId) {
+          const subdistrictResponse = await getLocalities({
+            id: urlParams.subdistrictId,
+            type: '32',
+          });
+          subdistricts = subdistrictResponse.data;
+        }
+
         const dealType = enumFromStringValue(DealType, dealTypeString);
         const estateType = enumFromStringValue(EstateType, estateTypeString);
 
-        // City ID & deal type are required
-        if (localityResponse.data.length === 0 || !dealType || !estateType) {
+        // City or deal type not found
+        if (cityResponse.data.length === 0 || !dealType || !estateType) {
           return; // 404
         }
 
         setFilters({
           ...defaultPostFilters,
-          city: localityResponse.data[0],
+          city: cityResponse.data[0],
+          districts,
+          subdistricts,
           dealType,
           estateType,
           apartmentType: enumFromStringValue(
@@ -104,8 +171,7 @@ const Posts: CustomNextPage = () => {
   );
 
   useEffect(() => {
-    const query = router.query as StringQueryParams;
-    setFiltersFromURL(query);
+    setFiltersFromURL(router.query);
   }, [router.query, setFiltersFromURL]);
 
   const getPosts = useCallback(async () => {

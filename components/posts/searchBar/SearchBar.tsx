@@ -19,6 +19,7 @@ import ApartmentTypeFilter from '../filters/ApartmentTypeFilter';
 import SqmFilter from '../filters/SqmFilter';
 import RoomsFilter from '../filters/RoomsFilters';
 import CityFilter from '../filters/CityFilter';
+import DistrictFilter from '../filters/DistrictFilter';
 import { AppContext } from '../../../store/appContext';
 import {
   getDealTypeFilterTitle,
@@ -175,7 +176,8 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
         className={classes}
       >
         <Toolbar sx={{ gap: 2, width: 'max-content', mx: { lg: 10 } }}>
-          <CityFilter city={filters.city} />
+          <CityFilter />
+          <DistrictFilter />
           <Divider orientation="vertical" sx={{ height: '30px' }} />
           <FilterButton title={dealTypeTitle}>
             <DealTypeFilter />

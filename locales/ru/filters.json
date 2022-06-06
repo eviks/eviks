@@ -20,5 +20,7 @@
   "secondaryBuildings": "Вторички",
   "buy": "Купить",
   "rent": "Снять",
-  "rentPerDay": "Снять посуточно"
+  "rentPerDay": "Снять посуточно",
+  "saveDistrictFilter": "Сохранить",
+  "district": "Район"
 }

@@ -134,6 +134,8 @@ export interface User {
 
 export interface PostFilters {
   city: Settlement;
+  districts: Settlement[];
+  subdistricts: Settlement[];
   dealType: DealType;
   estateType: EstateType;
   apartmentType?: ApartmentType;

@@ -19,7 +19,7 @@ export const fetchPost = async (postId: string) => {
   }
 };
 
-const getPostsQuery = (filters: PostFilters) => {
+const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
   const searchParams: { [key: string]: string } = {};
   if (filters.apartmentType)
     searchParams.apartmentType = filters.apartmentType.toString();
@@ -36,6 +36,30 @@ const getPostsQuery = (filters: PostFilters) => {
   if (filters.kitchenSqmMax)
     searchParams.kitchenSqmMax = filters.kitchenSqmMax.toString();
   if (filters.rooms.length > 0) searchParams.rooms = filters.rooms.join(',');
+  // Districts
+  if (
+    filters.districts.length > 1 ||
+    filters.subdistricts.length > 0 ||
+    (filters.districts.length > 0 && fetch)
+  ) {
+    searchParams.districtId = filters.districts
+      .map((district) => {
+        return district.id;
+      })
+      .join(',');
+  }
+  // Subdistricts
+  if (
+    filters.subdistricts.length > 0 ||
+    (filters.subdistricts.length > 0 && fetch)
+  ) {
+    searchParams.subdistrictId = filters.subdistricts
+      .map((subdistrict) => {
+        return subdistrict.id;
+      })
+      .join(',');
+  }
+
   return searchParams;
 };
 
@@ -44,7 +68,7 @@ export const fetchPosts = (filters: PostFilters) => {
     dispatch: Dispatch<{ type: Types.GetPosts; payload: Post[] }>,
   ) => {
     try {
-      const query = getPostsQuery(filters);
+      const query = getPostsQuery(filters, true);
 
       query.cityId = filters.city.id;
       query.estateType = filters.estateType;
@@ -76,9 +100,18 @@ export const setFilters = (postFilters: PostFilters) => {
 };
 
 export const pushToNewPostsRoute = (postFilters: PostFilters) => {
+  let extraPathName = '';
+
+  // if (postFilters.subdistricts.length === 1) ...
+  if (
+    postFilters.districts.length === 1 &&
+    postFilters.subdistricts.length === 0
+  )
+    extraPathName = `/${postFilters.districts[0].routeName}`;
+
   Router.push(
     {
-      pathname: `/${postFilters.city.routeName}/${postFilters.estateType}/${postFilters.dealType}`,
+      pathname: `/${postFilters.city.routeName}${extraPathName}/${postFilters.estateType}/${postFilters.dealType}`,
       query: getPostsQuery(postFilters),
     },
     undefined,
