@@ -11,6 +11,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import DistrictsBar from './DistrictsBar';
 import FilterButton from './FilterButton';
 import PriceFilter from '../filters/PriceFilter';
 import DealTypeFilter from '../filters/DealTypeFilter';
@@ -175,7 +176,13 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
         }}
         className={classes}
       >
-        <Toolbar sx={{ gap: 2, width: 'max-content', mx: { lg: 10 } }}>
+        <Toolbar
+          sx={{
+            gap: 2,
+            width: 'max-content',
+            mx: { lg: 10 },
+          }}
+        >
           <CityFilter />
           <DistrictFilter />
           <Divider orientation="vertical" sx={{ height: '30px' }} />
@@ -200,6 +207,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
             <SqmFilter />
           </FilterButton>
         </Toolbar>
+        <DistrictsBar />
       </AppBar>
     </Box>
   );

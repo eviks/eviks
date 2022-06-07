@@ -201,7 +201,14 @@ const Posts: CustomNextPage = () => {
   }, [getPosts]);
 
   return (
-    <Container>
+    <Container
+      sx={{
+        mt:
+          filters.districts.length > 0 || filters.subdistricts.length > 0
+            ? 10
+            : 5,
+      }}
+    >
       {posts &&
         posts.map((post) => {
           return <PostItem key={post._id} post={post} />;
