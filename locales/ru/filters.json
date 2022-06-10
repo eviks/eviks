@@ -22,5 +22,10 @@
   "rent": "Снять",
   "rentPerDay": "Снять посуточно",
   "saveDistrictFilter": "Сохранить",
-  "district": "Район"
+  "district": "Район",
+  "floor": "Этаж",
+  "floorRange": "Этаж с {{floorMin}} по {{floorMax}}",
+  "floorUpTo": "Этаж по {{floorMax}}",
+  "floorFrom": "Этаж с {{floorMin}}",
+  "otherFilters": "Еще фильтры"
 }

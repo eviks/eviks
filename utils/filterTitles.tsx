@@ -114,3 +114,26 @@ export const getSqmFilterTitle = async (
     });
   return t('sqm');
 };
+
+export const getFloorFilterTitle = async (
+  floorMin: number,
+  floorMax: number,
+  locale: string,
+) => {
+  const t = await getT(locale, 'filters');
+
+  if (floorMin && floorMax)
+    return t('floorRange', {
+      floorMin,
+      floorMax,
+    });
+  if (floorMax)
+    return t('floorUpTo', {
+      floorMax,
+    });
+  if (floorMin)
+    return t('floorFrom', {
+      floorMin,
+    });
+  return t('floor');
+};

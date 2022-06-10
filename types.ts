@@ -150,6 +150,10 @@ export interface PostFilters {
   livingRoomsSqmMax: number;
   kitchenSqmMin: number;
   kitchenSqmMax: number;
+  floorMin: number;
+  floorMax: number;
+  totalFloorsMin: number;
+  totalFloorsMax: number;
 }
 
 export interface PostsContext {

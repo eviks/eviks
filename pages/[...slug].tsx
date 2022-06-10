@@ -33,6 +33,10 @@ interface QueryParams {
   kitchenSqmMin: string;
   kitchenSqmMax: string;
   rooms: string;
+  floorMin: string;
+  floorMax: string;
+  totalFloorsMin: string;
+  totalFloorsMax: string;
 }
 
 type StringQueryParams = Record<keyof QueryParams, string>;
@@ -149,6 +153,10 @@ const Posts: CustomNextPage = () => {
                 return Number(e);
               })
             : [],
+          floorMin: Number(urlParams.floorMin ?? 0),
+          floorMax: Number(urlParams.floorMax ?? 0),
+          totalFloorsMin: Number(urlParams.totalFloorsMin ?? 0),
+          totalFloorsMax: Number(urlParams.totalFloorsMax ?? 0),
         })(dispatch);
       } catch (error) {
         let errorMessage = '';

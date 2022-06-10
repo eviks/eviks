@@ -6,29 +6,29 @@ import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledInput from '../../layout/StyledInput';
-import SqmIcon from '../../icons/SqmIcon';
+import ElevatorIcon from '../../icons/ElevatorIcon';
 import { AppContext } from '../../../store/appContext';
 import { pushToNewPostsRoute } from '../../../actions/posts';
 import { PostFilters } from '../../../types';
 
-interface SqmState {
-  sqmMin: string;
-  sqmMax: string;
+interface FloorState {
+  floorMin: string;
+  floorMax: string;
 }
 
-const getDefaultState = (filters: PostFilters): SqmState => {
-  const defaultSqmMin =
-    Number(filters.sqmMin) > 0 ? filters.sqmMin?.toString() ?? '' : '';
-  const defaultSqmMax =
-    Number(filters.sqmMax) > 0 ? filters.sqmMax?.toString() ?? '' : '';
+const getDefaultState = (filters: PostFilters): FloorState => {
+  const defaultFloorMin =
+    Number(filters.floorMin) > 0 ? filters.floorMin?.toString() ?? '' : '';
+  const defaultFloorMax =
+    Number(filters.floorMax) > 0 ? filters.floorMax?.toString() ?? '' : '';
 
   return {
-    sqmMin: defaultSqmMin,
-    sqmMax: defaultSqmMax,
+    floorMin: defaultFloorMin,
+    floorMax: defaultFloorMax,
   };
 };
 
-const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
+const FloorFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   const { t } = useTranslation();
 
   const {
@@ -37,21 +37,21 @@ const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
     },
   } = useContext(AppContext);
 
-  const [state, setState] = useState<SqmState>(getDefaultState(filters));
+  const [state, setState] = useState<FloorState>(getDefaultState(filters));
 
-  const { sqmMin, sqmMax } = state;
+  const { floorMin, floorMax } = state;
 
-  const setSqmFilters = () => {
+  const setFloorFilters = () => {
     pushToNewPostsRoute({
       ...filters,
-      sqmMin: Number(sqmMin),
-      sqmMax: Number(sqmMax),
+      floorMin: Number(floorMin),
+      floorMax: Number(floorMax),
     });
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setSqmFilters();
+    setFloorFilters();
     if (handleClose) handleClose();
   };
 
@@ -65,16 +65,16 @@ const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
 
   return (
     <ValidatorForm onSubmit={handleSubmit}>
-      {/* Sqm */}
+      {/* Floor */}
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
-        {t('post:sqm')}
+        {t('post:floor')}
       </Typography>
       <Box sx={{ display: 'flex' }}>
         <StyledInput
-          value={sqmMin}
-          name="sqmMin"
+          value={floorMin}
+          name="floorMin"
           input={{
-            id: 'sqmMin',
+            id: 'floorMin',
             type: 'number',
             placeholder: t('filters:valueFrom'),
             sx: {
@@ -84,16 +84,16 @@ const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
             onChange: handleChange,
             startAdornment: (
               <InputAdornment position="start">
-                <SqmIcon sx={{ ml: 1 }} />
+                <ElevatorIcon sx={{ ml: 1 }} />
               </InputAdornment>
             ),
           }}
         />
         <StyledInput
-          value={sqmMax}
-          name="sqmMax"
+          value={floorMax}
+          name="floorMax"
           input={{
-            id: 'sqmMax',
+            id: 'floorMax',
             type: 'number',
             placeholder: t('filters:valueTo'),
             sx: {
@@ -103,7 +103,6 @@ const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
           }}
         />
       </Box>
-
       <Button
         variant={'contained'}
         type="submit"
@@ -115,4 +114,4 @@ const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   );
 };
 
-export default SqmFilter;
+export default FloorFilter;

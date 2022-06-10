@@ -22,5 +22,10 @@
   "rent": "Kirayə",
   "rentPerDay": "Gündəlik kirayə",
   "saveDistrictFilter": "Saxlamaq",
-  "district": "Rayon"
+  "district": "Rayon",
+  "floor": "Mərtəbə",
+  "floorRange": "Mərtəbə {{floorMin}} - {{floorMax}}",
+  "floorUpTo": "Mərtəbə {{floorMax}}-dək",
+  "floorFrom": "Mərtəbə {{floorMin}}-dan",
+  "otherFilters": "Başqa filterlər"
 }

@@ -21,6 +21,8 @@ import SqmFilter from '../filters/SqmFilter';
 import RoomsFilter from '../filters/RoomsFilters';
 import CityFilter from '../filters/CityFilter';
 import DistrictFilter from '../filters/DistrictFilter';
+import FloorFilter from '../filters/FloorFilter';
+import OtherFilters from '../filters/otherFilters/OtherFilters';
 import { AppContext } from '../../../store/appContext';
 import {
   getDealTypeFilterTitle,
@@ -29,6 +31,7 @@ import {
   getPriceFilterTitle,
   getSqmFilterTitle,
   getRoomsFilterTitle,
+  getFloorFilterTitle,
 } from '../../../utils/filterTitles';
 import { EstateType } from '../../../types';
 
@@ -45,6 +48,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   const [priceTitle, setPriceTitle] = useState<string>('');
   const [roomsTitle, setRoomsTitle] = useState<string>('');
   const [sqmTitle, setSqmTitle] = useState<string>('');
+  const [floorTitle, setFloorTitle] = useState<string>('');
   const [classes, setClasses] = useState<string>('searchbar-relative');
   const [scrollPos, setScrollPos] = useState<number>(0);
 
@@ -134,6 +138,20 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
     getSqmTitle();
   }, [getSqmTitle]);
 
+  // Floor
+  const getFloorTitle = useCallback(async () => {
+    const title = await getFloorFilterTitle(
+      filters.floorMin,
+      filters.floorMax,
+      router.locale ?? 'az',
+    );
+    setFloorTitle(title);
+  }, [filters.floorMax, filters.floorMin, router.locale]);
+
+  useEffect(() => {
+    getFloorTitle();
+  }, [getFloorTitle]);
+
   const isInViewport = (element: any) => {
     const bounding = element.getBoundingClientRect();
     return bounding.bottom >= 0;
@@ -206,6 +224,10 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
           <FilterButton title={sqmTitle}>
             <SqmFilter />
           </FilterButton>
+          <FilterButton title={floorTitle}>
+            <FloorFilter />
+          </FilterButton>
+          <OtherFilters />
         </Toolbar>
         <DistrictsBar />
       </AppBar>

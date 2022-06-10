@@ -36,6 +36,10 @@ const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
   if (filters.kitchenSqmMax)
     searchParams.kitchenSqmMax = filters.kitchenSqmMax.toString();
   if (filters.rooms.length > 0) searchParams.rooms = filters.rooms.join(',');
+  if (filters.floorMin) searchParams.floorMin = filters.floorMin.toString();
+  if (filters.floorMax) searchParams.floorMax = filters.floorMax.toString();
+  if (filters.totalFloorsMin) searchParams.totalFloorsMin = filters.totalFloorsMin.toString();
+  if (filters.totalFloorsMax) searchParams.totalFloorsMax = filters.totalFloorsMax.toString();
   // Districts
   if (
     filters.districts.length > 1 ||
@@ -102,7 +106,6 @@ export const setFilters = (postFilters: PostFilters) => {
 export const pushToNewPostsRoute = (postFilters: PostFilters) => {
   let extraPathName = '';
 
-  // if (postFilters.subdistricts.length === 1) ...
   if (
     postFilters.districts.length === 1 &&
     postFilters.subdistricts.length === 0
