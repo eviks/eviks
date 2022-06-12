@@ -10,8 +10,12 @@
   "billion": "mlrd",
   "sqm": "Sahə",
   "sqmRange": "{{sqmMin}} - {{sqmMax}} м²",
-  "sqmUpTo": "До {{sqmMax}} м²",
+  "sqmUpTo": "{{sqmMax}}-dək м²",
   "sqmFrom": "{{sqmMin}}+ м²",
+  "lotSqm": "Torpaq",
+  "lotSqmRange": "{{lotSqmMin}} - {{lotSqmMax}} sot.",
+  "lotSqmUpTo": "{{lotSqmMax}}-dək sot.",
+  "lotSqmFrom": "{{lotSqmMin}}+ sot.",
   "showPosts": "Elanları göstərmək",
   "rooms": "Otaqlar",
   "room": "{{rooms}}-otaqlı",
@@ -26,6 +30,6 @@
   "floor": "Mərtəbə",
   "floorRange": "Mərtəbə {{floorMin}} - {{floorMax}}",
   "floorUpTo": "Mərtəbə {{floorMax}}-dək",
-  "floorFrom": "Mərtəbə {{floorMin}}-dan",
+  "floorFrom": "Mərtəbə {{floorMin}}+",
   "otherFilters": "Başqa filterlər"
 }

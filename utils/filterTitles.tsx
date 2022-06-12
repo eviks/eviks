@@ -115,6 +115,29 @@ export const getSqmFilterTitle = async (
   return t('sqm');
 };
 
+export const getLotSqmFilterTitle = async (
+  lotSqmMin: number,
+  lotSqmMax: number,
+  locale: string,
+) => {
+  const t = await getT(locale, 'filters');
+
+  if (lotSqmMin && lotSqmMax)
+    return t('lotSqmRange', {
+      lotSqmMin,
+      lotSqmMax,
+    });
+  if (lotSqmMax)
+    return t('lotSqmUpTo', {
+      lotSqmMax,
+    });
+  if (lotSqmMin)
+    return t('lotSqmFrom', {
+      lotSqmMin,
+    });
+  return t('lotSqm');
+};
+
 export const getFloorFilterTitle = async (
   floorMin: number,
   floorMax: number,

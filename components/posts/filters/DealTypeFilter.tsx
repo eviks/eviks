@@ -37,9 +37,9 @@ const DealTypeFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
 
   const handleChange = (
     _event: React.MouseEvent<HTMLElement>,
-    value: DealType,
+    value: DealType | null,
   ) => {
-    setDealType(value);
+    if (value) setDealType(value);
   };
 
   return (

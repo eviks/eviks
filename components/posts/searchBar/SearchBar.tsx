@@ -18,6 +18,7 @@ import DealTypeFilter from '../filters/DealTypeFilter';
 import EstateTypeFilter from '../filters/EstateTypeFilter';
 import ApartmentTypeFilter from '../filters/ApartmentTypeFilter';
 import SqmFilter from '../filters/SqmFilter';
+import LotSqmFilter from '../filters/LotSqmFilter';
 import RoomsFilter from '../filters/RoomsFilters';
 import CityFilter from '../filters/CityFilter';
 import DistrictFilter from '../filters/DistrictFilter';
@@ -30,6 +31,7 @@ import {
   getApartmentTypeFilterTitle,
   getPriceFilterTitle,
   getSqmFilterTitle,
+  getLotSqmFilterTitle,
   getRoomsFilterTitle,
   getFloorFilterTitle,
 } from '../../../utils/filterTitles';
@@ -48,6 +50,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   const [priceTitle, setPriceTitle] = useState<string>('');
   const [roomsTitle, setRoomsTitle] = useState<string>('');
   const [sqmTitle, setSqmTitle] = useState<string>('');
+  const [lotSqmTitle, setLotSqmTitle] = useState<string>('');
   const [floorTitle, setFloorTitle] = useState<string>('');
   const [classes, setClasses] = useState<string>('searchbar-relative');
   const [scrollPos, setScrollPos] = useState<number>(0);
@@ -138,6 +141,20 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
     getSqmTitle();
   }, [getSqmTitle]);
 
+  // Lot Sqm title
+  const getLotSqmTitle = useCallback(async () => {
+    const title = await getLotSqmFilterTitle(
+      filters.lotSqmMin,
+      filters.lotSqmMax,
+      router.locale ?? 'az',
+    );
+    setLotSqmTitle(title);
+  }, [filters.lotSqmMax, filters.lotSqmMin, router.locale]);
+
+  useEffect(() => {
+    getLotSqmTitle();
+  }, [getLotSqmTitle]);
+
   // Floor
   const getFloorTitle = useCallback(async () => {
     const title = await getFloorFilterTitle(
@@ -224,6 +241,13 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
           <FilterButton title={sqmTitle}>
             <SqmFilter />
           </FilterButton>
+
+          {filters.estateType === EstateType.house && (
+            <FilterButton title={lotSqmTitle}>
+              <LotSqmFilter />
+            </FilterButton>
+          )}
+
           <FilterButton title={floorTitle}>
             <FloorFilter />
           </FilterButton>

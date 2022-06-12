@@ -7,6 +7,6 @@
     "/verification": ["verification"],
     "/posts/[id]": ["post"],
     "/edit_post": ["post"],
-    "/[...slug]": ["post", "filters"]
+    "/[...slug]": ["post", "filters", "posts"]
   }
 }

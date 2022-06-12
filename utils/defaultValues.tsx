@@ -409,8 +409,10 @@ export const defaultPostFilters: PostFilters = {
   livingRoomsSqmMax: 0,
   kitchenSqmMin: 0,
   kitchenSqmMax: 0,
+  lotSqmMin: 0,
+  lotSqmMax: 0,
   floorMin: 0,
   floorMax: 0,
   totalFloorsMin: 0,
-  totalFloorsMax: 0
+  totalFloorsMax: 0,
 };

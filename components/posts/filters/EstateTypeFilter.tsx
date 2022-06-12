@@ -29,6 +29,10 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
       estateType,
       apartmentType:
         estateType === EstateType.apartment ? filters.apartmentType : undefined,
+      floorMin: estateType === EstateType.apartment ? filters.floorMin : 0,
+      floorMax: estateType === EstateType.apartment ? filters.floorMax : 0,
+      lotSqmMin: estateType === EstateType.house ? filters.lotSqmMin : 0,
+      lotSqmMax: estateType === EstateType.house ? filters.lotSqmMax : 0,
     });
   };
 
@@ -40,9 +44,9 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
 
   const handleChange = (
     _event: React.MouseEvent<HTMLElement>,
-    value: EstateType,
+    value: EstateType | null,
   ) => {
-    setEstateType(value);
+    if (value) setEstateType(value);
   };
 
   return (

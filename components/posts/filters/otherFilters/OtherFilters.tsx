@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -12,7 +13,7 @@ import { AppContext } from '../../../../store/appContext';
 import { pushToNewPostsRoute } from '../../../../actions/posts';
 import useWindowSize from '../../../../utils/hooks/useWindowSize';
 import CloseIcon from '../../../icons/CloseIcon';
-import { PostFilters } from '../../../../types';
+import { EstateType, PostFilters } from '../../../../types';
 
 interface OtherFiltersState {
   livingRoomsSqmMin: string;
@@ -159,24 +160,28 @@ const OtherFilters: FC = () => {
             </IconButton>
           }
         </DialogTitle>
-        <Box
-          sx={{
-            mx: 5,
-          }}
-        >
-          <OtherSqmFilters
-            livingRoomsSqmMin={livingRoomsSqmMin}
-            livingRoomsSqmMax={livingRoomsSqmMax}
-            kitchenSqmMin={kitchenSqmMin}
-            kitchenSqmMax={kitchenSqmMax}
-            handleChange={handleChange}
-          />
-          <OtherFloorFilters
-            totalFloorsMin={totalFloorsMin}
-            totalFloorsMax={totalFloorsMax}
-            handleChange={handleChange}
-          />
-        </Box>
+        <DialogContent dividers>
+          <Box
+            sx={{
+              mx: 5,
+            }}
+          >
+            <OtherSqmFilters
+              livingRoomsSqmMin={livingRoomsSqmMin}
+              livingRoomsSqmMax={livingRoomsSqmMax}
+              kitchenSqmMin={kitchenSqmMin}
+              kitchenSqmMax={kitchenSqmMax}
+              handleChange={handleChange}
+            />
+            {filters.estateType === EstateType.apartment && (
+              <OtherFloorFilters
+                totalFloorsMin={totalFloorsMin}
+                totalFloorsMax={totalFloorsMax}
+                handleChange={handleChange}
+              />
+            )}
+          </Box>
+        </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={onSave}>
             {t('filters:saveDistrictFilter')}

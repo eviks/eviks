@@ -27,6 +27,8 @@ const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
   if (filters.priceMax) searchParams.priceMax = filters.priceMax.toString();
   if (filters.sqmMin) searchParams.sqmMin = filters.sqmMin.toString();
   if (filters.sqmMax) searchParams.sqmMax = filters.sqmMax.toString();
+  if (filters.lotSqmMin) searchParams.lotSqmMin = filters.lotSqmMin.toString();
+  if (filters.lotSqmMax) searchParams.lotSqmMax = filters.lotSqmMax.toString();
   if (filters.livingRoomsSqmMin)
     searchParams.livingRoomsSqmMin = filters.livingRoomsSqmMin.toString();
   if (filters.livingRoomsSqmMax)
@@ -38,8 +40,10 @@ const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
   if (filters.rooms.length > 0) searchParams.rooms = filters.rooms.join(',');
   if (filters.floorMin) searchParams.floorMin = filters.floorMin.toString();
   if (filters.floorMax) searchParams.floorMax = filters.floorMax.toString();
-  if (filters.totalFloorsMin) searchParams.totalFloorsMin = filters.totalFloorsMin.toString();
-  if (filters.totalFloorsMax) searchParams.totalFloorsMax = filters.totalFloorsMax.toString();
+  if (filters.totalFloorsMin)
+    searchParams.totalFloorsMin = filters.totalFloorsMin.toString();
+  if (filters.totalFloorsMax)
+    searchParams.totalFloorsMax = filters.totalFloorsMax.toString();
   // Districts
   if (
     filters.districts.length > 1 ||

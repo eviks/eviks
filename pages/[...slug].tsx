@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import type { ParsedUrlQuery } from 'querystring';
 import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 import PostItem from '../components/PostItem';
 import { AppContext } from '../store/appContext';
@@ -28,6 +32,8 @@ interface QueryParams {
   priceMax: string;
   sqmMin: string;
   sqmMax: string;
+  lotSqmMin: string;
+  lotSqmMax: string;
   livingRoomsSqmMin: string;
   livingRoomsSqmMax: string;
   kitchenSqmMin: string;
@@ -50,6 +56,7 @@ const Posts: CustomNextPage = () => {
   const router = useRouter();
 
   const [isInit, setIsInit] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const setFiltersFromURL = useCallback(
     async (query: ParsedUrlQuery) => {
@@ -144,6 +151,8 @@ const Posts: CustomNextPage = () => {
           priceMax: Number(urlParams.priceMax ?? 0),
           sqmMin: Number(urlParams.sqmMin ?? 0),
           sqmMax: Number(urlParams.sqmMax ?? 0),
+          lotSqmMin: Number(urlParams.lotSqmMin ?? 0),
+          lotSqmMax: Number(urlParams.lotSqmMax ?? 0),
           livingRoomsSqmMin: Number(urlParams.livingRoomsSqmMin ?? 0),
           livingRoomsSqmMax: Number(urlParams.livingRoomsSqmMax ?? 0),
           kitchenSqmMin: Number(urlParams.kitchenSqmMin ?? 0),
@@ -185,6 +194,8 @@ const Posts: CustomNextPage = () => {
   const getPosts = useCallback(async () => {
     if (!isInit) return;
 
+    setIsLoading(true);
+
     try {
       await fetchPosts(filters)(dispatch);
     } catch (error) {
@@ -202,11 +213,26 @@ const Posts: CustomNextPage = () => {
       });
     }
     setIsInit(false);
+    setIsLoading(false);
   }, [dispatch, enqueueSnackbar, filters, isInit, t]);
 
   useEffect(() => {
     getPosts();
   }, [getPosts]);
+
+  if (isLoading)
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '50vh',
+        }}
+      >
+        <CircularProgress color="primary" size="2rem" />
+      </Box>
+    );
 
   return (
     <Container
@@ -217,10 +243,34 @@ const Posts: CustomNextPage = () => {
             : 5,
       }}
     >
-      {posts &&
+      {posts.length > 0 ? (
         posts.map((post) => {
           return <PostItem key={post._id} post={post} />;
-        })}
+        })
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '50vh',
+          }}
+        >
+          <Image
+            src={'/illustrations/no_result.svg'}
+            alt="auth"
+            width={500}
+            height={500}
+          />
+          <Typography variant="h4" textAlign={'center'}>
+            {t('posts:noResult')}
+          </Typography>
+          <Typography variant="subtitle1" textAlign={'center'}>
+            {t('posts:noResultHint')}
+          </Typography>
+        </Box>
+      )}
     </Container>
   );
 };
