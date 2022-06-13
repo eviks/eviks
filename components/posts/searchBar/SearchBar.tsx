@@ -22,6 +22,7 @@ import LotSqmFilter from '../filters/LotSqmFilter';
 import RoomsFilter from '../filters/RoomsFilters';
 import CityFilter from '../filters/CityFilter';
 import DistrictFilter from '../filters/DistrictFilter';
+import MetroFilter from '../filters/MetroFilter';
 import FloorFilter from '../filters/FloorFilter';
 import OtherFilters from '../filters/otherFilters/OtherFilters';
 import { AppContext } from '../../../store/appContext';
@@ -220,6 +221,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
         >
           <CityFilter />
           <DistrictFilter />
+          <MetroFilter />
           <Divider orientation="vertical" sx={{ height: '30px' }} />
           <FilterButton title={dealTypeTitle}>
             <DealTypeFilter />

@@ -31,5 +31,6 @@
   "floorRange": "Этаж с {{floorMin}} по {{floorMax}}",
   "floorUpTo": "Этаж по {{floorMax}}",
   "floorFrom": "Этаж с {{floorMin}}",
-  "otherFilters": "Еще фильтры"
+  "otherFilters": "Еще фильтры",
+  "metro": "Метро"
 }

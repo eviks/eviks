@@ -21,12 +21,14 @@ import {
   CustomNextPage,
   DealType,
   EstateType,
+  MetroStation,
   Settlement,
 } from '../types';
 
 interface QueryParams {
   districtId: string;
   subdistrictId: string;
+  metroStationsId: string;
   apartmentType: string;
   priceMin: string;
   priceMax: string;
@@ -136,11 +138,29 @@ const Posts: CustomNextPage = () => {
           return; // 404
         }
 
+        const city = cityResponse.data[0];
+
+        let metroStations: MetroStation[] = [];
+
+        if (urlParams.metroStationsId) {
+          metroStations = urlParams.metroStationsId
+            .split(',')
+            .map((id) => {
+              return city.metroStations?.find((element) => {
+                return element._id === id;
+              });
+            })
+            .filter((element) => {
+              return element !== undefined;
+            }) as Array<MetroStation>;
+        }
+
         setFilters({
           ...defaultPostFilters,
-          city: cityResponse.data[0],
+          city,
           districts,
           subdistricts,
+          metroStations,
           dealType,
           estateType,
           apartmentType: enumFromStringValue(
@@ -238,7 +258,9 @@ const Posts: CustomNextPage = () => {
     <Container
       sx={{
         mt:
-          filters.districts.length > 0 || filters.subdistricts.length > 0
+          filters.districts.length > 0 ||
+          filters.subdistricts.length > 0 ||
+          filters.metroStations.length > 0
             ? 10
             : 5,
       }}

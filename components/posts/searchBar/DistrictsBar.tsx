@@ -4,7 +4,10 @@ import Chip from '@mui/material/Chip';
 import Toolbar from '@mui/material/Toolbar';
 import { pushToNewPostsRoute } from '../../../actions/posts';
 import { AppContext } from '../../../store/appContext';
-import { getSettlementPresentation } from '../../../utils';
+import {
+  getSettlementPresentation,
+  getMetroPresentation,
+} from '../../../utils';
 
 const DistrictsBar: FC = () => {
   const router = useRouter();
@@ -33,7 +36,18 @@ const DistrictsBar: FC = () => {
     });
   };
 
-  return filters.districts.length > 0 || filters.subdistricts.length > 0 ? (
+  const handleMetroStationDelete = (id: string) => {
+    pushToNewPostsRoute({
+      ...filters,
+      metroStations: filters.metroStations.filter((metroStation) => {
+        return metroStation._id !== id;
+      }),
+    });
+  };
+
+  return filters.districts.length > 0 ||
+    filters.subdistricts.length > 0 ||
+    filters.metroStations.length > 0 ? (
     <Toolbar
       variant="dense"
       sx={{
@@ -62,6 +76,18 @@ const DistrictsBar: FC = () => {
             variant="outlined"
             onDelete={() => {
               return handleSubdistrictDelete(subdistrict.id);
+            }}
+          />
+        );
+      })}
+      {filters.metroStations.map((metroStation) => {
+        return (
+          <Chip
+            key={metroStation._id}
+            label={getMetroPresentation(metroStation, router.locale)}
+            variant="outlined"
+            onDelete={() => {
+              return handleMetroStationDelete(metroStation._id);
             }}
           />
         );

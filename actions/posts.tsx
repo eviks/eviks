@@ -67,6 +67,14 @@ const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
       })
       .join(',');
   }
+  // Metro stations
+  if (filters.metroStations.length > 0) {
+    searchParams.metroStationsId = filters.metroStations
+      .map((metroStation) => {
+        return metroStation._id;
+      })
+      .join(',');
+  }
 
   return searchParams;
 };

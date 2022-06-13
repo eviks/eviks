@@ -1,4 +1,3 @@
-import Router from 'next/router';
 import { Settlement, MetroStation } from '../types';
 
 export const removeAzerbaijaniChars = (value: string): string => {
@@ -13,10 +12,13 @@ export const removeAzerbaijaniChars = (value: string): string => {
   return newValue;
 };
 
-export const getMetroPresentation = (settlement: MetroStation) => {
-  if (Router.locale === 'az') return settlement.name;
-  if (Router.locale === 'ru' && settlement.nameRu) return settlement.nameRu;
-  if (Router.locale === 'en' && settlement.nameEn) return settlement.nameEn;
+export const getMetroPresentation = (
+  settlement: MetroStation,
+  locale: string = 'az',
+) => {
+  if (locale === 'az') return settlement.name;
+  if (locale === 'ru' && settlement.nameRu) return settlement.nameRu;
+  if (locale === 'en' && settlement.nameEn) return settlement.nameEn;
 
   return settlement.name;
 };

@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Autocomplete from '@mui/material/Autocomplete';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -13,6 +14,7 @@ const MetroInput: FC<{
   setMapState: React.Dispatch<React.SetStateAction<MapState>>;
 }> = ({ metroStation, setMapState, city }) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   const handleAutocompleteChange = async (
     _event: React.SyntheticEvent<Element, Event>,
@@ -39,7 +41,9 @@ const MetroInput: FC<{
       }}
       value={metroStation}
       options={city.metroStations!.sort((a, b) => {
-        return getMetroPresentation(a).localeCompare(getMetroPresentation(b));
+        return getMetroPresentation(a, router.locale).localeCompare(
+          getMetroPresentation(b, router.locale),
+        );
       })}
       isOptionEqualToValue={(option, value) => {
         if (!value) return false;

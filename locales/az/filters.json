@@ -31,5 +31,6 @@
   "floorRange": "Mərtəbə {{floorMin}} - {{floorMax}}",
   "floorUpTo": "Mərtəbə {{floorMax}}-dək",
   "floorFrom": "Mərtəbə {{floorMin}}+",
-  "otherFilters": "Başqa filterlər"
+  "otherFilters": "Başqa filterlər",
+  "metro": "Metro"
 }

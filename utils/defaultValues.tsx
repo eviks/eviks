@@ -396,6 +396,7 @@ export const defaultPostFilters: PostFilters = {
   city: capitalCity,
   districts: [],
   subdistricts: [],
+  metroStations: [],
   estateType: EstateType.apartment,
   dealType: DealType.sale,
   priceMin: 0,
