@@ -43,7 +43,7 @@ const LocalitySchema = new mongoose.Schema({
     type: [
       {
         id: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: Number,
           ref: 'metroStations',
           required: true,
         },

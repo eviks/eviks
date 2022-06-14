@@ -217,6 +217,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
             gap: 2,
             width: 'max-content',
             mx: { lg: 10 },
+            mb: 1,
           }}
         >
           <CityFilter />

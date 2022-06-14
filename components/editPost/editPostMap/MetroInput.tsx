@@ -37,7 +37,7 @@ const MetroInput: FC<{
       disablePortal
       id="metroStation"
       getOptionLabel={(option) => {
-        return getMetroPresentation(option);
+        return getMetroPresentation(option, router.locale);
       }}
       value={metroStation}
       options={city.metroStations!.sort((a, b) => {

@@ -28,7 +28,7 @@ import {
 interface QueryParams {
   districtId: string;
   subdistrictId: string;
-  metroStationsId: string;
+  metroStationId: string;
   apartmentType: string;
   priceMin: string;
   priceMax: string;
@@ -142,12 +142,12 @@ const Posts: CustomNextPage = () => {
 
         let metroStations: MetroStation[] = [];
 
-        if (urlParams.metroStationsId) {
-          metroStations = urlParams.metroStationsId
+        if (urlParams.metroStationId) {
+          metroStations = urlParams.metroStationId
             .split(',')
             .map((id) => {
               return city.metroStations?.find((element) => {
-                return element._id === id;
+                return element._id === Number(id);
               });
             })
             .filter((element) => {
@@ -261,7 +261,7 @@ const Posts: CustomNextPage = () => {
           filters.districts.length > 0 ||
           filters.subdistricts.length > 0 ||
           filters.metroStations.length > 0
-            ? 10
+            ? 12
             : 5,
       }}
     >

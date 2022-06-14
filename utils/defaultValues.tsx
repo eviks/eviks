@@ -19,7 +19,7 @@ export const capitalCity: Settlement = {
   type: '2',
   metroStations: [
     {
-      _id: '6259b438ec8e07125f1e2093',
+      _id: 1,
       cityId: '10',
       name: '28 May',
       nameRu: '28 Май',
@@ -28,7 +28,7 @@ export const capitalCity: Settlement = {
       y: 40.3798526861589,
     },
     {
-      _id: '6259b438ec8e07125f1e2094',
+      _id: 2,
       cityId: '10',
       name: 'Nəriman Nərimanov',
       nameRu: 'Нариман Нариманов',
@@ -37,7 +37,7 @@ export const capitalCity: Settlement = {
       y: 40.4029003060097,
     },
     {
-      _id: '6259b438ec8e07125f1e2095',
+      _id: 3,
       cityId: '10',
       name: 'Qara Qarayev',
       nameRu: 'Кара Караев',
@@ -46,7 +46,7 @@ export const capitalCity: Settlement = {
       y: 40.4175558116373,
     },
     {
-      _id: '6259b438ec8e07125f1e2096',
+      _id: 4,
       cityId: '10',
       name: 'Neftçilər',
       nameRu: 'Нефтчиляр',
@@ -55,7 +55,7 @@ export const capitalCity: Settlement = {
       y: 40.4105062092501,
     },
     {
-      _id: '6259b438ec8e07125f1e2097',
+      _id: 5,
       cityId: '10',
       name: 'Xalqlar Dostluğu',
       nameRu: 'Халглар достлугу',
@@ -64,7 +64,7 @@ export const capitalCity: Settlement = {
       y: 40.3975650404193,
     },
     {
-      _id: '6259b438ec8e07125f1e2098',
+      _id: 6,
       cityId: '10',
       name: 'Koroğlu',
       nameRu: 'Кероглу',
@@ -73,7 +73,7 @@ export const capitalCity: Settlement = {
       y: 40.4209537339068,
     },
     {
-      _id: '6259b438ec8e07125f1e2099',
+      _id: 7,
       cityId: '10',
       name: 'Ulduz',
       nameRu: 'Улдуз',
@@ -82,7 +82,7 @@ export const capitalCity: Settlement = {
       y: 40.4148275479144,
     },
     {
-      _id: '6259b438ec8e07125f1e209a',
+      _id: 8,
       cityId: '10',
       name: 'Gənclik',
       nameRu: 'Гянджлик',
@@ -91,7 +91,7 @@ export const capitalCity: Settlement = {
       y: 40.4007147774345,
     },
     {
-      _id: '6259b438ec8e07125f1e209b',
+      _id: 9,
       cityId: '10',
       name: 'Həzi Aslanov',
       nameRu: 'Ази Асланов',
@@ -100,7 +100,7 @@ export const capitalCity: Settlement = {
       y: 40.3721166260112,
     },
     {
-      _id: '6259b438ec8e07125f1e209c',
+      _id: 10,
       cityId: '10',
       name: 'Bakmil',
       nameRu: 'Бакмил',
@@ -109,7 +109,7 @@ export const capitalCity: Settlement = {
       y: 40.4189689107337,
     },
     {
-      _id: '6259b438ec8e07125f1e209d',
+      _id: 11,
       cityId: '10',
       name: 'Əhmədli',
       nameRu: 'Ахмедлы',
@@ -118,7 +118,7 @@ export const capitalCity: Settlement = {
       y: 40.3851770968207,
     },
     {
-      _id: '6259b438ec8e07125f1e209e',
+      _id: 12,
       cityId: '10',
       name: '20 Yanvar',
       nameRu: '20 января',
@@ -127,7 +127,7 @@ export const capitalCity: Settlement = {
       y: 40.4043014580299,
     },
     {
-      _id: '6259b438ec8e07125f1e209f',
+      _id: 13,
       cityId: '10',
       name: 'İçərişəhər',
       nameRu: 'Ичери Шехер',
@@ -136,7 +136,7 @@ export const capitalCity: Settlement = {
       y: 40.3659083369244,
     },
     {
-      _id: '6259b438ec8e07125f1e20a0',
+      _id: 14,
       cityId: '10',
       name: 'İnşaatçılar',
       nameRu: 'Иншаатчылар',
@@ -145,7 +145,7 @@ export const capitalCity: Settlement = {
       y: 40.3913386675955,
     },
     {
-      _id: '6259b438ec8e07125f1e20a1',
+      _id: 15,
       cityId: '10',
       name: 'Nizami',
       nameRu: 'Низами Гянджеви',
@@ -154,7 +154,7 @@ export const capitalCity: Settlement = {
       y: 40.3794317823335,
     },
     {
-      _id: '6259b438ec8e07125f1e20a2',
+      _id: 16,
       cityId: '10',
       name: 'Memar Əcəmi',
       nameRu: 'Мемар Аджеми',
@@ -163,7 +163,7 @@ export const capitalCity: Settlement = {
       y: 40.4117111472699,
     },
     {
-      _id: '6259b438ec8e07125f1e20a3',
+      _id: 17,
       cityId: '10',
       name: 'Sahil',
       nameRu: 'Сахил',
@@ -172,7 +172,7 @@ export const capitalCity: Settlement = {
       y: 40.3718918460624,
     },
     {
-      _id: '6259b438ec8e07125f1e20a4',
+      _id: 18,
       cityId: '10',
       name: 'Elmlər Akademiyası',
       nameRu: 'Элмляр Академиясы',
@@ -181,7 +181,7 @@ export const capitalCity: Settlement = {
       y: 40.3750918245097,
     },
     {
-      _id: '6259b438ec8e07125f1e20a5',
+      _id: 19,
       cityId: '10',
       name: 'Avtovağzal',
       nameRu: 'Автовокзал',
@@ -190,7 +190,7 @@ export const capitalCity: Settlement = {
       y: 40.4215050632847,
     },
     {
-      _id: '6259b438ec8e07125f1e20a6',
+      _id: 20,
       cityId: '10',
       name: 'Nəsimi',
       nameRu: 'Насими',
@@ -199,7 +199,7 @@ export const capitalCity: Settlement = {
       y: 40.4243596520195,
     },
     {
-      _id: '6259b438ec8e07125f1e20a7',
+      _id: 21,
       cityId: '10',
       name: 'Azadlıq prospekti',
       nameRu: 'Азадлыг проспекти',
@@ -208,7 +208,7 @@ export const capitalCity: Settlement = {
       y: 40.4258461137809,
     },
     {
-      _id: '6259b438ec8e07125f1e20a8',
+      _id: 22,
       cityId: '10',
       name: '8 Noyabr',
       nameRu: '8 ноября',
@@ -217,7 +217,7 @@ export const capitalCity: Settlement = {
       y: 40.4027777548833,
     },
     {
-      _id: '6259b438ec8e07125f1e20a9',
+      _id: 23,
       cityId: '10',
       name: 'Dərnəgül',
       nameRu: 'Дарнагюль',
@@ -226,7 +226,7 @@ export const capitalCity: Settlement = {
       y: 40.4250457153759,
     },
     {
-      _id: '6259b438ec8e07125f1e20aa',
+      _id: 24,
       cityId: '10',
       name: 'Cəfər Cabbarlı',
       nameRu: 'Джафар Джаббарлы',
@@ -235,7 +235,7 @@ export const capitalCity: Settlement = {
       y: 40.3795911539942,
     },
     {
-      _id: '6259b438ec8e07125f1e20ab',
+      _id: 25,
       cityId: '10',
       name: 'Şah İsmayıl Xətai',
       nameRu: 'Шах Исмаил Хатаи',

@@ -12,9 +12,10 @@ import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import FavoriteButton from './postButtons/favoriteButton';
 import StyledCarousel from './layout/StyledCarousel';
+import MetroIcon from './icons/MetroIcon';
 import { Post } from '../types';
 import useWindowSize from '../utils/hooks/useWindowSize';
-import { getSettlementPresentation } from '../utils';
+import { getSettlementPresentation, getMetroPresentation } from '../utils';
 
 const PostItem: FC<{ post: Post }> = ({ post }) => {
   const [elevation, setElevation] = useState<number>(0);
@@ -153,6 +154,14 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                   ? getSettlementPresentation(post.subdistrict, router.locale)
                   : getSettlementPresentation(post.district, router.locale)}
               </Typography>
+              {post.metroStation && (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <MetroIcon sx={{ mr: 1 }} />
+                  <Typography variant="subtitle1">
+                    {getMetroPresentation(post.metroStation, router.locale)}
+                  </Typography>
+                </Box>
+              )}
               <Hidden smDown>
                 <Typography color={theme.palette.grey[500]}>
                   {post.address}

@@ -50,6 +50,7 @@ const setPostsFilters = (req) => {
     locationIds,
     districtId,
     subdistrictId,
+    metroStationId,
     dealType,
     priceMin,
     priceMax,
@@ -108,6 +109,15 @@ const setPostsFilters = (req) => {
     conditions['district.id'] = { $in: districtId.split(',') };
   } else if (subdistrictId) {
     conditions['subdistrict.id'] = { $in: subdistrictId.split(',') };
+  }
+
+  // Metro station
+  if (metroStationId) {
+    conditions['metroStation.id'] = {
+      $in: metroStationId.split(',').map((element) => {
+        return Number(element);
+      }),
+    };
   }
 
   // Deal type

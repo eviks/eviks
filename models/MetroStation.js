@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const MetroStationSchema = new mongoose.Schema({
+  _id: Number,
   cityId: {
     type: String,
     required: true,

@@ -66,7 +66,7 @@ const PostSchema = new mongoose.Schema(
     },
     metroStation: {
       id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         ref: 'metroStations',
         index: true,
       },

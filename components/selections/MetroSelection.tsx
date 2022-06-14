@@ -76,7 +76,7 @@ const MetroSelection: FC<MetroSelectionState> = ({
     );
   };
 
-  const metroIsSelected = (id: string) => {
+  const metroIsSelected = (id: number) => {
     return (
       selectedMetroStations.find((element) => {
         return element._id === id;

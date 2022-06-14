@@ -36,7 +36,7 @@ const DistrictsBar: FC = () => {
     });
   };
 
-  const handleMetroStationDelete = (id: string) => {
+  const handleMetroStationDelete = (id: number) => {
     pushToNewPostsRoute({
       ...filters,
       metroStations: filters.metroStations.filter((metroStation) => {
@@ -54,6 +54,7 @@ const DistrictsBar: FC = () => {
         gap: 2,
         width: 'max-content',
         mx: { lg: 10 },
+        mb: 2,
       }}
     >
       {filters.districts.map((district) => {
