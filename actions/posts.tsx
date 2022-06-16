@@ -6,7 +6,7 @@ import { setURLParams } from '../utils/urlParams';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 import getErrorMessage from '../utils/errors/getErrorMessage';
-import { Post, PostFilters } from '../types';
+import { Post, PostFilters, PostsWithPagination } from '../types';
 
 export const fetchPost = async (postId: string) => {
   try {
@@ -75,13 +75,15 @@ const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
       })
       .join(',');
   }
+  // Page
+  searchParams.page = filters.pagination.current.toString();
 
   return searchParams;
 };
 
 export const fetchPosts = (filters: PostFilters) => {
   return async (
-    dispatch: Dispatch<{ type: Types.GetPosts; payload: Post[] }>,
+    dispatch: Dispatch<{ type: Types.GetPosts; payload: PostsWithPagination }>,
   ) => {
     try {
       const query = getPostsQuery(filters, true);
@@ -92,11 +94,11 @@ export const fetchPosts = (filters: PostFilters) => {
 
       const url = setURLParams(query);
 
-      const response = await axios.get<{ result: Post[] }>(
-        `/api/posts/?${url && `${url}&`}limit=${15}&page=1`,
+      const response = await axios.get<PostsWithPagination>(
+        `/api/posts/?${url && `${url}&`}limit=${15}`,
       );
 
-      dispatch({ type: Types.GetPosts, payload: response.data.result });
+      dispatch({ type: Types.GetPosts, payload: response.data });
     } catch (error) {
       if (axios.isAxiosError(error) && error.code === '500')
         throw new ServerError(error.message);

@@ -46,6 +46,9 @@ const FloorFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       ...filters,
       floorMin: Number(floorMin),
       floorMax: Number(floorMax),
+      pagination: {
+        current: 1,
+      },
     });
   };
 

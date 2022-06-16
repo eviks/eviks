@@ -33,6 +33,9 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
       floorMax: estateType === EstateType.apartment ? filters.floorMax : 0,
       lotSqmMin: estateType === EstateType.house ? filters.lotSqmMin : 0,
       lotSqmMax: estateType === EstateType.house ? filters.lotSqmMax : 0,
+      pagination: {
+        current: 1,
+      },
     });
   };
 

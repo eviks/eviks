@@ -26,6 +26,9 @@ const DealTypeFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
     pushToNewPostsRoute({
       ...filters,
       dealType,
+      pagination: {
+        current: 1,
+      },
     });
   };
 

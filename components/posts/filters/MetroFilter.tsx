@@ -29,6 +29,9 @@ const MetroFilter: FC = () => {
       pushToNewPostsRoute({
         ...filters,
         metroStations: value as unknown as Array<MetroStation>,
+        pagination: {
+          current: 1,
+        },
       });
     }
   };

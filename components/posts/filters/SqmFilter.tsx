@@ -46,6 +46,9 @@ const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       ...filters,
       sqmMin: Number(sqmMin),
       sqmMax: Number(sqmMax),
+      pagination: {
+        current: 1,
+      },
     });
   };
 

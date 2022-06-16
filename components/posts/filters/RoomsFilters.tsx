@@ -56,6 +56,9 @@ const RoomsFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
     pushToNewPostsRoute({
       ...filters,
       rooms,
+      pagination: {
+        current: 1,
+      },
     });
   };
 

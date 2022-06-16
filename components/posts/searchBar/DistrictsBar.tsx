@@ -24,6 +24,9 @@ const DistrictsBar: FC = () => {
       districts: filters.districts.filter((district) => {
         return district.id !== id;
       }),
+      pagination: {
+        current: 1,
+      },
     });
   };
 
@@ -33,6 +36,9 @@ const DistrictsBar: FC = () => {
       subdistricts: filters.subdistricts.filter((subdistrict) => {
         return subdistrict.id !== id;
       }),
+      pagination: {
+        current: 1,
+      },
     });
   };
 
@@ -42,6 +48,9 @@ const DistrictsBar: FC = () => {
       metroStations: filters.metroStations.filter((metroStation) => {
         return metroStation._id !== id;
       }),
+      pagination: {
+        current: 1,
+      },
     });
   };
 

@@ -46,6 +46,9 @@ const LotSqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       ...filters,
       lotSqmMin: Number(lotSqmMin),
       lotSqmMax: Number(lotSqmMax),
+      pagination: {
+        current: 1,
+      },
     });
   };
 

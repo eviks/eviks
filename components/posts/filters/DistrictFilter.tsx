@@ -34,6 +34,9 @@ const DistrictFilter: FC = () => {
         ...filters,
         districts: selectedDistricts ?? [],
         subdistricts: selectedSubdistricts ?? [],
+        pagination: {
+          current: 1,
+        },
       });
     }
   };

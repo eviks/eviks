@@ -29,6 +29,9 @@ const ApartmentTypeFilter: FC<{ handleClose?: () => void }> = ({
     pushToNewPostsRoute({
       ...filters,
       apartmentType,
+      pagination: {
+        current: 1,
+      },
     });
   };
 

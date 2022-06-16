@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, {
+  Fragment,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+} from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -6,11 +12,12 @@ import type { ParsedUrlQuery } from 'querystring';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 import PostItem from '../components/PostItem';
 import { AppContext } from '../store/appContext';
-import { fetchPosts, setFilters } from '../actions/posts';
+import { fetchPosts, pushToNewPostsRoute, setFilters } from '../actions/posts';
 import { getLocalities } from '../actions/localities';
 import { enumFromStringValue } from '../utils';
 import { defaultPostFilters } from '../utils/defaultValues';
@@ -23,29 +30,8 @@ import {
   EstateType,
   MetroStation,
   Settlement,
+  QueryParams,
 } from '../types';
-
-interface QueryParams {
-  districtId: string;
-  subdistrictId: string;
-  metroStationId: string;
-  apartmentType: string;
-  priceMin: string;
-  priceMax: string;
-  sqmMin: string;
-  sqmMax: string;
-  lotSqmMin: string;
-  lotSqmMax: string;
-  livingRoomsSqmMin: string;
-  livingRoomsSqmMax: string;
-  kitchenSqmMin: string;
-  kitchenSqmMax: string;
-  rooms: string;
-  floorMin: string;
-  floorMax: string;
-  totalFloorsMin: string;
-  totalFloorsMax: string;
-}
 
 type StringQueryParams = Record<keyof QueryParams, string>;
 
@@ -186,6 +172,9 @@ const Posts: CustomNextPage = () => {
           floorMax: Number(urlParams.floorMax ?? 0),
           totalFloorsMin: Number(urlParams.totalFloorsMin ?? 0),
           totalFloorsMax: Number(urlParams.totalFloorsMax ?? 0),
+          pagination: {
+            current: urlParams.page ? Number(urlParams.page) : 1,
+          },
         })(dispatch);
       } catch (error) {
         let errorMessage = '';
@@ -214,6 +203,7 @@ const Posts: CustomNextPage = () => {
   const getPosts = useCallback(async () => {
     if (!isInit) return;
 
+    setIsInit(false);
     setIsLoading(true);
 
     try {
@@ -232,13 +222,24 @@ const Posts: CustomNextPage = () => {
         autoHideDuration: 3000,
       });
     }
-    setIsInit(false);
     setIsLoading(false);
   }, [dispatch, enqueueSnackbar, filters, isInit, t]);
 
   useEffect(() => {
     getPosts();
   }, [getPosts]);
+
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    page: number,
+  ) => {
+    pushToNewPostsRoute({
+      ...filters,
+      pagination: {
+        current: page,
+      },
+    });
+  };
 
   if (isLoading)
     return (
@@ -263,12 +264,24 @@ const Posts: CustomNextPage = () => {
           filters.metroStations.length > 0
             ? 12
             : 5,
+        mb: 10,
       }}
     >
       {posts.length > 0 ? (
-        posts.map((post) => {
-          return <PostItem key={post._id} post={post} />;
-        })
+        <Fragment>
+          {posts.map((post) => {
+            return <PostItem key={post._id} post={post} />;
+          })}
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Pagination
+              page={filters.pagination.current}
+              count={filters.pagination.available ?? filters.pagination.current}
+              onChange={handlePageChange}
+              size="large"
+              color="primary"
+            />
+          </Box>
+        </Fragment>
       ) : (
         <Box
           sx={{

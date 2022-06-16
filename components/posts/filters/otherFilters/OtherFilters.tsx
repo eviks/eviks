@@ -106,6 +106,9 @@ const OtherFilters: FC = () => {
       kitchenSqmMax: Number(kitchenSqmMax),
       totalFloorsMin: Number(totalFloorsMin),
       totalFloorsMax: Number(totalFloorsMax),
+      pagination: {
+        current: 1,
+      },
     });
     setOpen(false);
   };

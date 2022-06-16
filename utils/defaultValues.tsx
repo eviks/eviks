@@ -416,4 +416,7 @@ export const defaultPostFilters: PostFilters = {
   floorMax: 0,
   totalFloorsMin: 0,
   totalFloorsMax: 0,
+  pagination: {
+    current: 1,
+  },
 };

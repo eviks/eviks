@@ -30,6 +30,9 @@ const CityFilter: FC = () => {
       pushToNewPostsRoute({
         ...filters,
         city: value,
+        pagination: {
+          current: 1,
+        },
       });
     }
   };

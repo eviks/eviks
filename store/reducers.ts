@@ -1,6 +1,12 @@
 import { Reducer } from 'react';
 import { defaultPost } from '../utils/defaultValues';
-import { Post, PostFilters, PostsContext, AuthContext } from '../types';
+import {
+  Post,
+  PostFilters,
+  PostsContext,
+  AuthContext,
+  PostsWithPagination,
+} from '../types';
 
 type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -28,7 +34,7 @@ export enum Types {
 
 // PAYLOAD TYPES
 type PostsPayload = {
-  [Types.GetPosts]: Post[];
+  [Types.GetPosts]: PostsWithPagination;
   [Types.SetFilters]: PostFilters;
 };
 
@@ -63,7 +69,8 @@ export const postsReducer: Reducer<
     case Types.GetPosts:
       return {
         ...state,
-        posts: action.payload,
+        posts: action.payload.result,
+        filters: { ...state.filters, pagination: action.payload.pagination },
       };
     case Types.SetFilters:
       return {

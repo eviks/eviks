@@ -46,6 +46,9 @@ const PriceFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       ...filters,
       priceMin: Number(priceMin),
       priceMax: Number(priceMax),
+      pagination: {
+        current: 1,
+      },
     });
   };
 

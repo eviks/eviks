@@ -117,6 +117,17 @@ export interface Post {
   lastStep?: number;
 }
 
+export interface Pagination {
+  current: number;
+  available?: number;
+  skipped?: number;
+}
+
+export interface PostsWithPagination {
+  result: Post[];
+  pagination: Pagination;
+}
+
 export interface User {
   _id: string;
   displayName: string;
@@ -158,6 +169,7 @@ export interface PostFilters {
   floorMax: number;
   totalFloorsMin: number;
   totalFloorsMax: number;
+  pagination: Pagination;
 }
 
 export interface PostsContext {
@@ -201,3 +213,26 @@ export type CustomNextPage = NextPage & {
   displayBottomNavigationBar?: boolean;
   displaySearchBar?: boolean;
 };
+
+export interface QueryParams {
+  districtId: string;
+  subdistrictId: string;
+  metroStationId: string;
+  apartmentType: string;
+  priceMin: string;
+  priceMax: string;
+  sqmMin: string;
+  sqmMax: string;
+  lotSqmMin: string;
+  lotSqmMax: string;
+  livingRoomsSqmMin: string;
+  livingRoomsSqmMax: string;
+  kitchenSqmMin: string;
+  kitchenSqmMax: string;
+  rooms: string;
+  floorMin: string;
+  floorMax: string;
+  totalFloorsMin: string;
+  totalFloorsMax: string;
+  page: string;
+}
