@@ -9,6 +9,7 @@ import Hidden from '@mui/material/Hidden';
 import StyledCarousel from '../../components/layout/StyledCarousel';
 import PostInfoCard from '../../components/post/PostInfoCard';
 import PostTitle from '../../components/post/PostTitle';
+import PostMainInfo from '../../components/post/PostMainInfo';
 import { fetchPost } from '../../actions/posts';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import { Post } from '../../types';
@@ -49,6 +50,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
             thumbSize={150}
             height={width && width >= 900 ? '500px' : '320px'}
           />
+          <PostMainInfo post={post} />
           <Typography
             variant={'h2'}
             fontWeight={'bold'}

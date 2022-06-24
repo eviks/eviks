@@ -106,5 +106,11 @@
     "houseRent": "Сдается {{rooms}}-комнатный дом, {{sqm}} м², {{lotSqm}} сот., {{settlement}}",
     "houseRentPerDay": "Сдатеся посуточно {{rooms}}-комнатный дом, {{sqm}} м², {{lotSqm}} сот., {{settlement}}"
   },
-  "showPhoneNumber": "Показать телефон"
+  "showPhoneNumber": "Показать телефон",
+  "roomsShort": "Комнат",
+  "sqmShort": "Общая",
+  "livingRoomsSqmShort": "Жилая",
+  "kitchenSqmShort": "Кухня",
+  "lotSqmShort": "Участок",
+  "totalFloorsShort": "Этажей"
 }

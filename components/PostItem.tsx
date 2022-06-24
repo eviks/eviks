@@ -147,13 +147,13 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               >
                 {formatter.format(post.price)}
               </Typography>
-              <Typography variant="h5">
+              <Typography variant="h5" sx={{ mb: 0.5 }}>
                 {post.subdistrict
                   ? getSettlementPresentation(post.subdistrict, router.locale)
                   : getSettlementPresentation(post.district, router.locale)}
               </Typography>
               {post.metroStation && (
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
                   <MetroIcon sx={{ mr: 1 }} />
                   <Typography variant="subtitle1">
                     {getMetroPresentation(post.metroStation, router.locale)}

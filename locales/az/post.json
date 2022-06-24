@@ -106,5 +106,11 @@
     "houseRent": "{{rooms}}-otaqlı ev kirayə verilir, {{sqm}} м², {{lotSqm}} sot, {{settlement}}",
     "houseRentPerDay": "{{rooms}}-otaqlı ev gündəlik kirayə verilir, {{sqm}} м², {{lotSqm}} sot, {{settlement}}"
   },
-  "showPhoneNumber": "Telefonu göstərmək"
+  "showPhoneNumber": "Telefonu göstərmək",
+  "roomsShort": "Otaq",
+  "sqmShort": "Ümumi",
+  "livingRoomsSqmShort": "Yaşayış",
+  "kitchenSqmShort": "Mətbəx",
+  "lotSqmShort": "Torpaq",
+  "totalFloorsShort": "Mərtəbələr"
 }
