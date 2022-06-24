@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
@@ -63,17 +63,23 @@ const FavoriteButton: FC<{ postId: number }> = ({ postId }) => {
 
   return (
     <Tooltip title={t('common:favoriteButton')}>
-      <IconButton
+      <Button
+        variant="contained"
         onClick={handleClick}
         disabled={loading}
         aria-label="favorite"
         size="large"
         sx={{
+          minWidth: 'auto',
+          p: 1.4,
+          borderRadius: 2,
           zIndex: '200',
           backgroundColor: isFavorite
             ? theme.palette.primary.main
             : theme.palette.background.default,
-          color: isFavorite ? theme.palette.background.default : null,
+          color: isFavorite
+            ? theme.palette.background.default
+            : theme.palette.action.active,
           '&:hover, &.Mui-focusVisible': {
             backgroundColor: isFavorite
               ? theme.palette.primary.light
@@ -82,7 +88,7 @@ const FavoriteButton: FC<{ postId: number }> = ({ postId }) => {
         }}
       >
         <HeartIcon />
-      </IconButton>
+      </Button>
     </Tooltip>
   );
 };

@@ -42,3 +42,10 @@ export function enumFromStringValue<T>(
     ? (value as unknown as T)
     : undefined;
 }
+
+export const formatter = new Intl.NumberFormat('de-DE', {
+  style: 'currency',
+  currency: 'AZN',
+  maximumFractionDigits: 0,
+  currencyDisplay: 'narrowSymbol',
+});

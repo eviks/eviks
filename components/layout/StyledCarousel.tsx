@@ -89,9 +89,8 @@ const StyledCarousel: FC<{
             }}
             key={image}
             component="img"
-            height={imageSize}
-            image={`/uploads/post_images/${image}/image_${640}.png`}
-            alt={`post-image-${image}-${640}`}
+            image={`/uploads/post_images/${image}/image_${imageSize}.png`}
+            alt={`post-image-${image}-${imageSize}`}
           />
         );
       })}

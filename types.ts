@@ -34,7 +34,6 @@ export enum Renovation {
 
 export interface MetroStation {
   _id: number;
-  id?: number;
   cityId: string;
   name: string;
   nameRu: string;

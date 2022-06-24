@@ -46,7 +46,7 @@
   "documented": "Есть купчая",
   "buildingInfo": "Здание",
   "yearBuild": "Год постройки",
-  "ceilingHeight": "Высота потолка, м",
+  "ceilingHeight": "Высота потолка, м²",
   "elevator": "Лифт",
   "parkingLot": "Парковка",
   "additionalInfo": "Удобства и описание",
@@ -90,5 +90,21 @@
   "contactTitle": "Контакты",
   "postAlmostCreated": "Почти готово!",
   "postAlmostCreatedHint": "Осталось ввести ваши контактные данные",
-  "username": "Как вас представить?"
+  "username": "Как вас представить?",
+  "priceForM2": "{{price}} за м²",
+  "m2": "м²",
+  "apartmentRooms": "{{rooms}}-комнатная квартира",
+  "houseRooms": "{{rooms}}-комнатный дом",
+  "fullPostTitle": {
+    "apartmentSaleSecondaryBuilding": "Продается {{rooms}}-комнатная квартира, {{sqm}} м², {{floor}}/{{totalFloors}} этаж, {{settlement}}",
+    "apartmentSaleNewBuilding": "Продается {{rooms}}-комнатная квартира в новостройке, {{sqm}} м², {{floor}}/{{totalFloors}} этаж, {{settlement}}",
+    "apartmentRentSecondaryBuilding": "Сдается {{rooms}}-комнатная квартира, {{sqm}} м², {{floor}}/{{totalFloors}} этаж, {{settlement}}",
+    "apartmentRentNewBuilding": "Сдается {{rooms}}-комнатная квартира в новостройке, {{sqm}} м², {{floor}}/{{totalFloors}} этаж, {{settlement}}",
+    "apartmentRentPerDaySecondaryBuilding": "Сдается посуточно {{rooms}}-комнатная квартира, {{sqm}} м², {{floor}}/{{totalFloors}} этаж, {{settlement}}",
+    "apartmentRentPerDayNewBuilding": "Сдается посуточно {{rooms}}-комнатная квартира в новостройке, {{sqm}} м², {{floor}}/{{totalFloors}} этаж, {{settlement}}",
+    "houseSale": "Продается {{rooms}}-комнатный дом, {{sqm}} м², {{lotSqm}} сот., {{settlement}}",
+    "houseRent": "Сдается {{rooms}}-комнатный дом, {{sqm}} м², {{lotSqm}} сот., {{settlement}}",
+    "houseRentPerDay": "Сдатеся посуточно {{rooms}}-комнатный дом, {{sqm}} м², {{lotSqm}} сот., {{settlement}}"
+  },
+  "showPhoneNumber": "Показать телефон"
 }

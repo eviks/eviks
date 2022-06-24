@@ -273,12 +273,8 @@ export const createPost = async (token: string, post: Post) => {
     },
   };
 
-  const postData = post;
-  if (postData.metroStation)
-    postData.metroStation.id = postData.metroStation._id;
-
   try {
-    return await axios.post<Post>('/api/posts/', postData, config);
+    return await axios.post<Post>('/api/posts/', post, config);
   } catch (error) {
     if (axios.isAxiosError(error) && error.code === '500')
       throw new ServerError(error.message);

@@ -113,7 +113,7 @@ const setPostsFilters = (req) => {
 
   // Metro station
   if (metroStationId) {
-    conditions['metroStation.id'] = {
+    conditions['metroStation._id'] = {
       $in: metroStationId.split(',').map((element) => {
         return Number(element);
       }),

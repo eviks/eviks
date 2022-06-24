@@ -15,7 +15,11 @@ import StyledCarousel from './layout/StyledCarousel';
 import MetroIcon from './icons/MetroIcon';
 import { Post } from '../types';
 import useWindowSize from '../utils/hooks/useWindowSize';
-import { getSettlementPresentation, getMetroPresentation } from '../utils';
+import {
+  getSettlementPresentation,
+  getMetroPresentation,
+  formatter,
+} from '../utils';
 
 const PostItem: FC<{ post: Post }> = ({ post }) => {
   const [elevation, setElevation] = useState<number>(0);
@@ -36,13 +40,6 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
   const onMouseOut = () => {
     return setElevation(0);
   };
-
-  const formatter = new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency: 'AZN',
-    maximumFractionDigits: 0,
-    currencyDisplay: 'narrowSymbol',
-  });
 
   const openPost = () => {
     window.open(`${locale}/posts/${post._id}`, '_blank');
@@ -91,7 +88,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
           >
             <StyledCarousel
               images={post.images}
-              imageSize={320}
+              imageSize={640}
               thumbSize={150}
               height={height}
               onClickItem={openPost}
@@ -101,7 +98,8 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                 sx={{
                   position: 'absolute',
                   right: '0',
-                  bottom: '0',
+                  top: '0',
+                  py: 2,
                 }}
               >
                 <FavoriteButton postId={post._id} />
