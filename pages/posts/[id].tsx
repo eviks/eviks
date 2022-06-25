@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import type { NextPage, GetServerSideProps } from 'next';
+import type { NextPage, GetStaticProps } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
 import Grid from '@mui/material/Grid';
@@ -10,6 +10,8 @@ import StyledCarousel from '../../components/layout/StyledCarousel';
 import PostInfoCard from '../../components/post/PostInfoCard';
 import PostTitle from '../../components/post/PostTitle';
 import PostMainInfo from '../../components/post/PostMainInfo';
+import PostDescription from '../../components/post/PostDescription';
+import PostBuildingInfo from '../../components/post/PostBuildingInfo';
 import { fetchPost } from '../../actions/posts';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import { Post } from '../../types';
@@ -30,7 +32,10 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
 
   if (!post) return null;
   return (
-    <Container sx={{ pt: 12, maxWidth: '1300px' }} maxWidth={false}>
+    <Container
+      sx={{ pt: { xs: 6, md: 12 }, maxWidth: '1300px' }}
+      maxWidth={false}
+    >
       <Grid
         container
         alignItems="stretch"
@@ -51,6 +56,8 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
             height={width && width >= 900 ? '500px' : '320px'}
           />
           <PostMainInfo post={post} />
+          <PostDescription post={post} />
+          <PostBuildingInfo post={post} />
           <Typography
             variant={'h2'}
             fontWeight={'bold'}
@@ -71,11 +78,20 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
   const postId = params?.id as string;
 
   const post = await fetchPost(postId);
+
+  if (!post) return { redirect: '/posts', permanent: false, props: {} };
 
   return { props: { post } };
 };

@@ -46,7 +46,7 @@
   "documented": "Есть купчая",
   "buildingInfo": "Здание",
   "yearBuild": "Год постройки",
-  "ceilingHeight": "Высота потолка, м²",
+  "ceilingHeight": "Высота потолка, м",
   "elevator": "Лифт",
   "parkingLot": "Парковка",
   "additionalInfo": "Удобства и описание",
@@ -112,5 +112,7 @@
   "livingRoomsSqmShort": "Жилая",
   "kitchenSqmShort": "Кухня",
   "lotSqmShort": "Участок",
-  "totalFloorsShort": "Этажей"
+  "totalFloorsShort": "Этажей",
+  "metre": "м",
+  "true": "Есть"
 }

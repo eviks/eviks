@@ -11,8 +11,6 @@ import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { makeStyles } from '@mui/styles/';
 import { SnackbarProvider, SnackbarKey } from 'notistack';
 import { AppContext } from '../../store/appContext';
@@ -44,7 +42,6 @@ const Layout: FC<{
   const { dispatch } = useContext(AppContext);
 
   const [darkMode, setDarkMode] = useState(initDarkMode);
-  const [loading, setLoading] = useState<boolean>(true);
 
   const loadUserFromToken = useCallback(async () => {
     try {
@@ -52,7 +49,6 @@ const Layout: FC<{
     } catch (error) {
       //
     }
-    setLoading(false);
   }, [dispatch]);
 
   useEffect(() => {
@@ -105,23 +101,7 @@ const Layout: FC<{
           setDarkMode={setDarkMode}
           displaySearchBar={displaySearchBar}
         />
-        <Fragment>
-          {loading ? (
-            <Backdrop
-              open={true}
-              sx={{
-                color: '#fff',
-                zIndex: (theme) => {
-                  return theme.zIndex.drawer + 1;
-                },
-              }}
-            >
-              <CircularProgress color="inherit" />
-            </Backdrop>
-          ) : (
-            children
-          )}
-        </Fragment>
+        <Fragment>{children}</Fragment>
         {displayBottomNavigationBar && <StyledBottomNavigation />}
       </SnackbarProvider>
     </ThemeProvider>

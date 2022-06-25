@@ -46,7 +46,7 @@
   "documented": "Kupça var",
   "buildingInfo": "Bina",
   "yearBuild": "Tikiliş ili",
-  "ceilingHeight": "Tavanın hündürlüyü, m²",
+  "ceilingHeight": "Tavanın hündürlüyü, m",
   "elevator": "Lift",
   "parkingLot": "Avtodayanacaq",
   "additionalInfo": "Şərait və təsvir",
@@ -112,5 +112,7 @@
   "livingRoomsSqmShort": "Yaşayış",
   "kitchenSqmShort": "Mətbəx",
   "lotSqmShort": "Torpaq",
-  "totalFloorsShort": "Mərtəbələr"
+  "totalFloorsShort": "Mərtəbələr",
+  "metre": "m",
+  "true": "Var"
 }

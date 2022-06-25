@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react';
+import React, { FC } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -8,11 +8,11 @@ import { EstateType, Post } from '../../types';
 const MainInfo: FC<{ value: string; hint: string }> = ({ value, hint }) => {
   return (
     <Box sx={{ textAlign: 'center' }}>
-      <Typography fontSize={24} fontWeight={500}>
+      <Typography fontSize={{ xs: 18, sm: 24 }} fontWeight={500}>
         {value}
       </Typography>
       <Typography
-        fontSize={16}
+        fontSize={{ xs: 14, sm: 16 }}
         color={(theme) => {
           return theme.palette.text.secondary;
         }}
@@ -27,8 +27,15 @@ const PostMainInfo: FC<{ post: Post }> = ({ post }) => {
   const { t } = useTranslation();
 
   return (
-    <Fragment>
-      <Box sx={{ display: 'flex', gap: 5, my: 3 }}>
+    <Box sx={{ mb: 3 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: { xs: 'center', md: 'start' },
+          gap: { xs: 3, md: 5 },
+          my: 3,
+        }}
+      >
         <MainInfo value={post.rooms.toString()} hint={t('post:roomsShort')} />
         <MainInfo
           value={`${post.sqm.toString()} ${t('post:m2')}`}
@@ -67,7 +74,7 @@ const PostMainInfo: FC<{ post: Post }> = ({ post }) => {
           )}
       </Box>
       <Divider />
-    </Fragment>
+    </Box>
   );
 };
 
