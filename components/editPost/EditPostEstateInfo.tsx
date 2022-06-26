@@ -345,7 +345,7 @@ const EditPostEstateInfo: FC = () => {
           <StyledInput
             value={totalFloors}
             name="totalFloors"
-            label={t('post:totalFloors')}
+            label={t('post:totalFloorsInHouse')}
             input={{
               id: 'totalFloors',
               type: 'number',

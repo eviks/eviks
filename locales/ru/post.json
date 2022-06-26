@@ -12,8 +12,11 @@
   "secondaryBuilding": "Вторичка",
   "dealTypeTitle": "Вид сделки",
   "sale": "Продать",
+  "saleType": "Продажа",
   "rent": "Сдать",
+  "rentType": "Аренда",
   "rentPerDay": "Сдать посуточно",
+  "rentPerDayType": "Посуточная аренда",
   "generalInfo": "Тип объявления",
   "location": "Расположение",
   "address": "Адрес",
@@ -93,6 +96,7 @@
   "username": "Как вас представить?",
   "priceForM2": "{{price}} за м²",
   "m2": "м²",
+  "acres": "сот.",
   "apartmentRooms": "{{rooms}}-комнатная квартира",
   "houseRooms": "{{rooms}}-комнатный дом",
   "fullPostTitle": {
@@ -114,5 +118,11 @@
   "lotSqmShort": "Участок",
   "totalFloorsShort": "Этажей",
   "metre": "м",
-  "true": "Есть"
+  "true": "Есть",
+  "false": "Нет",
+  "postDetailGeneral": "Общие сведения",
+  "postDetailBuilding": "О здании",
+  "apartmentType": "Тип квартиры",
+  "totalFloorsInHouse": "Этажей в доме",
+  "document": "Купчая"
 }

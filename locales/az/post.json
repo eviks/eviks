@@ -12,8 +12,11 @@
   "secondaryBuilding": "Köhnə tikili",
   "dealTypeTitle": "Sazişin növü",
   "sale": "Satış",
+  "saleType": "Satış",
   "rent": "Kirayə",
+  "rentType": "Kirayə",
   "rentPerDay": "Günlük kirayə",
+  "rentPerDayType": "Günlük kirayə",
   "generalInfo": "Elanın növü",
   "location": "Xəritə",
   "address": "Ünvan",
@@ -93,6 +96,7 @@
   "username": "Sizi necə təqdim etmək?",
   "priceForM2": "{{price}} / m²",
   "m2": "m²",
+  "acres": "sot.",
   "apartmentRooms": "{{rooms}}-otaqlı mənzil",
   "houseRooms": "{{rooms}}-otaqlı ev",
   "fullPostTitle": {
@@ -114,5 +118,11 @@
   "lotSqmShort": "Torpaq",
   "totalFloorsShort": "Mərtəbələr",
   "metre": "m",
-  "true": "Var"
+  "true": "Var",
+  "false": "Yox",
+  "postDetailGeneral": "Ümumi məlumat",
+  "postDetailBuilding": "Bina haqqında",
+  "apartmentType": "Mənzilin növü",
+  "totalFloorsInHouse": "Mərtəbələrin sayı",
+  "document": "Kupça"
 }

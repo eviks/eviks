@@ -18,7 +18,7 @@ const PostBuildingInfo: FC<{ post: Post }> = ({ post }) => {
   return (
     <Fragment>
       <Typography fontWeight={'bold'} fontSize={24} sx={{ mb: 0.5 }}>
-        {t('post:buildingInfo')}
+        {t('post:postDetailBuilding')}
       </Typography>
       {(post.yearBuild ?? 0) > 0 && (
         <PostInfoRow

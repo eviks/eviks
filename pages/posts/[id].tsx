@@ -1,30 +1,27 @@
 import React, { useMemo } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
-import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
 import StyledCarousel from '../../components/layout/StyledCarousel';
 import PostInfoCard from '../../components/post/PostInfoCard';
 import PostTitle from '../../components/post/PostTitle';
 import PostMainInfo from '../../components/post/PostMainInfo';
 import PostDescription from '../../components/post/PostDescription';
+import PostGeneralInfo from '../../components/post/PostGeneralInfo';
 import PostBuildingInfo from '../../components/post/PostBuildingInfo';
 import { fetchPost } from '../../actions/posts';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import { Post } from '../../types';
 
 const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
-  const { t } = useTranslation();
-
   const { width } = useWindowSize();
 
   const mapHeight = width && width >= 900 ? 400 : 200;
 
-  const PostDetailedMap = useMemo(() => {
-    return dynamic(import('../../components/post/PostDetailedMap'), {
+  const PostMap = useMemo(() => {
+    return dynamic(import('../../components/post/PostMap'), {
       ssr: false,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,16 +54,9 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
           />
           <PostMainInfo post={post} />
           <PostDescription post={post} />
+          <PostGeneralInfo post={post} />
           <PostBuildingInfo post={post} />
-          <Typography
-            variant={'h2'}
-            fontWeight={'bold'}
-            fontSize={'1.5rem'}
-            margin={'40px 0 4px'}
-          >
-            {t('post:location')}
-          </Typography>
-          <PostDetailedMap post={post} height={mapHeight} />
+          <PostMap post={post} height={mapHeight} />
         </Grid>
         <Hidden lgDown>
           <Grid item xs={0} md={4}>
