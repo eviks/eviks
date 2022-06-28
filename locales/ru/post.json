@@ -124,5 +124,8 @@
   "postDetailBuilding": "О здании",
   "apartmentType": "Тип квартиры",
   "totalFloorsInHouse": "Этажей в доме",
-  "document": "Купчая"
+  "document": "Купчая",
+  "callHint": "Пожалуйста, не забудьте сообщить, что нашли это объявление на Eviks",
+  "call": "Позвонить",
+  "postDetailAdditional": "Удобства"
 }

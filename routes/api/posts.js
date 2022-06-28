@@ -50,7 +50,8 @@ router.get('/', [postSearch], async (req, res) => {
     result = await Post.find(conditions)
       .limit(limit)
       .skip(startIndex)
-      .sort({ updatedAt: -1 });
+      .sort({ updatedAt: -1 })
+      .select('-phoneNumber');
 
     posts.result = result;
     posts.pagination = pagination;
@@ -69,7 +70,7 @@ router.get('/post/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const post = await Post.findById(id);
+    const post = await Post.findById(id).select('-phoneNumber');
 
     // Post not found
     if (!post) {
@@ -401,5 +402,26 @@ router.delete(
     return res.json({ msg: 'Image successfully deleted', id });
   },
 );
+
+// @route GET api/posts/phone_number/:id
+// @desc  Get post's phone number field
+// @access Public
+router.get('/phone_number/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const post = await Post.findById(id).select('phoneNumber');
+
+    // Post not found
+    if (!post) {
+      return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+    }
+
+    return res.json(post);
+  } catch (error) {
+    logger.error(error.message);
+    return res.status(500).send('Server error...');
+  }
+});
 
 module.exports = router;

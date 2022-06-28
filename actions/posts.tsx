@@ -19,6 +19,13 @@ export const fetchPost = async (postId: string) => {
   }
 };
 
+export const fetchPostPhoneNumber = async (postId: string) => {
+  const response = await axios.get<{ phoneNumber: string }>(
+    `/api/posts/phone_number/${postId}`,
+  );
+  return response.data;
+};
+
 const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
   const searchParams: { [key: string]: string } = {};
   if (filters.apartmentType)

@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import FavoriteButton from './postButtons/favoriteButton';
+import FavoriteButton from './postButtons/FavoriteButton';
 import StyledCarousel from './layout/StyledCarousel';
 import MetroIcon from './icons/MetroIcon';
 import { Post } from '../types';

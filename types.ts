@@ -110,7 +110,7 @@ export interface Post {
   installmentOfPayment?: boolean;
   prepayment?: boolean;
   municipalServicesIncluded?: boolean;
-  phoneNumber: string;
+  phoneNumber?: string;
   username: string;
   step?: number;
   lastStep?: number;

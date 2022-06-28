@@ -29,6 +29,7 @@
     }
   ],
   "globals": {
-    "NodeJS": true
+    "NodeJS": true,
+    "JSX": "readonly"
   }
 }

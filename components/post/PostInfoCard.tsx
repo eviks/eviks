@@ -8,13 +8,23 @@ import CardActions from '@mui/material/CardActions';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import FavoriteButton from '../postButtons/favoriteButton';
+import { useSnackbar } from 'notistack';
+import FavoriteButton from '../postButtons/FavoriteButton';
+import { fetchPostPhoneNumber } from '../../actions/posts';
 import { formatter, getSettlementPresentation } from '../../utils';
+import Failure from '../../utils/errors/failure';
+import ServerError from '../../utils/errors/serverError';
 import { Post, EstateType } from '../../types';
 
-const PostInfoCard: FC<{ post: Post }> = ({ post }) => {
+const PostInfoCard: FC<{
+  post: Post;
+  phoneNumber: string;
+  setPhoneNumber: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ post, phoneNumber, setPhoneNumber }) => {
   const { t } = useTranslation();
   const router = useRouter();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const getTitle = () => {
     switch (post.estateType) {
@@ -25,6 +35,26 @@ const PostInfoCard: FC<{ post: Post }> = ({ post }) => {
 
       default:
         return '';
+    }
+  };
+
+  const getPhoneNumber = async () => {
+    try {
+      const result = await fetchPostPhoneNumber(post._id.toString());
+      setPhoneNumber(result.phoneNumber);
+    } catch (error) {
+      let errorMessage = '';
+      if (error instanceof Failure) {
+        errorMessage = error.message;
+      } else if (error instanceof ServerError) {
+        errorMessage = t('common:serverError');
+      } else {
+        errorMessage = t('common:unknownError');
+      }
+      enqueueSnackbar(errorMessage, {
+        variant: 'error',
+        autoHideDuration: 3000,
+      });
     }
   };
 
@@ -73,9 +103,28 @@ const PostInfoCard: FC<{ post: Post }> = ({ post }) => {
         </Box>
       </CardContent>
       <CardActions>
-        <Button variant="contained" fullWidth sx={{ py: 1.2 }}>
-          {t('post:showPhoneNumber')}
-        </Button>
+        {!phoneNumber ? (
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{ py: 1.2 }}
+            onClick={getPhoneNumber}
+          >
+            {t('post:showPhoneNumber')}
+          </Button>
+        ) : (
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography fontSize={32}>{phoneNumber}</Typography>
+            <Typography
+              variant="caption"
+              color={(theme) => {
+                return theme.palette.text.secondary;
+              }}
+            >
+              {t('post:callHint')}
+            </Typography>
+          </Box>
+        )}
       </CardActions>
     </Card>
   );

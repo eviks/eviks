@@ -124,5 +124,8 @@
   "postDetailBuilding": "Bina haqqında",
   "apartmentType": "Mənzilin növü",
   "totalFloorsInHouse": "Mərtəbələrin sayı",
-  "document": "Kupça"
+  "document": "Kupça",
+  "callHint": "Zəhmət olmasa, elanı Eviksda tapdığınızı bildirin",
+  "call": "Zəng vurmaq",
+  "postDetailAdditional": "Şərait"
 }

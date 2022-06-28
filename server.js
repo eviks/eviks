@@ -5,6 +5,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const passport = require('passport');
 const next = require('next');
+const mongoSanitize = require('express-mongo-sanitize');
 const logger = require('./utils/logger');
 const connectDB = require('./config/db');
 
@@ -23,6 +24,7 @@ app.prepare().then(() => {
 
   // Init middlewares & 3rd party libraries
   server.use(express.json({ extended: false }));
+  server.use(mongoSanitize());
   server.use(passport.initialize());
   server.use(cors());
   server.use(fileUpload());
