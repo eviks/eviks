@@ -31,7 +31,7 @@ const PostMainInfo: FC<{ post: Post }> = ({ post }) => {
       <Box
         sx={{
           display: 'flex',
-          justifyContent: { xs: 'center', md: 'start' },
+          justifyContent: 'start',
           gap: { xs: 3, md: 5 },
           my: 3,
         }}

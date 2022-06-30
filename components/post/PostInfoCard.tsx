@@ -75,13 +75,11 @@ const PostInfoCard: FC<{
           <Typography variant="h4" fontWeight={700}>
             {formatter.format(post.price)}
           </Typography>
-
           <Typography variant="h5">
             {post.subdistrict
               ? getSettlementPresentation(post.subdistrict, router.locale)
               : getSettlementPresentation(post.district, router.locale)}
           </Typography>
-
           <Typography
             variant="subtitle1"
             fontSize={16}

@@ -10,12 +10,15 @@ import Box from '@mui/material/Box';
 import { useSnackbar } from 'notistack';
 import StyledCarousel from '../../components/layout/StyledCarousel';
 import PostInfoCard from '../../components/post/PostInfoCard';
+import PostPrice from '../../components/post/PostPrice';
+import PostContacts from '../../components/post/PostContacts';
 import PostTitle from '../../components/post/PostTitle';
 import PostMainInfo from '../../components/post/PostMainInfo';
 import PostDescription from '../../components/post/PostDescription';
 import PostGeneralInfo from '../../components/post/PostGeneralInfo';
-import PostAdditionalInfo from '../../components/post/PostAdditionalInfo'
+import PostAdditionalInfo from '../../components/post/PostAdditionalInfo';
 import PostBuildingInfo from '../../components/post/PostBuildingInfo';
+import FavoriteButton from '../../components/postButtons/FavoriteButton';
 import { fetchPost, fetchPostPhoneNumber } from '../../actions/posts';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import Failure from '../../utils/errors/failure';
@@ -64,10 +67,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
   if (!post) return null;
 
   return (
-    <Container
-      sx={{ pt: { xs: 6, md: 12 }, maxWidth: '1300px' }}
-      maxWidth={false}
-    >
+    <Container sx={{ mt: 12, mb: 6, maxWidth: '1300px' }} maxWidth={false}>
       <Grid
         container
         alignItems="stretch"
@@ -81,13 +81,41 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
       >
         <Grid item xs={12} md={8}>
           <PostTitle post={post} />
-          <StyledCarousel
-            images={post.images}
-            imageSize={width && width >= 900 ? 1280 : 640}
-            thumbSize={150}
-            height={width && width >= 900 ? '500px' : '320px'}
-          />
+          <Box
+            sx={{
+              position: 'relative',
+            }}
+          >
+            <StyledCarousel
+              images={post.images}
+              imageSize={width && width >= 900 ? 1280 : 640}
+              thumbSize={150}
+              height={width && width >= 900 ? '500px' : '320px'}
+            />
+            <Hidden lgUp>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  right: '0',
+                  top: '0',
+                  p: 2,
+                }}
+              >
+                <FavoriteButton postId={post._id} />
+              </Box>
+            </Hidden>
+          </Box>
+          <Hidden lgUp>
+            <PostPrice post={post} />
+          </Hidden>
           <PostMainInfo post={post} />
+          <Hidden lgUp>
+            <PostContacts
+              post={post}
+              phoneNumber={phoneNumber}
+              setPhoneNumber={setPhoneNumber}
+            />
+          </Hidden>
           <PostDescription post={post} />
           <PostGeneralInfo post={post} />
           <PostAdditionalInfo post={post} />
