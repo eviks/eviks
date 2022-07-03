@@ -171,9 +171,15 @@ export interface PostFilters {
   pagination: Pagination;
 }
 
+export interface AlternativePostFilters {
+  ids: string[];
+  pagination: Pagination;
+}
+
 export interface PostsContext {
   posts: Post[];
   filters: PostFilters;
+  alternativeFilters: AlternativePostFilters;
 }
 
 export interface AuthContext {

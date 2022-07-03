@@ -1,6 +1,5 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -69,27 +68,19 @@ const Auth: NextPage = () => {
                 sm: 'auto',
                 md: '100vh',
               },
-              backgroundColor: (theme) => {
-                return {
-                  sm: theme.palette.background.default,
-                  md: theme.palette.primary.main,
-                };
-              },
+              backgroundImage: 'url(/img/auth_background.jpg)',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
             }}
-          >
-            <Image
-              src={'/illustrations/auth.svg'}
-              alt="auth"
-              width={500}
-              height={500}
-            />
-          </Grid>
+          ></Grid>
         </Grid>
         <Grid item xs={12} md={6}>
           <Grid
             container
             direction="column"
             sx={{
+              mt: { xs: 4, md: 0 },
               maxWidth: {
                 md: 'auto',
                 lg: '40vw',

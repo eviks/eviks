@@ -5,9 +5,9 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
-import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import useTranslation from 'next-translate/useTranslation';
 import type { ParsedUrlQuery } from 'querystring';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -17,7 +17,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 import PostItem from '../components/PostItem';
 import { AppContext } from '../store/appContext';
-import { fetchPosts, pushToNewPostsRoute, setFilters } from '../actions/posts';
+import {
+  fetchPosts,
+  getPostsQuery,
+  pushToNewPostsRoute,
+  setFilters,
+} from '../actions/posts';
 import { getLocalities } from '../actions/localities';
 import { enumFromStringValue } from '../utils';
 import { defaultPostFilters } from '../utils/defaultValues';
@@ -37,11 +42,11 @@ type StringQueryParams = Record<keyof QueryParams, string>;
 
 const Posts: CustomNextPage = () => {
   const { t } = useTranslation();
+  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
+
   const { state, dispatch } = useContext(AppContext);
   const { posts, filters } = state.posts;
-
-  const router = useRouter();
 
   const [isInit, setIsInit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -206,8 +211,13 @@ const Posts: CustomNextPage = () => {
     setIsInit(false);
     setIsLoading(true);
 
+    const query = getPostsQuery(filters, true);
+    query.cityId = filters.city.id;
+    query.estateType = filters.estateType;
+    query.dealType = filters.dealType;
+
     try {
-      await fetchPosts(filters)(dispatch);
+      await fetchPosts(query)(dispatch);
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {

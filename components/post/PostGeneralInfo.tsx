@@ -67,6 +67,10 @@ const PostGeneralInfo: FC<{ post: Post }> = ({ post }) => {
         label={t('post:document')}
         value={post.documented ? t('post:true') : t('post:false')}
       />
+      <PostInfoRow
+        label={t('post:redevelopment')}
+        value={post.redevelopment ? t('post:true') : t('post:false')}
+      />
     </Fragment>
   );
 };

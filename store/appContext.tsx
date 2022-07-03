@@ -1,6 +1,10 @@
 import { FC, Dispatch, createContext, useReducer } from 'react';
 import { PostsContext, AuthContext, Post } from '../types';
-import { defaultPost, defaultPostFilters } from '../utils/defaultValues';
+import {
+  defaultPost,
+  defaultPostFilters,
+  defaultAlternativeFilters,
+} from '../utils/defaultValues';
 import {
   postsReducer,
   authReducer,
@@ -20,6 +24,7 @@ const contextDefaultValues: AppContextState = {
   posts: {
     posts: [],
     filters: defaultPostFilters,
+    alternativeFilters: defaultAlternativeFilters,
   },
   auth: {},
   post: defaultPost,

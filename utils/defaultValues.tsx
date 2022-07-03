@@ -6,6 +6,7 @@ import {
   DealType,
   Renovation,
   PostFilters,
+  AlternativePostFilters,
 } from '../types';
 
 export const capitalCity: Settlement = {
@@ -416,6 +417,13 @@ export const defaultPostFilters: PostFilters = {
   floorMax: 0,
   totalFloorsMin: 0,
   totalFloorsMax: 0,
+  pagination: {
+    current: 1,
+  },
+};
+
+export const defaultAlternativeFilters: AlternativePostFilters = {
+  ids: ['0'],
   pagination: {
     current: 1,
   },

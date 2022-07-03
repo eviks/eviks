@@ -3,6 +3,7 @@ import { defaultPost } from '../utils/defaultValues';
 import {
   Post,
   PostFilters,
+  AlternativePostFilters,
   PostsContext,
   AuthContext,
   PostsWithPagination,
@@ -22,6 +23,7 @@ type ActionMap<M extends { [index: string]: any }> = {
 export enum Types {
   GetPosts = 'GET_POSTS',
   SetFilters = 'SET_FILTERS',
+  SetAlternativeFilters = 'SET_ALTERNATIVE_FILTERS',
   LoadUser = 'LOAD_USER',
   LoginUser = 'LOGIN_USER',
   VerifyUser = 'VERIFY_USER',
@@ -36,6 +38,7 @@ export enum Types {
 type PostsPayload = {
   [Types.GetPosts]: PostsWithPagination;
   [Types.SetFilters]: PostFilters;
+  [Types.SetAlternativeFilters]: AlternativePostFilters;
 };
 
 type AuthPayload = {
@@ -71,11 +74,20 @@ export const postsReducer: Reducer<
         ...state,
         posts: action.payload.result,
         filters: { ...state.filters, pagination: action.payload.pagination },
+        alternativeFilters: {
+          ...state.alternativeFilters,
+          pagination: action.payload.pagination,
+        },
       };
     case Types.SetFilters:
       return {
         ...state,
         filters: { ...state.filters, ...action.payload },
+      };
+    case Types.SetAlternativeFilters:
+      return {
+        ...state,
+        alternativeFilters: { ...state.alternativeFilters, ...action.payload },
       };
     default:
       return state;

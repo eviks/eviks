@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
-import HeartIcon from './icons/HeartIcon';
+import Cookies from 'js-cookie';
 import SettingsIcon from './icons/SettingsIcon';
 import LogoutIcon from './icons/LogoutIcon';
 import BookmarkIcon from './icons/BookmarkIcon';
@@ -31,11 +31,6 @@ const UserMenu: FC<{ user: User }> = ({ user }) => {
       icon: <BookmarkIcon />,
     },
     {
-      name: t('common:favorites'),
-      route: '/favorites',
-      icon: <HeartIcon />,
-    },
-    {
       name: t('common:profile'),
       route: '/settings',
       icon: <SettingsIcon />,
@@ -53,6 +48,7 @@ const UserMenu: FC<{ user: User }> = ({ user }) => {
   };
 
   const handleLogout = () => {
+    Cookies.remove('token');
     logout()(dispatch);
   };
 

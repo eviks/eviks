@@ -17,6 +17,7 @@ import UserMenu from '../UserMenu';
 import { AppContext } from '../../store/appContext';
 import LogoIcon from '../icons/LogoIcon';
 import PlusIcon from '../icons/PlusIcon';
+import HeartIcon from '../icons/HeartIcon';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 
 const StyledAppbar: FC<{
@@ -32,7 +33,7 @@ const StyledAppbar: FC<{
 
   const appBarRef = useRef(null);
 
-  const lgScreen = (width && width > 1280) || false;
+  const lgScreen = (width && width > 1480) || false;
 
   const {
     state: { auth },
@@ -71,6 +72,7 @@ const StyledAppbar: FC<{
             },
           }}
         >
+          {/* Logo */}
           <Link href="/" passHref>
             <MaterialLink
               underline="none"
@@ -97,18 +99,38 @@ const StyledAppbar: FC<{
           </Link>
           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
             <Hidden mdDown>
-              <Switch checked={darkMode} onChange={darkModeToggle} />
+              {/* Theme switch */}
+              <Switch
+                checked={darkMode}
+                onChange={darkModeToggle}
+                sx={{ mr: 2 }}
+              />
+              {/* Favorites */}
+              <Link href="/favorites" passHref>
+                <MaterialLink underline="none">
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      mr: 4,
+                    }}
+                  >
+                    <HeartIcon sx={{ mx: 1 }} />
+                    <Typography>{t('common:favorites')}</Typography>
+                  </Box>
+                </MaterialLink>
+              </Link>
               <Link href="/edit_post" passHref>
                 <Button
                   variant={'contained'}
-                  startIcon={
-                    <PlusIcon sx={{ fontSize: '0.85rem !important' }} />
-                  }
-                  sx={{ mx: 4 }}
+                  startIcon={<PlusIcon />}
+                  sx={{ mr: 4 }}
                 >
                   {t('common:createPost')}
                 </Button>
               </Link>
+              {/* User menu / auth button */}
               {auth.user ? (
                 <UserMenu user={auth.user} />
               ) : (
@@ -116,6 +138,7 @@ const StyledAppbar: FC<{
                   <Button> {t('common:authButton')}</Button>
                 </Link>
               )}
+              {/* Language */}
               <Box sx={{ mx: 2 }}>
                 {router.locales?.map((locale) => {
                   return router.locale !== locale ? (

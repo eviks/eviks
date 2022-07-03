@@ -6,7 +6,12 @@ import { setURLParams } from '../utils/urlParams';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 import getErrorMessage from '../utils/errors/getErrorMessage';
-import { Post, PostFilters, PostsWithPagination } from '../types';
+import {
+  Post,
+  PostFilters,
+  PostsWithPagination,
+  AlternativePostFilters,
+} from '../types';
 
 export const fetchPost = async (postId: string) => {
   try {
@@ -26,7 +31,7 @@ export const fetchPostPhoneNumber = async (postId: string) => {
   return response.data;
 };
 
-const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
+export const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
   const searchParams: { [key: string]: string } = {};
   if (filters.apartmentType)
     searchParams.apartmentType = filters.apartmentType.toString();
@@ -88,17 +93,18 @@ const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
   return searchParams;
 };
 
-export const fetchPosts = (filters: PostFilters) => {
+export const getAlternativePostQuery = (filters: AlternativePostFilters) => {
+  const searchParams: { [key: string]: string } = {};
+  searchParams.page = filters.pagination.current.toString();
+  searchParams.ids = filters.ids.length === 0 ? '0' : filters.ids.join(',');
+  return searchParams;
+};
+
+export const fetchPosts = (query: { [key: string]: string }) => {
   return async (
     dispatch: Dispatch<{ type: Types.GetPosts; payload: PostsWithPagination }>,
   ) => {
     try {
-      const query = getPostsQuery(filters, true);
-
-      query.cityId = filters.city.id;
-      query.estateType = filters.estateType;
-      query.dealType = filters.dealType;
-
       const url = setURLParams(query);
 
       const response = await axios.get<PostsWithPagination>(
@@ -121,6 +127,17 @@ export const setFilters = (postFilters: PostFilters) => {
     dispatch: Dispatch<{ type: Types.SetFilters; payload: PostFilters }>,
   ) => {
     dispatch({ type: Types.SetFilters, payload: postFilters });
+  };
+};
+
+export const setAlternativeFilters = (postFilters: AlternativePostFilters) => {
+  return async (
+    dispatch: Dispatch<{
+      type: Types.SetAlternativeFilters;
+      payload: AlternativePostFilters;
+    }>,
+  ) => {
+    dispatch({ type: Types.SetAlternativeFilters, payload: postFilters });
   };
 };
 
