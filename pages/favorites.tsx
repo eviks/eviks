@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
@@ -14,6 +15,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
+import { parseCookies, destroyCookie } from 'nookies';
 import { useSnackbar } from 'notistack';
 import PostItem from '../components/PostItem';
 import { AppContext } from '../store/appContext';
@@ -22,16 +24,17 @@ import {
   getAlternativePostQuery,
   setAlternativeFilters,
 } from '../actions/posts';
+import { loadUserOnServer } from '../actions/auth';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
-import { CustomNextPage } from '../types';
+import { CustomNextPage, User } from '../types';
 
 interface QueryParams {
   page: string;
 }
 type StringQueryParams = Record<keyof QueryParams, string>;
 
-const Favorites: CustomNextPage = () => {
+const Favorites: CustomNextPage<{ user: User }> = ({ user }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -39,7 +42,6 @@ const Favorites: CustomNextPage = () => {
   const { state, dispatch } = useContext(AppContext);
   const {
     posts: { posts, alternativeFilters },
-    auth,
   } = state;
 
   const [isInit, setIsInit] = useState<boolean>(false);
@@ -52,14 +54,11 @@ const Favorites: CustomNextPage = () => {
 
       const getFavoritePostsId = () => {
         let ids: string[] = [];
-        const favorites = auth.user?.favorites;
+        const favorites = user?.favorites;
         if (favorites)
           ids = Object.keys(favorites).filter((key) => {
             return favorites[key] ?? false;
           });
-        if (ids.length === 0) {
-          ids = ['0'];
-        }
         return ids;
       };
 
@@ -91,18 +90,13 @@ const Favorites: CustomNextPage = () => {
 
       setIsInit(true);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, enqueueSnackbar, t],
+
+    [dispatch, enqueueSnackbar, t, user?.favorites],
   );
 
   useEffect(() => {
-    // Check user authentication
-    if (!auth.token) {
-      router.replace('/auth');
-    }
-
     setFiltersFromURL(router.query);
-  }, [auth.token, router, router.query, setFiltersFromURL]);
+  }, [router.query, setFiltersFromURL]);
 
   const getPosts = useCallback(async () => {
     if (!isInit) return;
@@ -112,22 +106,25 @@ const Favorites: CustomNextPage = () => {
 
     const query = getAlternativePostQuery(alternativeFilters);
 
-    try {
-      await fetchPosts(query)(dispatch);
-    } catch (error) {
-      let errorMessage = '';
-      if (error instanceof Failure) {
-        errorMessage = error.message;
-      } else if (error instanceof ServerError) {
-        errorMessage = t('common:serverError');
-      } else {
-        errorMessage = t('common:unknownError');
+    if ((alternativeFilters.ids?.length ?? 0) > 0) {
+      try {
+        await fetchPosts(query)(dispatch);
+      } catch (error) {
+        let errorMessage = '';
+        if (error instanceof Failure) {
+          errorMessage = error.message;
+        } else if (error instanceof ServerError) {
+          errorMessage = t('common:serverError');
+        } else {
+          errorMessage = t('common:unknownError');
+        }
+        enqueueSnackbar(errorMessage, {
+          variant: 'error',
+          autoHideDuration: 3000,
+        });
       }
-      enqueueSnackbar(errorMessage, {
-        variant: 'error',
-        autoHideDuration: 3000,
-      });
     }
+
     setIsLoading(false);
   }, [dispatch, enqueueSnackbar, alternativeFilters, isInit, t]);
 
@@ -224,6 +221,36 @@ const Favorites: CustomNextPage = () => {
       )}
     </Container>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { token } = parseCookies(context);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false,
+      },
+    };
+  }
+
+  const user = await loadUserOnServer(token);
+  if (!user) {
+    destroyCookie(context, 'token', {
+      path: '/',
+    });
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { user },
+  };
 };
 
 Favorites.displayBottomNavigationBar = true;

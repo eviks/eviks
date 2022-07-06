@@ -172,7 +172,8 @@ export interface PostFilters {
 }
 
 export interface AlternativePostFilters {
-  ids: string[];
+  ids?: string[];
+  userId?: string;
   pagination: Pagination;
 }
 
@@ -214,7 +215,7 @@ export interface ImageData {
   isUploaded: boolean;
 }
 
-export type CustomNextPage = NextPage & {
+export type CustomNextPage<P = {}, IP = P> = NextPage<P, IP> & {
   displayBottomNavigationBar?: boolean;
   displaySearchBar?: boolean;
 };

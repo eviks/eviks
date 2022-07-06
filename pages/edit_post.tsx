@@ -1,7 +1,7 @@
-import React, { useEffect, useContext, useMemo, useState } from 'react';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import React, { useEffect, useContext, useMemo } from 'react';
+import { NextPage, GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
+import { parseCookies, destroyCookie } from 'nookies';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -16,26 +16,14 @@ import EditPostImages from '../components/editPost/editPostImages/EditPostImages
 import EditPostPrice from '../components/editPost/EditPostPrice';
 import EditPostContacts from '../components/editPost/EditPostContacts';
 import { initPost } from '../actions/post';
+import { loadUserOnServer } from '../actions/auth';
 import useWindowSize from '../utils/hooks/useWindowSize';
 
 const EditPost: NextPage = () => {
-  const router = useRouter();
-
-  const [loading, setLoading] = useState<boolean>(true);
-
   const {
-    state: { post, auth },
+    state: { post },
     dispatch,
   } = useContext(AppContext);
-
-  useEffect(() => {
-    // Check user authentication
-    if (!auth.token) {
-      router.replace('/auth');
-    } else {
-      setLoading(false);
-    }
-  }, [auth.token, router]);
 
   useEffect(() => {
     initPost()(dispatch);
@@ -77,8 +65,6 @@ const EditPost: NextPage = () => {
     }
   };
 
-  if (loading) return null;
-
   return (
     <Grid
       container
@@ -99,6 +85,36 @@ const EditPost: NextPage = () => {
       </Grid>
     </Grid>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { token } = parseCookies(context);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false,
+      },
+    };
+  }
+
+  const check = await loadUserOnServer(token);
+  if (!check) {
+    destroyCookie(context, 'token', {
+      path: '/',
+    });
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default EditPost;

@@ -95,8 +95,10 @@ export const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
 
 export const getAlternativePostQuery = (filters: AlternativePostFilters) => {
   const searchParams: { [key: string]: string } = {};
+  if (filters.ids && filters.ids.length > 0)
+    searchParams.ids = filters.ids.join(',');
+  if (filters.userId) searchParams.uerId = filters.userId;
   searchParams.page = filters.pagination.current.toString();
-  searchParams.ids = filters.ids.length === 0 ? '0' : filters.ids.join(',');
   return searchParams;
 };
 

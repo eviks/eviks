@@ -42,11 +42,11 @@ const StyledAppbar: FC<{
   const darkModeToggle = () => {
     const newValue = !darkMode;
     setDarkMode(newValue);
-    Cookies.set('darkMode', newValue ? 'ON' : 'OFF');
+    Cookies.set('darkMode', newValue ? 'ON' : 'OFF', { expires: 365 });
   };
 
   const switchLanguage = (locale: string) => {
-    Cookies.set('NEXT_LOCALE', locale);
+    Cookies.set('NEXT_LOCALE', locale, { expires: 365 });
     router.push(router.asPath, undefined, { locale });
   };
 

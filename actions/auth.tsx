@@ -34,6 +34,23 @@ export const loadUser = () => {
   };
 };
 
+export const loadUserOnServer = async (token: string) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+    },
+  };
+
+  try {
+    const result = await axios.get<User>(
+      `${process.env.BASE_URL}/api/auth`,
+      config,
+    );
+    return result.data;
+  } catch (error) {
+    return undefined;
+  }
+};
 export const registerUser = async (
   displayName: string,
   email: string,
@@ -72,7 +89,7 @@ export const loginUser = (email: string, password: string) => {
         { email, password },
         config,
       );
-      Cookies.set('token', response.data.token);
+      Cookies.set('token', response.data.token, { expires: 365 });
       dispatch({ type: Types.LoginUser, payload: response.data.token });
     } catch (error) {
       if (axios.isAxiosError(error) && error.code === '500')
@@ -103,7 +120,7 @@ export const verifyUser = (email: string, activationToken: string) => {
         { email, activationToken },
         config,
       );
-      Cookies.set('token', response.data.token);
+      Cookies.set('token', response.data.token, { expires: 365 });
       dispatch({ type: Types.VerifyUser, payload: response.data.token });
     } catch (error) {
       if (axios.isAxiosError(error) && error.code === '500')

@@ -8,6 +8,7 @@
     "/posts/[id]": ["post"],
     "/edit_post": ["post"],
     "/[...slug]": ["post", "filters", "posts"],
-    "/favorites": ["favorites"]
+    "/favorites": ["favorites"],
+    "/users/[id]/posts": ["userPosts"]
   }
 }

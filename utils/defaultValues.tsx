@@ -423,7 +423,6 @@ export const defaultPostFilters: PostFilters = {
 };
 
 export const defaultAlternativeFilters: AlternativePostFilters = {
-  ids: ['0'],
   pagination: {
     current: 1,
   },
