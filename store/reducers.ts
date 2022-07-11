@@ -1,5 +1,9 @@
 import { Reducer } from 'react';
-import { defaultPost } from '../utils/defaultValues';
+import {
+  defaultPost,
+  defaultPostFilters,
+  defaultAlternativeFilters,
+} from '../utils/defaultValues';
 import {
   Post,
   PostFilters,
@@ -24,6 +28,8 @@ export enum Types {
   GetPosts = 'GET_POSTS',
   SetFilters = 'SET_FILTERS',
   SetAlternativeFilters = 'SET_ALTERNATIVE_FILTERS',
+  ClearFilters = 'CLEAR_FILTERS',
+  ClearAlternativeFilters = 'CLEAR_ALTERNATIVE_FILTERS',
   LoadUser = 'LOAD_USER',
   LoginUser = 'LOGIN_USER',
   VerifyUser = 'VERIFY_USER',
@@ -39,6 +45,8 @@ type PostsPayload = {
   [Types.GetPosts]: PostsWithPagination;
   [Types.SetFilters]: PostFilters;
   [Types.SetAlternativeFilters]: AlternativePostFilters;
+  [Types.ClearFilters]: undefined;
+  [Types.ClearAlternativeFilters]: undefined;
 };
 
 type AuthPayload = {
@@ -88,6 +96,16 @@ export const postsReducer: Reducer<
       return {
         ...state,
         alternativeFilters: { ...state.alternativeFilters, ...action.payload },
+      };
+    case Types.ClearFilters:
+      return {
+        ...state,
+        filters: defaultPostFilters,
+      };
+    case Types.ClearAlternativeFilters:
+      return {
+        ...state,
+        alternativeFilters: defaultAlternativeFilters,
       };
     default:
       return state;

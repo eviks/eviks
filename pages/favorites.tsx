@@ -23,6 +23,7 @@ import {
   fetchPosts,
   getAlternativePostQuery,
   setAlternativeFilters,
+  clearAlternativeFilters,
 } from '../actions/posts';
 import { loadUserOnServer } from '../actions/auth';
 import Failure from '../utils/errors/failure';
@@ -96,7 +97,10 @@ const Favorites: CustomNextPage<{ user: User }> = ({ user }) => {
 
   useEffect(() => {
     setFiltersFromURL(router.query);
-  }, [router.query, setFiltersFromURL]);
+    return () => {
+      clearAlternativeFilters()(dispatch);
+    };
+  }, [dispatch, router.query, setFiltersFromURL]);
 
   const getPosts = useCallback(async () => {
     if (!isInit) return;

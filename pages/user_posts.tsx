@@ -17,17 +17,18 @@ import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import { parseCookies, destroyCookie } from 'nookies';
 import { useSnackbar } from 'notistack';
-import PostItem from '../../../components/PostItem';
-import { AppContext } from '../../../store/appContext';
+import PostItem from '../components/PostItem';
+import { AppContext } from '../store/appContext';
 import {
   fetchPosts,
   getAlternativePostQuery,
   setAlternativeFilters,
-} from '../../../actions/posts';
-import { loadUserOnServer } from '../../../actions/auth';
-import Failure from '../../../utils/errors/failure';
-import ServerError from '../../../utils/errors/serverError';
-import { CustomNextPage, User } from '../../../types';
+  clearAlternativeFilters,
+} from '../actions/posts';
+import { loadUserOnServer } from '../actions/auth';
+import Failure from '../utils/errors/failure';
+import ServerError from '../utils/errors/serverError';
+import { CustomNextPage, User } from '../types';
 
 interface QueryParams {
   page: string;
@@ -86,7 +87,10 @@ const UserPosts: CustomNextPage<{ user: User }> = ({ user }) => {
 
   useEffect(() => {
     setFiltersFromURL(router.query);
-  }, [router.query, setFiltersFromURL]);
+    return () => {
+      clearAlternativeFilters()(dispatch);
+    };
+  }, [dispatch, router.query, setFiltersFromURL]);
 
   const getPosts = useCallback(async () => {
     if (!isInit) return;
@@ -126,7 +130,7 @@ const UserPosts: CustomNextPage<{ user: User }> = ({ user }) => {
   ) => {
     router.push(
       {
-        pathname: `/users/${user._id}/posts`,
+        pathname: '/user_posts',
         query: getAlternativePostQuery({
           ...alternativeFilters,
           pagination: {

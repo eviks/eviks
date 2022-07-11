@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Hidden from '@mui/material/Hidden';
 import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
 import { fetchPostPhoneNumber } from '../../actions/posts';
@@ -59,30 +60,33 @@ const PostContacts: FC<{
       <Typography variant="subtitle1" fontSize={18}>
         {post.username}
       </Typography>
-      <Box sx={{ mt: 1 }}>
-        {!phoneNumber ? (
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{ py: 1.2 }}
-            onClick={getPhoneNumber}
-          >
-            {t('post:showPhoneNumber')}
-          </Button>
-        ) : (
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography fontSize={32}>{phoneNumber}</Typography>
-            <Typography
-              variant="caption"
-              color={(theme) => {
-                return theme.palette.text.secondary;
-              }}
+      <Hidden mdDown>
+        <Box sx={{ mt: 1 }}>
+          {!phoneNumber ? (
+            <Button
+              variant="contained"
+              fullWidth
+              disableElevation
+              onClick={getPhoneNumber}
+              sx={{ py: 1.2 }}
             >
-              {t('post:callHint')}
-            </Typography>
-          </Box>
-        )}
-      </Box>
+              {t('post:showPhoneNumber')}
+            </Button>
+          ) : (
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography fontSize={32}>{phoneNumber}</Typography>
+              <Typography
+                variant="caption"
+                color={(theme) => {
+                  return theme.palette.text.secondary;
+                }}
+              >
+                {t('post:callHint')}
+              </Typography>
+            </Box>
+          )}
+        </Box>
+      </Hidden>
     </Box>
   );
 };

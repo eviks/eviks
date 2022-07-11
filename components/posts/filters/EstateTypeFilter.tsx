@@ -83,6 +83,7 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
       <Button
         variant={'contained'}
         type="submit"
+        disableElevation
         sx={{ display: 'block', mx: 'auto' }}
       >
         {t('filters:showPosts')}

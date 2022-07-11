@@ -136,8 +136,9 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
               <Button
                 variant="contained"
                 fullWidth
-                sx={{ py: 1.2 }}
+                disableElevation
                 onClick={getPhoneNumber}
+                sx={{ py: 1.2 }}
               >
                 {t('post:call')}
               </Button>

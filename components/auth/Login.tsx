@@ -9,6 +9,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledInput from '../layout/StyledInput';
+import EmailIcon from '../icons/EmailIcon';
+import PasswordIcon from '../icons/PasswordIcon';
 import ShowPasswordIcon from '../icons/ShowPasswordIcon';
 import HidePasswordIcon from '../icons/HidePasswordIcon';
 import CloseIcon from '../icons/CloseIcon';
@@ -115,24 +117,35 @@ const Login: FC = () => {
           fullWidth: true,
           type: 'email',
           onChange: handleChange,
+          startAdornment: (
+            <InputAdornment position="start">
+              <EmailIcon sx={{ ml: 1 }} />
+            </InputAdornment>
+          ),
         }}
       />
       <StyledInput
-        validators={['required', 'minStringLength:6']}
+        validators={['required']}
         value={password}
         name="password"
-        errorMessages={[t('auth:errorPassword'), t('auth:invalidPassword')]}
+        errorMessages={[t('auth:errorPassword')]}
         label={t('auth:password')}
         input={{
           id: 'password',
           fullWidth: true,
           type: showPassword ? 'text' : 'password',
           onChange: handleChange,
+          startAdornment: (
+            <InputAdornment position="start">
+              <PasswordIcon sx={{ ml: 1 }} />
+            </InputAdornment>
+          ),
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
                 aria-label="toggle password visibility"
                 size="small"
+                sx={{ mr: 1 }}
                 onClick={handleClickShowPassword}
               >
                 {showPassword ? <HidePasswordIcon /> : <ShowPasswordIcon />}
@@ -146,6 +159,7 @@ const Login: FC = () => {
         variant="contained"
         fullWidth
         disabled={loading}
+        disableElevation
         sx={{ mt: 1, py: 1 }}
       >
         {loading ? (

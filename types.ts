@@ -57,7 +57,6 @@ export interface Settlement {
 
 export interface Post {
   _id: number;
-  active: boolean;
   userType: UserType;
   estateType: EstateType;
   apartmentType?: ApartmentType;

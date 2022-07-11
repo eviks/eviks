@@ -38,7 +38,7 @@ const EditPostContacts: FC = () => {
   } = useContext(AppContext);
 
   const [contactsState, setContactsState] = useState<ContactsState>({
-    phoneNumber: (post.lastStep || -1) >= 7 ? post.phoneNumber : '',
+    phoneNumber: (post.lastStep || -1) >= 7 ? post.phoneNumber ?? '' : '',
     username: (post.lastStep || -1) >= 7 ? post.username : '',
   });
 
@@ -51,7 +51,6 @@ const EditPostContacts: FC = () => {
       ...post,
       phoneNumber,
       username,
-      active: true,
       step,
       lastStep: Math.max(7, post.lastStep ?? 7),
     };
@@ -206,6 +205,7 @@ const EditPostContacts: FC = () => {
             color="secondary"
             sx={{ mt: 1, py: 1 }}
             disabled={loading}
+            disableElevation
             onClick={handlePrevStepClick}
           >
             {t('post:back')}

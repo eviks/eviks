@@ -125,6 +125,7 @@ const StyledAppbar: FC<{
                 <Button
                   variant={'contained'}
                   startIcon={<PlusIcon />}
+                  disableElevation
                   sx={{ mr: 4 }}
                 >
                   {t('common:createPost')}

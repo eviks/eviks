@@ -79,13 +79,9 @@ const setPostsFilters = (req) => {
     notLastFloor,
     userId,
     ids,
-    active,
   } = req.query;
 
   const conditions = {};
-
-  // Active
-  if (active) conditions.active = active;
 
   // City
   if (cityId) conditions['city.id'] = cityId;

@@ -123,6 +123,69 @@ router.put(
   },
 );
 
+// @route  PUT api/users/change_password
+// @desc   Change user password. This method is separate from PUT api/users.
+// @access Private
+router.put(
+  '/change_password',
+  [
+    [
+      check('newPassword', 'New password is required').notEmpty(),
+      check(
+        'newPassword',
+        'Password must be at least 6 characters long',
+      ).isLength({
+        min: 6,
+      }),
+    ],
+    passport.authenticate('jwt', { session: false }),
+  ],
+  async (req, res) => {
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    try {
+      const { password, newPassword } = req.body;
+
+      // Check previous password if exists
+      const user = await User.findById(req.user.id);
+      if (user.password) {
+        if (!password) {
+          return res
+            .status(401)
+            .json({ errors: [{ msg: 'Previous password is required' }] });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return res
+            .status(401)
+            .json({ errors: [{ msg: 'Invalid credentials' }] });
+        }
+      }
+
+      // Encrypt new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+      const updatedUser = await User.findByIdAndUpdate(
+        req.user.id,
+        { password: hashedPassword },
+        { new: true },
+      ).select('-password');
+      return res.json(updatedUser);
+    } catch (error) {
+      logger.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
+
 // @route  PUT api/users/add_to_favorites
 // @desc   Add post to user's favorites list
 // @access Private

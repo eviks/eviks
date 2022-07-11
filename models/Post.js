@@ -3,11 +3,6 @@ const mongoose = require('mongoose');
 const PostSchema = new mongoose.Schema(
   {
     _id: Number,
-    active: {
-      type: Boolean,
-      required: true,
-      index: true,
-    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'users',

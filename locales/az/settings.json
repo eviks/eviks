@@ -1,0 +1,10 @@
+{
+  "profileSettings": "Profili dəyişmək",
+  "updatePassword": "Parolu yeniləmək",
+  "password": "Parol",
+  "newPassword": "Yeni parol",
+  "errorPassword": "Parol göstərilməyib",
+  "errorNewPassword": "Yeni parolu daxil edin",
+  "invalidPassword": "Parol ən azı 6 simvoldan ibarət olmalıdır",
+  "profileIsUpdated": "Profil uğurla yeniləndi"
+}

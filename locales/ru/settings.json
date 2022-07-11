@@ -1,0 +1,10 @@
+{
+  "profileSettings": "Изменить профиль",
+  "updatePassword": "Обновить пароль",
+  "password": "Пароль",
+  "newPassword": "Новый пароль",
+  "errorPassword": "Введите пароль",
+  "errorNewPassword": "Введите новый пароль",
+  "invalidPassword": "Пароль должен содержать как минимум 6 символов",
+  "profileIsUpdated": "Профиль успешно обновлен"
+}

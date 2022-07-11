@@ -182,12 +182,18 @@ const EditPostBuildingInfo: FC = () => {
             type={'button'}
             variant="contained"
             color="secondary"
+            disableElevation
             sx={{ mt: 1, py: 1 }}
             onClick={handlePrevStepClick}
           >
             {t('post:back')}
           </Button>
-          <Button type="submit" variant="contained" sx={{ mt: 1, py: 1 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            disableElevation
+            sx={{ mt: 1, py: 1 }}
+          >
             {t('post:next')}
           </Button>
         </Container>

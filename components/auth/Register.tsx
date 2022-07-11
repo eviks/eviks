@@ -9,6 +9,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledInput from '../layout/StyledInput';
+import UserIcon from '../icons/UserIcon';
+import EmailIcon from '../icons/EmailIcon';
+import PasswordIcon from '../icons/PasswordIcon';
 import ShowPasswordIcon from '../icons/ShowPasswordIcon';
 import HidePasswordIcon from '../icons/HidePasswordIcon';
 import CloseIcon from '../icons/CloseIcon';
@@ -117,6 +120,11 @@ const Register: FC = () => {
           fullWidth: true,
           type: 'text',
           onChange: handleChange,
+          startAdornment: (
+            <InputAdornment position="start">
+              <UserIcon sx={{ ml: 1 }} />
+            </InputAdornment>
+          ),
         }}
       />
       <StyledInput
@@ -130,6 +138,11 @@ const Register: FC = () => {
           fullWidth: true,
           type: 'email',
           onChange: handleChange,
+          startAdornment: (
+            <InputAdornment position="start">
+              <EmailIcon sx={{ ml: 1 }} />
+            </InputAdornment>
+          ),
         }}
       />
       <StyledInput
@@ -143,11 +156,17 @@ const Register: FC = () => {
           fullWidth: true,
           type: showPassword ? 'text' : 'password',
           onChange: handleChange,
+          startAdornment: (
+            <InputAdornment position="start">
+              <PasswordIcon sx={{ ml: 1 }} />
+            </InputAdornment>
+          ),
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
                 aria-label="toggle password visibility"
                 size="small"
+                sx={{ mr: 1 }}
                 onClick={handleClickShowPassword}
               >
                 {showPassword ? <HidePasswordIcon /> : <ShowPasswordIcon />}
@@ -161,6 +180,7 @@ const Register: FC = () => {
         variant="contained"
         fullWidth
         disabled={loading}
+        disableElevation
         sx={{ mt: 1, py: 1 }}
       >
         {loading ? (

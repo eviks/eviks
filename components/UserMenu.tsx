@@ -27,7 +27,7 @@ const UserMenu: FC<{ user: User }> = ({ user }) => {
   const settings = [
     {
       name: t('common:myPosts'),
-      route: `/users/${user?._id}/posts`,
+      route: '/user_posts',
       icon: <BookmarkIcon />,
     },
     {
@@ -56,7 +56,7 @@ const UserMenu: FC<{ user: User }> = ({ user }) => {
     <Fragment>
       <Tooltip title={t('common:openUserMenu')}>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src={`${user.picture}`} />
+          <Avatar alt={user.displayName} src={`${user.picture}`} />
         </IconButton>
       </Tooltip>
       <Menu

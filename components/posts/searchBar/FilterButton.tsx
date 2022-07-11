@@ -35,6 +35,7 @@ const FilterButton: FC<FilterButtonProps> = ({ title, children }) => {
           vertical: 'bottom',
           horizontal: 'left',
         }}
+        PaperProps={{ sx: { borderRadius: '20px' } }}
         sx={{
           mt: 1,
         }}

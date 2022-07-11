@@ -256,7 +256,12 @@ const EditPostGeneralInfo: FC = () => {
           validators={['required']}
           errorMessages={[t('common:fieldIsRequired')]}
         />
-        <Button type="submit" variant="contained" sx={{ mt: 1, py: 1 }}>
+        <Button
+          type="submit"
+          variant="contained"
+          disableElevation
+          sx={{ mt: 1, py: 1 }}
+        >
           {t('post:next')}
         </Button>
       </Container>

@@ -110,6 +110,7 @@ const LotSqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       <Button
         variant={'contained'}
         type="submit"
+        disableElevation
         sx={{ display: 'block', mx: 'auto' }}
       >
         {t('filters:showPosts')}

@@ -97,7 +97,7 @@ export const getAlternativePostQuery = (filters: AlternativePostFilters) => {
   const searchParams: { [key: string]: string } = {};
   if (filters.ids && filters.ids.length > 0)
     searchParams.ids = filters.ids.join(',');
-  if (filters.userId) searchParams.uerId = filters.userId;
+  if (filters.userId) searchParams.userId = filters.userId;
   searchParams.page = filters.pagination.current.toString();
   return searchParams;
 };
@@ -140,6 +140,16 @@ export const setAlternativeFilters = (postFilters: AlternativePostFilters) => {
     }>,
   ) => {
     dispatch({ type: Types.SetAlternativeFilters, payload: postFilters });
+  };
+};
+
+export const clearAlternativeFilters = () => {
+  return async (
+    dispatch: Dispatch<{
+      type: Types.ClearAlternativeFilters;
+    }>,
+  ) => {
+    dispatch({ type: Types.ClearAlternativeFilters });
   };
 };
 

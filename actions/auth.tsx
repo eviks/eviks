@@ -208,3 +208,27 @@ export const removePostFromFavorites = (postId: number, token: string) => {
     }
   };
 };
+
+export const changeUserPassword = async (
+  token: string,
+  data: { password: string; newPassword: string },
+) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    await axios.put<{
+      favorites: { [key: string]: boolean };
+    }>('/api/users/change_password', data, config);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};

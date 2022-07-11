@@ -105,8 +105,9 @@ const PostInfoCard: FC<{
           <Button
             variant="contained"
             fullWidth
-            sx={{ py: 1.2 }}
+            disableElevation
             onClick={getPhoneNumber}
+            sx={{ py: 1.2 }}
           >
             {t('post:showPhoneNumber')}
           </Button>

@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  useState,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-} from 'react';
+import React, { FC, useState, useContext, useEffect } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
@@ -104,13 +98,11 @@ const EditPostEstateInfo: FC = () => {
     ValidatorForm.addValidationRule('floorIsValid', (value) => {
       return Number(value) <= Number(totalFloors);
     });
-  }, [totalFloors]);
 
-  useLayoutEffect(() => {
     return () => {
       ValidatorForm.removeValidationRule('floorIsValid');
     };
-  }, []);
+  }, [totalFloors]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = event.target;
@@ -431,12 +423,18 @@ const EditPostEstateInfo: FC = () => {
             type={'button'}
             variant="contained"
             color="secondary"
+            disableElevation
             sx={{ mt: 1, py: 1 }}
             onClick={handlePrevStepClick}
           >
             {t('post:back')}
           </Button>
-          <Button type="submit" variant="contained" sx={{ mt: 1, py: 1 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            disableElevation
+            sx={{ mt: 1, py: 1 }}
+          >
             {t('post:next')}
           </Button>
         </Container>
