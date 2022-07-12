@@ -23,7 +23,7 @@ import {
   fetchPosts,
   getAlternativePostQuery,
   setAlternativeFilters,
-  clearAlternativeFilters,
+  clearPosts,
 } from '../actions/posts';
 import { loadUserOnServer } from '../actions/auth';
 import Failure from '../utils/errors/failure';
@@ -43,10 +43,15 @@ const Favorites: CustomNextPage<{ user: User }> = ({ user }) => {
   const { state, dispatch } = useContext(AppContext);
   const {
     posts: { posts, alternativeFilters },
+    auth,
   } = state;
 
   const [isInit, setIsInit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (!auth.user && auth.isInit) router.push({ pathname: '/', query: {} });
+  }, [auth.isInit, auth.user, router]);
 
   const setFiltersFromURL = useCallback(
     async (query: ParsedUrlQuery) => {
@@ -98,7 +103,7 @@ const Favorites: CustomNextPage<{ user: User }> = ({ user }) => {
   useEffect(() => {
     setFiltersFromURL(router.query);
     return () => {
-      clearAlternativeFilters()(dispatch);
+      clearPosts()(dispatch);
     };
   }, [dispatch, router.query, setFiltersFromURL]);
 

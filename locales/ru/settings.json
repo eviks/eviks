@@ -1,10 +1,19 @@
 {
-  "profileSettings": "Изменить профиль",
-  "updatePassword": "Обновить пароль",
+  "updateProfile": "Обновить профиль",
+  "changePasswordTitle": "Пароль",
+  "changePassword": "Обновить пароль",
   "password": "Пароль",
   "newPassword": "Новый пароль",
   "errorPassword": "Введите пароль",
   "errorNewPassword": "Введите новый пароль",
   "invalidPassword": "Пароль должен содержать как минимум 6 символов",
-  "profileIsUpdated": "Профиль успешно обновлен"
+  "passwordIsUpdated": "Пароль успешно обновлен",
+  "profileIsUpdated": "Профиль успешно обновлен",
+  "deleteProfile": "Удалить профиль",
+  "deleteProfileTitle": "Ой, неужели вы нас покидаете?",
+  "deleteProfileContent": "Все ваши объявления также будут удалены. Восстановить профиль будет уже невозможно",
+  "deleteProfileCancel": "Я передумал",
+  "deleteProfileAnyway": "Все равно удалить",
+  "profile": "Профиль",
+  "displayName": "Имя"
 }

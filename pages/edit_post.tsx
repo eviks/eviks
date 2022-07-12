@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useMemo } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { parseCookies, destroyCookie } from 'nookies';
 import Container from '@mui/material/Container';
@@ -20,14 +21,20 @@ import { loadUserOnServer } from '../actions/auth';
 import useWindowSize from '../utils/hooks/useWindowSize';
 
 const EditPost: NextPage = () => {
+  const router = useRouter();
+
   const {
-    state: { post },
+    state: { post, auth },
     dispatch,
   } = useContext(AppContext);
 
   useEffect(() => {
     initPost()(dispatch);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!auth.user && auth.isInit) router.push({ pathname: '/', query: {} });
+  }, [auth.isInit, auth.user, router]);
 
   const { width } = useWindowSize();
 

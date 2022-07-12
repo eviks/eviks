@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import PasswordIcon from '../icons/PasswordIcon';
 import ShowPasswordIcon from '../icons/ShowPasswordIcon';
 import HidePasswordIcon from '../icons/HidePasswordIcon';
@@ -15,14 +16,14 @@ import StyledInput from '../layout/StyledInput';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
 
-interface PasswordChangeState {
+interface ChangePasswordState {
   password: string;
   newPassword: string;
   showPassword: boolean;
   showNewPassword: boolean;
 }
 
-const PasswordChange: FC = () => {
+const ChangePassword: FC = () => {
   const { t } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -33,7 +34,7 @@ const PasswordChange: FC = () => {
   const isGoogleUser = (auth.user?.googleId ?? '').length > 0;
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<PasswordChangeState>({
+  const [data, setData] = useState<ChangePasswordState>({
     password: '',
     newPassword: '',
     showPassword: false,
@@ -64,6 +65,10 @@ const PasswordChange: FC = () => {
 
     try {
       await changeUserPassword(auth.token ?? '', { password, newPassword });
+      enqueueSnackbar(t('settings:passwordIsUpdated'), {
+        variant: 'success',
+        autoHideDuration: 3000,
+      });
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {
@@ -104,6 +109,9 @@ const PasswordChange: FC = () => {
 
   return (
     <ValidatorForm onSubmit={handleSubmit}>
+      <Typography variant="h2" fontSize={28} sx={{ mb: 3 }}>
+        {t('settings:changePasswordTitle')}
+      </Typography>
       {/* Password */}
       <StyledInput
         validators={['passwordRequired']}
@@ -180,11 +188,11 @@ const PasswordChange: FC = () => {
         {loading ? (
           <CircularProgress color="inherit" size="2rem" />
         ) : (
-          t('settings:updatePassword')
+          t('settings:changePassword')
         )}
       </Button>
     </ValidatorForm>
   );
 };
 
-export default PasswordChange;
+export default ChangePassword;

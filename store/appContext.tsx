@@ -26,7 +26,9 @@ const contextDefaultValues: AppContextState = {
     filters: defaultPostFilters,
     alternativeFilters: defaultAlternativeFilters,
   },
-  auth: {},
+  auth: {
+    isInit: false,
+  },
   post: defaultPost,
 };
 

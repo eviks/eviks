@@ -28,12 +28,12 @@ export enum Types {
   GetPosts = 'GET_POSTS',
   SetFilters = 'SET_FILTERS',
   SetAlternativeFilters = 'SET_ALTERNATIVE_FILTERS',
-  ClearFilters = 'CLEAR_FILTERS',
-  ClearAlternativeFilters = 'CLEAR_ALTERNATIVE_FILTERS',
+  ClearPosts = 'CLEAR_POSTS',
   LoadUser = 'LOAD_USER',
   LoginUser = 'LOGIN_USER',
   VerifyUser = 'VERIFY_USER',
   Logout = 'LOGOUT',
+  DeleteUser = 'DELETE_USER',
   AddPostToFavorites = 'ADD_POST_TO_FAVORITES',
   RemovePostFromFavorites = 'REMOVE_POST_FROM_FAVORITES',
   InitPost = 'INIT_POST',
@@ -45,8 +45,7 @@ type PostsPayload = {
   [Types.GetPosts]: PostsWithPagination;
   [Types.SetFilters]: PostFilters;
   [Types.SetAlternativeFilters]: AlternativePostFilters;
-  [Types.ClearFilters]: undefined;
-  [Types.ClearAlternativeFilters]: undefined;
+  [Types.ClearPosts]: undefined;
 };
 
 type AuthPayload = {
@@ -54,6 +53,7 @@ type AuthPayload = {
   [Types.LoginUser]: string;
   [Types.VerifyUser]: string;
   [Types.Logout]: null;
+  [Types.DeleteUser]: null;
   [Types.AddPostToFavorites]: { [key: string]: boolean };
   [Types.RemovePostFromFavorites]: { [key: string]: boolean };
 };
@@ -97,14 +97,11 @@ export const postsReducer: Reducer<
         ...state,
         alternativeFilters: { ...state.alternativeFilters, ...action.payload },
       };
-    case Types.ClearFilters:
+    case Types.ClearPosts:
       return {
         ...state,
+        posts: [],
         filters: defaultPostFilters,
-      };
-    case Types.ClearAlternativeFilters:
-      return {
-        ...state,
         alternativeFilters: defaultAlternativeFilters,
       };
     default:
@@ -128,7 +125,12 @@ export const authReducer: Reducer<
         token: action.payload,
       };
     case Types.Logout:
-      return {};
+    case Types.DeleteUser:
+      return {
+        ...state,
+        token: undefined,
+        user: undefined,
+      };
     case Types.AddPostToFavorites:
     case Types.RemovePostFromFavorites:
       return {

@@ -143,13 +143,13 @@ export const setAlternativeFilters = (postFilters: AlternativePostFilters) => {
   };
 };
 
-export const clearAlternativeFilters = () => {
+export const clearPosts = () => {
   return async (
     dispatch: Dispatch<{
-      type: Types.ClearAlternativeFilters;
+      type: Types.ClearPosts;
     }>,
   ) => {
-    dispatch({ type: Types.ClearAlternativeFilters });
+    dispatch({ type: Types.ClearPosts });
   };
 };
 

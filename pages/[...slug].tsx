@@ -22,6 +22,7 @@ import {
   getPostsQuery,
   pushToNewPostsRoute,
   setFilters,
+  clearPosts,
 } from '../actions/posts';
 import { getLocalities } from '../actions/localities';
 import { enumFromStringValue } from '../utils';
@@ -203,7 +204,13 @@ const Posts: CustomNextPage = () => {
 
   useEffect(() => {
     setFiltersFromURL(router.query);
-  }, [router.query, setFiltersFromURL]);
+  }, [dispatch, router.query, setFiltersFromURL]);
+
+  useEffect(() => {
+    return () => {
+      clearPosts()(dispatch);
+    };
+  }, [dispatch]);
 
   const getPosts = useCallback(async () => {
     if (!isInit) return;

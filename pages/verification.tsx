@@ -147,6 +147,7 @@ const Verification: NextPage = () => {
           type="submit"
           variant="contained"
           disabled={loading}
+          disableElevation
           sx={{ mt: 1, py: 1 }}
         >
           {loading ? (

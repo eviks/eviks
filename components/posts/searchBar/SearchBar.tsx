@@ -11,6 +11,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import { useTheme } from '@mui/material/styles';
 import DistrictsBar from './DistrictsBar';
 import FilterButton from './FilterButton';
 import PriceFilter from '../filters/PriceFilter';
@@ -42,6 +43,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   appBarRef,
 }) => {
   const router = useRouter();
+  const theme = useTheme();
 
   const searchBarRef = useRef(null);
 
@@ -205,10 +207,11 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
       <AppBar
         variant={'outlined'}
         elevation={0}
-        color="secondary"
+        color="transparent"
         sx={{
           borderTop: 'none',
           overflow: 'overlay',
+          backgroundColor: theme.palette.background.default,
         }}
         className={classes}
       >

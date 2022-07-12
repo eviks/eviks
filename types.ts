@@ -185,6 +185,7 @@ export interface PostsContext {
 export interface AuthContext {
   token?: string;
   user?: User;
+  isInit: boolean;
 }
 
 export interface MapState {

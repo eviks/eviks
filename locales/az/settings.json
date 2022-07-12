@@ -1,10 +1,19 @@
 {
-  "profileSettings": "Profili dəyişmək",
-  "updatePassword": "Parolu yeniləmək",
+  "updateProfile": "Profili yeniləmək",
+  "changePasswordTitle": "Parol",
+  "changePassword": "Parolu yeniləmək",
   "password": "Parol",
   "newPassword": "Yeni parol",
   "errorPassword": "Parol göstərilməyib",
   "errorNewPassword": "Yeni parolu daxil edin",
   "invalidPassword": "Parol ən azı 6 simvoldan ibarət olmalıdır",
-  "profileIsUpdated": "Profil uğurla yeniləndi"
+  "passwordIsUpdated": "Parol uğurla yeniləndi",
+  "profileIsUpdated": "Profil uğurla yeniləndi",
+  "deleteProfile": "Profili ləğv eləmək",
+  "deleteProfileTitle": "Profilinizi ləğv etmək istəyirsiz?",
+  "deleteProfileContent": "Bütün elanlarınız ləğv olunacaq. Profilinizi bərpa etmək mümkün olmayacaq",
+  "deleteProfileCancel": "Fikrimi dəyişdim",
+  "deleteProfileAnyway": "Ləğv etmək",
+  "profile": "Profil",
+  "displayName": "Adı"
 }

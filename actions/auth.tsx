@@ -26,10 +26,14 @@ export const loadUser = () => {
       const response = await axios.get<User>(`/api/auth`, config);
       dispatch({
         type: Types.LoadUser,
-        payload: { user: response.data, token },
+        payload: { user: response.data, token, isInit: true },
       });
     } catch (error) {
       Cookies.remove('token');
+      dispatch({
+        type: Types.LoadUser,
+        payload: { isInit: true },
+      });
     }
   };
 };
@@ -132,6 +136,7 @@ export const verifyUser = (email: string, activationToken: string) => {
   };
 };
 export const logout = () => {
+  Cookies.remove('token');
   return async (
     dispatch: Dispatch<{
       type: Types.Logout;
@@ -209,6 +214,28 @@ export const removePostFromFavorites = (postId: number, token: string) => {
   };
 };
 
+export const updateUser = async (
+  token: string,
+  data: { displayName: string },
+) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    await axios.put('/api/users', data, config);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};
+
 export const changeUserPassword = async (
   token: string,
   data: { password: string; newPassword: string },
@@ -221,9 +248,7 @@ export const changeUserPassword = async (
   };
 
   try {
-    await axios.put<{
-      favorites: { [key: string]: boolean };
-    }>('/api/users/change_password', data, config);
+    await axios.put('/api/users/change_password', data, config);
   } catch (error) {
     if (axios.isAxiosError(error) && error.code === '500')
       throw new ServerError(error.message);
@@ -231,4 +256,34 @@ export const changeUserPassword = async (
       throw new Failure(getErrorMessage(error));
     }
   }
+};
+
+export const deleteUser = (token: string) => {
+  return async (
+    dispatch: Dispatch<{
+      type: Types.DeleteUser;
+      payload: null;
+    }>,
+  ) => {
+    const config = {
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    };
+
+    try {
+      await axios.delete('/api/users', config);
+      Cookies.remove('token');
+      dispatch({
+        type: Types.DeleteUser,
+        payload: null,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.code === '500')
+        throw new ServerError(error.message);
+      else {
+        throw new Failure(getErrorMessage(error));
+      }
+    }
+  };
 };
