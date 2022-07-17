@@ -17,5 +17,7 @@
   "profile": "Изменить профиль",
   "logout": "Выйти",
   "openUserMenu": "Открыть меню",
-  "createPost": "Разместить объявление"
+  "createPost": "Разместить объявление",
+  "editPostButton": "Редактировать объявление",
+  "deletePostButton": "Удалить объявление"
 }

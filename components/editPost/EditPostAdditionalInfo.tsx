@@ -7,7 +7,7 @@ import StepTitle from './StepTitle';
 import StyledInput from '../layout/StyledInput';
 import StyledSingleToogleButton from '../layout/StyledSingleToogleButton';
 import { AppContext } from '../../store/appContext';
-import { updatePost } from '../../actions/post';
+import { setPostData } from '../../actions/post';
 import BalconyIcon from '../icons/BalconyIcon';
 import KidsIcon from '../icons/KidsIcon';
 import PetsIcon from '../icons/PetsIcon';
@@ -114,8 +114,8 @@ const EditPostAdditionalInfo: FC = () => {
     bathhouse,
   } = additionalInfoState;
 
-  const updatePostAndDispatch = (step: number) => {
-    updatePost({
+  const setPostDataAndDispatch = (step: number) => {
+    setPostData({
       ...post,
       description,
       balcony,
@@ -166,11 +166,11 @@ const EditPostAdditionalInfo: FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    updatePostAndDispatch(5);
+    setPostDataAndDispatch(5);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(3);
+    setPostDataAndDispatch(3);
   };
 
   return (

@@ -103,7 +103,7 @@ export interface Post {
   pool?: boolean;
   bathhouse?: boolean;
   images: string[];
-  originalImages: string[];
+  originalImages?: string[];
   price: number;
   haggle?: boolean;
   installmentOfPayment?: boolean;
@@ -111,6 +111,7 @@ export interface Post {
   municipalServicesIncluded?: boolean;
   phoneNumber?: string;
   username: string;
+  user: string;
   step?: number;
   lastStep?: number;
 }

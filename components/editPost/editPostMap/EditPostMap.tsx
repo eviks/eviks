@@ -15,7 +15,7 @@ import MetroInput from './MetroInput';
 import SettlementSelect from './SettlementSelect';
 import StepTitle from '../StepTitle';
 import { AppContext } from '../../../store/appContext';
-import { updatePost } from '../../../actions/post';
+import { setPostData } from '../../../actions/post';
 import { MapState } from '../../../types';
 import 'leaflet/dist/leaflet.css';
 
@@ -51,8 +51,8 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
 
   const [mapCenter, setMapCenter] = useState(defaultmapCenter);
 
-  const updatePostAndDispatch = (step: number) => {
-    updatePost({
+  const setPostDataAndDispatch = (step: number) => {
+    setPostData({
       ...post,
       ...mapstate,
       metroStation: metroStation || undefined,
@@ -84,11 +84,11 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
       return;
     }
 
-    updatePostAndDispatch(2);
+    setPostDataAndDispatch(2);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(0);
+    setPostDataAndDispatch(0);
   };
 
   return (

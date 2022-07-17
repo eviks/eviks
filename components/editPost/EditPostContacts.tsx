@@ -17,7 +17,7 @@ import PhoneCallIcon from '../icons/PhoneCallIcon';
 import UserIcon from '../icons/UserIcon';
 import CheckedIcon from '../icons/CheckedIcon';
 import { AppContext } from '../../store/appContext';
-import { updatePost, createPost } from '../../actions/post';
+import { setPostData, createPost, updatePost } from '../../actions/post';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
 import { Post } from '../../types';
@@ -46,7 +46,7 @@ const EditPostContacts: FC = () => {
 
   const { phoneNumber, username } = contactsState;
 
-  const updatePostAndDispatch = (step: number) => {
+  const setPostDataAndDispatch = (step: number) => {
     const updatedPost = {
       ...post,
       phoneNumber,
@@ -54,31 +54,34 @@ const EditPostContacts: FC = () => {
       step,
       lastStep: Math.max(7, post.lastStep ?? 7),
     };
-    updatePost(updatedPost)(dispatch);
+    setPostData(updatedPost)(dispatch);
     return updatedPost;
   };
 
   const createOrUpdatePost = async (updatedPost: Post) => {
     setLoading(true);
 
-    if (post._id === 0) {
-      try {
+    try {
+      if (post._id === 0) {
         const createdPost = await createPost(auth.token ?? '', updatedPost);
         router.push({ pathname: `/posts/${createdPost.data._id}` });
-      } catch (error) {
-        let errorMessage = '';
-        if (error instanceof Failure) {
-          errorMessage = error.message;
-        } else if (error instanceof ServerError) {
-          errorMessage = t('common:serverError');
-        } else {
-          errorMessage = t('common:unknownError');
-        }
-        enqueueSnackbar(errorMessage, {
-          variant: 'error',
-          autoHideDuration: 3000,
-        });
+      } else {
+        await updatePost(auth.token ?? '', updatedPost);
+        router.push({ pathname: `/posts/${post._id}` });
       }
+    } catch (error) {
+      let errorMessage = '';
+      if (error instanceof Failure) {
+        errorMessage = error.message;
+      } else if (error instanceof ServerError) {
+        errorMessage = t('common:serverError');
+      } else {
+        errorMessage = t('common:unknownError');
+      }
+      enqueueSnackbar(errorMessage, {
+        variant: 'error',
+        autoHideDuration: 3000,
+      });
     }
 
     setLoading(false);
@@ -95,12 +98,12 @@ const EditPostContacts: FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const updatedPost = updatePostAndDispatch(7);
+    const updatedPost = setPostDataAndDispatch(7);
     createOrUpdatePost(updatedPost);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(6);
+    setPostDataAndDispatch(6);
   };
 
   return (

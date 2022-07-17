@@ -15,7 +15,7 @@ import MeasuringIcon from '../icons/MeasuringIcon';
 import ElevatorIcon from '../icons/ElevatorIcon';
 import ParkingLotIcon from '../icons/ParkingLotIcon';
 import { AppContext } from '../../store/appContext';
-import { updatePost } from '../../actions/post';
+import { setPostData } from '../../actions/post';
 import { EstateType, Post } from '../../types';
 
 interface BuildingInfo {
@@ -53,8 +53,8 @@ const EditPostBuildingInfo: FC = () => {
 
   const { yearBuild, ceilingHeight, elevator, parkingLot } = buildingInfoState;
 
-  const updatePostAndDispatch = (step: number) => {
-    updatePost({
+  const setPostDataAndDispatch = (step: number) => {
+    setPostData({
       ...post,
       yearBuild: Number(yearBuild),
       ceilingHeight: Number(ceilingHeight),
@@ -78,11 +78,11 @@ const EditPostBuildingInfo: FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    updatePostAndDispatch(4);
+    setPostDataAndDispatch(4);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(2);
+    setPostDataAndDispatch(2);
   };
 
   return (

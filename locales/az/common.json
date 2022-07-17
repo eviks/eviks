@@ -17,5 +17,7 @@
   "profile": "Profili dəyişmək",
   "logout": "Çıxmaq",
   "openUserMenu": "Menyu açıq",
-  "createPost": "Elanı yerləşdirmək"
+  "createPost": "Elanı yerləşdirmək",
+  "editPostButton": "Elanı redəktə etmək",
+  "deletePostButton": "Elanı ləğv etmək"
 }

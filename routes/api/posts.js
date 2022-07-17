@@ -318,8 +318,8 @@ router.post(
         try {
           await sharp(image.data)
             .resize(size)
-            .png()
-            .toFile(`${directory}/image_${size}.png`);
+            .webp()
+            .toFile(`${directory}/image_${size}.webp`);
         } catch (error) {
           logger.error(error);
           serverError = true;

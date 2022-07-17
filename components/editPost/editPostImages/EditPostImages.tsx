@@ -10,7 +10,7 @@ import PostImageDropzone from './PostImageDropzone';
 import UploadedPostImage from './UploadedPostImage';
 import StepTitle from '../StepTitle';
 import { AppContext } from '../../../store/appContext';
-import { updatePost } from '../../../actions/post';
+import { setPostData } from '../../../actions/post';
 import { ImageData } from '../../../types';
 
 const EditPostImages = () => {
@@ -22,6 +22,7 @@ const EditPostImages = () => {
   } = useContext(AppContext);
 
   const isTempImage = (id: string): boolean => {
+    if (!post.originalImages) return false;
     return (
       post.originalImages.find((element) => {
         return element === id;
@@ -39,8 +40,8 @@ const EditPostImages = () => {
 
   const [displayError, setDisplayError] = useState<boolean>(false);
 
-  const updatePostAndDispatch = (step: number) => {
-    updatePost({
+  const setPostDataAndDispatch = (step: number) => {
+    setPostData({
       ...post,
       images: images.map((image) => {
         return image.id;
@@ -58,11 +59,11 @@ const EditPostImages = () => {
       return;
     }
 
-    updatePostAndDispatch(6);
+    setPostDataAndDispatch(6);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(4);
+    setPostDataAndDispatch(4);
   };
 
   return (

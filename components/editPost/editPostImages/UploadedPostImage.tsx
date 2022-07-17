@@ -72,7 +72,7 @@ const UploadedPostImage: FC<{
 
   const handleDelete = async () => {
     let errorMessage = '';
-    if (state.post._id === 0) {
+    if (image.isTemp) {
       try {
         await deleteImage(state.auth.token ?? '', image.id);
       } catch (error) {
@@ -149,8 +149,8 @@ const UploadedPostImage: FC<{
           !image.isUploaded
             ? image.file?.preview ?? ''
             : `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${
-                image.isTemp && 'temp/'
-              }post_images/${image.id}/image_${160}.png`
+                image.isTemp ? 'temp/' : ''
+              }post_images/${image.id}/image_${160}.webp`
         }
         width={'150px'}
         height={'150px'}

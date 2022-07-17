@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 
-const PencilIcon = (props: SvgIconProps) => {
+const LogoutIcon = (props: SvgIconProps) => {
   return (
     <SvgIcon viewBox="0 0 384.971 384.971" {...props}>
       <path d="M180.455 360.91H24.061V24.061h156.394c6.641 0 12.03-5.39 12.03-12.03s-5.39-12.03-12.03-12.03H12.03C5.39.001 0 5.39 0 12.031V372.94c0 6.641 5.39 12.03 12.03 12.03h168.424c6.641 0 12.03-5.39 12.03-12.03.001-6.641-5.389-12.03-12.029-12.03z" />
@@ -10,4 +10,4 @@ const PencilIcon = (props: SvgIconProps) => {
   );
 };
 
-export default PencilIcon;
+export default LogoutIcon;

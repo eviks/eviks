@@ -371,7 +371,6 @@ export const capitalCity: Settlement = {
 
 export const defaultPost: Post = {
   _id: 0,
-  active: false,
   userType: UserType.owner,
   estateType: EstateType.house,
   dealType: DealType.sale,
@@ -389,6 +388,7 @@ export const defaultPost: Post = {
   originalImages: [],
   phoneNumber: '',
   username: '',
+  user: '',
   price: 0,
   step: 0,
 };

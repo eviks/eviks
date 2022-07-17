@@ -18,7 +18,7 @@ import ElevatorIcon from '../icons/ElevatorIcon';
 import DocumentIcon from '../icons/DocumentIcon';
 import HammerIcon from '../icons/HammerIcon';
 import { AppContext } from '../../store/appContext';
-import { updatePost } from '../../actions/post';
+import { setPostData } from '../../actions/post';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import { EstateType, Post, Renovation } from '../../types';
 
@@ -114,8 +114,8 @@ const EditPostEstateInfo: FC = () => {
     });
   };
 
-  const updatePostAndDispatch = (step: number) => {
-    updatePost({
+  const setPostDataAndDispatch = (step: number) => {
+    setPostData({
       ...post,
       rooms: Number(rooms),
       sqm: Number(sqm),
@@ -135,11 +135,11 @@ const EditPostEstateInfo: FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    updatePostAndDispatch(3);
+    setPostDataAndDispatch(3);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(1);
+    setPostDataAndDispatch(1);
   };
 
   const handleRenovationChange = (

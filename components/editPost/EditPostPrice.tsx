@@ -11,7 +11,7 @@ import StepTitle from './StepTitle';
 import StyledInput from '../layout/StyledInput';
 import MoneyIcon from '../icons/MoneyIcon';
 import { AppContext } from '../../store/appContext';
-import { updatePost } from '../../actions/post';
+import { setPostData } from '../../actions/post';
 import { Post, DealType } from '../../types';
 
 interface PriceState {
@@ -74,8 +74,8 @@ const EditPostPrice: FC = () => {
     }
   };
 
-  const updatePostAndDispatch = (step: number) => {
-    updatePost({
+  const setPostDataAndDispatch = (step: number) => {
+    setPostData({
       ...post,
       price: Number(price),
       haggle,
@@ -100,11 +100,11 @@ const EditPostPrice: FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    updatePostAndDispatch(7);
+    setPostDataAndDispatch(7);
   };
 
   const handlePrevStepClick = () => {
-    updatePostAndDispatch(5);
+    setPostDataAndDispatch(5);
   };
 
   return (

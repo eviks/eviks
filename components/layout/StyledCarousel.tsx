@@ -24,7 +24,7 @@ const StyledCarousel: FC<{
           objectFit="cover"
           src={`${
             process.env.NEXT_PUBLIC_BASE_URL
-          }/uploads/post_images/${image}/image_${160}.png`}
+          }/uploads/post_images/${image}/image_${160}.webp`}
           width={thumbSize}
           height={thumbSize}
           alt={`post-image-${image}-${160}`}
@@ -89,7 +89,7 @@ const StyledCarousel: FC<{
             }}
             key={image}
             component="img"
-            image={`/uploads/post_images/${image}/image_${imageSize}.png`}
+            image={`/uploads/post_images/${image}/image_${imageSize}.webp`}
             alt={`post-image-${image}-${imageSize}`}
           />
         );

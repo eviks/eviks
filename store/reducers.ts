@@ -37,7 +37,7 @@ export enum Types {
   AddPostToFavorites = 'ADD_POST_TO_FAVORITES',
   RemovePostFromFavorites = 'REMOVE_POST_FROM_FAVORITES',
   InitPost = 'INIT_POST',
-  UpdatePost = 'UPDATE_POST',
+  SetPostData = 'SET_POST_DATA',
 }
 
 // PAYLOAD TYPES
@@ -59,8 +59,8 @@ type AuthPayload = {
 };
 
 type PostPayload = {
-  [Types.InitPost]: null;
-  [Types.UpdatePost]: Post;
+  [Types.InitPost]: Post | null;
+  [Types.SetPostData]: Post;
 };
 
 // ACTION TYPES
@@ -150,8 +150,16 @@ export const postReducer: Reducer<
 > = (state, action) => {
   switch (action.type) {
     case Types.InitPost:
+      if (action.payload) {
+        return {
+          ...action.payload,
+          originalImages: action.payload.images,
+          step: 0,
+          lastStep: 7,
+        };
+      }
       return defaultPost;
-    case Types.UpdatePost:
+    case Types.SetPostData:
       return action.payload;
     default:
       return state;

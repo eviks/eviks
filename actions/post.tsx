@@ -62,19 +62,42 @@ interface GetAddressResult {
   metroStation?: null;
 }
 
-export const initPost = () => {
+export const initPost = (post: Post | null) => {
   return async (
-    dispatch: Dispatch<{ type: Types.InitPost; payload: null }>,
+    dispatch: Dispatch<{ type: Types.InitPost; payload: Post | null }>,
   ) => {
-    dispatch({ type: Types.InitPost, payload: null });
+    if (post) {
+      try {
+        // City
+        const cityResult = await getLocalities({ id: post.city.id });
+        const city = cityResult.data[0];
+
+        // District
+        const districtResult = await getLocalities({ id: post.district.id });
+        const district = districtResult.data[0];
+
+        dispatch({
+          type: Types.InitPost,
+          payload: { ...post, city, district },
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.code === '500')
+          throw new ServerError(error.message);
+        else {
+          throw new Failure(getErrorMessage(error));
+        }
+      }
+    } else {
+      dispatch({ type: Types.InitPost, payload: post });
+    }
   };
 };
 
-export const updatePost = (post: Post) => {
+export const setPostData = (post: Post) => {
   return async (
-    dispatch: Dispatch<{ type: Types.UpdatePost; payload: Post }>,
+    dispatch: Dispatch<{ type: Types.SetPostData; payload: Post }>,
   ) => {
-    dispatch({ type: Types.UpdatePost, payload: post });
+    dispatch({ type: Types.SetPostData, payload: post });
   };
 };
 
@@ -275,6 +298,25 @@ export const createPost = async (token: string, post: Post) => {
 
   try {
     return await axios.post<Post>('/api/posts/', post, config);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};
+
+export const updatePost = async (token: string, post: Post) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    return await axios.put<Post>(`/api/posts/${post._id}`, post, config);
   } catch (error) {
     if (axios.isAxiosError(error) && error.code === '500')
       throw new ServerError(error.message);

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
@@ -8,9 +8,13 @@ import CardActions from '@mui/material/CardActions';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
 import FavoriteButton from '../postButtons/FavoriteButton';
+import EditPostButton from '../postButtons/EditPostButton';
+import DeletePostButton from '../postButtons/DeletePostButton';
 import { fetchPostPhoneNumber } from '../../actions/posts';
+import { AppContext } from '../../store/appContext';
 import { formatter, getSettlementPresentation } from '../../utils';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
@@ -23,8 +27,15 @@ const PostInfoCard: FC<{
 }> = ({ post, phoneNumber, setPhoneNumber }) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const theme = useTheme();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const {
+    state: {
+      auth: { user, isInit },
+    },
+  } = useContext(AppContext);
 
   const getTitle = () => {
     switch (post.estateType) {
@@ -61,12 +72,20 @@ const PostInfoCard: FC<{
   return (
     <Card
       variant="elevation"
-      elevation={0}
-      sx={{ mx: 2, position: 'sticky', top: 85 }}
+      elevation={theme.palette.mode === 'light' ? 0 : 1}
+      sx={{ mx: 2, position: 'sticky', top: 85, borderRadius: '12px', p: 2 }}
     >
       <CardContent>
         <Box sx={{ pb: 2 }}>
-          <FavoriteButton postId={post._id} />
+          {isInit &&
+            (user?._id === post.user ? (
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                <EditPostButton postId={post._id} />
+                <DeletePostButton postId={post._id} />
+              </Box>
+            ) : (
+              <FavoriteButton postId={post._id} />
+            ))}
         </Box>
         <Box sx={{ pb: 2 }}>
           <Typography variant="h5">{`${post.sqm} ${t(

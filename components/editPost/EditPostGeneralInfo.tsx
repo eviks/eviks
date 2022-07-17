@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import StepTitle from './StepTitle';
 import StyledToggleButtonRounded from '../layout/StyledToggleButtonRounded';
 import { AppContext } from '../../store/appContext';
-import { updatePost } from '../../actions/post';
+import { setPostData } from '../../actions/post';
 import { UserType, EstateType, ApartmentType, DealType } from '../../types';
 import UserIcon from '../icons/UserIcon';
 import AgentIcon from '../icons/AgentIcon';
@@ -91,7 +91,7 @@ const EditPostGeneralInfo: FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    updatePost({
+    setPostData({
       ...post,
       ...generalInfoState,
       lotSqm:

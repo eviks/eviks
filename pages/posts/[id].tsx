@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useContext } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
@@ -19,7 +19,10 @@ import PostGeneralInfo from '../../components/post/PostGeneralInfo';
 import PostAdditionalInfo from '../../components/post/PostAdditionalInfo';
 import PostBuildingInfo from '../../components/post/PostBuildingInfo';
 import FavoriteButton from '../../components/postButtons/FavoriteButton';
+import EditPostButton from '../../components/postButtons/EditPostButton';
+import DeletePostButton from '../../components/postButtons/DeletePostButton';
 import { fetchPost, fetchPostPhoneNumber } from '../../actions/posts';
+import { AppContext } from '../../store/appContext';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
@@ -31,6 +34,12 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
   const { t } = useTranslation();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const {
+    state: {
+      auth: { user, isInit },
+    },
+  } = useContext(AppContext);
 
   const mapHeight = width && width >= 900 ? 400 : 200;
 
@@ -101,7 +110,15 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
                   p: 2,
                 }}
               >
-                <FavoriteButton postId={post._id} />
+                {isInit &&
+                  (user?._id === post.user ? (
+                    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                      <EditPostButton postId={post._id} />
+                      <DeletePostButton postId={post._id} />
+                    </Box>
+                  ) : (
+                    <FavoriteButton postId={post._id} />
+                  ))}
               </Box>
             </Hidden>
           </Box>

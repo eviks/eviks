@@ -1,12 +1,21 @@
-import React, { useEffect, useContext, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from 'react';
 import { NextPage, GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import useTranslation from 'next-translate/useTranslation';
 import { parseCookies, destroyCookie } from 'nookies';
+import { useSnackbar } from 'notistack';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Hidden from '@mui/material/Hidden';
+import CircularProgress from '@mui/material/CircularProgress';
 import { AppContext } from '../store/appContext';
 import EditPostStepper from '../components/editPost/EditPostStepper';
 import EditPostGeneralInfo from '../components/editPost/EditPostGeneralInfo';
@@ -17,20 +26,48 @@ import EditPostImages from '../components/editPost/editPostImages/EditPostImages
 import EditPostPrice from '../components/editPost/EditPostPrice';
 import EditPostContacts from '../components/editPost/EditPostContacts';
 import { initPost } from '../actions/post';
+import { fetchPost } from '../actions/posts';
 import { loadUserOnServer } from '../actions/auth';
 import useWindowSize from '../utils/hooks/useWindowSize';
+import Failure from '../utils/errors/failure';
+import ServerError from '../utils/errors/serverError';
+import { Post } from '../types';
 
-const EditPost: NextPage = () => {
+const EditPost: NextPage<{ loadedPost: Post | null }> = ({ loadedPost }) => {
   const router = useRouter();
+  const { t } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [isInit, setIsInit] = useState<boolean>(false);
 
   const {
     state: { post, auth },
     dispatch,
   } = useContext(AppContext);
 
+  const initPage = useCallback(async () => {
+    try {
+      await initPost(loadedPost)(dispatch);
+    } catch (error) {
+      let errorMessage = '';
+      if (error instanceof Failure) {
+        errorMessage = error.message;
+      } else if (error instanceof ServerError) {
+        errorMessage = t('common:serverError');
+      } else {
+        errorMessage = t('common:unknownError');
+      }
+      enqueueSnackbar(errorMessage, {
+        variant: 'error',
+        autoHideDuration: 3000,
+      });
+    }
+    setIsInit(true);
+  }, [dispatch, enqueueSnackbar, loadedPost, t]);
+
   useEffect(() => {
-    initPost()(dispatch);
-  }, [dispatch]);
+    initPage();
+  }, [initPage]);
 
   useEffect(() => {
     if (!auth.user && auth.isInit) router.push({ pathname: '/', query: {} });
@@ -72,6 +109,20 @@ const EditPost: NextPage = () => {
     }
   };
 
+  if (!isInit)
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '50vh',
+        }}
+      >
+        <CircularProgress color="primary" size="2rem" />
+      </Box>
+    );
+
   return (
     <Grid
       container
@@ -106,14 +157,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const check = await loadUserOnServer(token);
-  if (!check) {
+  const user = await loadUserOnServer(token);
+  if (!user) {
     destroyCookie(context, 'token', {
       path: '/',
     });
     return {
       redirect: {
         destination: '/auth',
+        permanent: false,
+      },
+    };
+  }
+
+  const postId = context.query.id as string;
+  if (postId) {
+    const post = await fetchPost(postId);
+    if (post && post.user === user._id) {
+      return {
+        props: { loadedPost: post },
+      };
+    }
+    // 404
+    return {
+      redirect: {
+        destination: '/',
         permanent: false,
       },
     };

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useContext } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Card from '@mui/material/Card';
@@ -10,7 +10,10 @@ import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
+import { AppContext } from '../store/appContext';
 import FavoriteButton from './postButtons/FavoriteButton';
+import EditPostButton from './postButtons/EditPostButton';
+import DeletePostButton from './postButtons/DeletePostButton';
 import StyledCarousel from './layout/StyledCarousel';
 import MetroIcon from './icons/MetroIcon';
 import { Post } from '../types';
@@ -22,9 +25,13 @@ import {
 } from '../utils';
 
 const PostItem: FC<{ post: Post }> = ({ post }) => {
-  const [elevation, setElevation] = useState<number>(0);
-
   const { t } = useTranslation();
+
+  const {
+    state: {
+      auth: { user, isInit },
+    },
+  } = useContext(AppContext);
 
   const router = useRouter();
   const locale =
@@ -32,14 +39,6 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
 
   const theme = useTheme();
   const { width } = useWindowSize();
-
-  const onMouseOver = () => {
-    return setElevation(width && width >= 600 ? 6 : 0);
-  };
-
-  const onMouseOut = () => {
-    return setElevation(0);
-  };
 
   const openPost = () => {
     window.open(`${locale}/posts/${post._id}`, '_blank');
@@ -54,14 +53,22 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
   return (
     <Card
       onClick={openPost}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
-      elevation={elevation}
+      elevation={theme.palette.mode === 'light' ? 0 : 1}
       sx={{
         borderRadius: '20px',
         my: { xs: 2, md: 3 },
         p: { xs: 0, md: 3 },
         cursor: 'pointer',
+        ':hover': {
+          boxShadow:
+            theme.palette.mode === 'light'
+              ? 10
+              : '0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12)',
+          backgroundImage:
+            theme.palette.mode === 'light'
+              ? null
+              : 'linear-gradient(rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.11))',
+        },
       }}
     >
       <Grid
@@ -102,12 +109,20 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                   py: 2,
                 }}
               >
-                <FavoriteButton postId={post._id} />
+                {isInit &&
+                  (user?._id === post.user ? (
+                    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                      <EditPostButton postId={post._id} />
+                      <DeletePostButton postId={post._id} />
+                    </Box>
+                  ) : (
+                    <FavoriteButton postId={post._id} />
+                  ))}
               </CardActions>
             </Hidden>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5.5}>
           <CardActionArea
             href={`${locale}/posts/${post._id}`}
             target={'_blank'}
@@ -181,14 +196,22 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
         <Grid
           item
           xs={12}
-          md={1}
+          md={1.5}
           onClick={(e) => {
             return e.stopPropagation();
           }}
         >
           <Hidden mdDown>
-            <CardActions>
-              <FavoriteButton postId={post._id} />
+            <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+              {isInit &&
+                (user?._id === post.user ? (
+                  <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                    <EditPostButton postId={post._id} />
+                    <DeletePostButton postId={post._id} />
+                  </Box>
+                ) : (
+                  <FavoriteButton postId={post._id} />
+                ))}
             </CardActions>
           </Hidden>
         </Grid>
