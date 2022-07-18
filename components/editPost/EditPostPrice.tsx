@@ -6,7 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import Checkbox from '@mui/material/Checkbox';
 import StepTitle from './StepTitle';
 import StyledInput from '../layout/StyledInput';
 import MoneyIcon from '../icons/MoneyIcon';
@@ -144,7 +144,7 @@ const EditPostPrice: FC = () => {
         <FormGroup>
           <FormControlLabel
             control={
-              <Switch
+              <Checkbox
                 name={'haggle'}
                 checked={haggle}
                 onChange={handleChange}
@@ -158,7 +158,7 @@ const EditPostPrice: FC = () => {
           <FormGroup>
             <FormControlLabel
               control={
-                <Switch
+                <Checkbox
                   name={'installmentOfPayment'}
                   checked={installmentOfPayment}
                   onChange={handleChange}
@@ -173,7 +173,7 @@ const EditPostPrice: FC = () => {
             <FormGroup>
               <FormControlLabel
                 control={
-                  <Switch
+                  <Checkbox
                     name={'prepayment'}
                     checked={prepayment}
                     onChange={handleChange}
@@ -186,7 +186,7 @@ const EditPostPrice: FC = () => {
             <FormGroup>
               <FormControlLabel
                 control={
-                  <Switch
+                  <Checkbox
                     name={'municipalServicesIncluded'}
                     checked={municipalServicesIncluded}
                     onChange={handleChange}

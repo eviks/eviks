@@ -60,6 +60,7 @@ const EstateTypeFilter: FC<{ handleClose?: () => void }> = ({
       <StyledToggleButtonRounded
         name="estateType"
         value={estateType}
+        exclusive
         width={{ xs: '110px', md: '120px' }}
         height={{ xs: '110px', md: '120px' }}
         padding={3}

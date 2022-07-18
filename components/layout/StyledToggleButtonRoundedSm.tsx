@@ -22,11 +22,11 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => {
 
   return {
     '& .MuiToggleButtonGroup-grouped': {
-      width: '5rem',
-      height: '5rem',
+      margin: `${theme.spacing(0.5).toString()} !important`,
+      width: '3rem',
+      height: '3rem',
       border: 0,
       '&:not(:first-of-type)': {
-        marginLeft: `${theme.spacing(2).toString()} !important`,
         border: `1px solid ${borderColor.toString()}`,
         borderRadius: '50%',
       },
@@ -45,7 +45,6 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => {
     },
   };
 });
-
 const styles = () => {
   return {};
 };
@@ -56,18 +55,8 @@ class StyledToggleButtonRounded extends ValidatorComponent {
   };
 
   renderValidatorComponent() {
-    const {
-      value,
-      title,
-      onChange,
-      values,
-      exclusive,
-      theme,
-      width,
-      height,
-      padding,
-      toggleProps,
-    } = this.props;
+    const { value, title, onChange, values, exclusive, theme, toggleProps } =
+      this.props;
 
     return (
       <Fragment>
@@ -92,46 +81,8 @@ class StyledToggleButtonRounded extends ValidatorComponent {
         >
           {(values as Values[]).map((element, index) => {
             return (
-              <ToggleButton
-                key={index}
-                value={element.value}
-                sx={{
-                  width: width || 'auto',
-                  height: height || 'auto',
-                  textTransform: 'none',
-                }}
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    p: padding || 'auto',
-                  }}
-                >
-                  {element.icon}
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'start',
-                      position: 'absolute',
-                      top: '80px',
-                      height: '45px',
-                    }}
-                  >
-                    <Typography
-                      variant="caption"
-                      color={(theme) => {
-                        return theme.palette.mode === 'light'
-                          ? 'rgba(0, 0, 0, 0.6)'
-                          : 'rgba(255, 255, 255, 0.7)';
-                      }}
-                    >
-                      {element.description}
-                    </Typography>
-                  </Box>
-                </Box>
+              <ToggleButton key={index} value={element.value}>
+                {element.description}
               </ToggleButton>
             );
           })}

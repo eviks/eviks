@@ -4,16 +4,13 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import Checkbox from '@mui/material/Checkbox';
 import StepTitle from './StepTitle';
 import StyledInput from '../layout/StyledInput';
 import CalendarIcon from '../icons/CalendarIcon';
 import MeasuringIcon from '../icons/MeasuringIcon';
-import ElevatorIcon from '../icons/ElevatorIcon';
-import ParkingLotIcon from '../icons/ParkingLotIcon';
 import { AppContext } from '../../store/appContext';
 import { setPostData } from '../../actions/post';
 import { EstateType, Post } from '../../types';
@@ -138,37 +135,31 @@ const EditPostBuildingInfo: FC = () => {
         {post.estateType === EstateType.apartment && (
           <Fragment>
             {/* Elevator */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ElevatorIcon sx={{ mr: 2 }} />
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      name={'elevator'}
-                      checked={elevator}
-                      onChange={handleChange}
-                    />
-                  }
-                  label={t('post:elevator')}
-                />
-              </FormGroup>
-            </Box>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name={'elevator'}
+                    checked={elevator}
+                    onChange={handleChange}
+                  />
+                }
+                label={t('post:elevator')}
+              />
+            </FormGroup>
             {/* Parking lot */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ParkingLotIcon sx={{ mr: 2 }} />
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      name={'parkingLot'}
-                      checked={parkingLot}
-                      onChange={handleChange}
-                    />
-                  }
-                  label={t('post:parkingLot')}
-                />
-              </FormGroup>
-            </Box>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name={'parkingLot'}
+                    checked={parkingLot}
+                    onChange={handleChange}
+                  />
+                }
+                label={t('post:parkingLot')}
+              />
+            </FormGroup>
           </Fragment>
         )}
         <Container

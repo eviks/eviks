@@ -107,20 +107,11 @@ const StyledAppbar: FC<{
               />
               {/* Favorites */}
               <Link href="/favorites" passHref>
-                <MaterialLink underline="none">
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                      mr: 4,
-                    }}
-                  >
-                    <HeartIcon sx={{ mx: 1 }} />
-                    <Typography>{t('common:favorites')}</Typography>
-                  </Box>
-                </MaterialLink>
+                <Button startIcon={<HeartIcon />} sx={{ mr: 4 }}>
+                  {t('common:favorites')}
+                </Button>
               </Link>
+              {/* New post */}
               <Link href="/edit_post" passHref>
                 <Button
                   variant={'contained'}
@@ -136,7 +127,7 @@ const StyledAppbar: FC<{
                 <UserMenu user={auth.user} />
               ) : (
                 <Link href="/auth" passHref>
-                  <Button> {t('common:authButton')}</Button>
+                  <Button>{t('common:authButton')}</Button>
                 </Link>
               )}
               {/* Language */}

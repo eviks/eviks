@@ -5,18 +5,16 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import Box from '@mui/material/Box';
-import Switch from '@mui/material/Switch';
+import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import StepTitle from './StepTitle';
 import StyledInput from '../layout/StyledInput';
 import StyledToggleButton from '../layout/StyledToggleButton';
-import DoorIcon from '../icons/DoorIcon';
+import StyledToggleButtonRoundedSm from '../layout/StyledToggleButtonRoundedSm';
 import SqmIcon from '../icons/SqmIcon';
 import GardenIcon from '../icons/GardenIcon';
 import ElevatorIcon from '../icons/ElevatorIcon';
-import DocumentIcon from '../icons/DocumentIcon';
-import HammerIcon from '../icons/HammerIcon';
 import { AppContext } from '../../store/appContext';
 import { setPostData } from '../../actions/post';
 import useWindowSize from '../../utils/hooks/useWindowSize';
@@ -114,6 +112,24 @@ const EditPostEstateInfo: FC = () => {
     });
   };
 
+  const handleRoomsChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newValue: string,
+  ) => {
+    setEstateInfo((prevState) => {
+      return { ...prevState, rooms: newValue };
+    });
+  };
+
+  const handleRenovationChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newValue: Renovation,
+  ) => {
+    setEstateInfo((prevState) => {
+      return { ...prevState, renovation: newValue };
+    });
+  };
+
   const setPostDataAndDispatch = (step: number) => {
     setPostData({
       ...post,
@@ -142,15 +158,6 @@ const EditPostEstateInfo: FC = () => {
     setPostDataAndDispatch(1);
   };
 
-  const handleRenovationChange = (
-    _event: React.MouseEvent<HTMLElement>,
-    newValue: Renovation,
-  ) => {
-    setEstateInfo((prevState) => {
-      return { ...prevState, renovation: newValue };
-    });
-  };
-
   return (
     <ValidatorForm onSubmit={handleSubmit}>
       <Container
@@ -164,28 +171,36 @@ const EditPostEstateInfo: FC = () => {
       >
         <StepTitle title={t('post:estateInfo')} />
         {/* Rooms */}
-        <StyledInput
-          validators={['required', 'minNumber: 1']}
-          value={rooms}
+        <StyledToggleButtonRoundedSm
           name="rooms"
-          errorMessages={[
-            t('common:errorRequiredField'),
-            t('common:errorRequiredField'),
-          ]}
-          label={t('post:rooms')}
-          input={{
-            id: 'rooms',
-            type: 'number',
-            sx: {
-              width: '180px',
+          title={t('post:rooms')}
+          value={rooms}
+          exclusive
+          onChange={handleRoomsChange}
+          values={[
+            {
+              value: '1',
+              description: '1',
             },
-            onChange: handleChange,
-            startAdornment: (
-              <InputAdornment position="start">
-                <DoorIcon sx={{ ml: 1 }} />
-              </InputAdornment>
-            ),
-          }}
+            {
+              value: '2',
+              description: '2',
+            },
+            {
+              value: '3',
+              description: '3',
+            },
+            {
+              value: '4',
+              description: '4',
+            },
+            {
+              value: '5',
+              description: '5 +',
+            },
+          ]}
+          validators={['required', 'minNumber: 1']}
+          errorMessages={[t('common:fieldIsRequired')]}
         />
         <Box
           sx={{
@@ -381,37 +396,32 @@ const EditPostEstateInfo: FC = () => {
           errorMessages={[t('common:fieldIsRequired')]}
         />
         {/* Documented */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <DocumentIcon sx={{ mr: 2 }} />
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Switch
-                  name={'documented'}
-                  checked={documented}
-                  onChange={handleChange}
-                />
-              }
-              label={t('post:documented')}
-            />
-          </FormGroup>
-        </Box>
+
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name={'documented'}
+                checked={documented}
+                onChange={handleChange}
+              />
+            }
+            label={t('post:documented')}
+          />
+        </FormGroup>
         {/* Redevelopment */}
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <HammerIcon sx={{ mr: 2 }} />
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Switch
-                  name={'redevelopment'}
-                  checked={redevelopment}
-                  onChange={handleChange}
-                />
-              }
-              label={t('post:redevelopment')}
-            />
-          </FormGroup>
-        </Box>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name={'redevelopment'}
+                checked={redevelopment}
+                onChange={handleChange}
+              />
+            }
+            label={t('post:redevelopment')}
+          />
+        </FormGroup>
         <Container
           sx={{
             mt: 3,

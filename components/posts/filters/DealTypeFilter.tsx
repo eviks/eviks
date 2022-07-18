@@ -53,6 +53,7 @@ const DealTypeFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       <StyledToggleButtonRounded
         name="dealType"
         value={dealType}
+        exclusive
         width={{ xs: '110px', md: '120px' }}
         height={{ xs: '110px', md: '120px' }}
         padding={3}

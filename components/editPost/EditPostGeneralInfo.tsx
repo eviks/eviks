@@ -154,6 +154,7 @@ const EditPostGeneralInfo: FC = () => {
           name="userType"
           title={t('post:userTypeTitle')}
           value={userType}
+          exclusive
           width={{ xs: '110px', md: '120px' }}
           height={{ xs: '110px', md: '120px' }}
           padding={3}
@@ -179,6 +180,7 @@ const EditPostGeneralInfo: FC = () => {
           name="estateType"
           title={t('post:estateTypeTitle')}
           value={estateType}
+          exclusive
           width={{ xs: '110px', md: '120px' }}
           height={{ xs: '110px', md: '120px' }}
           padding={3}
@@ -205,6 +207,7 @@ const EditPostGeneralInfo: FC = () => {
             name="apartmentType"
             title={t('post:apartmentTypeTitle')}
             value={apartmentType}
+            exclusive
             width={{ xs: '110px', md: '120px' }}
             height={{ xs: '110px', md: '120px' }}
             padding={3}
@@ -231,6 +234,7 @@ const EditPostGeneralInfo: FC = () => {
           name="dealType"
           title={t('post:dealTypeTitle')}
           value={dealType}
+          exclusive
           width={{ xs: '110px', md: '120px' }}
           height={{ xs: '110px', md: '120px' }}
           padding={3}

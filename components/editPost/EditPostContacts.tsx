@@ -15,7 +15,6 @@ import { useSnackbar } from 'notistack';
 import StyledInput from '../layout/StyledInput';
 import PhoneCallIcon from '../icons/PhoneCallIcon';
 import UserIcon from '../icons/UserIcon';
-import CheckedIcon from '../icons/CheckedIcon';
 import { AppContext } from '../../store/appContext';
 import { setPostData, createPost, updatePost } from '../../actions/post';
 import Failure from '../../utils/errors/failure';
@@ -183,7 +182,7 @@ const EditPostContacts: FC = () => {
                 variant="contained"
                 fullWidth
                 disabled={loading}
-                endIcon={!loading && <CheckedIcon />}
+                disableElevation
                 sx={{ mt: 1, py: 1 }}
               >
                 {loading ? (
