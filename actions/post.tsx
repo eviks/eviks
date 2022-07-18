@@ -325,3 +325,27 @@ export const updatePost = async (token: string, post: Post) => {
     }
   }
 };
+
+export const deletePost = (token: string, postId: number) => {
+  return async (
+    dispatch: Dispatch<{ type: Types.DeletePost; payload: number }>,
+  ) => {
+    const config = {
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    };
+
+    try {
+      await axios.delete(`/api/posts/${postId}`, config);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.code === '500')
+        throw new ServerError(error.message);
+      else {
+        throw new Failure(getErrorMessage(error));
+      }
+    }
+
+    dispatch({ type: Types.DeletePost, payload: postId });
+  };
+};

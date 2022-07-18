@@ -94,8 +94,8 @@ router.post(
     try {
       const user = await User.findById(req.user.id).select('-password');
       const post = new Post({
-        user,
         ...req.body,
+        user,
       });
       // eslint-disable-next-line no-underscore-dangle
       post._id = await getNextSequence('postid');

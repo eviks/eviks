@@ -19,5 +19,10 @@
   "openUserMenu": "Открыть меню",
   "createPost": "Разместить объявление",
   "editPostButton": "Редактировать объявление",
-  "deletePostButton": "Удалить объявление"
+  "deletePostButton": "Удалить объявление",
+  "deletePost": "Удалить объявление",
+  "deletePostTitle": "Уверены, что хотите удалить свое объявление?",
+  "deletePostContent": "После удаления это объявление не будет видно другим пользователям",
+  "deletePostCancel": "Я передумал",
+  "deletePostAnyway": "Все равно удалить"
 }

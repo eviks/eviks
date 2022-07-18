@@ -19,5 +19,10 @@
   "openUserMenu": "Menyu açıq",
   "createPost": "Elanı yerləşdirmək",
   "editPostButton": "Elanı redəktə etmək",
-  "deletePostButton": "Elanı ləğv etmək"
+  "deletePostButton": "Elanı ləğv etmək",
+  "deletePost": "Elanı ləğv etmək",
+  "deletePostTitle": "Elanlızı ləğv etmək?",
+  "deletePostContent": "Ləğv etdikdən sonra digər istifadəçilər bu elanı görməyəcəklər",
+  "deletePostCancel": "Fikrimi dəyişdim",
+  "deletePostAnyway": "Ləğv etmək"
 }

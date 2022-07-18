@@ -26,6 +26,7 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 export enum Types {
   GetPosts = 'GET_POSTS',
+  DeletePost = 'DELETE_POST',
   SetFilters = 'SET_FILTERS',
   SetAlternativeFilters = 'SET_ALTERNATIVE_FILTERS',
   ClearPosts = 'CLEAR_POSTS',
@@ -43,6 +44,7 @@ export enum Types {
 // PAYLOAD TYPES
 type PostsPayload = {
   [Types.GetPosts]: PostsWithPagination;
+  [Types.DeletePost]: number;
   [Types.SetFilters]: PostFilters;
   [Types.SetAlternativeFilters]: AlternativePostFilters;
   [Types.ClearPosts]: undefined;
@@ -86,6 +88,13 @@ export const postsReducer: Reducer<
           ...state.alternativeFilters,
           pagination: action.payload.pagination,
         },
+      };
+    case Types.DeletePost:
+      return {
+        ...state,
+        posts: state.posts.filter((post) => {
+          return post._id !== action.payload;
+        }),
       };
     case Types.SetFilters:
       return {
