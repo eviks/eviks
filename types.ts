@@ -219,6 +219,7 @@ export interface ImageData {
 export type CustomNextPage<P = {}, IP = P> = NextPage<P, IP> & {
   displayBottomNavigationBar?: boolean;
   displaySearchBar?: boolean;
+  hideAppbar?: boolean;
 };
 
 export interface QueryParams {

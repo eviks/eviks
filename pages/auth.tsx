@@ -1,5 +1,4 @@
 import React from 'react';
-import type { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -8,6 +7,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Login from '../components/auth/Login';
 import Register from '../components/auth/Register';
+import { CustomNextPage } from '../types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -36,7 +36,7 @@ function a11yProps(index: number) {
   };
 }
 
-const Auth: NextPage = () => {
+const Auth: CustomNextPage = () => {
   const [value, setValue] = React.useState(0);
 
   const { t } = useTranslation();
@@ -104,5 +104,7 @@ const Auth: NextPage = () => {
     </Container>
   );
 };
+
+Auth.hideAppbar = true;
 
 export default Auth;

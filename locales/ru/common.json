@@ -24,5 +24,7 @@
   "deletePostTitle": "Уверены, что хотите удалить свое объявление?",
   "deletePostContent": "После удаления это объявление не будет видно другим пользователям",
   "deletePostCancel": "Я передумал",
-  "deletePostAnyway": "Все равно удалить"
+  "deletePostAnyway": "Все равно удалить",
+  "loginOr": "yaxud",
+  "loginWithGoogle": "Google"
 }

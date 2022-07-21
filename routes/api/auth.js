@@ -125,7 +125,7 @@ router.post(
       // Create new user
       user = new User({
         displayName,
-        email,
+        email: email.toLowerCase(),
         active: true,
         googleId,
         activationToken: undefined,
@@ -166,7 +166,7 @@ router.get('/google/callback', (req, res, next) => {
       },
     };
     const token = jwt.sign(payload, config.get('jwtSecret'));
-    return res.json({ token });
+    return res.redirect(`/user_load?token=${token}`);
   })(req, res, next);
 });
 

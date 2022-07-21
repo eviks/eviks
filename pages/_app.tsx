@@ -22,13 +22,15 @@ interface PageProps {
 
 const MyApp = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const { displayBottomNavigationBar, displaySearchBar } = Component;
+  const { displayBottomNavigationBar, displaySearchBar, hideAppbar } =
+    Component;
   return (
     <CacheProvider value={emotionCache}>
       <AppProvider>
         <Layout
           displayBottomNavigationBar={displayBottomNavigationBar}
           displaySearchBar={displaySearchBar}
+          hideAppbar={hideAppbar}
           {...pageProps}
         >
           <Component {...pageProps} />

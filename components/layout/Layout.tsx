@@ -8,6 +8,7 @@ import React, {
   createRef,
 } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
@@ -28,16 +29,20 @@ import StyledBottomNavigation from './StyledBottomNavigation';
 const Layout: FC<{
   displayBottomNavigationBar: boolean;
   displaySearchBar: boolean;
+  hideAppbar: boolean;
   initDarkMode: boolean;
 }> = ({
   displayBottomNavigationBar,
   displaySearchBar,
+  hideAppbar,
   initDarkMode,
   children,
 }) => {
   <Head>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
   </Head>;
+
+  const router = useRouter();
 
   const { dispatch } = useContext(AppContext);
 
@@ -47,13 +52,15 @@ const Layout: FC<{
     try {
       await loadUser()(dispatch);
     } catch (error) {
-      //
+      // No error handle
     }
   }, [dispatch]);
 
   useEffect(() => {
-    loadUserFromToken();
-  }, [loadUserFromToken]);
+    if (router.pathname !== '/user_load') {
+      loadUserFromToken();
+    }
+  }, [loadUserFromToken, router.pathname]);
 
   const notistackRef = createRef<SnackbarProvider>();
   const onClickDismiss = (key: SnackbarKey) => {
@@ -96,11 +103,13 @@ const Layout: FC<{
         }}
       >
         <CssBaseline />
-        <StyledAppbar
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
-          displaySearchBar={displaySearchBar}
-        />
+        {!hideAppbar && (
+          <StyledAppbar
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+            displaySearchBar={displaySearchBar}
+          />
+        )}
         <Fragment>{children}</Fragment>
         {displayBottomNavigationBar && <StyledBottomNavigation />}
       </SnackbarProvider>

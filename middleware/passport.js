@@ -147,11 +147,12 @@ passport.use(
     {
       clientID: config.get('googleClientId'),
       clientSecret: config.get('googleClientSecret'),
-      callbackURL: 'http://localhost:5000/api/auth/google/callback',
+      callbackURL: '/api/auth/google/callback',
     },
     async (accessToken, refreshToken, profile, done) => {
-      const { id, displayName, emails } = profile;
+      const { id, displayName, emails, photos } = profile;
       const email = emails[0].value;
+      const picture = photos.length > 0 ? photos[0].value : null;
 
       try {
         // If there is a user with such Google ID then just sign in.
@@ -179,6 +180,7 @@ passport.use(
           googleId: id,
           activationToken: undefined,
           activationTokenExpires: undefined,
+          picture: picture !== null ? picture : null,
         });
         await user.save();
 

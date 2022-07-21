@@ -1,4 +1,4 @@
-import React, { FC, useState, useContext } from 'react';
+import React, { FC, Fragment, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Typography from '@mui/material/Typography';
@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { ValidatorForm } from 'react-material-ui-form-validator';
+import GoogleAuth from './GoogleAuth';
 import StyledInput from '../layout/StyledInput';
 import EmailIcon from '../icons/EmailIcon';
 import PasswordIcon from '../icons/PasswordIcon';
@@ -102,86 +103,89 @@ const Login: FC = () => {
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
-      <Typography variant="h1" fontSize={32} align="center">
-        {t('auth:signInSubtitle')}
-      </Typography>
-      <StyledInput
-        validators={['required', 'isEmail']}
-        value={email}
-        name="email"
-        errorMessages={[t('auth:errorEmail'), t('auth:invalidEmail')]}
-        label={t('auth:email')}
-        input={{
-          id: 'email',
-          fullWidth: true,
-          type: 'email',
-          onChange: handleChange,
-          startAdornment: (
-            <InputAdornment position="start">
-              <EmailIcon sx={{ ml: 1 }} />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <StyledInput
-        validators={['required']}
-        value={password}
-        name="password"
-        errorMessages={[t('auth:errorPassword')]}
-        label={t('auth:password')}
-        input={{
-          id: 'password',
-          fullWidth: true,
-          type: showPassword ? 'text' : 'password',
-          onChange: handleChange,
-          startAdornment: (
-            <InputAdornment position="start">
-              <PasswordIcon sx={{ ml: 1 }} />
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                size="small"
-                sx={{ mr: 1 }}
-                onClick={handleClickShowPassword}
-              >
-                {showPassword ? <HidePasswordIcon /> : <ShowPasswordIcon />}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Button
-        type="submit"
-        variant="contained"
-        fullWidth
-        disabled={loading}
-        disableElevation
-        sx={{ mt: 1, py: 1 }}
-      >
-        {loading ? (
-          <CircularProgress color="inherit" size="2rem" />
-        ) : (
-          t('auth:loginButton')
-        )}
-      </Button>
-      {errorAlert.open ? (
-        <Alert
-          severity="error"
-          sx={{ width: '100%', mt: 2 }}
-          action={
-            <IconButton aria-label="close" size="small" onClick={closeAlert}>
-              <CloseIcon fontSize="inherit" sx={{ p: 0.2 }} />
-            </IconButton>
-          }
+    <Fragment>
+      <ValidatorForm onSubmit={handleSubmit}>
+        <Typography variant="h1" fontSize={32} align="center">
+          {t('auth:signInSubtitle')}
+        </Typography>
+        <StyledInput
+          validators={['required', 'isEmail']}
+          value={email}
+          name="email"
+          errorMessages={[t('auth:errorEmail'), t('auth:invalidEmail')]}
+          label={t('auth:email')}
+          input={{
+            id: 'email',
+            fullWidth: true,
+            type: 'email',
+            onChange: handleChange,
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailIcon sx={{ ml: 1 }} />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <StyledInput
+          validators={['required']}
+          value={password}
+          name="password"
+          errorMessages={[t('auth:errorPassword')]}
+          label={t('auth:password')}
+          input={{
+            id: 'password',
+            fullWidth: true,
+            type: showPassword ? 'text' : 'password',
+            onChange: handleChange,
+            startAdornment: (
+              <InputAdornment position="start">
+                <PasswordIcon sx={{ ml: 1 }} />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  size="small"
+                  sx={{ mr: 1 }}
+                  onClick={handleClickShowPassword}
+                >
+                  {showPassword ? <HidePasswordIcon /> : <ShowPasswordIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          disabled={loading}
+          disableElevation
+          sx={{ mt: 1, py: 1 }}
         >
-          {errorAlert.message}
-        </Alert>
-      ) : null}
-    </ValidatorForm>
+          {loading ? (
+            <CircularProgress color="inherit" size="2rem" />
+          ) : (
+            t('auth:loginButton')
+          )}
+        </Button>
+        {errorAlert.open ? (
+          <Alert
+            severity="error"
+            sx={{ width: '100%', mt: 2 }}
+            action={
+              <IconButton aria-label="close" size="small" onClick={closeAlert}>
+                <CloseIcon fontSize="inherit" sx={{ p: 0.2 }} />
+              </IconButton>
+            }
+          >
+            {errorAlert.message}
+          </Alert>
+        ) : null}
+      </ValidatorForm>
+      <GoogleAuth />
+    </Fragment>
   );
 };
 

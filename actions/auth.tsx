@@ -16,6 +16,8 @@ export const loadUser = () => {
   ) => {
     const token = Cookies.get('token');
 
+    if (!token) return;
+
     const config = {
       headers: {
         Authorization: `JWT ${token}`,
