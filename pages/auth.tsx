@@ -1,34 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Login from '../components/auth/Login';
 import Register from '../components/auth/Register';
+import TabPanel from '../components/layout/TabPanel';
 import { CustomNextPage } from '../types';
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`auth-tabpanel-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
 
 function a11yProps(index: number) {
   return {
@@ -37,9 +17,9 @@ function a11yProps(index: number) {
 }
 
 const Auth: CustomNextPage = () => {
-  const [value, setValue] = React.useState(0);
-
   const { t } = useTranslation();
+
+  const [value, setValue] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -59,10 +39,7 @@ const Auth: CustomNextPage = () => {
         }}
       >
         <Grid item xs={0} md={6}>
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
+          <Box
             sx={{
               height: {
                 sm: 'auto',
@@ -73,7 +50,7 @@ const Auth: CustomNextPage = () => {
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
             }}
-          ></Grid>
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <Grid
@@ -93,7 +70,7 @@ const Auth: CustomNextPage = () => {
               <Tab label={t('auth:signUpTitle')} {...a11yProps(1)} />
             </Tabs>
             <TabPanel value={value} index={0}>
-              <Login />
+              <Login redirect={true} />
             </TabPanel>
             <TabPanel value={value} index={1}>
               <Register />

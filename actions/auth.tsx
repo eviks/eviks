@@ -16,7 +16,12 @@ export const loadUser = () => {
   ) => {
     const token = Cookies.get('token');
 
-    if (!token) return;
+    if (!token) {
+      dispatch({
+        type: Types.LoadUser,
+        payload: { isInit: true },
+      });
+    }
 
     const config = {
       headers: {

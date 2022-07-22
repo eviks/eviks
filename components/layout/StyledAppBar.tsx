@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext, useRef } from 'react';
+import React, { FC, Fragment, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import useTranslation from 'next-translate/useTranslation';
@@ -12,6 +12,7 @@ import Hidden from '@mui/material/Hidden';
 import { Link as MaterialLink } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
 import Cookies from 'js-cookie';
+import ModalAuth from '../auth/ModalAuth';
 import SearchBar from '../posts/searchBar/SearchBar';
 import UserMenu from '../UserMenu';
 import { AppContext } from '../../store/appContext';
@@ -36,7 +37,9 @@ const StyledAppbar: FC<{
   const lgScreen = (width && width > 1480) || false;
 
   const {
-    state: { auth },
+    state: {
+      auth: { user, isInit },
+    },
   } = useContext(AppContext);
 
   const darkModeToggle = () => {
@@ -48,6 +51,12 @@ const StyledAppbar: FC<{
   const switchLanguage = (locale: string) => {
     Cookies.set('NEXT_LOCALE', locale, { expires: 365 });
     router.push(router.asPath, undefined, { locale });
+  };
+
+  const [open, setOpen] = useState<boolean>(false);
+
+  const onClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -106,29 +115,59 @@ const StyledAppbar: FC<{
                 sx={{ mr: 2 }}
               />
               {/* Favorites */}
-              <Link href="/favorites" passHref>
-                <Button startIcon={<HeartIcon />} sx={{ mr: 4 }}>
+              {!user && isInit ? (
+                <Button
+                  startIcon={<HeartIcon />}
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                  sx={{ mr: 4 }}
+                >
                   {t('common:favorites')}
                 </Button>
-              </Link>
+              ) : (
+                <Link href="/favorites" passHref>
+                  <Button startIcon={<HeartIcon />} sx={{ mr: 4 }}>
+                    {t('common:favorites')}
+                  </Button>
+                </Link>
+              )}
               {/* New post */}
-              <Link href="/edit_post" passHref>
+              {!user && isInit ? (
                 <Button
                   variant={'contained'}
                   startIcon={<PlusIcon />}
                   disableElevation
+                  onClick={() => {
+                    setOpen(true);
+                  }}
                   sx={{ mr: 4 }}
                 >
                   {t('common:createPost')}
                 </Button>
-              </Link>
-              {/* User menu / auth button */}
-              {auth.user ? (
-                <UserMenu user={auth.user} />
               ) : (
-                <Link href="/auth" passHref>
-                  <Button>{t('common:authButton')}</Button>
+                <Link href="/edit_post" passHref>
+                  <Button
+                    variant={'contained'}
+                    startIcon={<PlusIcon />}
+                    disableElevation
+                    sx={{ mr: 4 }}
+                  >
+                    {t('common:createPost')}
+                  </Button>
                 </Link>
+              )}
+              {/* User menu / auth button */}
+              {user ? (
+                <UserMenu user={user} />
+              ) : (
+                <Button
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                >
+                  {t('common:authButton')}
+                </Button>
               )}
               {/* Language */}
               <Box sx={{ mx: 2 }}>
@@ -152,6 +191,7 @@ const StyledAppbar: FC<{
         </Toolbar>
       </AppBar>
       {displaySearchBar && <SearchBar appBarRef={appBarRef} />}
+      <ModalAuth open={open} onClose={onClose} />
     </Fragment>
   );
 };

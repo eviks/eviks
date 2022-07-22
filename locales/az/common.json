@@ -24,7 +24,5 @@
   "deletePostTitle": "Elanlızı ləğv etmək?",
   "deletePostContent": "Ləğv etdikdən sonra digər istifadəçilər bu elanı görməyəcəklər",
   "deletePostCancel": "Fikrimi dəyişdim",
-  "deletePostAnyway": "Ləğv etmək",
-  "loginOr": "yaxud",
-  "loginWithGoogle": "Google"
+  "deletePostAnyway": "Ləğv etmək"
 }

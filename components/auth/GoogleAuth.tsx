@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
@@ -16,7 +16,7 @@ import ServerError from '../../utils/errors/serverError';
 let windowObjectReference: Window | null = null;
 let previousUrl: string | null = null;
 
-const GoogleAuth = () => {
+const GoogleAuth: FC<{ redirect: boolean }> = ({ redirect }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const theme = useTheme();
@@ -38,7 +38,7 @@ const GoogleAuth = () => {
 
       try {
         await loadUser()(dispatch);
-        router.push({ pathname: '/' });
+        if (redirect) router.push({ pathname: '/' });
       } catch (error) {
         let errorMessage = '';
         if (error instanceof Failure) {
@@ -84,7 +84,7 @@ const GoogleAuth = () => {
 
   return (
     <Box sx={{ my: 3 }}>
-      <Divider>{t('common:loginOr')}</Divider>
+      <Divider>{t('auth:loginOr')}</Divider>
       <Button
         variant="outlined"
         color="secondary"
@@ -110,7 +110,7 @@ const GoogleAuth = () => {
           },
         }}
       >
-        {t('common:loginWithGoogle')}
+        {t('auth:loginWithGoogle')}
       </Button>
     </Box>
   );

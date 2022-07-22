@@ -154,6 +154,7 @@ const Register: FC = () => {
         input={{
           id: 'password',
           fullWidth: true,
+          autoComplete: 'on',
           type: showPassword ? 'text' : 'password',
           onChange: handleChange,
           startAdornment: (

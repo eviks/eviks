@@ -27,7 +27,7 @@ interface LoginState {
   showPassword: boolean;
 }
 
-const Login: FC = () => {
+const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
   const { dispatch } = useContext(AppContext);
 
   const { t } = useTranslation();
@@ -57,7 +57,7 @@ const Login: FC = () => {
     try {
       await loginUser(email, password)(dispatch);
       await loadUser()(dispatch);
-      router.push({ pathname: '/' });
+      if (redirect) router.push({ pathname: '/' });
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {
@@ -135,6 +135,7 @@ const Login: FC = () => {
           input={{
             id: 'password',
             fullWidth: true,
+            autoComplete: 'on',
             type: showPassword ? 'text' : 'password',
             onChange: handleChange,
             startAdornment: (
@@ -184,7 +185,7 @@ const Login: FC = () => {
           </Alert>
         ) : null}
       </ValidatorForm>
-      <GoogleAuth />
+      <GoogleAuth redirect={redirect} />
     </Fragment>
   );
 };
