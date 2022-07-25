@@ -127,5 +127,9 @@
   "document": "Kupça",
   "callHint": "Zəhmət olmasa, elanı Eviksda tapdığınızı bildirin",
   "call": "Zəng vurmaq",
-  "postDetailAdditional": "Şərait"
+  "postDetailAdditional": "Şərait",
+  "postApartmentRoomsTitle": "{{rooms}}-комн. кв.",
+  "postHouseRoomsTitle": "{{rooms}}-комн. дом",
+  "postFloorTitle": "этаж {{floor}}/{{totalFloors}}",
+  "postLotSqmTitle": "{{lotSqm}} сот."
 }

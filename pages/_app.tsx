@@ -1,11 +1,23 @@
 import '../styles/globals.css';
+import Router from 'next/router';
 import type { AppContext, AppProps } from 'next/app';
+import { NextPageContext } from 'next';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { parseCookies } from 'nookies';
+import { parseCookies, destroyCookie } from 'nookies';
 import Layout from '../components/layout/Layout';
+import { loadUserOnServer } from '../actions/auth';
 import createEmotionCache from '../utils/createEmotionCache';
-import { User, CustomNextPage } from '../types';
+import { CustomNextPage } from '../types';
 import AppProvider from '../store/appContext';
+
+const redirectUser = (ctx: NextPageContext, location: string) => {
+  if (ctx.req && ctx.res) {
+    ctx.res.writeHead(302, { Location: location });
+    ctx.res.end();
+  } else {
+    Router.push(location);
+  }
+};
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -15,15 +27,11 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-interface PageProps {
-  user?: User;
-  initDarkMode: boolean;
-}
-
 const MyApp = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const { displayBottomNavigationBar, displaySearchBar, hideAppbar } =
     Component;
+
   return (
     <CacheProvider value={emotionCache}>
       <AppProvider>
@@ -40,15 +48,41 @@ const MyApp = (props: MyAppProps) => {
   );
 };
 
-MyApp.getInitialProps = async ({ ctx }: AppContext) => {
-  const pageProps: PageProps = { initDarkMode: false };
+MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
+  const { token, darkMode } = parseCookies(ctx);
 
-  const { darkMode } = parseCookies(ctx);
+  let pageProps: any = {};
 
-  // Theme mode
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+
   pageProps.initDarkMode = darkMode === 'ON';
 
-  return { pageProps };
+  const protectedRoutes =
+    ctx.pathname === '/user_posts' ||
+    ctx.pathname === '/edit_post' ||
+    ctx.pathname === '/favorites' ||
+    ctx.pathname === '/settings';
+
+  if (!token) {
+    destroyCookie(ctx, 'token');
+    if (protectedRoutes) redirectUser(ctx, '/auth');
+  } else {
+    const user = await loadUserOnServer(token);
+
+    if (!user) {
+      destroyCookie(ctx, 'token');
+      if (protectedRoutes) redirectUser(ctx, '/auth');
+    }
+
+    pageProps.user = user;
+    pageProps.token = token;
+  }
+
+  return {
+    pageProps,
+  };
 };
 
 export default MyApp;

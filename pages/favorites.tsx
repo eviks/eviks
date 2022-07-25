@@ -5,7 +5,6 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
-import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
@@ -15,7 +14,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
-import { parseCookies, destroyCookie } from 'nookies';
 import { useSnackbar } from 'notistack';
 import PostItem from '../components/PostItem';
 import { AppContext } from '../store/appContext';
@@ -25,7 +23,6 @@ import {
   setAlternativeFilters,
   clearPosts,
 } from '../actions/posts';
-import { loadUserOnServer } from '../actions/auth';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 import { CustomNextPage, User } from '../types';
@@ -230,36 +227,6 @@ const Favorites: CustomNextPage<{ user: User }> = ({ user }) => {
       )}
     </Container>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { token } = parseCookies(context);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/auth',
-        permanent: false,
-      },
-    };
-  }
-
-  const user = await loadUserOnServer(token);
-  if (!user) {
-    destroyCookie(context, 'token', {
-      path: '/',
-    });
-    return {
-      redirect: {
-        destination: '/auth',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { user },
-  };
 };
 
 Favorites.displayBottomNavigationBar = true;

@@ -16,7 +16,7 @@ import {
 export const fetchPost = async (postId: string) => {
   try {
     const response = await axios.get<Post>(
-      `${process.env.BASE_URL}/api/posts/post/${postId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/post/${postId}`,
     );
     return response.data;
   } catch (error) {

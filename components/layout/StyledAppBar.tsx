@@ -4,7 +4,6 @@ import Link from 'next/link';
 import useTranslation from 'next-translate/useTranslation';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -12,20 +11,20 @@ import Hidden from '@mui/material/Hidden';
 import { Link as MaterialLink } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
 import Cookies from 'js-cookie';
+import ThemeSwitch from './ThemeSwitch';
 import ModalAuth from '../auth/ModalAuth';
 import SearchBar from '../posts/searchBar/SearchBar';
 import UserMenu from '../UserMenu';
 import { AppContext } from '../../store/appContext';
+import { setTheme } from '../../actions/theme';
 import LogoIcon from '../icons/LogoIcon';
 import PlusIcon from '../icons/PlusIcon';
 import HeartIcon from '../icons/HeartIcon';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 
 const StyledAppbar: FC<{
-  darkMode: boolean;
-  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   displaySearchBar: boolean;
-}> = ({ darkMode, setDarkMode, displaySearchBar }) => {
+}> = ({ displaySearchBar }) => {
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -39,13 +38,14 @@ const StyledAppbar: FC<{
   const {
     state: {
       auth: { user, isInit },
+      theme: appTheme,
     },
+    dispatch,
   } = useContext(AppContext);
 
   const darkModeToggle = () => {
-    const newValue = !darkMode;
-    setDarkMode(newValue);
-    Cookies.set('darkMode', newValue ? 'ON' : 'OFF', { expires: 365 });
+    const newValue = appTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newValue)(dispatch);
   };
 
   const switchLanguage = (locale: string) => {
@@ -109,8 +109,8 @@ const StyledAppbar: FC<{
           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
             <Hidden mdDown>
               {/* Theme switch */}
-              <Switch
-                checked={darkMode}
+              <ThemeSwitch
+                checked={appTheme === 'dark'}
                 onChange={darkModeToggle}
                 sx={{ mr: 2 }}
               />

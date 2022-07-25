@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Card from '@mui/material/Card';
@@ -9,20 +9,26 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
+import { useSnackbar } from 'notistack';
 import { AppContext } from '../store/appContext';
+import { fetchPostPhoneNumber } from '../actions/posts';
 import FavoriteButton from './postButtons/FavoriteButton';
 import EditPostButton from './postButtons/EditPostButton';
 import DeletePostButton from './postButtons/DeletePostButton';
 import StyledCarousel from './layout/StyledCarousel';
 import MetroIcon from './icons/MetroIcon';
-import { Post } from '../types';
+import { EstateType, Post } from '../types';
 import useWindowSize from '../utils/hooks/useWindowSize';
 import {
   getSettlementPresentation,
   getMetroPresentation,
   formatter,
 } from '../utils';
+import Failure from '../utils/errors/failure';
+import ServerError from '../utils/errors/serverError';
 
 const PostItem: FC<{ post: Post }> = ({ post }) => {
   const { t } = useTranslation();
@@ -32,6 +38,8 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
       auth: { user, isInit },
     },
   } = useContext(AppContext);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const router = useRouter();
   const locale =
@@ -44,11 +52,29 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
     window.open(`${locale}/posts/${post._id}`, '_blank');
   };
 
-  const actionAreaOnClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation();
-  };
-
   const height = width && width >= 900 ? '320px' : '250px';
+
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const getPhoneNumber = async () => {
+    try {
+      const result = await fetchPostPhoneNumber(post._id.toString());
+      setPhoneNumber(result.phoneNumber);
+    } catch (error) {
+      let errorMessage = '';
+      if (error instanceof Failure) {
+        errorMessage = error.message;
+      } else if (error instanceof ServerError) {
+        errorMessage = t('common:serverError');
+      } else {
+        errorMessage = t('common:unknownError');
+      }
+      enqueueSnackbar(errorMessage, {
+        variant: 'error',
+        autoHideDuration: 3000,
+      });
+    }
+  };
 
   return (
     <Card
@@ -122,11 +148,18 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
             </Hidden>
           </Box>
         </Grid>
-        <Grid item xs={12} md={5.5}>
+        <Grid
+          item
+          xs={12}
+          md={5.5}
+          sx={{ position: 'relative' }}
+          onClick={(e) => {
+            return e.stopPropagation();
+          }}
+        >
           <CardActionArea
             href={`${locale}/posts/${post._id}`}
             target={'_blank'}
-            onClick={actionAreaOnClick}
             disableRipple={true}
             disableTouchRipple={true}
             sx={{
@@ -141,17 +174,35 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontWeight: 'bold',
-                  color: theme.palette.primary.main,
+                  display: 'flex',
+                  gap: 1,
+                  fontWeight: '400',
+                  fontSize: 16,
                 }}
               >
-                {t(`common:postTitle.${post.estateType}`, {
-                  rooms: post.rooms,
-                  sqm: post.sqm,
-                  floor: post.floor,
-                  totalFloors: post.totalFloors,
-                  lotSqm: post.lotSqm,
-                })}
+                {`${post.sqm} ${t('post:m2')}`}
+                <Divider orientation="vertical" sx={{ height: 20 }} />
+                {t(
+                  `post:${
+                    post.estateType === EstateType.apartment
+                      ? 'postApartmentRoomsTitle'
+                      : 'postHouseRoomsTitle'
+                  }`,
+                  { rooms: post.rooms },
+                )}
+                <Divider orientation="vertical" sx={{ height: 20 }} />
+                {t(
+                  `post:${
+                    post.estateType === EstateType.apartment
+                      ? 'postFloorTitle'
+                      : 'postLotSqmTitle'
+                  }`,
+                  {
+                    floor: post.floor,
+                    totalFloors: post.totalFloors,
+                    lotSqm: post.lotSqm,
+                  },
+                )}
               </Typography>
               <Typography
                 variant="h5"
@@ -187,11 +238,46 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                     mt: 4,
                   }}
                 >
-                  {post.description}
+                  {post.description?.slice(0, 200)}
                 </Typography>
               </Hidden>
             </CardContent>
           </CardActionArea>
+          {/* Get phone number */}
+          <Hidden smDown>
+            <Box
+              sx={{
+                px: 2,
+                position: 'absolute',
+                bottom: '20px',
+                width: '100%',
+              }}
+            >
+              {!phoneNumber ? (
+                <Button
+                  variant="contained"
+                  fullWidth
+                  disableElevation
+                  onClick={getPhoneNumber}
+                  sx={{ py: 1.2 }}
+                >
+                  {t('post:showPhoneNumber')}
+                </Button>
+              ) : (
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Typography fontSize={32}>{phoneNumber}</Typography>
+                  <Typography
+                    variant="caption"
+                    color={(theme) => {
+                      return theme.palette.text.secondary;
+                    }}
+                  >
+                    {t('post:callHint')}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+          </Hidden>
         </Grid>
         <Grid
           item

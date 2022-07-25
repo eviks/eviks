@@ -127,5 +127,9 @@
   "document": "Купчая",
   "callHint": "Пожалуйста, не забудьте сообщить, что нашли это объявление на Eviks",
   "call": "Позвонить",
-  "postDetailAdditional": "Удобства"
+  "postDetailAdditional": "Удобства",
+  "postApartmentRoomsTitle": "{{rooms}}-otaqlı mənzil",
+  "postHouseRoomsTitle": "{{rooms}}-otaqlı ev",
+  "postFloorTitle": "mərtəbə {{floor}}/{{totalFloors}}",
+  "postLotSqmTitle": "{{lotSqm}} sot."
 }

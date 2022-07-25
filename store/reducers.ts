@@ -39,6 +39,7 @@ export enum Types {
   RemovePostFromFavorites = 'REMOVE_POST_FROM_FAVORITES',
   InitPost = 'INIT_POST',
   SetPostData = 'SET_POST_DATA',
+  SetTheme = 'SET_THEME',
 }
 
 // PAYLOAD TYPES
@@ -65,6 +66,10 @@ type PostPayload = {
   [Types.SetPostData]: Post;
 };
 
+type ThemePayload = {
+  [Types.SetTheme]: 'light' | 'dark';
+};
+
 // ACTION TYPES
 export type PostsActions =
   ActionMap<PostsPayload>[keyof ActionMap<PostsPayload>];
@@ -73,10 +78,13 @@ export type AuthActions = ActionMap<AuthPayload>[keyof ActionMap<AuthPayload>];
 
 export type PostActions = ActionMap<PostPayload>[keyof ActionMap<PostPayload>];
 
+export type ThemeActions =
+  ActionMap<ThemePayload>[keyof ActionMap<ThemePayload>];
+
 // REDUCERS
 export const postsReducer: Reducer<
   PostsContext,
-  PostsActions | AuthActions | PostActions
+  PostsActions | AuthActions | PostActions | ThemeActions
 > = (state, action) => {
   switch (action.type) {
     case Types.GetPosts:
@@ -120,7 +128,7 @@ export const postsReducer: Reducer<
 
 export const authReducer: Reducer<
   AuthContext,
-  PostsActions | AuthActions | PostActions
+  PostsActions | AuthActions | PostActions | ThemeActions
 > = (state, action) => {
   switch (action.type) {
     case Types.LoadUser:
@@ -155,7 +163,7 @@ export const authReducer: Reducer<
 
 export const postReducer: Reducer<
   Post,
-  PostsActions | AuthActions | PostActions
+  PostsActions | AuthActions | PostActions | ThemeActions
 > = (state, action) => {
   switch (action.type) {
     case Types.InitPost:
@@ -169,6 +177,18 @@ export const postReducer: Reducer<
       }
       return defaultPost;
     case Types.SetPostData:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const themeReducer: Reducer<
+  'light' | 'dark',
+  PostsActions | AuthActions | PostActions | ThemeActions
+> = (state, action) => {
+  switch (action.type) {
+    case Types.SetTheme:
       return action.payload;
     default:
       return state;

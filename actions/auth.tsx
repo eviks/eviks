@@ -54,7 +54,7 @@ export const loadUserOnServer = async (token: string) => {
 
   try {
     const result = await axios.get<User>(
-      `${process.env.BASE_URL}/api/auth`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
       config,
     );
     return result.data;

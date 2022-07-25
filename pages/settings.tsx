@@ -1,16 +1,14 @@
 import React, { useEffect, useContext } from 'react';
-import { NextPage, GetServerSideProps } from 'next';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
-import { parseCookies, destroyCookie } from 'nookies';
 import SettingsHeader from '../components/settings/SettingsHeader';
 import UpdateUser from '../components/settings/UpdateUser';
 import ChangePassword from '../components/settings/ChangePassword';
 import DeleteUser from '../components/settings/DeleteUser';
 import { AppContext } from '../store/appContext';
-import { loadUserOnServer } from '../actions/auth';
 import { User } from '../types';
 
 const Settings: NextPage<{ user: User }> = ({ user }) => {
@@ -48,36 +46,6 @@ const Settings: NextPage<{ user: User }> = ({ user }) => {
       <DeleteUser />
     </Container>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { token } = parseCookies(context);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/auth',
-        permanent: false,
-      },
-    };
-  }
-
-  const user = await loadUserOnServer(token);
-  if (!user) {
-    destroyCookie(context, 'token', {
-      path: '/',
-    });
-    return {
-      redirect: {
-        destination: '/auth',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { user },
-  };
 };
 
 export default Settings;

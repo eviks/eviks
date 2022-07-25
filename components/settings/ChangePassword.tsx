@@ -121,6 +121,7 @@ const ChangePassword: FC = () => {
         label={t('settings:password')}
         input={{
           id: 'password',
+          autoComplete: 'on',
           fullWidth: true,
           type: showPassword ? 'text' : 'password',
           onChange: handleChange,
@@ -155,6 +156,7 @@ const ChangePassword: FC = () => {
         label={t('settings:newPassword')}
         input={{
           id: 'newPassword',
+          autoComplete: 'on',
           fullWidth: true,
           type: showNewPassword ? 'text' : 'password',
           onChange: handleChange,
