@@ -128,8 +128,8 @@
   "callHint": "Пожалуйста, не забудьте сообщить, что нашли это объявление на Eviks",
   "call": "Позвонить",
   "postDetailAdditional": "Удобства",
-  "postApartmentRoomsTitle": "{{rooms}}-otaqlı mənzil",
-  "postHouseRoomsTitle": "{{rooms}}-otaqlı ev",
-  "postFloorTitle": "mərtəbə {{floor}}/{{totalFloors}}",
-  "postLotSqmTitle": "{{lotSqm}} sot."
+  "postApartmentRoomsTitle": "{{rooms}}-комн. кв.",
+  "postHouseRoomsTitle": "{{rooms}}-комн. дом",
+  "postFloorTitle": "этаж {{floor}}/{{totalFloors}}",
+  "postLotSqmTitle": "{{lotSqm}} сот."
 }

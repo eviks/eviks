@@ -1,4 +1,5 @@
-import React, { FC, useState, useContext, useEffect } from 'react';
+import React, { FC, useState, useContext, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -27,6 +28,7 @@ function a11yProps(index: number) {
 
 const ModalAuth: FC<ModalAuthState> = ({ open, onClose }) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   const { width } = useWindowSize();
   const fullScreen = (width ?? 0) < 900;
@@ -42,6 +44,20 @@ const ModalAuth: FC<ModalAuthState> = ({ open, onClose }) => {
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const prevItemIdRef = useRef<string>();
+
+  useEffect(() => {
+    prevItemIdRef.current = router.pathname;
+  });
+
+  const prevItemId = prevItemIdRef.current;
+
+  useEffect(() => {
+    if (prevItemId !== router.pathname) {
+      onClose();
+    }
+  }, [onClose, prevItemId, router.pathname]);
 
   useEffect(() => {
     if (user && isInit) {

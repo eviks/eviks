@@ -128,8 +128,8 @@
   "callHint": "Zəhmət olmasa, elanı Eviksda tapdığınızı bildirin",
   "call": "Zəng vurmaq",
   "postDetailAdditional": "Şərait",
-  "postApartmentRoomsTitle": "{{rooms}}-комн. кв.",
-  "postHouseRoomsTitle": "{{rooms}}-комн. дом",
-  "postFloorTitle": "этаж {{floor}}/{{totalFloors}}",
-  "postLotSqmTitle": "{{lotSqm}} сот."
+  "postApartmentRoomsTitle": "{{rooms}}-otaqlı mənzil",
+  "postHouseRoomsTitle": "{{rooms}}-otaqlı ev",
+  "postFloorTitle": "mərtəbə {{floor}}/{{totalFloors}}",
+  "postLotSqmTitle": "{{lotSqm}} sot."
 }

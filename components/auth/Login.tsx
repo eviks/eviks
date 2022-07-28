@@ -1,4 +1,5 @@
 import React, { FC, Fragment, useState, useContext } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Typography from '@mui/material/Typography';
@@ -7,6 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
+import Divider from '@mui/material/Divider';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import GoogleAuth from './GoogleAuth';
 import StyledInput from '../layout/StyledInput';
@@ -171,6 +173,11 @@ const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
             t('auth:loginButton')
           )}
         </Button>
+        <Link href="/reset_password" passHref>
+          <Button variant="text" fullWidth sx={{ mt: 2 }}>
+            {t('auth:oopsforgotPassword')}
+          </Button>
+        </Link>
         {errorAlert.open ? (
           <Alert
             severity="error"
@@ -185,6 +192,7 @@ const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
           </Alert>
         ) : null}
       </ValidatorForm>
+      <Divider sx={{ mt: 1 }}>{t('auth:loginOr')}</Divider>
       <GoogleAuth redirect={redirect} />
     </Fragment>
   );

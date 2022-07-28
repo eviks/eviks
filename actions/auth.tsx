@@ -294,3 +294,86 @@ export const deleteUser = (token: string) => {
     }
   };
 };
+
+export const createResetPasswordToken = async (email: string) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    await axios.post(
+      '/api/auth/create_reset_password_token',
+      { email },
+      config,
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};
+
+export const verifyResetPasswordToken = async (
+  email: string,
+  resetPasswordToken: string,
+) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    await axios.post(
+      '/api/auth/check_reset_password_token',
+      { email, resetPasswordToken },
+      config,
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};
+
+export const resetPassword = (
+  email: string,
+  resetPasswordToken: string,
+  password: string,
+) => {
+  return async (
+    dispatch: Dispatch<{
+      type: Types.VerifyUser;
+      payload: string;
+    }>,
+  ) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await axios.post<{ token: string }>(
+        '/api/auth/reset_password',
+        { email, resetPasswordToken, password },
+        config,
+      );
+
+      Cookies.set('token', response.data.token, { expires: 365 });
+      dispatch({ type: Types.VerifyUser, payload: response.data.token });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.code === '500')
+        throw new ServerError(error.message);
+      else {
+        throw new Failure(getErrorMessage(error));
+      }
+    }
+  };
+};

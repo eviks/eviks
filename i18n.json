@@ -4,6 +4,7 @@
   "pages": {
     "*": ["common", "settlement", "auth"],
     "/verification": ["verification"],
+    "/reset_password_verification": ["verification"],
     "/posts/[id]": ["post"],
     "/edit_post": ["post"],
     "/[...slug]": ["post", "filters", "posts"],

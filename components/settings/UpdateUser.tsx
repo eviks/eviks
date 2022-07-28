@@ -14,11 +14,11 @@ import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
 import { User } from '../../types';
 
-interface PasswordChangeState {
+interface UpdateUserState {
   displayName: string;
 }
 
-const PasswordChange: FC<{ user: User }> = ({ user }) => {
+const UpdateUser: FC<{ user: User }> = ({ user }) => {
   const { t } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -27,7 +27,7 @@ const PasswordChange: FC<{ user: User }> = ({ user }) => {
   } = useContext(AppContext);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<PasswordChangeState>({
+  const [data, setData] = useState<UpdateUserState>({
     displayName: user?.displayName ?? '',
   });
 
@@ -112,4 +112,4 @@ const PasswordChange: FC<{ user: User }> = ({ user }) => {
   );
 };
 
-export default PasswordChange;
+export default UpdateUser;

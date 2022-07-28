@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -12,8 +12,7 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import CloseIcon from '../components/icons/CloseIcon';
-import { verifyUser, loadUser } from '../actions/auth';
-import { AppContext } from '../store/appContext';
+import { verifyResetPasswordToken } from '../actions/auth';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 
@@ -30,9 +29,7 @@ interface QueryParams {
 
 type StringQueryParams = Record<keyof QueryParams, string>;
 
-const Verification: NextPage = () => {
-  const { dispatch } = useContext(AppContext);
-
+const ResetPasswordVerification: NextPage = () => {
   const { t } = useTranslation();
 
   const theme = useTheme();
@@ -56,9 +53,11 @@ const Verification: NextPage = () => {
     setLoading(true);
 
     try {
-      await verifyUser(email, pin)(dispatch);
-      await loadUser()(dispatch);
-      router.push({ pathname: '/' });
+      await verifyResetPasswordToken(email, pin);
+      router.push({
+        pathname: '/set_new_password',
+        query: { email, resetPasswordToken: pin },
+      });
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {
@@ -131,6 +130,7 @@ const Verification: NextPage = () => {
         <Typography variant="body1" textAlign={'center'} sx={{ mb: 2 }}>
           {t('verification:verificationHint')}
         </Typography>
+
         <ReactCodeInput
           autoFocus={true}
           type="text"
@@ -173,4 +173,4 @@ const Verification: NextPage = () => {
   );
 };
 
-export default Verification;
+export default ResetPasswordVerification;

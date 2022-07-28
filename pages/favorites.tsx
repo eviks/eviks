@@ -40,15 +40,14 @@ const Favorites: CustomNextPage<{ user: User }> = ({ user }) => {
   const { state, dispatch } = useContext(AppContext);
   const {
     posts: { posts, alternativeFilters },
-    auth,
   } = state;
 
   const [isInit, setIsInit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!auth.user && auth.isInit) router.push({ pathname: '/', query: {} });
-  }, [auth.isInit, auth.user, router]);
+    if (!user) router.push({ pathname: '/', query: {} });
+  }, [router, user]);
 
   const setFiltersFromURL = useCallback(
     async (query: ParsedUrlQuery) => {

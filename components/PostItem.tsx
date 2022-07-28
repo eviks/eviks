@@ -60,6 +60,8 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
     try {
       const result = await fetchPostPhoneNumber(post._id.toString());
       setPhoneNumber(result.phoneNumber);
+      if (width && width < 900)
+        window.location.href = `tel:${result.phoneNumber}`;
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {
@@ -82,19 +84,22 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
       elevation={theme.palette.mode === 'light' ? 0 : 1}
       sx={{
         borderRadius: '20px',
-        my: { xs: 2, md: 3 },
+        my: 3,
         p: { xs: 0, md: 3 },
         cursor: 'pointer',
-        ':hover': {
-          boxShadow:
-            theme.palette.mode === 'light'
-              ? 10
-              : '0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12)',
-          backgroundImage:
-            theme.palette.mode === 'light'
-              ? null
-              : 'linear-gradient(rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.11))',
-        },
+        ':hover':
+          width && width >= 900
+            ? {
+                boxShadow:
+                  theme.palette.mode === 'light'
+                    ? 10
+                    : '0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12)',
+                backgroundImage:
+                  theme.palette.mode === 'light'
+                    ? null
+                    : 'linear-gradient(rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.11))',
+              }
+            : null,
       }}
     >
       <Grid
@@ -163,7 +168,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
             disableRipple={true}
             disableTouchRipple={true}
             sx={{
-              height: '100%',
+              height: { xs: 'auto', md: '100%' },
               width: '100%',
               '&:hover .MuiCardActionArea-focusHighlight': {
                 opacity: 0,
@@ -244,7 +249,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
             </CardContent>
           </CardActionArea>
           {/* Get phone number */}
-          <Hidden smDown>
+          <Hidden mdDown>
             <Box
               sx={{
                 px: 2,
@@ -276,6 +281,24 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                   </Typography>
                 </Box>
               )}
+            </Box>
+          </Hidden>
+          <Hidden mdUp>
+            <Box
+              sx={{
+                px: 2,
+                width: '100%',
+              }}
+            >
+              <Button
+                variant="contained"
+                fullWidth
+                disableElevation
+                onClick={getPhoneNumber}
+                sx={{ py: 1.2 }}
+              >
+                {t('post:call')}
+              </Button>
             </Box>
           </Hidden>
         </Grid>

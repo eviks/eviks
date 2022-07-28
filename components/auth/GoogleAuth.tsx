@@ -2,7 +2,6 @@ import React, { FC, useContext } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
@@ -83,8 +82,7 @@ const GoogleAuth: FC<{ redirect: boolean }> = ({ redirect }) => {
   };
 
   return (
-    <Box sx={{ my: 3 }}>
-      <Divider>{t('auth:loginOr')}</Divider>
+    <Box>
       <Button
         variant="outlined"
         color="secondary"
