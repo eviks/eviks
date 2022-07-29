@@ -11,17 +11,15 @@ const StyledInputBase: FC = styled(InputBase)(({ theme }) => {
   return {
     '&': {
       borderRadius: 4,
-      border: 'none',
+      border: '2px solid transparent',
       backgroundColor:
         theme.palette.mode === 'light' ? theme.palette.grey[100] : '#49414E',
       transition: theme.transitions.create([
         'border-color',
         'background-color',
-        'box-shadow',
       ]),
     },
     '&.Mui-focused': {
-      boxShadow: `${theme.palette.primary.main} 0 0 0 0.1rem`,
       borderColor: theme.palette.primary.main,
       backgroundColor: theme.palette.background.default,
     },

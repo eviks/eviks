@@ -45,7 +45,8 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   const router = useRouter();
   const theme = useTheme();
 
-  const searchBarRef = useRef(null);
+  const boxRef = useRef(null);
+  const searchBarRef = useRef<HTMLDivElement>(null);
 
   const [dealTypeTitle, setDealTypeTitle] = useState<string>('');
   const [estateTypeTitle, setEstateTypeTitle] = useState<string>('');
@@ -183,9 +184,9 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
 
     if (
       !appBarRef ||
-      !searchBarRef ||
+      !boxRef ||
       isInViewport(appBarRef.current) ||
-      (isInViewport(searchBarRef.current) && !scrollUp)
+      (isInViewport(boxRef.current) && !scrollUp)
     ) {
       setClasses('searchbar-relative');
     } else if (classes === 'searchbar-relative') {
@@ -202,15 +203,33 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
     };
   }, [onScroll]);
 
+  const wheel = (event: WheelEvent) => {
+    event.preventDefault();
+    if (searchBarRef.current) {
+      searchBarRef.current.scrollLeft += event.deltaY;
+    }
+  };
+
+  useEffect(() => {
+    if (searchBarRef.current) {
+      searchBarRef.current.addEventListener('wheel', wheel);
+    }
+
+    return () => {
+      window.removeEventListener('wheel', wheel);
+    };
+  }, []);
+
   return (
-    <Box ref={searchBarRef} sx={{ height: '50px' }}>
+    <Box ref={boxRef} sx={{ height: '50px' }}>
       <AppBar
+        ref={searchBarRef}
         variant={'outlined'}
         elevation={0}
         color="transparent"
         sx={{
           borderTop: 'none',
-          overflow: 'overlay',
+          overflow: 'auto',
           backgroundColor: theme.palette.background.default,
         }}
         className={classes}
