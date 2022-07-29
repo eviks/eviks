@@ -1,11 +1,12 @@
 import { NextResponse, NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
-  const { pathname, locale, defaultLocale } = req.nextUrl;
-  const localeString = defaultLocale !== locale ? `/${locale}` : '';
+  const { pathname } = req.nextUrl;
 
   if (pathname === '/') {
-    return NextResponse.redirect(`${localeString}/baku/apartment/sale`);
+    const url = req.nextUrl.clone();
+    url.pathname = '/baku/apartment/sale';
+    return NextResponse.redirect(url);
   }
   return NextResponse.next();
 }
