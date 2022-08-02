@@ -37,10 +37,10 @@ export const getSettlementPresentation = (
 export function enumFromStringValue<T>(
   enm: { [s: string]: T },
   value: string,
-): T | undefined {
+): T | null {
   return (Object.values(enm) as unknown as string[]).includes(value)
     ? (value as unknown as T)
-    : undefined;
+    : null;
 }
 
 export const formatter = new Intl.NumberFormat('de-DE', {

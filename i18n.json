@@ -8,8 +8,9 @@
     "/posts/[id]": ["post"],
     "/edit_post": ["post"],
     "/[...slug]": ["post", "filters", "posts"],
-    "/favorites": ["favorites"],
-    "/user_posts": ["userPosts"],
-    "/settings": ["settings"]
+    "/favorites": ["favorites", "post"],
+    "/user_posts": ["userPosts", "post"],
+    "/settings": ["settings"],
+    "/404": ["notFound"]
   }
 }

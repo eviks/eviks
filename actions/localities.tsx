@@ -20,3 +20,21 @@ export const getLocalities = async (queryParameters: {
     }
   }
 };
+
+export const getLocalitiesOnServer = async (queryParameters: {
+  [key: string]: string;
+}) => {
+  const url = setURLParams(queryParameters);
+
+  try {
+    return await axios.get<Settlement[]>(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/localities/?${url}`,
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};

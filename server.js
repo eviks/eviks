@@ -43,6 +43,6 @@ app.prepare().then(() => {
 
   server.listen(port, (err) => {
     if (err) throw err;
-    logger.info(`Server started on port ${port}...`);
+    logger.info(`Server started on port ${port}. ENV: ${process.env.NODE_ENV}`);
   });
 });

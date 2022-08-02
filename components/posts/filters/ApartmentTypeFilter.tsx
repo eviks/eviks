@@ -21,9 +21,9 @@ const ApartmentTypeFilter: FC<{ handleClose?: () => void }> = ({
     },
   } = useContext(AppContext);
 
-  const [apartmentType, setApartmentType] = useState<ApartmentType | undefined>(
-    filters.apartmentType,
-  );
+  const [apartmentType, setApartmentType] = useState<
+    ApartmentType | undefined | null
+  >(filters.apartmentType);
 
   const setApartmentTypeFilters = () => {
     pushToNewPostsRoute({

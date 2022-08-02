@@ -150,7 +150,7 @@ export interface PostFilters {
   metroStations: MetroStation[];
   dealType: DealType;
   estateType: EstateType;
-  apartmentType?: ApartmentType;
+  apartmentType?: ApartmentType | null;
   priceMin: number;
   priceMax: number;
   roomsMin: number;

@@ -22,7 +22,7 @@ export const getEstateTypeFilterTitle = async (
 };
 
 export const getApartmentTypeFilterTitle = async (
-  apartmentType: ApartmentType | undefined,
+  apartmentType: ApartmentType | undefined | null,
   locale: string,
 ) => {
   const t = await getT(locale, 'filters');

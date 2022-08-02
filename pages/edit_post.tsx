@@ -180,10 +180,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     // 404
     return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
+      notFound: true,
     };
   }
 

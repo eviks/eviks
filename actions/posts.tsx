@@ -124,11 +124,39 @@ export const fetchPosts = (query: { [key: string]: string }) => {
   };
 };
 
+export const fetchPostsOnServer = async (query: { [key: string]: string }) => {
+  try {
+    const url = setURLParams(query);
+
+    const response = await axios.get<PostsWithPagination>(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/?${
+        url && `${url}&`
+      }limit=${2}`,
+    );
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};
+
 export const setFilters = (postFilters: PostFilters) => {
   return async (
     dispatch: Dispatch<{ type: Types.SetFilters; payload: PostFilters }>,
   ) => {
     dispatch({ type: Types.SetFilters, payload: postFilters });
+  };
+};
+
+export const setPosts = (posts: PostsWithPagination) => {
+  return async (
+    dispatch: Dispatch<{ type: Types.GetPosts; payload: PostsWithPagination }>,
+  ) => {
+    dispatch({ type: Types.GetPosts, payload: posts });
   };
 };
 
@@ -168,6 +196,5 @@ export const pushToNewPostsRoute = (postFilters: PostFilters) => {
       query: getPostsQuery(postFilters),
     },
     undefined,
-    { shallow: true },
   );
 };
