@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import 'intl-pluralrules';
 import Router from 'next/router';
 import type { AppContext, AppProps } from 'next/app';
 import { NextPageContext } from 'next';
