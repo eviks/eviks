@@ -131,7 +131,7 @@ export const fetchPostsOnServer = async (query: { [key: string]: string }) => {
     const response = await axios.get<PostsWithPagination>(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/?${
         url && `${url}&`
-      }limit=${2}`,
+      }limit=${15}`,
     );
 
     return response.data;

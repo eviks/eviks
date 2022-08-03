@@ -287,6 +287,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
             <Box
               sx={{
                 px: 2,
+                mb: 2,
                 width: '100%',
               }}
             >

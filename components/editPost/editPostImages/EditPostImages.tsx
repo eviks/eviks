@@ -54,7 +54,11 @@ const EditPostImages = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (images.length < 3) {
+    if (
+      images.filter((image) => {
+        return image.isUploaded;
+      }).length < 3
+    ) {
       setDisplayError(true);
       return;
     }

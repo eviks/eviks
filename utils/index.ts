@@ -44,8 +44,8 @@ export function enumFromStringValue<T>(
 }
 
 export const formatter = new Intl.NumberFormat('de-DE', {
-  style: 'currency',
-  currency: 'AZN',
-  maximumFractionDigits: 0,
-  currencyDisplay: 'narrowSymbol',
+  // style: 'currency',
+  // currency: 'AZN',
+  // maximumFractionDigits: 0,
+  // currencyDisplay: 'narrowSymbol',
 });

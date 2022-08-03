@@ -43,10 +43,6 @@ const Layout: FC<{
   token,
   children,
 }) => {
-  <Head>
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-  </Head>;
-
   const router = useRouter();
 
   const {
@@ -55,6 +51,18 @@ const Layout: FC<{
   } = useContext(AppContext);
 
   const [darkMode, setDarkMode] = useState(initDarkMode);
+
+  <Head>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <meta
+      name="theme-color"
+      content={
+        darkMode
+          ? darkTheme.palette.background.default.toString()
+          : lightTheme.palette.background.default.toString()
+      }
+    />
+  </Head>;
 
   const loadUserFromToken = useCallback(async () => {
     dispatch({

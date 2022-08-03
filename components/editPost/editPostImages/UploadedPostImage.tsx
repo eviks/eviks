@@ -40,6 +40,8 @@ const UploadedPostImage: FC<{
           return element;
         });
       });
+
+      setLoading(false);
     };
 
     if (!image.isUploaded) {
@@ -60,7 +62,6 @@ const UploadedPostImage: FC<{
         });
       }
     }
-    setLoading(false);
   }, [
     enqueueSnackbar,
     image,

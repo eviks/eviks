@@ -147,7 +147,7 @@ passport.use(
     {
       clientID: config.get('googleClientId'),
       clientSecret: config.get('googleClientSecret'),
-      callbackURL: '/api/auth/google/callback',
+      callbackURL: config.get('googleCallbackURL'),
     },
     async (accessToken, refreshToken, profile, done) => {
       const { id, displayName, emails, photos } = profile;
