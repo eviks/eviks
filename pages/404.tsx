@@ -25,14 +25,13 @@ const NotFound: NextPage = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '50vh',
         }}
       >
         <Image
           src={'/illustrations/404.svg'}
           alt="not_found"
-          width={500}
-          height={500}
+          width={400}
+          height={400}
         />
         <Box
           sx={{

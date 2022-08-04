@@ -81,7 +81,6 @@ const ResetPassword: CustomNextPage = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '50vh',
         }}
       >
         <Image

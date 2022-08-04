@@ -4,7 +4,8 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
-import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -103,73 +104,77 @@ const ResetPasswordVerification: NextPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid
-        direction={'column'}
-        container
-        alignItems="center"
-        sx={{
-          pt: 10,
-          px: 5,
-          height: '100vh',
-          justifyContent: {
-            xs: 'center',
-            md: 'start',
-          },
-        }}
-      >
-        <Image
-          src={'/illustrations/verification.svg'}
-          alt="verification"
-          width={600}
-          height={400}
-        />
-        <Typography variant="h4" textAlign={'center'}>
-          {t('verification:verificationTitle')}
-        </Typography>
-        <Typography variant="body1" textAlign={'center'} sx={{ mb: 2 }}>
-          {t('verification:verificationHint')}
-        </Typography>
-
-        <ReactCodeInput
-          autoFocus={true}
-          type="text"
-          inputMode="numeric"
-          name="pin"
-          value={pin}
-          onChange={handleChange}
-          isValid={pinIsValid}
-          fields={5}
-          {...inputProps}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={loading}
-          disableElevation
-          sx={{ mt: 2, py: 1, width: { xs: '100%', md: '40vh' } }}
+    <Container
+      sx={{
+        mt: 12,
+        mb: 10,
+      }}
+    >
+      <form onSubmit={handleSubmit}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
-          {loading ? (
-            <CircularProgress color="inherit" size="2rem" />
-          ) : (
-            t('verification:verifyButton')
-          )}
-        </Button>
-        {errorAlert.open ? (
-          <Alert
-            severity="error"
-            sx={{ width: '100%', mt: 2 }}
-            action={
-              <IconButton aria-label="close" size="small" onClick={closeAlert}>
-                <CloseIcon fontSize="inherit" sx={{ p: 0.2 }} />
-              </IconButton>
-            }
+          <Image
+            src={'/illustrations/verification.svg'}
+            alt="verification"
+            width={600}
+            height={400}
+          />
+          <Typography variant="h4" textAlign={'center'}>
+            {t('verification:verificationTitle')}
+          </Typography>
+          <Typography variant="body1" textAlign={'center'} sx={{ mb: 2 }}>
+            {t('verification:verificationHint')}
+          </Typography>
+          <ReactCodeInput
+            autoFocus={true}
+            type="text"
+            inputMode="numeric"
+            name="pin"
+            value={pin}
+            onChange={handleChange}
+            isValid={pinIsValid}
+            fields={5}
+            {...inputProps}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={loading}
+            disableElevation
+            sx={{ mt: 2, py: 1, width: { xs: '100%', md: '40vh' } }}
           >
-            {errorAlert.message}
-          </Alert>
-        ) : null}
-      </Grid>
-    </form>
+            {loading ? (
+              <CircularProgress color="inherit" size="2rem" />
+            ) : (
+              t('verification:verifyButton')
+            )}
+          </Button>
+          {errorAlert.open ? (
+            <Alert
+              severity="error"
+              sx={{ width: '100%', mt: 2 }}
+              action={
+                <IconButton
+                  aria-label="close"
+                  size="small"
+                  onClick={closeAlert}
+                >
+                  <CloseIcon fontSize="inherit" sx={{ p: 0.2 }} />
+                </IconButton>
+              }
+            >
+              {errorAlert.message}
+            </Alert>
+          ) : null}
+        </Box>
+      </form>
+    </Container>
   );
 };
 

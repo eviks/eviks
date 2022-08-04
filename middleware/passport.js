@@ -161,15 +161,17 @@ passport.use(
           return done(null, user);
         }
 
-        // Notify if email is already in use.
+        // If user with such email address already exists then just update his/her data
         user = await User.findOne({
           email: email.toLowerCase(),
         });
-        if (user && user.active) {
-          return done(null, null, {
-            param: 'email',
-            msg: 'This email is already taken',
-          });
+        if (user) {
+          user.active = true;
+          user.googleId = id;
+          user.activationToken = undefined;
+          user.activationTokenExpires = undefined;
+          await user.save();
+          return done(null, user);
         }
 
         // Create new user

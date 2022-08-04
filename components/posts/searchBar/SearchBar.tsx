@@ -232,7 +232,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
           overflow: 'auto',
           backgroundColor: theme.palette.background.default,
         }}
-        className={classes}
+        className={`${classes} custom-scrollbar-${theme.palette.mode}`}
       >
         <Toolbar
           sx={{

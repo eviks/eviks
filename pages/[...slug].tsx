@@ -101,7 +101,6 @@ const Posts: CustomNextPage<PostsProps> = ({
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '50vh',
           }}
         >
           <Image

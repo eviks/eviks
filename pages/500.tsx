@@ -23,9 +23,8 @@ const ServerError: NextPage = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
+          justifyContent: 'start',
           alignItems: 'center',
-          height: '50vh',
         }}
       >
         <Image
