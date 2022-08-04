@@ -180,7 +180,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const query = getAlternativePostQuery(alternativeFilters);
 
-  let postsWithPagination;
+  let postsWithPagination: PostsWithPagination = {
+    result: [],
+    pagination: { current: 1 },
+  };
+
   if ((alternativeFilters.ids?.length ?? 0) > 0) {
     postsWithPagination = await fetchPostsOnServer(query);
   }
