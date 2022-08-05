@@ -40,7 +40,7 @@ const MetroFilter: FC = () => {
     event.preventDefault();
   };
 
-  return filters.city ? (
+  return (filters.city.metroStations?.length ?? 0) > 0 ? (
     <ValidatorForm onSubmit={handleSubmit}>
       <Link
         component="button"

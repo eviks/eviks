@@ -189,7 +189,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const post = await fetchPost(postId);
 
-  if (!post) return { redirect: '/posts', permanent: false, props: {} };
+  if (!post)
+    // 404
+    return {
+      notFound: true,
+    };
 
   return { props: { post } };
 };

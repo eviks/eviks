@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { NextPage } from 'next';
+import type { NextPage, NextPageContext } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 
-const ServerError: NextPage = () => {
+const Error: NextPage<{ statusCode: number }> = ({ statusCode }) => {
   const { t } = useTranslation();
 
   return (
@@ -42,7 +42,7 @@ const ServerError: NextPage = () => {
           }}
         >
           <Typography variant="h1" textAlign={'center'}>
-            {t('serverError:serverErrorTitle')}
+            {statusCode}
           </Typography>
           <Divider orientation="vertical" sx={{ height: '60px' }} />
           <Typography
@@ -64,4 +64,16 @@ const ServerError: NextPage = () => {
   );
 };
 
-export default ServerError;
+Error.getInitialProps = ({ res, err }: NextPageContext) => {
+  let statusCode: number;
+  if (res) {
+    statusCode = res.statusCode;
+  } else if (err) {
+    statusCode = err.statusCode ?? 404;
+  } else {
+    statusCode = 404;
+  }
+  return { statusCode };
+};
+
+export default Error;

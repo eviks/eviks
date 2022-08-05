@@ -238,7 +238,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
           sx={{
             gap: 2,
             width: 'max-content',
-            mx: { lg: 10 },
+            // mx: { lg: 10 },
             mb: 1,
           }}
         >
