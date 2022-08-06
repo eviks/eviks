@@ -47,6 +47,7 @@ const DeletePostButton: FC<{ postId: number }> = ({ postId }) => {
   const handleDeletePost = async () => {
     try {
       await deletePost(auth.token ?? '', postId)(dispatch);
+      setOpen(false);
     } catch (error) {
       let errorMessage = '';
       if (error instanceof Failure) {

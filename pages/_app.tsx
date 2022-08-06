@@ -59,6 +59,8 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   }
 
   pageProps.initDarkMode = darkMode === 'ON';
+  pageProps.user = undefined;
+  pageProps.token = '';
 
   const protectedRoutes =
     ctx.pathname === '/user_posts' ||
@@ -72,13 +74,13 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   } else {
     const user = await loadUserOnServer(token);
 
-    if (!user) {
+    if (user) {
+      pageProps.user = user;
+      pageProps.token = token;
+    } else {
       destroyCookie(ctx, 'token');
       if (protectedRoutes) redirectUser(ctx, '/auth');
     }
-
-    pageProps.user = user;
-    pageProps.token = token;
   }
 
   return {

@@ -1,6 +1,7 @@
-import React, { FC, useState, useEffect, useContext } from 'react';
+import React, { FC, Fragment, useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import Cookies from 'js-cookie';
 import Container from '@mui/material/Container';
@@ -119,56 +120,61 @@ const Profile: CustomNextPage = () => {
   };
 
   return (
-    <Container
-      sx={{
-        mt: 12,
-        mb: 10,
-      }}
-    >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
-        {/* Language */}
-        <Box sx={{ mx: 2 }}>
-          {router.locales?.map((locale) => {
-            return router.locale !== locale ? (
-              <Button
-                key={locale}
-                variant="text"
-                color="inherit"
-                onClick={() => {
-                  return switchLanguage(locale);
-                }}
-              >
-                {locale}
-              </Button>
-            ) : null;
-          })}
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Container
+        sx={{
+          mt: 12,
+          mb: 10,
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
+          {/* Language */}
+          <Box sx={{ mx: 2 }}>
+            {router.locales?.map((locale) => {
+              return router.locale !== locale ? (
+                <Button
+                  key={locale}
+                  variant="text"
+                  color="inherit"
+                  onClick={() => {
+                    return switchLanguage(locale);
+                  }}
+                >
+                  {locale}
+                </Button>
+              ) : null;
+            })}
+          </Box>
+          {/* Theme switcher */}
+          <ThemeSwitch
+            checked={appTheme === 'dark'}
+            onChange={darkModeToggle}
+            sx={{ mr: 2 }}
+          />
         </Box>
-        {/* Theme switcher */}
-        <ThemeSwitch
-          checked={appTheme === 'dark'}
-          onChange={darkModeToggle}
-          sx={{ mr: 2 }}
-        />
-      </Box>
-      {options?.map((option) => {
-        return (
-          <Link href={option.route} passHref key={option.route}>
-            <ProfileButton
-              onClick={undefined}
-              label={option.label}
-              icon={option.icon}
-            />
-          </Link>
-        );
-      })}
-      {user && isInit && (
-        <ProfileButton
-          onClick={handleLogout}
-          label={t('common:logout')}
-          icon={<LogoutIcon />}
-        />
-      )}
-    </Container>
+        {options?.map((option) => {
+          return (
+            <Link href={option.route} passHref key={option.route}>
+              <ProfileButton
+                onClick={undefined}
+                label={option.label}
+                icon={option.icon}
+              />
+            </Link>
+          );
+        })}
+        {user && isInit && (
+          <ProfileButton
+            onClick={handleLogout}
+            label={t('common:logout')}
+            icon={<LogoutIcon />}
+          />
+        )}
+      </Container>
+    </Fragment>
   );
 };
 

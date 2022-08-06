@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Head from 'next/head';
 import type { NextPage, NextPageContext } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import Container from '@mui/material/Container';
@@ -13,54 +14,59 @@ const Error: NextPage<{ statusCode: number }> = ({ statusCode }) => {
   const { t } = useTranslation();
 
   return (
-    <Container
-      sx={{
-        mt: 12,
-        mb: 10,
-      }}
-    >
-      <Box
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Container
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'start',
-          alignItems: 'center',
+          mt: 12,
+          mb: 10,
         }}
       >
-        <Image
-          src={'/illustrations/500.svg'}
-          alt="server_error"
-          width={500}
-          height={500}
-        />
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'column',
+            justifyContent: 'start',
             alignItems: 'center',
-            gap: 2,
           }}
         >
-          <Typography variant="h1" textAlign={'center'}>
-            {statusCode}
-          </Typography>
-          <Divider orientation="vertical" sx={{ height: '60px' }} />
-          <Typography
-            variant="subtitle1"
-            textAlign={'center'}
-            fontSize={28}
-            lineHeight={1.2}
+          <Image
+            src={'/illustrations/500.svg'}
+            alt="server_error"
+            width={500}
+            height={500}
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 2,
+            }}
           >
-            {t('serverError:serverErrorHint')}
-          </Typography>
+            <Typography variant="h1" textAlign={'center'}>
+              {statusCode}
+            </Typography>
+            <Divider orientation="vertical" sx={{ height: '60px' }} />
+            <Typography
+              variant="subtitle1"
+              textAlign={'center'}
+              fontSize={28}
+              lineHeight={1.2}
+            >
+              {t('serverError:serverErrorHint')}
+            </Typography>
+          </Box>
+          <Link href="/" passHref>
+            <Button variant={'contained'} disableElevation sx={{ mt: 2 }}>
+              {t('serverError:goHome')}
+            </Button>
+          </Link>
         </Box>
-        <Link href="/" passHref>
-          <Button variant={'contained'} disableElevation sx={{ mt: 2 }}>
-            {t('serverError:goHome')}
-          </Button>
-        </Link>
-      </Box>
-    </Container>
+      </Container>
+    </Fragment>
   );
 };
 

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { parseCookies, destroyCookie } from 'nookies';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -79,56 +80,61 @@ const Favorites: CustomNextPage<FavoritesProps> = ({
   };
 
   return (
-    <Container
-      sx={{
-        mt: 12,
-        mb: 10,
-      }}
-    >
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Typography variant="h1" fontSize={34} fontWeight={700}>
-          {t('favorites:favorites')}
-        </Typography>
-      </Box>
-      {posts.length > 0 ? (
-        <Fragment>
-          {posts.map((post) => {
-            return <PostItem key={post._id} post={post} />;
-          })}
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Pagination
-              page={pagination.current}
-              count={pagination.available ?? pagination.current}
-              onChange={handlePageChange}
-              size="large"
-              color="primary"
-            />
-          </Box>
-        </Fragment>
-      ) : (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Image
-            src={'/illustrations/favorites.svg'}
-            alt="favorites"
-            width={500}
-            height={500}
-          />
-          <Typography variant="h4" textAlign={'center'}>
-            {t('favorites:favoritesTitle')}
-          </Typography>
-          <Typography variant="subtitle1" textAlign={'center'}>
-            {t('favorites:favoritesHint')}
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Container
+        sx={{
+          mt: 12,
+          mb: 10,
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Typography variant="h1" fontSize={34} fontWeight={700}>
+            {t('favorites:favorites')}
           </Typography>
         </Box>
-      )}
-    </Container>
+        {posts.length > 0 ? (
+          <Fragment>
+            {posts.map((post) => {
+              return <PostItem key={post._id} post={post} />;
+            })}
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Pagination
+                page={pagination.current}
+                count={pagination.available ?? pagination.current}
+                onChange={handlePageChange}
+                size="large"
+                color="primary"
+              />
+            </Box>
+          </Fragment>
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Image
+              src={'/illustrations/favorites.svg'}
+              alt="favorites"
+              width={500}
+              height={500}
+            />
+            <Typography variant="h4" textAlign={'center'}>
+              {t('favorites:favoritesTitle')}
+            </Typography>
+            <Typography variant="subtitle1" textAlign={'center'}>
+              {t('favorites:favoritesHint')}
+            </Typography>
+          </Box>
+        )}
+      </Container>
+    </Fragment>
   );
 };
 

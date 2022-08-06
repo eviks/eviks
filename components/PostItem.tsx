@@ -241,6 +241,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                   color={theme.palette.grey[500]}
                   sx={{
                     mt: 4,
+                    wordWrap: 'break-word',
                   }}
                 >
                   {post.description?.slice(0, 200)}

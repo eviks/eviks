@@ -61,6 +61,8 @@ const UploadedPostImage: FC<{
           autoHideDuration: 3000,
         });
       }
+    } else {
+      setLoading(false);
     }
   }, [
     enqueueSnackbar,

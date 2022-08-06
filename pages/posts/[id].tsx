@@ -1,12 +1,15 @@
-import React, { useMemo, useState, useContext } from 'react';
+import React, { Fragment, useMemo, useState, useContext } from 'react';
 import type { NextPage, GetStaticProps } from 'next';
+import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Hidden from '@mui/material/Hidden';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 import StyledCarousel from '../../components/layout/StyledCarousel';
 import PostInfoCard from '../../components/post/PostInfoCard';
@@ -24,13 +27,14 @@ import DeletePostButton from '../../components/postButtons/DeletePostButton';
 import { fetchPost, fetchPostPhoneNumber } from '../../actions/posts';
 import { AppContext } from '../../store/appContext';
 import useWindowSize from '../../utils/hooks/useWindowSize';
+import { getSettlementPresentation } from '../../utils';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
-import { Post } from '../../types';
+import { Post, EstateType } from '../../types';
 
 const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
   const { width } = useWindowSize();
-
+  const router = useRouter();
   const { t } = useTranslation();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -73,113 +77,174 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
     }
   };
 
+  const capitalize = (value: String) => {
+    return value[0].toUpperCase() + value.slice(1);
+  };
+
+  const getPostTitle = () => {
+    let settlement = '';
+
+    if (post.subdistrict) {
+      settlement = getSettlementPresentation(post.subdistrict, router.locale);
+    } else if (post.district) {
+      settlement = getSettlementPresentation(post.district, router.locale);
+    }
+
+    return t(
+      `post:fullPostTitle.${post.estateType}${capitalize(post.dealType)}${
+        post.estateType === EstateType.apartment
+          ? capitalize(post.apartmentType ?? '')
+          : ''
+      }`,
+      {
+        rooms: post.rooms,
+        sqm: post.sqm,
+        floor: post.floor,
+        totalFloors: post.totalFloors,
+        lotSqm: post.lotSqm,
+        settlement,
+      },
+    );
+  };
+
+  if (router.isFallback) {
+    return (
+      <Fragment>
+        <Head>
+          <title>{t(`common:projectTitle`)}</title>
+          <meta property="og:title" content="My page title" key="title" />
+        </Head>
+        <Container
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          <CircularProgress color="primary" size="2rem" />
+        </Container>
+      </Fragment>
+    );
+  }
+
   if (!post) return null;
 
+  const title = getPostTitle();
+
   return (
-    <Container sx={{ mt: 12, mb: 6, maxWidth: '1300px' }} maxWidth={false}>
-      <Grid
-        container
-        alignItems="stretch"
-        justifyContent="center"
-        sx={{
-          marginTop: {
-            xs: 5,
-            md: 0,
-          },
-        }}
-      >
-        <Grid item xs={12} md={8}>
-          <PostTitle post={post} />
-          <Box
-            sx={{
-              position: 'relative',
-            }}
-          >
-            <StyledCarousel
-              images={post.images}
-              imageSize={width && width >= 900 ? 1280 : 640}
-              thumbSize={150}
-              height={width && width >= 900 ? '500px' : '320px'}
-            />
-            <Hidden lgUp>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  right: '0',
-                  top: '0',
-                  p: 2,
-                }}
-              >
-                {isInit &&
-                  (user?._id === post.user ? (
-                    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-                      <EditPostButton postId={post._id} />
-                      <DeletePostButton postId={post._id} />
-                    </Box>
-                  ) : (
-                    <FavoriteButton postId={post._id} />
-                  ))}
-              </Box>
-            </Hidden>
-          </Box>
-          <Hidden lgUp>
-            <PostPrice post={post} />
-          </Hidden>
-          <PostMainInfo post={post} />
-          <Hidden lgUp>
-            <PostContacts
-              post={post}
-              phoneNumber={phoneNumber}
-              setPhoneNumber={setPhoneNumber}
-            />
-          </Hidden>
-          <PostDescription post={post} />
-          <PostGeneralInfo post={post} />
-          <PostAdditionalInfo post={post} />
-          <PostBuildingInfo post={post} />
-          <PostMap post={post} height={mapHeight} />
-          <Hidden mdUp>
+    <Fragment>
+      <Head>
+        <title>{`${title} | ${t('common:projectTitle')}`}</title>
+        <meta property="og:title" content="My page title" key="title" />
+      </Head>
+      <Container sx={{ mt: 12, mb: 6, maxWidth: '1300px' }} maxWidth={false}>
+        <Grid
+          container
+          alignItems="stretch"
+          justifyContent="center"
+          sx={{
+            marginTop: {
+              xs: 5,
+              md: 0,
+            },
+          }}
+        >
+          <Grid item xs={12} md={8}>
+            <PostTitle post={post} title={title} />
             <Box
               sx={{
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                zIndex: 1000,
-                mb: 2,
-                px: 2,
-                width: '100%',
+                position: 'relative',
               }}
             >
-              <Button
-                variant="contained"
-                fullWidth
-                disableElevation
-                onClick={getPhoneNumber}
-                sx={{ py: 1.2 }}
-              >
-                {t('post:call')}
-              </Button>
+              <StyledCarousel
+                images={post.images}
+                imageSize={width && width >= 900 ? 1280 : 640}
+                thumbSize={150}
+                height={width && width >= 900 ? '500px' : '320px'}
+              />
+              <Hidden lgUp>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    right: '0',
+                    top: '0',
+                    p: 2,
+                  }}
+                >
+                  {isInit &&
+                    (user?._id === post.user ? (
+                      <Box
+                        sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}
+                      >
+                        <EditPostButton postId={post._id} />
+                        <DeletePostButton postId={post._id} />
+                      </Box>
+                    ) : (
+                      <FavoriteButton postId={post._id} />
+                    ))}
+                </Box>
+              </Hidden>
             </Box>
+            <Hidden lgUp>
+              <PostPrice post={post} />
+            </Hidden>
+            <PostMainInfo post={post} />
+            <Hidden lgUp>
+              <PostContacts
+                post={post}
+                phoneNumber={phoneNumber}
+                setPhoneNumber={setPhoneNumber}
+              />
+            </Hidden>
+            <PostDescription post={post} />
+            <PostGeneralInfo post={post} />
+            <PostAdditionalInfo post={post} />
+            <PostBuildingInfo post={post} />
+            <PostMap post={post} height={mapHeight} />
+            <Hidden mdUp>
+              <Box
+                sx={{
+                  position: 'fixed',
+                  bottom: 0,
+                  left: 0,
+                  zIndex: 1000,
+                  mb: 2,
+                  px: 2,
+                  width: '100%',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  fullWidth
+                  disableElevation
+                  onClick={getPhoneNumber}
+                  sx={{ py: 1.2 }}
+                >
+                  {t('post:call')}
+                </Button>
+              </Box>
+            </Hidden>
+          </Grid>
+          <Hidden lgDown>
+            <Grid item xs={0} md={4}>
+              <PostInfoCard
+                post={post}
+                phoneNumber={phoneNumber}
+                setPhoneNumber={setPhoneNumber}
+              />
+            </Grid>
           </Hidden>
         </Grid>
-        <Hidden lgDown>
-          <Grid item xs={0} md={4}>
-            <PostInfoCard
-              post={post}
-              phoneNumber={phoneNumber}
-              setPhoneNumber={setPhoneNumber}
-            />
-          </Grid>
-        </Hidden>
-      </Grid>
-    </Container>
+      </Container>
+    </Fragment>
   );
 };
 
 export const getStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking',
+    fallback: true,
   };
 };
 
@@ -195,7 +260,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       notFound: true,
     };
 
-  return { props: { post } };
+  return { props: { post }, revalidate: 60 };
 };
 
 export default PostDetailed;

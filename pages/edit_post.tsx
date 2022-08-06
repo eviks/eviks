@@ -1,4 +1,5 @@
 import React, {
+  Fragment,
   useState,
   useEffect,
   useContext,
@@ -6,6 +7,7 @@ import React, {
   useCallback,
 } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import useTranslation from 'next-translate/useTranslation';
@@ -111,37 +113,47 @@ const EditPost: NextPage<{ loadedPost: Post | null }> = ({ loadedPost }) => {
 
   if (!isInit)
     return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '50vh',
-        }}
-      >
-        <CircularProgress color="primary" size="2rem" />
-      </Box>
+      <Fragment>
+        <Head>
+          <title>{t(`common:projectTitle`)}</title>
+        </Head>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '50vh',
+          }}
+        >
+          <CircularProgress color="primary" size="2rem" />
+        </Box>
+      </Fragment>
     );
 
   return (
-    <Grid
-      container
-      sx={{ pt: fullScreenMode ? 0 : 10, pb: fullScreenMode ? 0 : 5 }}
-      columns={10}
-    >
-      <Hidden mdDown>
-        <Grid item xs={0} md={2}>
-          <Container disableGutters={fullScreenMode} sx={{ mx: 1 }}>
-            <EditPostStepper step={post.step ?? 0} />
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Grid
+        container
+        sx={{ pt: fullScreenMode ? 0 : 10, pb: fullScreenMode ? 0 : 5 }}
+        columns={10}
+      >
+        <Hidden mdDown>
+          <Grid item xs={0} md={2}>
+            <Container disableGutters={fullScreenMode} sx={{ mx: 1 }}>
+              <EditPostStepper step={post.step ?? 0} />
+            </Container>
+          </Grid>
+        </Hidden>
+        <Grid item xs={10} md={8}>
+          <Container disableGutters={fullScreenMode}>
+            <Box sx={{ p: { xs: 0 } }}>{renderStep()}</Box>
           </Container>
         </Grid>
-      </Hidden>
-      <Grid item xs={10} md={8}>
-        <Container disableGutters={fullScreenMode}>
-          <Box sx={{ p: { xs: 0 } }}>{renderStep()}</Box>
-        </Container>
       </Grid>
-    </Grid>
+    </Fragment>
   );
 };
 

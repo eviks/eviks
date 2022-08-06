@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useContext } from 'react';
+import Head from 'next/head';
 import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
 import { GetServerSideProps } from 'next';
@@ -68,56 +69,61 @@ const Posts: CustomNextPage<PostsProps> = ({
   };
 
   return (
-    <Container
-      sx={{
-        mt:
-          filters.districts.length > 0 ||
-          filters.subdistricts.length > 0 ||
-          filters.metroStations.length > 0
-            ? 12
-            : 5,
-        mb: 10,
-      }}
-    >
-      {posts.length > 0 ? (
-        <Fragment>
-          {posts.map((post) => {
-            return <PostItem key={post._id} post={post} />;
-          })}
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Pagination
-              page={pagination.current}
-              count={pagination.available ?? pagination.current}
-              onChange={handlePageChange}
-              size="large"
-              color="primary"
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Container
+        sx={{
+          mt:
+            filters.districts.length > 0 ||
+            filters.subdistricts.length > 0 ||
+            filters.metroStations.length > 0
+              ? 12
+              : 5,
+          mb: 10,
+        }}
+      >
+        {posts.length > 0 ? (
+          <Fragment>
+            {posts.map((post) => {
+              return <PostItem key={post._id} post={post} />;
+            })}
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Pagination
+                page={pagination.current}
+                count={pagination.available ?? pagination.current}
+                onChange={handlePageChange}
+                size="large"
+                color="primary"
+              />
+            </Box>
+          </Fragment>
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Image
+              src={'/illustrations/no_result.svg'}
+              alt="auth"
+              width={500}
+              height={500}
             />
+            <Typography variant="h4" textAlign={'center'}>
+              {t('posts:noResult')}
+            </Typography>
+            <Typography variant="subtitle1" textAlign={'center'}>
+              {t('posts:noResultHint')}
+            </Typography>
           </Box>
-        </Fragment>
-      ) : (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Image
-            src={'/illustrations/no_result.svg'}
-            alt="auth"
-            width={500}
-            height={500}
-          />
-          <Typography variant="h4" textAlign={'center'}>
-            {t('posts:noResult')}
-          </Typography>
-          <Typography variant="subtitle1" textAlign={'center'}>
-            {t('posts:noResultHint')}
-          </Typography>
-        </Box>
-      )}
-    </Container>
+        )}
+      </Container>
+    </Fragment>
   );
 };
 

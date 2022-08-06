@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import { useSnackbar } from 'notistack';
 import { ValidatorForm } from 'react-material-ui-form-validator';
@@ -69,79 +70,84 @@ const ResetPassword: CustomNextPage = () => {
   };
 
   return (
-    <Container
-      sx={{
-        mt: 12,
-        mb: 10,
-      }}
-    >
-      <Box
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Container
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
+          mt: 12,
+          mb: 10,
         }}
       >
-        <Image
-          src={'/illustrations/reset_password.svg'}
-          alt="reset_password"
-          width={500}
-          height={500}
-        />
-        <Typography variant="h4" textAlign={'center'}>
-          {t('auth:resetPasswordTitle')}
-        </Typography>
-        <Typography variant="subtitle1" textAlign={'center'}>
-          {t('auth:resetPasswordHint')}
-        </Typography>
-      </Box>
-      <ValidatorForm onSubmit={handleSubmit}>
         <Box
           sx={{
-            mt: 3,
-            mx: 'auto',
             display: 'flex',
             flexDirection: 'column',
-            width: { xs: 'auto', md: '40vw' },
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          {/* Email */}
-          <StyledInput
-            validators={['required']}
-            value={email}
-            name="email"
-            errorMessages={[t('common:errorRequiredField')]}
-            label={t('auth:email')}
-            input={{
-              id: 'email',
-              fullWidth: true,
-              type: 'email',
-              onChange: handleChange,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <EmailIcon sx={{ ml: 1 }} />
-                </InputAdornment>
-              ),
-            }}
+          <Image
+            src={'/illustrations/reset_password.svg'}
+            alt="reset_password"
+            width={500}
+            height={500}
           />
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            disableElevation
-            disabled={loading}
-            sx={{ mt: 1, py: 1 }}
-          >
-            {loading ? (
-              <CircularProgress color="inherit" size="2rem" />
-            ) : (
-              t('auth:resetPasswordButton')
-            )}
-          </Button>
+          <Typography variant="h4" textAlign={'center'}>
+            {t('auth:resetPasswordTitle')}
+          </Typography>
+          <Typography variant="subtitle1" textAlign={'center'}>
+            {t('auth:resetPasswordHint')}
+          </Typography>
         </Box>
-      </ValidatorForm>
-    </Container>
+        <ValidatorForm onSubmit={handleSubmit}>
+          <Box
+            sx={{
+              mt: 3,
+              mx: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              width: { xs: 'auto', md: '40vw' },
+            }}
+          >
+            {/* Email */}
+            <StyledInput
+              validators={['required']}
+              value={email}
+              name="email"
+              errorMessages={[t('common:errorRequiredField')]}
+              label={t('auth:email')}
+              input={{
+                id: 'email',
+                fullWidth: true,
+                type: 'email',
+                onChange: handleChange,
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailIcon sx={{ ml: 1 }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              disableElevation
+              disabled={loading}
+              sx={{ mt: 1, py: 1 }}
+            >
+              {loading ? (
+                <CircularProgress color="inherit" size="2rem" />
+              ) : (
+                t('auth:resetPasswordButton')
+              )}
+            </Button>
+          </Box>
+        </ValidatorForm>
+      </Container>
+    </Fragment>
   );
 };
 

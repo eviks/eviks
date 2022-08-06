@@ -52,18 +52,6 @@ const Layout: FC<{
 
   const [darkMode, setDarkMode] = useState(initDarkMode);
 
-  <Head>
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta
-      name="theme-color"
-      content={
-        darkMode
-          ? darkTheme.palette.background.default.toString()
-          : lightTheme.palette.background.default.toString()
-      }
-    />
-  </Head>;
-
   const loadUserFromToken = useCallback(async () => {
     dispatch({
       type: Types.LoadUser,
@@ -101,32 +89,53 @@ const Layout: FC<{
   const classes = useStyles();
 
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <SnackbarProvider
-        ref={notistackRef}
-        maxSnack={3}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        hideIconVariant={true}
-        classes={{
-          variantError: classes.variantError,
-        }}
-        action={(key) => {
-          return (
-            <IconButton onClick={onClickDismiss(key)}>
-              <CloseIcon color={'secondary'} fontSize="small" sx={{ p: 0.2 }} />
-            </IconButton>
-          );
-        }}
-      >
-        <CssBaseline />
-        {!hideAppbar && <StyledAppbar displaySearchBar={displaySearchBar} />}
-        <Fragment>{children}</Fragment>
-        {displayBottomNavigationBar && <StyledBottomNavigation />}
-      </SnackbarProvider>
-    </ThemeProvider>
+    <Fragment>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0; viewport-fit=cover"
+        />
+        <meta charSet="UTF-8" />
+        <meta
+          name="theme-color"
+          content={
+            darkMode
+              ? darkTheme.palette.background.default.toString()
+              : lightTheme.palette.background.default.toString()
+          }
+        />
+      </Head>
+      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+        <SnackbarProvider
+          ref={notistackRef}
+          maxSnack={3}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          hideIconVariant={true}
+          classes={{
+            variantError: classes.variantError,
+          }}
+          action={(key) => {
+            return (
+              <IconButton onClick={onClickDismiss(key)}>
+                <CloseIcon
+                  color={'secondary'}
+                  fontSize="small"
+                  sx={{ p: 0.2 }}
+                />
+              </IconButton>
+            );
+          }}
+        >
+          <CssBaseline />
+          {!hideAppbar && <StyledAppbar displaySearchBar={displaySearchBar} />}
+          <Fragment>{children}</Fragment>
+          {displayBottomNavigationBar && <StyledBottomNavigation />}
+        </SnackbarProvider>
+      </ThemeProvider>
+    </Fragment>
   );
 };
 

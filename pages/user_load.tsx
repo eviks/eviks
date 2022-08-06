@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import useTranslation from 'next-translate/useTranslation';
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import { CustomNextPage } from '../types';
 
 const UserLoad: CustomNextPage = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const { token } = router.query;
@@ -16,16 +19,21 @@ const UserLoad: CustomNextPage = () => {
   });
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-      }}
-    >
-      <CircularProgress color="primary" size="2rem" />
-    </Container>
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Container
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+        }}
+      >
+        <CircularProgress color="primary" size="2rem" />
+      </Container>
+    </Fragment>
   );
 };
 

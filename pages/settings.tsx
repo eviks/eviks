@@ -1,6 +1,8 @@
-import React, { useEffect, useContext } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import useTranslation from 'next-translate/useTranslation';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
@@ -13,6 +15,7 @@ import { User } from '../types';
 
 const Settings: NextPage<{ user: User }> = ({ user }) => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const {
     state: { auth },
@@ -23,28 +26,33 @@ const Settings: NextPage<{ user: User }> = ({ user }) => {
   }, [auth.isInit, auth.user, router]);
 
   return (
-    <Container
-      sx={{
-        mt: 12,
-        mb: 6,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <SettingsHeader user={user} />
-      <Divider sx={{ width: '100%', my: 3 }} />
-      <Box sx={{ width: { xs: '100%', md: '70%' } }}>
-        <Box sx={{ mb: 5 }}>
-          <UpdateUser user={user} />
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Container
+        sx={{
+          mt: 12,
+          mb: 6,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <SettingsHeader user={user} />
+        <Divider sx={{ width: '100%', my: 3 }} />
+        <Box sx={{ width: { xs: '100%', md: '70%' } }}>
+          <Box sx={{ mb: 5 }}>
+            <UpdateUser user={user} />
+          </Box>
+          <Box sx={{ mb: 5 }}>
+            <ChangePassword />
+          </Box>
         </Box>
-        <Box sx={{ mb: 5 }}>
-          <ChangePassword />
-        </Box>
-      </Box>
-      <DeleteUser />
-    </Container>
+        <DeleteUser />
+      </Container>
+    </Fragment>
   );
 };
 

@@ -44,6 +44,30 @@ const AdditionInfoItem: FC<{
 const PostAdditionalInfo: FC<{ post: Post }> = ({ post }) => {
   const { t } = useTranslation();
 
+  if (
+    !post.kidsAllowed &&
+    !post.petsAllowed &&
+    !post.garage &&
+    !post.pool &&
+    !post.bathhouse &&
+    !post.balcony &&
+    !post.furniture &&
+    !post.kitchenFurniture &&
+    !post.cableTv &&
+    !post.phone &&
+    !post.internet &&
+    !post.electricity &&
+    !post.gas &&
+    !post.water &&
+    !post.heating &&
+    !post.tv &&
+    !post.conditioner &&
+    !post.washingMachine &&
+    !post.dishwasher &&
+    !post.refrigerator
+  )
+    return null;
+
   return (
     <Box sx={{ my: 3 }}>
       <Typography fontWeight={'bold'} fontSize={24} sx={{ mb: 2 }}>

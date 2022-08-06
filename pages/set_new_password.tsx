@@ -1,5 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import { useSnackbar } from 'notistack';
 import { ValidatorForm } from 'react-material-ui-form-validator';
@@ -89,78 +90,83 @@ const SetNewPassword: CustomNextPage = () => {
   };
 
   return (
-    <Container
-      sx={{
-        mt: 12,
-        mb: 10,
-      }}
-    >
-      <ValidatorForm onSubmit={handleSubmit}>
-        <Box
-          sx={{
-            mt: 2,
-            display: 'flex',
-            margin: 'auto',
-            flexDirection: 'column',
-            width: { xs: 'auto', md: '40vw' },
-          }}
-        >
-          {/* New password */}
-          <StyledInput
-            validators={['required', 'minStringLength:6']}
-            value={newPassword}
-            name="newPassword"
-            errorMessages={[
-              t('auth:errorNewPassword'),
-              t('auth:invalidPassword'),
-            ]}
-            label={t('auth:newPassword')}
-            input={{
-              id: 'newPassword',
-              autoComplete: 'on',
-              fullWidth: true,
-              type: showNewPassword ? 'text' : 'password',
-              onChange: handleChange,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <PasswordIcon sx={{ ml: 1 }} />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle new password visibility"
-                    size="small"
-                    sx={{ mr: 1 }}
-                    onClick={handleClickShowNewPassword}
-                  >
-                    {showNewPassword ? (
-                      <HidePasswordIcon />
-                    ) : (
-                      <ShowPasswordIcon />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Container
+        sx={{
+          mt: 12,
+          mb: 10,
+        }}
+      >
+        <ValidatorForm onSubmit={handleSubmit}>
+          <Box
+            sx={{
+              mt: 2,
+              display: 'flex',
+              margin: 'auto',
+              flexDirection: 'column',
+              width: { xs: 'auto', md: '40vw' },
             }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            disableElevation
-            disabled={loading}
-            sx={{ mt: 1, py: 1 }}
           >
-            {loading ? (
-              <CircularProgress color="inherit" size="2rem" />
-            ) : (
-              t('auth:setNewPassword')
-            )}
-          </Button>
-        </Box>
-      </ValidatorForm>
-    </Container>
+            {/* New password */}
+            <StyledInput
+              validators={['required', 'minStringLength:6']}
+              value={newPassword}
+              name="newPassword"
+              errorMessages={[
+                t('auth:errorNewPassword'),
+                t('auth:invalidPassword'),
+              ]}
+              label={t('auth:newPassword')}
+              input={{
+                id: 'newPassword',
+                autoComplete: 'on',
+                fullWidth: true,
+                type: showNewPassword ? 'text' : 'password',
+                onChange: handleChange,
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PasswordIcon sx={{ ml: 1 }} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle new password visibility"
+                      size="small"
+                      sx={{ mr: 1 }}
+                      onClick={handleClickShowNewPassword}
+                    >
+                      {showNewPassword ? (
+                        <HidePasswordIcon />
+                      ) : (
+                        <ShowPasswordIcon />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              disableElevation
+              disabled={loading}
+              sx={{ mt: 1, py: 1 }}
+            >
+              {loading ? (
+                <CircularProgress color="inherit" size="2rem" />
+              ) : (
+                t('auth:setNewPassword')
+              )}
+            </Button>
+          </Box>
+        </ValidatorForm>
+      </Container>
+    </Fragment>
   );
 };
 

@@ -14,7 +14,9 @@ const PostDescription: FC<{ post: Post }> = ({ post }) => {
       <Typography fontWeight={'bold'} fontSize={24} sx={{ mb: 0.5 }}>
         {t('post:description')}
       </Typography>
-      <Typography>{post.description}</Typography>
+      <Typography sx={{ wordWrap: 'break-word' }}>
+        {post.description}
+      </Typography>
     </Box>
   );
 };

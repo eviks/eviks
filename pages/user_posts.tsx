@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import { GetServerSideProps } from 'next';
 import { parseCookies, destroyCookie } from 'nookies';
@@ -79,56 +80,61 @@ const UserPosts: CustomNextPage<UserPostsProps> = ({
   };
 
   return (
-    <Container
-      sx={{
-        mt: 12,
-        mb: 10,
-      }}
-    >
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Typography variant="h1" fontSize={34} fontWeight={700}>
-          {t('userPosts:userPosts')}
-        </Typography>
-      </Box>
-      {posts.length > 0 ? (
-        <Fragment>
-          {posts.map((post) => {
-            return <PostItem key={post._id} post={post} />;
-          })}
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Pagination
-              page={pagination.current}
-              count={pagination.available ?? pagination.current}
-              onChange={handlePageChange}
-              size="large"
-              color="primary"
-            />
-          </Box>
-        </Fragment>
-      ) : (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Image
-            src={'/illustrations/user_posts.svg'}
-            alt="userPosts"
-            width={500}
-            height={500}
-          />
-          <Typography variant="h4" textAlign={'center'}>
-            {t('userPosts:userPostsTitle')}
-          </Typography>
-          <Typography variant="subtitle1" textAlign={'center'}>
-            {t('userPosts:userPostsHint')}
+    <Fragment>
+      <Head>
+        <title>{t(`common:projectTitle`)}</title>
+      </Head>
+      <Container
+        sx={{
+          mt: 12,
+          mb: 10,
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Typography variant="h1" fontSize={34} fontWeight={700}>
+            {t('userPosts:userPosts')}
           </Typography>
         </Box>
-      )}
-    </Container>
+        {posts.length > 0 ? (
+          <Fragment>
+            {posts.map((post) => {
+              return <PostItem key={post._id} post={post} />;
+            })}
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Pagination
+                page={pagination.current}
+                count={pagination.available ?? pagination.current}
+                onChange={handlePageChange}
+                size="large"
+                color="primary"
+              />
+            </Box>
+          </Fragment>
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Image
+              src={'/illustrations/user_posts.svg'}
+              alt="userPosts"
+              width={500}
+              height={500}
+            />
+            <Typography variant="h4" textAlign={'center'}>
+              {t('userPosts:userPostsTitle')}
+            </Typography>
+            <Typography variant="subtitle1" textAlign={'center'}>
+              {t('userPosts:userPostsHint')}
+            </Typography>
+          </Box>
+        )}
+      </Container>
+    </Fragment>
   );
 };
 

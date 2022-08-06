@@ -1,51 +1,18 @@
 import React, { FC } from 'react';
 import { useRouter } from 'next/router';
-import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import MetroIcon from '../icons/MetroIcon';
 import { getSettlementPresentation, getMetroPresentation } from '../../utils';
-import { Post, EstateType } from '../../types';
+import { Post } from '../../types';
 
-const PostTitle: FC<{ post: Post }> = ({ post }) => {
-  const { t } = useTranslation();
-
+const PostTitle: FC<{ post: Post; title: string }> = ({ post, title }) => {
   const router = useRouter();
-
-  const capitalize = (value: String) => {
-    return value[0].toUpperCase() + value.slice(1);
-  };
-
-  const getPostTitle = () => {
-    let settlement = '';
-
-    if (post.subdistrict) {
-      settlement = getSettlementPresentation(post.subdistrict, router.locale);
-    } else if (post.district) {
-      settlement = getSettlementPresentation(post.district, router.locale);
-    }
-
-    return t(
-      `post:fullPostTitle.${post.estateType}${capitalize(post.dealType)}${
-        post.estateType === EstateType.apartment
-          ? capitalize(post.apartmentType ?? '')
-          : ''
-      }`,
-      {
-        rooms: post.rooms,
-        sqm: post.sqm,
-        floor: post.floor,
-        totalFloors: post.totalFloors,
-        lotSqm: post.lotSqm,
-        settlement,
-      },
-    );
-  };
 
   return (
     <Box sx={{ mb: 2 }}>
       <Typography variant="h1" fontSize={28} fontWeight={500}>
-        {getPostTitle()}
+        {title}
       </Typography>
 
       <Typography
