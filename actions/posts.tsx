@@ -196,5 +196,6 @@ export const pushToNewPostsRoute = (postFilters: PostFilters) => {
       query: getPostsQuery(postFilters),
     },
     undefined,
+    { shallow: true },
   );
 };

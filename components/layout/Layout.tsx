@@ -14,8 +14,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
 import { makeStyles } from '@mui/styles/';
 import { SnackbarProvider, SnackbarKey } from 'notistack';
+import { loadUser } from '../../actions/auth';
 import { AppContext } from '../../store/appContext';
-import { Types } from '../../store/reducers';
 import StyledAppbar from './StyledAppBar';
 import {
   lightTheme,
@@ -25,22 +25,17 @@ import {
 } from '../../utils/theme';
 import CloseIcon from '../icons/CloseIcon';
 import StyledBottomNavigation from './StyledBottomNavigation';
-import { User } from '../../types';
 
 const Layout: FC<{
   displayBottomNavigationBar: boolean;
   displaySearchBar: boolean;
   hideAppbar: boolean;
   initDarkMode: boolean;
-  user?: User;
-  token?: string;
 }> = ({
   displayBottomNavigationBar,
   displaySearchBar,
   hideAppbar,
   initDarkMode,
-  user,
-  token,
   children,
 }) => {
   const router = useRouter();
@@ -53,11 +48,8 @@ const Layout: FC<{
   const [darkMode, setDarkMode] = useState(initDarkMode);
 
   const loadUserFromToken = useCallback(async () => {
-    dispatch({
-      type: Types.LoadUser,
-      payload: { user, isInit: true, token },
-    });
-  }, [dispatch, token, user]);
+    loadUser()(dispatch);
+  }, [dispatch]);
 
   useEffect(() => {
     if (router.pathname !== '/user_load') {

@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo, useState, useContext } from 'react';
-import type { NextPage, GetStaticProps } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
@@ -9,7 +9,6 @@ import Container from '@mui/material/Container';
 import Hidden from '@mui/material/Hidden';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 import StyledCarousel from '../../components/layout/StyledCarousel';
 import PostInfoCard from '../../components/post/PostInfoCard';
@@ -106,27 +105,6 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
       },
     );
   };
-
-  if (router.isFallback) {
-    return (
-      <Fragment>
-        <Head>
-          <title>{t(`common:projectTitle`)}</title>
-          <meta property="og:title" content="My page title" key="title" />
-        </Head>
-        <Container
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-          }}
-        >
-          <CircularProgress color="primary" size="2rem" />
-        </Container>
-      </Fragment>
-    );
-  }
 
   if (!post) return null;
 
@@ -241,14 +219,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
   );
 };
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const postId = params?.id as string;
 
@@ -260,7 +231,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       notFound: true,
     };
 
-  return { props: { post }, revalidate: 60 };
+  return { props: { post } };
 };
 
 export default PostDetailed;

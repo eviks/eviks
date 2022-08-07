@@ -11,9 +11,8 @@ import UpdateUser from '../components/settings/UpdateUser';
 import ChangePassword from '../components/settings/ChangePassword';
 import DeleteUser from '../components/settings/DeleteUser';
 import { AppContext } from '../store/appContext';
-import { User } from '../types';
 
-const Settings: NextPage<{ user: User }> = ({ user }) => {
+const Settings: NextPage = () => {
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -24,6 +23,8 @@ const Settings: NextPage<{ user: User }> = ({ user }) => {
   useEffect(() => {
     if (!auth.user && auth.isInit) router.push({ pathname: '/', query: {} });
   }, [auth.isInit, auth.user, router]);
+
+  if (!auth.user) return null;
 
   return (
     <Fragment>
@@ -40,11 +41,11 @@ const Settings: NextPage<{ user: User }> = ({ user }) => {
           alignItems: 'center',
         }}
       >
-        <SettingsHeader user={user} />
+        <SettingsHeader user={auth.user} />
         <Divider sx={{ width: '100%', my: 3 }} />
         <Box sx={{ width: { xs: '100%', md: '70%' } }}>
           <Box sx={{ mb: 5 }}>
-            <UpdateUser user={user} />
+            <UpdateUser user={auth.user} />
           </Box>
           <Box sx={{ mb: 5 }}>
             <ChangePassword />
