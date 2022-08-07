@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState } from 'react';
+import React, { FC, useState } from 'react';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
@@ -22,7 +22,7 @@ const FilterButton: FC<FilterButtonProps> = ({ title, children }) => {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <Fragment>
+    <Box sx={{ mr: 2 }}>
       <Button variant="outlined" onClick={handleClick}>
         {title}
       </Button>
@@ -49,7 +49,7 @@ const FilterButton: FC<FilterButtonProps> = ({ title, children }) => {
           })}
         </Box>
       </Popover>
-    </Fragment>
+    </Box>
   );
 };
 

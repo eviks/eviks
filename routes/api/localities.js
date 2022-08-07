@@ -82,6 +82,7 @@ router.post('/getAddressByCoords', async (req, res) => {
     headers: {
       'Content-Type': 'application/json',
     },
+    timeout: 5000,
   };
 
   try {

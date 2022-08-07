@@ -236,15 +236,19 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
       >
         <Toolbar
           sx={{
-            gap: 2,
             width: 'max-content',
-            // mx: { lg: 10 },
             mb: 1,
           }}
         >
-          <CityFilter />
-          <DistrictFilter />
-          <MetroFilter />
+          <Box sx={{ mr: 2 }}>
+            <CityFilter />
+          </Box>
+          <Box sx={{ mr: 2 }}>
+            <DistrictFilter />
+          </Box>
+          <Box sx={{ mr: 2 }}>
+            <MetroFilter />
+          </Box>
           <Divider orientation="vertical" sx={{ height: '30px' }} />
           <FilterButton title={dealTypeTitle}>
             <DealTypeFilter />
