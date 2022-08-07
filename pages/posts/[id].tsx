@@ -114,7 +114,6 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
     <Fragment>
       <Head>
         <title>{`${title} | ${t('common:projectTitle')}`}</title>
-        <meta property="og:title" content="My page title" key="title" />
       </Head>
       <Container sx={{ mt: 12, mb: 6, maxWidth: '1300px' }} maxWidth={false}>
         <Grid

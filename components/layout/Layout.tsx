@@ -8,12 +8,13 @@ import React, {
   createRef,
 } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
 import { makeStyles } from '@mui/styles/';
 import { SnackbarProvider, SnackbarKey } from 'notistack';
+import nprogress from 'nprogress';
 import { loadUser } from '../../actions/auth';
 import { AppContext } from '../../store/appContext';
 import StyledAppbar from './StyledAppBar';
@@ -79,6 +80,18 @@ const Layout: FC<{
     };
   });
   const classes = useStyles();
+
+  Router.events.on('routeChangeStart', () => {
+    return nprogress.start();
+  });
+
+  Router.events.on('routeChangeComplete', () => {
+    return nprogress.done();
+  });
+
+  Router.events.on('routeChangeError', () => {
+    return nprogress.done();
+  });
 
   return (
     <Fragment>
