@@ -53,6 +53,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
   };
 
   const height = width && width >= 900 ? '320px' : '250px';
+  const imageSize = width && width >= 900 ? 640 : 320;
 
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -126,7 +127,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
           >
             <StyledCarousel
               images={post.images}
-              imageSize={640}
+              imageSize={imageSize}
               thumbSize={150}
               height={height}
               onClickItem={openPost}
