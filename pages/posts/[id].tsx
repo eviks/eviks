@@ -46,6 +46,14 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
 
   const mapHeight = width && width >= 900 ? 400 : 200;
 
+  const getImageSize = () => {
+    if (width && width >= 900) return 1280;
+    if (width && width >= 600) return 640;
+    return 320;
+  };
+
+  const imageSize = getImageSize();
+
   const PostMap = useMemo(() => {
     return dynamic(import('../../components/post/PostMap'), {
       ssr: false,
@@ -136,7 +144,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
             >
               <StyledCarousel
                 images={post.images}
-                imageSize={width && width >= 900 ? 1280 : 640}
+                imageSize={imageSize}
                 thumbSize={150}
                 height={width && width >= 900 ? '500px' : '320px'}
               />

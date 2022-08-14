@@ -86,12 +86,18 @@ const StyledCarousel: FC<{
           <CardMedia
             sx={{
               height,
+              width: '100%',
+              position: 'relative',
             }}
             key={image}
-            component="img"
-            image={`/uploads/post_images/${image}/image_${imageSize}.webp`}
-            alt={`post-image-${image}-${imageSize}`}
-          />
+          >
+            <Image
+              objectFit="cover"
+              layout="fill"
+              src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/post_images/${image}/image_${imageSize}.webp`}
+              alt={`post-image-${image}-${imageSize}`}
+            />
+          </CardMedia>
         );
       })}
     </Carousel>
