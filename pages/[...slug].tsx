@@ -67,6 +67,7 @@ const Posts: CustomNextPage<PostsProps> = ({
 
   const [isInit, setIsInit] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [queryString, setQueryString] = useState<string>('');
 
   const setFiltersFromURL = useCallback(
     async (query: ParsedUrlQuery) => {
@@ -182,14 +183,23 @@ const Posts: CustomNextPage<PostsProps> = ({
   );
 
   useEffect(() => {
-    if (!router.isFallback) {
-      if (!city) {
-        router.push('/404');
-        return;
-      }
+    const queryHasChanged = (): boolean => {
+      const newQueryString = JSON.stringify(router.query);
+      const result = newQueryString !== queryString;
+      if (result) setQueryString(newQueryString);
+      return result;
+    };
+
+    if (!router.isFallback && router.isReady && queryHasChanged()) {
       setFiltersFromURL(router.query);
     }
-  }, [city, router, router.isFallback, router.query, setFiltersFromURL]);
+  }, [
+    queryString,
+    router.isFallback,
+    router.isReady,
+    router.query,
+    setFiltersFromURL,
+  ]);
 
   useEffect(() => {
     return () => {
