@@ -52,7 +52,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
     window.open(`${locale}/posts/${post._id}`, '_blank');
   };
 
-  const height = width && width >= 900 ? '320px' : '250px';
+  const height = width && width >= 900 ? '280px' : '250px';
   const imageSize = width && width >= 900 ? 640 : 320;
 
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -115,7 +115,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
         <Grid
           item
           xs={12}
-          md={5}
+          md={4.5}
           onClick={(e) => {
             return e.stopPropagation();
           }}
@@ -143,7 +143,9 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               >
                 {isInit &&
                   (user?._id === post.user ? (
-                    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                    <Box
+                      sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+                    >
                       <EditPostButton postId={post._id} />
                       <DeletePostButton postId={post._id} />
                     </Box>
@@ -157,7 +159,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
         <Grid
           item
           xs={12}
-          md={5.5}
+          md={6}
           sx={{ position: 'relative' }}
           onClick={(e) => {
             return e.stopPropagation();
@@ -176,7 +178,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               },
             }}
           >
-            <CardContent>
+            <CardContent sx={{ px: 3 }}>
               <Typography
                 variant="h6"
                 sx={{
@@ -256,7 +258,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               sx={{
                 px: 2,
                 position: 'absolute',
-                bottom: '20px',
+                bottom: 0,
                 width: '100%',
               }}
             >
@@ -272,7 +274,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                 </Button>
               ) : (
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography fontSize={32}>{phoneNumber}</Typography>
+                  <Typography fontSize={28}>{phoneNumber}</Typography>
                   <Typography
                     variant="caption"
                     color={(theme) => {
@@ -317,7 +319,9 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
             <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
               {isInit &&
                 (user?._id === post.user ? (
-                  <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                  <Box
+                    sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+                  >
                     <EditPostButton postId={post._id} />
                     <DeletePostButton postId={post._id} />
                   </Box>
