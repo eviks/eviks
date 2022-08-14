@@ -81,7 +81,7 @@ const StyledCarousel: FC<{
       preventMovementUntilSwipeScrollTolerance={true}
       onClickItem={onClickItem}
     >
-      {images.map((image) => {
+      {images.map((image, index) => {
         return (
           <CardMedia
             sx={{
@@ -92,6 +92,7 @@ const StyledCarousel: FC<{
             key={image}
           >
             <Image
+              priority={index === 0}
               objectFit="cover"
               layout="fill"
               src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/post_images/${image}/image_${imageSize}.webp`}
