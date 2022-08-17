@@ -26,7 +26,7 @@
   "errorAddress": "Пожалуйста, укажите адрес вашего объекта",
   "wrongAddress": "Не удалось определить адрес. Пожалуйста, попробуйте передвинуть маркер",
   "districtNotSelected": "Район не указан",
-  "subdistrictNotSelected": "Поселеок не указан",
+  "subdistrictNotSelected": "Поселок не указан",
   "cityError": "Пожалуйста, укажите город",
   "districtError": "Пожалуйста, укажите район",
   "subdistrictError": "Пожалуйста, укажите поселок",
