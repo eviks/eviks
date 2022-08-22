@@ -1,6 +1,5 @@
 import React, { FC, useState, useContext, Fragment } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import StepTitle from './StepTitle';
@@ -174,7 +173,7 @@ const EditPostAdditionalInfo: FC = () => {
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Container
         disableGutters
         sx={{
@@ -186,13 +185,13 @@ const EditPostAdditionalInfo: FC = () => {
       >
         <StepTitle title={t('post:additionalInfo')} />
         <StyledInput
-          value={description}
-          name="description"
           label={t('post:description')}
           input={{
             id: 'description',
-            fullWidth: true,
+            name: 'description',
+            value: description,
             type: 'text',
+            fullWidth: true,
             placeholder: t('post:descriptionHint'),
             multiline: true,
             rows: 4,
@@ -402,7 +401,7 @@ const EditPostAdditionalInfo: FC = () => {
           </Button>
         </Container>
       </Container>
-    </ValidatorForm>
+    </form>
   );
 };
 

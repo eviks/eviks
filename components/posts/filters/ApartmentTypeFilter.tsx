@@ -2,7 +2,6 @@ import React, { FC, useState, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledToggleButtonRounded from '../../layout/StyledToggleButtonRounded';
 import { AppContext } from '../../../store/appContext';
 import { pushToNewPostsRoute } from '../../../actions/posts';
@@ -49,19 +48,15 @@ const ApartmentTypeFilter: FC<{ handleClose?: () => void }> = ({
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
         {t('post:apartmentTypeTitle')}
       </Typography>
       <StyledToggleButtonRounded
-        name="apartmentType"
         value={apartmentType}
-        exclusive
-        width={{ xs: '110px', md: '120px' }}
-        height={{ xs: '110px', md: '120px' }}
-        padding={3}
-        onChange={handleChange}
         toggleProps={{
+          exclusive: true,
+          onChange: handleChange,
           sx: { mb: 4, display: 'flex', justifyContent: 'center' },
         }}
         values={[
@@ -85,7 +80,7 @@ const ApartmentTypeFilter: FC<{ handleClose?: () => void }> = ({
       >
         {t('filters:showPosts')}
       </Button>
-    </ValidatorForm>
+    </form>
   );
 };
 

@@ -10,7 +10,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
 import CircularProgress from '@mui/material/CircularProgress';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { useSnackbar } from 'notistack';
 import StyledInput from '../layout/StyledInput';
 import PhoneCallIcon from '../icons/PhoneCallIcon';
@@ -36,26 +37,7 @@ const EditPostContacts: FC = () => {
     dispatch,
   } = useContext(AppContext);
 
-  const [contactsState, setContactsState] = useState<ContactsState>({
-    phoneNumber: (post.lastStep || -1) >= 7 ? post.phoneNumber ?? '' : '',
-    username: (post.lastStep || -1) >= 7 ? post.username : '',
-  });
-
   const [loading, setLoading] = useState<boolean>(false);
-
-  const { phoneNumber, username } = contactsState;
-
-  const setPostDataAndDispatch = (step: number) => {
-    const updatedPost = {
-      ...post,
-      phoneNumber,
-      username,
-      step,
-      lastStep: Math.max(7, post.lastStep ?? 7),
-    };
-    setPostData(updatedPost)(dispatch);
-    return updatedPost;
-  };
 
   const createOrUpdatePost = async (updatedPost: Post) => {
     setLoading(true);
@@ -86,19 +68,36 @@ const EditPostContacts: FC = () => {
     setLoading(false);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const validationSchema = yup.object({
+    phoneNumber: yup.string().required(t('common:errorRequiredField')),
+    username: yup.string().required(t('common:errorRequiredField')),
+  });
 
-    setContactsState((prevState) => {
-      return { ...prevState, [name]: value };
-    });
-  };
+  const formik = useFormik<ContactsState>({
+    initialValues: {
+      phoneNumber: (post.lastStep || -1) >= 7 ? post.phoneNumber ?? '' : '',
+      username: (post.lastStep || -1) >= 7 ? post.username : '',
+    },
+    validationSchema,
+    onSubmit: async () => {
+      // eslint-disable-next-line no-use-before-define
+      const updatedPost = setPostDataAndDispatch(7);
+      createOrUpdatePost(updatedPost);
+    },
+  });
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const { phoneNumber, username } = formik.values;
 
-    const updatedPost = setPostDataAndDispatch(7);
-    createOrUpdatePost(updatedPost);
+  const setPostDataAndDispatch = (step: number) => {
+    const updatedPost = {
+      ...post,
+      phoneNumber,
+      username,
+      step,
+      lastStep: Math.max(7, post.lastStep ?? 7),
+    };
+    setPostData(updatedPost)(dispatch);
+    return updatedPost;
   };
 
   const handlePrevStepClick = () => {
@@ -106,7 +105,7 @@ const EditPostContacts: FC = () => {
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Container
         disableGutters
         sx={{
@@ -141,41 +140,41 @@ const EditPostContacts: FC = () => {
             <Box>
               {/* Username */}
               <StyledInput
-                validators={['required']}
-                value={username}
-                name="username"
-                errorMessages={[t('common:errorRequiredField')]}
                 label={t('post:username')}
                 input={{
                   id: 'username',
+                  name: 'username',
+                  value: username,
                   type: 'text',
                   fullWidth: true,
-                  onChange: handleChange,
+                  onChange: formik.handleChange,
                   startAdornment: (
                     <InputAdornment position="start">
                       <UserIcon sx={{ ml: 1 }} />
                     </InputAdornment>
                   ),
                 }}
+                helperText={formik.touched.username && formik.errors.username}
               />
               {/* Phone number */}
               <StyledInput
-                validators={['required']}
-                value={phoneNumber}
-                name="phoneNumber"
-                errorMessages={[t('common:errorRequiredField')]}
                 label={t('post:phoneNumber')}
                 input={{
                   id: 'phoneNumber',
+                  name: 'phoneNumber',
+                  value: phoneNumber,
                   type: 'text',
                   fullWidth: true,
-                  onChange: handleChange,
+                  onChange: formik.handleChange,
                   startAdornment: (
                     <InputAdornment position="start">
                       <PhoneCallIcon sx={{ ml: 1 }} />
                     </InputAdornment>
                   ),
                 }}
+                helperText={
+                  formik.touched.phoneNumber && formik.errors.phoneNumber
+                }
               />
               <Button
                 type="submit"
@@ -214,7 +213,7 @@ const EditPostContacts: FC = () => {
           </Button>
         </Container>
       </Container>
-    </ValidatorForm>
+    </form>
   );
 };
 

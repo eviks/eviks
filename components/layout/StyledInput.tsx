@@ -1,13 +1,12 @@
 import React, { FC } from 'react';
 import { styled } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
-import InputBase from '@mui/material/InputBase';
+import InputBase, { InputBaseProps } from '@mui/material/InputBase';
 import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
-import { ValidatorComponent } from 'react-material-ui-form-validator';
 import ErrorTypography from '../ErrorTypography';
 
-const StyledInputBase: FC = styled(InputBase)(({ theme }) => {
+const StyledInputBase = styled(InputBase)(({ theme }) => {
   return {
     '&': {
       borderRadius: 4,
@@ -34,42 +33,38 @@ const StyledInputBase: FC = styled(InputBase)(({ theme }) => {
   };
 });
 
-class StyledInput extends ValidatorComponent {
-  state = {
-    isValid: true,
-  };
-
-  renderValidatorComponent() {
-    const { name, value, label, input } = this.props;
-
-    return (
-      <FormControl fullWidth={input?.fullWidth} variant="standard">
-        {label && (
-          <InputLabel
-            shrink
-            htmlFor={input.id}
-            sx={{ transform: 'translate(0, -3.5px)' }}
-          >
-            {label}
-          </InputLabel>
-        )}
-        <StyledInputBase name={name} value={value} {...input} />
-        <Box sx={{ mb: 2, width: input.sx?.width || 'auto' }}>
-          {this.errorText()}
-        </Box>
-      </FormControl>
-    );
-  }
-
-  errorText() {
-    const { isValid } = this.state;
-
-    if (isValid) {
-      return null;
-    }
-
-    return <ErrorTypography>{this.getErrorMessage()}</ErrorTypography>;
-  }
+interface SxProps {
+  width?: any;
 }
+
+const StyledInput: FC<{
+  label?: string;
+  input: InputBaseProps;
+  helperText?: string | false | undefined;
+}> = ({ label, input, helperText }) => {
+  const sx = input.sx ? (input.sx as SxProps) : null;
+
+  return (
+    <FormControl
+      fullWidth={input?.fullWidth}
+      variant="standard"
+      sx={{ display: 'block' }}
+    >
+      {label && (
+        <InputLabel
+          shrink
+          htmlFor={input.id}
+          sx={{ transform: 'translate(0, -3.5px)' }}
+        >
+          {label}
+        </InputLabel>
+      )}
+      <StyledInputBase {...input} />
+      <Box sx={{ mb: 2, width: sx ? sx.width || 'auto' : 'auto' }}>
+        <ErrorTypography>{helperText}</ErrorTypography>
+      </Box>
+    </FormControl>
+  );
+};
 
 export default StyledInput;

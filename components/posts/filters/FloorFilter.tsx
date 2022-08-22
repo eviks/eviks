@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledInput from '../../layout/StyledInput';
 import ElevatorIcon from '../../icons/ElevatorIcon';
 import { AppContext } from '../../../store/appContext';
@@ -67,17 +66,17 @@ const FloorFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       {/* Floor */}
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
         {t('post:floor')}
       </Typography>
       <Box sx={{ display: 'flex' }}>
         <StyledInput
-          value={floorMin}
-          name="floorMin"
           input={{
             id: 'floorMin',
+            name: 'floorMin',
+            value: floorMin,
             type: 'number',
             placeholder: t('filters:valueFrom'),
             sx: {
@@ -93,10 +92,10 @@ const FloorFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
           }}
         />
         <StyledInput
-          value={floorMax}
-          name="floorMax"
           input={{
             id: 'floorMax',
+            name: 'floorMax',
+            value: floorMax,
             type: 'number',
             placeholder: t('filters:valueTo'),
             sx: {
@@ -114,7 +113,7 @@ const FloorFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       >
         {t('filters:showPosts')}
       </Button>
-    </ValidatorForm>
+    </form>
   );
 };
 

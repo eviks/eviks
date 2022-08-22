@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -29,17 +28,17 @@ const OtherSqmFilters: FC<OtherSqmFiltersProps> = ({
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       {/* Living rooms sqm */}
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
         {t('post:livingRoomsSqm')}
       </Typography>
       <Box sx={{ display: 'flex' }}>
         <StyledInput
-          value={livingRoomsSqmMin}
-          name="livingRoomsSqmMin"
           input={{
             id: 'livingRoomsSqmMin',
+            name: 'livingRoomsSqmMin',
+            value: livingRoomsSqmMin,
             type: 'number',
             placeholder: t('filters:valueFrom'),
             sx: {
@@ -55,10 +54,10 @@ const OtherSqmFilters: FC<OtherSqmFiltersProps> = ({
           }}
         />
         <StyledInput
-          value={livingRoomsSqmMax}
-          name="livingRoomsSqmMax"
           input={{
             id: 'livingRoomsSqmMax',
+            name: 'livingRoomsSqmMax',
+            value: livingRoomsSqmMax,
             type: 'number',
             placeholder: t('filters:valueTo'),
             sx: {
@@ -74,10 +73,10 @@ const OtherSqmFilters: FC<OtherSqmFiltersProps> = ({
       </Typography>
       <Box sx={{ display: 'flex' }}>
         <StyledInput
-          value={kitchenSqmMin}
-          name="kitchenSqmMin"
           input={{
             id: 'kitchenSqmMin',
+            name: 'kitchenSqmMin',
+            value: kitchenSqmMin,
             type: 'number',
             placeholder: t('filters:valueFrom'),
             sx: {
@@ -93,10 +92,10 @@ const OtherSqmFilters: FC<OtherSqmFiltersProps> = ({
           }}
         />
         <StyledInput
-          value={kitchenSqmMax}
-          name="kitchenSqmMax"
           input={{
             id: 'kitchenSqmMax',
+            name: 'kitchenSqmMax',
+            value: kitchenSqmMax,
             type: 'number',
             placeholder: t('filters:valueTo'),
             sx: {
@@ -106,7 +105,7 @@ const OtherSqmFilters: FC<OtherSqmFiltersProps> = ({
           }}
         />
       </Box>
-    </ValidatorForm>
+    </form>
   );
 };
 

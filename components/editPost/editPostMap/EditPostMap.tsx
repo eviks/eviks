@@ -1,8 +1,9 @@
 import React, { FC, useContext, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { MapContainer, TileLayer } from 'react-leaflet';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Hidden from '@mui/material/Hidden';
@@ -16,8 +17,17 @@ import SettlementSelect from './SettlementSelect';
 import StepTitle from '../StepTitle';
 import { AppContext } from '../../../store/appContext';
 import { setPostData } from '../../../actions/post';
-import { MapState } from '../../../types';
+import { Settlement, MetroStation } from '../../../types';
 import 'leaflet/dist/leaflet.css';
+
+export interface MapState {
+  location: [number, number];
+  address: string;
+  city: Settlement;
+  district?: Settlement | null;
+  subdistrict?: Settlement | null;
+  metroStation?: MetroStation | null;
+}
 
 const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
   const { t } = useTranslation();
@@ -29,20 +39,71 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
 
   const theme = useTheme();
 
-  const [mapstate, setMapState] = useState<MapState>({
-    location: post.location,
-    city: post.city,
-    district: (post.lastStep || -1) >= 1 ? post.district : undefined,
-    subdistrict: (post.lastStep || -1) >= 1 ? post.subdistrict : undefined,
-    address: post.address,
-    metroStation: (post.lastStep || -1) >= 1 ? post.metroStation || null : null,
-  });
-
   const [loading, setLoading] = useState<boolean>(false);
   const [addressError, setAddressError] = useState<string>('');
 
+  const validationSchema = yup.object({
+    location: yup.array(),
+    city: yup.object(),
+    district: yup.object().nullable(),
+    subdistrict: yup.object().nullable(),
+    address: yup.string().required(t('post:errorAddress')),
+    metroStation: yup
+      .object()
+      .nullable()
+      .test(
+        'metroStationIsRequired',
+        t('common:errorRequiredField'),
+        function checkIfMetroStationIsRequired(value) {
+          return (
+            (this.parent.city.metroStations?.length ?? 0) === 0 ||
+            value !== null
+          );
+        },
+      ),
+  });
+
+  const formik = useFormik<MapState>({
+    initialValues: {
+      location: post.location,
+      city: post.city,
+      district: (post.lastStep || -1) >= 1 ? post.district : undefined,
+      subdistrict: (post.lastStep || -1) >= 1 ? post.subdistrict : undefined,
+      address: post.address,
+      metroStation:
+        (post.lastStep || -1) >= 1 ? post.metroStation || null : null,
+    },
+    validationSchema,
+    onSubmit: async (values: MapState) => {
+      const { location, city, district, subdistrict } = values;
+
+      if (location[0] === 0 || location[1] === 0) {
+        setAddressError(t('post:wrongAddress'));
+        return;
+      }
+
+      if (!city) {
+        setAddressError(t('post:cityError'));
+        return;
+      }
+
+      if (!district) {
+        setAddressError(t('post:districtError'));
+        return;
+      }
+
+      if ((district.children?.length ?? 0) > 0 && !subdistrict) {
+        setAddressError(t('post:subdistrictError'));
+        return;
+      }
+
+      // eslint-disable-next-line no-use-before-define
+      setPostDataAndDispatch(2);
+    },
+  });
+
   const { city, district, subdistrict, location, address, metroStation } =
-    mapstate;
+    formik.values;
 
   const defaultmapCenter: [number, number] =
     post.location[0] === 0 && post.location[1] === 0
@@ -54,37 +115,17 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
   const setPostDataAndDispatch = (step: number) => {
     setPostData({
       ...post,
-      ...mapstate,
+      ...formik.values,
+      district: district!,
+      subdistrict: subdistrict || undefined,
       metroStation: metroStation || undefined,
       step,
       lastStep: Math.max(1, post.lastStep ?? 1),
     })(dispatch);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (location[0] === 0 || location[1] === 0) {
-      setAddressError(t('post:wrongAddress'));
-      return;
-    }
-
-    if (!city) {
-      setAddressError(t('post:cityError'));
-      return;
-    }
-
-    if (!district) {
-      setAddressError(t('post:districtError'));
-      return;
-    }
-
-    if ((district.children?.length ?? 0) > 0 && !subdistrict) {
-      setAddressError(t('post:subdistrictError'));
-      return;
-    }
-
-    setPostDataAndDispatch(2);
+  const setMapState = (name: string, value: any) => {
+    formik.setFieldValue(name, value);
   };
 
   const handlePrevStepClick = () => {
@@ -99,7 +140,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
         height: { xs: '100vh', md: 'auto' },
       }}
     >
-      <ValidatorForm onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <Hidden mdDown>
           <StepTitle title={t('post:address')} />
         </Hidden>
@@ -130,12 +171,16 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
               <AddressInput
                 city={city}
                 address={address}
+                helperText={formik.touched.address && formik.errors.address}
                 setMapState={setMapState}
                 setMapStateLoading={setLoading}
               />
               <MetroInput
                 city={city}
                 metroStation={metroStation}
+                helperText={
+                  formik.touched.metroStation && formik.errors.metroStation
+                }
                 setMapState={setMapState}
               />
             </Box>
@@ -154,6 +199,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
           <AddressInput
             city={city}
             address={address}
+            helperText={formik.touched.address && formik.errors.address}
             setMapState={setMapState}
             setMapStateLoading={setLoading}
           />
@@ -195,6 +241,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
             mapCenter={mapCenter}
             setMapState={setMapState}
             setLoading={setLoading}
+            setAddressError={setAddressError}
           />
         </MapContainer>
         <Hidden mdDown>
@@ -202,6 +249,9 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
           <MetroInput
             city={city}
             metroStation={metroStation}
+            helperText={
+              formik.touched.metroStation && formik.errors.metroStation
+            }
             setMapState={setMapState}
           />
         </Hidden>
@@ -234,7 +284,7 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
             {t('post:next')}
           </Button>
         </Container>
-      </ValidatorForm>
+      </form>
     </Container>
   );
 };

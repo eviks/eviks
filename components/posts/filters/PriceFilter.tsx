@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledInput from '../../layout/StyledInput';
 import MoneyIcon from '../../icons/MoneyIcon';
 import { AppContext } from '../../../store/appContext';
@@ -69,16 +68,16 @@ const PriceFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
         {t('post:price')}
       </Typography>
       <Box sx={{ display: 'flex' }}>
         <StyledInput
-          value={priceMin}
-          name="priceMin"
           input={{
             id: 'priceMin',
+            name: 'priceMin',
+            value: priceMin,
             type: 'number',
             placeholder: t('filters:valueFrom'),
             sx: {
@@ -94,10 +93,10 @@ const PriceFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
           }}
         />
         <StyledInput
-          value={priceMax}
-          name="priceMax"
           input={{
             id: 'priceMax',
+            name: 'priceMax',
+            value: priceMax,
             type: 'number',
             placeholder: t('filters:valueTo'),
             sx: {
@@ -115,7 +114,7 @@ const PriceFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       >
         {t('filters:showPosts')}
       </Button>
-    </ValidatorForm>
+    </form>
   );
 };
 

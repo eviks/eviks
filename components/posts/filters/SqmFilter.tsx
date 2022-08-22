@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledInput from '../../layout/StyledInput';
 import SqmIcon from '../../icons/SqmIcon';
 import { AppContext } from '../../../store/appContext';
@@ -67,17 +66,17 @@ const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       {/* Sqm */}
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
         {t('post:sqm')}
       </Typography>
       <Box sx={{ display: 'flex' }}>
         <StyledInput
-          value={sqmMin}
-          name="sqmMin"
           input={{
             id: 'sqmMin',
+            name: 'sqmMin',
+            value: sqmMin,
             type: 'number',
             placeholder: t('filters:valueFrom'),
             sx: {
@@ -93,10 +92,10 @@ const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
           }}
         />
         <StyledInput
-          value={sqmMax}
-          name="sqmMax"
           input={{
             id: 'sqmMax',
+            name: 'sqmMax',
+            value: sqmMax,
             type: 'number',
             placeholder: t('filters:valueTo'),
             sx: {
@@ -115,7 +114,7 @@ const SqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       >
         {t('filters:showPosts')}
       </Button>
-    </ValidatorForm>
+    </form>
   );
 };
 

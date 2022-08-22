@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledInput from '../../layout/StyledInput';
 import GardenIcon from '../../icons/GardenIcon';
 import { AppContext } from '../../../store/appContext';
@@ -67,17 +66,17 @@ const LotSqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       {/* Lot Sqm */}
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
         {t('post:lotSqm')}
       </Typography>
       <Box sx={{ display: 'flex' }}>
         <StyledInput
-          value={lotSqmMin}
-          name="lotSqmMin"
           input={{
             id: 'lotSqmMin',
+            name: 'lotSqmMin',
+            value: lotSqmMin,
             type: 'number',
             placeholder: t('filters:valueFrom'),
             sx: {
@@ -93,10 +92,10 @@ const LotSqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
           }}
         />
         <StyledInput
-          value={lotSqmMax}
-          name="lotSqmMax"
           input={{
             id: 'lotSqmMax',
+            name: 'lotSqmMax',
+            value: lotSqmMax,
             type: 'number',
             placeholder: t('filters:valueTo'),
             sx: {
@@ -115,7 +114,7 @@ const LotSqmFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       >
         {t('filters:showPosts')}
       </Button>
-    </ValidatorForm>
+    </form>
   );
 };
 

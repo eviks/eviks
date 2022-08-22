@@ -1,6 +1,5 @@
 import React, { FC, Fragment, useState, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import Container from '@mui/material/Container';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
@@ -83,7 +82,7 @@ const EditPostBuildingInfo: FC = () => {
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Container
         disableGutters
         sx={{
@@ -96,11 +95,11 @@ const EditPostBuildingInfo: FC = () => {
         <StepTitle title={t('post:buildingInfo')} />
         {/* Year build */}
         <StyledInput
-          value={yearBuild}
-          name="yearBuild"
           label={t('post:yearBuild')}
           input={{
             id: 'yearBuild',
+            name: 'yearBuild',
+            value: yearBuild,
             type: 'number',
             sx: {
               width: '180px',
@@ -115,11 +114,11 @@ const EditPostBuildingInfo: FC = () => {
         />
         {/* Ceiling height */}
         <StyledInput
-          value={ceilingHeight}
-          name="ceilingHeight"
           label={t('post:ceilingHeight')}
           input={{
             id: 'ceilingHeight',
+            name: 'ceilingHeight',
+            value: ceilingHeight,
             type: 'number',
             sx: {
               width: '180px',
@@ -189,7 +188,7 @@ const EditPostBuildingInfo: FC = () => {
           </Button>
         </Container>
       </Container>
-    </ValidatorForm>
+    </form>
   );
 };
 

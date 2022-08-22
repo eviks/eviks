@@ -2,21 +2,19 @@ import React, { FC, useEffect } from 'react';
 import { Marker, useMapEvents } from 'react-leaflet';
 import { icon } from 'leaflet';
 import { getAddressByCoords } from '../../../actions/post';
-import { MapState } from '../../../types';
 
 const LocationMarker: FC<{
   location: [number, number];
   mapCenter: [number, number];
-  setMapState: React.Dispatch<React.SetStateAction<MapState>>;
+  setMapState: (name: string, value: any) => void;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ location, mapCenter, setMapState, setLoading }) => {
+  setAddressError: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ location, mapCenter, setMapState, setLoading, setAddressError }) => {
   const map = useMapEvents({
     async click(event) {
       setLoading(true);
 
-      setMapState((prevState) => {
-        return { ...prevState, location: [event.latlng.lng, event.latlng.lat] };
-      });
+      setMapState('location', [event.latlng.lng, event.latlng.lat]);
 
       try {
         const response = await getAddressByCoords({
@@ -25,12 +23,13 @@ const LocationMarker: FC<{
           y: event.latlng.lat,
         });
 
-        setMapState((prevState) => {
-          return {
-            ...prevState,
-            ...response,
-          };
-        });
+        setMapState('address', response.address);
+        setMapState('city', response.city);
+        setMapState('district', response.district || null);
+        setMapState('subdistrict', response.subdistrict || null);
+        setMapState('metroStation', response.metroStation || null);
+
+        setAddressError('');
       } catch (error) {
         // no user notification
       }

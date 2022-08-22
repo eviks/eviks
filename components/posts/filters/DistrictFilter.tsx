@@ -1,6 +1,5 @@
 import React, { FC, useState, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import Link from '@mui/material/Link';
 import DistrictSelection from '../../selections/DistrictSelection';
 import { AppContext } from '../../../store/appContext';
@@ -46,7 +45,7 @@ const DistrictFilter: FC = () => {
   };
 
   return filters.city ? (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Link
         component="button"
         variant="h6"
@@ -63,7 +62,7 @@ const DistrictFilter: FC = () => {
         open={openDistrictSelection}
         onCloseMultiple={handleDistrictSelectionClose}
       />
-    </ValidatorForm>
+    </form>
   ) : null;
 };
 

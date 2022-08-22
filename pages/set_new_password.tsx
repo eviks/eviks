@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import { useSnackbar } from 'notistack';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -20,9 +21,8 @@ import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 import { CustomNextPage } from '../types';
 
-interface SetNewPasswordState {
+interface SetNewPasswordForm {
   newPassword: string;
-  showNewPassword: boolean;
 }
 
 interface QueryParams {
@@ -41,52 +41,50 @@ const SetNewPassword: CustomNextPage = () => {
   const { email, resetPasswordToken } = router.query as StringQueryParams;
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<SetNewPasswordState>({
-    newPassword: '',
-    showNewPassword: false,
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
+
+  const validationSchema = yup.object({
+    newPassword: yup
+      .string()
+      .required(t('auth:errorPassword'))
+      .min(6, t('auth:invalidPassword')),
   });
 
-  const { newPassword, showNewPassword } = data;
+  const formik = useFormik<SetNewPasswordForm>({
+    initialValues: {
+      newPassword: '',
+    },
+    validationSchema,
+    onSubmit: async (values: SetNewPasswordForm) => {
+      const { newPassword } = values;
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+      setLoading(true);
 
-    setLoading(true);
-
-    try {
-      await resetPassword(email, resetPasswordToken, newPassword)(dispatch);
-      await loadUser()(dispatch);
-      router.push({ pathname: '/' });
-    } catch (error) {
-      let errorMessage = '';
-      if (error instanceof Failure) {
-        errorMessage = error.message;
-      } else if (error instanceof ServerError) {
-        errorMessage = t('common:serverError');
-      } else {
-        errorMessage = t('common:unknownError');
+      try {
+        await resetPassword(email, resetPasswordToken, newPassword)(dispatch);
+        await loadUser()(dispatch);
+        router.push({ pathname: '/' });
+      } catch (error) {
+        let errorMessage = '';
+        if (error instanceof Failure) {
+          errorMessage = error.message;
+        } else if (error instanceof ServerError) {
+          errorMessage = t('common:serverError');
+        } else {
+          errorMessage = t('common:unknownError');
+        }
+        enqueueSnackbar(errorMessage, {
+          variant: 'error',
+          autoHideDuration: 3000,
+        });
       }
-      enqueueSnackbar(errorMessage, {
-        variant: 'error',
-        autoHideDuration: 3000,
-      });
-    }
 
-    setLoading(false);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setData((prevState) => {
-      return { ...prevState, [name]: value };
-    });
-  };
+      setLoading(false);
+    },
+  });
 
   const handleClickShowNewPassword = () => {
-    setData((prevState) => {
-      return { ...prevState, showNewPassword: !prevState.showNewPassword };
-    });
+    setShowNewPassword(!showNewPassword);
   };
 
   return (
@@ -100,7 +98,7 @@ const SetNewPassword: CustomNextPage = () => {
           mb: 10,
         }}
       >
-        <ValidatorForm onSubmit={handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <Box
             sx={{
               mt: 2,
@@ -112,20 +110,15 @@ const SetNewPassword: CustomNextPage = () => {
           >
             {/* New password */}
             <StyledInput
-              validators={['required', 'minStringLength:6']}
-              value={newPassword}
-              name="newPassword"
-              errorMessages={[
-                t('auth:errorNewPassword'),
-                t('auth:invalidPassword'),
-              ]}
               label={t('auth:newPassword')}
               input={{
                 id: 'newPassword',
+                name: 'newPassword',
+                value: formik.values.newPassword,
+                type: showNewPassword ? 'text' : 'password',
                 autoComplete: 'on',
                 fullWidth: true,
-                type: showNewPassword ? 'text' : 'password',
-                onChange: handleChange,
+                onChange: formik.handleChange,
                 startAdornment: (
                   <InputAdornment position="start">
                     <PasswordIcon sx={{ ml: 1 }} />
@@ -148,6 +141,9 @@ const SetNewPassword: CustomNextPage = () => {
                   </InputAdornment>
                 ),
               }}
+              helperText={
+                formik.touched.newPassword && formik.errors.newPassword
+              }
             />
             <Button
               type="submit"
@@ -164,7 +160,7 @@ const SetNewPassword: CustomNextPage = () => {
               )}
             </Button>
           </Box>
-        </ValidatorForm>
+        </form>
       </Container>
     </Fragment>
   );

@@ -1,6 +1,7 @@
-import React, { FC, useState, useContext, Fragment } from 'react';
+import React, { FC, useContext, Fragment } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import Container from '@mui/material/Container';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
@@ -47,9 +48,25 @@ const EditPostPrice: FC = () => {
     dispatch,
   } = useContext(AppContext);
 
-  const [priceState, setPriceState] = useState<PriceState>(
-    getDefaultState(post),
-  );
+  const validationSchema = yup.object({
+    price: yup
+      .number()
+      .required(t('common:errorRequiredField'))
+      .min(1, t('common:errorRequiredField')),
+    haggle: yup.boolean(),
+    installmentOfPayment: yup.boolean(),
+    prepayment: yup.boolean(),
+    municipalServicesIncluded: yup.boolean(),
+  });
+
+  const formik = useFormik<PriceState>({
+    initialValues: getDefaultState(post),
+    validationSchema,
+    onSubmit: async () => {
+      // eslint-disable-next-line no-use-before-define
+      setPostDataAndDispatch(7);
+    },
+  });
 
   const isSale = post.dealType === DealType.sale;
 
@@ -59,7 +76,7 @@ const EditPostPrice: FC = () => {
     installmentOfPayment,
     prepayment,
     municipalServicesIncluded,
-  } = priceState;
+  } = formik.values;
 
   const getPriceLabel = () => {
     switch (post.dealType) {
@@ -87,28 +104,12 @@ const EditPostPrice: FC = () => {
     })(dispatch);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = event.target;
-
-    const isBoolean = name !== 'price';
-
-    setPriceState((prevState) => {
-      return { ...prevState, [name]: isBoolean ? checked : value };
-    });
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    setPostDataAndDispatch(7);
-  };
-
   const handlePrevStepClick = () => {
     setPostDataAndDispatch(5);
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Container
         disableGutters
         sx={{
@@ -121,24 +122,23 @@ const EditPostPrice: FC = () => {
         <StepTitle title={t('post:priceTitle')} />
         {/* Price */}
         <StyledInput
-          validators={['required']}
-          value={price}
-          name="price"
-          errorMessages={[t('common:errorRequiredField')]}
           label={getPriceLabel()}
           input={{
             id: 'price',
+            name: 'price',
+            value: price,
             type: 'number',
             sx: {
               width: '180px',
             },
-            onChange: handleChange,
+            onChange: formik.handleChange,
             startAdornment: (
               <InputAdornment position="start">
                 <MoneyIcon sx={{ ml: 1 }} />
               </InputAdornment>
             ),
           }}
+          helperText={formik.touched.price && formik.errors.price}
         />
         {/* Haggle */}
         <FormGroup>
@@ -147,7 +147,7 @@ const EditPostPrice: FC = () => {
               <Checkbox
                 name={'haggle'}
                 checked={haggle}
-                onChange={handleChange}
+                onChange={formik.handleChange}
               />
             }
             label={t('post:haggle')}
@@ -161,7 +161,7 @@ const EditPostPrice: FC = () => {
                 <Checkbox
                   name={'installmentOfPayment'}
                   checked={installmentOfPayment}
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
                 />
               }
               label={t('post:installmentOfPayment')}
@@ -176,7 +176,7 @@ const EditPostPrice: FC = () => {
                   <Checkbox
                     name={'prepayment'}
                     checked={prepayment}
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                   />
                 }
                 label={t('post:prepayment')}
@@ -189,7 +189,7 @@ const EditPostPrice: FC = () => {
                   <Checkbox
                     name={'municipalServicesIncluded'}
                     checked={municipalServicesIncluded}
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                   />
                 }
                 label={t('post:municipalServicesIncluded')}
@@ -224,7 +224,7 @@ const EditPostPrice: FC = () => {
           </Button>
         </Container>
       </Container>
-    </ValidatorForm>
+    </form>
   );
 };
 

@@ -1,6 +1,7 @@
-import React, { FC, useState, useContext, useEffect } from 'react';
+import React, { FC, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -20,20 +21,20 @@ import { setPostData } from '../../actions/post';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import { EstateType, Post, Renovation } from '../../types';
 
-interface EstateInfo {
-  rooms: string;
+interface EstateInfoState {
+  rooms: string | null;
   sqm: string;
   livingRoomsSqm: string;
   kitchenSqm: string;
   lotSqm: string;
   floor: string;
   totalFloors: string;
-  renovation?: Renovation;
+  renovation?: Renovation | null;
   documented: boolean;
   redevelopment: boolean;
 }
 
-const getDefaultState = (post: Post): EstateInfo => {
+const getDefaultState = (post: Post): EstateInfoState => {
   const defaultRooms = post.rooms > 0 ? post.rooms.toString() : '';
   const defaultSqm = post.sqm > 0 ? post.sqm.toString() : '';
   const defaultLivingRoomsSqm =
@@ -75,9 +76,45 @@ const EditPostEstateInfo: FC = () => {
 
   const isHouse = post.estateType === EstateType.house;
 
-  const [estateInfoState, setEstateInfo] = useState<EstateInfo>(
-    getDefaultState(post),
-  );
+  const validationSchema = yup.object({
+    rooms: yup.number().nullable().required(t('common:fieldIsRequired')),
+    sqm: yup
+      .number()
+      .required(t('common:errorRequiredField'))
+      .min(1, t('common:errorRequiredField')),
+    livingRoomsSqm: yup.number(),
+    kitchenSqm: yup.number(),
+    lotSqm: yup
+      .number()
+      .test('lotSqmIsValid', t('common:errorRequiredField'), (value) => {
+        return !isHouse || Number(value) > 0;
+      }),
+    floor: yup
+      .number()
+      .test('floorIsRequired', t('common:errorRequiredField'), (value) => {
+        return isHouse || Number(value) > 0;
+      })
+      .test(
+        'floorIsValid',
+        t('post:errorFloor'),
+        function checkIfFloorIsValid(value) {
+          return isHouse || Number(value) <= Number(this.parent.totalFloors);
+        },
+      ),
+    totalFloors: yup.number(),
+    renovation: yup.string().nullable().required(t('common:fieldIsRequired')),
+    documented: yup.boolean(),
+    redevelopment: yup.boolean(),
+  });
+
+  const formik = useFormik<EstateInfoState>({
+    initialValues: getDefaultState(post),
+    validationSchema,
+    onSubmit: async () => {
+      // eslint-disable-next-line no-use-before-define
+      setPostDataAndDispatch(3);
+    },
+  });
 
   const {
     rooms,
@@ -90,44 +127,20 @@ const EditPostEstateInfo: FC = () => {
     renovation,
     documented,
     redevelopment,
-  } = estateInfoState;
-
-  useEffect(() => {
-    ValidatorForm.addValidationRule('floorIsValid', (value) => {
-      return Number(value) <= Number(totalFloors);
-    });
-
-    return () => {
-      ValidatorForm.removeValidationRule('floorIsValid');
-    };
-  }, [totalFloors]);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = event.target;
-
-    const isBoolean = name === 'documented' || name === 'redevelopment';
-
-    setEstateInfo((prevState) => {
-      return { ...prevState, [name]: isBoolean ? checked : value };
-    });
-  };
+  } = formik.values;
 
   const handleRoomsChange = (
     _event: React.MouseEvent<HTMLElement>,
-    newValue: string,
+    value: string,
   ) => {
-    setEstateInfo((prevState) => {
-      return { ...prevState, rooms: newValue };
-    });
+    formik.setFieldValue('rooms', value);
   };
 
   const handleRenovationChange = (
     _event: React.MouseEvent<HTMLElement>,
-    newValue: Renovation,
+    value: Renovation,
   ) => {
-    setEstateInfo((prevState) => {
-      return { ...prevState, renovation: newValue };
-    });
+    formik.setFieldValue('renovation', value);
   };
 
   const setPostDataAndDispatch = (step: number) => {
@@ -148,18 +161,12 @@ const EditPostEstateInfo: FC = () => {
     })(dispatch);
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    setPostDataAndDispatch(3);
-  };
-
   const handlePrevStepClick = () => {
     setPostDataAndDispatch(1);
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Container
         disableGutters
         sx={{
@@ -172,11 +179,8 @@ const EditPostEstateInfo: FC = () => {
         <StepTitle title={t('post:estateInfo')} />
         {/* Rooms */}
         <StyledToggleButtonRoundedSm
-          name="rooms"
           title={t('post:rooms')}
           value={rooms}
-          exclusive
-          onChange={handleRoomsChange}
           values={[
             {
               value: '1',
@@ -199,51 +203,47 @@ const EditPostEstateInfo: FC = () => {
               description: '5 +',
             },
           ]}
-          validators={['required', 'minNumber: 1']}
-          errorMessages={[t('common:fieldIsRequired')]}
+          toggleProps={{ exclusive: true, onChange: handleRoomsChange }}
+          helperText={formik.touched.rooms && formik.errors.rooms}
         />
         <Box
           sx={{
             display: { md: 'flex', xs: 'inherit' },
-            gap: { md: '12px', xs: '0px' },
           }}
         >
           {/* Sqm */}
           <StyledInput
-            validators={['required', 'minNumber: 1']}
-            value={sqm}
-            name="sqm"
-            errorMessages={[
-              t('common:errorRequiredField'),
-              t('common:errorRequiredField'),
-            ]}
             label={t('post:sqm')}
             input={{
               id: 'sqm',
+              name: 'sqm',
+              value: sqm,
               type: 'number',
               sx: {
                 width: '180px',
               },
-              onChange: handleChange,
+              onChange: formik.handleChange,
               startAdornment: (
                 <InputAdornment position="start">
                   <SqmIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
             }}
+            helperText={formik.touched.sqm && formik.errors.sqm}
           />
           {/* Living rooms sqm */}
           <StyledInput
-            value={livingRoomsSqm}
-            name="livingRoomsSqm"
             label={t('post:livingRoomsSqm')}
             input={{
               id: 'livingRoomsSqm',
+              name: 'livingRoomsSqm',
+              value: livingRoomsSqm,
               type: 'number',
               sx: {
+                ml: { md: 1, xs: 0 },
                 width: '180px',
               },
-              onChange: handleChange,
+              onChange: formik.handleChange,
               startAdornment: (
                 <InputAdornment position="start">
                   <SqmIcon sx={{ ml: 1 }} />
@@ -253,16 +253,17 @@ const EditPostEstateInfo: FC = () => {
           />
           {/* Kitchen sqm */}
           <StyledInput
-            value={kitchenSqm}
-            name="kitchenSqm"
             label={t('post:kitchenSqm')}
             input={{
               id: 'kitchenSqm',
+              name: 'kitchenSqm',
+              value: kitchenSqm,
               type: 'number',
               sx: {
+                ml: { md: 1, xs: 0 },
                 width: '180px',
               },
-              onChange: handleChange,
+              onChange: formik.handleChange,
               startAdornment: (
                 <InputAdornment position="start">
                   <SqmIcon sx={{ ml: 1 }} />
@@ -274,110 +275,99 @@ const EditPostEstateInfo: FC = () => {
         {/* Lot sqm */}
         {isHouse && (
           <StyledInput
-            validators={['required', 'minNumber: 1']}
-            value={lotSqm}
-            name="lotSqm"
-            errorMessages={[
-              t('common:errorRequiredField'),
-              t('common:errorRequiredField'),
-            ]}
             label={t('post:lotSqm')}
             input={{
               id: 'lotSqm',
+              name: 'lotSqm',
+              value: lotSqm,
               type: 'number',
               sx: {
                 width: '180px',
               },
-              onChange: handleChange,
+              onChange: formik.handleChange,
               startAdornment: (
                 <InputAdornment position="start">
                   <GardenIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
             }}
+            helperText={formik.touched.lotSqm && formik.errors.lotSqm}
           />
         )}
         {/* Floor */}
         {!isHouse ? (
           <Box
             sx={{
-              display: { md: 'flex', xs: 'inherit' },
-              gap: { md: '12px', xs: '0px' },
+              display: 'flex',
             }}
           >
             <StyledInput
-              validators={['required', 'minNumber: 1', 'floorIsValid']}
-              value={floor}
-              name="floor"
-              errorMessages={[
-                t('common:errorRequiredField'),
-                t('common:errorRequiredField'),
-                t('post:errorFloor'),
-              ]}
               label={t('post:floor')}
               input={{
                 id: 'floor',
+                name: 'floor',
+                value: floor,
                 type: 'number',
                 sx: {
                   width: '180px',
                 },
-                onChange: handleChange,
+                onChange: formik.handleChange,
                 startAdornment: (
                   <InputAdornment position="start">
                     <ElevatorIcon sx={{ ml: 1 }} />
                   </InputAdornment>
                 ),
               }}
+              helperText={formik.touched.floor && formik.errors.floor}
             />
             <StyledInput
-              validators={['required', 'minNumber: 1']}
-              value={totalFloors}
-              name="totalFloors"
-              errorMessages={[
-                t('common:errorRequiredField'),
-                t('common:errorRequiredField'),
-              ]}
               label={' '}
               input={{
                 id: 'totalFloors',
+                name: 'totalFloors',
+                value: totalFloors,
                 type: 'number',
                 sx: {
+                  ml: 1,
                   width: '180px',
                 },
-                onChange: handleChange,
+                onChange: formik.handleChange,
               }}
+              helperText={
+                formik.touched.totalFloors && formik.errors.totalFloors
+              }
             />
           </Box>
         ) : (
           <StyledInput
-            value={totalFloors}
-            name="totalFloors"
             label={t('post:totalFloorsInHouse')}
             input={{
               id: 'totalFloors',
+              name: 'totalFloors',
+              value: totalFloors,
               type: 'number',
               sx: {
                 width: '180px',
               },
-              onChange: handleChange,
+              onChange: formik.handleChange,
               startAdornment: (
                 <InputAdornment position="start">
                   <ElevatorIcon sx={{ ml: 1 }} />
                 </InputAdornment>
               ),
             }}
+            helperText={formik.touched.totalFloors && formik.errors.totalFloors}
           />
         )}
         {/* Renovation */}
         <StyledToggleButton
-          name="dealType"
           title={t('post:renovation')}
           value={renovation}
           toggleProps={{
+            onChange: handleRenovationChange,
             orientation: width && width < 900 ? 'vertical' : 'horizontal',
-            fullWidth: width && width < 900,
+            // fullWidth: width && width < 900,
           }}
-          onChange={handleRenovationChange}
           values={[
             {
               value: Renovation.cosmetic,
@@ -392,18 +382,16 @@ const EditPostEstateInfo: FC = () => {
               description: t('post:noRenovation'),
             },
           ]}
-          validators={['required']}
-          errorMessages={[t('common:fieldIsRequired')]}
+          helperText={formik.touched.renovation && formik.errors.renovation}
         />
         {/* Documented */}
-
         <FormGroup>
           <FormControlLabel
             control={
               <Checkbox
                 name={'documented'}
                 checked={documented}
-                onChange={handleChange}
+                onChange={formik.handleChange}
               />
             }
             label={t('post:documented')}
@@ -416,7 +404,7 @@ const EditPostEstateInfo: FC = () => {
               <Checkbox
                 name={'redevelopment'}
                 checked={redevelopment}
-                onChange={handleChange}
+                onChange={formik.handleChange}
               />
             }
             label={t('post:redevelopment')}
@@ -449,7 +437,7 @@ const EditPostEstateInfo: FC = () => {
           </Button>
         </Container>
       </Container>
-    </ValidatorForm>
+    </form>
   );
 };
 

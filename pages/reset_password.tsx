@@ -4,7 +4,8 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import { useSnackbar } from 'notistack';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -18,7 +19,7 @@ import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 import { CustomNextPage } from '../types';
 
-interface ResetPasswordState {
+interface ResetPasswordForm {
   email: string;
 }
 
@@ -28,46 +29,48 @@ const ResetPassword: CustomNextPage = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<ResetPasswordState>({ email: '' });
 
-  const { email } = data;
+  const validationSchema = yup.object({
+    email: yup
+      .string()
+      .required(t('common:errorRequiredField'))
+      .email(t('common:invalidEmail')),
+  });
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const formik = useFormik<ResetPasswordForm>({
+    initialValues: {
+      email: '',
+    },
+    validationSchema,
+    onSubmit: async (values: ResetPasswordForm) => {
+      const { email } = values;
 
-    setLoading(true);
+      setLoading(true);
 
-    try {
-      await createResetPasswordToken(email);
-      router.push({
-        pathname: '/reset_password_verification',
-        query: { email },
-      });
-    } catch (error) {
-      let errorMessage = '';
-      if (error instanceof Failure) {
-        errorMessage = error.message;
-      } else if (error instanceof ServerError) {
-        errorMessage = t('common:serverError');
-      } else {
-        errorMessage = t('common:unknownError');
+      try {
+        await createResetPasswordToken(email);
+        router.push({
+          pathname: '/reset_password_verification',
+          query: { email },
+        });
+      } catch (error) {
+        let errorMessage = '';
+        if (error instanceof Failure) {
+          errorMessage = error.message;
+        } else if (error instanceof ServerError) {
+          errorMessage = t('common:serverError');
+        } else {
+          errorMessage = t('common:unknownError');
+        }
+        enqueueSnackbar(errorMessage, {
+          variant: 'error',
+          autoHideDuration: 3000,
+        });
       }
-      enqueueSnackbar(errorMessage, {
-        variant: 'error',
-        autoHideDuration: 3000,
-      });
-    }
 
-    setLoading(false);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setData((prevState) => {
-      return { ...prevState, [name]: value };
-    });
-  };
+      setLoading(false);
+    },
+  });
 
   return (
     <Fragment>
@@ -101,7 +104,7 @@ const ResetPassword: CustomNextPage = () => {
             {t('auth:resetPasswordHint')}
           </Typography>
         </Box>
-        <ValidatorForm onSubmit={handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <Box
             sx={{
               mt: 3,
@@ -113,22 +116,21 @@ const ResetPassword: CustomNextPage = () => {
           >
             {/* Email */}
             <StyledInput
-              validators={['required']}
-              value={email}
-              name="email"
-              errorMessages={[t('common:errorRequiredField')]}
               label={t('auth:email')}
               input={{
                 id: 'email',
-                fullWidth: true,
+                name: 'email',
+                value: formik.values.email,
                 type: 'email',
-                onChange: handleChange,
+                fullWidth: true,
+                onChange: formik.handleChange,
                 startAdornment: (
                   <InputAdornment position="start">
                     <EmailIcon sx={{ ml: 1 }} />
                   </InputAdornment>
                 ),
               }}
+              helperText={formik.touched.email && formik.errors.email}
             />
             <Button
               type="submit"
@@ -145,7 +147,7 @@ const ResetPassword: CustomNextPage = () => {
               )}
             </Button>
           </Box>
-        </ValidatorForm>
+        </form>
       </Container>
     </Fragment>
   );
