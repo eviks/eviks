@@ -7,13 +7,13 @@ import Typography from '@mui/material/Typography';
 import CitySelection from '../../selections/CitySelection';
 import DistrictSelection from '../../selections/DistrictSelection';
 import { getSettlementPresentation } from '../../../utils';
-import { MapState, Settlement } from '../../../types';
+import { Settlement } from '../../../types';
 
 const SettlementSelect: FC<{
   city: Settlement;
-  district?: Settlement;
-  subdistrict?: Settlement;
-  setMapState: React.Dispatch<React.SetStateAction<MapState>>;
+  district?: Settlement | null;
+  subdistrict?: Settlement | null;
+  setMapState: (name: string, value: any) => void;
   setMapCenter: React.Dispatch<React.SetStateAction<[number, number]>>;
   addressError: string;
   setAddressError: React.Dispatch<React.SetStateAction<string>>;
@@ -59,15 +59,11 @@ const SettlementSelect: FC<{
     setOpenCitySelection(false);
     setAddressError('');
     if (value) {
-      setMapState((prevState) => {
-        return {
-          ...prevState,
-          city: value,
-          location: [0, 0],
-          district: undefined,
-          subdistrict: undefined,
-        };
-      });
+      setMapState('city', value);
+      setMapState('location', [0, 0]);
+      setMapState('district', null);
+      setMapState('subdistrict', null);
+      setMapState('metroStation', null);
       setMapCenter([value.y, value.x]);
     }
   };
@@ -84,13 +80,8 @@ const SettlementSelect: FC<{
     setOpenDistrictSelection(false);
     setAddressError('');
     if (districtValue || subdistrictValue) {
-      setMapState((prevState) => {
-        return {
-          ...prevState,
-          district: districtValue,
-          subdistrict: subdistrictValue,
-        };
-      });
+      setMapState('district', districtValue);
+      setMapState('subdistrict', subdistrictValue);
     }
   };
 

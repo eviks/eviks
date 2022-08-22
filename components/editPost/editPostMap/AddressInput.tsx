@@ -10,14 +10,15 @@ import { useTheme } from '@mui/material/styles';
 import StyledInput from '../../layout/StyledInput';
 import MarkerIcon from '../../icons/MarkerIcon';
 import { geocoder, getAddressByCoords } from '../../../actions/post';
-import { MapState, Settlement, Address } from '../../../types';
+import { Settlement, Address } from '../../../types';
 
 const AddressInput: FC<{
   city: Settlement;
   address: string;
-  setMapState: React.Dispatch<React.SetStateAction<MapState>>;
+  helperText: string | false | undefined;
+  setMapState: (name: string, value: any) => void;
   setMapStateLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ city, address, setMapState, setMapStateLoading }) => {
+}> = ({ city, address, helperText, setMapState, setMapStateLoading }) => {
   const { t } = useTranslation();
 
   const theme = useTheme();
@@ -32,9 +33,7 @@ const AddressInput: FC<{
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setMapState((prevState) => {
-      return { ...prevState, address: value };
-    });
+    setMapState('address', value);
 
     if (!value) {
       return;
@@ -71,13 +70,12 @@ const AddressInput: FC<{
         y: newValue.latitude,
       });
 
-      setMapState((prevState) => {
-        return {
-          ...prevState,
-          ...response,
-          location: [newValue.longitude, newValue.latitude],
-        };
-      });
+      setMapState('address', response.address);
+      setMapState('city', response.city);
+      setMapState('district', response.district || null);
+      setMapState('subdistrict', response.subdistrict || null);
+      setMapState('metroStation', response.metroStation || null);
+      setMapState('location', [newValue.longitude, newValue.latitude]);
     } catch (error) {
       // no user notification
     }
@@ -121,14 +119,13 @@ const AddressInput: FC<{
         const inputProps = { ...params.inputProps, value: address };
         return (
           <StyledInput
-            validators={['required']}
-            value={address}
-            name={'address'}
-            errorMessages={[t('post:errorAddress')]}
             label={t('post:address')}
             input={{
-              onChange: handleChange,
+              id: 'address',
+              name: 'address',
+              value: address,
               type: 'text',
+              onChange: handleChange,
               fullWidth: true,
               ref: params.InputProps.ref,
               inputProps,
@@ -150,6 +147,7 @@ const AddressInput: FC<{
                 </Fragment>
               ),
             }}
+            helperText={helperText}
           />
         );
       }}

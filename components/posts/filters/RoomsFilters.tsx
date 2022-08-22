@@ -2,7 +2,6 @@ import React, { FC, useState, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import StyledToggleButtonRoundedSm from '../../layout/StyledToggleButtonRoundedSm';
 import { AppContext } from '../../../store/appContext';
 import { pushToNewPostsRoute } from '../../../actions/posts';
@@ -42,14 +41,12 @@ const RoomsFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Typography variant="body1" sx={{ mb: 1, fontWeight: 'bold' }}>
         {t('post:rooms')}
       </Typography>
       <StyledToggleButtonRoundedSm
-        name="rooms"
         value={rooms}
-        onChange={handleChange}
         values={[
           {
             value: 1,
@@ -72,7 +69,7 @@ const RoomsFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
             description: '5 +',
           },
         ]}
-        toggleProps={{ sx: { mb: 1 } }}
+        toggleProps={{ onChange: handleChange, sx: { mb: 1 } }}
       />
       <Button
         variant={'contained'}
@@ -82,7 +79,7 @@ const RoomsFilter: FC<{ handleClose?: () => void }> = ({ handleClose }) => {
       >
         {t('filters:showPosts')}
       </Button>
-    </ValidatorForm>
+    </form>
   );
 };
 

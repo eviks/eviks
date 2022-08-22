@@ -1,6 +1,5 @@
 import React, { FC, useState, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import Link from '@mui/material/Link';
 import MetroSelection from '../../selections/MetroSelection';
 import { AppContext } from '../../../store/appContext';
@@ -41,7 +40,7 @@ const MetroFilter: FC = () => {
   };
 
   return (filters.city.metroStations?.length ?? 0) > 0 ? (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Link
         component="button"
         variant="h6"
@@ -57,7 +56,7 @@ const MetroFilter: FC = () => {
         open={openMetroSelection}
         onClose={handleMetroSelectionClose}
       />
-    </ValidatorForm>
+    </form>
   ) : null;
 };
 

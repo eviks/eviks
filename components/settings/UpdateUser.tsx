@@ -1,7 +1,8 @@
 import React, { FC, useState, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { useSnackbar } from 'notistack';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -14,7 +15,7 @@ import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
 import { User } from '../../types';
 
-interface UpdateUserState {
+interface UpdateUserForm {
   displayName: string;
 }
 
@@ -27,72 +28,68 @@ const UpdateUser: FC<{ user: User }> = ({ user }) => {
   } = useContext(AppContext);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<UpdateUserState>({
-    displayName: user?.displayName ?? '',
+
+  const validationSchema = yup.object({
+    displayName: yup.string().required(t('common:errorRequiredField')),
   });
 
-  const { displayName } = data;
+  const formik = useFormik<UpdateUserForm>({
+    initialValues: {
+      displayName: user?.displayName ?? '',
+    },
+    validationSchema,
+    onSubmit: async (values: UpdateUserForm) => {
+      const { displayName } = values;
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+      setLoading(true);
 
-    setLoading(true);
-
-    try {
-      await updateUser(auth.token ?? '', { displayName });
-      enqueueSnackbar(t('settings:profileIsUpdated'), {
-        variant: 'success',
-        autoHideDuration: 3000,
-      });
-    } catch (error) {
-      let errorMessage = '';
-      if (error instanceof Failure) {
-        errorMessage = error.message;
-      } else if (error instanceof ServerError) {
-        errorMessage = t('common:serverError');
-      } else {
-        errorMessage = t('common:unknownError');
+      try {
+        await updateUser(auth.token ?? '', { displayName });
+        enqueueSnackbar(t('settings:profileIsUpdated'), {
+          variant: 'success',
+          autoHideDuration: 3000,
+        });
+      } catch (error) {
+        let errorMessage = '';
+        if (error instanceof Failure) {
+          errorMessage = error.message;
+        } else if (error instanceof ServerError) {
+          errorMessage = t('common:serverError');
+        } else {
+          errorMessage = t('common:unknownError');
+        }
+        enqueueSnackbar(errorMessage, {
+          variant: 'error',
+          autoHideDuration: 3000,
+        });
       }
-      enqueueSnackbar(errorMessage, {
-        variant: 'error',
-        autoHideDuration: 3000,
-      });
-    }
 
-    setLoading(false);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setData((prevState) => {
-      return { ...prevState, [name]: value };
-    });
-  };
+      setLoading(false);
+    },
+  });
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Typography variant="h2" fontSize={28} sx={{ mb: 3 }}>
         {t('settings:profile')}
       </Typography>
       {/* Display name */}
       <StyledInput
-        validators={['required']}
-        value={displayName}
-        name="displayName"
-        errorMessages={[t('common:errorRequiredField')]}
         label={t('settings:displayName')}
         input={{
           id: 'displayName',
-          fullWidth: true,
+          name: 'displayName',
+          value: formik.values.displayName,
           type: 'text',
-          onChange: handleChange,
+          fullWidth: true,
+          onChange: formik.handleChange,
           startAdornment: (
             <InputAdornment position="start">
               <UserIcon sx={{ ml: 1 }} />
             </InputAdornment>
           ),
         }}
+        helperText={formik.touched.displayName && formik.errors.displayName}
       />
       <Button
         type="submit"
@@ -108,7 +105,7 @@ const UpdateUser: FC<{ user: User }> = ({ user }) => {
           t('settings:updateProfile')
         )}
       </Button>
-    </ValidatorForm>
+    </form>
   );
 };
 

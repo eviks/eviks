@@ -1,6 +1,7 @@
 import React, { FC, useState, useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import StepTitle from './StepTitle';
@@ -21,7 +22,7 @@ import RentPerDayIcon from '../icons/RentPerDayIcon';
 interface GeneralInfoState {
   userType?: UserType;
   estateType?: EstateType;
-  apartmentType?: ApartmentType;
+  apartmentType?: ApartmentType | null;
   dealType?: DealType;
 }
 
@@ -33,41 +34,85 @@ const EditPostGeneralInfo: FC = () => {
     dispatch,
   } = useContext(AppContext);
 
-  const [generalInfoState, setGeneralInfoState] = useState<GeneralInfoState>({
-    userType: (post.lastStep || -1) >= 0 ? post.userType : undefined,
-    estateType: (post.lastStep || -1) >= 0 ? post.estateType : undefined,
-    apartmentType: (post.lastStep || -1) >= 0 ? post.apartmentType : undefined,
-    dealType: (post.lastStep || -1) >= 0 ? post.dealType : undefined,
-  });
-
   const [showApartmentType, setApartmentTypeVisability] = useState<boolean>(
     ((post.lastStep || -1) >= 0 ? post.estateType : undefined) ===
       EstateType.apartment,
   );
 
-  const { userType, estateType, apartmentType, dealType } = generalInfoState;
+  const validationSchema = yup.object({
+    userType: yup.string().nullable().required(t('common:fieldIsRequired')),
+    estateType: yup.string().nullable().required(t('common:fieldIsRequired')),
+    apartmentType: yup
+      .string()
+      .nullable()
+      .test(
+        'apartmentTypeIsRequired',
+        t('common:fieldIsRequired'),
+        function checkIfApartmentTypeIsRequired(value) {
+          return this.parent.estateType === EstateType.house || value !== null;
+        },
+      ),
+    dealType: yup.string().nullable().required(t('common:fieldIsRequired')),
+  });
+
+  const formik = useFormik<GeneralInfoState>({
+    initialValues: {
+      userType: (post.lastStep || -1) >= 0 ? post.userType : undefined,
+      estateType: (post.lastStep || -1) >= 0 ? post.estateType : undefined,
+      apartmentType:
+        (post.lastStep || -1) >= 0 ? post.apartmentType : undefined,
+      dealType: (post.lastStep || -1) >= 0 ? post.dealType : undefined,
+    },
+    validationSchema,
+    onSubmit: async (values: GeneralInfoState) => {
+      setPostData({
+        ...post,
+        ...values,
+        apartmentType:
+          values.apartmentType === null ? undefined : values.apartmentType,
+        lotSqm: values.estateType !== EstateType.house ? 0 : post.lotSqm,
+        floor: values.estateType !== EstateType.apartment ? 0 : post.floor,
+        elevator:
+          values.estateType === EstateType.house ? false : post.elevator,
+        parkingLot:
+          values.estateType === EstateType.house ? false : post.parkingLot,
+        kidsAllowed:
+          values.dealType === DealType.sale ? false : post.kidsAllowed,
+        petsAllowed:
+          values.dealType === DealType.sale ? false : post.kidsAllowed,
+        garage:
+          values.estateType === EstateType.apartment ? false : post.garage,
+        pool: values.estateType === EstateType.apartment ? false : post.pool,
+        bathhouse:
+          values.estateType === EstateType.apartment ? false : post.bathhouse,
+        installmentOfPayment:
+          values.dealType !== DealType.sale ? false : post.installmentOfPayment,
+        prepayment: values.dealType === DealType.sale ? false : post.prepayment,
+        municipalServicesIncluded:
+          values.dealType === DealType.sale
+            ? false
+            : post.municipalServicesIncluded,
+        step: 1,
+        lastStep: Math.max(0, post.lastStep ?? 0),
+      })(dispatch);
+    },
+  });
+
+  const { userType, estateType, apartmentType, dealType } = formik.values;
 
   const handleUserTypeChange = (
     _event: React.MouseEvent<HTMLElement, MouseEvent>,
     value: UserType,
   ) => {
-    setGeneralInfoState((prevState) => {
-      return { ...prevState, userType: value };
-    });
+    formik.setFieldValue('userType', value);
   };
 
   const handleEstateTypeChange = (
     _event: React.MouseEvent<HTMLElement, MouseEvent>,
     value: EstateType,
   ) => {
-    setGeneralInfoState((prevState) => {
-      return {
-        ...prevState,
-        estateType: value,
-        apartmentType:
-          value !== EstateType.apartment ? undefined : prevState.apartmentType,
-      };
-    });
+    formik.setFieldValue('apartmentType', null);
+    formik.setFieldValue('estateType', value);
     setApartmentTypeVisability(value === EstateType.apartment);
   };
 
@@ -75,70 +120,18 @@ const EditPostGeneralInfo: FC = () => {
     _event: React.MouseEvent<HTMLElement, MouseEvent>,
     value: ApartmentType,
   ) => {
-    setGeneralInfoState((prevState) => {
-      return { ...prevState, apartmentType: value };
-    });
+    formik.setFieldValue('apartmentType', value);
   };
 
   const handleDealTypeChange = (
     _event: React.MouseEvent<HTMLElement, MouseEvent>,
     value: DealType,
   ) => {
-    setGeneralInfoState((prevState) => {
-      return { ...prevState, dealType: value };
-    });
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setPostData({
-      ...post,
-      ...generalInfoState,
-      lotSqm:
-        generalInfoState.estateType !== EstateType.house ? 0 : post.lotSqm,
-      floor:
-        generalInfoState.estateType !== EstateType.apartment ? 0 : post.floor,
-      elevator:
-        generalInfoState.estateType === EstateType.house
-          ? false
-          : post.elevator,
-      parkingLot:
-        generalInfoState.estateType === EstateType.house
-          ? false
-          : post.parkingLot,
-      kidsAllowed:
-        generalInfoState.dealType === DealType.sale ? false : post.kidsAllowed,
-      petsAllowed:
-        generalInfoState.dealType === DealType.sale ? false : post.kidsAllowed,
-      garage:
-        generalInfoState.estateType === EstateType.apartment
-          ? false
-          : post.garage,
-      pool:
-        generalInfoState.estateType === EstateType.apartment
-          ? false
-          : post.pool,
-      bathhouse:
-        generalInfoState.estateType === EstateType.apartment
-          ? false
-          : post.bathhouse,
-      installmentOfPayment:
-        generalInfoState.dealType !== DealType.sale
-          ? false
-          : post.installmentOfPayment,
-      prepayment:
-        generalInfoState.dealType === DealType.sale ? false : post.prepayment,
-      municipalServicesIncluded:
-        generalInfoState.dealType === DealType.sale
-          ? false
-          : post.municipalServicesIncluded,
-      step: 1,
-      lastStep: Math.max(0, post.lastStep ?? 0),
-    })(dispatch);
+    formik.setFieldValue('dealType', value);
   };
 
   return (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Container
         disableGutters
         sx={{
@@ -151,15 +144,13 @@ const EditPostGeneralInfo: FC = () => {
         <StepTitle title={t('post:generalInfo')} />
         {/* User type */}
         <StyledToggleButtonRounded
-          name="userType"
           title={t('post:userTypeTitle')}
           value={userType}
-          exclusive
-          width={{ xs: '110px', md: '120px' }}
-          height={{ xs: '110px', md: '120px' }}
-          padding={3}
-          onChange={handleUserTypeChange}
-          toggleProps={{ sx: { mb: 4 } }}
+          toggleProps={{
+            exclusive: true,
+            onChange: handleUserTypeChange,
+            sx: { mb: 4 },
+          }}
           values={[
             {
               value: UserType.owner,
@@ -172,20 +163,17 @@ const EditPostGeneralInfo: FC = () => {
               icon: <AgentIcon />,
             },
           ]}
-          validators={['required']}
-          errorMessages={[t('common:fieldIsRequired')]}
+          helperText={formik.touched.userType && formik.errors.userType}
         />
         {/* Estate type */}
         <StyledToggleButtonRounded
-          name="estateType"
           title={t('post:estateTypeTitle')}
           value={estateType}
-          exclusive
-          width={{ xs: '110px', md: '120px' }}
-          height={{ xs: '110px', md: '120px' }}
-          padding={3}
-          onChange={handleEstateTypeChange}
-          toggleProps={{ sx: { mb: 4 } }}
+          toggleProps={{
+            exclusive: true,
+            onChange: handleEstateTypeChange,
+            sx: { mb: 4 },
+          }}
           values={[
             {
               value: EstateType.apartment,
@@ -198,21 +186,18 @@ const EditPostGeneralInfo: FC = () => {
               icon: <HouseIcon />,
             },
           ]}
-          validators={['required']}
-          errorMessages={[t('common:fieldIsRequired')]}
+          helperText={formik.touched.estateType && formik.errors.estateType}
         />
         {/* Apartment type */}
         {showApartmentType && (
           <StyledToggleButtonRounded
-            name="apartmentType"
             title={t('post:apartmentTypeTitle')}
             value={apartmentType}
-            exclusive
-            width={{ xs: '110px', md: '120px' }}
-            height={{ xs: '110px', md: '120px' }}
-            padding={3}
-            onChange={handleApartmentTypeChange}
-            toggleProps={{ sx: { mb: 4 } }}
+            toggleProps={{
+              exclusive: true,
+              onChange: handleApartmentTypeChange,
+              sx: { mb: 4 },
+            }}
             values={[
               {
                 value: ApartmentType.newBuilding,
@@ -225,21 +210,20 @@ const EditPostGeneralInfo: FC = () => {
                 icon: <SecondaryBuildingIcon />,
               },
             ]}
-            validators={['required']}
-            errorMessages={[t('common:fieldIsRequired')]}
+            helperText={
+              formik.touched.apartmentType && formik.errors.apartmentType
+            }
           />
         )}
         {/* Deal type */}
         <StyledToggleButtonRounded
-          name="dealType"
           title={t('post:dealTypeTitle')}
           value={dealType}
-          exclusive
-          width={{ xs: '110px', md: '120px' }}
-          height={{ xs: '110px', md: '120px' }}
-          padding={3}
-          onChange={handleDealTypeChange}
-          toggleProps={{ sx: { mb: 4 } }}
+          toggleProps={{
+            exclusive: true,
+            onChange: handleDealTypeChange,
+            sx: { mb: 4 },
+          }}
           values={[
             {
               value: DealType.sale,
@@ -257,8 +241,7 @@ const EditPostGeneralInfo: FC = () => {
               icon: <RentPerDayIcon />,
             },
           ]}
-          validators={['required']}
-          errorMessages={[t('common:fieldIsRequired')]}
+          helperText={formik.touched.dealType && formik.errors.dealType}
         />
         <Button
           type="submit"
@@ -269,7 +252,7 @@ const EditPostGeneralInfo: FC = () => {
           {t('post:next')}
         </Button>
       </Container>
-    </ValidatorForm>
+    </form>
   );
 };
 

@@ -1,16 +1,16 @@
-import React, { Fragment, Component } from 'react';
+import React, { FC, Fragment } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButtonGroup, {
+  ToggleButtonGroupProps,
+} from '@mui/material/ToggleButtonGroup';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { withStyles } from '@mui/styles';
-import { styled } from '@mui/material/styles';
-import { ValidatorComponent } from 'react-material-ui-form-validator';
+import { styled, useTheme } from '@mui/material/styles';
 import ErrorTypography from '../ErrorTypography';
 
 interface Values {
-  value: string;
-  icon: Component;
+  value: any;
+  icon: JSX.Element;
   description: string;
 }
 
@@ -46,112 +46,89 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => {
   };
 });
 
-const styles = () => {
-  return {};
-};
+interface StyledToggleButtonRoundedProps {
+  value: any;
+  title?: string;
+  values: Values[];
+  toggleProps: ToggleButtonGroupProps;
+  helperText?: string | false | undefined;
+}
 
-class StyledToggleButtonRounded extends ValidatorComponent {
-  state = {
-    isValid: true,
-  };
+const StyledToggleButtonRounded: FC<StyledToggleButtonRoundedProps> = ({
+  value,
+  title,
+  values,
+  toggleProps,
+  helperText,
+}) => {
+  const theme = useTheme();
 
-  renderValidatorComponent() {
-    const {
-      value,
-      title,
-      onChange,
-      values,
-      exclusive,
-      theme,
-      width,
-      height,
-      padding,
-      toggleProps,
-    } = this.props;
-
-    return (
-      <Fragment>
-        {title && (
-          <Typography
-            sx={{
-              color:
-                theme.palette.mode === 'light'
-                  ? 'rgba(0, 0, 0, 0.6)'
-                  : 'rgba(255, 255, 255, 0.7)',
-            }}
-          >
-            {title}
-          </Typography>
-        )}
-        <StyledToggleButtonGroup
-          color="primary"
-          value={value}
-          exclusive={exclusive}
-          onChange={onChange}
-          {...toggleProps}
+  return (
+    <Fragment>
+      {title && (
+        <Typography
+          sx={{
+            color:
+              theme.palette.mode === 'light'
+                ? 'rgba(0, 0, 0, 0.6)'
+                : 'rgba(255, 255, 255, 0.7)',
+          }}
         >
-          {(values as Values[]).map((element, index) => {
-            return (
-              <ToggleButton
-                key={index}
-                value={element.value}
+          {title}
+        </Typography>
+      )}
+      <StyledToggleButtonGroup color="primary" value={value} {...toggleProps}>
+        {(values as Values[]).map((element, index) => {
+          return (
+            <ToggleButton
+              key={index}
+              value={element.value}
+              sx={{
+                width: { xs: '110px', md: '120px' },
+                height: { xs: '110px', md: '120px' },
+                textTransform: 'none',
+              }}
+            >
+              <Box
                 sx={{
-                  width: width || 'auto',
-                  height: height || 'auto',
-                  textTransform: 'none',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  p: 3,
                 }}
               >
+                {element.icon}
                 <Box
                   sx={{
                     display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    p: padding || 'auto',
+                    alignItems: 'start',
+                    position: 'absolute',
+                    top: '80px',
+                    height: '45px',
                   }}
                 >
-                  {element.icon}
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'start',
-                      position: 'absolute',
-                      top: '80px',
-                      height: '45px',
+                  <Typography
+                    variant="caption"
+                    color={(theme) => {
+                      return theme.palette.mode === 'light'
+                        ? 'rgba(0, 0, 0, 0.6)'
+                        : 'rgba(255, 255, 255, 0.7)';
                     }}
                   >
-                    <Typography
-                      variant="caption"
-                      color={(theme) => {
-                        return theme.palette.mode === 'light'
-                          ? 'rgba(0, 0, 0, 0.6)'
-                          : 'rgba(255, 255, 255, 0.7)';
-                      }}
-                    >
-                      {element.description}
-                    </Typography>
-                  </Box>
+                    {element.description}
+                  </Typography>
                 </Box>
-              </ToggleButton>
-            );
-          })}
-        </StyledToggleButtonGroup>
-        <Box sx={{ mb: 2 }}>{this.errorText()}</Box>
-      </Fragment>
-    );
-  }
+              </Box>
+            </ToggleButton>
+          );
+        })}
+      </StyledToggleButtonGroup>
+      <Box sx={{ mb: 2 }}>
+        {<ErrorTypography>{helperText}</ErrorTypography>}
+      </Box>
+    </Fragment>
+  );
+};
 
-  errorText() {
-    const { isValid } = this.state;
-
-    if (isValid) {
-      return null;
-    }
-
-    return <ErrorTypography>{this.getErrorMessage()}</ErrorTypography>;
-  }
-}
-
-export default withStyles(styles, { withTheme: true })(
-  StyledToggleButtonRounded,
-);
+export default StyledToggleButtonRounded;

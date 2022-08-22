@@ -134,10 +134,10 @@ const CitySelection: FC<CitySelectionState> = ({ open, onClose }) => {
         }}
       >
         <StyledInput
-          value={searchString}
-          name="searchString"
           input={{
             id: 'searchString',
+            name: 'searchString',
+            value: searchString,
             type: 'text',
             placeholder: t('settlement:selectCityHint'),
             fullWidth: true,

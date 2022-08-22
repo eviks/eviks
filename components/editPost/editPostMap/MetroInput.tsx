@@ -5,14 +5,15 @@ import Autocomplete from '@mui/material/Autocomplete';
 import InputAdornment from '@mui/material/InputAdornment';
 import StyledInput from '../../layout/StyledInput';
 import MetroIcon from '../../icons/MetroIcon';
-import { MetroStation, MapState, Settlement } from '../../../types';
+import { MetroStation, Settlement } from '../../../types';
 import { getMetroPresentation } from '../../../utils';
 
 const MetroInput: FC<{
   city: Settlement;
   metroStation?: MetroStation | null;
-  setMapState: React.Dispatch<React.SetStateAction<MapState>>;
-}> = ({ metroStation, setMapState, city }) => {
+  helperText: string | false | undefined;
+  setMapState: (name: string, value: any) => void;
+}> = ({ city, metroStation, helperText, setMapState }) => {
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -20,12 +21,7 @@ const MetroInput: FC<{
     _event: React.SyntheticEvent<Element, Event>,
     newValue: MetroStation | null,
   ) => {
-    setMapState((prevState) => {
-      return {
-        ...prevState,
-        metroStation: newValue,
-      };
-    });
+    setMapState('metroStation', newValue || null);
   };
 
   if (!city.metroStations || city.metroStations.length === 0) {
@@ -55,12 +51,11 @@ const MetroInput: FC<{
         const inputProps = { ...params.inputProps };
         return (
           <StyledInput
-            validators={['required']}
-            value={metroStation}
-            name={'metroStation'}
-            errorMessages={[t('common:errorRequiredField')]}
             label={t('post:metroStation')}
             input={{
+              id: 'metroStation',
+              name: 'metroStation',
+              value: metroStation,
               type: 'text',
               fullWidth: true,
               ref: params.InputProps.ref,
@@ -71,6 +66,7 @@ const MetroInput: FC<{
                 </InputAdornment>
               ),
             }}
+            helperText={helperText}
           />
         );
       }}

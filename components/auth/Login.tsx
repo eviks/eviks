@@ -9,7 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
-import { ValidatorForm } from 'react-material-ui-form-validator';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import GoogleAuth from './GoogleAuth';
 import StyledInput from '../layout/StyledInput';
 import EmailIcon from '../icons/EmailIcon';
@@ -23,10 +24,9 @@ import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
 import { ErrorAlert } from '../../types';
 
-interface LoginState {
+interface LoginForm {
   email: string;
   password: string;
-  showPassword: boolean;
 }
 
 const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
@@ -36,59 +36,57 @@ const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
 
   const router = useRouter();
 
-  const [data, setData] = useState<LoginState>({
-    email: '',
-    password: '',
-    showPassword: false,
-  });
-
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [errorAlert, setErrorAlert] = useState<ErrorAlert>({
     message: '',
     open: false,
   });
 
-  const { email, password, showPassword } = data;
+  const validationSchema = yup.object({
+    email: yup
+      .string()
+      .required(t('auth:errorEmail'))
+      .email(t('auth:invalidEmail')),
+    password: yup.string().required(t('auth:errorPassword')),
+  });
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const formik = useFormik<LoginForm>({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema,
+    onSubmit: async (values: LoginForm) => {
+      const { email, password } = values;
 
-    setLoading(true);
+      setLoading(true);
 
-    try {
-      await loginUser(email, password)(dispatch);
-      await loadUser()(dispatch);
-      if (redirect) router.push({ pathname: '/' });
-    } catch (error) {
-      let errorMessage = '';
-      if (error instanceof Failure) {
-        errorMessage = error.message;
-      } else if (error instanceof ServerError) {
-        errorMessage = t('common:serverError');
-      } else {
-        errorMessage = t('common:unknownError');
+      try {
+        await loginUser(email, password)(dispatch);
+        await loadUser()(dispatch);
+        if (redirect) router.push({ pathname: '/' });
+      } catch (error) {
+        let errorMessage = '';
+        if (error instanceof Failure) {
+          errorMessage = error.message;
+        } else if (error instanceof ServerError) {
+          errorMessage = t('common:serverError');
+        } else {
+          errorMessage = t('common:unknownError');
+        }
+        setErrorAlert((prevState) => {
+          return { ...prevState, open: true, message: errorMessage };
+        });
       }
-      setErrorAlert((prevState) => {
-        return { ...prevState, open: true, message: errorMessage };
-      });
-    }
 
-    setLoading(false);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setData((prevState) => {
-      return { ...prevState, [name]: value };
-    });
-  };
+      setLoading(false);
+    },
+  });
 
   const handleClickShowPassword = () => {
-    setData((prevState) => {
-      return { ...prevState, showPassword: !prevState.showPassword };
-    });
+    setShowPassword(!showPassword);
   };
 
   const closeAlert = (
@@ -106,40 +104,38 @@ const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
 
   return (
     <Fragment>
-      <ValidatorForm onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <Typography variant="h1" fontSize={32} align="center">
           {t('auth:signInSubtitle')}
         </Typography>
         <StyledInput
-          validators={['required', 'isEmail']}
-          value={email}
-          name="email"
-          errorMessages={[t('auth:errorEmail'), t('auth:invalidEmail')]}
           label={t('auth:email')}
           input={{
             id: 'email',
-            fullWidth: true,
+            name: 'email',
+            value: formik.values.email,
             type: 'email',
-            onChange: handleChange,
+            fullWidth: true,
+            onChange: formik.handleChange,
             startAdornment: (
               <InputAdornment position="start">
                 <EmailIcon sx={{ ml: 1 }} />
               </InputAdornment>
             ),
+            error: formik.touched.email && Boolean(formik.errors.email),
           }}
+          helperText={formik.touched.email && formik.errors.email}
         />
         <StyledInput
-          validators={['required']}
-          value={password}
-          name="password"
-          errorMessages={[t('auth:errorPassword')]}
           label={t('auth:password')}
           input={{
             id: 'password',
+            name: 'password',
+            value: formik.values.password,
+            type: showPassword ? 'text' : 'password',
             fullWidth: true,
             autoComplete: 'on',
-            type: showPassword ? 'text' : 'password',
-            onChange: handleChange,
+            onChange: formik.handleChange,
             startAdornment: (
               <InputAdornment position="start">
                 <PasswordIcon sx={{ ml: 1 }} />
@@ -157,7 +153,9 @@ const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
                 </IconButton>
               </InputAdornment>
             ),
+            error: formik.touched.password && Boolean(formik.errors.password),
           }}
+          helperText={formik.touched.password && formik.errors.password}
         />
         <Button
           type="submit"
@@ -191,7 +189,7 @@ const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
             {errorAlert.message}
           </Alert>
         ) : null}
-      </ValidatorForm>
+      </form>
       <Divider sx={{ mt: 1 }}>{t('auth:loginOr')}</Divider>
       <GoogleAuth redirect={redirect} />
     </Fragment>

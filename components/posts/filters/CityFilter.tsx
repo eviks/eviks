@@ -1,5 +1,4 @@
 import React, { FC, useState, useContext } from 'react';
-import { ValidatorForm } from 'react-material-ui-form-validator';
 import { useRouter } from 'next/router';
 import Link from '@mui/material/Link';
 import CitySelection from '../../selections/CitySelection';
@@ -45,7 +44,7 @@ const CityFilter: FC = () => {
   };
 
   return filters.city ? (
-    <ValidatorForm onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Link
         component="button"
         variant="h6"
@@ -58,7 +57,7 @@ const CityFilter: FC = () => {
         open={openCitySelection}
         onClose={handleCitySelectionClose}
       />
-    </ValidatorForm>
+    </form>
   ) : null;
 };
 

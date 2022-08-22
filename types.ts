@@ -189,15 +189,6 @@ export interface AuthContext {
   isInit: boolean;
 }
 
-export interface MapState {
-  location: [number, number];
-  city: Settlement;
-  district?: Settlement;
-  subdistrict?: Settlement;
-  address: string;
-  metroStation?: MetroStation | null;
-}
-
 export interface Address {
   name: string;
   address: string;

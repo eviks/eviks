@@ -1,16 +1,15 @@
-import React, { Fragment, Component } from 'react';
+import React, { FC, Fragment } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButtonGroup, {
+  ToggleButtonGroupProps,
+} from '@mui/material/ToggleButtonGroup';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { withStyles } from '@mui/styles';
-import { styled } from '@mui/material/styles';
-import { ValidatorComponent } from 'react-material-ui-form-validator';
+import { styled, useTheme } from '@mui/material/styles';
 import ErrorTypography from '../ErrorTypography';
 
 interface Values {
-  value: string;
-  icon: Component;
+  value: any;
   description: string;
 }
 
@@ -45,64 +44,52 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => {
     },
   };
 });
-const styles = () => {
-  return {};
-};
 
-class StyledToggleButtonRounded extends ValidatorComponent {
-  state = {
-    isValid: true,
-  };
-
-  renderValidatorComponent() {
-    const { value, title, onChange, values, exclusive, theme, toggleProps } =
-      this.props;
-
-    return (
-      <Fragment>
-        {title && (
-          <Typography
-            sx={{
-              color:
-                theme.palette.mode === 'light'
-                  ? 'rgba(0, 0, 0, 0.6)'
-                  : 'rgba(255, 255, 255, 0.7)',
-            }}
-          >
-            {title}
-          </Typography>
-        )}
-        <StyledToggleButtonGroup
-          color="primary"
-          value={value}
-          exclusive={exclusive}
-          onChange={onChange}
-          {...toggleProps}
-        >
-          {(values as Values[]).map((element, index) => {
-            return (
-              <ToggleButton key={index} value={element.value}>
-                {element.description}
-              </ToggleButton>
-            );
-          })}
-        </StyledToggleButtonGroup>
-        <Box sx={{ mb: 2 }}>{this.errorText()}</Box>
-      </Fragment>
-    );
-  }
-
-  errorText() {
-    const { isValid } = this.state;
-
-    if (isValid) {
-      return null;
-    }
-
-    return <ErrorTypography>{this.getErrorMessage()}</ErrorTypography>;
-  }
+interface StyledToggleButtonRoundedProps {
+  value: any;
+  title?: string;
+  values: Values[];
+  toggleProps: ToggleButtonGroupProps;
+  helperText?: string | false | undefined;
 }
 
-export default withStyles(styles, { withTheme: true })(
-  StyledToggleButtonRounded,
-);
+const StyledToggleButtonRounded: FC<StyledToggleButtonRoundedProps> = ({
+  value,
+  title,
+  values,
+  toggleProps,
+  helperText,
+}) => {
+  const theme = useTheme();
+
+  return (
+    <Fragment>
+      {title && (
+        <Typography
+          sx={{
+            color:
+              theme.palette.mode === 'light'
+                ? 'rgba(0, 0, 0, 0.6)'
+                : 'rgba(255, 255, 255, 0.7)',
+          }}
+        >
+          {title}
+        </Typography>
+      )}
+      <StyledToggleButtonGroup color="primary" value={value} {...toggleProps}>
+        {(values as Values[]).map((element, index) => {
+          return (
+            <ToggleButton key={index} value={element.value}>
+              {element.description}
+            </ToggleButton>
+          );
+        })}
+      </StyledToggleButtonGroup>
+      <Box sx={{ mb: 2 }}>
+        {<ErrorTypography>{helperText}</ErrorTypography>}
+      </Box>
+    </Fragment>
+  );
+};
+
+export default StyledToggleButtonRounded;
