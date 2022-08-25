@@ -20,6 +20,6 @@ jobs:
             export NODE_ENV=production
             cd apps/eviks
             git pull origin master
-            npm install --dev typescript && npm install
+            npm install --include=dev
             npm run build
             pm2 restart
