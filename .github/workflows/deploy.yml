@@ -18,7 +18,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             export NODE_ENV=production
-            cd /apps/eviks
+            cd apps/eviks
             git pull origin master
             npm install
             npm run build
