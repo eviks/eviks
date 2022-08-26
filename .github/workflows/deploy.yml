@@ -22,4 +22,4 @@ jobs:
             git pull origin master
             npm install --include=dev
             npm run build
-            pm2 restart
+            pm2 restart 0
