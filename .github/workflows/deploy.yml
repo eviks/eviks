@@ -20,6 +20,6 @@ jobs:
             export NODE_ENV=production
             cd apps/eviks
             git pull origin master
-            npm install --include=dev
+            npm install --production
             npm run build
             pm2 restart
