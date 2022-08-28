@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, Fragment, useContext, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import Container from '@mui/material/Container';
@@ -8,16 +8,19 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Hidden from '@mui/material/Hidden';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import { useTheme, alpha } from '@mui/material/styles';
 import LocationMarker from './LocationMarker';
 import AddressInput from './AddressInput';
 import MetroInput from './MetroInput';
 import SettlementSelect from './SettlementSelect';
 import StepTitle from '../StepTitle';
+import useWindowSize from '../../../utils/hooks/useWindowSize';
 import { AppContext } from '../../../store/appContext';
 import { setPostData } from '../../../actions/post';
-import { Settlement, MetroStation } from '../../../types';
+import { Settlement, MetroStation, AddressError } from '../../../types';
 import 'leaflet/dist/leaflet.css';
 
 export interface MapState {
@@ -39,8 +42,15 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
 
   const theme = useTheme();
 
+  const { width } = useWindowSize();
+  const showLocationTooltip = (width ?? 0) >= 900;
+
   const [loading, setLoading] = useState<boolean>(false);
-  const [addressError, setAddressError] = useState<string>('');
+  const [addressError, setAddressError] = useState<AddressError>({
+    errorFiled: '',
+    errorText: '',
+    displayError: false,
+  });
 
   const validationSchema = yup.object({
     location: yup.array(),
@@ -78,22 +88,38 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
       const { location, city, district, subdistrict } = values;
 
       if (location[0] === 0 || location[1] === 0) {
-        setAddressError(t('post:wrongAddress'));
+        setAddressError({
+          errorText: t('post:wrongAddress'),
+          errorFiled: 'location',
+          displayError: true,
+        });
         return;
       }
 
       if (!city) {
-        setAddressError(t('post:cityError'));
+        setAddressError({
+          errorText: t('post:cityError'),
+          errorFiled: 'city',
+          displayError: true,
+        });
         return;
       }
 
       if (!district) {
-        setAddressError(t('post:districtError'));
+        setAddressError({
+          errorText: t('post:districtError'),
+          errorFiled: 'settlement',
+          displayError: true,
+        });
         return;
       }
 
       if ((district.children?.length ?? 0) > 0 && !subdistrict) {
-        setAddressError(t('post:subdistrictError'));
+        setAddressError({
+          errorText: t('post:subdistrictError'),
+          errorFiled: 'settlement',
+          displayError: true,
+        });
         return;
       }
 
@@ -132,6 +158,41 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
     setPostDataAndDispatch(0);
   };
 
+  const onClickAway = () => {
+    setAddressError((prevState) => {
+      return prevState ? { ...prevState, displayError: false } : prevState;
+    });
+  };
+
+  const getInputSection = () => {
+    return (
+      <Fragment>
+        <SettlementSelect
+          city={city}
+          district={district}
+          subdistrict={subdistrict}
+          setMapState={setMapState}
+          setMapCenter={setMapCenter}
+          addressError={addressError}
+          setAddressError={setAddressError}
+        />
+        <AddressInput
+          city={city}
+          address={address}
+          helperText={formik.touched.address && formik.errors.address}
+          setMapState={setMapState}
+          setMapStateLoading={setLoading}
+        />
+        <MetroInput
+          city={city}
+          metroStation={metroStation}
+          helperText={formik.touched.metroStation && formik.errors.metroStation}
+          setMapState={setMapState}
+        />
+      </Fragment>
+    );
+  };
+
   return (
     <Container
       disableGutters
@@ -158,103 +219,74 @@ const EditPostMap: FC<{ height: number | string }> = ({ height }) => {
               borderRadius: '0px 0px 24px 24px',
             }}
           >
-            <Box sx={{ width: '100%' }}>
-              <SettlementSelect
-                city={city}
-                district={district}
-                subdistrict={subdistrict}
-                setMapState={setMapState}
-                setMapCenter={setMapCenter}
-                addressError={addressError}
-                setAddressError={setAddressError}
-              />
-              <AddressInput
-                city={city}
-                address={address}
-                helperText={formik.touched.address && formik.errors.address}
-                setMapState={setMapState}
-                setMapStateLoading={setLoading}
-              />
-              <MetroInput
-                city={city}
-                metroStation={metroStation}
-                helperText={
-                  formik.touched.metroStation && formik.errors.metroStation
-                }
-                setMapState={setMapState}
-              />
-            </Box>
+            <Box sx={{ width: '100%' }}>{getInputSection()}</Box>
           </Box>
         </Hidden>
-        <Hidden mdDown>
-          <SettlementSelect
-            city={city}
-            district={district}
-            subdistrict={subdistrict}
-            setMapState={setMapState}
-            setMapCenter={setMapCenter}
-            addressError={addressError}
-            setAddressError={setAddressError}
-          />
-          <AddressInput
-            city={city}
-            address={address}
-            helperText={formik.touched.address && formik.errors.address}
-            setMapState={setMapState}
-            setMapStateLoading={setLoading}
-          />
-        </Hidden>
-        <MapContainer
-          center={mapCenter}
-          zoom={13}
-          zoomControl={false}
-          style={{
-            height,
-            width: '100%',
-            borderTopLeftRadius: '20px',
-            borderTopRightRadius: '20px',
-            marginBottom: '2rem',
-          }}
-        >
-          {loading && (
-            <Container
-              sx={{
-                position: 'absolute',
-                zIndex: 500,
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: alpha(theme.palette.background.default, 0.5),
-              }}
-            >
-              <CircularProgress color="primary" size="2rem" />
-            </Container>
-          )}
-          <TileLayer
-            attribution="(c) <a href='http://gomap.az/'>GoMap.Az</a>"
-            url="http://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg"
-          />
-          <LocationMarker
-            location={location}
-            mapCenter={mapCenter}
-            setMapState={setMapState}
-            setLoading={setLoading}
-            setAddressError={setAddressError}
-          />
-        </MapContainer>
-        <Hidden mdDown>
-          {city.metroStations && <Divider sx={{ mb: 2 }} />}
-          <MetroInput
-            city={city}
-            metroStation={metroStation}
-            helperText={
-              formik.touched.metroStation && formik.errors.metroStation
+        <Hidden mdDown>{getInputSection()}</Hidden>
+        <ClickAwayListener onClickAway={onClickAway}>
+          <Tooltip
+            open={
+              showLocationTooltip &&
+              addressError?.errorFiled === 'location' &&
+              addressError.displayError
             }
-            setMapState={setMapState}
-          />
-        </Hidden>
+            title={
+              <Typography>
+                {addressError?.errorFiled === 'location'
+                  ? addressError.errorText
+                  : ''}
+              </Typography>
+            }
+            placement="top"
+            arrow
+          >
+            <Box>
+              <MapContainer
+                center={mapCenter}
+                zoom={13}
+                zoomControl={false}
+                style={{
+                  height,
+                  width: '100%',
+                  borderTopLeftRadius: '20px',
+                  borderTopRightRadius: '20px',
+                  marginBottom: '2rem',
+                }}
+              >
+                {loading && (
+                  <Container
+                    sx={{
+                      position: 'absolute',
+                      zIndex: 500,
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: alpha(
+                        theme.palette.background.default,
+                        0.5,
+                      ),
+                    }}
+                  >
+                    <CircularProgress color="primary" size="2rem" />
+                  </Container>
+                )}
+                <TileLayer
+                  attribution="(c) <a href='http://gomap.az/'>GoMap.Az</a>"
+                  url="http://maps.gomap.az/info/xyz.do?lng=az&x={x}&y={y}&z={z}&f=jpg"
+                />
+                <LocationMarker
+                  location={location}
+                  mapCenter={mapCenter}
+                  setMapState={setMapState}
+                  setLoading={setLoading}
+                  setAddressError={setAddressError}
+                />
+              </MapContainer>
+            </Box>
+          </Tooltip>
+        </ClickAwayListener>
         <Container
           sx={{
             position: { xs: 'absolute', md: 'initial' },

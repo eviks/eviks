@@ -4,10 +4,13 @@ import useTranslation from 'next-translate/useTranslation';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Tooltip from '@mui/material/Tooltip';
+import Hidden from '@mui/material/Hidden';
 import CitySelection from '../../selections/CitySelection';
 import DistrictSelection from '../../selections/DistrictSelection';
 import { getSettlementPresentation } from '../../../utils';
-import { Settlement } from '../../../types';
+import { Settlement, AddressError } from '../../../types';
 
 const SettlementSelect: FC<{
   city: Settlement;
@@ -15,8 +18,8 @@ const SettlementSelect: FC<{
   subdistrict?: Settlement | null;
   setMapState: (name: string, value: any) => void;
   setMapCenter: React.Dispatch<React.SetStateAction<[number, number]>>;
-  addressError: string;
-  setAddressError: React.Dispatch<React.SetStateAction<string>>;
+  addressError: AddressError;
+  setAddressError: React.Dispatch<React.SetStateAction<AddressError>>;
 }> = ({
   city,
   district,
@@ -52,15 +55,18 @@ const SettlementSelect: FC<{
 
   const handleCitySelectionOnClick = (event: React.FormEvent) => {
     event.preventDefault();
+    setAddressError((prevState) => {
+      return { ...prevState, displayError: false };
+    });
     setOpenCitySelection(true);
   };
 
   const handleCitySelectionClose = (value?: Settlement) => {
     setOpenCitySelection(false);
-    setAddressError('');
     if (value) {
       setMapState('city', value);
       setMapState('location', [0, 0]);
+      setMapState('address', '');
       setMapState('district', null);
       setMapState('subdistrict', null);
       setMapState('metroStation', null);
@@ -70,6 +76,9 @@ const SettlementSelect: FC<{
 
   const handleDistrictSelectOnClick = (event: React.FormEvent) => {
     event.preventDefault();
+    setAddressError((prevState) => {
+      return { ...prevState, displayError: false };
+    });
     setOpenDistrictSelection(true);
   };
 
@@ -78,11 +87,16 @@ const SettlementSelect: FC<{
     subdistrictValue?: Settlement,
   ) => {
     setOpenDistrictSelection(false);
-    setAddressError('');
     if (districtValue || subdistrictValue) {
       setMapState('district', districtValue);
       setMapState('subdistrict', subdistrictValue);
     }
+  };
+
+  const onClickAway = () => {
+    setAddressError((prevState) => {
+      return prevState ? { ...prevState, displayError: false } : prevState;
+    });
   };
 
   return (
@@ -96,46 +110,89 @@ const SettlementSelect: FC<{
           gap: '10px',
         }}
       >
-        <Box sx={{ display: 'flex', mb: 1 }}>
-          <Typography sx={{ mr: 1 }}>{`${t('post:city')}:`}</Typography>
-          <Link
-            component="button"
-            variant="body1"
-            underline="none"
-            onClick={handleCitySelectionOnClick}
+        <ClickAwayListener onClickAway={onClickAway}>
+          <Tooltip
+            open={
+              addressError?.errorFiled === 'city' && addressError.displayError
+            }
+            title={
+              <Typography>
+                {addressError?.errorFiled === 'city'
+                  ? addressError.errorText
+                  : ''}
+              </Typography>
+            }
+            placement="bottom"
+            arrow
           >
-            {getSettlementPresentation(city, router.locale)}
-          </Link>
-          <CitySelection
-            open={openCitySelection}
-            onClose={handleCitySelectionClose}
-          />
-        </Box>
-        <Box sx={{ display: 'flex', mb: 1 }}>
-          <Typography sx={{ mr: 1 }}>{`${t('post:district')}:`}</Typography>
-          <Link
-            component="button"
-            variant="body1"
-            underline="none"
-            onClick={handleDistrictSelectOnClick}
+            <Box sx={{ display: 'flex', mb: 1 }}>
+              <Typography sx={{ mr: 1 }}>{`${t('post:city')}:`}</Typography>
+              <Link
+                component="button"
+                variant="body1"
+                underline="none"
+                onClick={handleCitySelectionOnClick}
+              >
+                {getSettlementPresentation(city, router.locale)}
+              </Link>
+              <CitySelection
+                open={openCitySelection}
+                onClose={handleCitySelectionClose}
+              />
+            </Box>
+          </Tooltip>
+        </ClickAwayListener>
+
+        <ClickAwayListener onClickAway={onClickAway}>
+          <Tooltip
+            open={
+              addressError?.errorFiled === 'settlement' &&
+              addressError.displayError
+            }
+            title={
+              <Typography>
+                {addressError?.errorFiled === 'settlement'
+                  ? addressError.errorText
+                  : ''}
+              </Typography>
+            }
+            placement="bottom"
+            arrow
           >
-            {getDistrictPresentation()}
-          </Link>
-          <DistrictSelection
-            city={city}
-            defaultDistricts={[]}
-            defaultSubdistricts={[]}
-            multiple={false}
-            open={openDistrictSelection}
-            onClose={handleDistrictSelectionClose}
-          />
-        </Box>
+            <Box sx={{ display: 'flex', mb: 1 }}>
+              <Typography sx={{ mr: 1 }}>{`${t('post:district')}:`}</Typography>
+              <Link
+                component="button"
+                variant="body1"
+                underline="none"
+                onClick={handleDistrictSelectOnClick}
+              >
+                {getDistrictPresentation()}
+              </Link>
+              <DistrictSelection
+                city={city}
+                defaultDistricts={[]}
+                defaultSubdistricts={[]}
+                multiple={false}
+                open={openDistrictSelection}
+                onClose={handleDistrictSelectionClose}
+              />
+            </Box>
+          </Tooltip>
+        </ClickAwayListener>
       </Box>
-      {addressError && (
-        <Box sx={{ mb: 2, width: '100%' }}>
-          {<Typography color={'error'}>{addressError}</Typography>}
-        </Box>
-      )}
+      <Hidden mdUp>
+        {addressError.errorFiled === 'location' &&
+          addressError.displayError && (
+            <Box sx={{ mb: 2, width: '100%' }}>
+              {
+                <Typography color={'error'}>
+                  {addressError.errorText}
+                </Typography>
+              }
+            </Box>
+          )}
+      </Hidden>
     </Fragment>
   );
 };
