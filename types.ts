@@ -235,3 +235,9 @@ export interface QueryParams {
   totalFloorsMax: string;
   page: string;
 }
+
+export interface AddressError {
+  errorText: string;
+  errorFiled: 'location' | 'city' | 'settlement' | '';
+  displayError: boolean;
+}

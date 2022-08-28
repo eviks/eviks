@@ -74,7 +74,6 @@ const AddressInput: FC<{
       setMapState('city', response.city);
       setMapState('district', response.district || null);
       setMapState('subdistrict', response.subdistrict || null);
-      setMapState('metroStation', response.metroStation || null);
       setMapState('location', [newValue.longitude, newValue.latitude]);
     } catch (error) {
       // no user notification

@@ -2,13 +2,14 @@ import React, { FC, useEffect } from 'react';
 import { Marker, useMapEvents } from 'react-leaflet';
 import { icon } from 'leaflet';
 import { getAddressByCoords } from '../../../actions/post';
+import { AddressError } from '../../../types';
 
 const LocationMarker: FC<{
   location: [number, number];
   mapCenter: [number, number];
   setMapState: (name: string, value: any) => void;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setAddressError: React.Dispatch<React.SetStateAction<string>>;
+  setAddressError: React.Dispatch<React.SetStateAction<AddressError>>;
 }> = ({ location, mapCenter, setMapState, setLoading, setAddressError }) => {
   const map = useMapEvents({
     async click(event) {
@@ -27,9 +28,10 @@ const LocationMarker: FC<{
         setMapState('city', response.city);
         setMapState('district', response.district || null);
         setMapState('subdistrict', response.subdistrict || null);
-        setMapState('metroStation', response.metroStation || null);
 
-        setAddressError('');
+        setAddressError((prevState) => {
+          return { ...prevState, displayError: false };
+        });
       } catch (error) {
         // no user notification
       }
