@@ -48,6 +48,11 @@ const UserSchema = new mongoose.Schema(
     },
     picture: String,
     favorites: Object,
+    role: {
+      type: String,
+      default: 'user',
+      role: ['user', 'moderator'],
+    },
   },
   {
     timestamps: true,

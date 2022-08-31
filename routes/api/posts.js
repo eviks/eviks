@@ -8,7 +8,9 @@ const rimraf = require('rimraf');
 const postSearch = require('../../middleware/postSearch');
 const logger = require('../../utils/logger');
 
+const basePostSchema = require('../../models/basePostSchema');
 const Post = require('../../models/Post');
+const UnreviwedPost = require('../../models/UnreviewedPost');
 const User = require('../../models/User');
 const Counter = require('../../models/Counter');
 
@@ -93,21 +95,13 @@ router.post(
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select('-password');
-      const post = new Post({
+      const post = new UnreviwedPost({
         ...req.body,
         user,
       });
       // eslint-disable-next-line no-underscore-dangle
       post._id = await getNextSequence('postid');
       await post.save();
-
-      // Move post images from temp to main folder
-      await req.body.images.map(async (image) => {
-        await fs.promises.rename(
-          `${__dirname}/../../uploads/temp/post_images/${image}`,
-          `${__dirname}/../../uploads/post_images/${image}`,
-        );
-      });
 
       return res.json(post);
     } catch (error) {
@@ -117,7 +111,81 @@ router.post(
   },
 );
 
-// @route PUT api/posts
+// @route POST api/posts/confirm/:id
+// @desc  Confirm post. Unreviewed version of post is replaced by a standart post
+// @access Private (moderator)
+router.post(
+  '/confirm/:id',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    if (!req.user.role !== 'moderator') {
+      return res.status(401).json({ errors: [{ msg: 'Permission denied' }] });
+    }
+
+    const postId = req.params.id;
+
+    try {
+      const unreviewedPost = await UnreviwedPost.findById(postId).select(
+        Object.keys(basePostSchema).join(','),
+      );
+
+      // Unreviewed post not found
+      if (!unreviewedPost) {
+        return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+      }
+
+      // Create / update standart post
+      let post;
+      const doc = {
+        ...unreviewedPost,
+        status: 'confirmed',
+      };
+
+      if (!unreviewedPost.rereview) {
+        // Create new standart post
+        post = new Post(doc);
+        await post.save();
+      } else {
+        // Delete all previous images first
+        let imagesDeleted = true;
+        post.images.forEach(async (image) => {
+          const directory = `${__dirname}/../uploads/post_images/${image}`;
+          const fileExists = await checkFileExists(directory);
+          if (fileExists) {
+            rimraf(directory, (error) => {
+              if (error) imagesDeleted = false;
+            });
+          }
+        });
+
+        if (!imagesDeleted) {
+          return res.status(500).send('Server error...');
+        }
+
+        // Update existing standart post
+        post = await Post.findByIdAndUpdate(postId, doc, { new: true });
+      }
+
+      // Move all post images from temp to main folder
+      await req.body.images.map(async (image) => {
+        await fs.promises.rename(
+          `${__dirname}/../../uploads/temp/post_images/${image}`,
+          `${__dirname}/../../uploads/post_images/${image}`,
+        );
+      });
+
+      // Delete unreviewed version
+      await unreviewedPost.remove();
+
+      return res.json(post);
+    } catch (error) {
+      logger.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
+
+// @route PUT api/posts/:id
 // @desc  Update post
 // @access Private
 router.put(
@@ -141,49 +209,28 @@ router.put(
           .json({ errors: [{ msg: 'User not authorized' }] });
       }
 
-      // Update images
+      // Copy existing images to the temp folder
       await req.body.images.map(async (image) => {
         if (
-          !post.images.find((value) => {
+          post.images.find((value) => {
             return value === image;
           })
         ) {
-          await fs.promises.rename(
-            `${__dirname}/../../uploads/temp/post_images/${image}`,
+          await fs.promises.copyFile(
             `${__dirname}/../../uploads/post_images/${image}`,
+            `${__dirname}/../../uploads/temp/post_images/${image}`,
           );
         }
       });
 
-      let imagesDeleted = true;
-      post.images.forEach(async (image) => {
-        if (
-          !req.body.images.find((value) => {
-            return value === image;
-          })
-        ) {
-          const directory = `${__dirname}/../uploads/post_images/${image}`;
-          const fileExists = await checkFileExists(directory);
-          if (fileExists) {
-            rimraf(directory, (error) => {
-              if (error) imagesDeleted = false;
-            });
-          }
-        }
-      });
+      // Create unreviewed post version
+      const unreviewedPost = new UnreviwedPost({ ...req.body, rereview: true });
+      await unreviewedPost.save();
 
-      if (!imagesDeleted) {
-        return res.status(500).send('Server error...');
-      }
+      // Update post status
+      await Post.findByIdAndUpdate(postId, { status: 'onreview' });
 
-      // Update post itself
-      const updatedPost = await Post.findByIdAndUpdate(
-        postId,
-        { ...req.body },
-        { new: true },
-      );
-
-      return res.json(updatedPost);
+      return res.json(unreviewedPost);
     } catch (error) {
       logger.error(error.message);
       return res.status(500).send('Server error...');
@@ -191,7 +238,7 @@ router.put(
   },
 );
 
-// @route DELETE api/posts
+// @route DELETE api/posts/:id
 // @desc  Delete post
 // @access Private
 router.delete(
@@ -250,17 +297,8 @@ router.get(
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
     // Generate unique id
-    let id = uuid.v4();
+    const id = uuid.v4();
     const tempDirectory = `${__dirname}/../../uploads/temp/post_images/${id}`;
-    const mainDirectory = `${__dirname}/../../uploads/post_images/${id}`;
-    while (
-      // eslint-disable-next-line no-await-in-loop
-      (await checkFileExists(tempDirectory)) ||
-      // eslint-disable-next-line no-await-in-loop
-      (await checkFileExists(mainDirectory))
-    ) {
-      id = uuid.v4();
-    }
 
     // Create new temp directory, where all image size versions will be stored
     try {
