@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Hidden from '@mui/material/Hidden';
-import { Link as MaterialLink } from '@mui/material';
+import MaterialLink from '@mui/material/Link';
 import { useTheme, alpha } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import ThemeSwitch from './ThemeSwitch';
