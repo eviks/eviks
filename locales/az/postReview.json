@@ -1,0 +1,19 @@
+{
+  "id": "ID",
+  "date": "Tarix",
+  "city": "Şəhər",
+  "district": "Rayon",
+  "subdistrict": "Qəsəbə",
+  "dealType": "Sazişin növü",
+  "estateType": "Emlakın növü",
+  "userType": "İstifadəçin növü",
+  "price": "Qiymət",
+  "status": "Status",
+  "apartment": "Mənzil",
+  "house": "Ev / villa",
+  "owner": "Sahib",
+  "agent": "Agent",
+  "saleType": "Satış",
+  "rentType": "Kirayə",
+  "rentPerDayType": "Günlük kirayə"
+}

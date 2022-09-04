@@ -24,6 +24,24 @@ export const fetchPost = async (postId: string) => {
   }
 };
 
+export const fetchUnreviewedPost = async (token: string, postId: string) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+    },
+  };
+
+  try {
+    const response = await axios.get<Post>(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/unreviewed_post/${postId}`,
+      config,
+    );
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
+
 export const fetchPostPhoneNumber = async (postId: string) => {
   const response = await axios.get<{ phoneNumber: string }>(
     `/api/posts/phone_number/${postId}`,
@@ -111,6 +129,38 @@ export const fetchPosts = (query: { [key: string]: string }) => {
 
       const response = await axios.get<PostsWithPagination>(
         `/api/posts/?${url && `${url}&`}limit=${15}`,
+      );
+
+      dispatch({ type: Types.GetPosts, payload: response.data });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.code === '500')
+        throw new ServerError(error.message);
+      else {
+        throw new Failure(getErrorMessage(error));
+      }
+    }
+  };
+};
+
+export const fetchUnreviewedPosts = (
+  token: string,
+  query: { [key: string]: string },
+) => {
+  return async (
+    dispatch: Dispatch<{ type: Types.GetPosts; payload: PostsWithPagination }>,
+  ) => {
+    const config = {
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    };
+
+    try {
+      const url = setURLParams(query);
+
+      const response = await axios.get<PostsWithPagination>(
+        `/api/posts/unreviewed_posts?${url && `${url}&`}limit=${50}`,
+        config,
       );
 
       dispatch({ type: Types.GetPosts, payload: response.data });

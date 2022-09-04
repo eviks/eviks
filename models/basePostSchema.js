@@ -27,6 +27,7 @@ const basePostSchema = {
       x: Number,
       y: Number,
     },
+    index: false,
     required: true,
   },
   district: {
@@ -38,6 +39,7 @@ const basePostSchema = {
       x: Number,
       y: Number,
     },
+    index: false,
     required: true,
   },
   subdistrict: {
@@ -49,6 +51,7 @@ const basePostSchema = {
       x: Number,
       y: Number,
     },
+    index: false,
   },
   address: {
     type: String,

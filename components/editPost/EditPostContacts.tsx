@@ -45,10 +45,10 @@ const EditPostContacts: FC = () => {
     try {
       if (post._id === 0) {
         const createdPost = await createPost(auth.token ?? '', updatedPost);
-        router.push({ pathname: `/posts/${createdPost.data._id}` });
+        router.push({ pathname: `/posts/on_review/${createdPost.data._id}` });
       } else {
         await updatePost(auth.token ?? '', updatedPost);
-        router.push({ pathname: `/posts/${post._id}` });
+        router.push({ pathname: `/posts/on_review/${post._id}` });
       }
     } catch (error) {
       let errorMessage = '';

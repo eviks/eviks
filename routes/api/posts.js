@@ -65,6 +65,39 @@ router.get('/', [postSearch], async (req, res) => {
   }
 });
 
+// @route GET api/posts
+// @desc  Get unreviewed posts
+// @access Private
+router.get(
+  '/unreviewed_posts',
+  [passport.authenticate('jwt', { session: false }), postSearch],
+  async (req, res) => {
+    const posts = {};
+    let result = [];
+
+    const {
+      conditions,
+      paginatedResults: { pagination, limit, startIndex },
+    } = req;
+
+    try {
+      result = await UnreviwedPost.find(conditions)
+        .limit(limit)
+        .skip(startIndex)
+        .sort({ updatedAt: -1 })
+        .select('-phoneNumber');
+
+      posts.result = result;
+      posts.pagination = pagination;
+
+      res.json(posts);
+    } catch (error) {
+      logger.error(error.message);
+      res.status(500).send('Server error...');
+    }
+  },
+);
+
 // @route GET api/posts/:id
 // @desc  Get single post
 // @access Public
@@ -85,6 +118,36 @@ router.get('/post/:id', async (req, res) => {
     return res.status(500).send('Server error...');
   }
 });
+
+// @route GET api/posts/:id
+// @desc  Get single unreviewed post
+// @access Private
+router.get(
+  '/unreviewed_post/:id',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const post = await UnreviwedPost.findById(id).select('-phoneNumber');
+
+      // Post not found
+      if (!post) {
+        return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+      }
+
+      // Check user
+      if (req.user.role === 'user' && req.user.id !== post.user.toString()) {
+        return res.status(401).json({ errors: [{ msg: 'Permission denied' }] });
+      }
+
+      return res.json(post);
+    } catch (error) {
+      logger.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
 
 // @route POST api/posts
 // @desc  Create post
@@ -113,7 +176,7 @@ router.post(
 
 // @route POST api/posts/confirm/:id
 // @desc  Confirm post. Unreviewed version of post is replaced by a standart post
-// @access Private (moderator)
+// @access Private
 router.post(
   '/confirm/:id',
   [passport.authenticate('jwt', { session: false })],
@@ -204,9 +267,7 @@ router.put(
 
       // Check user
       if (req.user.id !== post.user.toString()) {
-        return res
-          .status(401)
-          .json({ errors: [{ msg: 'User not authorized' }] });
+        return res.status(401).json({ errors: [{ msg: 'Permission denied' }] });
       }
 
       // Copy existing images to the temp folder

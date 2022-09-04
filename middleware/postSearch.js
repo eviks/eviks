@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Post = require('../models/Post');
+const UnreviewedPost = require('../models/UnreviewedPost');
 
 const setMinMaxFilter = (min, max) => {
   if (min && max) {
@@ -23,7 +24,16 @@ const getPaginatedResults = async (req) => {
 
   const startIndex = (page - 1) * limit;
 
-  const numberOfElements = await Post.find(req.conditions, {})
+  let model;
+
+  if (req.path === '/unreviewed_posts') {
+    model = UnreviewedPost;
+  } else {
+    model = Post;
+  }
+
+  const numberOfElements = await model
+    .find(req.conditions, {})
     .skip(startIndex)
     .limit(limit * 10)
     .countDocuments()

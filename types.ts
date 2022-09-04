@@ -114,6 +114,7 @@ export interface Post {
   user: string;
   step?: number;
   lastStep?: number;
+  createdAt: Date | null;
 }
 
 export interface Pagination {
@@ -141,6 +142,7 @@ export interface User {
   picture?: string;
   googleId?: string;
   favorites?: { [key: string]: boolean };
+  role: 'user' | 'moderator';
 }
 
 export interface PostFilters {

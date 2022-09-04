@@ -10,28 +10,29 @@ import Hidden from '@mui/material/Hidden';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { useSnackbar } from 'notistack';
-import StyledCarousel from '../../components/layout/StyledCarousel';
-import PostInfoCard from '../../components/post/PostInfoCard';
-import PostPrice from '../../components/post/PostPrice';
-import PostContacts from '../../components/post/PostContacts';
-import PostTitle from '../../components/post/PostTitle';
-import PostMainInfo from '../../components/post/PostMainInfo';
-import PostDescription from '../../components/post/PostDescription';
-import PostGeneralInfo from '../../components/post/PostGeneralInfo';
-import PostAdditionalInfo from '../../components/post/PostAdditionalInfo';
-import PostBuildingInfo from '../../components/post/PostBuildingInfo';
-import FavoriteButton from '../../components/postButtons/FavoriteButton';
-import EditPostButton from '../../components/postButtons/EditPostButton';
-import DeletePostButton from '../../components/postButtons/DeletePostButton';
-import { fetchPost, fetchPostPhoneNumber } from '../../actions/posts';
-import { AppContext } from '../../store/appContext';
-import useWindowSize from '../../utils/hooks/useWindowSize';
-import { getSettlementPresentation } from '../../utils';
-import Failure from '../../utils/errors/failure';
-import ServerError from '../../utils/errors/serverError';
-import { Post, EstateType } from '../../types';
+import { parseCookies } from 'nookies';
+import StyledCarousel from '../../../components/layout/StyledCarousel';
+import PostInfoCard from '../../../components/post/PostInfoCard';
+import PostPrice from '../../../components/post/PostPrice';
+import PostContacts from '../../../components/post/PostContacts';
+import PostTitle from '../../../components/post/PostTitle';
+import PostMainInfo from '../../../components/post/PostMainInfo';
+import PostDescription from '../../../components/post/PostDescription';
+import PostGeneralInfo from '../../../components/post/PostGeneralInfo';
+import PostAdditionalInfo from '../../../components/post/PostAdditionalInfo';
+import PostBuildingInfo from '../../../components/post/PostBuildingInfo';
+import {
+  fetchUnreviewedPost,
+  fetchPostPhoneNumber,
+} from '../../../actions/posts';
+import { AppContext } from '../../../store/appContext';
+import useWindowSize from '../../../utils/hooks/useWindowSize';
+import { getSettlementPresentation } from '../../../utils';
+import Failure from '../../../utils/errors/failure';
+import ServerError from '../../../utils/errors/serverError';
+import { Post, EstateType } from '../../../types';
 
-const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
+const UnreviewedPost: NextPage<{ post: Post }> = ({ post }) => {
   const { width } = useWindowSize();
   const router = useRouter();
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
 
   const {
     state: {
-      auth: { user, isInit },
+      auth: { user },
     },
   } = useContext(AppContext);
 
@@ -55,7 +56,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
   const imageSize = getImageSize();
 
   const PostMap = useMemo(() => {
-    return dynamic(import('../../components/post/PostMap'), {
+    return dynamic(import('../../../components/post/PostMap'), {
       ssr: false,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,29 +148,8 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
                 imageSize={imageSize}
                 thumbSize={150}
                 height={width && width >= 900 ? '500px' : '320px'}
+                temp={true}
               />
-              <Hidden lgUp>
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    right: '0',
-                    top: '0',
-                    p: 2,
-                  }}
-                >
-                  {isInit &&
-                    (user?._id === post.user ? (
-                      <Box
-                        sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}
-                      >
-                        <EditPostButton postId={post._id} />
-                        <DeletePostButton postId={post._id} />
-                      </Box>
-                    ) : (
-                      <FavoriteButton postId={post._id} />
-                    ))}
-                </Box>
-              </Hidden>
             </Box>
             <Hidden lgUp>
               <PostPrice post={post} />
@@ -216,7 +196,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
               <PostInfoCard
                 post={post}
                 phoneNumber={phoneNumber}
-                displayButtons={true}
+                displayButtons={false}
                 setPhoneNumber={setPhoneNumber}
               />
             </Grid>
@@ -228,10 +208,21 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { token } = parseCookies(context);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false,
+      },
+    };
+  }
+
   const { params } = context;
   const postId = params?.id as string;
 
-  const post = await fetchPost(postId);
+  const post = await fetchUnreviewedPost(token, postId);
 
   if (!post)
     // 404
@@ -242,4 +233,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return { props: { post } };
 };
 
-export default PostDetailed;
+export default UnreviewedPost;

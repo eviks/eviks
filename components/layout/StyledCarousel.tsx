@@ -11,8 +11,9 @@ const StyledCarousel: FC<{
   imageSize: number;
   thumbSize: number;
   height: string;
+  temp?: boolean;
   onClickItem?: (index: number, item: React.ReactNode) => void;
-}> = ({ images, imageSize, thumbSize, height, onClickItem }) => {
+}> = ({ images, imageSize, thumbSize, height, temp, onClickItem }) => {
   const theme = useTheme();
   const { width } = useWindowSize();
 
@@ -22,9 +23,9 @@ const StyledCarousel: FC<{
         <Image
           key={image}
           objectFit="cover"
-          src={`${
-            process.env.NEXT_PUBLIC_BASE_URL
-          }/uploads/post_images/${image}/image_${160}.webp`}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${
+            temp ? 'temp/' : ''
+          }post_images/${image}/image_${160}.webp`}
           width={thumbSize}
           height={thumbSize}
           alt={`post-image-${image}-${160}`}
@@ -95,7 +96,9 @@ const StyledCarousel: FC<{
               priority={index === 0}
               objectFit="cover"
               layout="fill"
-              src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/post_images/${image}/image_${imageSize}.webp`}
+              src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${
+                temp ? 'temp/' : ''
+              }post_images/${image}/image_${imageSize}.webp`}
               alt={`post-image-${image}-${imageSize}`}
             />
           </CardMedia>

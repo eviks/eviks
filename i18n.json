@@ -6,12 +6,14 @@
     "/verification": ["verification"],
     "/reset_password_verification": ["verification"],
     "/posts/[id]": ["post"],
+    "/posts/unreviewed/[id]": ["post"],
     "/edit_post": ["post"],
     "/[...slug]": ["post", "filters", "posts"],
     "/favorites": ["favorites", "post"],
     "/user_posts": ["userPosts", "post"],
     "/settings": ["settings"],
     "/404": ["notFound"],
-    "/500": ["serverError"]
+    "/500": ["serverError"],
+    "/post_review": ["postReview"]
   }
 }

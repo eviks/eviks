@@ -391,6 +391,7 @@ export const defaultPost: Post = {
   user: '',
   price: 0,
   step: 0,
+  createdAt: null,
 };
 
 export const defaultPostFilters: PostFilters = {
