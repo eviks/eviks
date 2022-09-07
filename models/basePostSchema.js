@@ -293,6 +293,21 @@ const basePostSchema = {
     required: true,
     index: true,
   },
+  reviewHistory: {
+    type: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'users',
+          required: true,
+        },
+        date: { type: Date, required: true },
+        result: Boolean,
+        comment: String,
+      },
+    ],
+    required: false,
+  },
 };
 
 module.exports = basePostSchema;
