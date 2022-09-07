@@ -12,6 +12,8 @@ import { useSnackbar } from 'notistack';
 import type { ParsedUrlQuery } from 'querystring';
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Pagination from '@mui/material/Pagination';
 import PostsTable from '../components/postReview/PostsTable';
 import {
   fetchUnreviewedPosts,
@@ -59,7 +61,9 @@ const PostReview: NextPage = () => {
 
       try {
         setAlternativeFilters({
-          pagination: { current: 1 },
+          pagination: {
+            current: urlParams.page ? Number(urlParams.page) : 1,
+          },
         })(dispatch);
       } catch (error) {
         let errorMessage = '';
@@ -139,6 +143,24 @@ const PostReview: NextPage = () => {
     };
   }, [dispatch]);
 
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    page: number,
+  ) => {
+    router.push(
+      {
+        pathname: `/post_review`,
+        query: getAlternativePostQuery({
+          ...alternativeFilters,
+          pagination: {
+            current: page,
+          },
+        }),
+      },
+      undefined,
+    );
+  };
+
   if (!user) return null;
 
   if (isLoading) {
@@ -166,6 +188,18 @@ const PostReview: NextPage = () => {
       }}
     >
       <PostsTable />
+      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+        <Pagination
+          page={alternativeFilters.pagination.current}
+          count={
+            alternativeFilters.pagination.available ??
+            alternativeFilters.pagination.current
+          }
+          onChange={handlePageChange}
+          size="large"
+          color="primary"
+        />
+      </Box>
     </Container>
   );
 };
