@@ -248,3 +248,25 @@ export const pushToNewPostsRoute = (postFilters: PostFilters) => {
     undefined,
   );
 };
+
+export const blockUnreviewedPostForModeration = async (
+  token: string,
+  postId: string,
+) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+    },
+  };
+
+  try {
+    const response = await axios.put<Post>(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/block_for_moderation/${postId}`,
+      null,
+      config,
+    );
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};

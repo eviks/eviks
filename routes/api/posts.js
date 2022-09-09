@@ -1,4 +1,5 @@
 const fs = require('fs');
+const mongoose = require('mongoose');
 const express = require('express');
 const { check, validationResult } = require('express-validator');
 const passport = require('passport');
@@ -8,7 +9,7 @@ const rimraf = require('rimraf');
 const postSearch = require('../../middleware/postSearch');
 const logger = require('../../utils/logger');
 
-const basePostSchema = require('../../models/basePostSchema');
+const BasePostSchema = require('../../models/schemas/BasePostSchema');
 const Post = require('../../models/Post');
 const UnreviwedPost = require('../../models/UnreviewedPost');
 const User = require('../../models/User');
@@ -189,7 +190,7 @@ router.post(
 
     try {
       const unreviewedPost = await UnreviwedPost.findById(postId).select(
-        Object.keys(basePostSchema).join(','),
+        Object.keys(BasePostSchema).join(','),
       );
 
       // Unreviewed post not found
@@ -486,5 +487,47 @@ router.get('/phone_number/:id', async (req, res) => {
     return res.status(500).send('Server error...');
   }
 });
+
+// @route PUT api/posts/block_for_moderation/:id
+// @desc  Block unreviewed post version for moderation
+// @access Private
+router.put(
+  '/block_for_moderation/:id',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    // Check user
+    if (req.user.role === 'user') {
+      return res.status(401).json({ errors: [{ msg: 'Permission denied' }] });
+    }
+
+    // Find and change post's blocking status
+    const postId = req.params.id;
+
+    try {
+      const unreviewedPost = await UnreviwedPost.findOneAndUpdate(
+        {
+          _id: postId,
+          $or: [
+            { 'blocking.blockingExpires': { $lt: Date.now() } },
+            { blocking: null },
+          ],
+        },
+        {
+          blocking: {
+            user: mongoose.Types.ObjectId(req.user.id),
+            username: req.user.displayName,
+            blockingExpires: Date.now() + 600000,
+          },
+        },
+        { new: true },
+      );
+
+      return res.json(unreviewedPost);
+    } catch (error) {
+      logger.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
 
 module.exports = router;

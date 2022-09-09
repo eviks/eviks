@@ -1,5 +1,12 @@
-import React, { Fragment, useMemo, useState, useContext } from 'react';
-import type { NextPage, GetServerSideProps } from 'next';
+import React, {
+  Fragment,
+  useEffect,
+  useCallback,
+  useMemo,
+  useState,
+  useContext,
+} from 'react';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
@@ -9,8 +16,8 @@ import Container from '@mui/material/Container';
 import Hidden from '@mui/material/Hidden';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
-import { parseCookies } from 'nookies';
 import StyledCarousel from '../../../components/layout/StyledCarousel';
 import PostInfoCard from '../../../components/post/PostInfoCard';
 import PostPrice from '../../../components/post/PostPrice';
@@ -24,6 +31,7 @@ import PostBuildingInfo from '../../../components/post/PostBuildingInfo';
 import {
   fetchUnreviewedPost,
   fetchPostPhoneNumber,
+  blockUnreviewedPostForModeration,
 } from '../../../actions/posts';
 import { AppContext } from '../../../store/appContext';
 import useWindowSize from '../../../utils/hooks/useWindowSize';
@@ -32,16 +40,24 @@ import Failure from '../../../utils/errors/failure';
 import ServerError from '../../../utils/errors/serverError';
 import { Post, EstateType } from '../../../types';
 
-const UnreviewedPost: NextPage<{ post: Post }> = ({ post }) => {
+interface QueryParams {
+  id: string;
+}
+
+type StringQueryParams = Record<keyof QueryParams, string>;
+
+const UnreviewedPost: NextPage = () => {
   const { width } = useWindowSize();
   const router = useRouter();
   const { t } = useTranslation();
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const { id } = router.query as StringQueryParams;
+
   const {
     state: {
-      auth: { user },
+      auth: { token, isInit, user },
     },
   } = useContext(AppContext);
 
@@ -62,7 +78,58 @@ const UnreviewedPost: NextPage<{ post: Post }> = ({ post }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapHeight]);
 
+  const [post, setPost] = useState<Post | null>();
+  const [isLoading, setLoading] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
+
+  const loadPost = useCallback(async () => {
+    if (!isInit) return;
+    if (!user) {
+      // User not authenticated
+      router.push('/404');
+      return;
+    }
+
+    let result;
+
+    if (user.role === 'user') {
+      result = await fetchUnreviewedPost(token ?? '', id);
+    } else {
+      result = await blockUnreviewedPostForModeration(token ?? '', id);
+    }
+
+    if (!result) {
+      // Post is not found or it's already blocked for moderation
+      router.push('/404');
+      return;
+    }
+
+    setPost(result);
+    setLoading(false);
+  }, [id, isInit, router, token, user]);
+
+  useEffect(() => {
+    loadPost();
+  }, [loadPost]);
+
+  if (isLoading) {
+    return (
+      <Fragment>
+        <Container
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          <CircularProgress color="primary" size="2rem" />
+        </Container>
+      </Fragment>
+    );
+  }
+
+  if (!post) return null;
 
   const getPhoneNumber = async () => {
     try {
@@ -114,8 +181,6 @@ const UnreviewedPost: NextPage<{ post: Post }> = ({ post }) => {
       },
     );
   };
-
-  if (!post) return null;
 
   const title = getPostTitle();
 
@@ -205,32 +270,6 @@ const UnreviewedPost: NextPage<{ post: Post }> = ({ post }) => {
       </Container>
     </Fragment>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { token } = parseCookies(context);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/auth',
-        permanent: false,
-      },
-    };
-  }
-
-  const { params } = context;
-  const postId = params?.id as string;
-
-  const post = await fetchUnreviewedPost(token, postId);
-
-  if (!post)
-    // 404
-    return {
-      notFound: true,
-    };
-
-  return { props: { post } };
 };
 
 export default UnreviewedPost;

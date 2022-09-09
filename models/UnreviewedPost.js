@@ -1,27 +1,18 @@
 const mongoose = require('mongoose');
-const basePostSchema = require('./basePostSchema');
+const BasePostSchema = require('./schemas/BasePostSchema');
+const BlockingSchema = require('./schemas/BlockingSchema');
 
 const UnreviewedPostSchema = new mongoose.Schema(
   {
-    ...basePostSchema,
+    ...BasePostSchema,
     rereview: Boolean,
-    blocking: {
-      type: {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'users',
-          required: true,
-        },
-        blockingExpires: { type: Date, required: true },
-      },
-      required: false,
-    },
+    blocking: { type: BlockingSchema, required: false },
   },
   {
     timestamps: true,
   },
 );
 
-const Post = mongoose.model('unreviewedPosts', UnreviewedPostSchema);
+const UnreviewedPost = mongoose.model('unreviewedPosts', UnreviewedPostSchema);
 
-module.exports = Post;
+module.exports = UnreviewedPost;

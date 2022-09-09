@@ -161,8 +161,6 @@ const PostReview: NextPage = () => {
     );
   };
 
-  if (!user) return null;
-
   if (isLoading) {
     return (
       <Fragment>

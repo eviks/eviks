@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-const basePostSchema = require('./basePostSchema');
+const BasePostSchema = require('./schemas/BasePostSchema');
 
 const ArchivedPostSchema = new mongoose.Schema(
-  { ...basePostSchema },
+  { ...BasePostSchema },
   {
     timestamps: true,
   },
 );
 
-const Post = mongoose.model('archivedPosts', ArchivedPostSchema);
+const ArchivedPost = mongoose.model('archivedPosts', ArchivedPostSchema);
 
-module.exports = Post;
+module.exports = ArchivedPost;

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const basePostSchema = require('./basePostSchema');
+const BasePostSchema = require('./schemas/BasePostSchema');
 
 const PostSchema = new mongoose.Schema(
   {
-    ...basePostSchema,
+    ...BasePostSchema,
     reviewStatus: {
       type: String,
       enum: ['onreview', 'confirmed'],
