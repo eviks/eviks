@@ -2,7 +2,8 @@ import React, { FC, useContext } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import moment from 'moment';
-import Link from '@mui/material/Link';
+import 'moment/locale/ru';
+import 'moment/locale/az';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,6 +19,7 @@ const PostsTable: FC = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const theme = useTheme();
+  moment.locale(router.locale);
 
   const {
     state: {
@@ -27,6 +29,10 @@ const PostsTable: FC = () => {
 
   const locale =
     router.defaultLocale !== router.locale ? `/${router.locale}` : '';
+
+  const handleClick = (id: number) => {
+    window.open(`${locale}/posts/unreviewed/${id}`, '_blank');
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -42,26 +48,40 @@ const PostsTable: FC = () => {
             <TableCell>{t('postReview:estateType')}</TableCell>
             <TableCell>{t('postReview:userType')}</TableCell>
             <TableCell>{t('postReview:price')}</TableCell>
-            <TableCell>{t('postReview:status')}</TableCell>
+            <TableCell>{t('postReview:moderator')}</TableCell>
+            <TableCell>{t('postReview:unblockDate')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {posts.map((post) => {
+            const isBlocked =
+              (post.blocking &&
+                new Date(post.blocking.blockingExpires) > new Date()) ||
+              false;
+
             return (
               <TableRow
                 key={post._id}
-                target="_blank"
-                component={Link}
-                underline="none"
-                href={`${locale}/posts/unreviewed/${post._id}`}
+                onClick={
+                  isBlocked
+                    ? undefined
+                    : () => {
+                        handleClick(post._id);
+                      }
+                }
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
-                  cursor: 'pointer',
+                  cursor: isBlocked ? 'auto' : 'pointer',
                   ':hover': {
                     backgroundColor:
                       theme.palette.mode === 'light'
                         ? theme.palette.grey[200]
                         : theme.palette.grey[700],
+                  },
+                  '& > *': {
+                    color: isBlocked
+                      ? `${theme.palette.text.disabled.toString()} !important`
+                      : theme.palette.text.primary,
                   },
                 }}
               >
@@ -86,7 +106,14 @@ const PostsTable: FC = () => {
                 <TableCell>{t(`postReview:${post.estateType}`)}</TableCell>
                 <TableCell>{t(`postReview:${post.userType}`)}</TableCell>
                 <TableCell>{formatter.format(post.price)}</TableCell>
-                <TableCell>{'---'}</TableCell>
+                <TableCell>
+                  {isBlocked ? post.blocking?.username : '-'}
+                </TableCell>
+                <TableCell>
+                  {isBlocked
+                    ? moment(post.blocking?.blockingExpires).fromNow()
+                    : '-'}
+                </TableCell>
               </TableRow>
             );
           })}
