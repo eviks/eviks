@@ -113,19 +113,30 @@ const UnreviewedPost: NextPage = () => {
     loadPost();
   }, [loadPost]);
 
+  // Unblock post before leaving
   useEffect(() => {
-    const exitingFunction = async () => {
+    const beforeUnloadHandler = (e: BeforeUnloadEvent) => {
       if (isInit && user?.role !== 'user') {
-        await unblockPostFromModeration(token ?? '', id);
+        const confirmationMessage = t('postReview:leavingAlert');
+
+        (e || window.event).returnValue = confirmationMessage;
+        return confirmationMessage;
       }
+      return undefined;
+    };
+    const beforeRouteHandler = () => {
+      if (isInit && user?.role !== 'user')
+        unblockPostFromModeration(token ?? '', id);
     };
 
-    router.events.on('routeChangeStart', exitingFunction);
+    window.addEventListener('beforeunload', beforeUnloadHandler);
+    router.events.on('routeChangeStart', beforeRouteHandler);
 
     return () => {
-      router.events.off('routeChangeStart', exitingFunction);
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
+      router.events.off('routeChangeStart', beforeRouteHandler);
     };
-  }, [id, isInit, router.events, token, user?.role]);
+  }, [id, isInit, router.events, t, token, user?.role]);
 
   if (isLoading) {
     return (

@@ -16,5 +16,6 @@
   "agent": "Agent",
   "saleType": "Satış",
   "rentType": "Kirayə",
-  "rentPerDayType": "Günlük kirayə"
+  "rentPerDayType": "Günlük kirayə",
+  "leavingAlert": "Zəhmət olmasa, moderasiya panelindəki hərəkətlərdən birini seçin"
 }
