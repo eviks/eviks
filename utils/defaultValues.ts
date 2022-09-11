@@ -392,6 +392,7 @@ export const defaultPost: Post = {
   price: 0,
   step: 0,
   createdAt: null,
+  updatedAt: null,
 };
 
 export const defaultPostFilters: PostFilters = {

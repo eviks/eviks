@@ -85,7 +85,7 @@ router.get(
       result = await UnreviwedPost.find(conditions)
         .limit(limit)
         .skip(startIndex)
-        .sort({ updatedAt: -1 })
+        .sort({ createdAt: -1 })
         .select('-phoneNumber');
 
       posts.result = result;

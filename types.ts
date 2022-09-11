@@ -120,8 +120,9 @@ export interface Post {
   user: string;
   step?: number;
   lastStep?: number;
-  createdAt: Date | null;
   blocking?: PostBlocking;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 }
 
 export interface Pagination {
