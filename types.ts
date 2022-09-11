@@ -55,6 +55,12 @@ export interface Settlement {
   children?: Settlement[];
 }
 
+export interface PostBlocking {
+  user: string;
+  username: string;
+  blockingExpires: Date;
+}
+
 export interface Post {
   _id: number;
   userType: UserType;
@@ -115,6 +121,7 @@ export interface Post {
   step?: number;
   lastStep?: number;
   createdAt: Date | null;
+  blocking?: PostBlocking;
 }
 
 export interface Pagination {

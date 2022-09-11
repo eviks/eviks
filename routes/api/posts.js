@@ -510,6 +510,7 @@ router.put(
           $or: [
             { 'blocking.blockingExpires': { $lt: Date.now() } },
             { blocking: null },
+            { 'blocking.user': mongoose.Types.ObjectId(req.user.id) },
           ],
         },
         {
@@ -518,6 +519,41 @@ router.put(
             username: req.user.displayName,
             blockingExpires: Date.now() + 600000,
           },
+        },
+        { new: true },
+      );
+
+      return res.json(unreviewedPost);
+    } catch (error) {
+      logger.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
+
+// @route PUT api/posts/unblock/:id
+// @desc  Unblock unreviewed post version from moderation
+// @access Private
+router.put(
+  '/unblock_from_moderation/:id',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    // Check user
+    if (req.user.role === 'user') {
+      return res.status(401).json({ errors: [{ msg: 'Permission denied' }] });
+    }
+
+    // Find and change post's blocking status
+    const postId = req.params.id;
+
+    try {
+      const unreviewedPost = await UnreviwedPost.findOneAndUpdate(
+        {
+          _id: postId,
+          'blocking.user': mongoose.Types.ObjectId(req.user.id),
+        },
+        {
+          blocking: null,
         },
         { new: true },
       );

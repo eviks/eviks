@@ -270,3 +270,25 @@ export const blockUnreviewedPostForModeration = async (
     return null;
   }
 };
+
+export const unblockPostFromModeration = async (
+  token: string,
+  postId: string,
+) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+    },
+  };
+
+  try {
+    const response = await axios.put<Post>(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/unblock_from_moderation/${postId}`,
+      null,
+      config,
+    );
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};

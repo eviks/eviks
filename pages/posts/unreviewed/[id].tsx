@@ -32,6 +32,7 @@ import {
   fetchUnreviewedPost,
   fetchPostPhoneNumber,
   blockUnreviewedPostForModeration,
+  unblockPostFromModeration,
 } from '../../../actions/posts';
 import { AppContext } from '../../../store/appContext';
 import useWindowSize from '../../../utils/hooks/useWindowSize';
@@ -111,6 +112,20 @@ const UnreviewedPost: NextPage = () => {
   useEffect(() => {
     loadPost();
   }, [loadPost]);
+
+  useEffect(() => {
+    const exitingFunction = async () => {
+      if (isInit && user?.role !== 'user') {
+        await unblockPostFromModeration(token ?? '', id);
+      }
+    };
+
+    router.events.on('routeChangeStart', exitingFunction);
+
+    return () => {
+      router.events.off('routeChangeStart', exitingFunction);
+    };
+  }, [id, isInit, router.events, token, user?.role]);
 
   if (isLoading) {
     return (
