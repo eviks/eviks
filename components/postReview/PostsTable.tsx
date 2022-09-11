@@ -27,11 +27,10 @@ const PostsTable: FC = () => {
     },
   } = useContext(AppContext);
 
-  const locale =
-    router.defaultLocale !== router.locale ? `/${router.locale}` : '';
-
   const handleClick = (id: number) => {
-    window.open(`${locale}/posts/unreviewed/${id}`, '_blank');
+    router.push({
+      pathname: `/posts/unreviewed/${id}`,
+    });
   };
 
   return (
