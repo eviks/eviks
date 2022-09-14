@@ -28,6 +28,7 @@ import PostDescription from '../../../components/post/PostDescription';
 import PostGeneralInfo from '../../../components/post/PostGeneralInfo';
 import PostAdditionalInfo from '../../../components/post/PostAdditionalInfo';
 import PostBuildingInfo from '../../../components/post/PostBuildingInfo';
+import PostModerationPanel from '../../../components/post/PostModerationPanel';
 import {
   fetchUnreviewedPost,
   fetchPostPhoneNumber,
@@ -227,7 +228,7 @@ const UnreviewedPost: NextPage = () => {
             },
           }}
         >
-          <Grid item xs={12} md={8}>
+          <Grid item md={12} lg={8}>
             <PostTitle post={post} title={title} />
             <Box
               sx={{
@@ -283,13 +284,18 @@ const UnreviewedPost: NextPage = () => {
             </Hidden>
           </Grid>
           <Hidden lgDown>
-            <Grid item xs={0} md={4}>
-              <PostInfoCard
-                post={post}
-                phoneNumber={phoneNumber}
-                displayButtons={false}
-                setPhoneNumber={setPhoneNumber}
-              />
+            <Grid item md={0} lg={4}>
+              <Box sx={{ position: 'sticky', top: 85, mx: 2 }}>
+                <PostInfoCard
+                  post={post}
+                  phoneNumber={phoneNumber}
+                  displayButtons={false}
+                  setPhoneNumber={setPhoneNumber}
+                />
+                <Box sx={{ mt: 2 }}>
+                  <PostModerationPanel />
+                </Box>
+              </Box>
             </Grid>
           </Hidden>
         </Grid>

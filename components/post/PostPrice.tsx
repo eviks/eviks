@@ -8,8 +8,6 @@ import { Post } from '../../types';
 const PostPrice: FC<{ post: Post }> = ({ post }) => {
   const { t } = useTranslation();
 
-  if (!post.description) return null;
-
   return (
     <Box sx={{ my: 3 }}>
       <Typography

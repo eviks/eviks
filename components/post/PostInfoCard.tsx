@@ -74,7 +74,7 @@ const PostInfoCard: FC<{
     <Card
       variant="elevation"
       elevation={theme.palette.mode === 'light' ? 0 : 1}
-      sx={{ mx: 2, position: 'sticky', top: 85, borderRadius: '12px', p: 2 }}
+      sx={{ borderRadius: '12px', p: 2 }}
     >
       <CardContent>
         {displayButtons && (

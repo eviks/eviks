@@ -20,8 +20,6 @@ const PostContacts: FC<{
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  if (!post.description) return null;
-
   const getPhoneNumber = async () => {
     try {
       const result = await fetchPostPhoneNumber(post._id.toString());

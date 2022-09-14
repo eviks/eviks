@@ -135,7 +135,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
             },
           }}
         >
-          <Grid item xs={12} md={8}>
+          <Grid item md={12} lg={8}>
             <PostTitle post={post} title={title} />
             <Box
               sx={{
@@ -212,13 +212,15 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
             </Hidden>
           </Grid>
           <Hidden lgDown>
-            <Grid item xs={0} md={4}>
-              <PostInfoCard
-                post={post}
-                phoneNumber={phoneNumber}
-                displayButtons={true}
-                setPhoneNumber={setPhoneNumber}
-              />
+            <Grid item md={0} lg={4}>
+              <Box sx={{ position: 'sticky', top: 85, mx: 2 }}>
+                <PostInfoCard
+                  post={post}
+                  phoneNumber={phoneNumber}
+                  displayButtons={true}
+                  setPhoneNumber={setPhoneNumber}
+                />
+              </Box>
             </Grid>
           </Hidden>
         </Grid>

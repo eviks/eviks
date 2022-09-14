@@ -6,7 +6,7 @@
     "/verification": ["verification"],
     "/reset_password_verification": ["verification"],
     "/posts/[id]": ["post"],
-    "/posts/unreviewed/[id]": ["post"],
+    "/posts/unreviewed/[id]": ["post", "postModeration"],
     "/edit_post": ["post"],
     "/[...slug]": ["post", "filters", "posts"],
     "/favorites": ["favorites", "post"],
