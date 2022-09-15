@@ -61,6 +61,8 @@ export interface PostBlocking {
   blockingExpires: Date;
 }
 
+export type ReviewStatus = 'onreview' | 'confirmed';
+
 export interface Post {
   _id: number;
   userType: UserType;
@@ -121,6 +123,8 @@ export interface Post {
   step?: number;
   lastStep?: number;
   blocking?: PostBlocking;
+  reviewStatus?: ReviewStatus;
+  rereview?: boolean;
   createdAt: Date | null;
   updatedAt: Date | null;
 }

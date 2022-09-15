@@ -182,7 +182,7 @@ router.post(
   '/confirm/:id',
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
-    if (!req.user.role !== 'moderator') {
+    if (req.user.role !== 'moderator') {
       return res.status(401).json({ errors: [{ msg: 'Permission denied' }] });
     }
 
@@ -190,7 +190,7 @@ router.post(
 
     try {
       const unreviewedPost = await UnreviwedPost.findById(postId).select(
-        Object.keys(BasePostSchema).join(','),
+        `${Object.keys(BasePostSchema).join(' ')} rereview`,
       );
 
       // Unreviewed post not found
@@ -201,8 +201,8 @@ router.post(
       // Create / update standart post
       let post;
       const doc = {
-        ...unreviewedPost,
-        status: 'confirmed',
+        ...unreviewedPost.toObject(),
+        reviewStatus: 'confirmed',
       };
 
       if (!unreviewedPost.rereview) {
@@ -212,6 +212,9 @@ router.post(
       } else {
         // Delete all previous images first
         let imagesDeleted = true;
+
+        post = await Post.findById(postId);
+
         post.images.forEach(async (image) => {
           const directory = `${__dirname}/../uploads/post_images/${image}`;
           const fileExists = await checkFileExists(directory);
@@ -227,11 +230,11 @@ router.post(
         }
 
         // Update existing standart post
-        post = await Post.findByIdAndUpdate(postId, doc, { new: true });
+        await post.update(doc);
       }
 
       // Move all post images from temp to main folder
-      await req.body.images.map(async (image) => {
+      await doc.images.map(async (image) => {
         await fs.promises.rename(
           `${__dirname}/../../uploads/temp/post_images/${image}`,
           `${__dirname}/../../uploads/post_images/${image}`,
@@ -266,6 +269,12 @@ router.put(
         return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
       }
 
+      if (post.reviewStatus === 'onreview') {
+        return res
+          .status(404)
+          .json({ errors: [{ msg: 'Post is already on review' }] });
+      }
+
       // Check user
       if (req.user.id !== post.user.toString()) {
         return res.status(401).json({ errors: [{ msg: 'Permission denied' }] });
@@ -290,7 +299,7 @@ router.put(
       await unreviewedPost.save();
 
       // Update post status
-      await Post.findByIdAndUpdate(postId, { status: 'onreview' });
+      await Post.findByIdAndUpdate(postId, { reviewStatus: 'onreview' });
 
       return res.json(unreviewedPost);
     } catch (error) {
@@ -315,6 +324,10 @@ router.delete(
       // Post not found
       if (!post) {
         return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+      }
+
+      if (post.reviewStatus === 'onreview') {
+        return res.status(404).json({ errors: [{ msg: 'Post is on review' }] });
       }
 
       // Check user

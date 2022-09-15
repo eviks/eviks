@@ -292,9 +292,11 @@ const UnreviewedPost: NextPage = () => {
                   displayButtons={false}
                   setPhoneNumber={setPhoneNumber}
                 />
-                <Box sx={{ mt: 2 }}>
-                  <PostModerationPanel />
-                </Box>
+                {isInit && user?.role === 'moderator' && (
+                  <Box sx={{ mt: 2 }}>
+                    <PostModerationPanel postId={post._id} />
+                  </Box>
+                )}
               </Box>
             </Grid>
           </Hidden>

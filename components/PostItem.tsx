@@ -146,8 +146,14 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                     <Box
                       sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
                     >
-                      <EditPostButton postId={post._id} />
-                      <DeletePostButton postId={post._id} />
+                      <EditPostButton
+                        postId={post._id}
+                        reviewStatus={post.reviewStatus}
+                      />
+                      <DeletePostButton
+                        postId={post._id}
+                        reviewStatus={post.reviewStatus}
+                      />
                     </Box>
                   ) : (
                     <FavoriteButton postId={post._id} />
@@ -322,8 +328,14 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                   <Box
                     sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
                   >
-                    <EditPostButton postId={post._id} />
-                    <DeletePostButton postId={post._id} />
+                    <EditPostButton
+                      postId={post._id}
+                      reviewStatus={post.reviewStatus}
+                    />
+                    <DeletePostButton
+                      postId={post._id}
+                      reviewStatus={post.reviewStatus}
+                    />
                   </Box>
                 ) : (
                   <FavoriteButton postId={post._id} />

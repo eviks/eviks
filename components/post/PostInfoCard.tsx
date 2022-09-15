@@ -82,8 +82,14 @@ const PostInfoCard: FC<{
             {isInit &&
               (user?._id === post.user ? (
                 <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-                  <EditPostButton postId={post._id} />
-                  <DeletePostButton postId={post._id} />
+                  <EditPostButton
+                    postId={post._id}
+                    reviewStatus={post.reviewStatus}
+                  />
+                  <DeletePostButton
+                    postId={post._id}
+                    reviewStatus={post.reviewStatus}
+                  />
                 </Box>
               ) : (
                 <FavoriteButton postId={post._id} />

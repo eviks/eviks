@@ -349,3 +349,22 @@ export const deletePost = (token: string, postId: number) => {
     dispatch({ type: Types.DeletePost, payload: postId });
   };
 };
+
+export const confirmPost = async (token: string, postId: number) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    return await axios.post<Post>(`/api/posts/confirm/${postId}`, {}, config);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};

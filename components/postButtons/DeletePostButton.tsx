@@ -18,8 +18,12 @@ import CloseIcon from '../icons/CloseIcon';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
+import { ReviewStatus } from '../../types';
 
-const DeletePostButton: FC<{ postId: number }> = ({ postId }) => {
+const DeletePostButton: FC<{ postId: number; reviewStatus?: ReviewStatus }> = ({
+  postId,
+  reviewStatus,
+}) => {
   const { t } = useTranslation();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -72,6 +76,7 @@ const DeletePostButton: FC<{ postId: number }> = ({ postId }) => {
           onClick={handleClick}
           aria-label="delete-post"
           size="large"
+          disabled={reviewStatus === 'onreview'}
           sx={{
             minWidth: 'auto',
             p: 1.4,
