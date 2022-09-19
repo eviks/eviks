@@ -30,7 +30,7 @@ import {
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 
-const PostItem: FC<{ post: Post }> = ({ post }) => {
+const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
   const { t } = useTranslation();
 
   const {
@@ -131,6 +131,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               thumbSize={150}
               height={height}
               onClickItem={openPost}
+              temp={temp}
             />
             <Hidden mdUp>
               <CardActions

@@ -9,10 +9,13 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
 import PostItem from '../components/PostItem';
 import { AppContext } from '../store/appContext';
 import {
   fetchPostsOnServer,
+  fetchUnreviewedPostsOnServer,
   getAlternativePostQuery,
   setAlternativeFilters,
   setPosts,
@@ -28,16 +31,21 @@ import {
 interface QueryParams {
   page: string;
 }
+
 type StringQueryParams = Record<keyof QueryParams, string>;
+
+type PostsType = 'posts' | 'unreviewed' | 'archived';
 
 interface UserPostsProps {
   alternativeFilters: AlternativePostFilters;
   postsWithPagination: PostsWithPagination;
+  type: PostsType;
 }
 
 const UserPosts: CustomNextPage<UserPostsProps> = ({
   alternativeFilters,
   postsWithPagination,
+  type,
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -79,6 +87,13 @@ const UserPosts: CustomNextPage<UserPostsProps> = ({
     );
   };
 
+  const handlePostTypeChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newValue: PostsType,
+  ) => {
+    router.push(`/user_posts?type=${newValue}`);
+  };
+
   return (
     <Fragment>
       <Head>
@@ -95,10 +110,26 @@ const UserPosts: CustomNextPage<UserPostsProps> = ({
             {t('userPosts:userPosts')}
           </Typography>
         </Box>
+        <ToggleButtonGroup
+          color="primary"
+          value={type}
+          exclusive
+          onChange={handlePostTypeChange}
+          sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}
+        >
+          <ToggleButton value="posts">
+            {t('userPosts:activePosts')}
+          </ToggleButton>
+          <ToggleButton value="unreviewed">
+            {t('userPosts:postsOnModeration')}
+          </ToggleButton>
+        </ToggleButtonGroup>
         {posts.length > 0 ? (
           <Fragment>
             {posts.map((post) => {
-              return <PostItem key={post._id} post={post} />;
+              return (
+                <PostItem key={post._id} post={post} temp={type !== 'posts'} />
+              );
             })}
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <Pagination
@@ -175,10 +206,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const query = getAlternativePostQuery(alternativeFilters);
 
-  const postsWithPagination = await fetchPostsOnServer(query);
+  let type = context.query.type as PostsType;
+  if (!type) type = 'posts';
+
+  let postsWithPagination;
+  if (type !== 'posts') {
+    postsWithPagination = await fetchUnreviewedPostsOnServer(token, query);
+  } else {
+    postsWithPagination = await fetchPostsOnServer(query);
+  }
 
   return {
-    props: { alternativeFilters, postsWithPagination },
+    props: { alternativeFilters, postsWithPagination, type },
   };
 };
 

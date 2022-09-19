@@ -1,5 +1,7 @@
 {
   "userPosts": "Mənim elanlarım",
   "userPostsTitle": "Burada bütün elanlarınızı görə bilərsiniz",
-  "userPostsHint": "Siz pulsuz elanı verə bilərsiniz"
+  "userPostsHint": "Siz pulsuz elanı verə bilərsiniz",
+  "activePosts": "Aktiv elanlar",
+  "postsOnModeration": "Təsdiqlənməmiş elanlar"
 }

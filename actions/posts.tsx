@@ -195,6 +195,36 @@ export const fetchPostsOnServer = async (query: { [key: string]: string }) => {
   }
 };
 
+export const fetchUnreviewedPostsOnServer = async (
+  token: string,
+  query: { [key: string]: string },
+) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+    },
+  };
+
+  try {
+    const url = setURLParams(query);
+
+    const response = await axios.get<PostsWithPagination>(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/unreviewed_posts/?${
+        url && `${url}&`
+      }limit=${15}`,
+      config,
+    );
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};
+
 export const setFilters = (postFilters: PostFilters) => {
   return async (
     dispatch: Dispatch<{ type: Types.SetFilters; payload: PostFilters }>,
