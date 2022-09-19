@@ -81,7 +81,11 @@ const PostModerationPanel: FC<{ postId: number }> = ({ postId }) => {
       >
         {t('postModeration:reject')}
       </Button>
-      <PostRejection open={openRejection} setOpen={setOpenRejection} />
+      <PostRejection
+        postId={postId}
+        open={openRejection}
+        setOpen={setOpenRejection}
+      />
     </Paper>
   );
 };

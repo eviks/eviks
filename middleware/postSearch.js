@@ -89,6 +89,7 @@ const setPostsFilters = (req) => {
     notLastFloor,
     userId,
     ids,
+    reviewStatus,
   } = req.query;
 
   const conditions = {};
@@ -208,6 +209,8 @@ const setPostsFilters = (req) => {
   // Ids
   // eslint-disable-next-line no-underscore-dangle
   if (ids) conditions._id = { $in: ids.split(',') };
+
+  if (reviewStatus) conditions.reviewStatus = reviewStatus;
 
   return conditions;
 };

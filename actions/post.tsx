@@ -368,3 +368,30 @@ export const confirmPost = async (token: string, postId: number) => {
     }
   }
 };
+
+export const rejectPost = async (
+  token: string,
+  postId: number,
+  comment: string,
+) => {
+  const config = {
+    headers: {
+      Authorization: `JWT ${token}`,
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    return await axios.post<Post>(
+      `/api/posts/reject/${postId}`,
+      { comment },
+      config,
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === '500')
+      throw new ServerError(error.message);
+    else {
+      throw new Failure(getErrorMessage(error));
+    }
+  }
+};

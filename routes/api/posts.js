@@ -202,6 +202,15 @@ router.post(
       let post;
       const doc = {
         ...unreviewedPost.toObject(),
+        reviewHistory: [
+          {
+            user: req.user.id,
+            date: Date.now(),
+            result: true,
+            comment: '',
+          },
+          ...unreviewedPost.reviewHistory,
+        ],
         reviewStatus: 'confirmed',
       };
 
@@ -252,6 +261,52 @@ router.post(
   },
 );
 
+// @route POST api/posts/reject/:id
+// @desc  Reject post.
+// @access Private
+router.post(
+  '/reject/:id',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    if (req.user.role !== 'moderator') {
+      return res.status(401).json({ errors: [{ msg: 'Permission denied' }] });
+    }
+
+    const postId = req.params.id;
+
+    try {
+      const unreviewedPost = await UnreviwedPost.findById(postId).select(
+        `${Object.keys(BasePostSchema).join(' ')} rereview`,
+      );
+
+      // Unreviewed post not found
+      if (!unreviewedPost) {
+        return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+      }
+
+      // Update unreviewed post
+      unreviewedPost.reviewHistory = [
+        {
+          user: req.user.id,
+          date: Date.now(),
+          result: false,
+          comment: req.body.comment,
+        },
+        ...unreviewedPost.reviewHistory,
+      ];
+
+      unreviewedPost.reviewStatus = 'rejected';
+
+      await unreviewedPost.save();
+
+      return res.json(unreviewedPost);
+    } catch (error) {
+      logger.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
+
 // @route PUT api/posts/:id
 // @desc  Update post
 // @access Private
@@ -295,7 +350,11 @@ router.put(
       });
 
       // Create unreviewed post version
-      const unreviewedPost = new UnreviwedPost({ ...req.body, rereview: true });
+      const unreviewedPost = new UnreviwedPost({
+        ...req.body,
+        rereview: true,
+        reviewStatus: 'onreview',
+      });
       await unreviewedPost.save();
 
       // Update post status

@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useSnackbar } from 'notistack';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,15 +12,27 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import StyledInput from '../layout/StyledInput';
 import CloseIcon from '../icons/CloseIcon';
+import { AppContext } from '../../store/appContext';
+import { rejectPost } from '../../actions/post';
 import useWindowSize from '../../utils/hooks/useWindowSize';
+import Failure from '../../utils/errors/failure';
+import ServerError from '../../utils/errors/serverError';
 
 const PostRejection: FC<{
+  postId: number;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ open, setOpen }) => {
+}> = ({ postId, open, setOpen }) => {
   const router = useRouter();
   const { t } = useTranslation();
   const { width } = useWindowSize();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const {
+    state: {
+      auth: { token },
+    },
+  } = useContext(AppContext);
 
   const fullScreen = (width ?? 0) < 900;
 
@@ -31,7 +44,24 @@ const PostRejection: FC<{
     initialValues: { rejectionReason: '' },
     validationSchema,
     onSubmit: async () => {
-      router.push({ pathname: '/post_review' });
+      try {
+        // eslint-disable-next-line no-use-before-define
+        await rejectPost(token ?? '', postId, rejectionReason);
+        router.push({ pathname: '/post_review' });
+      } catch (error) {
+        let errorMessage = '';
+        if (error instanceof Failure) {
+          errorMessage = error.message;
+        } else if (error instanceof ServerError) {
+          errorMessage = t('common:serverError');
+        } else {
+          errorMessage = t('common:unknownError');
+        }
+        enqueueSnackbar(errorMessage, {
+          variant: 'error',
+          autoHideDuration: 3000,
+        });
+      }
     },
   });
 

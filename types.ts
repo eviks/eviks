@@ -61,7 +61,7 @@ export interface PostBlocking {
   blockingExpires: Date;
 }
 
-export type ReviewStatus = 'onreview' | 'confirmed';
+export type ReviewStatus = 'onreview' | 'confirmed' | 'rejected';
 
 export interface Post {
   _id: number;
@@ -188,6 +188,7 @@ export interface PostFilters {
 export interface AlternativePostFilters {
   ids?: string[];
   userId?: string;
+  reviewStatus?: ReviewStatus;
   pagination: Pagination;
 }
 

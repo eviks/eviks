@@ -116,6 +116,7 @@ export const getAlternativePostQuery = (filters: AlternativePostFilters) => {
   if (filters.ids && filters.ids.length > 0)
     searchParams.ids = filters.ids.join(',');
   if (filters.userId) searchParams.userId = filters.userId;
+  if (filters.reviewStatus) searchParams.reviewStatus = filters.reviewStatus;
   searchParams.page = filters.pagination.current.toString();
   return searchParams;
 };

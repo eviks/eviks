@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ReviewHistorySchema = require('./ReviewHistorySchema');
 
 const basePostSchema = {
   _id: Number,
@@ -294,19 +295,13 @@ const basePostSchema = {
     index: true,
   },
   reviewHistory: {
-    type: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'users',
-          required: true,
-        },
-        date: { type: Date, required: true },
-        result: Boolean,
-        comment: String,
-      },
-    ],
+    type: [ReviewHistorySchema],
     required: false,
+  },
+  reviewStatus: {
+    type: String,
+    enum: ['onreview', 'confirmed', 'rejected'],
+    default: 'onreview',
   },
 };
 

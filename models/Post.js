@@ -4,10 +4,6 @@ const BasePostSchema = require('./schemas/BasePostSchema');
 const PostSchema = new mongoose.Schema(
   {
     ...BasePostSchema,
-    reviewStatus: {
-      type: String,
-      enum: ['onreview', 'confirmed'],
-    },
   },
   {
     timestamps: true,

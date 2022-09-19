@@ -61,6 +61,7 @@ const PostReview: NextPage = () => {
 
       try {
         setAlternativeFilters({
+          reviewStatus: 'onreview',
           pagination: {
             current: urlParams.page ? Number(urlParams.page) : 1,
           },
