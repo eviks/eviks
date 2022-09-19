@@ -1,10 +1,11 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useSnackbar } from 'notistack';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import PostRejection from './PostRejection';
 import { AppContext } from '../../store/appContext';
 import { confirmPost } from '../../actions/post';
 import Failure from '../../utils/errors/failure';
@@ -20,6 +21,8 @@ const PostModerationPanel: FC<{ postId: number }> = ({ postId }) => {
       auth: { token },
     },
   } = useContext(AppContext);
+
+  const [openRejection, setOpenRejection] = useState<boolean>(false);
 
   const handlePostConfirmation = async () => {
     try {
@@ -39,6 +42,10 @@ const PostModerationPanel: FC<{ postId: number }> = ({ postId }) => {
         autoHideDuration: 3000,
       });
     }
+  };
+
+  const handlePostRejection = () => {
+    setOpenRejection(true);
   };
 
   return (
@@ -64,6 +71,17 @@ const PostModerationPanel: FC<{ postId: number }> = ({ postId }) => {
       >
         {t('postModeration:confirm')}
       </Button>
+      <Button
+        color="error"
+        variant="contained"
+        fullWidth
+        disableElevation
+        onClick={handlePostRejection}
+        sx={{ mt: 1, py: 1.2 }}
+      >
+        {t('postModeration:reject')}
+      </Button>
+      <PostRejection open={openRejection} setOpen={setOpenRejection} />
     </Paper>
   );
 };

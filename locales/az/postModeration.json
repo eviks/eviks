@@ -1,4 +1,7 @@
 {
   "moderation": "Moderasiya",
-  "confirm": "Təsdiq eləmək"
+  "confirm": "Təsdiq eləmək",
+  "reject": "Rədd etmək",
+  "rejectionTitle": "Bu elanın rədd edilməsinin səbəbini göstərin",
+  "rejectionReason": "Rədd edilməsinin səbəbini"
 }
