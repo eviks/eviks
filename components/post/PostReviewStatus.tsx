@@ -40,15 +40,16 @@ const PostReviewStatus: FC<{
         }}
       >
         <Typography
-          variant="h5"
+          variant="h4"
           color={
             reviewStatus === 'rejected' ? theme.palette.error.main : 'auto'
           }
+          sx={{ fontSize: 24 }}
         >
-          {t(`postModeration:${reviewStatus}Title`)}
+          {t(`moderationStatus:${reviewStatus}Title`)}
         </Typography>
         <Typography sx={{ mt: 1 }}>
-          {t(`postModeration:${reviewStatus}Hint`)}
+          {t(`moderationStatus:${reviewStatus}Hint`)}
         </Typography>
         {reviewStatus === 'rejected' && reviewHistory.length > 0 && (
           <Fragment>
@@ -56,7 +57,7 @@ const PostReviewStatus: FC<{
               {reviewHistory[0].comment}
             </Typography>
             <Typography sx={{ mt: 1 }}>
-              {t(`postModeration:${reviewStatus}HintEnding`)}
+              {t(`moderationStatus:${reviewStatus}HintEnding`)}
             </Typography>
           </Fragment>
         )}

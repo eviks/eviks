@@ -13,22 +13,23 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
-import { AppContext } from '../store/appContext';
-import { fetchPostPhoneNumber } from '../actions/posts';
-import FavoriteButton from './postButtons/FavoriteButton';
-import EditPostButton from './postButtons/EditPostButton';
-import DeletePostButton from './postButtons/DeletePostButton';
-import StyledCarousel from './layout/StyledCarousel';
-import MetroIcon from './icons/MetroIcon';
-import { EstateType, Post } from '../types';
-import useWindowSize from '../utils/hooks/useWindowSize';
+import PostItemReviewStatus from './PostItemReviewStatus';
+import { AppContext } from '../../store/appContext';
+import { fetchPostPhoneNumber } from '../../actions/posts';
+import FavoriteButton from '../postButtons/FavoriteButton';
+import EditPostButton from '../postButtons/EditPostButton';
+import DeletePostButton from '../postButtons/DeletePostButton';
+import StyledCarousel from '../layout/StyledCarousel';
+import MetroIcon from '../icons/MetroIcon';
+import { EstateType, Post } from '../../types';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 import {
   getSettlementPresentation,
   getMetroPresentation,
   formatter,
-} from '../utils';
-import Failure from '../utils/errors/failure';
-import ServerError from '../utils/errors/serverError';
+} from '../../utils';
+import Failure from '../../utils/errors/failure';
+import ServerError from '../../utils/errors/serverError';
 
 const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
   const { t } = useTranslation();
@@ -105,6 +106,9 @@ const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
             : null,
       }}
     >
+      {temp && post.reviewStatus && (
+        <PostItemReviewStatus reviewStatus={post.reviewStatus} />
+      )}
       <Grid
         container
         sx={{

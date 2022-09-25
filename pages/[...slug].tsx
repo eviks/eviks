@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
-import PostItem from '../components/PostItem';
+import PostItem from '../components/postItem/PostItem';
 import { AppContext } from '../store/appContext';
 import {
   fetchPosts,

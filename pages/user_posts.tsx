@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
-import PostItem from '../components/PostItem';
+import PostItem from '../components/postItem/PostItem';
 import { AppContext } from '../store/appContext';
 import {
   fetchPostsOnServer,

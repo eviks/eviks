@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
-import PostItem from '../components/PostItem';
+import PostItem from '../components/postItem/PostItem';
 import { AppContext } from '../store/appContext';
 import {
   fetchPostsOnServer,
