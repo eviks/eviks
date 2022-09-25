@@ -294,7 +294,7 @@ const Posts: CustomNextPage<PostsProps> = ({
         {posts.length > 0 ? (
           <Fragment>
             {posts.map((post) => {
-              return <PostItem key={post._id} post={post} />;
+              return <PostItem key={post._id} post={post} unreviewed={false} />;
             })}
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <Pagination

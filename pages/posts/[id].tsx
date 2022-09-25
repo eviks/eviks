@@ -165,6 +165,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
                         <EditPostButton
                           postId={post._id}
                           reviewStatus={post.reviewStatus}
+                          unreviewed={false}
                         />
                         <DeletePostButton
                           postId={post._id}
@@ -222,6 +223,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
               <Box sx={{ position: 'sticky', top: 85, mx: 2 }}>
                 <PostInfoCard
                   post={post}
+                  unreviewed={false}
                   phoneNumber={phoneNumber}
                   setPhoneNumber={setPhoneNumber}
                 />

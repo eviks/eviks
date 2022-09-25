@@ -31,7 +31,10 @@ import {
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
 
-const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
+const PostItem: FC<{ post: Post; unreviewed: boolean }> = ({
+  post,
+  unreviewed,
+}) => {
   const { t } = useTranslation();
 
   const {
@@ -49,7 +52,7 @@ const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
   const theme = useTheme();
   const { width } = useWindowSize();
 
-  const postsRout = temp ? 'posts/unreviewed' : 'posts';
+  const postsRout = unreviewed ? 'posts/unreviewed' : 'posts';
 
   const openPost = () => {
     window.open(`${locale}/${postsRout}/${post._id}`, '_blank');
@@ -106,7 +109,7 @@ const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
             : null,
       }}
     >
-      {temp && post.reviewStatus && (
+      {unreviewed && post.reviewStatus && (
         <PostItemReviewStatus reviewStatus={post.reviewStatus} />
       )}
       <Grid
@@ -137,7 +140,7 @@ const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
               thumbSize={150}
               height={height}
               onClickItem={openPost}
-              temp={temp}
+              temp={unreviewed}
             />
             <Hidden mdUp>
               <CardActions
@@ -156,6 +159,7 @@ const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
                       <EditPostButton
                         postId={post._id}
                         reviewStatus={post.reviewStatus}
+                        unreviewed={unreviewed}
                       />
                       <DeletePostButton
                         postId={post._id}
@@ -338,6 +342,7 @@ const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
                     <EditPostButton
                       postId={post._id}
                       reviewStatus={post.reviewStatus}
+                      unreviewed={unreviewed}
                     />
                     <DeletePostButton
                       postId={post._id}

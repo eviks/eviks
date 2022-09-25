@@ -2,6 +2,7 @@ import React, { FC, Fragment } from 'react';
 import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
+import Hidden from '@mui/material/Hidden';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { ReviewStatus, ReviewHistory } from '../../types';
@@ -24,12 +25,14 @@ const PostReviewStatus: FC<{
         flexDirection: 'row',
       }}
     >
-      <Image
-        src={`/illustrations/${reviewStatus}.svg`}
-        alt="moderation"
-        width={150}
-        height={150}
-      />
+      <Hidden mdDown>
+        <Image
+          src={`/illustrations/${reviewStatus}.svg`}
+          alt="moderation"
+          width={150}
+          height={150}
+        />
+      </Hidden>
       <Box
         sx={{
           mx: 4,

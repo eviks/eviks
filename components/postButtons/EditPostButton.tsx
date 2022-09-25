@@ -7,17 +7,21 @@ import { useTheme } from '@mui/material/styles';
 import PencilIcon from '../icons/PencilIcon';
 import { ReviewStatus } from '../../types';
 
-const EditPostButton: FC<{ postId: number; reviewStatus?: ReviewStatus }> = ({
-  postId,
-  reviewStatus,
-}) => {
+const EditPostButton: FC<{
+  postId: number;
+  reviewStatus?: ReviewStatus;
+  unreviewed: boolean;
+}> = ({ postId, reviewStatus, unreviewed }) => {
   const { t } = useTranslation();
   const router = useRouter();
 
   const theme = useTheme();
 
   const handleClick = async () => {
-    router.push({ pathname: '/edit_post', query: { id: postId } });
+    router.push({
+      pathname: '/edit_post',
+      query: { id: postId, unreviewed },
+    });
   };
 
   return (

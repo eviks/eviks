@@ -16,8 +16,9 @@ import { ImageData } from '../../../types';
 
 const UploadedPostImage: FC<{
   image: ImageData;
+  unreviewed: boolean;
   setImages: React.Dispatch<React.SetStateAction<ImageData[]>>;
-}> = ({ image, setImages }) => {
+}> = ({ image, unreviewed, setImages }) => {
   const { t } = useTranslation();
 
   const theme = useTheme();
@@ -152,7 +153,7 @@ const UploadedPostImage: FC<{
           !image.isUploaded
             ? image.file?.preview ?? ''
             : `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${
-                image.isTemp ? 'temp/' : ''
+                image.isTemp || unreviewed ? 'temp/' : ''
               }post_images/${image.id}/image_${160}.webp`
         }
         width={'150px'}

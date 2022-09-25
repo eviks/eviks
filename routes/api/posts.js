@@ -159,13 +159,66 @@ router.post(
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select('-password');
-      const post = new UnreviwedPost({
-        ...req.body,
-        user,
-      });
-      // eslint-disable-next-line no-underscore-dangle
-      post._id = await getNextSequence('postid');
-      await post.save();
+
+      const postId = req.body._id;
+
+      let post;
+      if (postId) {
+        // If id is greater than 0 it means that this is an update of the unreviewed post
+
+        post = await UnreviwedPost.findOne({ _id: postId, user: user._id });
+
+        // Post not found
+        if (!post) {
+          return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+        }
+
+        // Check post status
+        if (post.reviewStatus === 'onreview') {
+          return res
+            .status(404)
+            .json({ errors: [{ msg: 'Post is already on review' }] });
+        }
+
+        // Delete all previous images first
+        let imagesDeleted = true;
+        post.images.forEach(async (image) => {
+          if (
+            !req.body.images.find((value) => {
+              return value === image;
+            })
+          ) {
+            const directory = `${__dirname}/../uploads/temp/post_images/${image}`;
+            const fileExists = await checkFileExists(directory);
+            if (fileExists) {
+              rimraf(directory, (error) => {
+                if (error) imagesDeleted = false;
+              });
+            }
+          }
+        });
+
+        if (!imagesDeleted) {
+          return res.status(500).send('Server error...');
+        }
+
+        // Update existing standart post
+        post = await UnreviwedPost.findByIdAndUpdate(
+          postId,
+          { ...req.body, reviewStatus: 'onreview' },
+          { new: true },
+        );
+      } else {
+        // This is a new unreviewed post
+        post = new UnreviwedPost({
+          ...req.body,
+          user,
+        });
+
+        // eslint-disable-next-line no-underscore-dangle
+        post._id = await getNextSequence('postid');
+        await post.save();
+      }
 
       return res.json(post);
     } catch (error) {
@@ -239,7 +292,7 @@ router.post(
         }
 
         // Update existing standart post
-        await post.update(doc);
+        post = await Post.findByIdAndUpdate(postId, doc, { new: true });
       }
 
       // Move all post images from temp to main folder
@@ -324,6 +377,7 @@ router.put(
         return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
       }
 
+      // Check post status
       if (post.reviewStatus === 'onreview') {
         return res
           .status(404)

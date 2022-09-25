@@ -128,7 +128,11 @@ const UserPosts: CustomNextPage<UserPostsProps> = ({
           <Fragment>
             {posts.map((post) => {
               return (
-                <PostItem key={post._id} post={post} temp={type !== 'posts'} />
+                <PostItem
+                  key={post._id}
+                  post={post}
+                  unreviewed={type !== 'posts'}
+                />
               );
             })}
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>

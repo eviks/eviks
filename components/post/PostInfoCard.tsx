@@ -22,9 +22,10 @@ import { Post, EstateType } from '../../types';
 
 const PostInfoCard: FC<{
   post: Post;
+  unreviewed: boolean;
   phoneNumber: string;
   setPhoneNumber: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ post, phoneNumber, setPhoneNumber }) => {
+}> = ({ post, unreviewed, phoneNumber, setPhoneNumber }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const theme = useTheme();
@@ -83,6 +84,7 @@ const PostInfoCard: FC<{
                 <EditPostButton
                   postId={post._id}
                   reviewStatus={post.reviewStatus}
+                  unreviewed={unreviewed}
                 />
                 <DeletePostButton
                   postId={post._id}

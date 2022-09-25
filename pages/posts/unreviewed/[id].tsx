@@ -28,6 +28,8 @@ import PostDescription from '../../../components/post/PostDescription';
 import PostGeneralInfo from '../../../components/post/PostGeneralInfo';
 import PostAdditionalInfo from '../../../components/post/PostAdditionalInfo';
 import PostBuildingInfo from '../../../components/post/PostBuildingInfo';
+import EditPostButton from '../../../components/postButtons/EditPostButton';
+import DeletePostButton from '../../../components/postButtons/DeletePostButton';
 import PostModerationPanel from '../../../components/post/PostModerationPanel';
 import PostReviewStatus from '../../../components/post/PostReviewStatus';
 import {
@@ -230,7 +232,7 @@ const UnreviewedPost: NextPage = () => {
           }}
         >
           <Grid item md={12} lg={8}>
-            {post.reviewStatus && (
+            {isInit && user?.role !== 'moderator' && post.reviewStatus && (
               <PostReviewStatus
                 reviewStatus={post.reviewStatus}
                 reviewHistory={post.reviewHistory}
@@ -249,6 +251,31 @@ const UnreviewedPost: NextPage = () => {
                 height={width && width >= 900 ? '500px' : '320px'}
                 temp={true}
               />
+
+              {isInit && user?._id === post.user && (
+                <Hidden lgUp>
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      right: '0',
+                      top: '0',
+                      p: 2,
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                      <EditPostButton
+                        postId={post._id}
+                        reviewStatus={post.reviewStatus}
+                        unreviewed={false}
+                      />
+                      <DeletePostButton
+                        postId={post._id}
+                        reviewStatus={post.reviewStatus}
+                      />
+                    </Box>
+                  </Box>
+                </Hidden>
+              )}
             </Box>
             <Hidden lgUp>
               <PostPrice post={post} />
@@ -295,6 +322,7 @@ const UnreviewedPost: NextPage = () => {
               <Box sx={{ position: 'sticky', top: 85, mx: 2 }}>
                 <PostInfoCard
                   post={post}
+                  unreviewed={true}
                   phoneNumber={phoneNumber}
                   setPhoneNumber={setPhoneNumber}
                 />
