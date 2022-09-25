@@ -63,6 +63,13 @@ export interface PostBlocking {
 
 export type ReviewStatus = 'onreview' | 'confirmed' | 'rejected';
 
+export interface ReviewHistory {
+  user: string;
+  date: Date;
+  result: boolean;
+  comment: string;
+}
+
 export interface Post {
   _id: number;
   userType: UserType;
@@ -125,6 +132,7 @@ export interface Post {
   blocking?: PostBlocking;
   reviewStatus?: ReviewStatus;
   rereview?: boolean;
+  reviewHistory: ReviewHistory[];
   createdAt: Date | null;
   updatedAt: Date | null;
 }

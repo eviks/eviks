@@ -223,7 +223,6 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
                 <PostInfoCard
                   post={post}
                   phoneNumber={phoneNumber}
-                  displayButtons={true}
                   setPhoneNumber={setPhoneNumber}
                 />
               </Box>

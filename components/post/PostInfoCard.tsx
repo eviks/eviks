@@ -23,9 +23,8 @@ import { Post, EstateType } from '../../types';
 const PostInfoCard: FC<{
   post: Post;
   phoneNumber: string;
-  displayButtons: boolean;
   setPhoneNumber: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ post, phoneNumber, displayButtons, setPhoneNumber }) => {
+}> = ({ post, phoneNumber, setPhoneNumber }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const theme = useTheme();
@@ -77,26 +76,23 @@ const PostInfoCard: FC<{
       sx={{ borderRadius: '12px', p: 2 }}
     >
       <CardContent>
-        {displayButtons && (
-          <Box sx={{ pb: 2 }}>
-            {isInit &&
-              (user?._id === post.user ? (
-                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-                  <EditPostButton
-                    postId={post._id}
-                    reviewStatus={post.reviewStatus}
-                  />
-                  <DeletePostButton
-                    postId={post._id}
-                    reviewStatus={post.reviewStatus}
-                  />
-                </Box>
-              ) : (
-                <FavoriteButton postId={post._id} />
-              ))}
-          </Box>
-        )}
-
+        <Box sx={{ pb: 2 }}>
+          {isInit &&
+            (user?._id === post.user ? (
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                <EditPostButton
+                  postId={post._id}
+                  reviewStatus={post.reviewStatus}
+                />
+                <DeletePostButton
+                  postId={post._id}
+                  reviewStatus={post.reviewStatus}
+                />
+              </Box>
+            ) : (
+              <FavoriteButton postId={post._id} />
+            ))}
+        </Box>
         <Box sx={{ pb: 2 }}>
           <Typography variant="h5">{`${post.sqm} ${t(
             'post:m2',

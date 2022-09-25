@@ -48,8 +48,10 @@ const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
   const theme = useTheme();
   const { width } = useWindowSize();
 
+  const postsRout = temp ? 'posts/unreviewed' : 'posts';
+
   const openPost = () => {
-    window.open(`${locale}/posts/${post._id}`, '_blank');
+    window.open(`${locale}/${postsRout}/${post._id}`, '_blank');
   };
 
   const height = width && width >= 900 ? '280px' : '250px';
@@ -173,7 +175,7 @@ const PostItem: FC<{ post: Post; temp?: boolean }> = ({ post, temp }) => {
           }}
         >
           <CardActionArea
-            href={`${locale}/posts/${post._id}`}
+            href={`${locale}/${postsRout}/${post._id}`}
             target={'_blank'}
             disableRipple={true}
             disableTouchRipple={true}

@@ -29,6 +29,7 @@ import PostGeneralInfo from '../../../components/post/PostGeneralInfo';
 import PostAdditionalInfo from '../../../components/post/PostAdditionalInfo';
 import PostBuildingInfo from '../../../components/post/PostBuildingInfo';
 import PostModerationPanel from '../../../components/post/PostModerationPanel';
+import PostReviewStatus from '../../../components/post/PostReviewStatus';
 import {
   fetchUnreviewedPost,
   fetchPostPhoneNumber,
@@ -229,6 +230,12 @@ const UnreviewedPost: NextPage = () => {
           }}
         >
           <Grid item md={12} lg={8}>
+            {post.reviewStatus && (
+              <PostReviewStatus
+                reviewStatus={post.reviewStatus}
+                reviewHistory={post.reviewHistory}
+              />
+            )}
             <PostTitle post={post} title={title} />
             <Box
               sx={{
@@ -289,7 +296,6 @@ const UnreviewedPost: NextPage = () => {
                 <PostInfoCard
                   post={post}
                   phoneNumber={phoneNumber}
-                  displayButtons={false}
                   setPhoneNumber={setPhoneNumber}
                 />
                 {isInit && user?.role === 'moderator' && (
