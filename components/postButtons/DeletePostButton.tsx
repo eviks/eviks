@@ -12,7 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import { AppContext } from '../../store/appContext';
-import { deletePost } from '../../actions/post';
+import { deletePost, deleteUnreviewedPost } from '../../actions/post';
 import GarbageIcon from '../icons/GarbageIcon';
 import CloseIcon from '../icons/CloseIcon';
 import useWindowSize from '../../utils/hooks/useWindowSize';
@@ -20,10 +20,11 @@ import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
 import { ReviewStatus } from '../../types';
 
-const DeletePostButton: FC<{ postId: number; reviewStatus?: ReviewStatus }> = ({
-  postId,
-  reviewStatus,
-}) => {
+const DeletePostButton: FC<{
+  postId: number;
+  reviewStatus?: ReviewStatus;
+  unreviewed: boolean;
+}> = ({ postId, reviewStatus, unreviewed }) => {
   const { t } = useTranslation();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -50,7 +51,11 @@ const DeletePostButton: FC<{ postId: number; reviewStatus?: ReviewStatus }> = ({
 
   const handleDeletePost = async () => {
     try {
-      await deletePost(auth.token ?? '', postId)(dispatch);
+      if (unreviewed) {
+        await deleteUnreviewedPost(auth.token ?? '', postId)(dispatch);
+      } else {
+        await deletePost(auth.token ?? '', postId)(dispatch);
+      }
       setOpen(false);
     } catch (error) {
       let errorMessage = '';

@@ -170,6 +170,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
                         <DeletePostButton
                           postId={post._id}
                           reviewStatus={post.reviewStatus}
+                          unreviewed={false}
                         />
                       </Box>
                     ) : (

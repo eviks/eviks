@@ -439,6 +439,7 @@ router.delete(
         return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
       }
 
+      // Check post status
       if (post.reviewStatus === 'onreview') {
         return res.status(404).json({ errors: [{ msg: 'Post is on review' }] });
       }
@@ -454,6 +455,62 @@ router.delete(
       let imagesDeleted = true;
       post.images.forEach(async (image) => {
         const directory = `${__dirname}/../../uploads/post_images/${image}`;
+        const fileExists = await checkFileExists(directory);
+        if (fileExists) {
+          rimraf(directory, (error) => {
+            if (error) imagesDeleted = false;
+          });
+        }
+      });
+
+      if (!imagesDeleted) {
+        return res.status(500).send('Server error...');
+      }
+
+      // Delete post
+      await post.remove();
+
+      return res.json({ msg: 'Post deleted' });
+    } catch (error) {
+      logger.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
+
+// @route DELETE api/posts/unreviewed/:id
+// @desc  Delete unreviewed post
+// @access Private
+router.delete(
+  '/unreviewed/:id',
+  [passport.authenticate('jwt', { session: false })],
+  async (req, res) => {
+    const postId = req.params.id;
+
+    try {
+      const post = await UnreviwedPost.findById(postId);
+
+      // Post not found
+      if (!post) {
+        return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+      }
+
+      // Check post status
+      if (post.reviewStatus === 'onreview') {
+        return res.status(404).json({ errors: [{ msg: 'Post is on review' }] });
+      }
+
+      // Check user
+      if (req.user.id !== post.user.toString()) {
+        return res
+          .status(401)
+          .json({ errors: [{ msg: 'User not authorized' }] });
+      }
+
+      // Delete post images first
+      let imagesDeleted = true;
+      post.images.forEach(async (image) => {
+        const directory = `${__dirname}/../../uploads/temp/post_images/${image}`;
         const fileExists = await checkFileExists(directory);
         if (fileExists) {
           rimraf(directory, (error) => {

@@ -164,6 +164,7 @@ const PostItem: FC<{ post: Post; unreviewed: boolean }> = ({
                       <DeletePostButton
                         postId={post._id}
                         reviewStatus={post.reviewStatus}
+                        unreviewed={unreviewed}
                       />
                     </Box>
                   ) : (
@@ -347,6 +348,7 @@ const PostItem: FC<{ post: Post; unreviewed: boolean }> = ({
                     <DeletePostButton
                       postId={post._id}
                       reviewStatus={post.reviewStatus}
+                      unreviewed={unreviewed}
                     />
                   </Box>
                 ) : (

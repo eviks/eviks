@@ -266,11 +266,12 @@ const UnreviewedPost: NextPage = () => {
                       <EditPostButton
                         postId={post._id}
                         reviewStatus={post.reviewStatus}
-                        unreviewed={false}
+                        unreviewed={true}
                       />
                       <DeletePostButton
                         postId={post._id}
                         reviewStatus={post.reviewStatus}
+                        unreviewed={true}
                       />
                     </Box>
                   </Box>

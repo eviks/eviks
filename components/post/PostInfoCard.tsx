@@ -89,6 +89,7 @@ const PostInfoCard: FC<{
                 <DeletePostButton
                   postId={post._id}
                   reviewStatus={post.reviewStatus}
+                  unreviewed={unreviewed}
                 />
               </Box>
             ) : (
