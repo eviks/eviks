@@ -257,7 +257,7 @@ export const uploadImage = async (token: string, imageData: ImageData) => {
 
   try {
     await axios.post<{ id: string }>(
-      '/api/posts/uploaiewed/d_image',
+      '/api/posts/upload_image',
       formData,
       config,
     );
