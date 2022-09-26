@@ -7,6 +7,7 @@ const uuid = require('uuid');
 const sharp = require('sharp');
 const rimraf = require('rimraf');
 const postSearch = require('../../middleware/postSearch');
+const emailSender = require('../../config/mailer/emailSender');
 const logger = require('../../utils/logger');
 
 const BasePostSchema = require('../../models/schemas/BasePostSchema');
@@ -220,6 +221,18 @@ router.post(
         await post.save();
       }
 
+      // Notify user via email
+      const result = await emailSender({
+        emailType: 'post-onreview',
+        subject: 'Your post is under review',
+        receivers: user.email,
+        context: {
+          id: post.id,
+        },
+      });
+
+      if (!result.success) throw result.error;
+
       return res.json(post);
     } catch (error) {
       logger.error(error.message);
@@ -306,6 +319,20 @@ router.post(
       // Delete unreviewed version
       await unreviewedPost.remove();
 
+      // Notify user via email
+      const user = await User.findById(post.user).select('email');
+
+      const result = await emailSender({
+        emailType: 'post-confirmed',
+        subject: 'Your post has been confirmed',
+        receivers: user.email,
+        context: {
+          id: post.id,
+        },
+      });
+
+      if (!result.success) throw result.error;
+
       return res.json(post);
     } catch (error) {
       logger.error(error.message);
@@ -351,6 +378,21 @@ router.post(
       unreviewedPost.reviewStatus = 'rejected';
 
       await unreviewedPost.save();
+
+      // Notify user via email
+      const user = await User.findById(unreviewedPost.user).select('email');
+
+      const result = await emailSender({
+        emailType: 'post-rejected',
+        subject: 'Your post has been rejected',
+        receivers: user.email,
+        context: {
+          id: unreviewedPost.id,
+          comment: req.body.comment,
+        },
+      });
+
+      if (!result.success) throw result.error;
 
       return res.json(unreviewedPost);
     } catch (error) {
@@ -413,6 +455,20 @@ router.put(
 
       // Update post status
       await Post.findByIdAndUpdate(postId, { reviewStatus: 'onreview' });
+
+      // Notify user via email
+      const user = await User.findById(post.user).select('email');
+
+      const result = await emailSender({
+        emailType: 'post-onreview',
+        subject: 'Your post is under review',
+        receivers: user.email,
+        context: {
+          id: unreviewedPost.id,
+        },
+      });
+
+      if (!result.success) throw result.error;
 
       return res.json(unreviewedPost);
     } catch (error) {
