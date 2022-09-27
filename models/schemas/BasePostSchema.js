@@ -303,6 +303,9 @@ const basePostSchema = {
     enum: ['onreview', 'confirmed', 'rejected'],
     default: 'onreview',
   },
+  expires: {
+    type: Date,
+  },
 };
 
 module.exports = basePostSchema;
