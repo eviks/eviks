@@ -282,7 +282,7 @@ router.post(
 
       if (!unreviewedPost.rereview) {
         // Create new standart post
-        post = new Post({ ...doc, expires: Date.now() });
+        post = new Post({ ...doc, expires: Date.now() + 86400000 * 30 });
         await post.save();
       } else {
         // Delete all previous images first
