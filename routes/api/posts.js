@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fsExtra = require('fs-extra');
 const mongoose = require('mongoose');
 const express = require('express');
 const { check, validationResult } = require('express-validator');
@@ -189,7 +190,7 @@ router.post(
               return value === image;
             })
           ) {
-            const directory = `${__dirname}/../uploads/temp/post_images/${image}`;
+            const directory = `${__dirname}/../../uploads/temp/post_images/${image}`;
             const fileExists = await checkFileExists(directory);
             if (fileExists) {
               rimraf(directory, (error) => {
@@ -203,10 +204,14 @@ router.post(
           return res.status(500).send('Server error...');
         }
 
-        // Update existing standart post
+        // Update existing unreviewed post
         post = await UnreviwedPost.findByIdAndUpdate(
           postId,
-          { ...req.body, reviewStatus: 'onreview' },
+          {
+            ...req.body,
+            reviewStatus: 'onreview',
+            expires: Date.now() + 86400000 * 3,
+          },
           { new: true },
         );
       } else {
@@ -291,7 +296,7 @@ router.post(
         post = await Post.findById(postId);
 
         post.images.forEach(async (image) => {
-          const directory = `${__dirname}/../uploads/post_images/${image}`;
+          const directory = `${__dirname}/../../uploads/post_images/${image}`;
           const fileExists = await checkFileExists(directory);
           if (fileExists) {
             rimraf(directory, (error) => {
@@ -305,12 +310,16 @@ router.post(
         }
 
         // Update existing standart post
-        post = await Post.findByIdAndUpdate(postId, doc, { new: true });
+        post = await Post.findByIdAndUpdate(
+          postId,
+          { ...doc, expires: post.expires },
+          { new: true },
+        );
       }
 
       // Move all post images from temp to main folder
-      await doc.images.map(async (image) => {
-        await fs.promises.rename(
+      doc.images.map(async (image) => {
+        await fsExtra.move(
           `${__dirname}/../../uploads/temp/post_images/${image}`,
           `${__dirname}/../../uploads/post_images/${image}`,
         );
@@ -376,6 +385,8 @@ router.post(
       ];
 
       unreviewedPost.reviewStatus = 'rejected';
+      if (!unreviewedPost.expires)
+        unreviewedPost.expires = Date.now() + 86400000 * 3;
 
       await unreviewedPost.save();
 
@@ -438,9 +449,12 @@ router.put(
             return value === image;
           })
         ) {
-          await fs.promises.copyFile(
+          await fsExtra.copy(
             `${__dirname}/../../uploads/post_images/${image}`,
             `${__dirname}/../../uploads/temp/post_images/${image}`,
+            (error) => {
+              logger.error(error);
+            },
           );
         }
       });
@@ -450,6 +464,7 @@ router.put(
         ...req.body,
         rereview: true,
         reviewStatus: 'onreview',
+        expires: post.expires,
       });
       await unreviewedPost.save();
 

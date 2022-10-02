@@ -9,7 +9,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const schedule = require('node-schedule');
 const logger = require('./utils/logger');
 const connectDB = require('./config/db');
-const { archivePosts } = require('./utils/scheduleJobs');
+const { archivePosts, archiveRejectedPosts } = require('./utils/scheduleJobs');
 
 // Connect database
 connectDB();
@@ -40,8 +40,9 @@ app.prepare().then(() => {
   server.use('/api/localities', require('./routes/api/localities'));
 
   // Schedule jobs
-  schedule.scheduleJob('0 0 */1 * * *', () => {
-    return archivePosts();
+  schedule.scheduleJob('0 */1 * * * *', () => {
+    archivePosts();
+    archiveRejectedPosts();
   });
 
   server.all('*', (req, res) => {
