@@ -559,20 +559,20 @@ router.delete(
     const postId = req.params.id;
 
     try {
-      const post = await UnreviwedPost.findById(postId);
+      const unreviewedPost = await UnreviwedPost.findById(postId);
 
       // Post not found
-      if (!post) {
+      if (!unreviewedPost) {
         return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
       }
 
       // Check post status
-      if (post.reviewStatus === 'onreview') {
+      if (unreviewedPost.reviewStatus === 'onreview') {
         return res.status(404).json({ errors: [{ msg: 'Post is on review' }] });
       }
 
       // Check user
-      if (req.user.id !== post.user.toString()) {
+      if (req.user.id !== unreviewedPost.user.toString()) {
         return res
           .status(401)
           .json({ errors: [{ msg: 'User not authorized' }] });
@@ -580,7 +580,7 @@ router.delete(
 
       // Delete post images first
       let imagesDeleted = true;
-      post.images.forEach(async (image) => {
+      unreviewedPost.images.forEach(async (image) => {
         const directory = `${__dirname}/../../uploads/temp/post_images/${image}`;
         const fileExists = await checkFileExists(directory);
         if (fileExists) {
@@ -594,8 +594,13 @@ router.delete(
         return res.status(500).send('Server error...');
       }
 
+      // If this is a rereview return post status to 'confirmed'
+      if (unreviewedPost.rereview) {
+        await Post.findByIdAndUpdate(postId, { reviewStatus: 'confirmed' });
+      }
+
       // Delete post
-      await post.remove();
+      await unreviewedPost.remove();
 
       return res.json({ msg: 'Post deleted' });
     } catch (error) {
