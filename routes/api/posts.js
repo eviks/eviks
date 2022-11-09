@@ -487,6 +487,7 @@ router.put(
       // Create unreviewed post version
       const unreviewedPost = new UnreviwedPost({
         ...req.body,
+        user: post.user,
         rereview: true,
         reviewStatus: 'onreview',
         expires: post.expires,
