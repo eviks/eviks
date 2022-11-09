@@ -17,6 +17,7 @@ jobs:
           key: ${{ secrets.SSHKEY }}
           port: ${{ secrets.PORT }}
           script: |
+            pm2 stop 0
             export NODE_ENV=production
             cd apps/eviks
             git pull origin master
