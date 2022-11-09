@@ -373,22 +373,47 @@ router.post(
         return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
       }
 
-      // Update unreviewed post
-      unreviewedPost.reviewHistory = [
-        {
-          user: req.user.id,
-          date: Date.now(),
-          result: false,
-          comment: req.body.comment,
-        },
-        ...unreviewedPost.reviewHistory,
-      ];
+      if (unreviewedPost.rereview) {
+        // Post has been confirmed before. Therefore unreviewed version will be deleted
 
-      unreviewedPost.reviewStatus = 'rejected';
-      if (!unreviewedPost.expires)
+        // Delete post images first
+        let imagesDeleted = true;
+        unreviewedPost.images.forEach(async (image) => {
+          const directory = `${__dirname}/../../uploads/temp/post_images/${image}`;
+          const fileExists = await checkFileExists(directory);
+          if (fileExists) {
+            rimraf(directory, (error) => {
+              if (error) imagesDeleted = false;
+            });
+          }
+        });
+
+        if (!imagesDeleted) {
+          return res.status(500).send('Server error...');
+        }
+
+        // Return post status to 'confirmed'
+        await Post.findByIdAndUpdate(postId, { reviewStatus: 'confirmed' });
+
+        // Delete post
+        await unreviewedPost.remove();
+      } else {
+        // Update unreviewed post
+        unreviewedPost.reviewHistory = [
+          {
+            user: req.user.id,
+            date: Date.now(),
+            result: false,
+            comment: req.body.comment,
+          },
+          ...unreviewedPost.reviewHistory,
+        ];
+
+        unreviewedPost.reviewStatus = 'rejected';
         unreviewedPost.expires = Date.now() + 86400000 * 3;
 
-      await unreviewedPost.save();
+        await unreviewedPost.save();
+      }
 
       // Notify user via email
       const user = await User.findById(unreviewedPost.user).select('email');
