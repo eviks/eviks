@@ -293,30 +293,50 @@ const UnreviewedPost: NextPage = () => {
             <PostGeneralInfo post={post} />
             <PostAdditionalInfo post={post} />
             <PostBuildingInfo post={post} />
-            <PostMap post={post} height={mapHeight} />
-            <Hidden mdUp>
-              <Box
-                sx={{
-                  position: 'fixed',
-                  bottom: 0,
-                  left: 0,
-                  zIndex: 1000,
-                  mb: 2,
-                  px: 2,
-                  width: '100%',
-                }}
-              >
-                <Button
-                  variant="contained"
-                  fullWidth
-                  disableElevation
-                  onClick={getPhoneNumber}
-                  sx={{ py: 1.2 }}
+            <PostMap post={post} height={mapHeight} />(
+            {isInit && user?.role === 'moderator' ? (
+              <Hidden lgUp>
+                <Box
+                  sx={{
+                    position: 'fixed',
+                    bottom: 0,
+                    left: 0,
+                    zIndex: 1000,
+                    mb: 2,
+                    px: 2,
+                    width: '100%',
+                  }}
                 >
-                  {t('post:call')}
-                </Button>
-              </Box>
-            </Hidden>
+                  <Box sx={{ mt: 2 }}>
+                    <PostModerationPanel postId={post._id} />
+                  </Box>
+                </Box>
+              </Hidden>
+            ) : (
+              <Hidden mdUp>
+                <Box
+                  sx={{
+                    position: 'fixed',
+                    bottom: 0,
+                    left: 0,
+                    zIndex: 1000,
+                    mb: 2,
+                    px: 2,
+                    width: '100%',
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    disableElevation
+                    onClick={getPhoneNumber}
+                    sx={{ py: 1.2 }}
+                  >
+                    {t('post:call')}
+                  </Button>
+                </Box>
+              </Hidden>
+            )}
           </Grid>
           <Hidden lgDown>
             <Grid item md={0} lg={4}>
