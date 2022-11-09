@@ -55,6 +55,21 @@ export interface Settlement {
   children?: Settlement[];
 }
 
+export interface PostBlocking {
+  user: string;
+  username: string;
+  blockingExpires: Date;
+}
+
+export type ReviewStatus = 'onreview' | 'confirmed' | 'rejected';
+
+export interface ReviewHistory {
+  user: string;
+  date: Date;
+  result: boolean;
+  comment: string;
+}
+
 export interface Post {
   _id: number;
   userType: UserType;
@@ -114,6 +129,12 @@ export interface Post {
   user: string;
   step?: number;
   lastStep?: number;
+  blocking?: PostBlocking;
+  reviewStatus?: ReviewStatus;
+  rereview?: boolean;
+  reviewHistory: ReviewHistory[];
+  createdAt: Date | null;
+  updatedAt: Date | null;
 }
 
 export interface Pagination {
@@ -141,6 +162,7 @@ export interface User {
   picture?: string;
   googleId?: string;
   favorites?: { [key: string]: boolean };
+  role: 'user' | 'moderator';
 }
 
 export interface PostFilters {
@@ -174,6 +196,7 @@ export interface PostFilters {
 export interface AlternativePostFilters {
   ids?: string[];
   userId?: string;
+  reviewStatus?: ReviewStatus;
   pagination: Pagination;
 }
 

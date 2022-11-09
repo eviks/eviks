@@ -27,7 +27,7 @@ interface ContactsState {
   username: string;
 }
 
-const EditPostContacts: FC = () => {
+const EditPostContacts: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
   const { t } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
@@ -43,12 +43,12 @@ const EditPostContacts: FC = () => {
     setLoading(true);
 
     try {
-      if (post._id === 0) {
+      if (post._id === 0 || unreviewed) {
         const createdPost = await createPost(auth.token ?? '', updatedPost);
-        router.push({ pathname: `/posts/${createdPost.data._id}` });
+        router.push({ pathname: `/posts/unreviewed/${createdPost.data._id}` });
       } else {
         await updatePost(auth.token ?? '', updatedPost);
-        router.push({ pathname: `/posts/${post._id}` });
+        router.push({ pathname: `/posts/unreviewed/${post._id}` });
       }
     } catch (error) {
       let errorMessage = '';

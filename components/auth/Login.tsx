@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState, useContext } from 'react';
+import React, { FC, Fragment, useState, useContext, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
@@ -30,7 +30,12 @@ interface LoginForm {
 }
 
 const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
-  const { dispatch } = useContext(AppContext);
+  const {
+    state: {
+      auth: { user },
+    },
+    dispatch,
+  } = useContext(AppContext);
 
   const { t } = useTranslation();
 
@@ -43,6 +48,16 @@ const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
     message: '',
     open: false,
   });
+
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'moderator') {
+        router.push({ pathname: '/post_review' });
+      } else if (redirect) {
+        router.push({ pathname: '/' });
+      }
+    }
+  }, [redirect, router, user]);
 
   const validationSchema = yup.object({
     email: yup
@@ -66,7 +81,6 @@ const Login: FC<{ redirect: boolean }> = ({ redirect }) => {
       try {
         await loginUser(email, password)(dispatch);
         await loadUser()(dispatch);
-        if (redirect) router.push({ pathname: '/' });
       } catch (error) {
         let errorMessage = '';
         if (error instanceof Failure) {

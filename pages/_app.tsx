@@ -60,21 +60,26 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
 
   pageProps.initDarkMode = darkMode === 'ON';
 
-  const protectedRoutes =
+  const protectedRoute =
     ctx.pathname === '/user_posts' ||
     ctx.pathname === '/edit_post' ||
     ctx.pathname === '/favorites' ||
-    ctx.pathname === '/settings';
+    ctx.pathname === '/settings' ||
+    ctx.pathname === '/post_review';
+
+  const moderatorRoute = ctx.pathname === '/post_review';
 
   if (!token) {
     destroyCookie(ctx, 'token');
-    if (protectedRoutes) redirectUser(ctx, '/auth');
+    if (protectedRoute) redirectUser(ctx, '/auth');
   } else {
     const user = await loadUserOnServer(token);
 
     if (!user) {
       destroyCookie(ctx, 'token');
-      if (protectedRoutes) redirectUser(ctx, '/auth');
+      if (protectedRoute) redirectUser(ctx, '/auth');
+    } else if (moderatorRoute && user.role === 'user') {
+      redirectUser(ctx, '/404');
     }
   }
 

@@ -28,14 +28,17 @@ import EditPostImages from '../components/editPost/editPostImages/EditPostImages
 import EditPostPrice from '../components/editPost/EditPostPrice';
 import EditPostContacts from '../components/editPost/EditPostContacts';
 import { initPost } from '../actions/post';
-import { fetchPost } from '../actions/posts';
+import { fetchPost, fetchUnreviewedPost } from '../actions/posts';
 import { loadUserOnServer } from '../actions/auth';
 import useWindowSize from '../utils/hooks/useWindowSize';
 import Failure from '../utils/errors/failure';
 import ServerError from '../utils/errors/serverError';
 import { Post } from '../types';
 
-const EditPost: NextPage<{ loadedPost: Post | null }> = ({ loadedPost }) => {
+const EditPost: NextPage<{ loadedPost: Post | null; unreviewed: boolean }> = ({
+  loadedPost,
+  unreviewed,
+}) => {
   const router = useRouter();
   const { t } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
@@ -101,11 +104,11 @@ const EditPost: NextPage<{ loadedPost: Post | null }> = ({ loadedPost }) => {
       case 4:
         return <EditPostAdditionalInfo />;
       case 5:
-        return <EditPostImages />;
+        return <EditPostImages unreviewed={unreviewed} />;
       case 6:
         return <EditPostPrice />;
       case 7:
-        return <EditPostContacts />;
+        return <EditPostContacts unreviewed={unreviewed} />;
       default:
         return <EditPostGeneralInfo />;
     }
@@ -183,11 +186,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const postId = context.query.id as string;
+  const unreviewed = (context.query.unreviewed as string) === 'true';
+
   if (postId) {
-    const post = await fetchPost(postId);
+    let post;
+    if (unreviewed) {
+      post = await fetchUnreviewedPost(token, postId);
+    } else {
+      post = await fetchPost(postId);
+    }
     if (post && post.user === user._id) {
       return {
-        props: { loadedPost: post },
+        props: { loadedPost: post, unreviewed },
       };
     }
     // 404

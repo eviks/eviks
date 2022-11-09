@@ -6,7 +6,7 @@ interface ErrorObject {
 
 const getErrorMessage = (error: unknown): string => {
   if (error instanceof Error) {
-    if (axios.isAxiosError(error)) {
+    if (axios.isAxiosError(error) && error.response?.data.errors) {
       const errors = error.response?.data.errors.map(
         (errorMessage: ErrorObject) => {
           return errorMessage.msg;

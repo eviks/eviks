@@ -13,24 +13,28 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
-import { AppContext } from '../store/appContext';
-import { fetchPostPhoneNumber } from '../actions/posts';
-import FavoriteButton from './postButtons/FavoriteButton';
-import EditPostButton from './postButtons/EditPostButton';
-import DeletePostButton from './postButtons/DeletePostButton';
-import StyledCarousel from './layout/StyledCarousel';
-import MetroIcon from './icons/MetroIcon';
-import { EstateType, Post } from '../types';
-import useWindowSize from '../utils/hooks/useWindowSize';
+import PostItemReviewStatus from './PostItemReviewStatus';
+import { AppContext } from '../../store/appContext';
+import { fetchPostPhoneNumber } from '../../actions/posts';
+import FavoriteButton from '../postButtons/FavoriteButton';
+import EditPostButton from '../postButtons/EditPostButton';
+import DeletePostButton from '../postButtons/DeletePostButton';
+import StyledCarousel from '../layout/StyledCarousel';
+import MetroIcon from '../icons/MetroIcon';
+import { EstateType, Post } from '../../types';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 import {
   getSettlementPresentation,
   getMetroPresentation,
   formatter,
-} from '../utils';
-import Failure from '../utils/errors/failure';
-import ServerError from '../utils/errors/serverError';
+} from '../../utils';
+import Failure from '../../utils/errors/failure';
+import ServerError from '../../utils/errors/serverError';
 
-const PostItem: FC<{ post: Post }> = ({ post }) => {
+const PostItem: FC<{ post: Post; unreviewed: boolean }> = ({
+  post,
+  unreviewed,
+}) => {
   const { t } = useTranslation();
 
   const {
@@ -48,8 +52,10 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
   const theme = useTheme();
   const { width } = useWindowSize();
 
+  const postsRout = unreviewed ? 'posts/unreviewed' : 'posts';
+
   const openPost = () => {
-    window.open(`${locale}/posts/${post._id}`, '_blank');
+    window.open(`${locale}/${postsRout}/${post._id}`, '_blank');
   };
 
   const height = width && width >= 900 ? '280px' : '250px';
@@ -103,6 +109,9 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
             : null,
       }}
     >
+      {unreviewed && post.reviewStatus && (
+        <PostItemReviewStatus reviewStatus={post.reviewStatus} />
+      )}
       <Grid
         container
         sx={{
@@ -131,6 +140,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
               thumbSize={150}
               height={height}
               onClickItem={openPost}
+              temp={unreviewed}
             />
             <Hidden mdUp>
               <CardActions
@@ -146,8 +156,16 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                     <Box
                       sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
                     >
-                      <EditPostButton postId={post._id} />
-                      <DeletePostButton postId={post._id} />
+                      <EditPostButton
+                        postId={post._id}
+                        reviewStatus={post.reviewStatus}
+                        unreviewed={unreviewed}
+                      />
+                      <DeletePostButton
+                        postId={post._id}
+                        reviewStatus={post.reviewStatus}
+                        unreviewed={unreviewed}
+                      />
                     </Box>
                   ) : (
                     <FavoriteButton postId={post._id} />
@@ -166,7 +184,7 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
           }}
         >
           <CardActionArea
-            href={`${locale}/posts/${post._id}`}
+            href={`${locale}/${postsRout}/${post._id}`}
             target={'_blank'}
             disableRipple={true}
             disableTouchRipple={true}
@@ -322,8 +340,16 @@ const PostItem: FC<{ post: Post }> = ({ post }) => {
                   <Box
                     sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
                   >
-                    <EditPostButton postId={post._id} />
-                    <DeletePostButton postId={post._id} />
+                    <EditPostButton
+                      postId={post._id}
+                      reviewStatus={post.reviewStatus}
+                      unreviewed={unreviewed}
+                    />
+                    <DeletePostButton
+                      postId={post._id}
+                      reviewStatus={post.reviewStatus}
+                      unreviewed={unreviewed}
+                    />
                   </Box>
                 ) : (
                   <FavoriteButton postId={post._id} />

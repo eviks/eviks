@@ -1,0 +1,21 @@
+{
+  "id": "ID",
+  "date": "Дата",
+  "city": "Город",
+  "district": "Район",
+  "subdistrict": "Поселок",
+  "dealType": "Вид сделки",
+  "estateType": "Вид недвижимости",
+  "userType": "Вид пользователя",
+  "price": "Цена",
+  "moderator": "Модератор",
+  "unblockDate": "Разблокировка",
+  "apartment": "Квартира",
+  "house": "Дом / вилла",
+  "owner": "Владелец",
+  "agent": "Агент",
+  "saleType": "Продажа",
+  "rentType": "Аренда",
+  "rentPerDayType": "Посуточная аренда",
+  "leavingAlert": "Пожалуйста, выберите одно из действий в панели модерации"
+}

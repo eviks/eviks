@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -12,7 +12,7 @@ import { AppContext } from '../../../store/appContext';
 import { setPostData } from '../../../actions/post';
 import { ImageData } from '../../../types';
 
-const EditPostImages = () => {
+const EditPostImages: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
   const { t } = useTranslation();
 
   const {
@@ -111,7 +111,11 @@ const EditPostImages = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <UploadedPostImage image={image} setImages={setImages} />
+                  <UploadedPostImage
+                    image={image}
+                    unreviewed={unreviewed}
+                    setImages={setImages}
+                  />
                 </Grid>
               );
             })}

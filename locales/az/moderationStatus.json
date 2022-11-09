@@ -1,0 +1,7 @@
+{
+  "onreviewTitle": "Elan yoxlamadan keçir",
+  "onreviewHint": "Moderatorlar sizin elanınızı təsdiq etdikdən sonra o bütün istifadəçilər üçün təqdim olunacaq",
+  "rejectedTitle": "Elan rədd edildi",
+  "rejectedHint": "Sizin elanınız aşağıdakı səbəbdən rədd edildi:",
+  "rejectedHintEnding": "Siz bu elanı redaktə edə bilərsiniz və bundan sonra o yenidən yoxlanılmaya göndəriləcək. Əks halda o sonuncu yoxlamadan 3 gündən sonra silinəcəkdir"
+}

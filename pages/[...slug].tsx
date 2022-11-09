@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
-import PostItem from '../components/PostItem';
+import PostItem from '../components/postItem/PostItem';
 import { AppContext } from '../store/appContext';
 import {
   fetchPosts,
@@ -294,7 +294,7 @@ const Posts: CustomNextPage<PostsProps> = ({
         {posts.length > 0 ? (
           <Fragment>
             {posts.map((post) => {
-              return <PostItem key={post._id} post={post} />;
+              return <PostItem key={post._id} post={post} unreviewed={false} />;
             })}
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <Pagination
