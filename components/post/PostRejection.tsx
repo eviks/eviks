@@ -14,7 +14,6 @@ import StyledInput from '../layout/StyledInput';
 import CloseIcon from '../icons/CloseIcon';
 import { AppContext } from '../../store/appContext';
 import { rejectPost } from '../../actions/post';
-import useWindowSize from '../../utils/hooks/useWindowSize';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
 
@@ -25,7 +24,6 @@ const PostRejection: FC<{
 }> = ({ postId, open, setOpen }) => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { width } = useWindowSize();
   const { enqueueSnackbar } = useSnackbar();
 
   const {
@@ -33,8 +31,6 @@ const PostRejection: FC<{
       auth: { token },
     },
   } = useContext(AppContext);
-
-  const fullScreen = (width ?? 0) < 900;
 
   const validationSchema = yup.object({
     rejectionReason: yup.string().required(t('common:errorRequiredField')),
@@ -75,7 +71,6 @@ const PostRejection: FC<{
     <Dialog
       open={open}
       onClose={handleClose}
-      fullScreen={fullScreen}
       PaperProps={{
         sx: {
           width: { md: '800px' },

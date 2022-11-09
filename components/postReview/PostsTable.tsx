@@ -24,6 +24,7 @@ const PostsTable: FC = () => {
   const {
     state: {
       posts: { posts },
+      auth: { user },
     },
   } = useContext(AppContext);
 
@@ -55,7 +56,8 @@ const PostsTable: FC = () => {
           {posts.map((post) => {
             const isBlocked =
               (post.blocking &&
-                new Date(post.blocking.blockingExpires) > new Date()) ||
+                new Date(post.blocking.blockingExpires) > new Date() &&
+                post.blocking.user !== user?._id) ||
               false;
 
             return (
