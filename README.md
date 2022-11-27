@@ -5,7 +5,7 @@ https://eviks.xyz/
 
 ## Tools
 
-Eviks is build with Next.js + TypeScript and a custom Express.js server. MUI is used as a component library.
+Eviks is built with Next.js + TypeScript and a custom Express.js server. MUI is used as a component library.
 
 ## Mobile application
 
