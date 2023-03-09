@@ -227,16 +227,18 @@ router.post(
       }
 
       // Notify user via email
-      const result = await emailSender({
-        emailType: 'post-onreview',
-        subject: 'Your post is under review',
-        receivers: user.email,
-        context: {
-          id: post.id,
-        },
-      });
+      if (user.role === 'user') {
+        const result = await emailSender({
+          emailType: 'post-onreview',
+          subject: 'Your post is under review',
+          receivers: user.email,
+          context: {
+            id: post.id,
+          },
+        });
 
-      if (!result.success) throw result.error;
+        if (!result.success) throw result.error;
+      }
 
       return res.json(post);
     } catch (error) {
@@ -331,16 +333,18 @@ router.post(
       // Notify user via email
       const user = await User.findById(post.user).select('email');
 
-      const result = await emailSender({
-        emailType: 'post-confirmed',
-        subject: 'Your post has been confirmed',
-        receivers: user.email,
-        context: {
-          id: post.id,
-        },
-      });
+      if (user.role === 'user') {
+        const result = await emailSender({
+          emailType: 'post-confirmed',
+          subject: 'Your post has been confirmed',
+          receivers: user.email,
+          context: {
+            id: post.id,
+          },
+        });
 
-      if (!result.success) throw result.error;
+        if (!result.success) throw result.error;
+      }
 
       return res.json(post);
     } catch (error) {
