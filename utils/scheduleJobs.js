@@ -1,9 +1,7 @@
 const fs = require('fs');
-const fsExtra = require('fs-extra');
 const rimraf = require('rimraf');
 const Post = require('../models/Post');
 const UnreviewedPost = require('../models/UnreviewedPost');
-const ArchivedPost = require('../models/ArchivedPost');
 const logger = require('./logger');
 
 const checkFileExists = async (file) => {
@@ -18,15 +16,14 @@ const checkFileExists = async (file) => {
 };
 
 const archivePosts = async () => {
+  const date = Date.now();
+
   // Find expired posts
   const posts = await Post.find({
     expires: {
-      $lt: Date.now(),
+      $lt: date,
     },
   });
-
-  // Create archived posts
-  await ArchivedPost.insertMany(posts);
 
   // Move images to archive folder
   posts.forEach((post) => {
@@ -34,10 +31,9 @@ const archivePosts = async () => {
       const directory = `${__dirname}/../uploads/post_images/${image}`;
       const fileExists = await checkFileExists(directory);
       if (fileExists) {
-        await fsExtra.move(
-          directory,
-          `${__dirname}/../uploads/archive/post_images/${image}`,
-        );
+        rimraf(directory, (error) => {
+          if (error) logger.error(error.message);
+        });
       }
     });
   });
@@ -45,7 +41,7 @@ const archivePosts = async () => {
   // Delete posts
   await Post.deleteMany({
     expires: {
-      $lt: Date.now(),
+      $lt: date,
     },
   });
 };
