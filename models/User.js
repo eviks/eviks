@@ -48,6 +48,16 @@ const UserSchema = new mongoose.Schema(
     },
     picture: String,
     favorites: Object,
+    savedSearches: {
+      type: [
+        {
+          id: String,
+          name: String,
+          url: String,
+        },
+      ],
+      default: [],
+    },
     role: {
       type: String,
       default: 'user',
