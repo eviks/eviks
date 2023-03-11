@@ -25,7 +25,7 @@ const archivePosts = async () => {
     },
   });
 
-  // Move images to archive folder
+  // Delete images
   posts.forEach((post) => {
     post.images.forEach(async (image) => {
       const directory = `${__dirname}/../uploads/post_images/${image}`;
