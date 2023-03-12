@@ -394,6 +394,8 @@ export const defaultPost: Post = {
   reviewHistory: [],
   createdAt: null,
   updatedAt: null,
+  isExternal: false,
+  source: '',
 };
 
 export const defaultPostFilters: PostFilters = {
