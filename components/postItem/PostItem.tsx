@@ -140,6 +140,7 @@ const PostItem: FC<{ post: Post; unreviewed: boolean }> = ({
               thumbSize={150}
               height={height}
               onClickItem={openPost}
+              external={post.isExternal}
               temp={unreviewed}
             />
             <Hidden mdUp>
