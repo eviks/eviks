@@ -8,7 +8,7 @@ const User = require('../../models/User');
 
 const router = express.Router();
 
-// @route  POST api/user_searches
+// @route  POST api/subscriptions
 // @desc   Save search params
 // @access Private
 router.post(
@@ -35,23 +35,23 @@ router.post(
 
       // Check if name is unique
       if (
-        user.savedSearches.find((element) => {
+        user.subscriptions.find((element) => {
           return element.name === name;
         })
       ) {
         return res.status(401).json({
-          errors: [{ msg: 'User already has saved search with such name' }],
+          errors: [{ msg: 'User already has subscription with such name' }],
         });
       }
 
-      user.savedSearches.push({
+      user.subscriptions.push({
         id: randomstring.generate(),
         name,
         url,
       });
       await user.save();
 
-      return res.json({ savedSearches: user.savedSearches });
+      return res.json({ subscriptions: user.subscriptions });
     } catch (error) {
       logger.error(error.message);
       return res.status(500).send('Server error...');
@@ -59,16 +59,16 @@ router.post(
   },
 );
 
-// @route  GET api/user_searches
-// @desc   Get list of user's saved searches
+// @route  GET api/subscritions
+// @desc   Get list of user's subscriptions
 // @access Private
 router.get(
   '/',
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
     try {
-      const user = await User.findById(req.user.id).select('savedSearches');
-      return res.json({ savedSearches: user.savedSearches });
+      const user = await User.findById(req.user.id).select('subscriptions');
+      return res.json({ subscriptions: user.subscriptions });
     } catch (error) {
       logger.error(error.message);
       return res.status(500).send('Server error...');
@@ -76,7 +76,7 @@ router.get(
   },
 );
 
-// @route  PUT api/user_searches
+// @route  PUT api/subscritions
 // @desc   Update search params
 // @access Private
 router.put(
@@ -104,23 +104,23 @@ router.put(
 
       // Check if name is unique
       if (
-        user.savedSearches.find((element) => {
+        user.subscriptions.find((element) => {
           return element.name === name && element.id !== id;
         })
       ) {
         return res.status(401).json({
-          errors: [{ msg: 'User already has saved search with such name' }],
+          errors: [{ msg: 'User already has subscription with such name' }],
         });
       }
 
-      // Update saved search
-      user.savedSearches = user.savedSearches.map((element) => {
+      // Update subscription
+      user.subscriptions = user.subscriptions.map((element) => {
         return element.id === id ? { id, name, url } : element;
       });
 
       await user.save();
 
-      return res.json({ savedSearches: user.savedSearches });
+      return res.json({ subscriptions: user.subscriptions });
     } catch (error) {
       logger.error(error.message);
       return res.status(500).send('Server error...');
@@ -128,22 +128,22 @@ router.put(
   },
 );
 
-// @route  DELETE api/user_searches
-// @desc   Delete user's saved searches
+// @route  DELETE api/subscritions
+// @desc   Delete user's subscriptions
 // @access Private
 router.delete(
   '/:id',
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
     try {
-      const user = await User.findById(req.user.id).select('savedSearches');
+      const user = await User.findById(req.user.id).select('subscriptions');
 
-      user.savedSearches = user.savedSearches.filter((element) => {
+      user.subscriptions = user.subscriptions.filter((element) => {
         return element.id !== req.params.id;
       });
       await user.save();
 
-      return res.json({ savedSearches: user.savedSearches });
+      return res.json({ subscriptions: user.subscriptions });
     } catch (error) {
       logger.error(error.message);
       return res.status(500).send('Server error...');

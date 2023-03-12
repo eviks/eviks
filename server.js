@@ -38,7 +38,7 @@ app.prepare().then(() => {
   server.use('/api/users', require('./routes/api/users'));
   server.use('/api/posts', require('./routes/api/posts'));
   server.use('/api/localities', require('./routes/api/localities'));
-  server.use('/api/user_searches', require('./routes/api/user_searches'));
+  server.use('/api/subscriptions', require('./routes/api/subscriptions'));
 
   // Schedule jobs
   schedule.scheduleJob('0 */1 * * * *', () => {

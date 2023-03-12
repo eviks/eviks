@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema(
     },
     picture: String,
     favorites: Object,
-    savedSearches: {
+    subscriptions: {
       type: [
         {
           id: String,
