@@ -147,6 +147,7 @@ const PostDetailed: NextPage<{ post: Post }> = ({ post }) => {
                 imageSize={imageSize}
                 thumbSize={150}
                 height={width && width >= 900 ? '500px' : '320px'}
+                external={post.isExternal}
               />
               <Hidden lgUp>
                 <Box

@@ -135,6 +135,8 @@ export interface Post {
   reviewHistory: ReviewHistory[];
   createdAt: Date | null;
   updatedAt: Date | null;
+  isExternal: boolean;
+  source: string;
 }
 
 export interface Pagination {

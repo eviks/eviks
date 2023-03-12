@@ -249,6 +249,7 @@ const UnreviewedPost: NextPage = () => {
                 imageSize={imageSize}
                 thumbSize={150}
                 height={width && width >= 900 ? '500px' : '320px'}
+                external={post.isExternal}
                 temp={true}
               />
 
