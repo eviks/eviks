@@ -160,7 +160,9 @@ router.post(
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
     try {
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.id).select(
+        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+      );
 
       const postId = req.body._id;
 

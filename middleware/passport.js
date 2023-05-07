@@ -204,7 +204,7 @@ passport.use(
     async (jwtPayload, done) => {
       try {
         const user = await User.findById(jwtPayload.user.id).select(
-          '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires',
+          '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
         );
         if (!user) {
           return done(null, null, {

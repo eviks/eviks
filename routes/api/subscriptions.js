@@ -68,7 +68,7 @@ router.get(
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select('subscriptions');
-      return res.json({ subscriptions: user.subscriptions });
+      return res.json(user.subscriptions ?? []);
     } catch (error) {
       logger.error(error.message);
       return res.status(500).send('Server error...');

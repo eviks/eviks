@@ -114,7 +114,9 @@ router.put(
         req.user.id,
         updateQuery,
         { new: true },
-      ).select('-password');
+      ).select(
+        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+      );
       return res.json(updatedUser);
     } catch (error) {
       logger.error(error.message);
@@ -177,7 +179,9 @@ router.put(
         req.user.id,
         { password: hashedPassword },
         { new: true },
-      ).select('-password');
+      ).select(
+        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+      );
       return res.json(updatedUser);
     } catch (error) {
       logger.error(error.message);
@@ -195,7 +199,9 @@ router.put(
 
   async (req, res) => {
     try {
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.id).select(
+        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+      );
       user.favorites = { ...user.favorites, [req.params.postId]: true };
       await user.save();
 
@@ -216,7 +222,9 @@ router.put(
 
   async (req, res) => {
     try {
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.id).select(
+        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+      );
 
       if (!user.favorites) return res.json({ favorites: {} });
 
