@@ -1,7 +1,6 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
 const passport = require('passport');
-const randomstring = require('randomstring');
 const logger = require('../../utils/logger');
 
 const User = require('../../models/User');
@@ -31,7 +30,7 @@ router.post(
     try {
       const user = await User.findById(req.user.id);
 
-      const { name, url } = req.body;
+      const { name, url, deviceToken } = req.body;
 
       // Check if name is unique
       if (
@@ -45,10 +44,24 @@ router.post(
       }
 
       user.subscriptions.push({
-        id: randomstring.generate(),
         name,
         url,
+        deviceToken,
       });
+
+      // Update user devices
+      if (deviceToken) {
+        if (!user.devices) {
+          user.devices = [deviceToken];
+        } else if (
+          !user.devices.find((e) => {
+            return e === deviceToken;
+          })
+        ) {
+          user.devices.push(deviceToken);
+        }
+      }
+
       await user.save();
 
       return res.json({ subscriptions: user.subscriptions });
@@ -83,7 +96,7 @@ router.put(
   '/',
 
   [
-    check('id', 'Name is required').notEmpty(),
+    check('id', 'ID is required').notEmpty(),
     check('name', 'Name is required').notEmpty(),
     check('url', 'URL is required').notEmpty(),
     passport.authenticate('jwt', { session: false }),
@@ -100,7 +113,7 @@ router.put(
     try {
       const user = await User.findById(req.user.id);
 
-      const { id, name, url } = req.body;
+      const { id, name, url, deviceToken } = req.body;
 
       // Check if name is unique
       if (
@@ -115,8 +128,21 @@ router.put(
 
       // Update subscription
       user.subscriptions = user.subscriptions.map((element) => {
-        return element.id === id ? { id, name, url } : element;
+        return element.id === id ? { name, url, deviceToken } : element;
       });
+
+      // Update user devices
+      if (deviceToken) {
+        if (!user.devices) {
+          user.devices = [deviceToken];
+        } else if (
+          !user.devices.find((e) => {
+            return e === deviceToken;
+          })
+        ) {
+          user.devices.push(deviceToken);
+        }
+      }
 
       await user.save();
 

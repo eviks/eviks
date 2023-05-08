@@ -235,4 +235,4 @@ const postSearch = async (req, res, next) => {
   return next();
 };
 
-module.exports = postSearch;
+module.exports = { postSearch, setPostsFilters };

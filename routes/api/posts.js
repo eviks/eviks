@@ -7,7 +7,7 @@ const passport = require('passport');
 const uuid = require('uuid');
 const sharp = require('sharp');
 const rimraf = require('rimraf');
-const postSearch = require('../../middleware/postSearch');
+const { postSearch } = require('../../middleware/postSearch');
 const emailSender = require('../../config/mailer/emailSender');
 const logger = require('../../utils/logger');
 
