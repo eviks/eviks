@@ -9,7 +9,11 @@ const mongoSanitize = require('express-mongo-sanitize');
 const schedule = require('node-schedule');
 const logger = require('./utils/logger');
 const connectDB = require('./config/db');
-const { archivePosts, archiveRejectedPosts } = require('./utils/scheduleJobs');
+const {
+  archivePosts,
+  archiveRejectedPosts,
+  sendSubscriptionNotifications,
+} = require('./utils/scheduleJobs');
 
 // Connect database
 connectDB();
@@ -38,6 +42,7 @@ app.prepare().then(() => {
   server.use('/api/users', require('./routes/api/users'));
   server.use('/api/posts', require('./routes/api/posts'));
   server.use('/api/localities', require('./routes/api/localities'));
+  server.use('/api/subscriptions', require('./routes/api/subscriptions'));
 
   // Schedule jobs
   schedule.scheduleJob('0 */1 * * * *', () => {
@@ -52,5 +57,6 @@ app.prepare().then(() => {
   server.listen(port, (err) => {
     if (err) throw err;
     logger.info(`Server started on port ${port}. ENV: ${process.env.NODE_ENV}`);
+    sendSubscriptionNotifications();
   });
 });

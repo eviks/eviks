@@ -7,7 +7,7 @@ const passport = require('passport');
 const uuid = require('uuid');
 const sharp = require('sharp');
 const rimraf = require('rimraf');
-const postSearch = require('../../middleware/postSearch');
+const { postSearch } = require('../../middleware/postSearch');
 const emailSender = require('../../config/mailer/emailSender');
 const logger = require('../../utils/logger');
 
@@ -160,7 +160,9 @@ router.post(
   [passport.authenticate('jwt', { session: false })],
   async (req, res) => {
     try {
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.id).select(
+        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+      );
 
       const postId = req.body._id;
 

@@ -39,3 +39,4 @@ yarn-error.log*
 
 /uploads
 /config/default.json
+/config/firebase_key.json

@@ -48,6 +48,17 @@ const UserSchema = new mongoose.Schema(
     },
     picture: String,
     favorites: Object,
+    subscriptions: {
+      type: [
+        {
+          name: String,
+          url: String,
+          deviceToken: String,
+        },
+      ],
+      default: [],
+    },
+    devices: [String],
     role: {
       type: String,
       default: 'user',
