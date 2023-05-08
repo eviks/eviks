@@ -94,7 +94,6 @@ router.get(
 // @access Private
 router.put(
   '/',
-
   [
     check('id', 'ID is required').notEmpty(),
     check('name', 'Name is required').notEmpty(),
@@ -146,7 +145,7 @@ router.put(
 
       await user.save();
 
-      return res.json({ subscriptions: user.subscriptions });
+      return res.json(user.subscriptions);
     } catch (error) {
       logger.error(error.message);
       return res.status(500).send('Server error...');
