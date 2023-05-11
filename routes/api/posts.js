@@ -107,16 +107,16 @@ router.get(
 router.get('/locations', [postSearch], async (req, res) => {
   const { conditions } = req;
 
-  try {
-    const result = await Post.find(conditions)
-      .sort({ updatedAt: -1 })
-      .select('location price');
+  // try {
+  const result = await Post.find(conditions)
+    .sort({ updatedAt: -1 })
+    .select('location price');
 
-    res.json(result);
-  } catch (error) {
-    logger.error(error.message);
-    res.status(500).send('Server error...');
-  }
+  res.json(result);
+  // } catch (error) {
+  //   logger.error(error.message);
+  //   res.status(500).send('Server error...');
+  // }
 });
 
 // @route GET api/posts/:id
