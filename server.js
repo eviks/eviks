@@ -49,6 +49,12 @@ app.prepare().then(() => {
     archivePosts();
     archiveRejectedPosts();
   });
+  const rule = new schedule.RecurrenceRule();
+  rule.hour = 19;
+  rule.tz = 'Asia/Baku';
+  schedule.scheduleJob(rule, () => {
+    sendSubscriptionNotifications();
+  });
 
   server.all('*', (req, res) => {
     return handle(req, res);
@@ -57,6 +63,5 @@ app.prepare().then(() => {
   server.listen(port, (err) => {
     if (err) throw err;
     logger.info(`Server started on port ${port}. ENV: ${process.env.NODE_ENV}`);
-    sendSubscriptionNotifications();
   });
 });
