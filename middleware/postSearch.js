@@ -90,6 +90,7 @@ const setPostsFilters = (req) => {
     userId,
     ids,
     reviewStatus,
+    searchArea,
   } = req.query;
 
   const conditions = {};
@@ -211,6 +212,24 @@ const setPostsFilters = (req) => {
   if (ids) conditions._id = { $in: ids.split(',') };
 
   if (reviewStatus) conditions.reviewStatus = reviewStatus;
+
+  // Search area
+  if (searchArea) {
+    const positions = [];
+    const array = searchArea.replaceAll('[', '').replaceAll(']', '').split(',');
+    for (let i = 0; i < array.length; i += 2) {
+      positions.push([parseFloat(array[i]), parseFloat(array[i + 1])]);
+    }
+    if (positions.length > 0)
+      conditions.location = {
+        $geoWithin: {
+          $geometry: {
+            type: 'Polygon',
+            coordinates: [[...positions, positions[0]]],
+          },
+        },
+      };
+  }
 
   return conditions;
 };

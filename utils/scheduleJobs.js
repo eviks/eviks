@@ -102,13 +102,16 @@ const sendSubscriptionNotifications = async () => {
         .countDocuments()
         .exec();
 
+      const payload = {
+        type: 'subscription',
+        subscriptionUrl: subscription.url,
+      };
+
       if (numberOfElements > 0) {
         const message = {
           data: {
             user: user.id,
-            subscription: subscription.id,
-          },
-          notification: {
+            payload: JSON.stringify(payload),
             title: 'Yeni elanlar var!',
             body: `Bugün ${subscription.name} axtarış parametrləri üzrə ${numberOfElements} dənə yeni elanlar tapıldı`,
           },

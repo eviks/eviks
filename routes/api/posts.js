@@ -101,6 +101,24 @@ router.get(
   },
 );
 
+// @route GET api/posts
+// @desc  Get posts locations
+// @access Public
+router.get('/locations', [postSearch], async (req, res) => {
+  const { conditions } = req;
+
+  // try {
+  const result = await Post.find(conditions)
+    .sort({ updatedAt: -1 })
+    .select('location price');
+
+  res.json(result);
+  // } catch (error) {
+  //   logger.error(error.message);
+  //   res.status(500).send('Server error...');
+  // }
+});
+
 // @route GET api/posts/:id
 // @desc  Get single post
 // @access Public
