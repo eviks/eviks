@@ -23,6 +23,10 @@ const redirectUser = (ctx: NextPageContext, location: string) => {
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
+interface CustomPageProps {
+  initDarkMode: boolean;
+}
+
 interface MyAppProps extends AppProps {
   Component: CustomNextPage;
   emotionCache?: EmotionCache;
@@ -37,10 +41,10 @@ const MyApp = (props: MyAppProps) => {
     <CacheProvider value={emotionCache}>
       <AppProvider>
         <Layout
-          displayBottomNavigationBar={displayBottomNavigationBar}
-          displaySearchBar={displaySearchBar}
-          hideAppbar={hideAppbar}
-          {...pageProps}
+          initDarkMode={(pageProps as CustomPageProps).initDarkMode}
+          displayBottomNavigationBar={displayBottomNavigationBar ?? false}
+          displaySearchBar={displaySearchBar ?? false}
+          hideAppbar={hideAppbar ?? false}
         >
           <Component {...pageProps} />
         </Layout>
