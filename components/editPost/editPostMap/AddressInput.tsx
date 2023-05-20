@@ -90,7 +90,6 @@ const AddressInput: FC<{
 
   return (
     <Autocomplete
-      freeSolo
       disablePortal
       disableClearable
       forcePopupIcon={false}
