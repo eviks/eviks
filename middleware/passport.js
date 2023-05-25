@@ -7,6 +7,7 @@ const extractJwt = require('passport-jwt').ExtractJwt;
 const config = require('config');
 const randomstring = require('randomstring');
 const emailSender = require('../config/mailer/emailSender');
+const { excludeSensitiveUserFields } = require('../utils/serverUtils');
 
 const User = require('../models/User');
 
@@ -204,7 +205,7 @@ passport.use(
     async (jwtPayload, done) => {
       try {
         const user = await User.findById(jwtPayload.user.id).select(
-          '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+          excludeSensitiveUserFields(),
         );
         if (!user) {
           return done(null, null, {
