@@ -16,6 +16,7 @@ const Post = require('../../models/Post');
 const UnreviwedPost = require('../../models/UnreviewedPost');
 const User = require('../../models/User');
 const Counter = require('../../models/Counter');
+const { excludeSensitiveUserFields } = require('../../utils/serverUtils');
 
 const router = express.Router();
 
@@ -179,7 +180,7 @@ router.post(
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select(
-        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+        excludeSensitiveUserFields(),
       );
 
       const postId = req.body._id;

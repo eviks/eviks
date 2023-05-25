@@ -8,6 +8,7 @@ const logger = require('../../utils/logger');
 
 const User = require('../../models/User');
 const Post = require('../../models/Post');
+const { excludeSensitiveUserFields } = require('../../utils/serverUtils');
 
 const router = express.Router();
 
@@ -114,9 +115,7 @@ router.put(
         req.user.id,
         updateQuery,
         { new: true },
-      ).select(
-        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
-      );
+      ).select(excludeSensitiveUserFields());
       return res.json(updatedUser);
     } catch (error) {
       logger.error(error.message);
@@ -179,9 +178,7 @@ router.put(
         req.user.id,
         { password: hashedPassword },
         { new: true },
-      ).select(
-        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
-      );
+      ).select(excludeSensitiveUserFields());
       return res.json(updatedUser);
     } catch (error) {
       logger.error(error.message);
@@ -200,7 +197,7 @@ router.put(
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select(
-        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+        excludeSensitiveUserFields(),
       );
       user.favorites = { ...user.favorites, [req.params.postId]: true };
       await user.save();
@@ -223,7 +220,7 @@ router.put(
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select(
-        '-password, -activationToken, -activationTokenExpires, -resetPasswordToken, -resetPasswordExpires, -subscriptions',
+        excludeSensitiveUserFields(),
       );
 
       if (!user.favorites) return res.json({ favorites: {} });
@@ -308,6 +305,52 @@ router.delete(
       await User.findByIdAndDelete(req.user.id);
 
       return res.json({ msg: 'User deleted' });
+    } catch (error) {
+      logger.error(error.message);
+      return res.status(500).send('Server error...');
+    }
+  },
+);
+
+// @route  POST api/users/save_device
+// @desc   Save information about user device
+// @access Private
+router.post(
+  '/save_device',
+  [
+    check('deviceToken', 'Device token is required').notEmpty(),
+    passport.authenticate('jwt', { session: false }),
+  ],
+  async (req, res) => {
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    try {
+      const user = await User.findById(req.user.id);
+
+      const { deviceToken } = req.body;
+
+      // Update user devices
+      if (deviceToken) {
+        if (!user.devices) {
+          user.devices = [deviceToken];
+        } else if (
+          !user.devices.find((e) => {
+            return e === deviceToken;
+          })
+        ) {
+          user.devices.push(deviceToken);
+        }
+      }
+
+      await user.save();
+
+      return res.json({ devices: user.devices });
     } catch (error) {
       logger.error(error.message);
       return res.status(500).send('Server error...');
