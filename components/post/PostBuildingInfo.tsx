@@ -32,10 +32,10 @@ const PostBuildingInfo: FC<{ post: Post }> = ({ post }) => {
           value={`${post.ceilingHeight?.toString() ?? ''} ${t('post:metre')}`}
         />
       )}
-      {(post.elevator ?? 0) > 0 && (
+      {post.elevator && (
         <PostInfoRow label={t('post:elevator')} value={t('post:true')} />
       )}
-      {(post.parkingLot ?? 0) > 0 && (
+      {post.parkingLot && (
         <PostInfoRow label={t('post:parkingLot')} value={t('post:true')} />
       )}
     </Fragment>

@@ -43,7 +43,9 @@ const FilterButton: FC<FilterButtonProps> = ({ title, children }) => {
         <Box sx={{ p: { xs: 1.5, md: 3 } }}>
           {React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-              return React.cloneElement(child, { handleClose });
+              return React.cloneElement(child as React.ReactElement, {
+                handleClose,
+              });
             }
             return child;
           })}

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import Image from 'next/image';
 import CardMedia from '@mui/material/CardMedia';
+import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
@@ -47,40 +48,25 @@ const StyledCarousel: FC<{
     });
   };
 
-  const indicatorStyles = {
-    display: 'inline-block',
-    marginRight: '10px',
-    cursor: 'pointer',
-    height: '10px',
-    width: '10px',
-    borderRadius: '50%',
-  };
-
   const renderIndicator = (
-    clickHandler: (
+    _clickHandler: (
       // eslint-disable-next-line no-unused-vars
       e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>,
     ) => void,
     isSelected: boolean,
     index: number,
-    label: string,
+    _label: string,
   ): React.ReactNode => {
     return (
-      <li
-        style={{
-          ...indicatorStyles,
-          backgroundColor: isSelected
-            ? theme.palette.primary.main
-            : theme.palette.background.default,
-        }}
-        onClick={clickHandler}
-        onKeyDown={clickHandler}
-        value={index}
-        key={index}
-        role="button"
-        tabIndex={0}
-        aria-label={`${label} ${index + 1}`}
-      />
+      isSelected && (
+        <Chip
+          sx={{
+            backgroundColor: theme.palette.background.default,
+          }}
+          label={`${index + 1} / ${images.length}`}
+          variant="filled"
+        />
+      )
     );
   };
 
