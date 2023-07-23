@@ -10,7 +10,7 @@ const schedule = require('node-schedule');
 const logger = require('./utils/logger');
 const connectDB = require('./config/db');
 const {
-  // archivePosts,
+  archivePosts,
   archiveRejectedPosts,
   sendSubscriptionNotifications,
 } = require('./utils/scheduleJobs');
@@ -46,7 +46,7 @@ app.prepare().then(() => {
 
   // Schedule jobs
   schedule.scheduleJob('0 */1 * * * *', () => {
-    // archivePosts();
+    archivePosts();
     archiveRejectedPosts();
   });
   const rule = new schedule.RecurrenceRule();
