@@ -100,7 +100,12 @@ const StyledAppbar: FC<{
                 }}
               >
                 <LogoIcon fontSize="large" color="primary" sx={{ mx: 1 }} />
-                <Typography variant="h6" color="primary" fontSize="1.5rem">
+                <Typography
+                  variant="h6"
+                  color="primary"
+                  fontFamily={`"Pacifico", "Helvetica", "Arial", sans-serif`}
+                  fontSize="1.5rem"
+                >
                   {t('common:projectTitle')}
                 </Typography>
               </Box>
