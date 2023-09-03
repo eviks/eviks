@@ -9,6 +9,9 @@ const serviceAccount = require('../config/firebase_key.json');
 const { setPostsFilters } = require('../middleware/postSearch');
 const logger = require('./logger');
 
+const certPath = admin.credential.cert(serviceAccount);
+const fcm = new FCM(certPath);
+
 const checkFileExists = async (file) => {
   return fs.promises
     .access(file, fs.constants.F_OK)
@@ -81,9 +84,6 @@ const archiveRejectedPosts = async () => {
 };
 
 const sendSubscriptionNotifications = async () => {
-  const certPath = admin.credential.cert(serviceAccount);
-  const fcm = new FCM(certPath);
-
   const users = await User.find({
     devices: { $exists: true, $not: { $size: 0 } },
     subscriptions: { $exists: true, $not: { $size: 0 } },
