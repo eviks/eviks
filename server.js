@@ -50,7 +50,7 @@ app.prepare().then(() => {
     archiveRejectedPosts();
   });
   const rule = new schedule.RecurrenceRule();
-  rule.hour = 19;
+  rule.hour = 17;
   rule.tz = 'Asia/Baku';
   schedule.scheduleJob(rule, () => {
     sendSubscriptionNotifications();

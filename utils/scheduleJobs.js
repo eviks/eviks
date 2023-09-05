@@ -113,7 +113,7 @@ const sendSubscriptionNotifications = async () => {
             user: user.id,
             payload: JSON.stringify(payload),
             title: 'Yeni elanlar var!',
-            body: `Bugün ${subscription.name} axtarış parametrləri üzrə ${numberOfElements} dənə yeni elanlar tapıldı`,
+            body: `Bugün ${subscription.name} axtarış parametrlər üzrə ${numberOfElements} dənə yeni elanlar tapıldı`,
           },
         };
 
@@ -121,6 +121,10 @@ const sendSubscriptionNotifications = async () => {
           if (error) {
             logger.error(error);
           }
+        });
+
+        await new Promise((resolve) => {
+          setTimeout(resolve, 2000);
         });
       }
     });
