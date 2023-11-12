@@ -47,6 +47,30 @@ router.get('/', [postSearch], async (req, res) => {
   const posts = {};
   let result = [];
 
+  let sort = {};
+  const sortString = req.query.sort;
+  switch (sortString) {
+    case 'priceAsc':
+      sort = { price: 1 };
+      break;
+    case 'priceDsc':
+      sort = { price: -1 };
+      break;
+    case 'sqmAsc':
+      sort = { sqm: 1 };
+      break;
+    case 'sqmDsc':
+      sort = { sqm: -1 };
+      break;
+    case 'dateAsc':
+      sort = { updatedAt: 1 };
+      break;
+    case 'dateDsc':
+    default:
+      sort = { updatedAt: -1 };
+      break;
+  }
+
   const {
     conditions,
     paginatedResults: { pagination, limit, startIndex },
@@ -56,7 +80,7 @@ router.get('/', [postSearch], async (req, res) => {
     result = await Post.find(conditions)
       .limit(limit)
       .skip(startIndex)
-      .sort({ updatedAt: -1 })
+      .sort(sort)
       .select('-phoneNumber');
 
     posts.result = result;

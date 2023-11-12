@@ -39,6 +39,7 @@ import {
   MetroStation,
   Settlement,
   QueryParams,
+  SortType,
 } from '../types';
 
 type StringQueryParams = Record<keyof QueryParams, string>;
@@ -149,6 +150,8 @@ const Posts: CustomNextPage<PostsProps> = ({
           floorMax: Number(urlParams.floorMax ?? 0),
           totalFloorsMin: Number(urlParams.totalFloorsMin ?? 0),
           totalFloorsMax: Number(urlParams.totalFloorsMax ?? 0),
+          sort:
+            enumFromStringValue(SortType, urlParams.sort) ?? SortType.dateDsc,
           pagination: {
             current: urlParams.page ? Number(urlParams.page) : 1,
           },
@@ -303,7 +306,7 @@ const Posts: CustomNextPage<PostsProps> = ({
                   filters.pagination.available ?? filters.pagination.current
                 }
                 onChange={handlePageChange}
-                size="large"
+                size="medium"
                 color="primary"
               />
             </Box>

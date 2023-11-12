@@ -32,6 +32,15 @@ export enum Renovation {
   noRenovation = 'noRenovation',
 }
 
+export enum SortType {
+  priceAsc = 'priceAsc',
+  priceDsc = 'priceDsc',
+  sqmAsc = 'sqmAsc',
+  sqmDsc = 'sqmDsc',
+  dateAsc = 'dateAsc',
+  dateDsc = 'dateDsc',
+}
+
 export interface MetroStation {
   _id: number;
   cityId: string;
@@ -192,6 +201,7 @@ export interface PostFilters {
   floorMax: number;
   totalFloorsMin: number;
   totalFloorsMax: number;
+  sort: SortType;
   pagination: Pagination;
 }
 
@@ -258,6 +268,7 @@ export interface QueryParams {
   floorMax: string;
   totalFloorsMin: string;
   totalFloorsMax: string;
+  sort: string;
   page: string;
 }
 

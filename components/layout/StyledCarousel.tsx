@@ -43,6 +43,8 @@ const StyledCarousel: FC<{
           width={thumbSize}
           height={thumbSize}
           alt={`post-image-${image}-${160}`}
+          placeholder="blur"
+          blurDataURL="/img/blur.webp"
         />
       );
     });
@@ -103,6 +105,8 @@ const StyledCarousel: FC<{
                     }post_images/${image}/image_${imageSize}.webp`
               }
               alt={`post-image-${image}-${imageSize}`}
+              placeholder="blur"
+              blurDataURL="/img/blur.webp"
             />
           </CardMedia>
         );
