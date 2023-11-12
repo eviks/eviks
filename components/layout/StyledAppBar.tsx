@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Hidden from '@mui/material/Hidden';
 import MaterialLink from '@mui/material/Link';
-import { useTheme, alpha } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import ThemeSwitch from './ThemeSwitch';
 import ModalAuth from '../auth/ModalAuth';
@@ -64,13 +64,11 @@ const StyledAppbar: FC<{
       <AppBar
         ref={appBarRef}
         position={!displaySearchBar ? 'fixed' : 'relative'}
-        color={'transparent'}
         variant={'outlined'}
         elevation={0}
         sx={{
           borderBottom: displaySearchBar ? 'none' : null,
-          backdropFilter: 'blur(20px)',
-          backgroundColor: alpha(theme.palette.background.default, 0.7),
+          backgroundColor: theme.palette.background.default
         }}
       >
         <Toolbar
@@ -103,7 +101,6 @@ const StyledAppbar: FC<{
                 <Typography
                   variant="h6"
                   color="primary"
-                  fontFamily={`"Pacifico", "Helvetica", "Arial", sans-serif`}
                   fontSize="1.5rem"
                 >
                   {t('common:projectTitle')}
@@ -181,7 +178,6 @@ const StyledAppbar: FC<{
                     <Button
                       key={locale}
                       variant="text"
-                      color="inherit"
                       onClick={() => {
                         return switchLanguage(locale);
                       }}

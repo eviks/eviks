@@ -5,7 +5,7 @@ import Hidden from '@mui/material/Hidden';
 import Paper from '@mui/material/Paper';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import { useTheme, alpha } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import ModalAuth from '../auth/ModalAuth';
 import { AppContext } from '../../store/appContext';
 import HeartIcon from '../icons/HeartIcon';
@@ -72,8 +72,7 @@ const StyledBottomNavigation: FC = () => {
           left: 0,
           right: 0,
           zIndex: '1000',
-          backdropFilter: 'blur(20px)',
-          backgroundColor: alpha(theme.palette.background.default, 0.7),
+          backgroundColor: theme.palette.background.default,
         }}
         elevation={0}
       >

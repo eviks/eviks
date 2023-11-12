@@ -22,6 +22,7 @@ import SqmFilter from '../filters/SqmFilter';
 import LotSqmFilter from '../filters/LotSqmFilter';
 import RoomsFilter from '../filters/RoomsFilters';
 import CityFilter from '../filters/CityFilter';
+import Sorting from '../filters/Sorting';
 import DistrictFilter from '../filters/DistrictFilter';
 import MetroFilter from '../filters/MetroFilter';
 import FloorFilter from '../filters/FloorFilter';
@@ -36,6 +37,7 @@ import {
   getLotSqmFilterTitle,
   getRoomsFilterTitle,
   getFloorFilterTitle,
+  getSortFilterTitle,
 } from '../../../utils/filterTitles';
 import { EstateType } from '../../../types';
 
@@ -58,6 +60,7 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
   const [floorTitle, setFloorTitle] = useState<string>('');
   const [classes, setClasses] = useState<string>('searchbar-relative');
   const [scrollPos, setScrollPos] = useState<number>(0);
+  const [sortTitle, setSortTitle] = useState<string>('');
 
   const {
     state: {
@@ -173,6 +176,16 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
     getFloorTitle();
   }, [getFloorTitle]);
 
+  // Sort title
+  const getSortTitle = useCallback(async () => {
+    const title = await getSortFilterTitle(filters.sort, router.locale ?? 'az');
+    setSortTitle(title);
+  }, [filters.sort, router.locale]);
+
+  useEffect(() => {
+    getSortTitle();
+  }, [getSortTitle]);
+
   const isInViewport = (element: any) => {
     const bounding = element.getBoundingClientRect();
     return bounding.bottom >= 0;
@@ -281,6 +294,9 @@ const SearchBar: FC<{ appBarRef: React.MutableRefObject<null> }> = ({
             <FloorFilter />
           </FilterButton>
           <OtherFilters />
+          <Box sx={{ ml: 2 }}>
+            <Sorting title={sortTitle} />
+          </Box>
         </Toolbar>
         <DistrictsBar />
       </AppBar>

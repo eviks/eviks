@@ -74,6 +74,7 @@ export const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
     searchParams.totalFloorsMin = filters.totalFloorsMin.toString();
   if (filters.totalFloorsMax)
     searchParams.totalFloorsMax = filters.totalFloorsMax.toString();
+  if (filters.sort) searchParams.sort = filters.sort.toString();
   // Districts
   if (
     filters.districts.length > 1 ||

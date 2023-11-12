@@ -1,5 +1,5 @@
 import getT from 'next-translate/getT';
-import { DealType, EstateType, ApartmentType } from '../types';
+import { DealType, EstateType, ApartmentType, SortType } from '../types';
 
 export const getDealTypeFilterTitle = async (
   dealType: DealType,
@@ -159,4 +159,9 @@ export const getFloorFilterTitle = async (
       floorMin,
     });
   return t('floor');
+};
+export const getSortFilterTitle = async (sort: SortType, locale: string) => {
+  const t = await getT(locale, 'filters');
+
+  return t(`${sort}`);
 };

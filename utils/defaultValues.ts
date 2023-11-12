@@ -7,6 +7,7 @@ import {
   Renovation,
   PostFilters,
   AlternativePostFilters,
+  SortType,
 } from '../types';
 
 export const capitalCity: Settlement = {
@@ -422,6 +423,7 @@ export const defaultPostFilters: PostFilters = {
   floorMax: 0,
   totalFloorsMin: 0,
   totalFloorsMax: 0,
+  sort: SortType.dateDsc,
   pagination: {
     current: 1,
   },

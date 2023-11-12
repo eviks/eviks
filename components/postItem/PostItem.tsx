@@ -93,10 +93,11 @@ const PostItem: FC<{ post: Post; unreviewed: boolean }> = ({
         borderRadius: '20px',
         my: 3,
         p: { xs: 0, md: 3 },
-        cursor: 'pointer',
+
         ':hover':
           width && width >= 900
             ? {
+                cursor: 'pointer',
                 boxShadow:
                   theme.palette.mode === 'light'
                     ? 10
@@ -112,15 +113,7 @@ const PostItem: FC<{ post: Post; unreviewed: boolean }> = ({
       {unreviewed && post.reviewStatus && (
         <PostItemReviewStatus reviewStatus={post.reviewStatus} />
       )}
-      <Grid
-        container
-        sx={{
-          direction: {
-            xs: 'column',
-            md: 'row',
-          },
-        }}
-      >
+      <Grid container>
         <Grid
           item
           xs={12}

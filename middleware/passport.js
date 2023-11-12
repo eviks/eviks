@@ -76,7 +76,7 @@ passport.use(
         // Send verification email
         const result = await emailSender({
           emailType: 'verification',
-          subject: 'Email Verification',
+          subject: 'Emailın təsdiqlənməsi',
           receivers: email,
           context: {
             activationToken,

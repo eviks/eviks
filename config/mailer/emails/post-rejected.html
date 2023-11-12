@@ -1,21 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Elan #{{id}} rədd olunub</title>
   </head>
-  <body>
-    <h1>Your post #{{id}} has been rejected</h1>
-    <p>Rejection reason</p>
-    <br />
-    <p>{{comment}}</p>
-    <br />
-    <p>You can edit this post here:</p>
-    <br />
-    <a href="https://eviks.xyz/posts/unreviewed/{{id}}"
-      >https://eviks.xyz/posts/unreviewed/{{id}}</a
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+    "
+  >
+    <div
+      style="
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      "
     >
+      <h2>Elan #{{id}} rədd olunub</h2>
+      <p>
+        Salam, sizin {{id}} nömrəli elan moderator tərəfindən rədd olunub.
+        Səbəb:
+      </p>
+      <p>{{comment}}</p>
+      <p>Elanı dəyişmək üçün aşağıdaki düyməyə basın.</p>
+      <p>
+        <a
+          href="https://eviks.xyz/posts/unreviewed/{{id}}"
+          style="
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #bc0052;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          "
+        >
+          Elanı dəyişmək
+        </a>
+      </p>
+      <p>Əgər düymə işləmir, aşağıdaki linkdən istifadə edin</p>
+      <a href="https://eviks.xyz/posts/unreviewed/{{id}}"
+        >https://eviks.xyz/posts/unreviewed/{{id}}</a
+      >
+      <p>
+        Ən xoş arzularla,<br />
+        Eviks
+      </p>
+    </div>
   </body>
 </html>
