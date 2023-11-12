@@ -275,7 +275,7 @@ router.post(
       if (user.role === 'user') {
         const result = await emailSender({
           emailType: 'post-onreview',
-          subject: 'Your post is under review',
+          subject: 'Elan təsdiqlənməyə göndərildi',
           receivers: user.email,
           context: {
             id: post.id,
@@ -381,7 +381,7 @@ router.post(
       if (user.role === 'user') {
         const result = await emailSender({
           emailType: 'post-confirmed',
-          subject: 'Your post has been confirmed',
+          subject: 'Elan təsdiqləndi',
           receivers: user.email,
           context: {
             id: post.id,
@@ -469,7 +469,7 @@ router.post(
 
       const result = await emailSender({
         emailType: 'post-rejected',
-        subject: 'Your post has been rejected',
+        subject: 'Elan rədd olunub',
         receivers: user.email,
         context: {
           id: unreviewedPost.id,
@@ -551,7 +551,7 @@ router.put(
 
       const result = await emailSender({
         emailType: 'post-onreview',
-        subject: 'Your post is under review',
+        subject: 'Elan təsdiqlənməyə göndərildi',
         receivers: user.email,
         context: {
           id: unreviewedPost.id,

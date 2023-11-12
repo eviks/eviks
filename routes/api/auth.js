@@ -276,7 +276,7 @@ router.post(
       // Send password reset email
       const result = await emailSender({
         emailType: 'reset-password',
-        subject: 'Please reset your password',
+        subject: 'Parolun bərpası',
         receivers: email,
         context: {
           resetPasswordToken,
