@@ -2,8 +2,10 @@ const express = require('express');
 const { check, validationResult } = require('express-validator');
 const passport = require('passport');
 const logger = require('../../utils/logger');
+const { setPostsFilters } = require('../../middleware/postSearch');
 
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 
 const router = express.Router();
 
@@ -81,7 +83,29 @@ router.get(
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select('subscriptions');
-      return res.json(user.subscriptions ?? []);
+
+      const date = Date.now() - (86400 + 600) * 1000; // One day and 10 minutes ago
+
+      const subscriptions = user.subscriptions ?? [];
+
+      const result = await Promise.all(
+        subscriptions.map(async (subscription) => {
+          const query = Object.fromEntries(
+            new URLSearchParams(subscription.url),
+          );
+          const conditions = setPostsFilters({ query });
+          const numberOfElements = await Post.find(
+            { ...conditions, createdAt: { $gt: date } },
+            {},
+          )
+            .countDocuments()
+            .exec();
+
+          return { ...subscription.toJSON(), numberOfElements };
+        }),
+      );
+
+      return res.json(result);
     } catch (error) {
       logger.error(error.message);
       return res.status(500).send('Server error...');

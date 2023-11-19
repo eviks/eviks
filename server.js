@@ -9,11 +9,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const schedule = require('node-schedule');
 const logger = require('./utils/logger');
 const connectDB = require('./config/db');
-const {
-  archivePosts,
-  archiveRejectedPosts,
-  sendSubscriptionNotifications,
-} = require('./utils/scheduleJobs');
+const { archivePosts, archiveRejectedPosts } = require('./utils/scheduleJobs');
 
 // Connect database
 connectDB();
@@ -48,12 +44,6 @@ app.prepare().then(() => {
   schedule.scheduleJob('0 */1 * * * *', () => {
     archivePosts();
     archiveRejectedPosts();
-  });
-  const rule = new schedule.RecurrenceRule();
-  rule.hour = 17;
-  rule.tz = 'Asia/Baku';
-  schedule.scheduleJob(rule, () => {
-    sendSubscriptionNotifications();
   });
 
   server.all('*', (req, res) => {

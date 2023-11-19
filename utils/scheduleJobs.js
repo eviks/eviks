@@ -1,16 +1,8 @@
 const fs = require('fs');
 const rimraf = require('rimraf');
-const admin = require('firebase-admin');
-const FCM = require('fcm-notification');
 const Post = require('../models/Post');
-const User = require('../models/User');
 const UnreviewedPost = require('../models/UnreviewedPost');
-const serviceAccount = require('../config/firebase_key.json');
-const { setPostsFilters } = require('../middleware/postSearch');
 const logger = require('./logger');
-
-const certPath = admin.credential.cert(serviceAccount);
-const fcm = new FCM(certPath);
 
 const checkFileExists = async (file) => {
   return fs.promises
@@ -83,56 +75,7 @@ const archiveRejectedPosts = async () => {
   });
 };
 
-const sendSubscriptionNotifications = async () => {
-  const users = await User.find({
-    devices: { $exists: true, $not: { $size: 0 } },
-    subscriptions: { $exists: true, $not: { $size: 0 } },
-  });
-
-  const date = Date.now() - (86400 + 600) * 1000; // One day and 10 minutes ago
-
-  users.forEach((user) => {
-    user.subscriptions.forEach(async (subscription) => {
-      const query = Object.fromEntries(new URLSearchParams(subscription.url));
-      const conditions = setPostsFilters({ query });
-      const numberOfElements = await Post.find(
-        { ...conditions, createdAt: { $gt: date } },
-        {},
-      )
-        .countDocuments()
-        .exec();
-
-      const payload = {
-        type: 'subscription',
-        subscriptionUrl: subscription.url,
-      };
-
-      if (numberOfElements > 0) {
-        const message = {
-          data: {
-            user: user.id,
-            payload: JSON.stringify(payload),
-            title: 'Yeni elanlar var!',
-            body: `Bugün ${subscription.name} axtarış parametrlər üzrə ${numberOfElements} dənə yeni elanlar tapıldı`,
-          },
-        };
-
-        fcm.sendToMultipleToken(message, user.devices, (error) => {
-          if (error) {
-            logger.error(error);
-          }
-        });
-
-        await new Promise((resolve) => {
-          setTimeout(resolve, 2000);
-        });
-      }
-    });
-  });
-};
-
 module.exports = {
   archivePosts,
   archiveRejectedPosts,
-  sendSubscriptionNotifications,
 };
