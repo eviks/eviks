@@ -54,6 +54,7 @@ const UserSchema = new mongoose.Schema(
           name: String,
           url: String,
           deviceToken: String,
+          notify: { type: Boolean, default: false },
         },
       ],
       default: [],

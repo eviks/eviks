@@ -9,7 +9,11 @@ const mongoSanitize = require('express-mongo-sanitize');
 const schedule = require('node-schedule');
 const logger = require('./utils/logger');
 const connectDB = require('./config/db');
-const { archivePosts, archiveRejectedPosts } = require('./utils/scheduleJobs');
+const {
+  archivePosts,
+  archiveRejectedPosts,
+  sendSubscriptionNotifications,
+} = require('./utils/scheduleTasks');
 
 // Connect database
 connectDB();
@@ -40,10 +44,17 @@ app.prepare().then(() => {
   server.use('/api/localities', require('./routes/api/localities'));
   server.use('/api/subscriptions', require('./routes/api/subscriptions'));
 
-  // Schedule jobs
+  // Schedule tasks
   schedule.scheduleJob('0 */1 * * * *', () => {
     archivePosts();
     archiveRejectedPosts();
+  });
+
+  const rule = new schedule.RecurrenceRule();
+  rule.hour = 17;
+  rule.tz = 'Asia/Baku';
+  schedule.scheduleJob(rule, () => {
+    sendSubscriptionNotifications();
   });
 
   server.all('*', (req, res) => {

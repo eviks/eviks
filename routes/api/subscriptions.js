@@ -32,7 +32,7 @@ router.post(
     try {
       const user = await User.findById(req.user.id);
 
-      const { name, url, deviceToken } = req.body;
+      const { name, url, deviceToken, notify } = req.body;
 
       // Check if name is unique
       if (
@@ -49,6 +49,7 @@ router.post(
         name,
         url,
         deviceToken,
+        notify,
       });
 
       // Update user devices
@@ -136,7 +137,7 @@ router.put(
     try {
       const user = await User.findById(req.user.id);
 
-      const { id, name, url, deviceToken } = req.body;
+      const { id, name, url, deviceToken, notify } = req.body;
 
       // Check if name is unique
       if (
@@ -151,7 +152,7 @@ router.put(
 
       // Update subscription
       user.subscriptions = user.subscriptions.map((element) => {
-        return element.id === id ? { name, url, deviceToken } : element;
+        return element.id === id ? { name, url, deviceToken, notify } : element;
       });
 
       // Update user devices
