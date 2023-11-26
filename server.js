@@ -13,7 +13,7 @@ const {
   archivePosts,
   archiveRejectedPosts,
   sendSubscriptionNotifications,
-} = require('./utils/scheduleJobs');
+} = require('./utils/scheduleTasks');
 
 // Connect database
 connectDB();
@@ -44,11 +44,12 @@ app.prepare().then(() => {
   server.use('/api/localities', require('./routes/api/localities'));
   server.use('/api/subscriptions', require('./routes/api/subscriptions'));
 
-  // Schedule jobs
+  // Schedule tasks
   schedule.scheduleJob('0 */1 * * * *', () => {
     archivePosts();
     archiveRejectedPosts();
   });
+
   const rule = new schedule.RecurrenceRule();
   rule.hour = 17;
   rule.tz = 'Asia/Baku';
