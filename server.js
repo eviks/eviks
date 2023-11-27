@@ -51,7 +51,8 @@ app.prepare().then(() => {
   });
 
   const rule = new schedule.RecurrenceRule();
-  rule.hour = 17;
+  rule.hour = 18;
+  rule.minute = 0;
   rule.tz = 'Asia/Baku';
   schedule.scheduleJob(rule, () => {
     sendSubscriptionNotifications();
