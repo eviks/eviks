@@ -274,7 +274,7 @@ router.post(
       await user.save();
 
       // Send password reset email
-      const result = await emailSender({
+      await emailSender({
         emailType: 'reset-password',
         subject: 'Parolun bərpası',
         receivers: email,
@@ -282,8 +282,6 @@ router.post(
           resetPasswordToken,
         },
       });
-
-      if (!result.success) throw result.error;
 
       return res.send('Reset password email sent');
     } catch (error) {

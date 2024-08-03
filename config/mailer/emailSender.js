@@ -12,15 +12,16 @@ module.exports = async (params) => {
   const mailgunTransporter = mailgunTransport(mailgunOptions);
   const transporter = nodemailer.createTransport(mailgunTransporter);
 
-  const info = await transporter.sendMail({
-    from: `Eviks <info@eviks.xyz>`,
-    to: receivers,
-    subject,
-    text,
-    html,
-  });
-
-  logger.info('Message sent: %s', info.messageId);
-
-  return { success: true, info };
+  try {
+    const info = await transporter.sendMail({
+      from: `Eviks <info@eviks.xyz>`,
+      to: receivers,
+      subject,
+      text,
+      html,
+    });
+    logger.info('Message sent: %s', info.messageId);
+  } catch (error) {
+    logger.info('Message sent: %s', error.message);
+  }
 };

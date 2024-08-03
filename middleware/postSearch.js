@@ -83,7 +83,6 @@ const setPostsFilters = (req) => {
     floorMax,
     documented,
     mortgage,
-    redevelopment,
     haggle,
     notFirstFloor,
     notLastFloor,
@@ -91,6 +90,9 @@ const setPostsFilters = (req) => {
     ids,
     reviewStatus,
     searchArea,
+    hasVideo,
+    fromOwner,
+    withoutRedevelopment,
   } = req.query;
 
   const conditions = {};
@@ -191,9 +193,6 @@ const setPostsFilters = (req) => {
   // Mortgage
   if (mortgage) conditions.mortgage = true;
 
-  // Redevelopment
-  if (redevelopment) conditions.redevelopment = true;
-
   // Haggle
   if (haggle) conditions.haggle = true;
 
@@ -230,6 +229,15 @@ const setPostsFilters = (req) => {
         },
       };
   }
+
+  // Has video
+  if (hasVideo) conditions.videoLink = { $exists: true, $ne: '' };
+
+  // From owner
+  if (fromOwner) conditions.userType = 'owner';
+
+  // Without redevelopment
+  if (withoutRedevelopment) conditions.redevelopment = false;
 
   return conditions;
 };

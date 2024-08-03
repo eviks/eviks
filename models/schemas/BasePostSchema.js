@@ -285,6 +285,10 @@ const basePostSchema = {
     index: true,
   },
   municipalServicesIncluded: Boolean,
+  videoLink: {
+    type: String,
+    trim: true,
+  },
   images: {
     type: Array,
     required: true,

@@ -133,6 +133,7 @@ export interface Post {
   installmentOfPayment?: boolean;
   prepayment?: boolean;
   municipalServicesIncluded?: boolean;
+  videoLink?: string;
   phoneNumber?: string;
   username: string;
   user: string;
