@@ -10,6 +10,7 @@ import MarkerIcon from '../icons/MarkerIcon';
 import HouseIcon from '../icons/HouseIcon';
 import ApartmentIcon from '../icons/ApartmentIcon';
 import PlusIcon from '../icons/PlusIcon';
+import VideoIcon from '../icons/Video';
 import CameraIcon from '../icons/CameraIcon';
 import MoneyIcon from '../icons/MoneyIcon';
 import PhoneCallIcon from '../icons/PhoneCallIcon';
@@ -23,6 +24,7 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
     t('post:estateInfo'),
     t('post:buildingInfo'),
     t('post:additionalInfo'),
+    t('post:video'),
     t('post:images'),
     t('post:priceTitle'),
     t('post:contactTitle'),
@@ -63,9 +65,10 @@ const EditPostStepper: FC<{ step: number }> = ({ step }) => {
       3: <HouseIcon />,
       4: <ApartmentIcon />,
       5: <PlusIcon />,
-      6: <CameraIcon />,
-      7: <MoneyIcon />,
-      8: <PhoneCallIcon />,
+      6: <VideoIcon />,
+      7: <CameraIcon />,
+      8: <MoneyIcon />,
+      9: <PhoneCallIcon />,
     };
 
     return (

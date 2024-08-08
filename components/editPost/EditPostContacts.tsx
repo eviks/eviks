@@ -75,13 +75,13 @@ const EditPostContacts: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
 
   const formik = useFormik<ContactsState>({
     initialValues: {
-      phoneNumber: (post.lastStep || -1) >= 7 ? post.phoneNumber ?? '' : '',
-      username: (post.lastStep || -1) >= 7 ? post.username : '',
+      phoneNumber: (post.lastStep || -1) >= 8 ? post.phoneNumber ?? '' : '',
+      username: (post.lastStep || -1) >= 8 ? post.username : '',
     },
     validationSchema,
     onSubmit: async () => {
       // eslint-disable-next-line no-use-before-define
-      const updatedPost = setPostDataAndDispatch(7);
+      const updatedPost = setPostDataAndDispatch(8);
       createOrUpdatePost(updatedPost);
     },
   });
@@ -94,14 +94,14 @@ const EditPostContacts: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
       phoneNumber,
       username,
       step,
-      lastStep: Math.max(7, post.lastStep ?? 7),
+      lastStep: Math.max(8, post.lastStep ?? 8),
     };
     setPostData(updatedPost)(dispatch);
     return updatedPost;
   };
 
   const handlePrevStepClick = () => {
-    setPostDataAndDispatch(6);
+    setPostDataAndDispatch(7);
   };
 
   return (

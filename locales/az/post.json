@@ -131,5 +131,10 @@
   "postApartmentRoomsTitle": "{{rooms}}-otaqlı mənzil",
   "postHouseRoomsTitle": "{{rooms}}-otaqlı ev",
   "postFloorTitle": "mərtəbə {{floor}}/{{totalFloors}}",
-  "postLotSqmTitle": "{{lotSqm}} sot."
+  "postLotSqmTitle": "{{lotSqm}} sot.",
+  "video": "Video",
+  "videoLinkTitle": "Video əlavə edin!",
+  "videoLinkHint": "Video potensial alıcıların əksər suallarına cavab verməyə və vaxtınıza qənaət etməyə kömək edəcək",
+  "youtubeLink": "YouTube-də link",
+  "invalidYoutubeLink": "Zəhmət olmasa, videoya düzgün linki göstərin"
 }

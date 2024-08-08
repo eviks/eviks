@@ -24,6 +24,7 @@ import EditPostGeneralInfo from '../components/editPost/EditPostGeneralInfo';
 import EditPostEstateInfo from '../components/editPost/EditPostEstateInfo';
 import EditPostBuildingInfo from '../components/editPost/EditPostBuildingInfo';
 import EditPostAdditionalInfo from '../components/editPost/EditPostAdditionalInfo';
+import EditPostVideo from '../components/editPost/EditPostVideo';
 import EditPostImages from '../components/editPost/editPostImages/EditPostImages';
 import EditPostPrice from '../components/editPost/EditPostPrice';
 import EditPostContacts from '../components/editPost/EditPostContacts';
@@ -92,6 +93,7 @@ const EditPost: NextPage<{ loadedPost: Post | null; unreviewed: boolean }> = ({
   }, [mapHeight]);
 
   const renderStep = () => {
+    console.log(post.step);
     switch (post.step) {
       case 0:
         return <EditPostGeneralInfo />;
@@ -104,10 +106,12 @@ const EditPost: NextPage<{ loadedPost: Post | null; unreviewed: boolean }> = ({
       case 4:
         return <EditPostAdditionalInfo />;
       case 5:
-        return <EditPostImages unreviewed={unreviewed} />;
+        return <EditPostVideo />;
       case 6:
-        return <EditPostPrice />;
+        return <EditPostImages unreviewed={unreviewed} />;
       case 7:
+        return <EditPostPrice />;
+      case 8:
         return <EditPostContacts unreviewed={unreviewed} />;
       default:
         return <EditPostGeneralInfo />;

@@ -28,13 +28,13 @@ const getDefaultState = (post: Post): PriceState => {
     Number(post.price) > 0 ? post.price?.toString() ?? '' : '';
 
   return {
-    price: (post.lastStep || -1) >= 6 ? defaultPrice : '',
-    haggle: (post.lastStep || -1) >= 6 ? post.haggle ?? false : false,
+    price: (post.lastStep || -1) >= 7 ? defaultPrice : '',
+    haggle: (post.lastStep || -1) >= 7 ? post.haggle ?? false : false,
     installmentOfPayment:
-      (post.lastStep || -1) >= 6 ? post.installmentOfPayment ?? false : false,
-    prepayment: (post.lastStep || -1) >= 6 ? post.prepayment ?? false : false,
+      (post.lastStep || -1) >= 7 ? post.installmentOfPayment ?? false : false,
+    prepayment: (post.lastStep || -1) >= 7 ? post.prepayment ?? false : false,
     municipalServicesIncluded:
-      (post.lastStep || -1) >= 6
+      (post.lastStep || -1) >= 7
         ? post.municipalServicesIncluded ?? false
         : false,
   };
@@ -64,7 +64,7 @@ const EditPostPrice: FC = () => {
     validationSchema,
     onSubmit: async () => {
       // eslint-disable-next-line no-use-before-define
-      setPostDataAndDispatch(7);
+      setPostDataAndDispatch(8);
     },
   });
 
@@ -100,12 +100,12 @@ const EditPostPrice: FC = () => {
       prepayment,
       municipalServicesIncluded,
       step,
-      lastStep: Math.max(6, post.lastStep ?? 6),
+      lastStep: Math.max(7, post.lastStep ?? 7),
     })(dispatch);
   };
 
   const handlePrevStepClick = () => {
-    setPostDataAndDispatch(5);
+    setPostDataAndDispatch(6);
   };
 
   return (

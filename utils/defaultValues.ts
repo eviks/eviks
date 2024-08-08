@@ -385,6 +385,7 @@ export const defaultPost: Post = {
   totalFloors: 0,
   sqm: 0,
   renovation: Renovation.cosmetic,
+  videoLink: '',
   images: [],
   originalImages: [],
   phoneNumber: '',

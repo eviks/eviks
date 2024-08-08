@@ -172,7 +172,7 @@ export const postReducer: Reducer<
           ...action.payload,
           originalImages: action.payload.images,
           step: 0,
-          lastStep: 7,
+          lastStep: 8,
         };
       }
       return defaultPost;

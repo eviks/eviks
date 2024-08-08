@@ -30,7 +30,7 @@ const EditPostImages: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
   };
 
   const [images, setImages] = useState<ImageData[]>(
-    (post.lastStep || -1) >= 5
+    (post.lastStep || -1) >= 6
       ? post.images.map((id) => {
           return { id, isUploaded: true, isTemp: isTempImage(id) };
         })
@@ -46,7 +46,7 @@ const EditPostImages: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
         return image.id;
       }),
       step,
-      lastStep: Math.max(5, post.lastStep ?? 5),
+      lastStep: Math.max(6, post.lastStep ?? 6),
     })(dispatch);
   };
 
@@ -62,11 +62,11 @@ const EditPostImages: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
       return;
     }
 
-    setPostDataAndDispatch(6);
+    setPostDataAndDispatch(7);
   };
 
   const handlePrevStepClick = () => {
-    setPostDataAndDispatch(4);
+    setPostDataAndDispatch(5);
   };
 
   return (
