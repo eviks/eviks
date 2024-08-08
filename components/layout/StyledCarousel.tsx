@@ -5,10 +5,13 @@ import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import YoutubeEmbed from '../YoutubeEmbed';
 import useWindowSize from '../../utils/hooks/useWindowSize';
+import { CarouselContent } from '../../types';
+import { youtubeIdFromLink } from '../../utils';
 
 const StyledCarousel: FC<{
-  images: string[];
+  content: CarouselContent[];
   imageSize: number;
   thumbSize: number;
   height: string;
@@ -16,7 +19,7 @@ const StyledCarousel: FC<{
   temp?: boolean;
   onClickItem?: (index: number, item: React.ReactNode) => void;
 }> = ({
-  images,
+  content,
   imageSize,
   thumbSize,
   height,
@@ -28,21 +31,34 @@ const StyledCarousel: FC<{
   const { width } = useWindowSize();
 
   const renderThumbs = () => {
-    return images.map((image) => {
-      return (
+    return content.map(({ link, type }) => {
+      return type === 'image' ? (
         <Image
-          key={image}
+          key={link}
           objectFit="cover"
           src={
             external
-              ? image
+              ? link
               : `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${
                   temp ? 'temp/' : ''
-                }post_images/${image}/image_${160}.webp`
+                }post_images/${link}/image_${160}.webp`
           }
           width={thumbSize}
           height={thumbSize}
-          alt={`post-image-${image}-${160}`}
+          alt={`post-image-${link}-${160}`}
+          placeholder="blur"
+          blurDataURL="/img/blur.webp"
+        />
+      ) : (
+        <Image
+          key={link}
+          objectFit="cover"
+          src={`https://img.youtube.com/vi/${youtubeIdFromLink(
+            link,
+          )}/hqdefault.jpg`}
+          width={thumbSize}
+          height={thumbSize}
+          alt={`post-image-${link}-${160}`}
           placeholder="blur"
           blurDataURL="/img/blur.webp"
         />
@@ -65,7 +81,7 @@ const StyledCarousel: FC<{
           sx={{
             backgroundColor: theme.palette.background.default,
           }}
-          label={`${index + 1} / ${images.length}`}
+          label={`${index + 1} / ${content.length}`}
           variant="filled"
         />
       )
@@ -83,7 +99,7 @@ const StyledCarousel: FC<{
       preventMovementUntilSwipeScrollTolerance={true}
       onClickItem={onClickItem}
     >
-      {images.map((image, index) => {
+      {content.map(({ link, type }, index) => {
         return (
           <CardMedia
             sx={{
@@ -91,23 +107,27 @@ const StyledCarousel: FC<{
               width: '100%',
               position: 'relative',
             }}
-            key={image}
+            key={link}
           >
-            <Image
-              priority={index === 0}
-              objectFit="cover"
-              layout="fill"
-              src={
-                external
-                  ? image
-                  : `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${
-                      temp ? 'temp/' : ''
-                    }post_images/${image}/image_${imageSize}.webp`
-              }
-              alt={`post-image-${image}-${imageSize}`}
-              placeholder="blur"
-              blurDataURL="/img/blur.webp"
-            />
+            {type === 'image' ? (
+              <Image
+                priority={index === 0}
+                objectFit="cover"
+                layout="fill"
+                src={
+                  external
+                    ? link
+                    : `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${
+                        temp ? 'temp/' : ''
+                      }post_images/${link}/image_${imageSize}.webp`
+                }
+                alt={`post-image-${link}-${imageSize}`}
+                placeholder="blur"
+                blurDataURL="/img/blur.webp"
+              />
+            ) : (
+              <YoutubeEmbed link={link} />
+            )}
           </CardMedia>
         );
       })}

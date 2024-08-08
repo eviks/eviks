@@ -40,7 +40,7 @@ import {
 } from '../../../actions/posts';
 import { AppContext } from '../../../store/appContext';
 import useWindowSize from '../../../utils/hooks/useWindowSize';
-import { getSettlementPresentation } from '../../../utils';
+import { getPostContent, getSettlementPresentation } from '../../../utils';
 import Failure from '../../../utils/errors/failure';
 import ServerError from '../../../utils/errors/serverError';
 import { Post, EstateType } from '../../../types';
@@ -86,6 +86,11 @@ const UnreviewedPost: NextPage = () => {
   const [post, setPost] = useState<Post | null>();
   const [isLoading, setLoading] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
+
+  const carouselContent = useMemo(() => {
+    if (!post) return [];
+    return getPostContent(post);
+  }, [post]);
 
   const loadPost = useCallback(async () => {
     if (!isInit) return;
@@ -245,7 +250,7 @@ const UnreviewedPost: NextPage = () => {
               }}
             >
               <StyledCarousel
-                images={post.images}
+                content={carouselContent}
                 imageSize={imageSize}
                 thumbSize={150}
                 height={width && width >= 900 ? '500px' : '320px'}

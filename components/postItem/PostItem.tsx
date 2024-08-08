@@ -1,4 +1,4 @@
-import React, { FC, useState, useContext } from 'react';
+import React, { FC, useState, useContext, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import Card from '@mui/material/Card';
@@ -27,6 +27,7 @@ import {
   getSettlementPresentation,
   getMetroPresentation,
   formatter,
+  getPostContent,
 } from '../../utils';
 import Failure from '../../utils/errors/failure';
 import ServerError from '../../utils/errors/serverError';
@@ -85,6 +86,10 @@ const PostItem: FC<{ post: Post; unreviewed: boolean }> = ({
     }
   };
 
+  const carouselContent = useMemo(() => {
+    return getPostContent(post);
+  }, [post]);
+
   return (
     <Card
       onClick={openPost}
@@ -128,7 +133,7 @@ const PostItem: FC<{ post: Post; unreviewed: boolean }> = ({
             }}
           >
             <StyledCarousel
-              images={post.images}
+              content={carouselContent}
               imageSize={imageSize}
               thumbSize={150}
               height={height}

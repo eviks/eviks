@@ -278,3 +278,8 @@ export interface AddressError {
   errorFiled: 'location' | 'city' | 'settlement' | '';
   displayError: boolean;
 }
+
+export interface CarouselContent {
+  type: 'image' | 'video';
+  link: string;
+}
