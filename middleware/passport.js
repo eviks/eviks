@@ -74,7 +74,7 @@ passport.use(
         await user.save();
 
         // Send verification email
-        const result = await emailSender({
+        await emailSender({
           emailType: 'verification',
           subject: 'Emailın təsdiqlənməsi',
           receivers: email,
@@ -82,8 +82,6 @@ passport.use(
             activationToken,
           },
         });
-
-        if (!result.success) throw result.error;
 
         return done(null, user);
       } catch (error) {

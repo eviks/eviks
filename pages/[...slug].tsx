@@ -150,6 +150,11 @@ const Posts: CustomNextPage<PostsProps> = ({
           floorMax: Number(urlParams.floorMax ?? 0),
           totalFloorsMin: Number(urlParams.totalFloorsMin ?? 0),
           totalFloorsMax: Number(urlParams.totalFloorsMax ?? 0),
+          hasVideo: urlParams.hasVideo?.toLowerCase() === 'true',
+          documented: urlParams.documented?.toLowerCase() === 'true',
+          fromOwner: urlParams.fromOwner?.toLowerCase() === 'true',
+          withoutRedevelopment:
+            urlParams.withoutRedevelopment?.toLowerCase() === 'true',
           sort:
             enumFromStringValue(SortType, urlParams.sort) ?? SortType.dateDsc,
           pagination: {

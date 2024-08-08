@@ -22,6 +22,7 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'eviks.xyz',
       'bina.azstatic.com',
+      'img.youtube.com',
     ],
   },
 

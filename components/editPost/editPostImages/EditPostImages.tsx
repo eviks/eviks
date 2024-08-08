@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import PostImageDropzone from './PostImageDropzone';
 import UploadedPostImage from './UploadedPostImage';
 import StepTitle from '../StepTitle';
@@ -30,7 +30,7 @@ const EditPostImages: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
   };
 
   const [images, setImages] = useState<ImageData[]>(
-    (post.lastStep || -1) >= 5
+    (post.lastStep || -1) >= 6
       ? post.images.map((id) => {
           return { id, isUploaded: true, isTemp: isTempImage(id) };
         })
@@ -46,7 +46,7 @@ const EditPostImages: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
         return image.id;
       }),
       step,
-      lastStep: Math.max(5, post.lastStep ?? 5),
+      lastStep: Math.max(6, post.lastStep ?? 6),
     })(dispatch);
   };
 
@@ -62,11 +62,11 @@ const EditPostImages: FC<{ unreviewed: boolean }> = ({ unreviewed }) => {
       return;
     }
 
-    setPostDataAndDispatch(6);
+    setPostDataAndDispatch(7);
   };
 
   const handlePrevStepClick = () => {
-    setPostDataAndDispatch(4);
+    setPostDataAndDispatch(5);
   };
 
   return (

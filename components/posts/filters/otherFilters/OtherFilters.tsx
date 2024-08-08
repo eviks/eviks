@@ -7,13 +7,19 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import OtherFloorFilters from './OtherFloorFilters';
 import OtherSqmFilters from './OtherSqmFilters';
 import { AppContext } from '../../../../store/appContext';
 import { pushToNewPostsRoute } from '../../../../actions/posts';
 import useWindowSize from '../../../../utils/hooks/useWindowSize';
 import CloseIcon from '../../../icons/CloseIcon';
+import VideoIcon from '../../../icons/VideoIcon';
+import UserIcon from '../../../icons/UserIcon';
+import HammerIcon from '../../../icons/HammerIcon';
+import DocumentIcon from '../../../icons/DocumentIcon';
 import { EstateType, PostFilters } from '../../../../types';
+import StyledSingleToogleButton from '../../../layout/StyledSingleToogleButton';
 
 interface OtherFiltersState {
   livingRoomsSqmMin: string;
@@ -22,6 +28,10 @@ interface OtherFiltersState {
   kitchenSqmMax: string;
   totalFloorsMin: string;
   totalFloorsMax: string;
+  hasVideo: boolean;
+  documented: boolean;
+  fromOwner: boolean;
+  withoutRedevelopment: boolean;
 }
 
 const getDefaultState = (filters: PostFilters): OtherFiltersState => {
@@ -59,6 +69,10 @@ const getDefaultState = (filters: PostFilters): OtherFiltersState => {
     kitchenSqmMax: defaultKitchenSqmMax,
     totalFloorsMin: defaultTotalFloorsMin,
     totalFloorsMax: defaultTotalFloorsMax,
+    hasVideo: filters.hasVideo,
+    documented: filters.documented,
+    fromOwner: filters.fromOwner,
+    withoutRedevelopment: filters.withoutRedevelopment,
   };
 };
 
@@ -86,6 +100,10 @@ const OtherFilters: FC = () => {
     kitchenSqmMax,
     totalFloorsMin,
     totalFloorsMax,
+    hasVideo,
+    documented,
+    fromOwner,
+    withoutRedevelopment,
   } = state;
 
   const handleOnClick = (event: React.FormEvent) => {
@@ -106,6 +124,10 @@ const OtherFilters: FC = () => {
       kitchenSqmMax: Number(kitchenSqmMax),
       totalFloorsMin: Number(totalFloorsMin),
       totalFloorsMax: Number(totalFloorsMax),
+      hasVideo,
+      documented,
+      fromOwner,
+      withoutRedevelopment,
       pagination: {
         current: 1,
       },
@@ -122,6 +144,15 @@ const OtherFilters: FC = () => {
 
     setState((prevState) => {
       return { ...prevState, [name]: value };
+    });
+  };
+
+  const handleToggleButtonChange = (
+    _event: React.MouseEvent<HTMLElement, MouseEvent>,
+    value: 'hasVideo' | 'documented' | 'fromOwner' | 'withoutRedevelopment',
+  ) => {
+    setState((prevState) => {
+      return { ...prevState, [value]: !prevState[value] };
     });
   };
 
@@ -183,6 +214,50 @@ const OtherFilters: FC = () => {
                 handleChange={handleChange}
               />
             )}
+            <Typography
+              variant="h6"
+              sx={{
+                my: '1rem',
+              }}
+            >
+              {t('post:additionalFilters')}
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexFlow: 'wrap',
+                gap: '5px',
+              }}
+            >
+              <StyledSingleToogleButton
+                name="hasVideo"
+                value={hasVideo}
+                title={t('post:hasVideo')}
+                icon={<VideoIcon />}
+                onChange={handleToggleButtonChange}
+              />
+              <StyledSingleToogleButton
+                name="documented"
+                value={documented}
+                title={t('post:documented')}
+                icon={<DocumentIcon />}
+                onChange={handleToggleButtonChange}
+              />
+              <StyledSingleToogleButton
+                name="fromOwner"
+                value={fromOwner}
+                title={t('post:fromOwner')}
+                icon={<UserIcon />}
+                onChange={handleToggleButtonChange}
+              />
+              <StyledSingleToogleButton
+                name="withoutRedevelopment"
+                value={withoutRedevelopment}
+                title={t('post:withoutRedevelopment')}
+                icon={<HammerIcon />}
+                onChange={handleToggleButtonChange}
+              />
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>

@@ -133,6 +133,7 @@ export interface Post {
   installmentOfPayment?: boolean;
   prepayment?: boolean;
   municipalServicesIncluded?: boolean;
+  videoLink?: string;
   phoneNumber?: string;
   username: string;
   user: string;
@@ -203,6 +204,10 @@ export interface PostFilters {
   totalFloorsMax: number;
   sort: SortType;
   pagination: Pagination;
+  hasVideo: boolean;
+  documented: boolean;
+  fromOwner: boolean;
+  withoutRedevelopment: boolean;
 }
 
 export interface AlternativePostFilters {
@@ -268,6 +273,10 @@ export interface QueryParams {
   floorMax: string;
   totalFloorsMin: string;
   totalFloorsMax: string;
+  hasVideo: string;
+  documented: string;
+  fromOwner: string;
+  withoutRedevelopment: string;
   sort: string;
   page: string;
 }
@@ -276,4 +285,9 @@ export interface AddressError {
   errorText: string;
   errorFiled: 'location' | 'city' | 'settlement' | '';
   displayError: boolean;
+}
+
+export interface CarouselContent {
+  type: 'image' | 'video';
+  link: string;
 }

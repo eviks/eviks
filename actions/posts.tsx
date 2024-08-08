@@ -74,6 +74,10 @@ export const getPostsQuery = (filters: PostFilters, fetch: boolean = false) => {
     searchParams.totalFloorsMin = filters.totalFloorsMin.toString();
   if (filters.totalFloorsMax)
     searchParams.totalFloorsMax = filters.totalFloorsMax.toString();
+  if (filters.hasVideo) searchParams.hasVideo = 'true';
+  if (filters.documented) searchParams.documented = 'true';
+  if (filters.fromOwner) searchParams.fromOwner = 'true';
+  if (filters.withoutRedevelopment) searchParams.withoutRedevelopment = 'true';
   if (filters.sort) searchParams.sort = filters.sort.toString();
   // Districts
   if (

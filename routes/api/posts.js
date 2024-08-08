@@ -273,7 +273,7 @@ router.post(
 
       // Notify user via email
       if (user.role === 'user') {
-        const result = await emailSender({
+        await emailSender({
           emailType: 'post-onreview',
           subject: 'Elan təsdiqlənməyə göndərildi',
           receivers: user.email,
@@ -281,8 +281,6 @@ router.post(
             id: post.id,
           },
         });
-
-        if (!result.success) throw result.error;
       }
 
       return res.json(post);
@@ -379,7 +377,7 @@ router.post(
       const user = await User.findById(post.user).select('email');
 
       if (user.role === 'user') {
-        const result = await emailSender({
+        await emailSender({
           emailType: 'post-confirmed',
           subject: 'Elan təsdiqləndi',
           receivers: user.email,
@@ -387,8 +385,6 @@ router.post(
             id: post.id,
           },
         });
-
-        if (!result.success) throw result.error;
       }
 
       return res.json(post);
@@ -467,7 +463,7 @@ router.post(
       // Notify user via email
       const user = await User.findById(unreviewedPost.user).select('email');
 
-      const result = await emailSender({
+      await emailSender({
         emailType: 'post-rejected',
         subject: 'Elan rədd olunub',
         receivers: user.email,
@@ -476,8 +472,6 @@ router.post(
           comment: req.body.comment,
         },
       });
-
-      if (!result.success) throw result.error;
 
       return res.json(unreviewedPost);
     } catch (error) {
@@ -549,7 +543,7 @@ router.put(
       // Notify user via email
       const user = await User.findById(post.user).select('email');
 
-      const result = await emailSender({
+      await emailSender({
         emailType: 'post-onreview',
         subject: 'Elan təsdiqlənməyə göndərildi',
         receivers: user.email,
@@ -557,8 +551,6 @@ router.put(
           id: unreviewedPost.id,
         },
       });
-
-      if (!result.success) throw result.error;
 
       return res.json(unreviewedPost);
     } catch (error) {
