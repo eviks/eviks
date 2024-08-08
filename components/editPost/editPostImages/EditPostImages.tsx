@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import PostImageDropzone from './PostImageDropzone';
 import UploadedPostImage from './UploadedPostImage';
 import StepTitle from '../StepTitle';

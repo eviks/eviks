@@ -136,5 +136,9 @@
   "videoLinkTitle": "Video əlavə edin!",
   "videoLinkHint": "Video potensial alıcıların əksər suallarına cavab verməyə və vaxtınıza qənaət etməyə kömək edəcək",
   "youtubeLink": "YouTube-də link",
-  "invalidYoutubeLink": "Zəhmət olmasa, videoya düzgün linki göstərin"
+  "invalidYoutubeLink": "Zəhmət olmasa, videoya düzgün linki göstərin",
+  "additionalFilters": "Əlavə filtrlər",
+  "hasVideo": "Video var",
+  "fromOwner": "Sahibindən",
+  "withoutRedevelopment": "Planlaşdırılma dəyişməyib"
 }

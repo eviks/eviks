@@ -10,7 +10,7 @@ import MarkerIcon from '../icons/MarkerIcon';
 import HouseIcon from '../icons/HouseIcon';
 import ApartmentIcon from '../icons/ApartmentIcon';
 import PlusIcon from '../icons/PlusIcon';
-import VideoIcon from '../icons/Video';
+import VideoIcon from '../icons/VideoIcon';
 import CameraIcon from '../icons/CameraIcon';
 import MoneyIcon from '../icons/MoneyIcon';
 import PhoneCallIcon from '../icons/PhoneCallIcon';

@@ -11,7 +11,7 @@ import Hidden from '@mui/material/Hidden';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import StyledInput from '../layout/StyledInput';
-import VideoIcon from '../icons/Video';
+import VideoIcon from '../icons/VideoIcon';
 import { AppContext } from '../../store/appContext';
 import { setPostData } from '../../actions/post';
 

@@ -424,6 +424,10 @@ export const defaultPostFilters: PostFilters = {
   floorMax: 0,
   totalFloorsMin: 0,
   totalFloorsMax: 0,
+  hasVideo: false,
+  documented: false,
+  fromOwner: false,
+  withoutRedevelopment: false,
   sort: SortType.dateDsc,
   pagination: {
     current: 1,

@@ -204,6 +204,10 @@ export interface PostFilters {
   totalFloorsMax: number;
   sort: SortType;
   pagination: Pagination;
+  hasVideo: boolean;
+  documented: boolean;
+  fromOwner: boolean;
+  withoutRedevelopment: boolean;
 }
 
 export interface AlternativePostFilters {
@@ -269,6 +273,10 @@ export interface QueryParams {
   floorMax: string;
   totalFloorsMin: string;
   totalFloorsMax: string;
+  hasVideo: string;
+  documented: string;
+  fromOwner: string;
+  withoutRedevelopment: string;
   sort: string;
   page: string;
 }
