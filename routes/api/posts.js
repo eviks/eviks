@@ -340,15 +340,17 @@ router.post(
 
         post = await Post.findById(postId);
 
-        post.images.forEach(async (image) => {
-          const directory = `${__dirname}/../../uploads/post_images/${image}`;
-          const fileExists = await checkFileExists(directory);
-          if (fileExists) {
-            rimraf(directory, (error) => {
-              if (error) imagesDeleted = false;
-            });
-          }
-        });
+        if (!post.isExternal) {
+          post.images.forEach(async (image) => {
+            const directory = `${__dirname}/../../uploads/post_images/${image}`;
+            const fileExists = await checkFileExists(directory);
+            if (fileExists) {
+              rimraf(directory, (error) => {
+                if (error) imagesDeleted = false;
+              });
+            }
+          });
+        }
 
         if (!imagesDeleted) {
           return res.status(500).send('Server error...');
@@ -363,12 +365,14 @@ router.post(
       }
 
       // Move all post images from temp to main folder
-      doc.images.map(async (image) => {
-        await fsExtra.move(
-          `${__dirname}/../../uploads/temp/post_images/${image}`,
-          `${__dirname}/../../uploads/post_images/${image}`,
-        );
-      });
+      if (!post.isExternal) {
+        doc.images.map(async (image) => {
+          await fsExtra.move(
+            `${__dirname}/../../uploads/temp/post_images/${image}`,
+            `${__dirname}/../../uploads/post_images/${image}`,
+          );
+        });
+      }
 
       // Delete unreviewed version
       await unreviewedPost.remove();
