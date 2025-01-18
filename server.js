@@ -2,11 +2,13 @@ require('./middleware/passport');
 const cors = require('cors');
 const compression = require('compression');
 const express = require('express');
+const http = require('http');
 const fileUpload = require('express-fileupload');
 const passport = require('passport');
 const next = require('next');
 const mongoSanitize = require('express-mongo-sanitize');
 const schedule = require('node-schedule');
+const { Server } = require('socket.io');
 const logger = require('./utils/logger');
 const connectDB = require('./config/db');
 const {
@@ -43,6 +45,20 @@ app.prepare().then(() => {
   server.use('/api/posts', require('./routes/api/posts'));
   server.use('/api/localities', require('./routes/api/localities'));
   server.use('/api/subscriptions', require('./routes/api/subscriptions'));
+  server.use('/api/chats', require('./routes/api/chats'));
+
+  // Socket.io
+  const httpServer = http.createServer(server);
+  const io = new Server(httpServer);
+  io.on('connection', (socket) => {
+    // Listen for incoming chat messages
+    socket.on('chatMessage', (data) => {
+      console.log('Received message:', data);
+
+      // Broadcast the message to all connected clients
+      io.emit('chat message', data);
+    });
+  });
 
   // Schedule tasks
   schedule.scheduleJob('0 */1 * * * *', () => {
@@ -62,7 +78,7 @@ app.prepare().then(() => {
     return handle(req, res);
   });
 
-  server.listen(port, (err) => {
+  httpServer.listen(port, (err) => {
     if (err) throw err;
     logger.info(`Server started on port ${port}. ENV: ${process.env.NODE_ENV}`);
   });
